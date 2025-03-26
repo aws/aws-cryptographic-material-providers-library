@@ -318,32 +318,32 @@ module GetKeys {
       )
     );
 
-    var branchKeyItem := VersionItem.Item;
+    var branchKeyItemFromStorage := VersionItem.Item;
 
     :- Need(
       || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
-           && Structure.DecryptOnlyHierarchicalSymmetricKey?(branchKeyItem)
-           && branchKeyItem.Identifier == input.branchKeyIdentifier
-           && branchKeyItem.Type == Types.HierarchicalSymmetricVersion(
-                                      Types.HierarchicalSymmetric(
-                                        Version := input.branchKeyVersion
-                                      ))
-           && branchKeyItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && Structure.DecryptOnlyHierarchicalSymmetricKey?(branchKeyItemFromStorage)
+           && branchKeyItemFromStorage.Identifier == input.branchKeyIdentifier
+           && branchKeyItemFromStorage.Type == Types.HierarchicalSymmetricVersion(
+                                                 Types.HierarchicalSymmetric(
+                                                   Version := input.branchKeyVersion
+                                                 ))
+           && branchKeyItemFromStorage.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
          ),
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_BRANCH_KEY_VERSION_FROM_STORAGE)
     );
 
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
-      branchKeyItem,
+      branchKeyItemFromStorage,
       kmsConfiguration,
       grantTokens,
       kmsClient
     );
 
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
-      branchKeyItem,
+      branchKeyItemFromStorage,
       branchKey.Plaintext.value
     );
 
@@ -474,28 +474,28 @@ module GetKeys {
       )
     );
 
-    var branchKeyItem := BeaconOutput.Item;
+    var branchKeyItemFromStorage := BeaconOutput.Item;
 
     :- Need(
       || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
-           && branchKeyItem.Identifier == input.branchKeyIdentifier
-           && Structure.ActiveHierarchicalSymmetricBeaconKey?(branchKeyItem)
-           && branchKeyItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && branchKeyItemFromStorage.Identifier == input.branchKeyIdentifier
+           && Structure.ActiveHierarchicalSymmetricBeaconKey?(branchKeyItemFromStorage)
+           && branchKeyItemFromStorage.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
          ),
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_BEACON_KEY_FROM_STORAGE)
     );
 
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
-      branchKeyItem,
+      branchKeyItemFromStorage,
       kmsConfiguration,
       grantTokens,
       kmsClient
     );
 
     var branchKeyMaterials :- Structure.ToBeaconKeyMaterials(
-      branchKeyItem,
+      branchKeyItemFromStorage,
       branchKey.Plaintext.value
     );
 
