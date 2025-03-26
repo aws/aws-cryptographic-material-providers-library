@@ -629,17 +629,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     output := Success(decryptResponse);
 
   }
-
-  method DecryptKeyForHv2(
-    encryptedKey: Types.EncryptedHierarchicalKey,
-    kmsConfiguration: Types.KMSConfiguration,
-    grantTokens: KMS.GrantTokenList,
-    kmsClient: KMS.IKMSClient
-  )
-    returns (output: Result<KMS.DecryptResponse, Types.Error>)
-  {
-    
-  } 
+ 
   ghost predicate AwsKmsBranchKeyDecryption?(
     versionItem: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
