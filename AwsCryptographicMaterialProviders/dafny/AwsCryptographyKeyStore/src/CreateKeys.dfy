@@ -495,7 +495,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
     );
-    // TODO-HV-2-M3: Support Version in HV-2
+      // TODO-HV-2-M3: Support Version in HV-2
     :- Need(
       oldActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
       Types.KeyStoreException(
@@ -569,11 +569,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
     //= type=implication
     //# The operation MUST call [AWS KMS API GenerateDataKeyWithoutPlaintext](https://docs.aws.amazon.com/kms/latest/APIReference/API_GenerateDataKeyWithoutPlaintext.html).
     new generateHistory: KMS.DafnyCallEvent<KMS.GenerateDataKeyWithoutPlaintextRequest, Result<KMS.GenerateDataKeyWithoutPlaintextResponse, KMS.Error>>,
-    new reEncryptHistory: KMS.DafnyCallEvent<KMS.ReEncryptRequest, Result<KMS.ReEncryptResponse, KMS.Error>>,
-    kmsClient: KMS.IKMSClient,
-    kmsConfiguration: Types.KMSConfiguration,
-    grantTokens: KMS.GrantTokenList,
-    decryptOnlyEncryptionContext: map<string, string>
+                                                                                               new reEncryptHistory: KMS.DafnyCallEvent<KMS.ReEncryptRequest, Result<KMS.ReEncryptResponse, KMS.Error>>,
+                                                                                                                                                                     kmsClient: KMS.IKMSClient,
+                                                                                                                                                                     kmsConfiguration: Types.KMSConfiguration,
+                                                                                                                                                                     grantTokens: KMS.GrantTokenList,
+                                                                                                                                                                     decryptOnlyEncryptionContext: map<string, string>
   )
     reads kmsClient.History
     requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))

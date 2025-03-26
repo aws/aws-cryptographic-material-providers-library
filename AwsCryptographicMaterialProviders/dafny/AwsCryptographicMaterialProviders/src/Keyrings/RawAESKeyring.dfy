@@ -375,20 +375,20 @@ module RawAESKeyring {
     predicate method ValidProviderInfo(info: seq<uint8>)
     {
       && |info| == |keyName| + AUTH_TAG_LEN_LEN + IV_LEN_LEN + wrappingAlgorithm.ivLength as int
-         // The key name obtained from the encrypted data key's key provider information has a value equal to this keyring's key name.
+      // The key name obtained from the encrypted data key's key provider information has a value equal to this keyring's key name.
       && info[0..|keyName|] == keyName
-         //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#authentication-tag-length
-         //= type=implication
-         //# This value MUST match the authentication tag length of the keyring's
-         //# configured wrapping algorithm
+      //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#authentication-tag-length
+      //= type=implication
+      //# This value MUST match the authentication tag length of the keyring's
+      //# configured wrapping algorithm
 
       && SeqToUInt32(info[|keyName|..|keyName| + AUTH_TAG_LEN_LEN]) == 128
       && SeqToUInt32(info[|keyName|..|keyName| + AUTH_TAG_LEN_LEN]) == wrappingAlgorithm.tagLength as uint32 * 8
       && SeqToUInt32(info[|keyName| + AUTH_TAG_LEN_LEN .. |keyName| + AUTH_TAG_LEN_LEN + IV_LEN_LEN]) == wrappingAlgorithm.ivLength as uint32
-         //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#iv-length
-         //= type=implication
-         //# This value MUST match the IV length of the keyring's
-         //# configured wrapping algorithm
+      //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#iv-length
+      //= type=implication
+      //# This value MUST match the IV length of the keyring's
+      //# configured wrapping algorithm
       && SeqToUInt32(info[|keyName| + AUTH_TAG_LEN_LEN .. |keyName| + AUTH_TAG_LEN_LEN + IV_LEN_LEN]) == 12
     }
 

@@ -52,11 +52,11 @@ module DiscoveryMultiKeyring {
       //= type=implication
       //# If an empty set of Region is provided this function MUST fail.
       || |regions| == 0
-         //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-multi-keyrings.md#aws-kms-discovery-multi-keyring
-         //= type=implication
-         //# If
-         //# any element of the set of regions is null or an empty string this
-         //# function MUST fail.
+      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-multi-keyrings.md#aws-kms-discovery-multi-keyring
+      //= type=implication
+      //# If
+      //# any element of the set of regions is null or an empty string this
+      //# function MUST fail.
       || (exists r | r in regions :: r == "")
       ==>
         output.Failure?

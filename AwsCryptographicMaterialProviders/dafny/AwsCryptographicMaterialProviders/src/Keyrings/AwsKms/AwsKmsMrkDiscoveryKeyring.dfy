@@ -179,9 +179,9 @@ module AwsKmsMrkDiscoveryKeyring {
                    EdkWrapping.GetProviderWrappedMaterial(edk.ciphertext, output.value.materials.algorithmSuite);
                  && maybeProviderWrappedMaterial.Success?
                  && KMS.IsValid_CiphertextType(maybeProviderWrappedMaterial.value)
-                    //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-discovery-keyring.md#ondecrypt
-                    //= type=implication
-                    //# - Its provider ID MUST exactly match the value “aws-kms”.
+                 //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-discovery-keyring.md#ondecrypt
+                 //= type=implication
+                 //# - Its provider ID MUST exactly match the value “aws-kms”.
                  && edk.keyProviderId == PROVIDER_ID
                  && KMS.IsValid_KeyIdType(awsKmsKey)
                  && var request := KMS.DecryptRequest(
@@ -438,8 +438,8 @@ module AwsKmsMrkDiscoveryKeyring {
       && res.Success?
       ==>
         && Invariant()
-           // Confirm that the materials we're about to output are a valid transition
-           // from the input materials
+        // Confirm that the materials we're about to output are a valid transition
+        // from the input materials
         && Materials.DecryptionMaterialsTransitionIsValid(materials, res.value)
 
         // Confirm that all our input values were valid
@@ -453,8 +453,8 @@ module AwsKmsMrkDiscoveryKeyring {
         && maybeStringifiedEncCtx.Success?
 
         && 0 < |client.History.Decrypt|
-           // Confirm that we called KMS in the right way and correctly returned the values
-           // it gave us
+        // Confirm that we called KMS in the right way and correctly returned the values
+        // it gave us
         && KMS.DecryptRequest(
              KeyId := Some(keyArn),
              CiphertextBlob := maybeProviderWrappedMaterial.value,
@@ -549,10 +549,10 @@ module AwsKmsMrkDiscoveryKeyring {
         //# - If a discovery filter is configured, its partition and the
         //# provider info partition MUST match.
         && discoveryFilter.value.partition == arn.partition
-           //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-discovery-keyring.md#ondecrypt
-           //= type=implication
-           //# - If a discovery filter is configured, its set of accounts MUST
-           //# contain the provider info account.
+        //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-discovery-keyring.md#ondecrypt
+        //= type=implication
+        //# - If a discovery filter is configured, its set of accounts MUST
+        //# contain the provider info account.
         && arn.account in discoveryFilter.value.accountIds
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-discovery-keyring.md#ondecrypt
     //= type=implication

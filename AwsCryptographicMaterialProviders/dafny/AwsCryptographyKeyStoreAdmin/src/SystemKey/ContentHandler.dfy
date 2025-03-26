@@ -166,7 +166,7 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
       // TODO-Mutations-GA : better error message for failure
       Types.KeyStoreAdminException(message := "KMS returned an invalid response.")
     );
-    // =- 4. Assert plain-text is "Sign"
+      // =- 4. Assert plain-text is "Sign"
     :- Need(
       kmsRes.Plaintext.value == SIGN_UTF8_BYTES,
       // TODO-Mutations-GA : better error message for failure

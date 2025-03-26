@@ -48,7 +48,7 @@ module {:extern "software.amazon.cryptography.keystoreadmin.internaldafny"} KeyS
     match config.storage {
       case custom(custom) =>
         storage := custom;
-        // If the custom storage is default DDBStorage, it's logical name must be correct
+          // If the custom storage is default DDBStorage, it's logical name must be correct
         :- Need(
           storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface ==>
             config.logicalKeyStoreName == (storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName,
