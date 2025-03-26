@@ -6,12 +6,12 @@ include "../../AwsCryptographicMaterialProviders/src/CanonicalEncryptionContext.
 
 module HierarchicalVersionUtils {
   import opened Wrappers
-  import AtomicPrimitives
   import opened StandardLibrary.UInt
+  import opened Seq
+  import AtomicPrimitives
   import Structure
   import Types = AwsCryptographyKeyStoreTypes
   import UTF8
-  import opened Seq
   import CanonicalEncryptionContext
 
   const AES_256_LENGTH: uint8 := 32
