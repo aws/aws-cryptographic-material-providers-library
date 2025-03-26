@@ -132,7 +132,7 @@ module {:options "/functionSyntax:4" } Structure {
         || BRANCH_KEY_TYPE_PREFIX < m[TYPE_FIELD])
   }
 
-  predicate EncryptedHierarchicalKey?(key: Types.EncryptedHierarchicalKey) {
+  predicate EncryptedHierarchicalKeyFromStorage?(key: Types.EncryptedHierarchicalKey) {
     && BranchKeyContext?(key.EncryptionContext)
     && key.Identifier == key.EncryptionContext[BRANCH_KEY_IDENTIFIER_FIELD]
     && key.CreateTime == key.EncryptionContext[KEY_CREATE_TIME]
@@ -166,7 +166,7 @@ module {:options "/functionSyntax:4" } Structure {
     key: Types.EncryptedHierarchicalKey
   ): (output: DDB.AttributeMap)
     requires (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
-    ensures EncryptedHierarchicalKey?(key) ==>
+    ensures EncryptedHierarchicalKeyFromStorage?(key) ==>
               && BranchKeyItem?(output)
               && ToEncryptedHierarchicalKey(output, key.EncryptionContext[TABLE_FIELD]) == key
   {
@@ -190,7 +190,7 @@ module {:options "/functionSyntax:4" } Structure {
     logicalKeyStoreName: string
   ): (output: Types.EncryptedHierarchicalKey)
     requires BranchKeyItem?(item)
-    ensures EncryptedHierarchicalKey?(output)
+    ensures EncryptedHierarchicalKeyFromStorage?(output)
   {
     var EncryptionContext := map k <- item.Keys - {BRANCH_KEY_FIELD} + {TABLE_FIELD}
                                       // Working around https://github.com/dafny-lang/dafny/issues/5776
@@ -214,7 +214,7 @@ module {:options "/functionSyntax:4" } Structure {
     CiphertextBlob: seq<uint8>
   ): (output: Types.EncryptedHierarchicalKey)
     requires BranchKeyContext?(EncryptionContext)
-    ensures EncryptedHierarchicalKey?(output)
+    ensures EncryptedHierarchicalKeyFromStorage?(output)
   {
     var Type
       := if EncryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE then
@@ -245,7 +245,7 @@ module {:options "/functionSyntax:4" } Structure {
     plaintextKey: seq<uint8>
   ): (output: Result<Types.BranchKeyMaterials, Types.Error>)
 
-    requires EncryptedHierarchicalKey?(key)
+    requires EncryptedHierarchicalKeyFromStorage?(key)
     requires
       || key.Type.ActiveHierarchicalSymmetricVersion?
       || key.Type.HierarchicalSymmetricVersion?
@@ -611,17 +611,17 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   predicate ActiveHierarchicalSymmetricKey?(key: Types.EncryptedHierarchicalKey) {
-    && EncryptedHierarchicalKey?(key)
+    && EncryptedHierarchicalKeyFromStorage?(key)
     && key.Type.ActiveHierarchicalSymmetricVersion?
   }
 
   predicate DecryptOnlyHierarchicalSymmetricKey?(key: Types.EncryptedHierarchicalKey) {
-    && EncryptedHierarchicalKey?(key)
+    && EncryptedHierarchicalKeyFromStorage?(key)
     && key.Type.HierarchicalSymmetricVersion?
   }
 
   predicate ActiveHierarchicalSymmetricBeaconKey?(key: Types.EncryptedHierarchicalKey) {
-    && EncryptedHierarchicalKey?(key)
+    && EncryptedHierarchicalKeyFromStorage?(key)
     && key.Type.ActiveHierarchicalSymmetricBeacon?
   }
 
@@ -644,7 +644,7 @@ module {:options "/functionSyntax:4" } Structure {
     key: Types.EncryptedHierarchicalKey,
     item: DDB.AttributeMap
   )
-    requires EncryptedHierarchicalKey?(key)
+    requires EncryptedHierarchicalKeyFromStorage?(key)
     requires (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
     requires item == ToAttributeMap(key)
 
@@ -731,7 +731,7 @@ module {:options "/functionSyntax:4" } Structure {
     key: Types.EncryptedHierarchicalKey,
     item: DDB.AttributeMap
   )
-    requires BranchKeyItem?(item) && EncryptedHierarchicalKey?(key)
+    requires BranchKeyItem?(item) && EncryptedHierarchicalKeyFromStorage?(key)
 
     ensures
       && (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
