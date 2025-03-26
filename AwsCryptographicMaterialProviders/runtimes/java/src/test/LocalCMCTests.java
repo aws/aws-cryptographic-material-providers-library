@@ -84,10 +84,6 @@ public class LocalCMCTests {
         GetCacheEntryOutput getCacheEntryOutput = test.GetCacheEntry(
           getCacheEntryInput
         );
-      } catch (InterruptedException ex) {
-        String str = String.format("Caught InterruptedException %d", i);
-        System.err.println(str);
-        continue;
       } catch (EntryDoesNotExist ex) {
         Materials materials = Materials
           .builder()
@@ -111,6 +107,14 @@ public class LocalCMCTests {
           .materials(materials)
           .build();
         test.PutCacheEntry(putCacheEntryInput);
+      } catch (Exception ex) {
+        if (ex instanceof InterruptedException) {
+          String str = String.format("Caught InterruptedException %d", i);
+          System.err.println(str);
+          continue;
+        } else {
+          throw ex;
+        }
       }
     }
   }
