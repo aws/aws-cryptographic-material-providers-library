@@ -159,10 +159,10 @@ public class MultiThreadedCMCTest {
                   StormTrackingCache
                     .builder()
                     .entryCapacity(11)
-                    .gracePeriod(10)
-                    .graceInterval(10)
+                    .gracePeriod(1)
+                    .graceInterval(1)
                     .fanOut(10)
-                    .inFlightTTL(10)
+                    .inFlightTTL(1)
                     .sleepMilli(10)
                     .build()
                 )
@@ -187,7 +187,7 @@ public class MultiThreadedCMCTest {
                   StormTrackingCache
                     .builder()
                     .entryCapacity(11)
-                    .gracePeriod(1000)
+                    .gracePeriod(100)
                     .graceInterval(10)
                     .fanOut(10)
                     .inFlightTTL(100)
@@ -204,7 +204,7 @@ public class MultiThreadedCMCTest {
 
   @Test(threadPoolSize = 10, invocationCount = INVOCATIONS, timeOut = 10_000)
   public void testMultiThreadedCache() {
-    doTestTryGetCatchPut(multiThreadedCache, TheData1);
+    doTestTryGetCatchPut(multiThreadedCache, TheData1, 2);
   }
 
   @Test(dependsOnMethods = { "testMultiThreadedCache" })
@@ -214,7 +214,7 @@ public class MultiThreadedCMCTest {
 
   @Test(threadPoolSize = 10, invocationCount = INVOCATIONS, timeOut = 10_000)
   public void testDefaultCache() {
-    doTestTryGetCatchPut(defaultCache, TheData2);
+    doTestTryGetCatchPut(defaultCache, TheData2, 11);
   }
 
   @Test(dependsOnMethods = { "testDefaultCache" })
@@ -224,7 +224,7 @@ public class MultiThreadedCMCTest {
 
   @Test(threadPoolSize = 10, invocationCount = INVOCATIONS, timeOut = 10_000)
   public void testStormCache1() {
-    doTestTryGetCatchPut(stormCache1, TheData3);
+    doTestTryGetCatchPut(stormCache1, TheData3, 2);
   }
 
   @Test(dependsOnMethods = { "testStormCache1" })
@@ -234,17 +234,18 @@ public class MultiThreadedCMCTest {
 
   @Test(threadPoolSize = 10, invocationCount = INVOCATIONS, timeOut = 10_000)
   public void testStormCache2() {
-    doTestTryGetCatchPut(stormCache2, TheData4);
+    doTestTryGetCatchPut(stormCache2, TheData4, 1);
   }
 
   @Test(dependsOnMethods = { "testStormCache2" })
-  public void validateStormCache() {
+  public void validateStormCache2() {
     doValidateCacheHitsAndMisses(TheData4);
   }
 
   public void doTestTryGetCatchPut(
     ICryptographicMaterialsCache cmcUnderTest,
-    PerTestData data
+    PerTestData data,
+    int ttl
   ) {
     // Always Pick Provides assurance on the LRU nature of our CMCs.
     // Every thread tries to use it every time,
@@ -287,7 +288,7 @@ public class MultiThreadedCMCTest {
       .builder()
       .identifier(cacheIdentifier)
       .creationTime(Instant.now().getEpochSecond())
-      .expiryTime(Instant.now().getEpochSecond() + 1)
+      .expiryTime(Instant.now().getEpochSecond() + ttl)
       .materials(materials)
       .build();
 
@@ -344,20 +345,19 @@ public class MultiThreadedCMCTest {
       sumOfMisses += data.CacheMissCounter.get(i);
     }
     System.out.printf(
-      "LocalCMC Test: ALWAYS_PICK: %s hit %s miss %s%n",
-      ALWAYS_PICK,
-      data.ALWAYS_PICK_HIT.get(),
-      data.ALWAYS_PICK_MISS.get()
+      "LocalCMC Test: TotalHits=%s TotalMisses=%s%n",
+      sumOfHits,
+      sumOfMisses
+    );
+    Assert.assertEquals(
+      sumOfHits + sumOfMisses,
+      INVOCATIONS,
+      "Total hits and misses != total attempts!"
     );
     // Assert there were misses, as the cache started empty
     Assert.assertTrue(sumOfMisses > 0, "How were there no misses!");
     // Assert there was at least one hit
     Assert.assertTrue(sumOfHits > 0, "How were there no hits!");
-    Assert.assertEquals(
-      sumOfHits + sumOfMisses,
-      INVOCATIONS,
-      "How were there no hits!"
-    );
     // Without better ID selection control,
     // along with finer timing control,
     // we cannot assert expected hits or misses
