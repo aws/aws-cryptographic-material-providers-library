@@ -92,8 +92,7 @@ module HierarchicalVersionUtils {
           | k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
         :: (
              if HasPrefix(k) then RemovePrefix(k) else k,  // transformed key
-             branchKeyContext[k],                          // original value
-             k                                             // original key
+             branchKeyContext[k]                           // original value
            );
     map entry <- transformedContext :: entry.0 := entry.1
   }
