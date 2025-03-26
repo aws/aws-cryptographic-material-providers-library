@@ -10,9 +10,9 @@ module HierarchicalVersionUtils {
   import opened Seq
   import AtomicPrimitives
   import Structure
-  import Types = AwsCryptographyKeyStoreTypes
   import UTF8
   import CanonicalEncryptionContext
+  import Types = AwsCryptographyKeyStoreTypes
 
   const AES_256_LENGTH: uint8 := 32
   // BKC => Branch Key Context
