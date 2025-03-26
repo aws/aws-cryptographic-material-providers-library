@@ -390,7 +390,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     ensures keyManagerStrategy.ValidState()
     ensures res.Success? ==>
               && Structure.BranchKeyContext?(res.value.EncryptionContext)
-              && Structure.EncryptedHierarchicalKey?(res.value)
+              && Structure.EncryptedHierarchicalKeyFromStorage?(res.value)
               && res.value.KmsArn == KMSKeystoreOperations.GetKeyId(KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn))
               && Structure.BRANCH_KEY_TYPE_PREFIX < res.value.EncryptionContext[Structure.TYPE_FIELD]
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
@@ -565,7 +565,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && 0 < |timestamp|
       && 0 < |input.Identifier|
       && activeItem.KmsArn == mutationToApply.Original.kmsArn
-      && Structure.EncryptedHierarchicalKey?(activeItem)
+      && Structure.EncryptedHierarchicalKeyFromStorage?(activeItem)
       && input.keyManagerStrategy.SupportHV1()
     }
 

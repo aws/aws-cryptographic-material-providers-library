@@ -565,7 +565,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     kmsClient: KMS.IKMSClient
   )
     returns (output: Result<KMS.DecryptResponse, Types.Error>)
-    requires Structure.EncryptedHierarchicalKey?(encryptedKey)
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(encryptedKey)
 
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
@@ -640,7 +640,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   )
     reads kmsClient.History
 
-    requires Structure.EncryptedHierarchicalKey?(versionItem)
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(versionItem)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
