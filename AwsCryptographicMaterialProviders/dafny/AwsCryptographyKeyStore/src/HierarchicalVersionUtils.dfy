@@ -67,39 +67,35 @@ module HierarchicalVersionUtils {
     (bkcDigest + aes256Key)
   }
 
+  // HV-2 only sends the Branch Key's Encryption Context to KMS, as compared to the Branch Key Context
+  // the Branch Key's Encryption Context can be divided into two groups
+  // 1. those created by MPL consumers via the library, which are prefixed with aws-crypto-ec:
+  // 2. those created by MPL consumers OUTSIDE of the library, which are not prefixed
   function SelectKmsEncryptionContextForHv2(
-    encryptionContext: Types.EncryptionContextString
+    branchKeyContext: Types.EncryptionContextString
   ): (output: Types.EncryptionContextString)
-    requires Structure.BranchKeyContext?(encryptionContext)
+    requires Structure.BranchKeyContext?(branchKeyContext)
     // TODO-HV-2-M2: Revisit this implementation to handle scenarios where removing prefix results in conflicting keys.
-    requires forall k1, k2 <- encryptionContext.Keys ::
+    requires forall k1, k2 <- branchKeyContext.Keys ::
                (if HasPrefix(k1) then RemovePrefix(k1) else k1) ==
                (if HasPrefix(k2) then RemovePrefix(k2) else k2) ==>
                  k1 == k2
     ensures forall k <- output ::
-              k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
-    ensures forall k <- output ::
               exists originalKey ::
-                originalKey in encryptionContext &&
-                (HasPrefix(originalKey) ==> k == RemovePrefix(originalKey)) &&
-                (!HasPrefix(originalKey) ==> k == originalKey)
-    ensures Structure.Hv2EncryptionContext?(output)
+                && originalKey in branchKeyContext
+                && (HasPrefix(originalKey) ==> k == RemovePrefix(originalKey))
+                && (!HasPrefix(originalKey) ==> k == originalKey)
+                && originalKey !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
   {
     var transformedContext :=
-      set k <- encryptionContext.Keys
+      set k <- branchKeyContext.Keys
+          | k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
         :: (
              if HasPrefix(k) then RemovePrefix(k) else k,  // transformed key
-             encryptionContext[k],                         // original value
+             branchKeyContext[k],                          // original value
              k                                             // original key
            );
-
-    // Filter out entries where transformed key is restricted
-    var validContext :=
-      set entry <- transformedContext
-          | entry.0 !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
-        :: entry;
-
-    map entry <- validContext :: entry.0 := entry.1
+    map entry <- transformedContext :: entry.0 := entry.1
   }
 
   function HasPrefix(key: string): bool {
@@ -128,10 +124,7 @@ module HierarchicalVersionUtils {
     if (forall i <- encodedEncryptionContext
           ::
             && i.0.Success?
-            && i.1.Success?
-            && var encoded := UTF8.Decode(i.0.value);
-            && encoded.Success?
-            && i.2 == encoded.value)
+            && i.1.Success?)
     then
       var resultMap := map i <- encodedEncryptionContext :: i.0.value := i.1.value;
       if |resultMap| == |input| then
@@ -158,6 +151,7 @@ module HierarchicalVersionUtils {
           ::
             && i.0.Success?
             && i.1.Success?
+               // TODO-UTF8-OPTIMIZATION :: It is silly to Decode and then Encode
             && var decoded := UTF8.Encode(i.0.value);
             && decoded.Success?
             && i.2 == decoded.value)
