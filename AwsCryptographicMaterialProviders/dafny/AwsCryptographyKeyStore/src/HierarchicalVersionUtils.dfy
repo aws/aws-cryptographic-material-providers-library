@@ -16,7 +16,6 @@ module HierarchicalVersionUtils {
   // BKC => Branch Key Context
   const BKC_DIGEST_LENGTH: uint8 := 48
   type PlainTextTuple = s: seq<uint8> | |s| == 80 witness *
-  import opened StandardLibrary.UInt
   import opened Seq
   import CanonicalEncryptionContext
 
