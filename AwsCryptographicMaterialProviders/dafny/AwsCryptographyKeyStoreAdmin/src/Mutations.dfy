@@ -81,7 +81,7 @@ module {:options "/functionSyntax:4" } Mutations {
   )
     returns (output: Outcome<Types.Error>)
 
-    requires Structure.EncryptedHierarchicalKey?(item)
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
     requires keyManagerStrategy.ValidState()
     requires keyManagerStrategy.SupportHV1()
@@ -175,7 +175,7 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly localOperation: string := "InitializeMutation"
   )
     returns (output: Result<Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
-    requires Structure.EncryptedHierarchicalKey?(item)
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KMS.IsValid_KeyIdType(terminalKmsArn)
     requires KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext)
     requires KmsArn.ValidKmsArn?(terminalKmsArn)
@@ -230,7 +230,7 @@ module {:options "/functionSyntax:4" } Mutations {
   {
     ghost predicate Pre()
     {
-      && Structure.EncryptedHierarchicalKey?(item)
+      && Structure.EncryptedHierarchicalKeyFromStorage?(item)
       && KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext)
       && KmsArn.ValidKmsArn?(originalKmsArn) && KmsArn.ValidKmsArn?(terminalKmsArn)
       && item.KmsArn == originalKmsArn
@@ -373,7 +373,7 @@ module {:options "/functionSyntax:4" } Mutations {
     | forall i <- s :: !i.itemNeither?
     witness *
 
-  lemma OriginalOrTerminalIsEncryptedHierarchicalKey?(items: OriginalOrTerminal)
+  lemma OriginalOrTerminalIsEncryptedHierarchicalKeyFromStorage?(items: OriginalOrTerminal)
     ensures forall item <- items ::
               && (item.itemOriginal? || item.itemTerminal?)
               && item.item is KeyStoreTypes.EncryptedHierarchicalKey
@@ -384,9 +384,9 @@ module {:options "/functionSyntax:4" } Mutations {
     MutationToApply: StateStrucs.MutationToApply
   ): (output: CheckedItem)
     requires item.Type.HierarchicalSymmetricVersion?
-    requires Structure.EncryptedHierarchicalKey?(item)
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires MutationToApply.ValidState()
-    ensures Structure.EncryptedHierarchicalKey?(output.item)
+    ensures Structure.EncryptedHierarchicalKeyFromStorage?(output.item)
     ensures
       && output.itemOriginal?
       ==>
@@ -438,7 +438,7 @@ module {:options "/functionSyntax:4" } Mutations {
     modifies keyManagerStrategy.ModifiesMultiSet
     ensures mutationToApply.ValidState() && keyManagerStrategy.ValidState()
     requires item.KmsArn == mutationToApply.Original.kmsArn
-    requires Structure.EncryptedHierarchicalKey?(item)
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
     requires keyManagerStrategy.SupportHV1()
   {
