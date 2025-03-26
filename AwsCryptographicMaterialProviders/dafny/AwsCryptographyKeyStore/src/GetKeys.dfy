@@ -158,19 +158,6 @@ module GetKeys {
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
     );
-    :- Need(
-      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 ||
-      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2,
-      Types.KeyStoreException(
-        message := ErrorMessages.INVALID_HIERARCHY_VERSION
-      )
-    );
-    :- Need(
-      Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext),
-      Types.KeyStoreException(
-        message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
-      )
-    );
 
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
       branchKeyItemFromStorage,
