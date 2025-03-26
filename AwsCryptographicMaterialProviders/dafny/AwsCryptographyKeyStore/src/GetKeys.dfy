@@ -146,28 +146,41 @@ module GetKeys {
       )
     );
 
-    var branchKeyItem := ActiveOutput.Item;
+    var branchKeyItemFromStorage := ActiveOutput.Item;
 
     :- Need(
       || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
-           && Structure.ActiveHierarchicalSymmetricKey?(branchKeyItem)
-           && branchKeyItem.Identifier == input.branchKeyIdentifier
-           && branchKeyItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+           && Structure.ActiveHierarchicalSymmetricKey?(branchKeyItemFromStorage)
+           && branchKeyItemFromStorage.Identifier == input.branchKeyIdentifier
+           && branchKeyItemFromStorage.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
          ),
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
     );
+    :- Need(
+      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 ||
+      branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2,
+      Types.KeyStoreException(
+        message := ErrorMessages.INVALID_HIERARCHY_VERSION
+      )
+    );
+    :- Need(
+      Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext),
+      Types.KeyStoreException(
+        message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
+      )
+    );
 
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
-      branchKeyItem,
+      branchKeyItemFromStorage,
       kmsConfiguration,
       grantTokens,
       kmsClient
     );
 
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
-      branchKeyItem,
+      branchKeyItemFromStorage,
       branchKey.Plaintext.value
     );
 
