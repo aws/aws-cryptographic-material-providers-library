@@ -7,6 +7,7 @@ include "../../AwsCryptographicMaterialProviders/src/CanonicalEncryptionContext.
 module HierarchicalVersionUtils {
   import opened Wrappers
   import AtomicPrimitives
+  import opened StandardLibrary.UInt
   import Structure
   import Types = AwsCryptographyKeyStoreTypes
   import UTF8
