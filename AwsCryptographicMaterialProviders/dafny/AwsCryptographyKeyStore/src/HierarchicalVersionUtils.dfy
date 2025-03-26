@@ -39,9 +39,12 @@ module HierarchicalVersionUtils {
   function UnpackPlainTextTuple (
     plainTextTuple: seq<uint8>
   ) : (Result:(seq<uint8>, seq<uint8>))
-    requires |plainTextTuple| == Structure.MD_DIGEST_LENGTH + Structure.AES_256_LENGTH
-    ensures |Result.0| == Structure.MD_DIGEST_LENGTH
-    ensures |Result.1| == Structure.AES_256_LENGTH
+    requires IsValid_Uint8Bits(|plainTextTuple|)
+    requires |plainTextTuple| as uint8 == Structure.MD_DIGEST_LENGTH + Structure.AES_256_LENGTH
+    ensures IsValid_Uint8Bits(|Result.0|)
+    ensures IsValid_Uint8Bits(|Result.1|)
+    ensures |Result.0| as uint8 == Structure.MD_DIGEST_LENGTH
+    ensures |Result.1| as uint8 == Structure.AES_256_LENGTH
     ensures Result.0 == plainTextTuple[..Structure.MD_DIGEST_LENGTH]
     ensures Result.1 == plainTextTuple[Structure.MD_DIGEST_LENGTH..]
   {
@@ -52,13 +55,19 @@ module HierarchicalVersionUtils {
   function PackPlainTextTuple (
     mdDigest: seq<uint8>, aes256Key: seq<uint8>
   ) : (Result:(seq<uint8>))
-    requires |mdDigest| == Structure.MD_DIGEST_LENGTH
-    requires |aes256Key| == Structure.AES_256_LENGTH
+    requires IsValid_Uint8Bits(|mdDigest|)
+    requires IsValid_Uint8Bits(|aes256Key|)
+    requires |mdDigest| as uint8 == Structure.MD_DIGEST_LENGTH
+    requires |aes256Key| as uint8 == Structure.AES_256_LENGTH
     ensures |Result| == |mdDigest| + |aes256Key|
     ensures Result[..Structure.MD_DIGEST_LENGTH] == mdDigest
     ensures Result[Structure.MD_DIGEST_LENGTH..] == aes256Key
     ensures Result == mdDigest + aes256Key
   {
     (mdDigest + aes256Key)
+  }
+
+  predicate IsValid_Uint8Bits(x: int) {
+    ( 0 <= x <= 255 )
   }
 }
