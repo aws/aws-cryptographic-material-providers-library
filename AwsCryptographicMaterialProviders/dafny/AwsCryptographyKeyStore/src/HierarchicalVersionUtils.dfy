@@ -8,6 +8,8 @@ module HierarchicalVersionUtils {
   import AtomicPrimitives
   import opened StandardLibrary.UInt
   import Structure
+  import Types = AwsCryptographyKeyStoreTypes
+  import UTF8
 
   const AES_256_LENGTH: uint8 := 32
   // BKC => Branch Key Context
@@ -63,5 +65,102 @@ module HierarchicalVersionUtils {
     ensures Result == bkcDigest + aes256Key
   {
     (bkcDigest + aes256Key)
+  }
+
+  // HV-2 only sends the Branch Key's Encryption Context to KMS, as compared to the Branch Key Context
+  // the Branch Key's Encryption Context can be divided into two groups
+  // 1. those created by MPL consumers via the library, which are prefixed with aws-crypto-ec:
+  // 2. those created by MPL consumers OUTSIDE of the library, which are not prefixed
+  function SelectKmsEncryptionContextForHv2(
+    branchKeyContext: Types.EncryptionContextString
+  ): (output: Types.EncryptionContextString)
+    requires Structure.BranchKeyContext?(branchKeyContext)
+    // TODO-HV-2-M2: Revisit this implementation to handle scenarios where removing prefix results in conflicting keys.
+    requires forall k1, k2 <- branchKeyContext.Keys ::
+               (if HasPrefix(k1) then RemovePrefix(k1) else k1) ==
+               (if HasPrefix(k2) then RemovePrefix(k2) else k2) ==>
+                 k1 == k2
+    ensures forall k <- output ::
+              exists originalKey ::
+                && originalKey in branchKeyContext
+                && (HasPrefix(originalKey) ==> k == RemovePrefix(originalKey))
+                && (!HasPrefix(originalKey) ==> k == originalKey)
+                && originalKey !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+  {
+    var transformedContext :=
+      set k <- branchKeyContext.Keys
+          | k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+        :: (
+             if HasPrefix(k) then RemovePrefix(k) else k,  // transformed key
+             branchKeyContext[k]                           // original value
+           );
+    map entry <- transformedContext :: entry.0 := entry.1
+  }
+
+  function HasPrefix(key: string): bool {
+    |key| > |Structure.ENCRYPTION_CONTEXT_PREFIX| &&
+    key[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX
+  }
+
+  function RemovePrefix(key: string): string
+    requires HasPrefix(key)
+  {
+    key[|Structure.ENCRYPTION_CONTEXT_PREFIX|..]
+  }
+
+  // Helper function to encode encryption context from string map to UTF8 bytes map
+  function EncodeEncryptionContext(
+    input: Types.EncryptionContextString
+  ): (output: Result<Types.EncryptionContext, string>)
+    ensures output.Success? ==> |output.value| == |input| // Output map size equals input map size
+    ensures output.Failure? ==> output.error == "Unable to encode string"
+  {
+    var encodedEncryptionContext
+      := set k <- input
+           ::
+             (UTF8.Encode(k), UTF8.Encode(input[k]), k);
+
+    if (forall i <- encodedEncryptionContext
+          ::
+            && i.0.Success?
+            && i.1.Success?)
+    then
+      var resultMap := map i <- encodedEncryptionContext :: i.0.value := i.1.value;
+      if |resultMap| == |input| then
+        Success(resultMap)
+      else
+        Failure("Unable to encode string")
+    else
+      Failure("Unable to encode string")
+  }
+
+  // Helper function to decode encryption context from UTF8 bytes map to string map
+  function DecodeEncryptionContext(
+    input: Types.EncryptionContext
+  ): (output: Result<Types.EncryptionContextString, string>)
+    ensures output.Success? ==> |output.value| == |input| // Output map size equals input map size
+    ensures output.Failure? ==> output.error == "Unable to decode string"
+  {
+    var decodedEncryptionContext
+      := set k <- input
+           ::
+             (UTF8.Decode(k), UTF8.Decode(input[k]), k);
+
+    if (forall i <- decodedEncryptionContext
+          ::
+            && i.0.Success?
+            && i.1.Success?
+               // TODO-UTF8-OPTIMIZATION :: It is silly to Decode and then Encode
+            && var decoded := UTF8.Encode(i.0.value);
+            && decoded.Success?
+            && i.2 == decoded.value)
+    then
+      var resultMap := map i <- decodedEncryptionContext :: i.0.value := i.1.value;
+      if |resultMap| == |input| then
+        Success(resultMap)
+      else
+        Failure("Unable to decode string")
+    else
+      Failure("Unable to decode string")
   }
 }
