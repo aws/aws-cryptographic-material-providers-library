@@ -11,13 +11,13 @@ module HierarchicalVersionUtils {
   import Structure
   import Types = AwsCryptographyKeyStoreTypes
   import UTF8
+  import opened Seq
+  import CanonicalEncryptionContext
 
   const AES_256_LENGTH: uint8 := 32
   // BKC => Branch Key Context
   const BKC_DIGEST_LENGTH: uint8 := 48
   type PlainTextTuple = s: seq<uint8> | |s| == 80 witness *
-  import opened Seq
-  import CanonicalEncryptionContext
 
   method ProvideCryptoClient(
     Crypto?: Option<AtomicPrimitives.AtomicPrimitivesClient> := None
@@ -43,10 +43,10 @@ module HierarchicalVersionUtils {
     return Success(Crypto);
   }
 
-  method createMdDigest (
+  method createBKCDigest (
     branchKeyContext: map<string, string>,
     cryptoClient: AtomicPrimitives.AtomicPrimitivesClient
-  ) returns (output: Result<seq<uint8>, Types.Error>)
+  ) returns (output: Result<seq<uint8>, Types.KeyStoreException>)
     requires Structure.BranchKeyContext?(branchKeyContext)
     requires cryptoClient.ValidState()
     modifies cryptoClient.Modifies
@@ -59,8 +59,8 @@ module HierarchicalVersionUtils {
               && DigestInput.digestAlgorithm == AtomicPrimitives.Types.SHA_384
               && DigestOutput.value == output.value
   {
-    var utf8MDDigest :- EncodeEncryptionContext(branchKeyContext).MapFailure(WrapStringToError);
-    var digestResult := CanonicalEncryptionContext.EncryptionContextDigest(cryptoClient, utf8MDDigest);
+    var utf8BKContext :- EncodeEncryptionContext(branchKeyContext).MapFailure(WrapStringToError);
+    var digestResult := CanonicalEncryptionContext.EncryptionContextDigest(cryptoClient, utf8BKContext);
     if (digestResult.Failure?) {
       var error: Types.Error;
       error := match digestResult.error {
