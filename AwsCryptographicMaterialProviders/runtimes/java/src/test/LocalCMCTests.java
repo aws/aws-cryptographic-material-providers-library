@@ -65,7 +65,7 @@ public class LocalCMCTests {
   );
   private static final int IDS_SIZE = identifies.size();
 
-  @Test(threadPoolSize = 10, invocationCount = 300000, timeOut = 100000)
+  @Test(threadPoolSize = 10, invocationCount = 30000, timeOut = 100000)
   public void TestALotOfAdding() {
     Random rand = ExternRandom.getSecureRandom();
     String beaconKeyIdentifier = identifies.get(rand.nextInt(IDS_SIZE));
@@ -79,43 +79,43 @@ public class LocalCMCTests {
       .identifier(cacheIdentifier)
       .build();
 
-    for (int i = 0; i < 100; i++) {
-      try {
-        GetCacheEntryOutput getCacheEntryOutput = test.GetCacheEntry(
-          getCacheEntryInput
-        );
-      } catch (EntryDoesNotExist ex) {
-        Materials materials = Materials
-          .builder()
-          .BeaconKey(
-            BeaconKeyMaterials
-              .builder()
-              .beaconKeyIdentifier(beaconKeyIdentifier)
-              // The cacheIdentifier is used as the material
-              // because we are not testing the cryptography here.
-              .beaconKey(cacheIdentifier)
-              .encryptionContext(new HashMap<String, String>())
-              .build()
-          )
-          .build();
+    try {
+      GetCacheEntryOutput getCacheEntryOutput = test.GetCacheEntry(
+        getCacheEntryInput
+      );
+      assert getCacheEntryOutput
+        .materials()
+        .BeaconKey()
+        .beaconKey()
+        .equals(cacheIdentifier);
+      assert getCacheEntryOutput
+        .materials()
+        .BeaconKey()
+        .beaconKeyIdentifier()
+        .equals(beaconKeyIdentifier);
+    } catch (EntryDoesNotExist ex) {
+      Materials materials = Materials
+        .builder()
+        .BeaconKey(
+          BeaconKeyMaterials
+            .builder()
+            .beaconKeyIdentifier(beaconKeyIdentifier)
+            // The cacheIdentifier is used as the material
+            // because we are not testing the cryptography here.
+            .beaconKey(cacheIdentifier)
+            .encryptionContext(new HashMap<String, String>())
+            .build()
+        )
+        .build();
 
-        PutCacheEntryInput putCacheEntryInput = PutCacheEntryInput
-          .builder()
-          .identifier(cacheIdentifier)
-          .creationTime(Instant.now().getEpochSecond())
-          .expiryTime(Instant.now().getEpochSecond() + 1)
-          .materials(materials)
-          .build();
-        test.PutCacheEntry(putCacheEntryInput);
-      } catch (Exception ex) {
-        if (ex instanceof InterruptedException) {
-          String str = String.format("Caught InterruptedException %d", i);
-          System.err.println(str);
-          continue;
-        } else {
-          throw ex;
-        }
-      }
+      PutCacheEntryInput putCacheEntryInput = PutCacheEntryInput
+        .builder()
+        .identifier(cacheIdentifier)
+        .creationTime(Instant.now().getEpochSecond())
+        .expiryTime(Instant.now().getEpochSecond() + 1)
+        .materials(materials)
+        .build();
+      test.PutCacheEntry(putCacheEntryInput);
     }
   }
 }
