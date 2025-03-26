@@ -629,7 +629,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     output := Success(decryptResponse);
 
   }
-  
+
   method DecryptKeyForHv2(
     encryptedKey: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
@@ -637,16 +637,16 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     kmsClient: KMS.IKMSClient
   )
     returns (output: Result<KMS.DecryptResponse, Types.Error>)
-      requires encryptedKey.EncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    requires encryptedKey.EncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
 
-      requires kmsClient.ValidState()
-      modifies kmsClient.Modifies
-      ensures kmsClient.ValidState()
+    requires kmsClient.ValidState()
+    modifies kmsClient.Modifies
+    ensures kmsClient.ValidState()
 
-      ensures !KmsArn.ValidKmsArn?(encryptedKey.KmsArn) ==> output.Failure?
-      ensures !AttemptKmsOperation?(kmsConfiguration, encryptedKey.KmsArn) ==> output.Failure?
+    ensures !KmsArn.ValidKmsArn?(encryptedKey.KmsArn) ==> output.Failure?
+    ensures !AttemptKmsOperation?(kmsConfiguration, encryptedKey.KmsArn) ==> output.Failure?
 
-      ensures output.Success?
+    ensures output.Success?
             ==>
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
               && AwsKmsBranchKeyDecryption?(
@@ -656,7 +656,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
                    kmsClient,
                    Seq.Last(kmsClient.History.Decrypt)
                  )
-      ensures output.Success?
+    ensures output.Success?
             ==>
               && Seq.Last(kmsClient.History.Decrypt).output.Success?
               && output.value == Seq.Last(kmsClient.History.Decrypt).output.value
@@ -709,7 +709,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     reads kmsClient.History
 
     requires if Structure.BranchKeyContext?(versionItem.EncryptionContext) then Structure.EncryptedHierarchicalKeyFromStorage?(versionItem) else versionItem.EncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
-    
+
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
     //# The operation MUST use the configured `KMS SDK Client` to decrypt the value of the branch key field.
