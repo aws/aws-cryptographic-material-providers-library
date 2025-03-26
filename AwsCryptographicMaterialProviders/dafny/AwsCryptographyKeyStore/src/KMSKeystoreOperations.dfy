@@ -629,7 +629,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     output := Success(decryptResponse);
 
   }
- 
+
   ghost predicate AwsKmsBranchKeyDecryption?(
     versionItem: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
