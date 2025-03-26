@@ -88,7 +88,7 @@ module GetKeys {
               //# with an identical Logical Keystore Name.
               && (kmsConfiguration.kmsMRKeyArn? ==> activeItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName)
 
-              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, activeItem.EncryptionContext)
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, activeItem.EncryptionContext[Structure.KMS_FIELD])
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
@@ -268,7 +268,7 @@ module GetKeys {
               //# with an identical Logical Keystore Name.
               && (kmsConfiguration.kmsMRKeyArn? ==> versionItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName)
 
-              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, versionItem.EncryptionContext)
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, versionItem.EncryptionContext[Structure.KMS_FIELD])
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
@@ -429,7 +429,7 @@ module GetKeys {
               //# with an identical Logical Keystore Name.
               && (kmsConfiguration.kmsMRKeyArn? ==> beaconItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName)
 
-              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, beaconItem.EncryptionContext)
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, beaconItem.EncryptionContext[Structure.KMS_FIELD])
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey

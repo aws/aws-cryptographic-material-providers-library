@@ -382,7 +382,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     returns (res: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires KmsArn.ValidKmsArn?(mutationToApply.Terminal.kmsArn)
     requires KMSKeystoreOperations.AttemptKmsOperation?(
-               KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn), decryptOnlyEncryptionContext
+               KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn), decryptOnlyEncryptionContext[Structure.KMS_FIELD]
              )
     requires keyManagerStrategy.ValidState()
     requires keyManagerStrategy.SupportHV1()
