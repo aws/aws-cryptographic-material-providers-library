@@ -218,7 +218,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
 
     assert forall item <- itemsToProcess ::
         && item.item is KeyStoreTypes.EncryptedHierarchicalKey
-        && Structure.EncryptedHierarchicalKey?(item.item)
+        && Structure.EncryptedHierarchicalKeyFromStorage?(item.item)
         && item.item.Type.HierarchicalSymmetricVersion?
         && (item.itemOriginal? ==> item.item.KmsArn == MutationToApply.Original.kmsArn);
 
@@ -353,7 +353,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     requires forall item <- items :: item.item is KeyStoreTypes.EncryptedHierarchicalKey
     requires forall item <- items :: item.item.Type.HierarchicalSymmetricVersion?
     requires forall item <- items :: KmsArn.ValidKmsArn?(item.item.KmsArn)
-    requires forall item <- items :: Structure.EncryptedHierarchicalKey?(item.item)
+    requires forall item <- items :: Structure.EncryptedHierarchicalKeyFromStorage?(item.item)
     requires forall item <- items :: item.itemOriginal? ==> item.item.KmsArn == mutationToApply.Original.kmsArn
     requires Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! mutationToApply.Terminal.customEncryptionContext.Keys
   {
