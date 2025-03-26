@@ -72,44 +72,4 @@ module HierarchicalVersionUtils {
     }
     return Success(digestResult.value);
   }
-
-  // If you are reviewing this code, then you can STOP. Darwin will add UnstringifyEncryptionContext and UnstringifyEncryptionContextPair. So, these func below are temporary.
-  function method UnstringifyEncryptionContext(stringEncCtx: Types.EncryptionContextString) : (res: Result<Types.EncryptionContext, Types.Error>)
-  {
-    if |stringEncCtx| == 0 then
-      Success(map[])
-    else
-      var parseResults: map<string, Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>> :=
-        map strKey | strKey in stringEncCtx.Keys :: strKey := UnstringifyEncryptionContextPair(strKey, stringEncCtx[strKey]);
-      if exists r | r in parseResults.Values :: r.Failure?
-      then Failure(
-             Types.KeyStoreException(message := "Encryption context contains invalid UTF8")
-           )
-      else
-        assert forall r | r in parseResults.Values :: r.Success?;
-        var utf8KeysUnique := forall k, k' | k in parseResults && k' in parseResults
-                                :: k != k' ==> parseResults[k].value.0 != parseResults[k'].value.0;
-        if !utf8KeysUnique then Failure(Types.KeyStoreException(
-                                          message := "Encryption context keys are not unique"))  // this should never happen...
-        else Success(map r | r in parseResults.Values :: r.value.0 := r.value.1)
-  }
-
-  function method UnstringifyEncryptionContextPair(strKey: string, strValue: string) : (res: Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>)
-    ensures (UTF8.Encode(strKey).Success? && UTF8.Encode(strValue).Success?) <==> res.Success?
-  {
-    var key :- UTF8
-               .Encode(strKey)
-               .MapFailure(WrapStringToError);
-    var value :- UTF8
-                 .Encode(strValue)
-                 .MapFailure(WrapStringToError);
-
-    Success((key, value))
-  }
-
-  function method WrapStringToError(e: string)
-    :(ret: Types.Error)
-  {
-    Types.KeyStoreException( message := e )
-  }
 }
