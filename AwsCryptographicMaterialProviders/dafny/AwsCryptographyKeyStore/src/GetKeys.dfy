@@ -172,7 +172,7 @@ module GetKeys {
       )
     );
 
-    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
       branchKeyItemFromStorage,
       kmsConfiguration,
       grantTokens,
@@ -348,7 +348,7 @@ module GetKeys {
         message := ErrorMessages.INVALID_BRANCH_KEY_VERSION_FROM_STORAGE)
     );
 
-    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
       branchKeyItem,
       kmsConfiguration,
       grantTokens,
@@ -500,7 +500,7 @@ module GetKeys {
         message := ErrorMessages.INVALID_BEACON_KEY_FROM_STORAGE)
     );
 
-    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
+    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
       branchKeyItem,
       kmsConfiguration,
       grantTokens,
