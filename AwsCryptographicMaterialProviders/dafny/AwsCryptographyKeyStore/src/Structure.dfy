@@ -41,14 +41,8 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   //Attribute Values
-  const HIERARCHY_VERSION_VALUE_1 := "1"
-  const HIERARCHY_VERSION_VALUE_2 := "2"
-  // TODO-HV-2-M1 : Find all HIERARCHY_VERSION_VALUE and replace them with something
-  const HIERARCHY_VERSION_VALUE := HIERARCHY_VERSION_VALUE_1
-  // TODO-HV-2-M1 : Find all HIERARCHY_VERSION_ATTRIBUTE_VALUE and replace them with something
+  const HIERARCHY_VERSION_VALUE := "1"
   const HIERARCHY_VERSION_ATTRIBUTE_VALUE := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE)
-  const HIERARCHY_VERSION_ATTRIBUTE_VALUE_1 := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE_1)
-  const HIERARCHY_VERSION_ATTRIBUTE_VALUE_2 := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE_2)
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE"
   const BEACON_KEY_TYPE_VALUE := "beacon:ACTIVE"
@@ -130,6 +124,25 @@ module {:options "/functionSyntax:4" } Structure {
            //= type=implication
            //# The `type` attribute MUST stores the branch key version formatted like `"branch:version:"` + `version`.
         || BRANCH_KEY_TYPE_PREFIX < m[TYPE_FIELD])
+  }
+
+  predicate Hv2EncryptionContext?(m: map<string, string>) {
+
+    && (BRANCH_KEY_IDENTIFIER_FIELD !in m)
+
+    && (TYPE_FIELD !in m)
+
+    && (KEY_CREATE_TIME !in m)
+
+    && (HIERARCHY_VERSION !in m)
+
+    && (TABLE_FIELD !in m)
+
+    && (KMS_FIELD !in m)
+
+    && (BRANCH_KEY_FIELD !in m.Keys)
+
+    && (BRANCH_KEY_ACTIVE_VERSION_FIELD !in m)
   }
 
   predicate EncryptedHierarchicalKey?(key: Types.EncryptedHierarchicalKey) {
