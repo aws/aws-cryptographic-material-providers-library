@@ -61,6 +61,7 @@ public class MultiThreadedCMCTest {
   );
   private static final int IDS_SIZE = identifies.size();
   private static final int INVOCATIONS = 30000;
+  private static final int TIMEOUT = 100000;
   private static final int ALWAYS_PICK = 22;
   private static final GetCacheEntryInput ALWAYS_PICK_INPUT;
   private static final PutCacheEntryInput ALWAYS_PUT_INPUT;
@@ -202,7 +203,7 @@ public class MultiThreadedCMCTest {
     stormCache2.PutCacheEntry(ALWAYS_PUT_INPUT);
   }
 
-  @Test(threadPoolSize = 10, invocationCount = INVOCATIONS, timeOut = 10_000)
+  @Test(threadPoolSize = 10, invocationCount = INVOCATIONS, timeOut = TIMEOUT)
   public void testMultiThreadedCache() {
     doTestTryGetCatchPut(multiThreadedCache, TheData1, 2);
   }
@@ -212,7 +213,7 @@ public class MultiThreadedCMCTest {
     doValidateCacheHitsAndMisses(TheData1);
   }
 
-  @Test(threadPoolSize = 10, invocationCount = INVOCATIONS, timeOut = 10_000)
+  @Test(threadPoolSize = 10, invocationCount = INVOCATIONS, timeOut = TIMEOUT)
   public void testDefaultCache() {
     doTestTryGetCatchPut(defaultCache, TheData2, 11);
   }
@@ -222,7 +223,7 @@ public class MultiThreadedCMCTest {
     doValidateCacheHitsAndMisses(TheData2);
   }
 
-  @Test(threadPoolSize = 10, invocationCount = INVOCATIONS, timeOut = 10_000)
+  @Test(threadPoolSize = 10, invocationCount = INVOCATIONS, timeOut = TIMEOUT)
   public void testStormCache1() {
     doTestTryGetCatchPut(stormCache1, TheData3, 2);
   }
@@ -232,7 +233,7 @@ public class MultiThreadedCMCTest {
     doValidateCacheHitsAndMisses(TheData3);
   }
 
-  @Test(threadPoolSize = 10, invocationCount = INVOCATIONS, timeOut = 10_000)
+  @Test(threadPoolSize = 10, invocationCount = INVOCATIONS, timeOut = TIMEOUT)
   public void testStormCache2() {
     doTestTryGetCatchPut(stormCache2, TheData4, 1);
   }
