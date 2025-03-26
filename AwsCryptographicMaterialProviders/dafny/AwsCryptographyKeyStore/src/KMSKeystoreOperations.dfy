@@ -629,6 +629,75 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     output := Success(decryptResponse);
 
   }
+  
+  method DecryptKeyForHv2(
+    encryptedKey: Types.EncryptedHierarchicalKey,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient
+  )
+    returns (output: Result<KMS.DecryptResponse, Types.Error>)
+      requires encryptedKey.EncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+
+      requires kmsClient.ValidState()
+      modifies kmsClient.Modifies
+      ensures kmsClient.ValidState()
+
+      ensures !KmsArn.ValidKmsArn?(encryptedKey.KmsArn) ==> output.Failure?
+      ensures !AttemptKmsOperation?(kmsConfiguration, encryptedKey.KmsArn) ==> output.Failure?
+
+      ensures output.Success?
+            ==>
+              && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
+              && AwsKmsBranchKeyDecryption?(
+                   encryptedKey,
+                   kmsConfiguration,
+                   grantTokens,
+                   kmsClient,
+                   Seq.Last(kmsClient.History.Decrypt)
+                 )
+      ensures output.Success?
+            ==>
+              && Seq.Last(kmsClient.History.Decrypt).output.Success?
+              && output.value == Seq.Last(kmsClient.History.Decrypt).output.value
+              && output.value.Plaintext.Some?
+              && 80 == |output.value.Plaintext.value|
+  {
+    :- Need(
+      && KmsArn.ValidKmsArn?(encryptedKey.KmsArn)
+         // This check is overloaded.
+         // It is incredibly unlikely that the the stored ciphertext
+         // has dropped to 0 or exceeds the KMS limit.
+         // So the error message is left unchanged.
+      && KMS.IsValid_CiphertextType(encryptedKey.CiphertextBlob),
+      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+    );
+    :- Need(
+      AttemptKmsOperation?(kmsConfiguration, encryptedKey.KmsArn),
+      Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
+    );
+
+    var kmsKeyArn := GetArn(kmsConfiguration, encryptedKey.KmsArn);
+    var maybeDecryptResponse := kmsClient.Decrypt(
+      KMS.DecryptRequest(
+        CiphertextBlob := encryptedKey.CiphertextBlob,
+        EncryptionContext := Some(encryptedKey.EncryptionContext),
+        GrantTokens := Some(grantTokens),
+        KeyId := Some(kmsKeyArn),
+        EncryptionAlgorithm := None
+      )
+    );
+    var decryptResponse :- maybeDecryptResponse.MapFailure(e => Types.ComAmazonawsKms(e));
+
+    :- Need(
+      && decryptResponse.Plaintext.Some?
+      && 80 == |decryptResponse.Plaintext.value|,
+      Types.KeyStoreException(
+        message := "Invalid response from AWS KMS Decrypt: Key is not 80 bytes.")
+    );
+
+    output := Success(decryptResponse);
+  }
 
   ghost predicate AwsKmsBranchKeyDecryption?(
     versionItem: Types.EncryptedHierarchicalKey,
@@ -639,8 +708,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   )
     reads kmsClient.History
 
-    requires Structure.EncryptedHierarchicalKeyFromStorage?(versionItem)
-
+    requires if Structure.BranchKeyContext?(versionItem.EncryptionContext) then Structure.EncryptedHierarchicalKeyFromStorage?(versionItem) else versionItem.EncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
     //# The operation MUST use the configured `KMS SDK Client` to decrypt the value of the branch key field.
