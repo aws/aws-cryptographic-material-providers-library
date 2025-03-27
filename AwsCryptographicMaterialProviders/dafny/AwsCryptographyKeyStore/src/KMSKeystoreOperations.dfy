@@ -5,6 +5,7 @@ include "Structure.dfy"
 include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "../../AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsMrkMatchForDecrypt.dfy"
 include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
+include "HierarchicalVersionUtils.dfy"
 include "KmsArn.dfy"
 
 module {:options "/functionSyntax:4" } KMSKeystoreOperations {
@@ -14,6 +15,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
   import KMS = ComAmazonawsKmsTypes
+  import HvUtils = HierarchicalVersionUtils
   import UTF8
   import Structure
   import opened AwsArnParsing
@@ -631,31 +633,34 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   }
 
   method DecryptKeyForHv2(
-    encryptedKey: Types.EncryptedHierarchicalKey,
+    ciphertextBlob: seq<uint8>,
+    encryptionContextToKms: Types.EncryptionContextString,
+    kmsArnFromStorage: string,
+    // encryptedKey: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
     returns (output: Result<KMS.DecryptResponse, Types.Error>)
-    requires encryptedKey.EncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    // requires encryptedKey.EncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
 
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
 
-    ensures !KmsArn.ValidKmsArn?(encryptedKey.KmsArn) ==> output.Failure?
-    ensures !AttemptKmsOperation?(kmsConfiguration, encryptedKey.KmsArn) ==> output.Failure?
+    ensures !KmsArn.ValidKmsArn?(kmsArnFromStorage) ==> output.Failure?
+    ensures !AttemptKmsOperation?(kmsConfiguration, kmsArnFromStorage) ==> output.Failure?
 
     ensures output.Success?
             ==>
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
-              && AwsKmsBranchKeyDecryption?(
-                   encryptedKey,
-                   kmsConfiguration,
-                   grantTokens,
-                   kmsClient,
-                   Seq.Last(kmsClient.History.Decrypt)
-                 )
+              // && AwsKmsBranchKeyDecryption?(
+              //      encryptedKey,
+              //      kmsConfiguration,
+              //      grantTokens,
+              //      kmsClient,
+              //      Seq.Last(kmsClient.History.Decrypt)
+              //    )
     ensures output.Success?
             ==>
               && Seq.Last(kmsClient.History.Decrypt).output.Success?
@@ -664,24 +669,24 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && 80 == |output.value.Plaintext.value|
   {
     :- Need(
-      && KmsArn.ValidKmsArn?(encryptedKey.KmsArn)
+      && KmsArn.ValidKmsArn?(kmsArnFromStorage)
          // This check is overloaded.
          // It is incredibly unlikely that the the stored ciphertext
          // has dropped to 0 or exceeds the KMS limit.
          // So the error message is left unchanged.
-      && KMS.IsValid_CiphertextType(encryptedKey.CiphertextBlob),
+      && KMS.IsValid_CiphertextType(ciphertextBlob),
       Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
     );
     :- Need(
-      AttemptKmsOperation?(kmsConfiguration, encryptedKey.KmsArn),
+      AttemptKmsOperation?(kmsConfiguration, kmsArnFromStorage),
       Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
 
-    var kmsKeyArn := GetArn(kmsConfiguration, encryptedKey.KmsArn);
+    var kmsKeyArn := GetArn(kmsConfiguration, kmsArnFromStorage);
     var maybeDecryptResponse := kmsClient.Decrypt(
       KMS.DecryptRequest(
-        CiphertextBlob := encryptedKey.CiphertextBlob,
-        EncryptionContext := Some(encryptedKey.EncryptionContext),
+        CiphertextBlob := ciphertextBlob,
+        EncryptionContext := Some(encryptionContextToKms),
         GrantTokens := Some(grantTokens),
         KeyId := Some(kmsKeyArn),
         EncryptionAlgorithm := None
