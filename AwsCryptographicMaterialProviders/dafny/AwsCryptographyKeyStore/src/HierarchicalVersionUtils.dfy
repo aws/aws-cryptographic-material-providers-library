@@ -2,19 +2,23 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../../../dafny/AwsCryptographicMaterialProviders/Model/AwsCryptographyMaterialProvidersTypes.dfy"
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
+include "../../AwsCryptographicMaterialProviders/src/CanonicalEncryptionContext.dfy"
 
 module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   import opened Wrappers
-  import AtomicPrimitives
   import opened StandardLibrary.UInt
+  import opened Seq
+  import AtomicPrimitives
   import Structure
-  import Types = AwsCryptographyKeyStoreTypes
   import UTF8
+  import CanonicalEncryptionContext
+  import Types = AwsCryptographyKeyStoreTypes
 
   const AES_256_LENGTH: uint8 := 32
   // BKC => Branch Key Context
   const BKC_DIGEST_LENGTH: uint8 := 48
   type PlainTextTuple = s: seq<uint8> | |s| == 80 witness *
+  type BKCDigestError = e: Types.Error | (e.KeyStoreException? ) witness *
 
   method ProvideCryptoClient(
     Crypto?: Option<AtomicPrimitives.AtomicPrimitivesClient> := None
@@ -38,6 +42,45 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     // If we create the Crypto Client, it is fresh
     assume {:axiom} fresh(Crypto) && fresh(Crypto.Modifies);
     return Success(Crypto);
+  }
+
+  // TODO-HV2: Create a known answer test for createBKCDigest. See https://github.com/aws/aws-cryptographic-material-providers-library/commit/09a84e15b5d7311b0418180ddda69dc7314b320e
+  method createBKCDigest (
+    branchKeyContext: map<string, string>,
+    cryptoClient: AtomicPrimitives.AtomicPrimitivesClient
+  ) returns (output: Result<seq<uint8>, BKCDigestError>)
+    requires Structure.BranchKeyContext?(branchKeyContext)
+    requires cryptoClient.ValidState()
+    modifies cryptoClient.Modifies
+    ensures cryptoClient.ValidState()
+    ensures output.Success? ==>
+              && 0 < |cryptoClient.History.Digest|
+              && Seq.Last(cryptoClient.History.Digest).output.Success?
+              && var DigestInput := Seq.Last(cryptoClient.History.Digest).input;
+              && var DigestOutput := Seq.Last(cryptoClient.History.Digest).output;
+              && DigestInput.digestAlgorithm == AtomicPrimitives.Types.SHA_384
+              && DigestOutput.value == output.value
+  {
+    var utf8BKContext :- EncodeEncryptionContext(branchKeyContext).MapFailure(WrapStringToError);
+    var digestResult := CanonicalEncryptionContext.EncryptionContextDigest(cryptoClient, utf8BKContext);
+    if (digestResult.Failure?) {
+      var error: Types.Error;
+      error := match digestResult.error {
+        case AwsCryptographyPrimitives(e) =>
+          // we cannot reliably serialize a Primitive error without work
+          Types.KeyStoreException(message:="Could not SHA-384 Content.")
+        case AwsCryptographicMaterialProvidersException(e) =>
+          Types.KeyStoreException(message:="Could not SHA-384 Content. " + e)
+      };
+      return Failure(error);
+    }
+    return Success(digestResult.value);
+  }
+
+  function method WrapStringToError(e: string)
+    :(ret: Types.Error)
+  {
+    Types.KeyStoreException( message := e )
   }
 
   // unpacks PlainTextTuple (i.e (BKC_DIGEST + AES_256 key)) to return BKC_DIGEST, AES_256 key
@@ -109,7 +152,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   }
 
   // Helper function to encode encryption context from string map to UTF8 bytes map
-  function EncodeEncryptionContext(
+  function method EncodeEncryptionContext(
     input: Types.EncryptionContextString
   ): (output: Result<Types.EncryptionContext, string>)
     ensures output.Success? ==> |output.value| == |input| // Output map size equals input map size
@@ -135,7 +178,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   }
 
   // Helper function to decode encryption context from UTF8 bytes map to string map
-  function DecodeEncryptionContext(
+  function method DecodeEncryptionContext(
     input: Types.EncryptionContext
   ): (output: Result<Types.EncryptionContextString, string>)
     ensures output.Success? ==> |output.value| == |input| // Output map size equals input map size
