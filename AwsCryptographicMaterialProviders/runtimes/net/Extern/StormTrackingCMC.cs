@@ -49,6 +49,9 @@ namespace software.amazon.cryptography.internaldafny.StormTrackingCMC
     // NOT synchronized, as some sleeping might be involved
     public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError> GetCacheEntry_k(software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryInput input)
     {
+      long max_in_flight = (long)(DateTime.Now - DateTime.MinValue).TotalMilliseconds + wrapped.inFlightTTL;
+      int sleep_time = (int)wrapped.sleepMilli;
+
       while (true)
       {
         Wrappers_Compile._IResult<StormTracker_Compile._ICacheState, software.amazon.cryptography.materialproviders.internaldafny.types._IError>
@@ -71,7 +74,13 @@ namespace software.amazon.cryptography.internaldafny.StormTrackingCMC
         }
         else
         {
-          Thread.Sleep(50);
+          if ((long)(DateTime.Now - DateTime.MinValue).TotalMilliseconds <= max_in_flight) {
+              Thread.Sleep(sleep_time);
+          } else {
+            return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>
+                .create_Failure(software.amazon.cryptography.materialproviders.internaldafny.types.Error
+                    .create_InFlightTTLExceeded(Dafny.Sequence<char>.FromString("Storm cache inFlightTTL exceeded")));
+          }
         }
       }
     }
