@@ -77,7 +77,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     return Success(digestResult.value);
   }
 
-  function method WrapStringToError(e: string)
+  function WrapStringToError(e: string)
     :(ret: Types.Error)
   {
     Types.KeyStoreException( message := e )
@@ -152,7 +152,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   }
 
   // Helper function to encode encryption context from string map to UTF8 bytes map
-  function method EncodeEncryptionContext(
+  function EncodeEncryptionContext(
     input: Types.EncryptionContextString
   ): (output: Result<Types.EncryptionContext, string>)
     ensures output.Success? ==> |output.value| == |input| // Output map size equals input map size
@@ -178,7 +178,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   }
 
   // Helper function to decode encryption context from UTF8 bytes map to string map
-  function method DecodeEncryptionContext(
+  function DecodeEncryptionContext(
     input: Types.EncryptionContext
   ): (output: Result<Types.EncryptionContextString, string>)
     ensures output.Success? ==> |output.value| == |input| // Output map size equals input map size
