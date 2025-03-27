@@ -699,7 +699,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && decryptResponse.Plaintext.Some?
       && 80 == |decryptResponse.Plaintext.value|,
       Types.KeyStoreException(
-        message := "Invalid response from AWS KMS Decrypt: Key is not 80 bytes.")
+        message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV2)
     );
 
     output := Success(decryptResponse);

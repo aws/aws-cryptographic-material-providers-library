@@ -59,4 +59,7 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
 
   const INVALID_BRANCH_KEY_CONTEXT :=
     "The branch key item is missing a required attribute. The branch key item might have been tampered with."
+
+  const KMS_DECRYPT_INVALID_KEY_LENGTH_HV2 :=
+    "Invalid response from AWS KMS Decrypt: Plaintext is not 80 bytes. This could mean the persisted branch key Item has been tampered."
 }
