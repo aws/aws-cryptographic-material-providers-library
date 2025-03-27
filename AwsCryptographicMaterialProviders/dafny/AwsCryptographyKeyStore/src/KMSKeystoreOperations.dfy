@@ -636,7 +636,6 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ciphertextBlob: seq<uint8>,
     encryptionContextToKms: Types.EncryptionContextString,
     kmsArnFromStorage: string,
-    // encryptedKey: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
@@ -654,13 +653,15 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures output.Success?
             ==>
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
-              // && AwsKmsBranchKeyDecryptionForHV1?(
-              //      encryptedKey,
-              //      kmsConfiguration,
-              //      grantTokens,
-              //      kmsClient,
-              //      Seq.Last(kmsClient.History.Decrypt)
-              //    )
+              && AwsKmsBranchKeyDecryptionForHV2?(
+                   ciphertextBlob,
+                   encryptionContextToKms,
+                   kmsArnFromStorage,
+                   kmsConfiguration,
+                   grantTokens,
+                   kmsClient,
+                   Seq.Last(kmsClient.History.Decrypt)
+                 )
     ensures output.Success?
             ==>
               && Seq.Last(kmsClient.History.Decrypt).output.Success?
