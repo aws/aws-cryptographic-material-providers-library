@@ -177,6 +177,34 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
       Failure("Unable to encode string")
   }
 
+  function method Utf8EncodeKeyValue(
+    strKey: string,
+    strValue: string
+  ) : (res: Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>)
+    ensures (UTF8.Encode(strKey).Success? && UTF8.Encode(strValue).Success?) <==> res.Success?
+  {
+    var key :- UTF8
+               .Encode(strKey)
+               .MapFailure(
+                 (eStr: string)
+                 =>
+                   WrapStringToError("Could not UTF8 Encode: " + strKey + " due to: " + eStr ));
+    var value :- UTF8
+                 .Encode(strValue)
+                 .MapFailure(
+                   (eStr: string)
+                   =>
+                     WrapStringToError("Could not UTF8 Encode: " + strValue + " due to: " + eStr ));
+
+    Success((key, value))
+  }
+
+  function method WrapStringToError(e: string)
+    :(ret: Types.Error)
+  {
+    Types.KeyStoreException( message := e )
+  }
+
   // Helper function to decode encryption context from UTF8 bytes map to string map
   function DecodeEncryptionContext(
     input: Types.EncryptionContext
