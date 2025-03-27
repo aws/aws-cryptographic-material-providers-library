@@ -3,7 +3,7 @@
 include "../../../dafny/AwsCryptographicMaterialProviders/Model/AwsCryptographyMaterialProvidersTypes.dfy"
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 
-module HierarchicalVersionUtils {
+module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   import opened Wrappers
   import AtomicPrimitives
   import opened StandardLibrary.UInt
