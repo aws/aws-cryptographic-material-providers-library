@@ -579,7 +579,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures output.Success?
             ==>
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
-              && AwsKmsBranchKeyDecryption?(
+              && AwsKmsBranchKeyDecryptionForHV1?(
                    encryptedKey,
                    kmsConfiguration,
                    grantTokens,
@@ -654,7 +654,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures output.Success?
             ==>
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
-              // && AwsKmsBranchKeyDecryption?(
+              // && AwsKmsBranchKeyDecryptionForHV1?(
               //      encryptedKey,
               //      kmsConfiguration,
               //      grantTokens,
@@ -704,7 +704,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     output := Success(decryptResponse);
   }
 
-  ghost predicate AwsKmsBranchKeyDecryption?(
+  ghost predicate AwsKmsBranchKeyDecryptionForHV1?(
     versionItem: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
@@ -713,7 +713,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   )
     reads kmsClient.History
 
-    requires if Structure.BranchKeyContext?(versionItem.EncryptionContext) then Structure.EncryptedHierarchicalKeyFromStorage?(versionItem) else versionItem.EncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(versionItem)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication

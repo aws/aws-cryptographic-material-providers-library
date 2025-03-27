@@ -94,7 +94,7 @@ module GetKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
               //= type=implication
               //# The operation MUST decrypt the EncryptedHierarchicalKey according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
-              && KMSKeystoreOperations.AwsKmsBranchKeyDecryption?(
+              && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV1?(
                    activeItem,
                    kmsConfiguration,
                    grantTokens,
@@ -274,7 +274,7 @@ module GetKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
               //= type=implication
               //# The operation MUST decrypt the branch key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
-              && KMSKeystoreOperations.AwsKmsBranchKeyDecryption?(
+              && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV1?(
                    versionItem,
                    kmsConfiguration,
                    grantTokens,
@@ -435,7 +435,7 @@ module GetKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
               //= type=implication
               //# The operation MUST decrypt the beacon key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
-              && KMSKeystoreOperations.AwsKmsBranchKeyDecryption?(
+              && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV1?(
                    beaconItem,
                    kmsConfiguration,
                    grantTokens,
