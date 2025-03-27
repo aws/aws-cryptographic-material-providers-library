@@ -159,7 +159,6 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     return Success(generateResponse);
   }
 
-
   ghost predicate AttemptReEncrypt?(
     sourceEncryptionContext: Structure.BranchKeyContext,
     destinationEncryptionContext: Structure.BranchKeyContext
@@ -291,41 +290,43 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     return Success(reEncryptResponse);
   }
 
-
-  // TODO-HV-2: Incomplete EncryptKey for HV_2
   method EncryptKey(
     plaintext: KMS.PlaintextType,
     encryptionContext: Structure.BranchKeyContext,
-    kmsArn: string,
+    kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
-  ) returns (res: Result<KMS.CiphertextType, KmsError>)
-    // requires Structure.BranchKeyContext?(encryptionContext)
-    requires KmsArn.ValidKmsArn?(kmsArn)
+  )
+    returns (res: Result<KMS.EncryptResponse, KmsError>)
     requires kmsClient.ValidState()
+    requires |plaintext| == 80 || |plaintext| == 32
+    requires |plaintext| == 32 ==> !Structure.BranchKeyContext?(encryptionContext)
+    requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
     ensures
-      res.Success?
-      ==>
-        && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
-        && var encryptInput := Seq.Last(kmsClient.History.Encrypt).input;
-        && var encryptResponse := Seq.Last(kmsClient.History.Encrypt).output;
-        && KMSKeystoreOperations.KMS.EncryptRequest(
-             KeyId := kmsArn,
-             Plaintext := plaintext,
-             EncryptionContext := Some(encryptionContext),
-             GrantTokens := Some(grantTokens)
-           ) == encryptInput
-        && encryptResponse.Success?
-        && encryptResponse.value.CiphertextBlob.Some?
-        && encryptResponse.value.KeyId.Some?
-        && encryptResponse.value.KeyId.value == kmsArn
-        && KMS.IsValid_CiphertextType(encryptResponse.value.CiphertextBlob.value)
-        && encryptResponse.value.CiphertextBlob.value == res.value
+      && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
+      && var kmsKeyArn := GetKeyId(kmsConfiguration);
+      && KMS.EncryptRequest(
+           KeyId := kmsKeyArn,
+           Plaintext := plaintext,
+           EncryptionContext := Some(encryptionContext),
+           GrantTokens := Some(grantTokens)
+         )
+         == Seq.Last(kmsClient.History.Encrypt).input
+      && old(kmsClient.History.Decrypt) == kmsClient.History.Decrypt
+
+    ensures res.Success? ==>
+              && res.value.KeyId.Some?
+              && res.value.CiphertextBlob.Some?
+              && KMS.IsValid_CiphertextType(res.value.CiphertextBlob.value)
+              && var kmsOperationOutput := Seq.Last(kmsClient.History.Encrypt).output;
+              && kmsOperationOutput.Success?
+              && kmsOperationOutput.value == res.value
   {
+    var kmsKeyArn := GetKeyId(kmsConfiguration);
     var kmsEncryptRequest := KMS.EncryptRequest(
-      KeyId := kmsArn,
+      KeyId := kmsKeyArn,
       Plaintext := plaintext,
       EncryptionContext := Some(encryptionContext),
       GrantTokens := Some(grantTokens)
@@ -344,12 +345,12 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     );
     :- Need(
       && encryptResponse.KeyId.Some?
-      && encryptResponse.KeyId.value == kmsArn,
+      && encryptResponse.KeyId.value ==  kmsKeyArn,
       Types.KeyManagementException(
         message := "Invalid response from AWS KMS Encrypt: KMS Key ID of response did not match request."
       )
     );
-    return Success(encryptResponse.CiphertextBlob.value);
+    return Success(encryptResponse);
   }
 
   method VerifyViaDecryptEncryptKey(
