@@ -2,6 +2,10 @@
 
 ## [1.10.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.10.0...v1.10.1) (2025-03-27)
 
+This release is available in the following languages:
+
+- Java
+
 ### Maintenance -- All Languages
 
 * **dafny:** update ddb model ([#1357](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1357)) ([8f68a3e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8f68a3ec0e07dfdad9d25376412617dc4932aa0a))
