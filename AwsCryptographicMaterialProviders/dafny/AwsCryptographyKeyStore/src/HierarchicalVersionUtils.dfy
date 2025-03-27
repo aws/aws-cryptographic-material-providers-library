@@ -18,6 +18,7 @@ module HierarchicalVersionUtils {
   // BKC => Branch Key Context
   const BKC_DIGEST_LENGTH: uint8 := 48
   type PlainTextTuple = s: seq<uint8> | |s| == 80 witness *
+  type BKCDigestError = e: Types.Error | (e.KeyStoreException? ) witness *
 
   method ProvideCryptoClient(
     Crypto?: Option<AtomicPrimitives.AtomicPrimitivesClient> := None
@@ -43,10 +44,11 @@ module HierarchicalVersionUtils {
     return Success(Crypto);
   }
 
+  // TODO-HV2: Create a known answer test for createBKCDigest. See https://github.com/aws/aws-cryptographic-material-providers-library/commit/09a84e15b5d7311b0418180ddda69dc7314b320e
   method createBKCDigest (
     branchKeyContext: map<string, string>,
     cryptoClient: AtomicPrimitives.AtomicPrimitivesClient
-  ) returns (output: Result<seq<uint8>, Types.Error>)
+  ) returns (output: Result<seq<uint8>, BKCDigestError>)
     requires Structure.BranchKeyContext?(branchKeyContext)
     requires cryptoClient.ValidState()
     modifies cryptoClient.Modifies
