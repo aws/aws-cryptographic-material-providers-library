@@ -46,7 +46,7 @@ module HierarchicalVersionUtils {
   method createBKCDigest (
     branchKeyContext: map<string, string>,
     cryptoClient: AtomicPrimitives.AtomicPrimitivesClient
-  ) returns (output: Result<seq<uint8>, Types.KeyStoreException>)
+  ) returns (output: Result<seq<uint8>, Types.Error>)
     requires Structure.BranchKeyContext?(branchKeyContext)
     requires cryptoClient.ValidState()
     modifies cryptoClient.Modifies
