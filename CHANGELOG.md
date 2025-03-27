@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.10.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.10.0...v1.10.1) (2025-03-27)
+
+### Maintenance -- All Languages
+
+* **dafny:** update ddb model ([#1357](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1357)) ([8f68a3e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8f68a3ec0e07dfdad9d25376412617dc4932aa0a))
+
+### Maintenance -- Java
+
+* **java:** harden LocalCMCTests.java ([#1365](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1365)) ([c0deb24](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c0deb245a2c8562c8adc6f6fce66e42c8bee8118))
+
+### Miscellaneous
+
+* add proper sleep handling in StormTracker for Python and .NET ([#1369](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1369)) ([77fd007](https://github.com/aws/aws-cryptographic-material-providers-library/commit/77fd007ecac4347087340fd74d56805ae57d3704))
+* **CI:** Allow local testing ([#1358](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1358)) ([5ecb410](https://github.com/aws/aws-cryptographic-material-providers-library/commit/5ecb410c3e79d5e986a98281a952bdd3807412a2))
+
 ## [1.10.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.9.0...v1.10.0) (2025-03-24)
 
 This release is available in the following languages:
