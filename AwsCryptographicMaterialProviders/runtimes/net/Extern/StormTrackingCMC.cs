@@ -74,9 +74,12 @@ namespace software.amazon.cryptography.internaldafny.StormTrackingCMC
         }
         else
         {
-          if ((long)(DateTime.Now - DateTime.MinValue).TotalMilliseconds <= max_in_flight) {
-              Thread.Sleep(sleep_time);
-          } else {
+          if ((long)(DateTime.Now - DateTime.MinValue).TotalMilliseconds <= max_in_flight)
+          {
+            Thread.Sleep(sleep_time);
+          }
+          else
+          {
             return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>
                 .create_Failure(software.amazon.cryptography.materialproviders.internaldafny.types.Error
                     .create_InFlightTTLExceeded(Dafny.Sequence<char>.FromString("Storm cache inFlightTTL exceeded")));
