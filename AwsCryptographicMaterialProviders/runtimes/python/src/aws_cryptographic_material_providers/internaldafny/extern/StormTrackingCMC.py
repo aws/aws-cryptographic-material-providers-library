@@ -1,4 +1,6 @@
 import time
+import datetime
+import pytz
 import aws_cryptographic_material_providers.internaldafny.generated.StormTrackingCMC
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 import aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes
@@ -66,6 +68,8 @@ class StormTrackingCMC:
     
     # NOT locked, because we sleep. Calls GetFromCache which IS synchronized.
     def GetCacheEntry_k(self, input):
+        max_in_flight = round(datetime.datetime.now(tz = pytz.UTC).timestamp() * 1000) + self.wrapped.inFlightTTL;
+        sleep_time = self.wrapped.sleepMilli;
         while True:
             result = self.GetFromCacheInner(input)
             if result.is_Failure:
@@ -79,14 +83,22 @@ class StormTrackingCMC:
                     )
                 ) 
             else:
-                try:
-                    time.sleep(self.wrapped.sleepMilli)
-                except Exception as e:
-                    return Wrappers.Result_Failure(
-                        Error_Opaque(
-                            e
+                if round(datetime.datetime.now(tz = pytz.UTC).timestamp() * 1000) <= max_in_flight:
+                    try:
+                        time.sleep(self.wrapped.sleepMilli)
+                    except Exception as e:
+                        return Wrappers.Result_Failure(
+                            Error_Opaque(
+                                e
+                            )
                         )
-                    )
+                else:
+                    return Wrappers.Result_Failure(
+                        aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyMaterialProvidersTypes.Error_InFlightTTLExceeded(
+                            "Storm cache inFlightTTL exceeded"
+                        )
+                    ) 
+
 
     def DeleteCacheEntry_k(self, input):
         self.lock.Lock__()

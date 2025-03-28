@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-cryptography-internal-dynamodb"
-version = "1.9.0"
+version = "1.10.1"
 description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [

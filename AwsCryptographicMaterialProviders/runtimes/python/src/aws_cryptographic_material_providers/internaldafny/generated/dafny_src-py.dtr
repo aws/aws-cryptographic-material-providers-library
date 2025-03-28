@@ -1,238 +1,179 @@
 file_format_version = "1.0"
-dafny_version = "4.9.2.0"
+dafny_version = "4.9.0.0"
 [options_by_module.AwsCryptographyKeyStoreTypes]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AbstractAwsCryptographyKeyStoreOperations]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AbstractAwsCryptographyKeyStoreService]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsCryptographyMaterialProvidersTypes]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsArnParsing]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsKmsMrkMatchForDecrypt]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsKmsUtils]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.KeyStoreErrorMessages]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.KmsArn]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.Structure]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.KMSKeystoreOperations]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.DDBKeystoreOperations]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.CreateKeys]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.CreateKeyStoreTable]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.GetKeys]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsCryptographyKeyStoreOperations]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.KeyStore]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AbstractAwsCryptographyMaterialProvidersOperations]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AbstractAwsCryptographyMaterialProvidersService]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AlgorithmSuites]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.Materials]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.Keyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.MultiKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsKmsMrkAreUnique]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.Constants]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.MaterialWrapping]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.CanonicalEncryptionContext]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.IntermediateKeyWrapping]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.EdkWrapping]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.ErrorMessages]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsKmsKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.StrictMultiKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsKmsDiscoveryKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.DiscoveryMultiKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsKmsMrkDiscoveryKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.MrkAwareDiscoveryMultiKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsKmsMrkKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.MrkAwareStrictMultiKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.LocalCMC]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.SynchronizedLocalCMC]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.StormTracker]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.StormTrackingCMC]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.CacheConstants]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsKmsHierarchicalKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsKmsRsaKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.EcdhEdkWrapping]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.RawECDHKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsKmsEcdhKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.RawAESKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.RawRSAKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.CMM]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.Defaults]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.Commitment]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.DefaultCMM]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.DefaultClientSupplier]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.Utils]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.RequiredEncryptionContextCMM]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.AwsCryptographyMaterialProvidersOperations]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
 [options_by_module.MaterialProviders]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-rust-sync = false
