@@ -270,7 +270,7 @@ module {:options "/functionSyntax:4" } Mutations {
           kmsClient := kms.kmsClient
         );
       case decryptEncrypt(kmsD, kmsE) =>
-        // TODO-HV-2-M3: Refactor to use KMSKeyStoreOperations.DecryptKey
+        // TODO-HV-2-M2: Refactor to use KMSKeyStoreOperations.DecryptKey
         var decryptedKey? := MutateViaDecryptEncrypt.Decrypt(
           ciphertext := input.item.CiphertextBlob,
           encryptionContext := input.item.EncryptionContext,
@@ -287,7 +287,7 @@ module {:options "/functionSyntax:4" } Mutations {
           return Failure(error);
         }
         kmsOperation := "Encrypt";
-        // TODO-HV-2-M3: Refactor to use KMSKeyStoreOperations.EncryptKey
+        // TODO-HV-2-M2: Refactor to use KMSKeyStoreOperations.EncryptKey
         wrappedKey? := MutateViaDecryptEncrypt.Encrypt(
           plaintext := decryptedKey?.value,
           encryptionContext := input.terminalEncryptionContext,

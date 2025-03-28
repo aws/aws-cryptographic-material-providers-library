@@ -11,7 +11,7 @@ module {:options "/functionSyntax:4" } MutateViaDecryptEncrypt {
   import Structure
   import KMSKeystoreOperations
 
-  // TODO-HV-2-M3: Refactor/Remove to use KMSKeyStoreOperations.DecryptKey
+  // TODO-HV-2-M2: Refactor/Remove to use KMSKeyStoreOperations.DecryptKey
   method Decrypt(
     ciphertext: seq<uint8>,
     encryptionContext: Structure.BranchKeyContext,
@@ -74,7 +74,7 @@ module {:options "/functionSyntax:4" } MutateViaDecryptEncrypt {
     return Success(decryptResponse.Plaintext.value);
   }
 
-  // TODO-HV-2-M3: Refactor/Remove to use KMSKeyStoreOperations.EncryptKey
+  // TODO-HV-2-M2: Refactor/Remove to use KMSKeyStoreOperations.EncryptKey
   method Encrypt(
     plaintext: KMSKeystoreOperations.KMS.PlaintextType,
     encryptionContext: Structure.BranchKeyContext,
