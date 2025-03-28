@@ -11,8 +11,8 @@ pub mod AesKdfCtr {
     use crate::software::amazon::cryptography::primitives::internaldafny::types::Error as DafnyError;
     use crate::*;
     use aws_lc_rs::cipher::{EncryptingKey, EncryptionContext, UnboundCipherKey, AES_256};
-    use dafny_runtime::Sequence;
     use dafny_runtime::Rc;
+    use dafny_runtime::Sequence;
 
     fn error(s: &str) -> Rc<DafnyError> {
         Rc::new(DafnyError::AwsCryptographicPrimitivesError {
@@ -58,11 +58,11 @@ pub mod AesKdfCtr {
                 Rc<crate::software::amazon::cryptography::primitives::internaldafny::types::Error>,
             >,
         > {
-            let nonce: Vec<u8> = nonce.iter().collect();
-            let key: Vec<u8> = key.iter().collect();
-            match ctr_stream(&nonce, &key, length) {
+            let nonce = &nonce.to_array();
+            let key = &key.to_array();
+            match ctr_stream(nonce, key, length) {
                 Ok(x) => Rc::new(_Wrappers_Compile::Result::Success {
-                    value: x.iter().cloned().collect(),
+                    value: dafny_runtime::Sequence::from_array_owned(x),
                 }),
                 Err(e) => {
                     let msg = format!("Aes Kdf Ctr : {}", e);

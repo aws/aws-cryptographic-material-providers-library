@@ -21,8 +21,8 @@ pub(crate) mod standard_library_conversions;
 pub(crate) mod standard_library_externs;
 pub use client::Client;
 
-pub use crate::deps::aws_cryptography_primitives;
 pub use crate::deps::aws_cryptography_keyStore;
+pub use crate::deps::aws_cryptography_primitives;
 pub use crate::deps::com_amazonaws_dynamodb;
 pub use crate::deps::com_amazonaws_kms;
 
@@ -57,9 +57,9 @@ pub(crate) use crate::implementation_from_dafny::ExternDigest;
 pub(crate) use crate::implementation_from_dafny::ExternRandom;
 pub(crate) use crate::implementation_from_dafny::Signature;
 pub(crate) use crate::implementation_from_dafny::Time;
+pub(crate) use crate::implementation_from_dafny::_LocalCMC_Compile;
+pub(crate) use crate::implementation_from_dafny::_StormTracker_Compile;
 pub(crate) use crate::implementation_from_dafny::ECDH;
 pub(crate) use crate::implementation_from_dafny::HMAC;
 pub(crate) use crate::implementation_from_dafny::UTF8;
 pub(crate) use crate::implementation_from_dafny::UUID;
-pub(crate) use crate::implementation_from_dafny::_StormTracker_Compile;
-pub(crate) use crate::implementation_from_dafny::_LocalCMC_Compile;

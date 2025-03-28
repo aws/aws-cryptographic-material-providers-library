@@ -22,19 +22,50 @@ module TestErrorMessages {
     expect actualErrorMessage == ExpectErrorMessage;
   }
 
+  const awskms : UTF8.ValidUTF8Bytes :=
+    var s := [0x61, 0x77, 0x73, 0x2d, 0x6b, 0x6d, 0x73];
+    assert s == UTF8.EncodeAscii("aws-kms");
+    s
+
+  const keyproviderInfoA : UTF8.ValidUTF8Bytes :=
+    var s := [0x6b, 0x65, 0x79, 0x70, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f, 0x41];
+    assert s == UTF8.EncodeAscii("keyproviderInfoA");
+    s
+
+  const keyproviderInfoB : UTF8.ValidUTF8Bytes :=
+    var s := [0x6b, 0x65, 0x79, 0x70, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f, 0x42];
+    assert s == UTF8.EncodeAscii("keyproviderInfoB");
+    s
+
+  const keyproviderInfoC : UTF8.ValidUTF8Bytes :=
+    var s := [0x6b, 0x65, 0x79, 0x70, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f, 0x43];
+    assert s == UTF8.EncodeAscii("keyproviderInfoC");
+    s
+
+  const awskmsrsa : UTF8.ValidUTF8Bytes :=
+    var s := [0x61, 0x77, 0x73, 0x2d, 0x6b, 0x6d, 0x73, 0x2d, 0x72, 0x73, 0x61];
+    assert s == UTF8.EncodeAscii("aws-kms-rsa");
+    s
+
+  const awskmshierarchy : UTF8.ValidUTF8Bytes :=
+    var s := [0x61, 0x77, 0x73, 0x2d, 0x6b, 0x6d, 0x73, 0x2d, 0x68, 0x69, 0x65, 0x72, 0x61, 0x72, 0x63, 0x68, 0x79];
+    assert s == UTF8.EncodeAscii("aws-kms-hierarchy");
+    s
+
+
   method {:test} TestIncorrectDataKeys()
   {
     var dummyKey : Types.EncryptedDataKeyList := [Types.EncryptedDataKey(
-                                                    keyProviderId := UTF8.EncodeAscii("aws-kms") ,
-                                                    keyProviderInfo := UTF8.EncodeAscii("keyproviderInfoA"),
+                                                    keyProviderId := awskms,
+                                                    keyProviderInfo := keyproviderInfoA,
                                                     ciphertext := [1, 2, 3, 4, 5]),
                                                   Types.EncryptedDataKey(
-                                                    keyProviderId := UTF8.EncodeAscii("aws-kms-rsa") ,
-                                                    keyProviderInfo := UTF8.EncodeAscii("keyproviderInfoB"),
+                                                    keyProviderId := awskmsrsa,
+                                                    keyProviderInfo := keyproviderInfoB,
                                                     ciphertext := [1, 2, 3, 4, 5]),
                                                   Types.EncryptedDataKey(
-                                                    keyProviderId := UTF8.EncodeAscii("aws-kms-hierarchy") ,
-                                                    keyProviderInfo := UTF8.EncodeAscii("keyproviderInfoC"),
+                                                    keyProviderId := awskmshierarchy,
+                                                    keyProviderInfo := keyproviderInfoC,
                                                     ciphertext := [
                                                       64, 92, 115, 7, 85, 121, 112, 79, 69, 12, 82, 25, 67, 34,
                                                       11, 66, 93, 45, 40, 23, 90, 61, 16, 28, 59, 114, 52, 122,
