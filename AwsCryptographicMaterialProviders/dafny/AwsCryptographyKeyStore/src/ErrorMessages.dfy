@@ -62,7 +62,4 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
 
   const KMS_DECRYPT_INVALID_KEY_LENGTH_HV2 :=
     "Invalid response from AWS KMS Decrypt: Plaintext is not 80 bytes. This could mean the persisted branch key Item has been tampered."
-
-  const MD_DIGEST_SHA_NOT_MATCHED := 
-    "This branch key item has failed the authentication check. Either it has been tampered with or the wrong 'Logical Key Store Name' has been provided."
 }
