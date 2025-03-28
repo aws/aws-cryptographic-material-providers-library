@@ -75,7 +75,7 @@ structure EncryptedHierarchicalKey {
 
   @required
   @documentation("The encryption context needed to decrypt this encrypted key. This includes the user the provided custom encryption context, as well as the other Branch Key attributes.")
-  EncryptionContext: EncryptionContextString,
+  BranchKeyContext: BranchKeyContext,
 
   @required
   @documentation("The ciphertext for this encrypted key.")
