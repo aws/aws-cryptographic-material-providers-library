@@ -292,6 +292,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     return Success(reEncryptResponse);
   }
 
+  // TODO-HV-2-M1: Add a Dafny test
   method EncryptKey(
     plaintext: KMS.PlaintextType,
     encryptionContext: Types.EncryptionContextString,
