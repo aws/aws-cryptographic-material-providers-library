@@ -1,5 +1,40 @@
 # Changelog
 
+## [1.10.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.10.0...v1.10.1) (2025-03-27)
+
+This release is available in the following languages:
+
+- Java
+
+### Maintenance -- All Languages
+
+- **dafny:** update ddb model ([#1357](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1357)) ([8f68a3e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8f68a3ec0e07dfdad9d25376412617dc4932aa0a))
+
+### Maintenance -- Java
+
+- **java:** harden LocalCMCTests.java ([#1365](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1365)) ([c0deb24](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c0deb245a2c8562c8adc6f6fce66e42c8bee8118))
+
+### Miscellaneous
+
+- add proper sleep handling in StormTracker for Python and .NET ([#1369](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1369)) ([77fd007](https://github.com/aws/aws-cryptographic-material-providers-library/commit/77fd007ecac4347087340fd74d56805ae57d3704))
+- **CI:** Allow local testing ([#1358](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1358)) ([5ecb410](https://github.com/aws/aws-cryptographic-material-providers-library/commit/5ecb410c3e79d5e986a98281a952bdd3807412a2))
+
+## [1.10.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.9.0...v1.10.0) (2025-03-24)
+
+This release is available in the following languages:
+
+- Python
+
+### Miscellaneous -- Python
+
+- **deps:** extend supported version of pytz library ([#1333](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1333)) ([6f6876a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6f6876aea8be186555e6430e039f4a6c6883c5d5))
+
+### Miscellaneous
+
+- clarify InFlightTTLExceeded exception ([#1169](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1169)) ([d1c42a6](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d1c42a6840a7846934b6e9124b170ef710cf2aba))
+- fix typos in documentation ([#1326](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1326)) ([7f59a7e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/7f59a7e073f2abe9effa89f7818ceb50bea9df26))
+- let fileio deal in uint8 instead of bv8 ([#1347](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1347)) ([80e28f3](https://github.com/aws/aws-cryptographic-material-providers-library/commit/80e28f3f7816e99ed22120cca6a81628a3ae4892))
+
 # [1.9.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.8.0...v1.9.0) (2025-02-03)
 
 This release is available in the following languages:

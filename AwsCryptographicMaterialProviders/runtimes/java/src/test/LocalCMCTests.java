@@ -65,7 +65,7 @@ public class LocalCMCTests {
   );
   private static final int IDS_SIZE = identifies.size();
 
-  @Test(threadPoolSize = 10, invocationCount = 300000, timeOut = 10000)
+  @Test(threadPoolSize = 10, invocationCount = 30000, timeOut = 100000)
   public void TestALotOfAdding() {
     Random rand = ExternRandom.getSecureRandom();
     String beaconKeyIdentifier = identifies.get(rand.nextInt(IDS_SIZE));
@@ -83,10 +83,16 @@ public class LocalCMCTests {
       GetCacheEntryOutput getCacheEntryOutput = test.GetCacheEntry(
         getCacheEntryInput
       );
-      //      assertEquals(getCacheEntryOutput.materials().BeaconKey().beaconKey(), binaryData);
-      //      assertEquals(getCacheEntryOutput.materials().BeaconKey().beaconKeyIdentifier(),
-      // stringData);
-      //      System.out.println("are equal");
+      assert getCacheEntryOutput
+        .materials()
+        .BeaconKey()
+        .beaconKey()
+        .equals(cacheIdentifier);
+      assert getCacheEntryOutput
+        .materials()
+        .BeaconKey()
+        .beaconKeyIdentifier()
+        .equals(beaconKeyIdentifier);
     } catch (EntryDoesNotExist ex) {
       Materials materials = Materials
         .builder()
