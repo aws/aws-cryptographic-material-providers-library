@@ -212,15 +212,14 @@ module GetKeys {
             "Local Cryptography error: " + AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto?.error));
         return Failure(e);
       }
+      var (protectedMdDigest, plainTextKey) :- HvUtils.UnpackPlainTextTuple(kmsDecryptRes.Plaintext.value))
       var bkcFromStorage :- HvUtils.createBKCDigest(branchKeyItemFromStorage.EncryptionContext, crypto?.value);
-      print(branchKeyItemFromStorage.EncryptionContext);
-      var protectedMdDigest := kmsDecryptRes.Plaintext.value[..Structure.BKC_DIGEST_LENGTH];
-      if (bkcFromStorage != protectedMdDigest) {
-        var e := Types.KeyStoreException(
-          message :=
-            ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
-        return Failure(e);
-      }
+      // if (bkcFromStorage != protectedMdDigest) {
+      //   var e := Types.KeyStoreException(
+      //     message :=
+      //       ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
+      //   return Failure(e);
+      // }
       // TODO: ToBranchKeyMaterials Might not work
       var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
         branchKeyItemFromStorage,
