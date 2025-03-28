@@ -314,6 +314,7 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
       "",
       "",
       keyArn,
+      Types.HierarchyVersion.v1,
       customEC
     );
     var ddbTableNameUtf8 :- expect UTF8.Encode(branchKeyStoreName);
@@ -356,6 +357,7 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
       "",
       "",
       keyArn,
+      Types.HierarchyVersion.v1,
       customEC
     );
     var ddbTableNameUtf8 :- expect UTF8.Encode(branchKeyStoreName);
