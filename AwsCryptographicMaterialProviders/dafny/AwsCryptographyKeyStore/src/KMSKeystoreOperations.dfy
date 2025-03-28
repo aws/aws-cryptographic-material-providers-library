@@ -697,7 +697,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     :- Need(
       && decryptResponse.Plaintext.Some?
       && 80 == |decryptResponse.Plaintext.value|,
-      Types.KeyStoreException(
+      Types.BranchKeyCiphertextException(
         message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV2)
     );
 
