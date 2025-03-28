@@ -292,15 +292,17 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
   method EncryptKey(
     plaintext: KMS.PlaintextType,
-    encryptionContext: Structure.BranchKeyContext,
+    encryptionContext: Types.EncryptionContextString,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
     returns (res: Result<KMS.EncryptResponse, KmsError>)
     requires kmsClient.ValidState()
-    requires |plaintext| == 80 || |plaintext| == 32
-    requires |plaintext| == 32 ==> !Structure.BranchKeyContext?(encryptionContext)
+    requires |plaintext| == 80
+    // TODO-HV-2-M3: Refactor to use EncryptKey for both HV-1 & HV-2 keys during Mutations
+    // requires |plaintext| == 80 || |plaintext| == 32
+    // requires |plaintext| == 32 ==> !Structure.BranchKeyContext?(encryptionContext)
     requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
