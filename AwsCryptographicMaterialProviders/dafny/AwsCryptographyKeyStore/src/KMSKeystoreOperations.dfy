@@ -303,11 +303,13 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   )
     returns (res: Result<KMS.EncryptResponse, KmsError>)
     requires kmsClient.ValidState()
-    requires |plaintext| == 80
     // TODO-HV-2-M2: Refactor to use EncryptKey for both HV-1 & HV-2 keys during Mutations
-    // requires |plaintext| == 80 || |plaintext| == 32
+    requires |plaintext| == 80 || |plaintext| == 32
     // TODO-HV-2-M2: We want to check the EC for `"hierarchy-version" == 1` as well
-    // requires |plaintext| == 32 ==> !Structure.BranchKeyContext?(encryptionContext)
+    requires |plaintext| == 32 ==> (
+                 && Structure.BranchKeyContext?(encryptionContext)
+                 && encryptionContext[Structure.KMS_FIELD] == kmsArnToStorage
+                 && encryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 )
     requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
     requires AttemptKmsOperation?(kmsConfiguration, kmsArnToStorage)
     modifies kmsClient.Modifies
