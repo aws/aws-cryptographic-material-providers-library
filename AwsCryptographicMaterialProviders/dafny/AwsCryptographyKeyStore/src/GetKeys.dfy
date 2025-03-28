@@ -212,7 +212,7 @@ module GetKeys {
             "Local Cryptography error: " + AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto?.error));
         return Failure(e);
       }
-      var (protectedMdDigest, plainTextKey) :- HvUtils.UnpackPlainTextTuple(kmsDecryptRes.Plaintext.value))
+      var (protectedMdDigest, plainTextKey) :- HvUtils.UnpackPlainTextTuple(kmsDecryptRes.Plaintext.value);
       var bkcFromStorage :- HvUtils.createBKCDigest(branchKeyItemFromStorage.EncryptionContext, crypto?.value);
       // if (bkcFromStorage != protectedMdDigest) {
       //   var e := Types.KeyStoreException(
