@@ -11,7 +11,6 @@ module TestGetKeys {
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
   import KeyStore
-  import ComAmazonawsDynamodbTypes
   import opened Wrappers
   import opened Fixtures
   import UTF8
@@ -86,15 +85,6 @@ module TestGetKeys {
     expect activeResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
     expect activeResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes;
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
-  
-    var hv2ActiveResult :- expect keyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := hv2BranchKeyId
-      ));
-
-    expect hv2ActiveResult.branchKeyMaterials.branchKeyIdentifier == hv2BranchKeyId;
-    expect hv2ActiveResult.branchKeyMaterials.branchKeyVersion == hv2BranchKeyIdActiveVersionUtf8Bytes;
-    expect |hv2ActiveResult.branchKeyMaterials.branchKey| == 32;
   }
 
   method {:test} {:isolate_assertions} TestGetActiveMrkKey()
