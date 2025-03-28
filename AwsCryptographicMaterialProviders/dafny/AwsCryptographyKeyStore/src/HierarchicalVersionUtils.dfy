@@ -13,10 +13,7 @@ module HierarchicalVersionUtils {
   import UTF8
   import CanonicalEncryptionContext
   import Types = AwsCryptographyKeyStoreTypes
-
-  const AES_256_LENGTH: uint8 := 32
-  // BKC => Branch Key Context
-  const BKC_DIGEST_LENGTH: uint8 := 48
+  
   type PlainTextTuple = s: seq<uint8> | |s| == 80 witness *
   type BKCDigestError = e: Types.Error | (e.KeyStoreException? ) witness *
 
@@ -87,24 +84,24 @@ module HierarchicalVersionUtils {
   function UnpackPlainTextTuple (
     plainTextTuple: PlainTextTuple
   ) : (Result:(seq<uint8>, seq<uint8>))
-    requires |plainTextTuple| == (BKC_DIGEST_LENGTH + AES_256_LENGTH) as int
-    ensures |Result.0| == BKC_DIGEST_LENGTH as int
-    ensures |Result.1| == AES_256_LENGTH as int
-    ensures Result.0 == plainTextTuple[..BKC_DIGEST_LENGTH]
-    ensures Result.1 == plainTextTuple[BKC_DIGEST_LENGTH..]
+    requires |plainTextTuple| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+    ensures |Result.0| == Structure.BKC_DIGEST_LENGTH as int
+    ensures |Result.1| == Structure.AES_256_LENGTH as int
+    ensures Result.0 == plainTextTuple[..Structure.BKC_DIGEST_LENGTH]
+    ensures Result.1 == plainTextTuple[Structure.BKC_DIGEST_LENGTH..]
   {
-    (plainTextTuple[..BKC_DIGEST_LENGTH], plainTextTuple[BKC_DIGEST_LENGTH..])
+    (plainTextTuple[..Structure.BKC_DIGEST_LENGTH], plainTextTuple[Structure.BKC_DIGEST_LENGTH..])
   }
 
   // packs BKCDigest and AES 256 Key into (bkcDigest + aes256Key)
   function PackPlainTextTuple (
     bkcDigest: seq<uint8>, aes256Key: seq<uint8>
   ) : (Result:(PlainTextTuple))
-    requires |bkcDigest| == BKC_DIGEST_LENGTH as int
-    requires |aes256Key| == AES_256_LENGTH as int
+    requires |bkcDigest| == Structure.BKC_DIGEST_LENGTH as int
+    requires |aes256Key| == Structure.AES_256_LENGTH as int
     ensures |Result| as uint8 == |bkcDigest| as uint8 + |aes256Key| as uint8
-    ensures Result[..BKC_DIGEST_LENGTH] == bkcDigest
-    ensures Result[BKC_DIGEST_LENGTH..] == aes256Key
+    ensures Result[..Structure.BKC_DIGEST_LENGTH] == bkcDigest
+    ensures Result[Structure.BKC_DIGEST_LENGTH..] == aes256Key
     ensures Result == bkcDigest + aes256Key
   {
     (bkcDigest + aes256Key)
