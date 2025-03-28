@@ -449,7 +449,7 @@ module {:options "/functionSyntax:4" } Structure {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
-    hierachyVersion: HierarchyVersion,
+    hierachyVersion: Types.HierarchyVersion,
     customEncryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
@@ -692,7 +692,7 @@ module {:options "/functionSyntax:4" } Structure {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
-    hierarchyVersion: HierarchyVersion,
+    hierarchyVersion: Types.HierarchyVersion,
     encryptionContext: map<string, string>
   )
     requires 0 < |branchKeyId|
