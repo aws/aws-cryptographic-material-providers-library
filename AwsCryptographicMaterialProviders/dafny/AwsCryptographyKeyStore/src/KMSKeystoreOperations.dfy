@@ -295,6 +295,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   method EncryptKey(
     plaintext: KMS.PlaintextType,
     encryptionContext: Types.EncryptionContextString,
+    kmsArnFromStorage: string,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
@@ -307,6 +308,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     // TODO-HV-2-M2: We want to check the EC for `"hierarchy-version" == 1` as well
     // requires |plaintext| == 32 ==> !Structure.BranchKeyContext?(encryptionContext)
     requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
+    requires !AttemptKmsOperation?(kmsConfiguration, kmsArnFromStorage) ==> output.Failure?
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
     ensures
