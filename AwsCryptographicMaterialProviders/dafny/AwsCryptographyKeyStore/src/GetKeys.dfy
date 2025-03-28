@@ -223,7 +223,7 @@ module GetKeys {
       // TODO: ToBranchKeyMaterials Might not work
       var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
         branchKeyItemFromStorage,
-        kmsDecryptRes.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
+        plainTextKey
       );
       return Success(
           Types.GetActiveBranchKeyOutput(
