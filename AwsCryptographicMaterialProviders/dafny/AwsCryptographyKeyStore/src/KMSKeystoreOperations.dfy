@@ -809,7 +809,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     && (kmsConfiguration.mrDiscovery? ==> decryptRequest.KeyId == Some(replaceRegion(kmsArnFromStorage, kmsConfiguration.mrDiscovery.region)))
 
     && (kmsConfiguration.kmsKeyArn? ==> decryptRequest.KeyId == Some(kmsConfiguration.kmsKeyArn))
-  
+
     && (kmsConfiguration.kmsMRKeyArn? ==> MrkMatch(decryptRequest.KeyId.value, kmsConfiguration.kmsMRKeyArn))
 
     && decryptRequest.CiphertextBlob == ciphertextBlob
@@ -819,7 +819,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     && decryptRequest.GrantTokens == Some(grantTokens)
 
     && decryptHistory.output.Success?
-    
+
     && decryptHistory.output.value.Plaintext.Some?
   }
 
