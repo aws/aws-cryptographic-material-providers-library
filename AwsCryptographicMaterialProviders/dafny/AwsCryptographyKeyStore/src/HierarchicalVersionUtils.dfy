@@ -19,7 +19,6 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   const BKC_DIGEST_LENGTH: uint8 := 48
   type PlainTextTuple = s: seq<uint8> | |s| == 80 witness *
   type BKCDigestError = e: Types.Error | (e.KeyStoreException? ) witness *
-  datatype Utf8KeyValue = Utf8KeyValue(key: UTF8.ValidUTF8Bytes, value: UTF8.ValidUTF8Bytes)
 
   method ProvideCryptoClient(
     Crypto?: Option<AtomicPrimitives.AtomicPrimitivesClient> := None
@@ -157,23 +156,31 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     input: Types.EncryptionContextString
   ): (output: Result<Types.EncryptionContext, string>)
     ensures output.Success? ==> |output.value| == |input| // Output map size equals input map size
+    ensures output.Failure? ==> output.error == "Unable to encode string"
   {
-    var encodedInputResult: seq<(Utf8KeyValue)> :- Seq.MapWithResult(
-      // Dafny requires the type of the element being mapped over, or it feaks out.
-      (strKey: string)
-      =>
-      var keyValueUtf8 :- Utf8EncodeKeyValue(strKey, input[strKey]);
-      Success(keyValueUtf8),
-        input.Keys
-      );
-    Success(map r | r in encodedInputResult :: r.key := r.value)
+    var encodedEncryptionContext
+      := set k <- input
+           ::
+             (UTF8.Encode(k), UTF8.Encode(input[k]), k);
+
+    if (forall i <- encodedEncryptionContext
+          ::
+            && i.0.Success?
+            && i.1.Success?)
+    then
+      var resultMap := map i <- encodedEncryptionContext :: i.0.value := i.1.value;
+      if |resultMap| == |input| then
+        Success(resultMap)
+      else
+        Failure("Unable to encode string")
+    else
+      Failure("Unable to encode string")
   }
 
-  
-  function Utf8EncodeKeyValue(
+  function method Utf8EncodeKeyValue(
     strKey: string,
     strValue: string
-  ) : (res: Result<Utf8KeyValue, Types.Error>)
+  ) : (res: Result<(UTF8.ValidUTF8Bytes, UTF8.ValidUTF8Bytes), Types.Error>)
     ensures (UTF8.Encode(strKey).Success? && UTF8.Encode(strValue).Success?) <==> res.Success?
   {
     var key :- UTF8
@@ -189,7 +196,13 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
                    =>
                      WrapStringToError("Could not UTF8 Encode: " + strValue + " due to: " + eStr ));
 
-    Success(Utf8KeyValue(key := key, value := value))
+    Success((key, value))
+  }
+
+  function method WrapStringToError(e: string)
+    :(ret: Types.Error)
+  {
+    Types.KeyStoreException( message := e )
   }
 
   // Helper function to decode encryption context from UTF8 bytes map to string map
