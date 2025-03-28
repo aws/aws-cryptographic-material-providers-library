@@ -625,7 +625,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && decryptResponse.Plaintext.Some?
       && 32 == |decryptResponse.Plaintext.value|,
       Types.KeyStoreException(
-        message := "Invalid response from AWS KMS Decrypt: Key is not 32 bytes.")
+        message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV1)
     );
 
     output := Success(decryptResponse);
@@ -641,7 +641,6 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     kmsClient: KMS.IKMSClient
   )
     returns (output: Result<KMS.DecryptResponse, Types.Error>)
-    // requires encryptedKey.EncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
 
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
@@ -793,68 +792,34 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   )
     reads kmsClient.History
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-    //= type=implication
-    //# The operation MUST use the configured `KMS SDK Client` to decrypt the value of the branch key field.
     requires decryptHistory in kmsClient.History.Decrypt
   {
-
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-    //= type=implication
-    //# If the Keystore's [AWS KMS Configuration](#aws-kms-configuration) is `KMS Key ARN` or `KMS MRKey ARN`,
-    //# the `kms-arn` field of the DDB response item MUST be
-    //# [compatible with](#aws-key-arn-compatibility) the configured KMS Key in
-    //# the [AWS KMS Configuration](#aws-kms-configuration) for this keystore,
-    //# or the operation MUST fail.
     && (kmsConfiguration.kmsKeyArn? ==> kmsArnFromStorage == kmsConfiguration.kmsKeyArn)
+
     && (kmsConfiguration.kmsMRKeyArn? ==> MrkMatch(kmsArnFromStorage, kmsConfiguration.kmsMRKeyArn))
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-    //= type=implication
-    //# If the Keystore's [AWS KMS Configuration](#aws-kms-configuration) is `Discovery` or `MRDiscovery`,
-    //# the `kms-arn` field of DDB response item MUST NOT be an Alias
-    //# or the operation MUST fail.
     && (kmsConfiguration.discovery? || kmsConfiguration.mrDiscovery? ==> KmsArn.ValidKmsArn?(kmsArnFromStorage))
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-    //= type=implication
-    //# When calling [AWS KMS Decrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html),
-    //# the keystore operation MUST call with a request constructed as follows:
-
     && var decryptRequest := decryptHistory.input;
+
     && decryptRequest.KeyId.Some?
-       //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-       //= type=implication
-       //# - `KeyId`, if the KMS Configuration is Discovery, MUST be the `kms-arn` attribute value of the AWS DDB response item.
+
     && (kmsConfiguration.discovery? ==> decryptRequest.KeyId == Some(kmsArnFromStorage))
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-    //= type=implication
-    //# If the KMS Configuration is MRDiscovery, `KeyId` MUST be the `kms-arn` attribute value of the AWS DDB response item, with the region replaced by the configured region.
     && (kmsConfiguration.mrDiscovery? ==> decryptRequest.KeyId == Some(replaceRegion(kmsArnFromStorage, kmsConfiguration.mrDiscovery.region)))
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-    //= type=implication
-    //# Otherwise, it MUST BE the Keystore's configured KMS Key.
     && (kmsConfiguration.kmsKeyArn? ==> decryptRequest.KeyId == Some(kmsConfiguration.kmsKeyArn))
+  
     && (kmsConfiguration.kmsMRKeyArn? ==> MrkMatch(decryptRequest.KeyId.value, kmsConfiguration.kmsMRKeyArn))
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-    //= type=implication
-    //# - `CiphertextBlob` MUST be the `CiphertextBlob` attribute value on the provided EncryptedHierarchicalKey
     && decryptRequest.CiphertextBlob == ciphertextBlob
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-    //= type=implication
-    //# - `EncryptionContext` MUST be the [encryption context](#encryption-context) of the provided EncryptedHierarchicalKey
     && decryptRequest.EncryptionContext == Some(encryptionContextToKms)
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-    //= type=implication
-    //# - `GrantTokens` MUST be this keystore's [grant tokens](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
     && decryptRequest.GrantTokens == Some(grantTokens)
 
     && decryptHistory.output.Success?
+    
     && decryptHistory.output.value.Plaintext.Some?
   }
 
