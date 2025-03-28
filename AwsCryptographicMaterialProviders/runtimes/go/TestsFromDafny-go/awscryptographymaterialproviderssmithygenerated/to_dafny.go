@@ -978,6 +978,10 @@ func Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_curveSpec_T
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyPrimitivesTypes.CompanionStruct_ECDHCurveSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -1207,6 +1211,7 @@ func Aws_cryptography_materialProviders_StormTrackingCache_timeUnits_ToDafny(inp
 			if enumVal == *input {
 				break
 			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTypes.CompanionStruct_TimeUnits_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -1506,6 +1511,10 @@ func Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_encryptionAl
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -1636,6 +1645,10 @@ func Aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingAlg_ToD
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTypes.CompanionStruct_AesWrappingAlg_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -1751,6 +1764,10 @@ func Aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_curveSpec_ToDa
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyPrimitivesTypes.CompanionStruct_ECDHCurveSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -1799,6 +1816,10 @@ func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_paddingScheme_T
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTypes.CompanionStruct_PaddingScheme_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -1900,6 +1921,10 @@ func Aws_cryptography_materialProviders_AlgorithmSuiteId_ESDK_ToDafny(input awsc
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTypes.CompanionStruct_ESDKAlgorithmSuiteId_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -1922,6 +1947,10 @@ func Aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_ToDafny(input awscr
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTypes.CompanionStruct_DBEAlgorithmSuiteId_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2012,6 +2041,10 @@ func Aws_cryptography_materialProviders_HKDF_hmac_ToDafny(input awscryptographyp
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyPrimitivesTypes.CompanionStruct_DigestAlgorithm_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2113,6 +2146,10 @@ func Aws_cryptography_materialProviders_ECDSA_curve_ToDafny(input awscryptograph
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyPrimitivesTypes.CompanionStruct_ECDSASignatureAlgorithm_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2159,6 +2196,10 @@ func Aws_cryptography_materialProviders_SymmetricSignatureAlgorithm_HMAC_ToDafny
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyPrimitivesTypes.CompanionStruct_DigestAlgorithm_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2663,6 +2704,10 @@ func Aws_cryptography_materialProviders_CommitmentPolicy_ESDK_ToDafny(input awsc
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTypes.CompanionStruct_ESDKCommitmentPolicy_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2685,6 +2730,10 @@ func Aws_cryptography_materialProviders_CommitmentPolicy_DBE_ToDafny(input awscr
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTypes.CompanionStruct_DBECommitmentPolicy_{}.AllSingletonConstructors()), 0; i < index; i++ {
