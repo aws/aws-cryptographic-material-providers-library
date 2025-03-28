@@ -72,12 +72,12 @@ module Fixtures {
     45,  97,  97, 53, 101,  45,  54, 99,  55,
     54,  54, 102, 99,  56,  97, 102, 57, 102
   ]
-  const hv2BranchKeyId := "test-hv2-branch-key-9632e827-64dd-4eb5-ac28-6328a7c404dd"
+  const hv2BranchKeyId := "test-hv2-branch-key-badaa332-29f2-4c72-8ad7-071eb48499c3"
   const hv2BranchKeyIdWithEC := "bfb86728-b8ff-4337-8d55-003150628ff9"
   const hv2BranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
-    98, 102, 98, 56, 54, 55, 50, 56, 45, 98, 56, 
-    102, 102, 45, 52, 51, 51, 55, 45, 56, 100, 53, 
-    53, 45, 48, 48, 51, 49, 53, 48, 54, 50, 56, 102, 102, 57
+    51, 52, 55, 102, 100, 99, 55, 100, 45, 101, 57,
+    51, 102, 45, 52, 49, 54, 54, 45, 57, 55, 99, 50,
+    45, 53, 102, 53, 101, 48, 48, 53, 51, 100, 51, 51, 53
   ]
   // THESE ARE TESTING RESOURCES DO NOT USE IN A PRODUCTION ENVIRONMENT
   const keyArn := "arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126"

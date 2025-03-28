@@ -86,7 +86,7 @@ module TestGetKeys {
     expect activeResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
     expect activeResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes;
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
-  
+
     var hv2ActiveResult :- expect keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := hv2BranchKeyId
