@@ -27,7 +27,7 @@ module GetKeys {
   import UTF8
   import KmsArn
 
-  method GetActiveKeyAndUnwrap(
+  method {:only} GetActiveKeyAndUnwrap(
     input: Types.GetActiveBranchKeyInput,
     logicalKeyStoreName: string,
     kmsConfiguration: Types.KMSConfiguration,
@@ -190,7 +190,8 @@ module GetKeys {
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
-        kmsClient
+        kmsClient,
+        storage
       );
     } else {
       // This else block will never be reached because we have check for hierarchical keyring version before if-else.
@@ -205,9 +206,9 @@ module GetKeys {
     );
 
     return Success(
-      Types.GetActiveBranchKeyOutput(
-        branchKeyMaterials := branchKeyMaterials
-      ));
+        Types.GetActiveBranchKeyOutput(
+          branchKeyMaterials := branchKeyMaterials
+        ));
   }
 
   method GetBranchKeyVersion(
@@ -395,7 +396,8 @@ module GetKeys {
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
-        kmsClient
+        kmsClient,
+        storage
       );
     } else {
       // This else block will never be reached because we have check for hierarchical keyring version before if-else.
@@ -410,10 +412,10 @@ module GetKeys {
     );
 
     return Success(
-      Types.GetBranchKeyVersionOutput(
-        branchKeyMaterials := branchKeyMaterials
-      ));
-    
+        Types.GetBranchKeyVersionOutput(
+          branchKeyMaterials := branchKeyMaterials
+        ));
+
   }
 
   method {:vcs_split_on_every_assert} GetBeaconKeyAndUnwrap(
@@ -577,7 +579,8 @@ module GetKeys {
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
-        kmsClient
+        kmsClient,
+        storage
       );
     } else {
       // This else block will never be reached because we have check for hierarchical keyring version before if-else.
@@ -601,8 +604,39 @@ module GetKeys {
     branchKeyItemFromStorage: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
-    kmsClient: KMS.IKMSClient
+    kmsClient: KMS.IKMSClient,
+    storage: Types.IKeyStorageInterface
   ) returns (result: Result<seq<uint8>, Types.Error>)
+     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
+
+     requires kmsClient.ValidState()
+    modifies kmsClient.Modifies
+    ensures kmsClient.ValidState()
+    
+     ensures result.Success?
+            ==> 
+              && var activeItem := Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.value.Item;
+              
+              && var ciphertextBlob := activeItem.CiphertextBlob;
+
+              && var kmsArnFromStorage := activeItem.KmsArn;
+
+              && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(branchKeyItemFromStorage.EncryptionContext);
+
+
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.KmsArn)
+
+              && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
+
+              && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
+                   ciphertextBlob,
+                   ecToKMS,
+                   kmsArnFromStorage,
+                   kmsConfiguration,
+                   grantTokens,
+                   kmsClient,
+                   Seq.Last(kmsClient.History.Decrypt)
+                 )
   {
     // Get encryption context for KMS
 
