@@ -294,8 +294,8 @@ module {:options "/functionSyntax:4" } Structure {
               //= type=implication
               //# - [Encryption Context](./structures.md#encryption-context-3) MUST be constructed by
               //# [Custom Encryption Context From Authenticated Encryption Context](#custom-encryption-context-from-authenticated-encryption-context)
-              && ExtractCustomEncryptionContext(key.EncryptionContext).Success?
-              && output.value.encryptionContext == ExtractCustomEncryptionContext(key.EncryptionContext).value
+              && LegacyExtractCustomEncryptionContext(key.EncryptionContext).Success?
+              && output.value.encryptionContext == LegacyExtractCustomEncryptionContext(key.EncryptionContext).value
 
               && (forall k <- output.value.encryptionContext
                     ::
@@ -319,7 +319,7 @@ module {:options "/functionSyntax:4" } Structure {
     var branchKeyVersionUtf8 :- UTF8.Encode(branchKeyVersion)
                                 .MapFailure(e => Types.KeyStoreException( message := e ));
 
-    var customEncryptionContext :- ExtractCustomEncryptionContext(key.EncryptionContext);
+    var customEncryptionContext :- LegacyExtractCustomEncryptionContext(key.EncryptionContext);
 
     Success(Types.BranchKeyMaterials(
               branchKeyIdentifier := key.Identifier,
@@ -336,7 +336,7 @@ module {:options "/functionSyntax:4" } Structure {
     requires ActiveHierarchicalSymmetricBeaconKey?(key)
   {
     assert key.EncryptionContext[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE;
-    var customEncryptionContext :- ExtractCustomEncryptionContext(key.EncryptionContext);
+    var customEncryptionContext :- LegacyExtractCustomEncryptionContext(key.EncryptionContext);
 
     Success(Types.BeaconKeyMaterials(
               beaconKeyIdentifier := key.Identifier,
@@ -346,7 +346,11 @@ module {:options "/functionSyntax:4" } Structure {
             ))
   }
 
-  function ExtractCustomEncryptionContext(
+  // TODO-HV1-M4: Should we remove/fix this function? More details in comment below.
+  // This function filters key of EC to includes keys that are greater than length of ENCRYPTION_CONTEXT_PREFIX. 
+  // However, we do not expect all customer provided keys to be prefixed with ENCRYPTION_CONTEXT_PREFIX even in hv1. 
+  // So, if the EC is not prefixed with ENCRYPTION_CONTEXT_PREFIX, this function will be incorrect.
+  function LegacyExtractCustomEncryptionContext(
     encryptionContext: BranchKeyContext
   ): (output: Result<Types.EncryptionContext, Types.Error>)
 
