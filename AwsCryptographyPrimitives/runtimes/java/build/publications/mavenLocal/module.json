@@ -1,0 +1,90 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "software.amazon.cryptography",
+    "module": "AwsCryptographyPrimitives",
+    "version": "1.0-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.6"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "AwsCryptographyPrimitives-1.0-SNAPSHOT.jar",
+          "url": "AwsCryptographyPrimitives-1.0-SNAPSHOT.jar",
+          "size": 379026,
+          "sha512": "805164993c2d5195d8bc35261bde79df010fa2c6b6c9e41ac66bdcdbea6db32ae666aaaf87321ea27e794e7f24b9d07e837b46e3af6357aee3c8ba081ae5f093",
+          "sha256": "28714e378427c8376c8e1df8fd83f64ae151d73ece937d3bdf6af7ff3a79da31",
+          "sha1": "af5a1d7e86c93b336d7e05f6a92480a6669c9db1",
+          "md5": "04048fbb8760d2a75d9078f7b75c796d"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.dafny",
+          "module": "DafnyRuntime",
+          "version": {
+            "requires": "4.9.0"
+          }
+        },
+        {
+          "group": "software.amazon.smithy.dafny",
+          "module": "conversion",
+          "version": {
+            "requires": "0.1.1"
+          }
+        },
+        {
+          "group": "software.amazon.cryptography",
+          "module": "StandardLibrary",
+          "version": {
+            "requires": "1.0-SNAPSHOT"
+          }
+        },
+        {
+          "group": "org.bouncycastle",
+          "module": "bcprov-jdk18on",
+          "version": {
+            "requires": "1.72"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "AwsCryptographyPrimitives-1.0-SNAPSHOT.jar",
+          "url": "AwsCryptographyPrimitives-1.0-SNAPSHOT.jar",
+          "size": 379026,
+          "sha512": "805164993c2d5195d8bc35261bde79df010fa2c6b6c9e41ac66bdcdbea6db32ae666aaaf87321ea27e794e7f24b9d07e837b46e3af6357aee3c8ba081ae5f093",
+          "sha256": "28714e378427c8376c8e1df8fd83f64ae151d73ece937d3bdf6af7ff3a79da31",
+          "sha1": "af5a1d7e86c93b336d7e05f6a92480a6669c9db1",
+          "md5": "04048fbb8760d2a75d9078f7b75c796d"
+        }
+      ]
+    }
+  ]
+}

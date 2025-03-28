@@ -1,0 +1,102 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "software.amazon.cryptography",
+    "module": "ComAmazonawsKms",
+    "version": "1.0-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.6"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "ComAmazonawsKms-1.0-SNAPSHOT.jar",
+          "url": "ComAmazonawsKms-1.0-SNAPSHOT.jar",
+          "size": 623666,
+          "sha512": "8641e57209d22d80985ccf1cda0d5ca916fa4b6c0b67ef361594899f20afe6c2c459601cf6fdc4d3a9e38864ed5b049bb1a104291afc57924377500921a9a951",
+          "sha256": "a6175b868324151a118033f975dc7d66f15278e85a48333a925817e751ed767a",
+          "sha1": "7602fb2bfc231886cc864a2eeec05c46a23cc4f9",
+          "md5": "3ebae267f476300873a6b100440b2657"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.dafny",
+          "module": "DafnyRuntime",
+          "version": {
+            "requires": "4.9.0"
+          }
+        },
+        {
+          "group": "software.amazon.smithy.dafny",
+          "module": "conversion",
+          "version": {
+            "requires": "0.1.1"
+          }
+        },
+        {
+          "group": "software.amazon.cryptography",
+          "module": "StandardLibrary",
+          "version": {
+            "requires": "1.0-SNAPSHOT"
+          }
+        },
+        {
+          "group": "software.amazon.awssdk",
+          "module": "bom",
+          "version": {
+            "requires": "2.26.3"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "software.amazon.awssdk",
+          "module": "kms"
+        },
+        {
+          "group": "software.amazon.awssdk",
+          "module": "apache-client"
+        }
+      ],
+      "files": [
+        {
+          "name": "ComAmazonawsKms-1.0-SNAPSHOT.jar",
+          "url": "ComAmazonawsKms-1.0-SNAPSHOT.jar",
+          "size": 623666,
+          "sha512": "8641e57209d22d80985ccf1cda0d5ca916fa4b6c0b67ef361594899f20afe6c2c459601cf6fdc4d3a9e38864ed5b049bb1a104291afc57924377500921a9a951",
+          "sha256": "a6175b868324151a118033f975dc7d66f15278e85a48333a925817e751ed767a",
+          "sha1": "7602fb2bfc231886cc864a2eeec05c46a23cc4f9",
+          "md5": "3ebae267f476300873a6b100440b2657"
+        }
+      ]
+    }
+  ]
+}

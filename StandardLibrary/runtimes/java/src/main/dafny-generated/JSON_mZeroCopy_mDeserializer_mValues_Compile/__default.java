@@ -1,0 +1,167 @@
+// Class __default
+// Dafny class __default compiled into Java
+package JSON_mZeroCopy_mDeserializer_mValues_Compile;
+
+import Wrappers_Compile.*;
+import Seq_mMergeSort_Compile.*;
+import Math_Compile.*;
+import Seq_Compile.*;
+import BoundedInts_Compile.*;
+import Unicode_Compile.*;
+import Utf8EncodingForm_Compile.*;
+import Utf16EncodingForm_Compile.*;
+import UnicodeStrings_Compile.*;
+import FileIO_Compile.*;
+import MulInternals_Compile.*;
+import ModInternals_Compile.*;
+import DivInternals_Compile.*;
+import Power_Compile.*;
+import Logarithm_Compile.*;
+import StandardLibraryInterop_Compile.*;
+import StandardLibrary_mUInt_Compile.*;
+import StandardLibrary_mSequence_Compile.*;
+import StandardLibrary_mString_Compile.*;
+import StandardLibrary_Compile.*;
+import UUID.*;
+import UTF8.*;
+import OsLang.*;
+import Time.*;
+import Streams_Compile.*;
+import Sorting_Compile.*;
+import HexStrings_Compile.*;
+import GetOpt_Compile.*;
+import FloatCompare_Compile.*;
+import ConcurrentCall.*;
+import Base64_Compile.*;
+import Actions_Compile.*;
+import DafnyLibraries.*;
+import JSON_mUtils_mViews_mCore_Compile.*;
+import JSON_mUtils_mViews_mWriters_Compile.*;
+import JSON_mUtils_mLexers_mCore_Compile.*;
+import JSON_mUtils_mLexers_mStrings_Compile.*;
+import JSON_mUtils_mCursors_Compile.*;
+import JSON_mUtils_mParsers_Compile.*;
+import JSON_mUtils_mStr_mCharStrConversion_Compile.*;
+import JSON_mUtils_mStr_mCharStrEscaping_Compile.*;
+import JSON_mUtils_mStr_Compile.*;
+import JSON_mUtils_mVectors_Compile.*;
+import JSON_mErrors_Compile.*;
+import JSON_mValues_Compile.*;
+import JSON_mSpec_Compile.*;
+import JSON_mGrammar_Compile.*;
+import JSON_mSerializer_mByteStrConversion_Compile.*;
+import JSON_mSerializer_Compile.*;
+import JSON_mDeserializer_mUint16StrConversion_Compile.*;
+import JSON_mDeserializer_mByteStrConversion_Compile.*;
+import JSON_mDeserializer_Compile.*;
+import JSON_mConcreteSyntax_mSpec_Compile.*;
+import JSON_mZeroCopy_mSerializer_Compile.*;
+import JSON_mZeroCopy_mDeserializer_mCore_Compile.*;
+import JSON_mZeroCopy_mDeserializer_mStrings_Compile.*;
+import JSON_mZeroCopy_mDeserializer_mNumbers_Compile.*;
+import JSON_mZeroCopy_mDeserializer_mObjectParams_Compile.*;
+import JSON_mZeroCopy_mDeserializer_mObjects_Compile.*;
+import JSON_mZeroCopy_mDeserializer_mArrayParams_Compile.*;
+import JSON_mZeroCopy_mDeserializer_mArrays_Compile.*;
+import JSON_mZeroCopy_mDeserializer_mConstants_Compile.*;
+
+@SuppressWarnings({"unchecked", "deprecation"})
+public class __default {
+  public __default() {
+  }
+  public static Wrappers_Compile.Result<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>> Value(JSON_mUtils_mCursors_Compile.Cursor__ cs) {
+    short _0_c = (cs).Peek();
+    if ((_0_c) == (((short) ('{')))) {
+      Wrappers_Compile.Result<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.jKeyValue, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>> _1_valueOrError0 = JSON_mZeroCopy_mDeserializer_mObjects_Compile.__default.Object(cs, __default.ValueParser(cs));
+      if ((_1_valueOrError0).IsFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.jKeyValue, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>>_typeDescriptor(JSON_mGrammar_Compile.Bracketed.<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.jKeyValue, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mGrammar_Compile.jlbrace._typeDescriptor(), JSON_mGrammar_Compile.jKeyValue._typeDescriptor(), JSON_mGrammar_Compile.jcomma._typeDescriptor(), JSON_mGrammar_Compile.jrbrace._typeDescriptor())), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()))) {
+        return (_1_valueOrError0).<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>>PropagateFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.jKeyValue, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>>_typeDescriptor(JSON_mGrammar_Compile.Bracketed.<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.jKeyValue, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mGrammar_Compile.jlbrace._typeDescriptor(), JSON_mGrammar_Compile.jKeyValue._typeDescriptor(), JSON_mGrammar_Compile.jcomma._typeDescriptor(), JSON_mGrammar_Compile.jrbrace._typeDescriptor())), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()));
+      } else {
+        JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.jKeyValue, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>> _let_tmp_rhs0 = (_1_valueOrError0).Extract(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.jKeyValue, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>>_typeDescriptor(JSON_mGrammar_Compile.Bracketed.<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.jKeyValue, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mGrammar_Compile.jlbrace._typeDescriptor(), JSON_mGrammar_Compile.jKeyValue._typeDescriptor(), JSON_mGrammar_Compile.jcomma._typeDescriptor(), JSON_mGrammar_Compile.jrbrace._typeDescriptor())), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()));
+        JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.jKeyValue, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__> _2_obj = ((JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.jKeyValue, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>>)_let_tmp_rhs0)._t;
+        JSON_mUtils_mCursors_Compile.Cursor__ _3_cs_k = ((JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.jKeyValue, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>>)_let_tmp_rhs0)._cs;
+        JSON_mGrammar_Compile.Value _4_v = JSON_mGrammar_Compile.Value.create_Object(_2_obj);
+        JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value> _5_sp = JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>create(JSON_mGrammar_Compile.Value._typeDescriptor(), _4_v, _3_cs_k);
+        return Wrappers_Compile.Result.<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>>create_Success(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), _5_sp);
+      }
+    } else if ((_0_c) == (((short) ('[')))) {
+      Wrappers_Compile.Result<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.Value, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>> _6_valueOrError1 = JSON_mZeroCopy_mDeserializer_mArrays_Compile.__default.Array(cs, __default.ValueParser(cs));
+      if ((_6_valueOrError1).IsFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.Value, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>>_typeDescriptor(JSON_mGrammar_Compile.Bracketed.<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.Value, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mGrammar_Compile.jlbracket._typeDescriptor(), JSON_mGrammar_Compile.Value._typeDescriptor(), JSON_mGrammar_Compile.jcomma._typeDescriptor(), JSON_mGrammar_Compile.jrbracket._typeDescriptor())), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()))) {
+        return (_6_valueOrError1).<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>>PropagateFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.Value, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>>_typeDescriptor(JSON_mGrammar_Compile.Bracketed.<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.Value, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mGrammar_Compile.jlbracket._typeDescriptor(), JSON_mGrammar_Compile.Value._typeDescriptor(), JSON_mGrammar_Compile.jcomma._typeDescriptor(), JSON_mGrammar_Compile.jrbracket._typeDescriptor())), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()));
+      } else {
+        JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.Value, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>> _let_tmp_rhs1 = (_6_valueOrError1).Extract(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.Value, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>>_typeDescriptor(JSON_mGrammar_Compile.Bracketed.<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.Value, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mGrammar_Compile.jlbracket._typeDescriptor(), JSON_mGrammar_Compile.Value._typeDescriptor(), JSON_mGrammar_Compile.jcomma._typeDescriptor(), JSON_mGrammar_Compile.jrbracket._typeDescriptor())), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()));
+        JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.Value, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__> _7_arr = ((JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.Value, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>>)_let_tmp_rhs1)._t;
+        JSON_mUtils_mCursors_Compile.Cursor__ _8_cs_k = ((JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Bracketed<JSON_mUtils_mViews_mCore_Compile.View__, JSON_mGrammar_Compile.Value, JSON_mUtils_mViews_mCore_Compile.View__, JSON_mUtils_mViews_mCore_Compile.View__>>)_let_tmp_rhs1)._cs;
+        JSON_mGrammar_Compile.Value _9_v = JSON_mGrammar_Compile.Value.create_Array(_7_arr);
+        JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value> _10_sp = JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>create(JSON_mGrammar_Compile.Value._typeDescriptor(), _9_v, _8_cs_k);
+        return Wrappers_Compile.Result.<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>>create_Success(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), _10_sp);
+      }
+    } else if ((_0_c) == (((short) ('\"')))) {
+      Wrappers_Compile.Result<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.jstring>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>> _11_valueOrError2 = JSON_mZeroCopy_mDeserializer_mStrings_Compile.__default.String(cs);
+      if ((_11_valueOrError2).IsFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.jstring>_typeDescriptor(JSON_mGrammar_Compile.jstring._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()))) {
+        return (_11_valueOrError2).<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>>PropagateFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.jstring>_typeDescriptor(JSON_mGrammar_Compile.jstring._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()));
+      } else {
+        JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.jstring> _let_tmp_rhs2 = (_11_valueOrError2).Extract(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.jstring>_typeDescriptor(JSON_mGrammar_Compile.jstring._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()));
+        JSON_mGrammar_Compile.jstring _12_str = ((JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.jstring>)_let_tmp_rhs2)._t;
+        JSON_mUtils_mCursors_Compile.Cursor__ _13_cs_k = ((JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.jstring>)_let_tmp_rhs2)._cs;
+        return Wrappers_Compile.Result.<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>>create_Success(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>create(JSON_mGrammar_Compile.Value._typeDescriptor(), JSON_mGrammar_Compile.Value.create_String(_12_str), _13_cs_k));
+      }
+    } else if ((_0_c) == (((short) ('t')))) {
+      Wrappers_Compile.Result<JSON_mUtils_mCursors_Compile.Split<JSON_mUtils_mViews_mCore_Compile.View__>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>> _14_valueOrError3 = JSON_mZeroCopy_mDeserializer_mConstants_Compile.__default.Constant(cs, JSON_mGrammar_Compile.__default.TRUE());
+      if ((_14_valueOrError3).IsFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mUtils_mViews_mCore_Compile.View._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()))) {
+        return (_14_valueOrError3).<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>>PropagateFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mUtils_mViews_mCore_Compile.View._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()));
+      } else {
+        JSON_mUtils_mCursors_Compile.Split<JSON_mUtils_mViews_mCore_Compile.View__> _let_tmp_rhs3 = (_14_valueOrError3).Extract(JSON_mUtils_mCursors_Compile.Split.<JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mUtils_mViews_mCore_Compile.View._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()));
+        JSON_mUtils_mViews_mCore_Compile.View__ _15_cst = ((JSON_mUtils_mCursors_Compile.Split<JSON_mUtils_mViews_mCore_Compile.View__>)_let_tmp_rhs3)._t;
+        JSON_mUtils_mCursors_Compile.Cursor__ _16_cs_k = ((JSON_mUtils_mCursors_Compile.Split<JSON_mUtils_mViews_mCore_Compile.View__>)_let_tmp_rhs3)._cs;
+        return Wrappers_Compile.Result.<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>>create_Success(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>create(JSON_mGrammar_Compile.Value._typeDescriptor(), JSON_mGrammar_Compile.Value.create_Bool(_15_cst), _16_cs_k));
+      }
+    } else if ((_0_c) == (((short) ('f')))) {
+      Wrappers_Compile.Result<JSON_mUtils_mCursors_Compile.Split<JSON_mUtils_mViews_mCore_Compile.View__>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>> _17_valueOrError4 = JSON_mZeroCopy_mDeserializer_mConstants_Compile.__default.Constant(cs, JSON_mGrammar_Compile.__default.FALSE());
+      if ((_17_valueOrError4).IsFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mUtils_mViews_mCore_Compile.View._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()))) {
+        return (_17_valueOrError4).<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>>PropagateFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mUtils_mViews_mCore_Compile.View._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()));
+      } else {
+        JSON_mUtils_mCursors_Compile.Split<JSON_mUtils_mViews_mCore_Compile.View__> _let_tmp_rhs4 = (_17_valueOrError4).Extract(JSON_mUtils_mCursors_Compile.Split.<JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mUtils_mViews_mCore_Compile.View._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()));
+        JSON_mUtils_mViews_mCore_Compile.View__ _18_cst = ((JSON_mUtils_mCursors_Compile.Split<JSON_mUtils_mViews_mCore_Compile.View__>)_let_tmp_rhs4)._t;
+        JSON_mUtils_mCursors_Compile.Cursor__ _19_cs_k = ((JSON_mUtils_mCursors_Compile.Split<JSON_mUtils_mViews_mCore_Compile.View__>)_let_tmp_rhs4)._cs;
+        return Wrappers_Compile.Result.<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>>create_Success(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>create(JSON_mGrammar_Compile.Value._typeDescriptor(), JSON_mGrammar_Compile.Value.create_Bool(_18_cst), _19_cs_k));
+      }
+    } else if ((_0_c) == (((short) ('n')))) {
+      Wrappers_Compile.Result<JSON_mUtils_mCursors_Compile.Split<JSON_mUtils_mViews_mCore_Compile.View__>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>> _20_valueOrError5 = JSON_mZeroCopy_mDeserializer_mConstants_Compile.__default.Constant(cs, JSON_mGrammar_Compile.__default.NULL());
+      if ((_20_valueOrError5).IsFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mUtils_mViews_mCore_Compile.View._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()))) {
+        return (_20_valueOrError5).<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>>PropagateFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mUtils_mViews_mCore_Compile.View._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()));
+      } else {
+        JSON_mUtils_mCursors_Compile.Split<JSON_mUtils_mViews_mCore_Compile.View__> _let_tmp_rhs5 = (_20_valueOrError5).Extract(JSON_mUtils_mCursors_Compile.Split.<JSON_mUtils_mViews_mCore_Compile.View__>_typeDescriptor(JSON_mUtils_mViews_mCore_Compile.View._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()));
+        JSON_mUtils_mViews_mCore_Compile.View__ _21_cst = ((JSON_mUtils_mCursors_Compile.Split<JSON_mUtils_mViews_mCore_Compile.View__>)_let_tmp_rhs5)._t;
+        JSON_mUtils_mCursors_Compile.Cursor__ _22_cs_k = ((JSON_mUtils_mCursors_Compile.Split<JSON_mUtils_mViews_mCore_Compile.View__>)_let_tmp_rhs5)._cs;
+        return Wrappers_Compile.Result.<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>>create_Success(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>create(JSON_mGrammar_Compile.Value._typeDescriptor(), JSON_mGrammar_Compile.Value.create_Null(_21_cst), _22_cs_k));
+      }
+    } else {
+      Wrappers_Compile.Result<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.jnumber>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>> _23_valueOrError6 = JSON_mZeroCopy_mDeserializer_mNumbers_Compile.__default.Number(cs);
+      if ((_23_valueOrError6).IsFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.jnumber>_typeDescriptor(JSON_mGrammar_Compile.jnumber._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()))) {
+        return (_23_valueOrError6).<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>>PropagateFailure(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.jnumber>_typeDescriptor(JSON_mGrammar_Compile.jnumber._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()));
+      } else {
+        JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.jnumber> _let_tmp_rhs6 = (_23_valueOrError6).Extract(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.jnumber>_typeDescriptor(JSON_mGrammar_Compile.jnumber._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()));
+        JSON_mGrammar_Compile.jnumber _24_num = ((JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.jnumber>)_let_tmp_rhs6)._t;
+        JSON_mUtils_mCursors_Compile.Cursor__ _25_cs_k = ((JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.jnumber>)_let_tmp_rhs6)._cs;
+        JSON_mGrammar_Compile.Value _26_v = JSON_mGrammar_Compile.Value.create_Number(_24_num);
+        JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value> _27_sp = JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>create(JSON_mGrammar_Compile.Value._typeDescriptor(), _26_v, _25_cs_k);
+        return Wrappers_Compile.Result.<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>>create_Success(JSON_mUtils_mCursors_Compile.Split.<JSON_mGrammar_Compile.Value>_typeDescriptor(JSON_mGrammar_Compile.Value._typeDescriptor()), JSON_mUtils_mCursors_Compile.CursorError.<JSON_mErrors_Compile.DeserializationError>_typeDescriptor(JSON_mErrors_Compile.DeserializationError._typeDescriptor()), _27_sp);
+      }
+    }
+  }
+  public static JSON_mUtils_mParsers_Compile.SubParser__<JSON_mGrammar_Compile.Value, JSON_mErrors_Compile.DeserializationError> ValueParser(JSON_mUtils_mCursors_Compile.Cursor__ cs) {
+    java.util.function.Function<JSON_mUtils_mCursors_Compile.Cursor__, Boolean> _0_pre = ((java.util.function.Function<JSON_mUtils_mCursors_Compile.Cursor__, java.util.function.Function<JSON_mUtils_mCursors_Compile.Cursor__, Boolean>>)(_1_cs) -> ((java.util.function.Function<JSON_mUtils_mCursors_Compile.Cursor__, Boolean>)(_2_ps_k_boxed0) -> {
+      JSON_mUtils_mCursors_Compile.Cursor__ _2_ps_k = ((JSON_mUtils_mCursors_Compile.Cursor__)(java.lang.Object)(_2_ps_k_boxed0));
+      return java.lang.Integer.compareUnsigned((_2_ps_k).Length(), (_1_cs).Length()) < 0;
+    })).apply(cs);
+    java.util.function.Function<JSON_mUtils_mCursors_Compile.Cursor__, Wrappers_Compile.Result<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>>> _3_fn = ((java.util.function.Function<java.util.function.Function<JSON_mUtils_mCursors_Compile.Cursor__, Boolean>, java.util.function.Function<JSON_mUtils_mCursors_Compile.Cursor__, Wrappers_Compile.Result<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>>>>)(_4_pre) -> ((java.util.function.Function<JSON_mUtils_mCursors_Compile.Cursor__, Wrappers_Compile.Result<JSON_mUtils_mCursors_Compile.Split<JSON_mGrammar_Compile.Value>, JSON_mUtils_mCursors_Compile.CursorError<JSON_mErrors_Compile.DeserializationError>>>)(_5_ps_k_boxed0) -> {
+      JSON_mUtils_mCursors_Compile.Cursor__ _5_ps_k = ((JSON_mUtils_mCursors_Compile.Cursor__)(java.lang.Object)(_5_ps_k_boxed0));
+      return __default.Value(_5_ps_k);
+    })).apply(_0_pre);
+    return JSON_mUtils_mParsers_Compile.SubParser__.<JSON_mGrammar_Compile.Value, JSON_mErrors_Compile.DeserializationError>create(JSON_mGrammar_Compile.Value._typeDescriptor(), JSON_mErrors_Compile.DeserializationError._typeDescriptor(), _3_fn);
+  }
+  @Override
+  public java.lang.String toString() {
+    return "JSON.ZeroCopy.Deserializer.Values._default";
+  }
+}

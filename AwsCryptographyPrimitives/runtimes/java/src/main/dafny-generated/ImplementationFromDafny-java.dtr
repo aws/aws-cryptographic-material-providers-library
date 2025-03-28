@@ -1,0 +1,40 @@
+file_format_version = "1.0"
+dafny_version = "4.9.0.0"
+[options_by_module.AwsCryptographyPrimitivesTypes]
+legacy-module-names = true
+[options_by_module.AbstractAwsCryptographyPrimitivesOperations]
+legacy-module-names = true
+[options_by_module.AbstractAwsCryptographyPrimitivesService]
+legacy-module-names = true
+[options_by_module.ExternRandom]
+legacy-module-names = true
+[options_by_module.Random]
+legacy-module-names = true
+[options_by_module.AESEncryption]
+legacy-module-names = true
+[options_by_module.ExternDigest]
+legacy-module-names = true
+[options_by_module.Digest]
+legacy-module-names = true
+[options_by_module.HMAC]
+legacy-module-names = true
+[options_by_module.WrappedHMAC]
+legacy-module-names = true
+[options_by_module.HKDF]
+legacy-module-names = true
+[options_by_module.WrappedHKDF]
+legacy-module-names = true
+[options_by_module.Signature]
+legacy-module-names = true
+[options_by_module.KdfCtr]
+legacy-module-names = true
+[options_by_module.RSAEncryption]
+legacy-module-names = true
+[options_by_module.ECDH]
+legacy-module-names = true
+[options_by_module.AwsCryptographyPrimitivesOperations]
+legacy-module-names = true
+[options_by_module.AtomicPrimitives]
+legacy-module-names = true
+[options_by_module.AesKdfCtr]
+legacy-module-names = true

@@ -1,0 +1,98 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "software.amazon.cryptography",
+    "module": "ComAmazonawsDynamodb",
+    "version": "1.0-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.6"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "ComAmazonawsDynamodb-1.0-SNAPSHOT.jar",
+          "url": "ComAmazonawsDynamodb-1.0-SNAPSHOT.jar",
+          "size": 1026646,
+          "sha512": "ee7cac97fb5056aaa152d400b596a4aeae3d98022d8d3fb038666c52bfa20affcc2ab5821a2a48bf57e5f11d44120e7e08ea660183145b283807f762df3e9d34",
+          "sha256": "72680994183fe5ed51ac0004e3a3153afeeccf74aa72dc562d72b38fb3cba8d4",
+          "sha1": "1a8dc1b3704bbfb4d3adfca4b720fb0a98438ed4",
+          "md5": "4e267a96ba7e1416c34b39d35340aa00"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.dafny",
+          "module": "DafnyRuntime",
+          "version": {
+            "requires": "4.9.0"
+          }
+        },
+        {
+          "group": "software.amazon.cryptography",
+          "module": "StandardLibrary",
+          "version": {
+            "requires": "1.0-SNAPSHOT"
+          }
+        },
+        {
+          "group": "software.amazon.smithy.dafny",
+          "module": "conversion",
+          "version": {
+            "requires": "0.1.1"
+          }
+        },
+        {
+          "group": "software.amazon.awssdk",
+          "module": "bom",
+          "version": {
+            "requires": "2.26.3"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          },
+          "endorseStrictVersions": true
+        },
+        {
+          "group": "software.amazon.awssdk",
+          "module": "dynamodb"
+        }
+      ],
+      "files": [
+        {
+          "name": "ComAmazonawsDynamodb-1.0-SNAPSHOT.jar",
+          "url": "ComAmazonawsDynamodb-1.0-SNAPSHOT.jar",
+          "size": 1026646,
+          "sha512": "ee7cac97fb5056aaa152d400b596a4aeae3d98022d8d3fb038666c52bfa20affcc2ab5821a2a48bf57e5f11d44120e7e08ea660183145b283807f762df3e9d34",
+          "sha256": "72680994183fe5ed51ac0004e3a3153afeeccf74aa72dc562d72b38fb3cba8d4",
+          "sha1": "1a8dc1b3704bbfb4d3adfca4b720fb0a98438ed4",
+          "md5": "4e267a96ba7e1416c34b39d35340aa00"
+        }
+      ]
+    }
+  ]
+}
