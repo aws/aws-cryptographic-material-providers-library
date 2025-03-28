@@ -442,7 +442,7 @@ module {:options "/functionSyntax:4" } Structure {
     map i <- defixedCustomEncryptionContext :: i.0 := i.1
   }
 
-
+  // TODO-HV-2-M1-FF: Refactor EncryptionContext usage into BranchKeyContext
   opaque function DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
@@ -483,6 +483,7 @@ module {:options "/functionSyntax:4" } Structure {
     ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
   }
 
+  // TODO-HV-2-M1-FF: Refactor EncryptionContext usage into BranchKeyContext
   function ActiveBranchKeyEncryptionContext(
     decryptOnlyEncryptionContext: map<string, string>
   ): (output: map<string, string>)
@@ -499,6 +500,7 @@ module {:options "/functionSyntax:4" } Structure {
     ]
   }
 
+  // TODO-HV-2-M1-FF: Refactor EncryptionContext usage into BranchKeyContext
   function BeaconKeyEncryptionContext(
     decryptOnlyEncryptionContext: map<string, string>
   ): (output: map<string, string>)
