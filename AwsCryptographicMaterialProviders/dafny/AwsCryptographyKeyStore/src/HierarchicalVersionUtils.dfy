@@ -13,7 +13,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   import UTF8
   import CanonicalEncryptionContext
   import Types = AwsCryptographyKeyStoreTypes
-  
+
   type PlainTextTuple = s: seq<uint8> | |s| == 80 witness *
   type BKCDigestError = e: Types.Error | (e.KeyStoreException? ) witness *
 
