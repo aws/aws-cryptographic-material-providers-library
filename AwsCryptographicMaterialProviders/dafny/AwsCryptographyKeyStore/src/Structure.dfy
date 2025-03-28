@@ -347,8 +347,8 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   // TODO-HV1-M4: Should we remove/fix this function? More details in comment below.
-  // This function filters key of EC to includes keys that are greater than length of ENCRYPTION_CONTEXT_PREFIX. 
-  // However, we do not expect all customer provided keys to be prefixed with ENCRYPTION_CONTEXT_PREFIX even in hv1. 
+  // This function filters key of EC to includes keys that are greater than length of ENCRYPTION_CONTEXT_PREFIX.
+  // However, we do not expect all customer provided keys to be prefixed with ENCRYPTION_CONTEXT_PREFIX even in hv1.
   // So, if the EC is not prefixed with ENCRYPTION_CONTEXT_PREFIX, this function will be incorrect.
   function LegacyExtractCustomEncryptionContext(
     encryptionContext: BranchKeyContext
