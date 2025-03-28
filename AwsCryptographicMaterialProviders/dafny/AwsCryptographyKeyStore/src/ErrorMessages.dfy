@@ -53,4 +53,17 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
     "Create key store is only supported with legacy configurations. \n" +
     "For details on how to create a DDB table manually see:\n" +
     "https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/use-hierarchical-keyring.html#hierarchical-keyring-prereqs"
+
+  const INVALID_HIERARCHY_VERSION :=
+    "Invalid hierarchy version. Expected version 1 or 2."
+
+  const INVALID_BRANCH_KEY_CONTEXT :=
+    "The branch key item is missing a required attribute. The branch key item might have been tampered with."
+
+  const KMS_DECRYPT_INVALID_KEY_LENGTH_HV1 :=
+    "Invalid response from AWS KMS Decrypt: Plaintext is not 32 bytes. This could mean the persisted branch key Item has been tampered."
+
+  const KMS_DECRYPT_INVALID_KEY_LENGTH_HV2 :=
+    "Invalid response from AWS KMS Decrypt: Plaintext is not 80 bytes. This could mean the persisted branch key Item has been tampered."
+
 }
