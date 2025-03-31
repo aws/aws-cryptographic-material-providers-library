@@ -104,7 +104,7 @@ module GetKeys {
 
               && var kmsArnFromStorage := activeItem.KmsArn;
 
-              && HvUtils.HasUniqueTransformedKeys?(versionItem.EncryptionContext)
+              && HvUtils.HasUniqueTransformedKeys?(activeItem.EncryptionContext)
 
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(activeItem.EncryptionContext);
 
@@ -211,6 +211,12 @@ module GetKeys {
       );
       plainTextKey := branchKey.Plaintext.value;
     } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
+      :- Need(
+        HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
+        Types.KeyStoreException(
+          message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
+        )
+      );
       plainTextKey :- DecryptAndValidateKey (
         branchKeyItemFromStorage,
         kmsConfiguration,
@@ -547,7 +553,7 @@ module GetKeys {
 
               && var kmsArnFromStorage := beaconItem.KmsArn;
 
-              && HvUtils.HasUniqueTransformedKeys?(versionItem.EncryptionContext)
+              && HvUtils.HasUniqueTransformedKeys?(beaconItem.EncryptionContext)
 
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(beaconItem.EncryptionContext);
 
@@ -654,6 +660,12 @@ module GetKeys {
       );
       plainTextKey := branchKey.Plaintext.value;
     } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
+      :- Need(
+        HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
+        Types.KeyStoreException(
+          message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
+        )
+      );
       plainTextKey :- DecryptAndValidateKey (
         branchKeyItemFromStorage,
         kmsConfiguration,
@@ -703,7 +715,7 @@ module GetKeys {
 
               && var kmsArnFromStorage := activeItem.KmsArn;
 
-              && HvUtils.HasUniqueTransformedKeys?(versionItem.EncryptionContext)
+              && HvUtils.HasUniqueTransformedKeys?(activeItem.EncryptionContext)
 
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(branchKeyItemFromStorage.EncryptionContext);
 
