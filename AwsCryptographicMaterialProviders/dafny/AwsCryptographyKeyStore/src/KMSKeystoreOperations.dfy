@@ -23,7 +23,12 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import KmsArn
   import ErrorMessages = KeyStoreErrorMessages
 
-  type KmsError = e: Types.Error | (e.ComAmazonawsKms? || e.KeyManagementException?) witness *
+  type KmsError = e: Types.Error | (
+        || e.ComAmazonawsKms?
+        || e.KeyManagementException?
+        || e.KeyStoreException?
+        || e.BranchKeyCiphertextException?
+      ) witness *
 
   function replaceRegion(arn : KMS.KeyIdType, region : KMS.RegionType) : KMS.KeyIdType
   {
@@ -637,7 +642,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
-    returns (output: Result<KMS.DecryptResponse, Types.Error>)
+    returns (output: Result<KMS.DecryptResponse, KmsError>)
     requires Structure.EncryptedHierarchicalKeyFromStorage?(encryptedKey)
 
     requires kmsClient.ValidState()
@@ -715,7 +720,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
-    returns (output: Result<KMS.DecryptResponse, Types.Error>)
+    returns (output: Result<KMS.DecryptResponse, KmsError>)
 
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
