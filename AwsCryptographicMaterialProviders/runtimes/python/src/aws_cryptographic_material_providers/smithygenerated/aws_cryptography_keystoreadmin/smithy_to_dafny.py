@@ -754,3 +754,7 @@ def aws_cryptography_keystoreadmin_KmsClientReference(native_input):
     )
     client.value.impl = native_input
     return client.value
+
+
+def aws_cryptography_keystoreadmin_PrimitivesReference(native_input):
+    return native_input._config.dafnyImplInterface.impl
