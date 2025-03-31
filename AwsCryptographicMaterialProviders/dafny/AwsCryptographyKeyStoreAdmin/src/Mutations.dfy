@@ -276,7 +276,6 @@ module {:options "/functionSyntax:4" } Mutations {
           grantTokens := kmsD.grantTokens,
           kmsClient := kmsD.kmsClient);
         if (decryptedKey?.Failure?) {
-          // TODO-HV-2-M1?: Cast Error Types
           var error := MutationErrorRefinement.MutateExceptionParse(
             item := input.item,
             error := decryptedKey?.error,
