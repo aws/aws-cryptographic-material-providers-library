@@ -100,6 +100,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     match error {
       case Opaque(obj) => None
       case KeyManagementException(s) => None
+      case BranchKeyCiphertextException(s) => None
       case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
         match comAmazonawsKms {
           case Opaque(obj) => Some(comAmazonawsKms)
@@ -116,6 +117,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     match error {
       case Opaque(obj) => None
       case KeyManagementException(s) => Some(s)
+      case BranchKeyCiphertextException(s) => Some(s)
       case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
         match comAmazonawsKms {
           case Opaque(obj) => None

@@ -26,7 +26,6 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   type KmsError = e: Types.Error | (
         || e.ComAmazonawsKms?
         || e.KeyManagementException?
-        || e.KeyStoreException?
         || e.BranchKeyCiphertextException?
       ) witness *
 
@@ -679,7 +678,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
          // has dropped to 0 or exceeds the KMS limit.
          // So the error message is left unchanged.
       && KMS.IsValid_CiphertextType(encryptedKey.CiphertextBlob),
-      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+      Types.KeyManagementException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
     );
 
     :- Need(
@@ -704,7 +703,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && 32 == |decryptResponse.Plaintext.value|
       && encryptedKey.EncryptionContext[Structure.HIERARCHY_VERSION]
          == Structure.HIERARCHY_VERSION_VALUE_1,
-      Types.KeyStoreException(
+      Types.KeyManagementException(
         message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV1)
     );
 
@@ -755,7 +754,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
          // has dropped to 0 or exceeds the KMS limit.
          // So the error message is left unchanged.
       && KMS.IsValid_CiphertextType(ciphertextBlob),
-      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+      Types.KeyManagementException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
     );
     :- Need(
       AttemptKmsOperation?(kmsConfiguration, kmsArnFromStorage),
