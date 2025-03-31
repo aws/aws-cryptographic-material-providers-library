@@ -352,7 +352,6 @@ module GetKeys {
 
                  else false
 
-                      // && var versionEncryptionContext := Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName);
                       && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
 
                       && Structure.ToBranchKeyMaterials(versionItem, decryptResponse.Plaintext.value).Success?
@@ -689,7 +688,7 @@ module GetKeys {
   ) returns (result: Result<seq<uint8>, Types.Error>)
 
     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
-    
+
     requires HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
 
     requires kmsClient.ValidState()
