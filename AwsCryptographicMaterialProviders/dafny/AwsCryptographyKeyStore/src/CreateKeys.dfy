@@ -75,6 +75,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                                                        timestamp,
                                                        logicalKeyStoreName,
                                                        KMSKeystoreOperations.GetKeyId(kmsConfiguration),
+                                                       Types.HierarchyVersion.v1,
                                                        customEncryptionContext
                                                      );
 
@@ -232,6 +233,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       timestamp,
       logicalKeyStoreName,
       KMSKeystoreOperations.GetKeyId(kmsConfiguration),
+      Types.HierarchyVersion.v1,
       customEncryptionContext
     );
     var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
