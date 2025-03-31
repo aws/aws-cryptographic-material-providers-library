@@ -6,7 +6,9 @@ module {:options "/functionSyntax:4" } KmsUtils {
   import opened Wrappers
   import KMS = Com.Amazonaws.Kms
   import KMSKeystoreOperations
-  import KeyStoreTypes = KeyStoreOperations.Types
+  import KeyStoreTypes = KMSKeystoreOperations.Types
+  import Types = AwsCryptographyKeyStoreAdminTypes
+  import KmsArn
 
   datatype KMSTuple = | KMSTuple(
     kmsClient: KMS.Types.IKMSClient,
@@ -124,16 +126,16 @@ module {:options "/functionSyntax:4" } KmsUtils {
   }
 
   function KmsSymmetricKeyArnToKMSConfiguration(
-    kmsArn: Types.KmsSymmetricKeyArn
+    kmsSymmetricArn: Types.KmsSymmetricKeyArn
   ): (output: Result<KeyStoreTypes.KMSConfiguration, Types.Error>)
   {
-    var _ :- KmsArn.IsValidKeyArn(match kmsArn
+    var _ :- KmsArn.IsValidKeyArn(match kmsSymmetricArn
                                   case KmsKeyArn(kmsKeyArn) => kmsKeyArn
                                   case KmsMRKeyArn(kmsMRKeyArn) => kmsMRKeyArn)
              .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
-    match kmsArn
-    case KmsKeyArn(kmsKeyArn) => KeyStoreOperations.Types.kmsKeyArn(kmsKeyArn)
-    case KmsMRKeyArn(kmsMRKeyArn) => KeyStoreOperations.Types.kmsMRKeyArn(kmsMRKeyArn)
+    match kmsSymmetricArn
+    case KmsKeyArn(kmsKeyArn) => Success(KeyStoreTypes.kmsKeyArn(kmsKeyArn))
+    case KmsMRKeyArn(kmsMRKeyArn) => Success(KeyStoreTypes.kmsMRKeyArn(kmsMRKeyArn))
   }
 
 }

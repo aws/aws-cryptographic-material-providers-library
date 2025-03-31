@@ -301,11 +301,9 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
-    returns (res: Result<KMS.EncryptResponse, KmsError>)
+    returns (res: Result<KMS.CiphertextType, KmsError>)
     requires kmsClient.ValidState()
-    // TODO-HV-2-M2: Refactor to use EncryptKey for both HV-1 & HV-2 keys during Mutations
     requires |plaintext| == 80 || |plaintext| == 32
-    // TODO-HV-2-M2: We want to check the EC for `"hierarchy-version" == 1` as well
     requires |plaintext| == 32 ==> (
                  && Structure.BranchKeyContext?(encryptionContext)
                  && encryptionContext[Structure.KMS_FIELD] == kmsArnToStorage
@@ -315,24 +313,28 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
     ensures
-      && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
-      && var kmsKeyArn := GetKeyId(kmsConfiguration);
-      && KMS.EncryptRequest(
-           KeyId := kmsKeyArn,
-           Plaintext := plaintext,
-           EncryptionContext := Some(encryptionContext),
-           GrantTokens := Some(grantTokens)
-         )
-         == Seq.Last(kmsClient.History.Encrypt).input
-      && old(kmsClient.History.Decrypt) == kmsClient.History.Decrypt
+      res.Success?
+      ==>
+        && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
+        && var kmsKeyArn := GetKeyId(kmsConfiguration);
+        && old(kmsClient.History.Decrypt) == kmsClient.History.Decrypt
 
-    ensures res.Success? ==>
-              && res.value.KeyId.Some?
-              && res.value.CiphertextBlob.Some?
-              && KMS.IsValid_CiphertextType(res.value.CiphertextBlob.value)
-              && var kmsOperationOutput := Seq.Last(kmsClient.History.Encrypt).output;
-              && kmsOperationOutput.Success?
-              && kmsOperationOutput.value == res.value
+        && var encryptInput := Seq.Last(kmsClient.History.Encrypt).input;
+        && KMS.EncryptRequest(
+             KeyId := kmsKeyArn,
+             Plaintext := plaintext,
+             EncryptionContext := Some(encryptionContext),
+             GrantTokens := Some(grantTokens)
+           ) == encryptInput
+
+        && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
+        && var encryptResponse := Seq.Last(kmsClient.History.Encrypt).output;
+        && encryptResponse.Success?
+        && encryptResponse.value.CiphertextBlob.Some?
+        && encryptResponse.value.KeyId.Some?
+        && encryptResponse.value.KeyId.value == kmsKeyArn // kmsKeyArn
+        && KMS.IsValid_CiphertextType(encryptResponse.value.CiphertextBlob.value)
+        && encryptResponse.value.CiphertextBlob.value == res.value
   {
     var kmsKeyArn := GetKeyId(kmsConfiguration);
     var kmsEncryptRequest := KMS.EncryptRequest(
@@ -360,7 +362,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         message := "Invalid response from AWS KMS Encrypt: KMS Key ID of response did not match request."
       )
     );
-    return Success(encryptResponse);
+    return Success(encryptResponse.CiphertextBlob.value);
   }
 
   method VerifyViaDecryptEncryptKey(
@@ -663,6 +665,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && output.value == Seq.Last(kmsClient.History.Decrypt).output.value
               && output.value.Plaintext.Some?
               && 32 == |output.value.Plaintext.value|
+              && encryptedKey.EncryptionContext[Structure.HIERARCHY_VERSION]
+                 == Structure.HIERARCHY_VERSION_VALUE_1
   {
     :- Need(
       && KmsArn.ValidKmsArn?(encryptedKey.KmsArn)
@@ -693,7 +697,9 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
     :- Need(
       && decryptResponse.Plaintext.Some?
-      && 32 == |decryptResponse.Plaintext.value|,
+      && 32 == |decryptResponse.Plaintext.value|
+      && encryptedKey.EncryptionContext[Structure.HIERARCHY_VERSION]
+         == Structure.HIERARCHY_VERSION_VALUE_1,
       Types.KeyStoreException(
         message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV1)
     );
