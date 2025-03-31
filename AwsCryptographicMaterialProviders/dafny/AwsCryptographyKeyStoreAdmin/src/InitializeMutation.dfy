@@ -640,13 +640,14 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     .MapFailure(e => Types.KeyStoreAdminException(
                     message := "Could not generate UUID for new Decrypt Only. " + e));
 
-
+    // TODO-HV-2-M2: Refactor to allow HV-2 for Mutations
     var decryptOnlyEncryptionContext := Mutations.DecryptOnlyBranchKeyEncryptionContextForMutation(
       localInput.input.Identifier,
       newVersion,
       localInput.timestamp,
       localInput.input.logicalKeyStoreName,
       localInput.mutationToApply.Terminal.kmsArn,
+      // localInput.mutationToApply.Terminal.hierarchyVersion,
       localInput.mutationToApply.Terminal.customEncryptionContext
     );
 

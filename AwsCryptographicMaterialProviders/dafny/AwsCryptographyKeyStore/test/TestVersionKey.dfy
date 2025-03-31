@@ -292,6 +292,7 @@ module TestVersionKey {
       "",
       "",
       keyArn,
+      Types.HierarchyVersion.v1,
       customEC
     );
 
@@ -338,6 +339,7 @@ module TestVersionKey {
       "",
       "",
       keyArn,
+      Types.HierarchyVersion.v1,
       customEC
     );
 
