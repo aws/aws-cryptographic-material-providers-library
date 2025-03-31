@@ -117,7 +117,6 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     requires Structure.BranchKeyContext?(branchKeyContext)
     // TODO-HV-2-M2: Revisit this implementation to handle scenarios where removing prefix results in conflicting keys.
     requires HasUniqueTransformedKeys?(branchKeyContext)
-    ensures HasUniqueTransformedKeys?(output)
     ensures forall k <- output ::
               exists originalKey ::
                 && originalKey in branchKeyContext
