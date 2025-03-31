@@ -5,7 +5,7 @@ include "../src/Index.dfy"
 include "Fixtures.dfy"
 include "../src/ErrorMessages.dfy"
 
-// TODO-HV2-M1: add more HV2 tests. 
+// TODO-HV2-M1: add more HV2 tests.
 // TODO-HV2-M1: Maybe refactor this module to TestGetHv1Keys and create another TestGetHv2Keys
 module TestGetKeys {
   import Types = AwsCryptographyKeyStoreTypes
