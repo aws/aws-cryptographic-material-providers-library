@@ -27,7 +27,7 @@ module GetKeys {
   import UTF8
   import KmsArn
 
-  method GetActiveKeyAndUnwrap(
+  method {:only} GetActiveKeyAndUnwrap(
     input: Types.GetActiveBranchKeyInput,
     logicalKeyStoreName: string,
     kmsConfiguration: Types.KMSConfiguration,
@@ -709,6 +709,8 @@ module GetKeys {
 
     ensures result.Success?
             ==>
+              && Seq.Last(storage.History.GetEncryptedBeaconKey).output.Success?
+              
               && var activeItem := Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.value.Item;
 
               && var ciphertextBlob := activeItem.CiphertextBlob;
