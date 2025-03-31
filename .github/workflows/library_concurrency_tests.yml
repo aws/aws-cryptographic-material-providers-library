@@ -23,7 +23,7 @@ jobs:
             # https://taskei.amazon.dev/tasks/CrypTool-5283
             # windows-latest,
             ubuntu-latest,
-            macos-13,
+            macos-14,
           ]
         language: [
             java,

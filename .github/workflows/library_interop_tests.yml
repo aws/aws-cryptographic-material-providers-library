@@ -23,7 +23,7 @@ jobs:
             # https://taskei.amazon.dev/tasks/CrypTool-5283
             # windows-latest,
             ubuntu-22.04,
-            macos-13,
+            macos-14,
           ]
         # TODO-HV-2-Rust: Removing Rust Runtimes until the underlying issue resolved.
         # TODO-HV-2-Rust: Rust runtimes checks are failing to resolve dafny_runtime imports
@@ -221,7 +221,7 @@ jobs:
             # TODO just test on mac and ubuntu for now
             # windows-latest,
             ubuntu-22.04,
-            macos-13,
+            macos-14,
           ]
         # TODO-HV-2-Rust: Removing Rust Runtimes until the underlying issue resolved.
         # TODO-HV-2-Go: Removing Go CI until we rebase or need it
