@@ -51,6 +51,15 @@ module TestGetKeys {
     expect beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier == branchKeyId;
     expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
     expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
+
+    var hv2ActiveResult :- expect keyStore.GetBeaconKey(
+      Types.GetBeaconKeyInput(
+        branchKeyIdentifier := hv2BranchKeyId
+      ));
+
+    expect hv2ActiveResult.beaconKeyMaterials.beaconKeyIdentifier == hv2BranchKeyId;
+    expect hv2ActiveResult.beaconKeyMaterials.beaconKey.Some?;
+    expect |hv2ActiveResult.beaconKeyMaterials.beaconKey.value| == 32;
   }
 
   method {:test} {:isolate_assertions} TestGetActiveKey()
@@ -240,6 +249,18 @@ module TestGetKeys {
     expect versionResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
     expect versionResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes == testBytes;
     expect |versionResult.branchKeyMaterials.branchKey| == 32;
+
+    var hv2versionResult :- expect keyStore.GetBranchKeyVersion(
+      Types.GetBranchKeyVersionInput(
+        branchKeyIdentifier := hv2BranchKeyId,
+        branchKeyVersion := hv2BranchKeyIdWithEC
+      ));
+
+    var hv2testBytes :- expect UTF8.Encode(hv2BranchKeyIdWithEC);
+
+    expect hv2versionResult.branchKeyMaterials.branchKeyIdentifier == hv2BranchKeyId;
+    expect hv2versionResult.branchKeyMaterials.branchKeyVersion == hv2BranchKeyIdActiveVersionUtf8Bytes == hv2testBytes;
+    expect |hv2versionResult.branchKeyMaterials.branchKey| == 32;
   }
 
 
