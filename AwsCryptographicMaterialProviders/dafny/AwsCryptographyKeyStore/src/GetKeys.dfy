@@ -104,6 +104,8 @@ module GetKeys {
 
               && var kmsArnFromStorage := activeItem.KmsArn;
 
+              && HvUtils.HasUniqueTransformedKeys?(versionItem.EncryptionContext)
+
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(activeItem.EncryptionContext);
 
               && var hv := activeItem.EncryptionContext[Structure.HIERARCHY_VERSION];
@@ -442,7 +444,7 @@ module GetKeys {
       :- Need(
         HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
         Types.KeyStoreException(
-        message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
+          message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
         )
       );
       plainTextKey :- DecryptAndValidateKey (
@@ -545,6 +547,8 @@ module GetKeys {
               && var ciphertextBlob := beaconItem.CiphertextBlob;
 
               && var kmsArnFromStorage := beaconItem.KmsArn;
+
+              && HvUtils.HasUniqueTransformedKeys?(versionItem.EncryptionContext)
 
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(beaconItem.EncryptionContext);
 
@@ -683,8 +687,11 @@ module GetKeys {
     kmsClient: KMS.IKMSClient,
     storage: Types.IKeyStorageInterface
   ) returns (result: Result<seq<uint8>, Types.Error>)
+
     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
+    
     requires HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
+
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
@@ -696,6 +703,8 @@ module GetKeys {
               && var ciphertextBlob := activeItem.CiphertextBlob;
 
               && var kmsArnFromStorage := activeItem.KmsArn;
+
+              && HvUtils.HasUniqueTransformedKeys?(versionItem.EncryptionContext)
 
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(branchKeyItemFromStorage.EncryptionContext);
 

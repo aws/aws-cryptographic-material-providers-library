@@ -137,14 +137,14 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   predicate HasUniqueTransformedKeys?(branchKeyContext: Types.EncryptionContextString)
   {
     forall k1, k2 :: k1 in branchKeyContext && k2 in branchKeyContext ==>
-      (
-        // If transformed keys are equal
-        (if HasPrefix(k1) then RemovePrefix(k1) else k1) ==
-        (if HasPrefix(k2) then RemovePrefix(k2) else k2)
-        ==>
-        // Then original keys must be equal
-        k1 == k2
-      )
+                       (
+                         // If transformed keys are equal
+                         (if HasPrefix(k1) then RemovePrefix(k1) else k1) ==
+                         (if HasPrefix(k2) then RemovePrefix(k2) else k2)
+                         ==>
+                           // Then original keys must be equal
+                           k1 == k2
+                       )
   }
 
 
