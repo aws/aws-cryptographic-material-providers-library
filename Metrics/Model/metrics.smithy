@@ -21,7 +21,7 @@ structure MetricsLoggerConfig {}
 
 @extendable
 resource MetricsLogger {
-  operations: [Put, Chain]
+  operations: [Put]
 }
 
 @reference(resource: MetricsLogger)
