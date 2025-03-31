@@ -643,8 +643,6 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   )
     returns (output: Result<KMS.DecryptResponse, Types.Error>)
 
-    requires HvUtils.HasUniqueTransformedKeys?(encryptionContextToKms)
-
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
