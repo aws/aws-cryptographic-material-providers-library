@@ -172,6 +172,10 @@ module GetKeys {
         message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
       )
     );
+    :- Need(
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
+      Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
+    );
 
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
       branchKeyItemFromStorage,
@@ -349,6 +353,10 @@ module GetKeys {
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_BRANCH_KEY_VERSION_FROM_STORAGE)
     );
+    :- Need(
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
+      Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
+    );
 
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
       branchKeyItemFromStorage,
@@ -501,6 +509,10 @@ module GetKeys {
          ),
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_BEACON_KEY_FROM_STORAGE)
+    );
+    :- Need(
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
+      Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
 
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
