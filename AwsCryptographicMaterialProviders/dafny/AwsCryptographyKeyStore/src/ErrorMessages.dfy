@@ -68,4 +68,7 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
 
   const MD_DIGEST_SHA_NOT_MATCHED :=
     "This branch key item has failed the authentication check. Either it has been tampered with or the wrong 'Logical Key Store Name' has been provided."
+
+  const NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS := 
+    "Keys in branch key context is not unique.  The branch key item might have been tampered with."
 }
