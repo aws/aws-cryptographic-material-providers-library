@@ -308,7 +308,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
                  && Structure.BranchKeyContext?(encryptionContext)
                  && encryptionContext[Structure.KMS_FIELD] == kmsArnToStorage
                  && encryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 )
-    requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
+    requires HasKeyId(kmsConfiguration) && GetKeyId(kmsConfiguration) == kmsArnToStorage && KmsArn.ValidKmsArn?(kmsArnToStorage)
     requires AttemptKmsOperation?(kmsConfiguration, kmsArnToStorage)
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
@@ -317,7 +317,6 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       ==>
         && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
         && var kmsKeyArn := GetKeyId(kmsConfiguration);
-        && old(kmsClient.History.Decrypt) == kmsClient.History.Decrypt
 
         && var encryptInput := Seq.Last(kmsClient.History.Encrypt).input;
         && KMS.EncryptRequest(

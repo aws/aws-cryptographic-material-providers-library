@@ -232,7 +232,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
               && keyManagerStrat.reEncrypt.kmsClient.ValidState()
     ensures output.Success? ==> KeyStoreOperations.ValidInternalConfig?(output.value)
   {
-    var kmsConfiguration := KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(kmsArn);
+    var kmsConfiguration :- KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(kmsArn);
     var legacyConfig := KeyStoreOperations.Config(
                           id := "",
                           ddbTableName := None,
