@@ -5,7 +5,7 @@
 ### Squash/merge commit message, if applicable:
 
 ```
-<message>
+<type>(dafny/java/python/dotnet/go): <description>
 ```
 
 By submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 license.
