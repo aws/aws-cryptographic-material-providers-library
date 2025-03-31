@@ -569,12 +569,12 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     returns (output: Result<KMS.DecryptResponse, Types.Error>)
     requires Structure.EncryptedHierarchicalKeyFromStorage?(encryptedKey)
 
+    requires KmsArn.ValidKmsArn?(encryptedKey.KmsArn)
+    requires AttemptKmsOperation?(kmsConfiguration, encryptedKey.EncryptionContext[Structure.KMS_FIELD])
+
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
-
-    ensures !KmsArn.ValidKmsArn?(encryptedKey.KmsArn) ==> output.Failure?
-    ensures !AttemptKmsOperation?(kmsConfiguration, encryptedKey.EncryptionContext[Structure.KMS_FIELD]) ==> output.Failure?
 
     ensures output.Success?
             ==>
@@ -602,11 +602,6 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
          // So the error message is left unchanged.
       && KMS.IsValid_CiphertextType(encryptedKey.CiphertextBlob),
       Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
-    );
-
-    :- Need(
-      AttemptKmsOperation?(kmsConfiguration, encryptedKey.EncryptionContext[Structure.KMS_FIELD]),
-      Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
 
     var kmsKeyArn := GetArn(kmsConfiguration, encryptedKey.KmsArn);
@@ -644,11 +639,11 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     returns (output: Result<KMS.DecryptResponse, Types.Error>)
 
     requires kmsClient.ValidState()
+    requires KmsArn.ValidKmsArn?(kmsArnFromStorage)
+    requires AttemptKmsOperation?(kmsConfiguration, kmsArnFromStorage)
+
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
-
-    ensures !KmsArn.ValidKmsArn?(kmsArnFromStorage) ==> output.Failure?
-    ensures !AttemptKmsOperation?(kmsConfiguration, kmsArnFromStorage) ==> output.Failure?
 
     ensures output.Success?
             ==>
@@ -677,10 +672,6 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
          // So the error message is left unchanged.
       && KMS.IsValid_CiphertextType(ciphertextBlob),
       Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
-    );
-    :- Need(
-      AttemptKmsOperation?(kmsConfiguration, kmsArnFromStorage),
-      Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
 
     var kmsKeyArn := GetArn(kmsConfiguration, kmsArnFromStorage);
