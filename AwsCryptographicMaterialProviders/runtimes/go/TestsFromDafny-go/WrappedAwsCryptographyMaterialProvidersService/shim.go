@@ -16,7 +16,7 @@ type Shim struct {
 	client *awscryptographymaterialproviderssmithygenerated.Client
 }
 
-func (_static *CompanionStruct_Default___) WrappedMaterialProviders(inputConfig AwsCryptographyMaterialProvidersTypes.MaterialProvidersConfig) Wrappers.Result {
+func  WrappedMaterialProviders(inputConfig AwsCryptographyMaterialProvidersTypes.MaterialProvidersConfig) Wrappers.Result {
 	var nativeConfig = awscryptographymaterialproviderssmithygenerated.MaterialProvidersConfig_FromDafny(inputConfig)
 	var nativeClient, nativeError = awscryptographymaterialproviderssmithygenerated.NewClient(nativeConfig)
 	if nativeError != nil {
