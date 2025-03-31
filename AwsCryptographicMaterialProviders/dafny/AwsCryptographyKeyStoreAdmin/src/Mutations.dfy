@@ -331,6 +331,7 @@ module {:options "/functionSyntax:4" } Mutations {
     reveal Seq.Filter();
   }
 
+  // TODO-HV-2-M2: Refactor to allow HV-2 for Mutations
   /** This function is largely identical to Structure.DecryptOnlyBranchKeyEncryptionContext, **/
   /** except the "custom Encryption Context" has already been prefixed. **/
   function DecryptOnlyBranchKeyEncryptionContextForMutation(
@@ -339,6 +340,7 @@ module {:options "/functionSyntax:4" } Mutations {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
+    // hierachyVersion: HierarchyVersion,
     prefixedCustomEncryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
