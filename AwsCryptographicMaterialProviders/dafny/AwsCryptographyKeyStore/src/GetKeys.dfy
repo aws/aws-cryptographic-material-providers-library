@@ -27,7 +27,7 @@ module GetKeys {
   import UTF8
   import KmsArn
 
-  method {:only} GetActiveKeyAndUnwrap(
+  method GetActiveKeyAndUnwrap(
     input: Types.GetActiveBranchKeyInput,
     logicalKeyStoreName: string,
     kmsConfiguration: Types.KMSConfiguration,
@@ -99,28 +99,28 @@ module GetKeys {
               //= type=implication
               //# The operation MUST decrypt the EncryptedHierarchicalKey according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
               // TODO-hv1-M1: Think about putting AwsKmsBranchKeyDecryptionForHV2?
-
-              && var ciphertextBlob := activeItem.CiphertextBlob;
-
-              && var kmsArnFromStorage := activeItem.KmsArn;
-
-              && HvUtils.HasUniqueTransformedKeys?(activeItem.EncryptionContext)
-
-              && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(activeItem.EncryptionContext);
-
               && var hv := activeItem.EncryptionContext[Structure.HIERARCHY_VERSION];
 
               && ((hv == Structure.HIERARCHY_VERSION_VALUE_1) || (hv == Structure.HIERARCHY_VERSION_VALUE_2))
 
-              && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
-                                                                     ciphertextBlob,
-                                                                     ecToKMS,
-                                                                     kmsArnFromStorage,
-                                                                     kmsConfiguration,
-                                                                     grantTokens,
-                                                                     kmsClient,
-                                                                     Seq.Last(kmsClient.History.Decrypt)
-                                                                   )
+              && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
+                   && HvUtils.HasUniqueTransformedKeys?(activeItem.EncryptionContext)
+
+                   && var ciphertextBlob := activeItem.CiphertextBlob;
+
+                   && var kmsArnFromStorage := activeItem.KmsArn;
+
+                   && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(activeItem.EncryptionContext);
+
+                   && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
+                     ciphertextBlob,
+                     ecToKMS,
+                     kmsArnFromStorage,
+                     kmsConfiguration,
+                     grantTokens,
+                     kmsClient,
+                     Seq.Last(kmsClient.History.Decrypt)
+                   )
 
                  else if hv == Structure.HIERARCHY_VERSION_VALUE_1 then
                    KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV1?(
@@ -326,27 +326,29 @@ module GetKeys {
               //= type=implication
               //# The operation MUST decrypt the branch key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
               // TODO-hv1-M1: Think about putting AwsKmsBranchKeyDecryptionForHV2?
-              && var ciphertextBlob := versionItem.CiphertextBlob;
-
-              && var kmsArnFromStorage := versionItem.KmsArn;
-
-              && HvUtils.HasUniqueTransformedKeys?(versionItem.EncryptionContext)
-
-              && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(versionItem.EncryptionContext);
 
               && var hv := versionItem.EncryptionContext[Structure.HIERARCHY_VERSION];
 
               && ((hv == Structure.HIERARCHY_VERSION_VALUE_1) || (hv == Structure.HIERARCHY_VERSION_VALUE_2))
 
-              && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
-                                                                     ciphertextBlob,
-                                                                     ecToKMS,
-                                                                     kmsArnFromStorage,
-                                                                     kmsConfiguration,
-                                                                     grantTokens,
-                                                                     kmsClient,
-                                                                     Seq.Last(kmsClient.History.Decrypt)
-                                                                   )
+              && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
+                   && var ciphertextBlob := versionItem.CiphertextBlob;
+
+                   && var kmsArnFromStorage := versionItem.KmsArn;
+
+                   && HvUtils.HasUniqueTransformedKeys?(versionItem.EncryptionContext)
+
+                   && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(versionItem.EncryptionContext);
+
+                   && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
+                     ciphertextBlob,
+                     ecToKMS,
+                     kmsArnFromStorage,
+                     kmsConfiguration,
+                     grantTokens,
+                     kmsClient,
+                     Seq.Last(kmsClient.History.Decrypt)
+                   )
 
                  else if hv == Structure.HIERARCHY_VERSION_VALUE_1 then KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV1?(
                                                                           versionItem,
@@ -548,28 +550,28 @@ module GetKeys {
               //= type=implication
               //# The operation MUST decrypt the beacon key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
               // TODO-hv1-M1: Think about putting AwsKmsBranchKeyDecryptionForHV2?
-
-              && var ciphertextBlob := beaconItem.CiphertextBlob;
-
-              && var kmsArnFromStorage := beaconItem.KmsArn;
-
-              && HvUtils.HasUniqueTransformedKeys?(beaconItem.EncryptionContext)
-
-              && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(beaconItem.EncryptionContext);
-
               && var hv := beaconItem.EncryptionContext[Structure.HIERARCHY_VERSION];
 
               && ((hv == Structure.HIERARCHY_VERSION_VALUE_1) || (hv == Structure.HIERARCHY_VERSION_VALUE_2))
 
-              && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
-                                                                     ciphertextBlob,
-                                                                     ecToKMS,
-                                                                     kmsArnFromStorage,
-                                                                     kmsConfiguration,
-                                                                     grantTokens,
-                                                                     kmsClient,
-                                                                     Seq.Last(kmsClient.History.Decrypt)
-                                                                   )
+              && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
+                   && var ciphertextBlob := beaconItem.CiphertextBlob;
+
+                   && var kmsArnFromStorage := beaconItem.KmsArn;
+
+                   && HvUtils.HasUniqueTransformedKeys?(beaconItem.EncryptionContext)
+
+                   && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(beaconItem.EncryptionContext);
+
+                   && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
+                     ciphertextBlob,
+                     ecToKMS,
+                     kmsArnFromStorage,
+                     kmsConfiguration,
+                     grantTokens,
+                     kmsClient,
+                     Seq.Last(kmsClient.History.Decrypt)
+                   )
 
                  else if hv == Structure.HIERARCHY_VERSION_VALUE_1 then
                    KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV1?(
@@ -709,15 +711,9 @@ module GetKeys {
 
     ensures result.Success?
             ==>
-              && Seq.Last(storage.History.GetEncryptedBeaconKey).output.Success?
-              
-              && var activeItem := Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.value.Item;
+              && var ciphertextBlob := branchKeyItemFromStorage.CiphertextBlob;
 
-              && var ciphertextBlob := activeItem.CiphertextBlob;
-
-              && var kmsArnFromStorage := activeItem.KmsArn;
-
-              && HvUtils.HasUniqueTransformedKeys?(activeItem.EncryptionContext)
+              && var kmsArnFromStorage := branchKeyItemFromStorage.KmsArn;
 
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(branchKeyItemFromStorage.EncryptionContext);
 
