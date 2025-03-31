@@ -417,8 +417,8 @@ function CheckDependencyReplacementResults(file) {
     return {
       file,
       hasChanged: true,
-      numMatches: 3,
-      numReplacements: 3,
+      numMatches: 4,
+      numReplacements: 4,
     };
   } else if (file.includes("StandardLibrary")) {
     return {
