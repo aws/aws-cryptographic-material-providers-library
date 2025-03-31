@@ -221,8 +221,7 @@ module GetKeys {
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
-        kmsClient,
-        storage
+        kmsClient
       );
     } else {
       // This else block will never be reached because we have check for hierarchical keyring version before if-else.
@@ -458,8 +457,7 @@ module GetKeys {
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
-        kmsClient,
-        storage
+        kmsClient
       );
     } else {
       // This else block will never be reached because we have check for hierarchical keyring version before if-else.
@@ -672,8 +670,7 @@ module GetKeys {
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
-        kmsClient,
-        storage
+        kmsClient
       );
     } else {
       // This else block will never be reached because we have check for hierarchical keyring version before if-else.
@@ -697,8 +694,7 @@ module GetKeys {
     branchKeyItemFromStorage: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
-    kmsClient: KMS.IKMSClient,
-    storage: Types.IKeyStorageInterface
+    kmsClient: KMS.IKMSClient
   ) returns (result: Result<seq<uint8>, Types.Error>)
 
     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
