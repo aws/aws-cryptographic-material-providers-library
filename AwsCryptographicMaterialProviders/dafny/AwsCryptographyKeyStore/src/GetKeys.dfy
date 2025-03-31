@@ -214,7 +214,7 @@ module GetKeys {
       :- Need(
         HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
         Types.KeyStoreException(
-          message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
+          message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
         )
       );
       plainTextKey :- DecryptAndValidateKeyForHV2 (
@@ -451,7 +451,7 @@ module GetKeys {
       :- Need(
         HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
         Types.KeyStoreException(
-          message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
+          message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
         )
       );
       plainTextKey :- DecryptAndValidateKeyForHV2 (
@@ -665,7 +665,7 @@ module GetKeys {
       :- Need(
         HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
         Types.KeyStoreException(
-          message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
+          message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
         )
       );
       plainTextKey :- DecryptAndValidateKeyForHV2 (
