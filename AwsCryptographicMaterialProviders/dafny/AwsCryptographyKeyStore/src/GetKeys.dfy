@@ -729,7 +729,7 @@ module GetKeys {
   {
     // Get encryption context for KMS
 
-    // branchKeyItemFromStorage.EncryptionContext comes from storage is not the actual EC.
+    // branchKeyItemFromStorage.EncryptionContext comes from storage and is not the actual encrytion context that is send to KMS.
     // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
     var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(branchKeyItemFromStorage.EncryptionContext);
 
