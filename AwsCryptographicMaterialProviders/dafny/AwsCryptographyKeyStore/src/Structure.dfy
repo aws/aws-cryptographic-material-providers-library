@@ -450,6 +450,7 @@ module {:options "/functionSyntax:4" } Structure {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
+    hierachyVersion: Types.HierarchyVersion,
     customEncryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
@@ -480,7 +481,9 @@ module {:options "/functionSyntax:4" } Structure {
       KEY_CREATE_TIME := timestamp,
       TABLE_FIELD := logicalKeyStoreName,
       KMS_FIELD := kmsKeyArn,
-      HIERARCHY_VERSION := HIERARCHY_VERSION_VALUE
+      HIERARCHY_VERSION := match hierachyVersion
+      case v1 => HIERARCHY_VERSION_VALUE_1
+      case v2 => HIERARCHY_VERSION_VALUE_2
     ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
   }
 
@@ -492,6 +495,7 @@ module {:options "/functionSyntax:4" } Structure {
       && BRANCH_KEY_TYPE_PREFIX < decryptOnlyEncryptionContext[TYPE_FIELD]
       && BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
     ensures BranchKeyContext?(output)
+    ensures output[HIERARCHY_VERSION] == decryptOnlyEncryptionContext[HIERARCHY_VERSION]
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD in output
   {
     decryptOnlyEncryptionContext + map[
@@ -508,6 +512,7 @@ module {:options "/functionSyntax:4" } Structure {
       && BRANCH_KEY_TYPE_PREFIX < decryptOnlyEncryptionContext[TYPE_FIELD]
       && BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
     ensures BranchKeyContext?(output)
+    ensures output[HIERARCHY_VERSION] == decryptOnlyEncryptionContext[HIERARCHY_VERSION]
     ensures output[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE
   {
     decryptOnlyEncryptionContext + map[
@@ -688,13 +693,14 @@ module {:options "/functionSyntax:4" } Structure {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
+    hierarchyVersion: Types.HierarchyVersion,
     encryptionContext: map<string, string>
   )
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
     ensures
       var decryptOnly := DecryptOnlyBranchKeyEncryptionContext(
-                           branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName, kmsKeyArn, encryptionContext);
+                           branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName, kmsKeyArn, hierarchyVersion, encryptionContext);
       var active := ActiveBranchKeyEncryptionContext(decryptOnly);
       var beacon := BeaconKeyEncryptionContext(decryptOnly);
       && decryptOnly[TYPE_FIELD] != active[TYPE_FIELD]
