@@ -290,7 +290,7 @@ module {:options "/functionSyntax:4" } Mutations {
           plaintext := decryptedKey?.value.Plaintext.value,
           encryptionContext := input.terminalEncryptionContext,
           kmsArnToStorage := input.terminalEncryptionContext[Structure.KMS_FIELD],
-          kmsConfiguration := KeyStoreTypes.kmsKeyArn(input.input.terminalKmsArn),
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(input.terminalKmsArn),
           grantTokens := kmsE.grantTokens,
           kmsClient := kmsE.kmsClient
         );
