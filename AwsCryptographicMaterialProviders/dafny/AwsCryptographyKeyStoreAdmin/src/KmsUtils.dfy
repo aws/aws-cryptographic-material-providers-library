@@ -130,6 +130,10 @@ module {:options "/functionSyntax:4" } KmsUtils {
   function KmsSymmetricKeyArnToKMSConfiguration(
     kmsSymmetricArn: Types.KmsSymmetricKeyArn
   ): (output: KeyStoreTypes.KMSConfiguration)
+    requires
+      match kmsSymmetricArn
+      case KmsKeyArn(arn) => KmsArn.ValidKmsArn?(arn)
+      case KmsMRKeyArn(arn) => KmsArn.ValidKmsArn?(arn)
   {
     match kmsSymmetricArn
     case KmsKeyArn(kmsKeyArn) => KeyStoreTypes.kmsKeyArn(kmsKeyArn)
