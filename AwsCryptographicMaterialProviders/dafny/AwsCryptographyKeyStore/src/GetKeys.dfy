@@ -217,7 +217,7 @@ module GetKeys {
           message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
         )
       );
-      plainTextKey :- DecryptAndValidateKey (
+      plainTextKey :- DecryptAndValidateKeyForHV2 (
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
@@ -454,7 +454,7 @@ module GetKeys {
           message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
         )
       );
-      plainTextKey :- DecryptAndValidateKey (
+      plainTextKey :- DecryptAndValidateKeyForHV2 (
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
@@ -668,7 +668,7 @@ module GetKeys {
           message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
         )
       );
-      plainTextKey :- DecryptAndValidateKey (
+      plainTextKey :- DecryptAndValidateKeyForHV2 (
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
@@ -693,7 +693,7 @@ module GetKeys {
         ));
   }
 
-  method DecryptAndValidateKey(
+  method DecryptAndValidateKeyForHV2(
     branchKeyItemFromStorage: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
