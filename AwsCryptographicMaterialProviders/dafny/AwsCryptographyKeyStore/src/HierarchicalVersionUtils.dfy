@@ -116,10 +116,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   ): (output: Types.EncryptionContextString)
     requires Structure.BranchKeyContext?(branchKeyContext)
     // TODO-HV-2-M2: Revisit this implementation to handle scenarios where removing prefix results in conflicting keys.
-    requires forall k1, k2 <- branchKeyContext.Keys ::
-               (if HasPrefix(k1) then RemovePrefix(k1) else k1) ==
-               (if HasPrefix(k2) then RemovePrefix(k2) else k2) ==>
-                 k1 == k2
+    requires HasUniqueTransformedKeys?(branchKeyContext)
     ensures forall k <- output ::
               exists originalKey ::
                 && originalKey in branchKeyContext
@@ -136,6 +133,20 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
            );
     map entry <- transformedContext :: entry.0 := entry.1
   }
+
+  predicate HasUniqueTransformedKeys?(branchKeyContext: Types.EncryptionContextString)
+  {
+    forall k1, k2 :: k1 in branchKeyContext && k2 in branchKeyContext ==>
+      (
+        // If transformed keys are equal
+        (if HasPrefix(k1) then RemovePrefix(k1) else k1) ==
+        (if HasPrefix(k2) then RemovePrefix(k2) else k2)
+        ==>
+        // Then original keys must be equal
+        k1 == k2
+      )
+  }
+
 
   function HasPrefix(key: string): bool {
     |key| > |Structure.ENCRYPTION_CONTEXT_PREFIX| &&

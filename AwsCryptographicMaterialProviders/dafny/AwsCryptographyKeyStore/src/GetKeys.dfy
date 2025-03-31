@@ -234,7 +234,7 @@ module GetKeys {
         ));
   }
 
-  method GetBranchKeyVersion(
+  method {:only} GetBranchKeyVersion(
     input: Types.GetBranchKeyVersionInput,
     logicalKeyStoreName: string,
     kmsConfiguration: Types.KMSConfiguration,
@@ -321,6 +321,8 @@ module GetKeys {
               && var ciphertextBlob := versionItem.CiphertextBlob;
 
               && var kmsArnFromStorage := versionItem.KmsArn;
+
+              && HvUtils.HasUniqueTransformedKeys?(versionItem.EncryptionContext)
 
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(versionItem.EncryptionContext);
 
@@ -437,6 +439,12 @@ module GetKeys {
       );
       plainTextKey := branchKey.Plaintext.value;
     } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
+      :- Need(
+        HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
+        Types.KeyStoreException(
+        message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
+        )
+      );
       plainTextKey :- DecryptAndValidateKey (
         branchKeyItemFromStorage,
         kmsConfiguration,
@@ -463,7 +471,7 @@ module GetKeys {
 
   }
 
-  method {:only} {:vcs_split_on_every_assert} GetBeaconKeyAndUnwrap(
+  method {:vcs_split_on_every_assert} GetBeaconKeyAndUnwrap(
     input: Types.GetBeaconKeyInput,
     logicalKeyStoreName: string,
     kmsConfiguration: Types.KMSConfiguration,
@@ -676,7 +684,7 @@ module GetKeys {
     storage: Types.IKeyStorageInterface
   ) returns (result: Result<seq<uint8>, Types.Error>)
     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
-
+    requires HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
@@ -690,7 +698,6 @@ module GetKeys {
               && var kmsArnFromStorage := activeItem.KmsArn;
 
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(branchKeyItemFromStorage.EncryptionContext);
-
 
               && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.KmsArn)
 
