@@ -2491,7 +2491,7 @@ WriteInitializeMutationVersion = Union[
 
 
 def _write_initialize_mutation_version_from_dict(
-    d: Dict[str, Any]
+    d: Dict[str, Any],
 ) -> WriteInitializeMutationVersion:
     if "rotate" in d:
         return WriteInitializeMutationVersionRotate.from_dict(d)

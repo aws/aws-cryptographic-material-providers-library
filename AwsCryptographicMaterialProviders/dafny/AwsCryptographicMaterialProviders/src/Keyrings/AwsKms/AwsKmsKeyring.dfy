@@ -429,6 +429,7 @@ module AwsKmsKeyring {
           && AlgorithmSuites.GetEncryptKeyLength(input.materials.algorithmSuite) as nat == |res.value.materials.plaintextDataKey.value|
           && var LastDecrypt := Last(client.History.Decrypt);
           && LastDecrypt.output.Success?
+          && OkForDecrypt(awsKmsArn, awsKmsKey).Pass?
           && exists edk
                // , returnedEncryptionAlgorithm
                | edk in input.encryptedDataKeys
