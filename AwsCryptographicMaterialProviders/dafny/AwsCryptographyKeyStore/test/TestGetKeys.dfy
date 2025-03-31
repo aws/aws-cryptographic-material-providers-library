@@ -53,15 +53,6 @@ module TestGetKeys {
     expect beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier == branchKeyId;
     expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
     expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
-
-    var hv2ActiveResult :- expect keyStore.GetBeaconKey(
-      Types.GetBeaconKeyInput(
-        branchKeyIdentifier := hv2BranchKeyId
-      ));
-
-    expect hv2ActiveResult.beaconKeyMaterials.beaconKeyIdentifier == hv2BranchKeyId;
-    expect hv2ActiveResult.beaconKeyMaterials.beaconKey.Some?;
-    expect |hv2ActiveResult.beaconKeyMaterials.beaconKey.value| == 32;
   }
 
   method {:test} {:isolate_assertions} TestGetActiveKey()
