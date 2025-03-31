@@ -234,7 +234,7 @@ module GetKeys {
         ));
   }
 
-  method {:only} GetBranchKeyVersion(
+  method GetBranchKeyVersion(
     input: Types.GetBranchKeyVersionInput,
     logicalKeyStoreName: string,
     kmsConfiguration: Types.KMSConfiguration,
