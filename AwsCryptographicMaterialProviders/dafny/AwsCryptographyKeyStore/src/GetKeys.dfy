@@ -150,12 +150,13 @@ module GetKeys {
     var branchKeyItemFromStorage := ActiveOutput.Item;
 
     :- Need(
-      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
-      || (
-           && Structure.ActiveHierarchicalSymmetricKey?(branchKeyItemFromStorage)
-           && branchKeyItemFromStorage.Identifier == input.branchKeyIdentifier
-           && branchKeyItemFromStorage.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
-         ),
+      (|| storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+       || (
+            && Structure.ActiveHierarchicalSymmetricKey?(branchKeyItemFromStorage)
+            && branchKeyItemFromStorage.Identifier == input.branchKeyIdentifier
+            && branchKeyItemFromStorage.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+          ))
+      && KmsArn.ValidKmsArn?(branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
     );
@@ -173,8 +174,7 @@ module GetKeys {
       )
     );
     :- Need(
-      && KmsArn.ValidKmsArn?(branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD])
-      && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
       Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
 
@@ -341,22 +341,22 @@ module GetKeys {
     var branchKeyItemFromStorage := VersionItem.Item;
 
     :- Need(
-      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
-      || (
-           && Structure.DecryptOnlyHierarchicalSymmetricKey?(branchKeyItemFromStorage)
-           && branchKeyItemFromStorage.Identifier == input.branchKeyIdentifier
-           && branchKeyItemFromStorage.Type == Types.HierarchicalSymmetricVersion(
-                                                 Types.HierarchicalSymmetric(
-                                                   Version := input.branchKeyVersion
-                                                 ))
-           && branchKeyItemFromStorage.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
-         ),
+      (|| storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+       || (
+            && Structure.DecryptOnlyHierarchicalSymmetricKey?(branchKeyItemFromStorage)
+            && branchKeyItemFromStorage.Identifier == input.branchKeyIdentifier
+            && branchKeyItemFromStorage.Type == Types.HierarchicalSymmetricVersion(
+                                                  Types.HierarchicalSymmetric(
+                                                    Version := input.branchKeyVersion
+                                                  ))
+            && branchKeyItemFromStorage.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+          ))
+      && KmsArn.ValidKmsArn?(branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_BRANCH_KEY_VERSION_FROM_STORAGE)
     );
     :- Need(
-      && KmsArn.ValidKmsArn?(branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD])
-      && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
       Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
     var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
@@ -502,17 +502,17 @@ module GetKeys {
     var branchKeyItemFromStorage := BeaconOutput.Item;
 
     :- Need(
-      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
-      || (
-           && branchKeyItemFromStorage.Identifier == input.branchKeyIdentifier
-           && Structure.ActiveHierarchicalSymmetricBeaconKey?(branchKeyItemFromStorage)
-           && branchKeyItemFromStorage.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
-         ),
+      (|| storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+       || (
+            && branchKeyItemFromStorage.Identifier == input.branchKeyIdentifier
+            && Structure.ActiveHierarchicalSymmetricBeaconKey?(branchKeyItemFromStorage)
+            && branchKeyItemFromStorage.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+          ))
+      && KmsArn.ValidKmsArn?(branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_BEACON_KEY_FROM_STORAGE)
     );
     :- Need(
-      && KmsArn.ValidKmsArn?(branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD])
       && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
       Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
