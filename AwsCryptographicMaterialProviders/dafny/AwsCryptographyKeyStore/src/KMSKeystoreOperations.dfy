@@ -23,7 +23,11 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import KmsArn
   import ErrorMessages = KeyStoreErrorMessages
 
-  type KmsError = e: Types.Error | (e.ComAmazonawsKms? || e.KeyManagementException?) witness *
+  type KmsError = e: Types.Error | (
+        || e.ComAmazonawsKms?
+        || e.KeyManagementException?
+        || e.BranchKeyCiphertextException?
+      ) witness *
 
   function replaceRegion(arn : KMS.KeyIdType, region : KMS.RegionType) : KMS.KeyIdType
   {
@@ -301,36 +305,39 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
-    returns (res: Result<KMS.EncryptResponse, KmsError>)
+    returns (res: Result<KMS.CiphertextType, KmsError>)
     requires kmsClient.ValidState()
-    requires |plaintext| == 80
-    // TODO-HV-2-M2: Refactor to use EncryptKey for both HV-1 & HV-2 keys during Mutations
-    // requires |plaintext| == 80 || |plaintext| == 32
-    // TODO-HV-2-M2: We want to check the EC for `"hierarchy-version" == 1` as well
-    // requires |plaintext| == 32 ==> !Structure.BranchKeyContext?(encryptionContext)
-    requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
+    requires |plaintext| == 80 || |plaintext| == 32
+    requires |plaintext| == 32 ==> (
+                 && Structure.BranchKeyContext?(encryptionContext)
+                 && encryptionContext[Structure.KMS_FIELD] == kmsArnToStorage
+                 && encryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 )
+    requires HasKeyId(kmsConfiguration) && GetKeyId(kmsConfiguration) == kmsArnToStorage && KmsArn.ValidKmsArn?(kmsArnToStorage)
     requires AttemptKmsOperation?(kmsConfiguration, kmsArnToStorage)
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
     ensures
-      && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
-      && var kmsKeyArn := GetKeyId(kmsConfiguration);
-      && KMS.EncryptRequest(
-           KeyId := kmsKeyArn,
-           Plaintext := plaintext,
-           EncryptionContext := Some(encryptionContext),
-           GrantTokens := Some(grantTokens)
-         )
-         == Seq.Last(kmsClient.History.Encrypt).input
-      && old(kmsClient.History.Decrypt) == kmsClient.History.Decrypt
+      res.Success?
+      ==>
+        && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
+        && var kmsKeyArn := GetKeyId(kmsConfiguration);
 
-    ensures res.Success? ==>
-              && res.value.KeyId.Some?
-              && res.value.CiphertextBlob.Some?
-              && KMS.IsValid_CiphertextType(res.value.CiphertextBlob.value)
-              && var kmsOperationOutput := Seq.Last(kmsClient.History.Encrypt).output;
-              && kmsOperationOutput.Success?
-              && kmsOperationOutput.value == res.value
+        && var encryptInput := Seq.Last(kmsClient.History.Encrypt).input;
+        && KMS.EncryptRequest(
+             KeyId := kmsKeyArn,
+             Plaintext := plaintext,
+             EncryptionContext := Some(encryptionContext),
+             GrantTokens := Some(grantTokens)
+           ) == encryptInput
+
+        && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
+        && var encryptResponse := Seq.Last(kmsClient.History.Encrypt).output;
+        && encryptResponse.Success?
+        && encryptResponse.value.CiphertextBlob.Some?
+        && encryptResponse.value.KeyId.Some?
+        && encryptResponse.value.KeyId.value == kmsKeyArn // kmsKeyArn
+        && KMS.IsValid_CiphertextType(encryptResponse.value.CiphertextBlob.value)
+        && encryptResponse.value.CiphertextBlob.value == res.value
   {
     var kmsKeyArn := GetKeyId(kmsConfiguration);
     var kmsEncryptRequest := KMS.EncryptRequest(
@@ -358,7 +365,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         message := "Invalid response from AWS KMS Encrypt: KMS Key ID of response did not match request."
       )
     );
-    return Success(encryptResponse);
+    return Success(encryptResponse.CiphertextBlob.value);
   }
 
   method VerifyViaDecryptEncryptKey(
@@ -634,7 +641,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
-    returns (output: Result<KMS.DecryptResponse, Types.Error>)
+    returns (output: Result<KMS.DecryptResponse, KmsError>)
     requires Structure.EncryptedHierarchicalKeyFromStorage?(encryptedKey)
 
     requires KmsArn.ValidKmsArn?(encryptedKey.KmsArn)
@@ -661,6 +668,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && output.value == Seq.Last(kmsClient.History.Decrypt).output.value
               && output.value.Plaintext.Some?
               && 32 == |output.value.Plaintext.value|
+              && encryptedKey.EncryptionContext[Structure.HIERARCHY_VERSION]
+                 == Structure.HIERARCHY_VERSION_VALUE_1
   {
     :- Need(
       && KmsArn.ValidKmsArn?(encryptedKey.KmsArn)
@@ -669,7 +678,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
          // has dropped to 0 or exceeds the KMS limit.
          // So the error message is left unchanged.
       && KMS.IsValid_CiphertextType(encryptedKey.CiphertextBlob),
-      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+      Types.KeyManagementException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
     );
 
     var kmsKeyArn := GetArn(kmsConfiguration, encryptedKey.KmsArn);
@@ -686,8 +695,10 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
     :- Need(
       && decryptResponse.Plaintext.Some?
-      && 32 == |decryptResponse.Plaintext.value|,
-      Types.KeyStoreException(
+      && 32 == |decryptResponse.Plaintext.value|
+      && encryptedKey.EncryptionContext[Structure.HIERARCHY_VERSION]
+         == Structure.HIERARCHY_VERSION_VALUE_1,
+      Types.KeyManagementException(
         message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV1)
     );
 
@@ -704,7 +715,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
-    returns (output: Result<KMS.DecryptResponse, Types.Error>)
+    returns (output: Result<KMS.DecryptResponse, KmsError>)
 
     requires kmsClient.ValidState()
     requires KmsArn.ValidKmsArn?(kmsArnFromStorage)
@@ -739,7 +750,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
          // has dropped to 0 or exceeds the KMS limit.
          // So the error message is left unchanged.
       && KMS.IsValid_CiphertextType(ciphertextBlob),
-      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+      Types.KeyManagementException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
     );
 
     var kmsKeyArn := GetArn(kmsConfiguration, kmsArnFromStorage);
