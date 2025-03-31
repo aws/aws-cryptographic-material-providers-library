@@ -130,8 +130,8 @@ module {:options "/functionSyntax:4" } KmsUtils {
   ): (output: KeyStoreTypes.KMSConfiguration)
   {
     match kmsSymmetricArn
-    case KmsKeyArn(kmsKeyArn) => Success(KeyStoreTypes.kmsKeyArn(kmsKeyArn))
-    case KmsMRKeyArn(kmsMRKeyArn) => Success(KeyStoreTypes.kmsMRKeyArn(kmsMRKeyArn))
+    case KmsKeyArn(kmsKeyArn) => KeyStoreTypes.kmsKeyArn(kmsKeyArn)
+    case KmsMRKeyArn(kmsMRKeyArn) => KeyStoreTypes.kmsMRKeyArn(kmsMRKeyArn)
   }
 
 }
