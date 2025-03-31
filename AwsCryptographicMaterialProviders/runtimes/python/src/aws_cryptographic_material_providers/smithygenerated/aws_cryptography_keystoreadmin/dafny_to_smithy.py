@@ -485,3 +485,11 @@ def aws_cryptography_keystoreadmin_KeyStoreReference(dafny_input):
 
 def aws_cryptography_keystoreadmin_KmsClientReference(dafny_input):
     return dafny_input._impl
+
+
+def aws_cryptography_keystoreadmin_PrimitivesReference(dafny_input):
+    from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.client import (
+        AwsCryptographicPrimitives,
+    )
+
+    return AwsCryptographicPrimitives(config=None, dafny_client=dafny_input)
