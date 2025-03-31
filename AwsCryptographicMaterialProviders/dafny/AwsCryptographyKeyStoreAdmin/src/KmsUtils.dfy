@@ -127,12 +127,8 @@ module {:options "/functionSyntax:4" } KmsUtils {
 
   function KmsSymmetricKeyArnToKMSConfiguration(
     kmsSymmetricArn: Types.KmsSymmetricKeyArn
-  ): (output: Result<KeyStoreTypes.KMSConfiguration, Types.Error>)
+  ): (output: KeyStoreTypes.KMSConfiguration)
   {
-    var _ :- KmsArn.IsValidKeyArn(match kmsSymmetricArn
-                                  case KmsKeyArn(kmsKeyArn) => kmsKeyArn
-                                  case KmsMRKeyArn(kmsMRKeyArn) => kmsMRKeyArn)
-             .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
     match kmsSymmetricArn
     case KmsKeyArn(kmsKeyArn) => Success(KeyStoreTypes.kmsKeyArn(kmsKeyArn))
     case KmsMRKeyArn(kmsMRKeyArn) => Success(KeyStoreTypes.kmsMRKeyArn(kmsMRKeyArn))

@@ -252,6 +252,7 @@ module {:options "/functionSyntax:4" } Mutations {
     modifies input.Modifies
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
     requires input.keyManagerStrategy.decryptEncrypt? || input.keyManagerStrategy.reEncrypt?
+    requires input.item.EncryptionContext[Structure.KMS_FIELD] == input.originalKmsArn
     requires input.terminalEncryptionContext[Structure.KMS_FIELD] == input.terminalKmsArn
   {
     var wrappedKey?;
@@ -271,9 +272,7 @@ module {:options "/functionSyntax:4" } Mutations {
       case decryptEncrypt(kmsD, kmsE) =>
         var decryptedKey? := KMSKeystoreOperations.DecryptKeyForHv1(
           encryptedKey := input.item,
-          kmsConfiguration := KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(
-            Types.KmsSymmetricKeyArn.KmsKeyArn(input.originalKmsArn)
-          ).value,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(input.originalKmsArn),
           grantTokens := kmsD.grantTokens,
           kmsClient := kmsD.kmsClient);
         if (decryptedKey?.Failure?) {
@@ -291,9 +290,7 @@ module {:options "/functionSyntax:4" } Mutations {
           plaintext := decryptedKey?.value.Plaintext.value,
           encryptionContext := input.terminalEncryptionContext,
           kmsArnToStorage := input.terminalEncryptionContext[Structure.KMS_FIELD],
-          kmsConfiguration := KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(
-            Types.KmsSymmetricKeyArn.KmsKeyArn(input.terminalKmsArn)
-          ).value,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(input.input.terminalKmsArn),
           grantTokens := kmsE.grantTokens,
           kmsClient := kmsE.kmsClient
         );
