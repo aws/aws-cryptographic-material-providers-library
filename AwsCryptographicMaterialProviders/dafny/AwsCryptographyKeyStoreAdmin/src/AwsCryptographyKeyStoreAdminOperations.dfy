@@ -240,9 +240,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
                           id := "",
                           ddbTableName := None,
                           logicalKeyStoreName := config.logicalKeyStoreName,
-                          kmsConfiguration := match kmsArn
-                          case KmsKeyArn(kmsKeyArn) => KeyStoreOperations.Types.kmsKeyArn(kmsKeyArn)
-                          case KmsMRKey(kmsMrkKey) => KeyStoreOperations.Types.kmsMRKeyArn(kmsMrkKey.KeyArn),
+                          kmsConfiguration := KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(kmsArn),
                           grantTokens := keyManagerStrat.reEncrypt.grantTokens,
                           kmsClient := keyManagerStrat.reEncrypt.kmsClient,
                           ddbClient := None,
