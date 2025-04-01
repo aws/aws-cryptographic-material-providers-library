@@ -6,6 +6,9 @@ module {:options "/functionSyntax:4" } KmsUtils {
   import opened Wrappers
   import KMS = Com.Amazonaws.Kms
   import KMSKeystoreOperations
+  import KeyStoreTypes = KMSKeystoreOperations.Types
+  import Types = AwsCryptographyKeyStoreAdminTypes
+  import KmsArn
 
   datatype KMSTuple = | KMSTuple(
     kmsClient: KMS.Types.IKMSClient,
@@ -97,6 +100,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     match error {
       case Opaque(obj) => None
       case KeyManagementException(s) => None
+      case BranchKeyCiphertextException(s) => None
       case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
         match comAmazonawsKms {
           case Opaque(obj) => Some(comAmazonawsKms)
@@ -113,6 +117,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     match error {
       case Opaque(obj) => None
       case KeyManagementException(s) => Some(s)
+      case BranchKeyCiphertextException(s) => Some(s)
       case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
         match comAmazonawsKms {
           case Opaque(obj) => None
@@ -121,4 +126,16 @@ module {:options "/functionSyntax:4" } KmsUtils {
         }
     }
   }
+
+  function KmsSymmetricKeyArnToKMSConfiguration(
+    kmsSymmetricArn: Types.KmsSymmetricKeyArn
+  ): (output: KeyStoreTypes.KMSConfiguration)
+    requires
+      match kmsSymmetricArn
+      case KmsKeyArn(arn) => KmsArn.ValidKmsArn?(arn)
+  {
+    match kmsSymmetricArn
+    case KmsKeyArn(kmsKeyArn) => KeyStoreTypes.kmsKeyArn(kmsKeyArn)
+  }
+
 }
