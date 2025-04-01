@@ -687,7 +687,7 @@ module GetKeys {
       HvUtils.UnpackPlainTextTuple(kmsDecryptRes.Plaintext.value);
 
     // Create and validate BKC digest
-    var bkcFromStorage :- HvUtils.createBKCDigest(
+    var bkcFromStorage :- HvUtils.CreateBKCDigest(
       branchKeyItemFromStorage.EncryptionContext,
       crypto?.value
     );
