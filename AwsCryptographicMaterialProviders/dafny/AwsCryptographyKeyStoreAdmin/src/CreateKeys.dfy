@@ -275,29 +275,46 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     // Get crypto client
     var crypto? := HvUtils.ProvideCryptoClient();
     var crypto :- crypto?.MapFailure(
-      e => Types.AwsCryptographyPrimitives(e)
+      e => Types.AwsCryptographyPrimitives(
+          AwsCryptographyPrimitives := e
+        )
     );
 
-    // Create SHA-384 digests
-    var decryptOnlyDigest :- HvUtils.CreateBKCDigest(decryptOnlyBranchKeyContext, crypto);
-    var activeDigest :- HvUtils.CreateBKCDigest(activeBranchKeyContext, crypto);
-    var beaconDigest :- HvUtils.CreateBKCDigest(beaconBranchKeyContext, crypto);
+    // Create SHA-384 digests for Branch Key Context's
+    var decryptOnlyDigest? := HvUtils.CreateBKCDigest(decryptOnlyBranchKeyContext, crypto);
+    var decryptOnlyDigest :- decryptOnlyDigest?.MapFailure(e => Types.AwsCryptographyKeyStore(
+                                                               AwsCryptographyKeyStore:= e
+                                                             ));
+    var activeDigest? := HvUtils.CreateBKCDigest(activeBranchKeyContext, crypto);
+    var activeDigest :- activeDigest?.MapFailure(e => Types.AwsCryptographyKeyStore(
+                                                     AwsCryptographyKeyStore:= e
+                                                   ));
+    var beaconDigest? := HvUtils.CreateBKCDigest(beaconBranchKeyContext, crypto);
+    var beaconDigest :- beaconDigest?.MapFailure(e => Types.AwsCryptographyKeyStore(
+                                                     AwsCryptographyKeyStore:= e
+                                                   ));
 
     // if (decryptOnlyDigest.Failure? || activeDigest.Failure? || beaconDigest.Failure?)
 
-    // Generate AES Keys.
-    // TODO-HV-2-M1: Map Failure -> AtomicPrimitives.Types.Error
-    var activePlaintextMaterial? :- crypto.GenerateRandomBytes(
+    // Generate Random Bytes as Plaintext for ACTIVE & Beacon Item's
+    var activePlaintextMaterial? := crypto.GenerateRandomBytes(
       CryptoTypes.GenerateRandomBytesInput(length := 32)
     );
+    var activePlaintextMaterial :- activePlaintextMaterial?.MapFailure(e => Types.AwsCryptographyPrimitives(
+                                                                           AwsCryptographyPrimitives := e
+                                                                         ));
 
-    var beaconPlaintextMaterial? :- crypto.GenerateRandomBytes(
+    var beaconPlaintextMaterial? := crypto.GenerateRandomBytes(
       CryptoTypes.GenerateRandomBytesInput(length := 32)
     );
+    var beaconPlaintextMaterial :- beaconPlaintextMaterial?.MapFailure(e => Types.AwsCryptographyPrimitives(
+                                                                           AwsCryptographyPrimitives := e
+                                                                         ));
 
-    var activePlaintextTuple := HvUtils.PackPlainTextTuple(activeDigest, activePlaintextMaterial?);
-    var decryptOnlyPlaintextTuple := HvUtils.PackPlainTextTuple(decryptOnlyDigest, activePlaintextMaterial?);
-    var beaconPlaintextTuple := HvUtils.PackPlainTextTuple(beaconDigest, beaconPlaintextMaterial?);
+    // Pack BKC Digest & Plaintext
+    var activePlaintextTuple := HvUtils.PackPlainTextTuple(activeDigest, activePlaintextMaterial);
+    var decryptOnlyPlaintextTuple := HvUtils.PackPlainTextTuple(decryptOnlyDigest, activePlaintextMaterial);
+    var beaconPlaintextTuple := HvUtils.PackPlainTextTuple(beaconDigest, beaconPlaintextMaterial);
 
     assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyBranchKeyContext[Structure.KMS_FIELD]);
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.EncryptKey(
@@ -327,7 +344,8 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
       kmsClient
     );
 
-    var _ :- storage.WriteNewEncryptedBranchKey(
+    // Write ACTIVE, Version & Beacon Items to storage
+    var writeItems? := storage.WriteNewEncryptedBranchKey(
       KeyStoreTypes.WriteNewEncryptedBranchKeyInput(
         Active := Structure.ConstructEncryptedHierarchicalKey(
           activeBranchKeyContext,
@@ -343,6 +361,10 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
         )
       )
     );
+    var _ :- writeItems?
+    .MapFailure(e => Types.AwsCryptographyKeyStore(
+                    AwsCryptographyKeyStore:= e
+                  ));
 
     output := Success(
       Types.CreateKeyOutput(
