@@ -6,6 +6,7 @@ include "InitializeMutation.dfy"
 include "ApplyMutation.dfy"
 include "KmsUtils.dfy"
 include "DescribeMutation.dfy"
+include "CreateKeys.dfy"
 
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
   import opened AwsKmsUtils
@@ -29,7 +30,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import KSAApplyMutation = InternalApplyMutation
   import DM = DescribeMutation
   import KmsUtils
-    // import CreateKeysHV2
+  import CreateKeysHV2
 
   datatype Config = Config(
     nameonly logicalKeyStoreName: string,
@@ -414,11 +415,18 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
                ,
                 Types.KeyStoreAdminException( message := ErrorMessages.UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR));
 
-        // TODO-HV-1-M1-BLOCKER: Return CreateKeyOutput
-        output :=
-          Failure(
-            Types.KeyStoreAdminException(message :="Only hierarchy-version-1 is supported at this time.")
-          );
+      // TODO-HV-1-M1-BLOCKER: Return CreateKeyOutput
+        output := CreateKeysHV2.CreateBranchAndBeaconKeys(
+          branchKeyIdentifier,
+          map i <- encodedEncryptionContext :: i.0.value := i.1.value,
+          timestamp,
+          branchKeyVersion,
+          config.logicalKeyStoreName,
+          config.kmsConfiguration,
+          config.grantTokens,
+          config.kmsClient,
+          config.storage
+        );
     }
   }
 
