@@ -421,11 +421,11 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
           map i <- encodedEncryptionContext :: i.0.value := i.1.value,
           timestamp,
           branchKeyVersion,
-          config.logicalKeyStoreName,
-          config.kmsConfiguration,
-          config.grantTokens,
-          config.kmsClient,
-          config.storage,
+          legacyConfig.logicalKeyStoreName,
+          legacyConfig.kmsConfiguration,
+          legacyConfig.grantTokens,
+          legacyConfig.kmsClient,
+          legacyConfig.storage,
           hvInput
         );
     }
