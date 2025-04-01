@@ -45,7 +45,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   }
 
   // TODO-HV2: Create a known answer test for createBKCDigest. See https://github.com/aws/aws-cryptographic-material-providers-library/commit/09a84e15b5d7311b0418180ddda69dc7314b320e
-  method createBKCDigest (
+  method CreateBKCDigest (
     branchKeyContext: map<string, string>,
     cryptoClient: AtomicPrimitives.AtomicPrimitivesClient
   ) returns (output: Result<seq<uint8>, BKCDigestError>)

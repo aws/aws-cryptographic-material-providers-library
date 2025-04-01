@@ -415,7 +415,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
                ,
                 Types.KeyStoreAdminException( message := ErrorMessages.UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR));
 
-      // TODO-HV-1-M1-BLOCKER: Return CreateKeyOutput
+        // TODO-HV-1-M1-BLOCKER: Return CreateKeyOutput
         output := CreateKeysHV2.CreateBranchAndBeaconKeys(
           branchKeyIdentifier,
           map i <- encodedEncryptionContext :: i.0.value := i.1.value,
@@ -425,7 +425,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
           config.kmsConfiguration,
           config.grantTokens,
           config.kmsClient,
-          config.storage
+          config.storage,
+          hvInput
         );
     }
   }
