@@ -111,7 +111,7 @@ module GetKeys {
                                                    activeItem,
                                                    decryptResponse.Plaintext.value
                                                  ).value;
-                   
+
                    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
                    //= type=implication
                    //# This operation MUST return the constructed [branch key materials](./structures.md#branch-key-materials).
@@ -120,7 +120,7 @@ module GetKeys {
                    && output.value.branchKeyMaterials.branchKeyIdentifier == input.branchKeyIdentifier
                  else if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
                    && |decryptResponse.Plaintext.value| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
-                   
+
                    && var branchKeyMaterials :=  Structure.ToBranchKeyMaterials(
                                                    activeItem,
                                                    decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
@@ -188,13 +188,13 @@ module GetKeys {
     );
     var plainTextKey: seq<uint8>;
     if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1) {
-      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
+      var kmsRes: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
         kmsClient
       );
-      plainTextKey := branchKey.Plaintext.value;
+      plainTextKey := kmsRes.Plaintext.value;
     } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
       :- Need(
         HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
@@ -335,11 +335,11 @@ module GetKeys {
                    && output.value.branchKeyMaterials == branchKeyMaterials
 
                    && output.value.branchKeyMaterials.branchKeyIdentifier == input.branchKeyIdentifier
-                   
+
                    && UTF8.Encode(input.branchKeyVersion).Success?
-                   
+
                    && output.value.branchKeyMaterials.branchKeyVersion == UTF8.Encode(input.branchKeyVersion).value
-                 
+
                  else if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
                    && var branchKeyMaterials := Structure
                                                 .ToBranchKeyMaterials(
@@ -351,9 +351,9 @@ module GetKeys {
                    && output.value.branchKeyMaterials == branchKeyMaterials
 
                    && output.value.branchKeyMaterials.branchKeyIdentifier == input.branchKeyIdentifier
-                   
+
                    && UTF8.Encode(input.branchKeyVersion).Success?
-                   
+
                    && output.value.branchKeyMaterials.branchKeyVersion == UTF8.Encode(input.branchKeyVersion).value
                  else
                    false
@@ -420,13 +420,13 @@ module GetKeys {
 
     var plainTextKey: seq<uint8>;
     if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1) {
-      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
+      var kmsRes: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
         kmsClient
       );
-      plainTextKey := branchKey.Plaintext.value;
+      plainTextKey := kmsRes.Plaintext.value;
     } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
       :- Need(
         HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
@@ -624,13 +624,13 @@ module GetKeys {
     );
     var plainTextKey: seq<uint8>;
     if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1) {
-      var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
+      var kmsRes: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
         branchKeyItemFromStorage,
         kmsConfiguration,
         grantTokens,
         kmsClient
       );
-      plainTextKey := branchKey.Plaintext.value;
+      plainTextKey := kmsRes.Plaintext.value;
     } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
       :- Need(
         HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
