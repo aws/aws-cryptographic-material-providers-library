@@ -181,19 +181,4 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     expect actualOutput.Failure?, "Should have failed VersionKey when HV-2 encountered by VersionKey.";
   }
-
-  predicate ISO8601?(
-    CreateTime: string
-  )
-  {
-    // “YYYY-MM-DDTHH:mm:ss.ssssssZ“
-    && |CreateTime| == 27
-    && CreateTime[4] == '-'
-    && CreateTime[7] == '-'
-    && CreateTime[10] == 'T'
-    && CreateTime[13] == ':'
-    && CreateTime[16] == ':'
-    && CreateTime[19] == '.'
-    && CreateTime[26] == 'Z'
-  }
 }
