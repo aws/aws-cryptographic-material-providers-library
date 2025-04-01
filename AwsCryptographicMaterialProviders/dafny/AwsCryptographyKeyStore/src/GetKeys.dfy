@@ -108,6 +108,11 @@ module GetKeys {
               && if hv == Structure.HIERARCHY_VERSION_VALUE_1 then
                    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
                    //= type=implication
+                   //# This GetActiveBranchKey MUST construct [branch key materials](./structures.md#branch-key-materials)
+                   //# according to [Branch Key Materials From Authenticated Encryption Context](#branch-key-materials-from-authenticated-encryption-context).
+
+                   //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
+                   //= type=implication
                    //# This operation MUST return the constructed [branch key materials](./structures.md#branch-key-materials).
                    && ValidateActiveKeyBranchKeyMaterials(activeItem, decryptResponse.Plaintext.value, output.value, input.branchKeyIdentifier)
 
