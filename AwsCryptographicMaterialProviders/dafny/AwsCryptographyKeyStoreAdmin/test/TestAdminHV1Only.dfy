@@ -26,6 +26,8 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import AdminFixtures
   import TestGetKeys
 
+  const happyCaseId := "test-create-key-hv-2-happy-case"
+
   // TODO-HV-2-M1 : Probably make this a happy test?
   method {:test} TestCreateKeyForHV2HappyCase()
   {
@@ -51,6 +53,32 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     // Get branch key items from storage
     TestGetKeys.VerifyGetKeys(
       identifier := identifier,
+      keyStore := keyStore,
+      storage := storage,
+      ddbClient := ddbClient
+    );
+
+    // Create key with Custom EC & Branch Key Identifier
+    var uuid :- expect UUID.GenerateUUID();
+    var branchKeyId := happyCaseId + "-" + uuid;
+
+    var customEC := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")];
+
+    input := Types.CreateKeyInput(
+      Identifier := Some(branchKeyId),
+      EncryptionContext := Some(customEC),
+      KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
+      Strategy := Some(strategy),
+      HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+    );
+
+    createKeyOutput? :- expect underTest.CreateKey(input);
+    expect branchKeyId == createKeyOutput?.Identifier;
+    expect createKeyOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
+
+    // Get branch key items from storage
+    TestGetKeys.VerifyGetKeys(
+      identifier := branchKeyId,
       keyStore := keyStore,
       storage := storage,
       ddbClient := ddbClient

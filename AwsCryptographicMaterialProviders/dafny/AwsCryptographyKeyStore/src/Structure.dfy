@@ -445,6 +445,11 @@ module {:options "/functionSyntax:4" } Structure {
     map i <- defixedCustomEncryptionContext :: i.0 := i.1
   }
 
+  lemma HierarchyVersionValueMatch(version: Types.HierarchyVersion)
+  ensures version.v1? ==> HIERARCHY_VERSION_VALUE_1 == "1"
+  ensures version.v2? ==> HIERARCHY_VERSION_VALUE_2 == "2"
+{
+}
 
   opaque function DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
@@ -452,7 +457,7 @@ module {:options "/functionSyntax:4" } Structure {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
-    hierachyVersion: Types.HierarchyVersion,
+    hierarchyVersion: Types.HierarchyVersion,
     customEncryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
@@ -462,10 +467,6 @@ module {:options "/functionSyntax:4" } Structure {
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[KMS_FIELD] == kmsKeyArn
     ensures output[TABLE_FIELD] == logicalKeyStoreName
-    ensures
-      match hierachyVersion
-      case v1 => output[HIERARCHY_VERSION] == HIERARCHY_VERSION_VALUE_1
-      case v2 => output[HIERARCHY_VERSION] == HIERARCHY_VERSION_VALUE_2
     ensures forall k <- customEncryptionContext
               ::
                 && ENCRYPTION_CONTEXT_PREFIX + k in output
@@ -487,7 +488,7 @@ module {:options "/functionSyntax:4" } Structure {
       KEY_CREATE_TIME := timestamp,
       TABLE_FIELD := logicalKeyStoreName,
       KMS_FIELD := kmsKeyArn,
-      HIERARCHY_VERSION := match hierachyVersion
+      HIERARCHY_VERSION := match hierarchyVersion
       case v1 => HIERARCHY_VERSION_VALUE_1
       case v2 => HIERARCHY_VERSION_VALUE_2
     ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]

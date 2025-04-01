@@ -148,7 +148,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
         && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Active
            == Structure.ConstructEncryptedHierarchicalKey(
                 Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext),
-                 Seq.Last(Seq.DropLast(kmsClient.History.Encrypt)).output.value.CiphertextBlob.value
+                Seq.Last(Seq.DropLast(kmsClient.History.Encrypt)).output.value.CiphertextBlob.value
               )
         && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Version
            == Structure.ConstructEncryptedHierarchicalKey(
