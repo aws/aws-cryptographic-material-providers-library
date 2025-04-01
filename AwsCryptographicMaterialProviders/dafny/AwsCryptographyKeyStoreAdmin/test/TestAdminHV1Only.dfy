@@ -47,7 +47,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var createKeyOutput? :- expect underTest.CreateKey(input);
     var identifier := createKeyOutput?.Identifier;
     expect createKeyOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
-    
+
     // Get branch key items from storage
     TestGetKeys.VerifyGetKeys(
       identifier := identifier,

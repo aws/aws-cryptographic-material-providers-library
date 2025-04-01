@@ -30,7 +30,7 @@ module TestGetKeys {
     storage : Types.IKeyStorageInterface,
     ddbClient : DDB.Types.IDynamoDBClient
   ) {
-   var beaconKeyResult :- expect keyStore.GetBeaconKey(
+    var beaconKeyResult :- expect keyStore.GetBeaconKey(
       Types.GetBeaconKeyInput(
         branchKeyIdentifier := identifier
       ));
