@@ -228,8 +228,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     return Success(hierarchyVersion?.value);
   }
 
-  // TODO-HV-2-M1?-M2?: Either Take keyManagerStrat and resolve KMSTuple or
-  // take KMSTuple and let CreateKey handle the resolving for KMSTuple
+  // TODO-HV-2-M2?: LegacyConfig can be only called for a single KmsTuple (ReEncrypt & KmsSimple)
+  // Resolve for DecryptEncrypt Strategy (Encrypt: KmsTuple, Decrypt: KmsTuple)
   function method LegacyConfig(
     kmsTuple: KmsUtils.KMSTuple,
     kmsArn: Types.KmsSymmetricKeyArn,
@@ -237,7 +237,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   ): (output: Result<KeyStoreOperations.Config, Error>)
     requires ValidInternalConfig?(config)
     requires
-      // && kmsTuple?
       && kmsTuple.kmsClient.ValidState()
       && GetValidGrantTokens(Some(kmsTuple.grantTokens)).Success?
     ensures output.Success?
@@ -297,20 +296,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     //   && !KO.HasKeyId(config.kmsConfiguration)
     //   ==> output.Failure?
   {
-    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
-    :- Need(
-      keyManagerStrat.reEncrypt?,
-      Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
-    );
-
-    // TODO-HV-2-M2: Ensure KeyManagementStrategies are properly handled -> Config
-    // Currently,
-    //  For HV-1 -> AwsKmsReEncrypt(reEncrypt: KMSTuple)
-    //  For HV-2 -> AwsKmsSimple(kmsSimple: KMSTuple)
-    var legacyConfig;
-
     var hvInput :- ResolveHierarchyVersionForCreateKey(input.HierarchyVersion, config);
-
+    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     match hvInput {
       case v1 =>
         :- Need(
@@ -318,7 +305,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
           Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time for HV-1")
         );
 
-        legacyConfig :- LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config);
+        var legacyConfig :- LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config);
         // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
         assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
@@ -335,7 +322,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         output := Success(
           Types.CreateKeyOutput(
             Identifier := value.branchKeyIdentifier,
-            // TODO-HV-2-M1: this will need to be properly wired
             HierarchyVersion := hvInput
           ));
       case v2 =>
@@ -344,12 +330,10 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
           Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
         );
 
-        legacyConfig :- LegacyConfig(keyManagerStrat.kmsSimple, input.KmsArn, config);
+        var legacyConfig :- LegacyConfig(keyManagerStrat.kmsSimple, input.KmsArn, config);
         // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
         assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
-          // TODO-HV-2-M1-BLOCKER: Need Integrations tests for HV-2 Branch Keys.
-          // TODO-HV-2-M1: Ensure Correctness about HV-2 Behavior
         :- Need(input.Identifier.Some? ==>
                   && input.EncryptionContext.Some?
                   && 0 < |input.EncryptionContext.value|,
@@ -415,7 +399,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
                ,
                 Types.KeyStoreAdminException( message := ErrorMessages.UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR));
 
-        // TODO-HV-1-M1-BLOCKER: Return CreateKeyOutput
         output := CreateKeysHV2.CreateBranchAndBeaconKeys(
           branchKeyIdentifier,
           map i <- encodedEncryptionContext :: i.0.value := i.1.value,

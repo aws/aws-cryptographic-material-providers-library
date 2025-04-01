@@ -38,7 +38,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
 
   function ConvertKmsErrorToError(
     e: KMSKeystoreOperations.KmsError
-  ): Types.Error 
+  ): Types.Error
   {
     match e {
       // KMS errors ->

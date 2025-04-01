@@ -110,21 +110,6 @@ module {:options "/functionSyntax:4" } KmsUtils {
     }
   }
 
-  // function ExtractKmsError(
-  //   error: KMSKeystoreOperations.KmsError
-  // ): (resError?: Types.Error)
-  // {
-  //   match error {
-  //     case KeyManagementException => KeyStoreTypes.KeyManagementException
-  //     case BranchKeyCiphertextException => KeyStoreTypes.BranchKeyCiphertextException
-  //     case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
-  //       match comAmazonawsKms {
-  //         case Opaque => comAmazonawsKms
-  //         case OpaqueWithText(obj, objMessage) => comAmazonawsKms
-  //       }
-  //   }
-  // }
-
   function ExtractMessageFromKmsError(
     error: KMSKeystoreOperations.KmsError
   ): (errorMessage?: Option<string>)
