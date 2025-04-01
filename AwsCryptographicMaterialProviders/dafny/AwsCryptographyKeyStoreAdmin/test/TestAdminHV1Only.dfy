@@ -4,6 +4,7 @@
 include "../src/Index.dfy"
 include "../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "../../AwsCryptographyKeyStore/test/Fixtures.dfy"
+include "../../AwsCryptographyKeyStore/test/TestGetKeys.dfy"
 include "../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
 include "AdminFixtures.dfy"
 
@@ -23,15 +24,16 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import UUID
   import CleanupItems
   import AdminFixtures
+  import TestGetKeys
 
   // TODO-HV-2-M1 : Probably make this a happy test?
-  method {:test} TestCreateKeyForHV2Fails()
+  method {:test} TestCreateKeyForHV2HappyCase()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
-    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
     var input := Types.CreateKeyInput(
@@ -39,10 +41,20 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
       EncryptionContext := None,
       KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
       Strategy := Some(strategy),
-      HierarchyVersion := Some(KeyStoreTypes.v2)
+      HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
     );
-    var actualOutput := underTest.CreateKey(input);
-    expect actualOutput.Failure?, "Should have failed to create an HV-2. Dirty BKID: " + actualOutput.value.Identifier;
+
+    var createKeyOutput? :- expect underTest.CreateKey(input);
+    var identifier := createKeyOutput?.Identifier;
+    expect createKeyOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
+    
+    // Get branch key items from storage
+    TestGetKeys.VerifyGetKeys(
+      identifier := identifier,
+      keyStore := keyStore,
+      storage := storage,
+      ddbClient := ddbClient
+    );
   }
 
   // TODO-HV-2-M2 : Probably make this a happy test?
@@ -60,7 +72,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
 
     var mutationsRequest := Types.Mutations(
       TerminalKmsArn := Some(Fixtures.postalHornKeyArn),
-      TerminalHierarchyVersion := Some(KeyStoreTypes.v2)
+      TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
     );
     var initInput := Types.InitializeMutationInput(
       Identifier := testId,
@@ -88,7 +100,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
 
     var mutationsRequest := Types.Mutations(
       TerminalKmsArn := Some(Fixtures.postalHornKeyArn),
-      TerminalHierarchyVersion := Some(KeyStoreTypes.v1)
+      TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v1)
     );
     var initInput := Types.InitializeMutationInput(
       Identifier := testId,
@@ -168,5 +180,20 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
 
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     expect actualOutput.Failure?, "Should have failed VersionKey when HV-2 encountered by VersionKey.";
+  }
+
+  predicate ISO8601?(
+    CreateTime: string
+  )
+  {
+    // “YYYY-MM-DDTHH:mm:ss.ssssssZ“
+    && |CreateTime| == 27
+    && CreateTime[4] == '-'
+    && CreateTime[7] == '-'
+    && CreateTime[10] == 'T'
+    && CreateTime[13] == ':'
+    && CreateTime[16] == ':'
+    && CreateTime[19] == '.'
+    && CreateTime[26] == 'Z'
   }
 }
