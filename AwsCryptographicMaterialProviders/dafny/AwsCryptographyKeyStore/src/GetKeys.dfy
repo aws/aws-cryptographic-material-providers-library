@@ -106,28 +106,14 @@ module GetKeys {
               && Structure.ToBranchKeyMaterials(activeItem, decryptResponse.Plaintext.value).Success?
 
               && if hv == Structure.HIERARCHY_VERSION_VALUE_1 then
-                   && var branchKeyMaterials :=  Structure.ToBranchKeyMaterials(
-                                                   activeItem,
-                                                   decryptResponse.Plaintext.value
-                                                 ).value;
-
                    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
                    //= type=implication
                    //# This operation MUST return the constructed [branch key materials](./structures.md#branch-key-materials).
-                   && output.value.branchKeyMaterials == branchKeyMaterials
+                   && ValidateActiveKeyBranchKeyMaterials(activeItem, decryptResponse.Plaintext.value, output.value, input.branchKeyIdentifier)
 
-                   && output.value.branchKeyMaterials.branchKeyIdentifier == input.branchKeyIdentifier
                  else if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
-                   && |decryptResponse.Plaintext.value| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+                   && ValidateActiveKeyBranchKeyMaterials(activeItem, decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..], output.value, input.branchKeyIdentifier)
 
-                   && var branchKeyMaterials :=  Structure.ToBranchKeyMaterials(
-                                                   activeItem,
-                                                   decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
-                                                 ).value;
-
-                   && output.value.branchKeyMaterials == branchKeyMaterials
-
-                   && output.value.branchKeyMaterials.branchKeyIdentifier == input.branchKeyIdentifier
                  else
                    false
 
@@ -321,39 +307,14 @@ module GetKeys {
                    //= type=implication
                    //# This GetBranchKeyVersion MUST construct [branch key materials](./structures.md#branch-key-materials)
                    //# according to [Branch Key Materials From Authenticated Encryption Context](#branch-key-materials-from-authenticated-encryption-context).
-                   && var branchKeyMaterials := Structure
-                                                .ToBranchKeyMaterials(
-                                                  versionItem,
-                                                  decryptResponse.Plaintext.value
-                                                )
-                                                .value;
 
                    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
                    //= type=implication
                    //# This operation MUST return the constructed [branch key materials](./structures.md#branch-key-materials).
-                   && output.value.branchKeyMaterials == branchKeyMaterials
-
-                   && output.value.branchKeyMaterials.branchKeyIdentifier == input.branchKeyIdentifier
-
-                   && UTF8.Encode(input.branchKeyVersion).Success?
-
-                   && output.value.branchKeyMaterials.branchKeyVersion == UTF8.Encode(input.branchKeyVersion).value
+                   ValidateBranchKeyVersionBranchKeyMaterials(versionItem, decryptResponse.Plaintext.value, output.value, input.branchKeyIdentifier, input.branchKeyVersion)
 
                  else if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
-                   && var branchKeyMaterials := Structure
-                                                .ToBranchKeyMaterials(
-                                                  versionItem,
-                                                  decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
-                                                )
-                                                .value;
-
-                   && output.value.branchKeyMaterials == branchKeyMaterials
-
-                   && output.value.branchKeyMaterials.branchKeyIdentifier == input.branchKeyIdentifier
-
-                   && UTF8.Encode(input.branchKeyVersion).Success?
-
-                   && output.value.branchKeyMaterials.branchKeyVersion == UTF8.Encode(input.branchKeyVersion).value
+                   ValidateBranchKeyVersionBranchKeyMaterials(versionItem, decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..], output.value, input.branchKeyIdentifier, input.branchKeyVersion)
                  else
                    false
 
@@ -536,33 +497,19 @@ module GetKeys {
               && Structure.ToBeaconKeyMaterials(beaconItem, decryptResponse.Plaintext.value).Success?
 
               && if hv == Structure.HIERARCHY_VERSION_VALUE_1 then
-
                    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
                    //= type=implication
                    //# This GetBeaconKey MUST construct [beacon key materials](./structures.md#beacon-key-materials) from the decrypted branch key material
                    //# and the `branchKeyId` from the returned `branch-key-id` field.
-                   && var beaconKeyMaterials := Structure.ToBeaconKeyMaterials(
-                                                  beaconItem,
-                                                  decryptResponse.Plaintext.value
-                                                ).value;
 
                    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
                    //= type=implication
                    //# This operation MUST return the constructed [beacon key materials](./structures.md#beacon-key-materials).
-                   && output.value.beaconKeyMaterials == beaconKeyMaterials
+                   && ValidateBeaconKeyMaterials(beaconItem, decryptResponse.Plaintext.value, output.value, input.branchKeyIdentifier)
 
-                   && output.value.beaconKeyMaterials.beaconKeyIdentifier == input.branchKeyIdentifier
                  else if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
-                   && |decryptResponse.Plaintext.value| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+                   && ValidateBeaconKeyMaterials(beaconItem, decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..], output.value, input.branchKeyIdentifier)
 
-                   && var beaconKeyMaterials := Structure.ToBeaconKeyMaterials(
-                                                  beaconItem,
-                                                  decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
-                                                ).value;
-
-                   && output.value.beaconKeyMaterials == beaconKeyMaterials
-
-                   && output.value.beaconKeyMaterials.beaconKeyIdentifier == input.branchKeyIdentifier
                  else
                    false
 
@@ -762,44 +709,6 @@ module GetKeys {
     requires Structure.BranchKeyContext?(item.EncryptionContext)
     requires 0 < |kmsClient.History.Decrypt|
     reads kmsClient.History
-    // ensures ValidateKmsDecryption(item, kmsConfiguration, grantTokens, kmsClient)
-    //         ==>
-    //             && var hv := item.EncryptionContext[Structure.HIERARCHY_VERSION];
-
-    //             && ((hv == Structure.HIERARCHY_VERSION_VALUE_1) || (hv == Structure.HIERARCHY_VERSION_VALUE_2))
-
-    //             && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
-
-    //                 && HvUtils.HasUniqueTransformedKeys?(item.EncryptionContext)
-
-    //                 && var ciphertextBlob := item.CiphertextBlob;
-
-    //                 && var kmsArnFromStorage := item.KmsArn;
-
-    //                 && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(item.EncryptionContext);
-
-    //                 && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
-    //                   ciphertextBlob,
-    //                   ecToKMS,
-    //                   kmsArnFromStorage,
-    //                   kmsConfiguration,
-    //                   grantTokens,
-    //                   kmsClient,
-    //                   Seq.Last(kmsClient.History.Decrypt)
-    //                 )
-
-    //               else if hv == Structure.HIERARCHY_VERSION_VALUE_1 then
-    //                 && Structure.EncryptedHierarchicalKeyFromStorage?(item)
-    //                 && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV1?(
-    //                   item,
-    //                   kmsConfiguration,
-    //                   grantTokens,
-    //                   kmsClient,
-    //                   Seq.Last(kmsClient.History.Decrypt)
-    //                 )
-
-    //               else false
-
   {
     && ((hv == Structure.HIERARCHY_VERSION_VALUE_1) || (hv == Structure.HIERARCHY_VERSION_VALUE_2))
 
@@ -836,5 +745,63 @@ module GetKeys {
        else false
   }
 
+  predicate ValidateActiveKeyBranchKeyMaterials(
+    item: Types.EncryptedHierarchicalKey,
+    plainTextKey: seq<uint8>,
+    activeBranchKeyOutput: Types.GetActiveBranchKeyOutput,
+    expectedIdentifier: string
+  )
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
+    requires
+      || item.Type.ActiveHierarchicalSymmetricVersion?
+      || item.Type.HierarchicalSymmetricVersion?
+  {
+    && var branchKeyMaterials :=  Structure.ToBranchKeyMaterials(
+                                    item,
+                                    plainTextKey
+                                  );
+    && branchKeyMaterials.Success?
+    && activeBranchKeyOutput.branchKeyMaterials == branchKeyMaterials.value
+    && activeBranchKeyOutput.branchKeyMaterials.branchKeyIdentifier == expectedIdentifier
+  }
 
+  predicate ValidateBranchKeyVersionBranchKeyMaterials(
+    item: Types.EncryptedHierarchicalKey,
+    plainTextKey: seq<uint8>,
+    activeBranchKeyOutput: Types.GetBranchKeyVersionOutput,
+    expectedIdentifier: string,
+    actualBranchKeyVersion: string
+  )
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
+    requires
+      || item.Type.ActiveHierarchicalSymmetricVersion?
+      || item.Type.HierarchicalSymmetricVersion?
+  {
+    && var branchKeyMaterials :=  Structure.ToBranchKeyMaterials(
+                                    item,
+                                    plainTextKey
+                                  );
+    && branchKeyMaterials.Success?
+    && activeBranchKeyOutput.branchKeyMaterials == branchKeyMaterials.value
+    && activeBranchKeyOutput.branchKeyMaterials.branchKeyIdentifier == expectedIdentifier
+    && UTF8.Encode(actualBranchKeyVersion).Success?
+    && activeBranchKeyOutput.branchKeyMaterials.branchKeyVersion == UTF8.Encode(actualBranchKeyVersion).value
+  }
+
+  predicate ValidateBeaconKeyMaterials(
+    beaconItem: Types.EncryptedHierarchicalKey,
+    plainTextKey: seq<uint8>,
+    activeBranchKeyOutput: Types.GetBeaconKeyOutput,
+    expectedIdentifier: string
+  )
+    requires Structure.ActiveHierarchicalSymmetricBeaconKey?(beaconItem)
+  {
+    && var beaconKeyMaterials :=  Structure.ToBeaconKeyMaterials(
+                                    beaconItem,
+                                    plainTextKey
+                                  );
+    && beaconKeyMaterials.Success?
+    && activeBranchKeyOutput.beaconKeyMaterials == beaconKeyMaterials.value
+    && activeBranchKeyOutput.beaconKeyMaterials.beaconKeyIdentifier == expectedIdentifier
+  }
 }
