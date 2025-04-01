@@ -813,6 +813,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     && decryptHistory.output.Success?
 
     && decryptHistory.output.value.Plaintext.Some?
+
+    && |decryptHistory.output.value.Plaintext.value| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
   }
 
 }
