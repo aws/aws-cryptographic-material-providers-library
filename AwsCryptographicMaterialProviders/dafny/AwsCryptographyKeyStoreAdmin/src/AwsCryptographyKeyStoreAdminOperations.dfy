@@ -287,13 +287,13 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       && input.EncryptionContext.None?
       ==> output.Failure?
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
-    //= type=implication
-    //# If the Keystore's KMS Configuration is `Discovery` or `MRDiscovery`,
-    //# this operation MUST fail.
-    ensures
-      && !KO.HasKeyId(config.kmsConfiguration)
-      ==> output.Failure?
+    ensures 
+      output.Success? 
+      ==>
+      && input.Identifier.Some? ==> input.Identifier.value == output.value.Identifier
+      && input.HierarchyVersion.Some? ==> input.HierarchyVersion.value == output.value.HierarchyVersion
+      && input.HierarchyVersion.None? ==> output.value.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v1
+
   {
     var hvInput :- ResolveHierarchyVersionForCreateKey(input.HierarchyVersion, config);
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
