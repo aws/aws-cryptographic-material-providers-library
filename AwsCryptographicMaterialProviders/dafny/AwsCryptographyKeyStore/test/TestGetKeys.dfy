@@ -5,12 +5,15 @@ include "../src/Index.dfy"
 include "Fixtures.dfy"
 include "../src/ErrorMessages.dfy"
 
+// TODO-HV2-M1: add more HV2 tests.
+// TODO-HV2-M1: Maybe rename this module to TestGetHv1Keys and create another TestGetHv2Keys
 module TestGetKeys {
   import Types = AwsCryptographyKeyStoreTypes
   import ComAmazonawsKmsTypes
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
   import KeyStore
+  import ComAmazonawsDynamodbTypes
   import opened Wrappers
   import opened Fixtures
   import UTF8
@@ -85,6 +88,15 @@ module TestGetKeys {
     expect activeResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
     expect activeResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes;
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
+
+    var hv2ActiveResult :- expect keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := hv2BranchKeyId
+      ));
+
+    expect hv2ActiveResult.branchKeyMaterials.branchKeyIdentifier == hv2BranchKeyId;
+    expect hv2ActiveResult.branchKeyMaterials.branchKeyVersion == hv2BranchKeyIdActiveVersionUtf8Bytes;
+    expect |hv2ActiveResult.branchKeyMaterials.branchKey| == 32;
   }
 
   method {:test} {:isolate_assertions} TestGetActiveMrkKey()
@@ -230,6 +242,18 @@ module TestGetKeys {
     expect versionResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
     expect versionResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes == testBytes;
     expect |versionResult.branchKeyMaterials.branchKey| == 32;
+
+    var hv2versionResult :- expect keyStore.GetBranchKeyVersion(
+      Types.GetBranchKeyVersionInput(
+        branchKeyIdentifier := hv2BranchKeyId,
+        branchKeyVersion := hv2BranchKeyIdWithEC
+      ));
+
+    var hv2testBytes :- expect UTF8.Encode(hv2BranchKeyIdWithEC);
+
+    expect hv2versionResult.branchKeyMaterials.branchKeyIdentifier == hv2BranchKeyId;
+    expect hv2versionResult.branchKeyMaterials.branchKeyVersion == hv2BranchKeyIdActiveVersionUtf8Bytes == hv2testBytes;
+    expect |hv2versionResult.branchKeyMaterials.branchKey| == 32;
   }
 
 
