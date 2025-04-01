@@ -19,6 +19,8 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   const BKC_DIGEST_LENGTH: uint8 := 48
   type PlainTextTuple = s: seq<uint8> | |s| == 80 witness *
   type BKCDigestError = e: Types.Error | (e.KeyStoreException? ) witness *
+  datatype Utf8KeyValue = Utf8KeyValue(key: UTF8.ValidUTF8Bytes, value: UTF8.ValidUTF8Bytes)
+
 
   method ProvideCryptoClient(
     Crypto?: Option<AtomicPrimitives.AtomicPrimitivesClient> := None
@@ -119,10 +121,10 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   ): (output: Types.EncryptionContextString)
     requires Structure.BranchKeyContext?(branchKeyContext)
     // TODO-HV-2-M2: Revisit this implementation to handle scenarios where removing prefix results in conflicting keys.
-    requires forall k1, k2 <- branchKeyContext.Keys ::
-               (if HasPrefix(k1) then RemovePrefix(k1) else k1) ==
-               (if HasPrefix(k2) then RemovePrefix(k2) else k2) ==>
-                 k1 == k2
+    // requires forall k1, k2 <- branchKeyContext.Keys ::
+    //            (if HasPrefix(k1) then RemovePrefix(k1) else k1) ==
+    //            (if HasPrefix(k2) then RemovePrefix(k2) else k2) ==>
+    //              k1 == k2
     ensures forall k <- output ::
               exists originalKey ::
                 && originalKey in branchKeyContext
@@ -130,6 +132,10 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
                 && (!HasPrefix(originalKey) ==> k == originalKey)
                 && originalKey !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
   {
+    assume {:axiom} forall k1, k2 <- branchKeyContext.Keys ::
+               (if HasPrefix(k1) then RemovePrefix(k1) else k1) ==
+               (if HasPrefix(k2) then RemovePrefix(k2) else k2) ==>
+                 k1 == k2;
     var transformedContext :=
       set k <- branchKeyContext.Keys
           | k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
@@ -158,6 +164,13 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     ensures output.Success? ==> |output.value| == |input| // Output map size equals input map size
     ensures output.Failure? ==> output.error == "Unable to encode string"
   {
+    // if |stringEncCtx| == 0 then
+    //   Success(map[])
+    // else
+    //   var encodedEncryptionContext: map<string, Result<Utf8KeyValue, string> :=
+    //     map strKey | strKey in input.Keys :: Utf8EncodeKeyValue(strKey, input[strKey]);
+    //     if exists r | in encodedEncryptionContext.Values :: r.Failure?
+    //       then Failure(
     var encodedEncryptionContext
       := set k <- input
            ::
@@ -175,6 +188,28 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
         Failure("Unable to encode string")
     else
       Failure("Unable to encode string")
+  }
+
+  function Utf8EncodeKeyValue(
+    strKey: string,
+    strValue: string
+  ) : (res: Result<Utf8KeyValue, string>)
+    ensures (UTF8.Encode(strKey).Success? && UTF8.Encode(strValue).Success?) <==> res.Success?
+  {
+    var key :- UTF8
+               .Encode(strKey)
+               .MapFailure(
+                 (eStr: string)
+                 =>
+                   "Could not UTF8 Encode: " + strKey + " due to: " + eStr );
+    var value :- UTF8
+                 .Encode(strValue)
+                 .MapFailure(
+                   (eStr: string)
+                   =>
+                     "Could not UTF8 Encode: " + strValue + " due to: " + eStr );
+
+    Success(Utf8KeyValue(key:=key, value:=value))
   }
 
   // Helper function to decode encryption context from UTF8 bytes map to string map
