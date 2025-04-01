@@ -3,7 +3,6 @@
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "MutationStateStructures.dfy"
 include "MutationErrorRefinement.dfy"
-include "MutateViaDecryptEncrypt.dfy"
 include "KmsUtils.dfy"
 
 /** Common Functions/Methods for Mutations. */
@@ -23,7 +22,6 @@ module {:options "/functionSyntax:4" } Mutations {
   import StateStrucs = MutationStateStructures
   import MutationErrorRefinement
   import KmsUtils
-  import MutateViaDecryptEncrypt
 
   method ValidateCommitmentAndIndexStructures(
     token: Types.MutationToken,
@@ -254,6 +252,8 @@ module {:options "/functionSyntax:4" } Mutations {
     modifies input.Modifies
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
     requires input.keyManagerStrategy.decryptEncrypt? || input.keyManagerStrategy.reEncrypt?
+    requires input.item.EncryptionContext[Structure.KMS_FIELD] == input.originalKmsArn
+    requires input.terminalEncryptionContext[Structure.KMS_FIELD] == input.terminalKmsArn
   {
     var wrappedKey?;
     var kmsOperation: string;
@@ -270,11 +270,9 @@ module {:options "/functionSyntax:4" } Mutations {
           kmsClient := kms.kmsClient
         );
       case decryptEncrypt(kmsD, kmsE) =>
-        // TODO-HV-2-M3: Refactor to use KMSKeyStoreOperations.DecryptKey
-        var decryptedKey? := MutateViaDecryptEncrypt.Decrypt(
-          ciphertext := input.item.CiphertextBlob,
-          encryptionContext := input.item.EncryptionContext,
-          kmsArn := input.originalKmsArn,
+        var decryptedKey? := KMSKeystoreOperations.DecryptKeyForHv1(
+          encryptedKey := input.item,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(input.originalKmsArn),
           grantTokens := kmsD.grantTokens,
           kmsClient := kmsD.kmsClient);
         if (decryptedKey?.Failure?) {
@@ -287,11 +285,11 @@ module {:options "/functionSyntax:4" } Mutations {
           return Failure(error);
         }
         kmsOperation := "Encrypt";
-        // TODO-HV-2-M3: Refactor to use KMSKeyStoreOperations.EncryptKey
-        wrappedKey? := MutateViaDecryptEncrypt.Encrypt(
-          plaintext := decryptedKey?.value,
+        wrappedKey? := KMSKeystoreOperations.EncryptKey(
+          plaintext := decryptedKey?.value.Plaintext.value,
           encryptionContext := input.terminalEncryptionContext,
-          kmsArn := input.terminalKmsArn,
+          kmsArnToStorage := input.terminalEncryptionContext[Structure.KMS_FIELD],
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(input.terminalKmsArn),
           grantTokens := kmsE.grantTokens,
           kmsClient := kmsE.kmsClient
         );
