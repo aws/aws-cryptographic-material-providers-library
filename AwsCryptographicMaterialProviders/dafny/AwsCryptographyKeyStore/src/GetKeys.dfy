@@ -101,7 +101,6 @@ module GetKeys {
               && var hv := activeItem.EncryptionContext[Structure.HIERARCHY_VERSION];
               && ValidateKmsDecryption(activeItem, kmsConfiguration, grantTokens, kmsClient, hv)
 
-
               && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
 
               && Structure.ToBranchKeyMaterials(activeItem, decryptResponse.Plaintext.value).Success?
@@ -357,7 +356,6 @@ module GetKeys {
                    && output.value.branchKeyMaterials.branchKeyVersion == UTF8.Encode(input.branchKeyVersion).value
                  else
                    false
-
 
     ensures
       || (&& |storage.History.GetEncryptedBranchKeyVersion| == |old(storage.History.GetEncryptedBranchKeyVersion)| + 1
