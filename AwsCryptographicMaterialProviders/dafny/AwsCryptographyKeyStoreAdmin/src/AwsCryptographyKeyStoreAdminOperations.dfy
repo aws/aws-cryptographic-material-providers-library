@@ -287,12 +287,12 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       && input.EncryptionContext.None?
       ==> output.Failure?
 
-    ensures 
-      output.Success? 
+    ensures
+      output.Success?
       ==>
-      && input.Identifier.Some? ==> input.Identifier.value == output.value.Identifier
-      && input.HierarchyVersion.Some? ==> input.HierarchyVersion.value == output.value.HierarchyVersion
-      && input.HierarchyVersion.None? ==> output.value.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v1
+        && (input.Identifier.Some? ==> input.Identifier.value == output.value.Identifier)
+        && (input.HierarchyVersion.Some? ==> input.HierarchyVersion.value == output.value.HierarchyVersion)
+        && (input.HierarchyVersion.None? ==> output.value.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v1)
 
   {
     var hvInput :- ResolveHierarchyVersionForCreateKey(input.HierarchyVersion, config);
