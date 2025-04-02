@@ -445,12 +445,6 @@ module {:options "/functionSyntax:4" } Structure {
     map i <- defixedCustomEncryptionContext :: i.0 := i.1
   }
 
-  lemma HierarchyVersionValueMatch(version: Types.HierarchyVersion)
-  ensures version.v1? ==> HIERARCHY_VERSION_VALUE_1 == "1"
-  ensures version.v2? ==> HIERARCHY_VERSION_VALUE_2 == "2"
-{
-}
-
   opaque function DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
