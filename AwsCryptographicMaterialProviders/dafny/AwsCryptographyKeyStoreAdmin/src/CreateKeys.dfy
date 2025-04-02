@@ -92,75 +92,76 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     //= type=implication
     //# This operation MUST create a [branch key](structures.md#branch-key) and a [beacon key](structures.md#beacon-key) according to
     //# the [Branch Key and Beacon Key Creation](#branch-key-and-beacon-key-creation) section.
-    ensures output.Success?
-            ==>
-              && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
-              && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
+    ensures
+      output.Success?
+      ==>
+        && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
+        && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
 
-              // TODO-HV-2-M1-FF: Refactor EncryptionContext usage into BranchKeyContext
-              && var decryptOnlyBranchKeyContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
-                                                      branchKeyIdentifier,
-                                                      branchKeyVersion,
-                                                      timestamp,
-                                                      logicalKeyStoreName,
-                                                      KMSKeystoreOperations.GetKeyId(kmsConfiguration),
-                                                      hierachyVersion,
-                                                      customEncryptionContext
-                                                    );
+        // TODO-HV-2-M1-FF: Refactor EncryptionContext usage into BranchKeyContext
+        && var decryptOnlyBranchKeyContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
+                                                branchKeyIdentifier,
+                                                branchKeyVersion,
+                                                timestamp,
+                                                logicalKeyStoreName,
+                                                KMSKeystoreOperations.GetKeyId(kmsConfiguration),
+                                                hierachyVersion,
+                                                customEncryptionContext
+                                              );
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#logical-keystore-name
-              //= type=implication
-              //# The logical keystore name MUST be bound to every created key.
-              && decryptOnlyBranchKeyContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+        //= aws-encryption-sdk-specification/framework/branch-key-store.md#logical-keystore-name
+        //= type=implication
+        //# The logical keystore name MUST be bound to every created key.
+        && decryptOnlyBranchKeyContext[Structure.TABLE_FIELD] == logicalKeyStoreName
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
-              //= type=implication
-              //# Any additionally attributes in the EncryptionContext
-              //# of the [encrypted hierarchical key](./key-store/key-storage.md#encryptedhierarchicalkey)
-              //# MUST be added to the encryption context.
-              && (forall k <- customEncryptionContext
-                    ::
-                      && Structure.ENCRYPTION_CONTEXT_PREFIX + k in decryptOnlyBranchKeyContext
-                      && decryptOnlyBranchKeyContext[Structure.ENCRYPTION_CONTEXT_PREFIX + k] == customEncryptionContext[k])
+        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
+        //= type=implication
+        //# Any additionally attributes in the EncryptionContext
+        //# of the [encrypted hierarchical key](./key-store/key-storage.md#encryptedhierarchicalkey)
+        //# MUST be added to the encryption context.
+        && (forall k <- customEncryptionContext
+              ::
+                && Structure.ENCRYPTION_CONTEXT_PREFIX + k in decryptOnlyBranchKeyContext
+                && decryptOnlyBranchKeyContext[Structure.ENCRYPTION_CONTEXT_PREFIX + k] == customEncryptionContext[k])
 
-              && WrappedBranchKeyCreationHV2?(
-                   Seq.Last(Seq.DropLast(Seq.DropLast(kmsClient.History.Encrypt))),
-                   Seq.Last(Seq.DropLast(kmsClient.History.Encrypt)),
-                   kmsClient,
-                   kmsConfiguration,
-                   grantTokens,
-                   customEncryptionContext,
-                   decryptOnlyBranchKeyContext
-                 )
+        && WrappedBranchKeyCreationHV2?(
+             Seq.Last(Seq.DropLast(Seq.DropLast(kmsClient.History.Encrypt))),
+             Seq.Last(Seq.DropLast(kmsClient.History.Encrypt)),
+             kmsClient,
+             kmsConfiguration,
+             grantTokens,
+             customEncryptionContext,
+             decryptOnlyBranchKeyContext
+           )
 
-              && WrappedBeaconKeyCreationHV2?(
-                   Seq.Last(kmsClient.History.Encrypt),
-                   kmsClient,
-                   kmsConfiguration,
-                   grantTokens,
-                   customEncryptionContext,
-                   decryptOnlyBranchKeyContext
-                 )
+        && WrappedBeaconKeyCreationHV2?(
+             Seq.Last(kmsClient.History.Encrypt),
+             kmsClient,
+             kmsConfiguration,
+             grantTokens,
+             customEncryptionContext,
+             decryptOnlyBranchKeyContext
+           )
 
-              && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
+        && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
 
-              && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Active
-                 == Structure.ConstructEncryptedHierarchicalKey(
-                      Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext),
-                      Seq.Last(kmsClient.History.Encrypt).output.value.CiphertextBlob.value
-                    )
-              && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Version
-                 == Structure.ConstructEncryptedHierarchicalKey(
-                      decryptOnlyBranchKeyContext,
-                      Seq.Last(Seq.DropLast(kmsClient.History.Encrypt)).output.value.CiphertextBlob.value
-                    )
-              && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Beacon
-                 == Structure.ConstructEncryptedHierarchicalKey(
-                      Structure.BeaconKeyEncryptionContext(decryptOnlyBranchKeyContext),
-                      Seq.Last(Seq.DropLast(Seq.DropLast(kmsClient.History.Encrypt))).output.value.CiphertextBlob.value
-                    )
+        && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Active
+           == Structure.ConstructEncryptedHierarchicalKey(
+                Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext),
+                 Seq.Last(Seq.DropLast(kmsClient.History.Encrypt)).output.value.CiphertextBlob.value
+              )
+        && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Version
+           == Structure.ConstructEncryptedHierarchicalKey(
+                decryptOnlyBranchKeyContext,
+                Seq.Last(Seq.DropLast(Seq.DropLast(kmsClient.History.Encrypt))).output.value.CiphertextBlob.value
+              )
+        && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Beacon
+           == Structure.ConstructEncryptedHierarchicalKey(
+                Structure.BeaconKeyEncryptionContext(decryptOnlyBranchKeyContext),
+                Seq.Last(kmsClient.History.Encrypt).output.value.CiphertextBlob.value
+              )
 
-              && Seq.Last(storage.History.WriteNewEncryptedBranchKey).output.Success?
+        && Seq.Last(storage.History.WriteNewEncryptedBranchKey).output.Success?
 
     ensures
       && output.Success?
@@ -340,7 +341,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     // Verify decrypt-only key encryption
     && var decryptOnlyInput := decryptOnlyHistory.input;
     && KMSKeystoreOperations.Compatible?(kmsConfiguration, decryptOnlyInput.KeyId)
-    && |decryptOnlyInput.Plaintext| == 80 // HV2 uses 80 bytes (48 for digest + 32 for key)
+    && |decryptOnlyInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int // HV2 uses 80 bytes (48 for digest + 32 for key)
     && decryptOnlyInput.EncryptionContext == Some(customEncryptionContext)
     && decryptOnlyInput.GrantTokens == Some(grantTokens)
     && decryptOnlyHistory.output.Success?
@@ -351,7 +352,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     // Verify active key encryption
     && var activeInput := activeHistory.input;
     && KMSKeystoreOperations.Compatible?(kmsConfiguration, activeInput.KeyId)
-    && |activeInput.Plaintext| == 80
+    && |activeInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
     && activeInput.EncryptionContext == Some(customEncryptionContext)
     && activeInput.GrantTokens == Some(grantTokens)
     && activeHistory.output.Success?
@@ -383,7 +384,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     // Verify beacon key encryption
     && var beaconInput := beaconHistory.input;
     && KMSKeystoreOperations.Compatible?(kmsConfiguration, beaconInput.KeyId)
-    && |beaconInput.Plaintext| == 80
+    && |beaconInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
     && beaconInput.EncryptionContext == Some(customEncryptionContext)
     && beaconInput.GrantTokens == Some(grantTokens)
     && beaconHistory.output.Success?
