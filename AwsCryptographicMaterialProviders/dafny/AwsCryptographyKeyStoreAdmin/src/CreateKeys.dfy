@@ -242,6 +242,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
                                                    ));
 
     // Generate Random Bytes as Plaintext for ACTIVE & Beacon Item's
+    // TODO-HV-2-M4 : Improve error messages for generate random failure
     var activePlaintextMaterial? := crypto.GenerateRandomBytes(
       CryptoTypes.GenerateRandomBytesInput(length := 32)
     );
@@ -338,7 +339,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
       && decryptOnlyHistory in kmsClient.History.Encrypt[|old(kmsClient.History.Encrypt)|..]
       && activeHistory in kmsClient.History.Encrypt[|old(kmsClient.History.Encrypt)|..]
   {
-    // Verify decrypt-only key encryption
+    // Verify the KMS request to create the decrypt-only ciphertext was constructed correctly
     && var decryptOnlyInput := decryptOnlyHistory.input;
     && KMSKeystoreOperations.Compatible?(kmsConfiguration, decryptOnlyInput.KeyId)
     && |decryptOnlyInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int // HV2 uses 80 bytes (48 for digest + 32 for key)
@@ -349,7 +350,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     && decryptOnlyHistory.output.value.KeyId.Some?
     && decryptOnlyHistory.output.value.KeyId.value == KMSKeystoreOperations.GetKeyId(kmsConfiguration)
 
-    // Verify active key encryption
+    // Verify the KMS request to create the ACTIVE ciphertext was constructed correctly
     && var activeInput := activeHistory.input;
     && KMSKeystoreOperations.Compatible?(kmsConfiguration, activeInput.KeyId)
     && |activeInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int

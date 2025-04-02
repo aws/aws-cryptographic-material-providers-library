@@ -335,6 +335,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
                   && 0 < |input.EncryptionContext.value|,
                 Types.KeyStoreAdminException(message := ErrorMessages.CUSTOM_BRANCH_KEY_ID_NEED_EC));
 
+        // TODO-HV-2-FOLLOW : See if legacyConfig in Admin can ensure non-Discovery.
         :- Need(
           KO.HasKeyId(legacyConfig.kmsConfiguration),
           Types.KeyStoreAdminException(
@@ -377,6 +378,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
           ::
             (UTF8.Decode(k), UTF8.Decode(unwrapEncryptionContext[k]), k);
 
+          // TODO-UTF8-OPTIMIZATION :: It is silly to Decode and then Encode
           // This SHOULD be impossible
           // A Dafny string SHOULD all be encodable
         :- Need(forall i <- encodedEncryptionContext
