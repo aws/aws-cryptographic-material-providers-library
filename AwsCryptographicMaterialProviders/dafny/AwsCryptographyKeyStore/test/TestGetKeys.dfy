@@ -189,7 +189,6 @@ module TestGetKeys {
     testBranchKeyVersionHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdWithEC, hv2BranchKeyIdActiveVersionUtf8Bytes);
   }
 
-
   method {:test} TestGetActiveKeyWithIncorrectKmsKeyArn() {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
@@ -209,7 +208,6 @@ module TestGetKeys {
     var ddbClient :- expect DDB.DynamoDBClient();
 
     var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
-
 
     var activeResult := keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
@@ -237,7 +235,7 @@ module TestGetKeys {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
 
-    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName:=branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
+    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
 
     var activeResult := keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
@@ -264,13 +262,8 @@ module TestGetKeys {
     );
 
     var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName:=branchKeyStoreName, logicalName := logicalKeyStoreName);
-
-    var activeResult :- expect keyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := branchKeyId
-      ));
-
-    expect |activeResult.branchKeyMaterials.branchKey| == 32;
+    testBranchKeyHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersionUtf8Bytes);
+    testBranchKeyHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdActiveVersionUtf8Bytes);
   }
 
   method testBeaconKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string)
