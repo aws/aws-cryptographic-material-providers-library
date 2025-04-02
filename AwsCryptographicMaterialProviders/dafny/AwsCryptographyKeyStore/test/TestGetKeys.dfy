@@ -28,7 +28,7 @@ module TestGetKeys {
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
     assume {:axiom} ddbClient.Modifies == {}; // Turns off verification
-    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn);
+    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn, logicalKeyStoreName, branchKeyStoreName);
 
     testBeaconKeyHappyCase(keyStore, branchKeyId);
     testBeaconKeyHappyCase(keyStore, hv2BranchKeyId);
@@ -40,7 +40,7 @@ module TestGetKeys {
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
     assume {:axiom} ddbClient.Modifies == {}; // Turns off verification
-    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn);
+    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn, logicalKeyStoreName, branchKeyStoreName);
 
     testBranchKeyHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersionUtf8Bytes);
     testBranchKeyHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdActiveVersionUtf8Bytes);
@@ -193,7 +193,7 @@ module TestGetKeys {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
 
-    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn);
+    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn, logicalKeyStoreName, branchKeyStoreName);
     assume {:axiom} keyStore.Modifies == {}; // Turns off verification
 
     var activeResult := keyStore.GetActiveBranchKey(
@@ -208,7 +208,7 @@ module TestGetKeys {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
 
-    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn);
+    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn, incorrectLogicalName, branchKeyStoreName);
     assume {:axiom} keyStore.Modifies == {}; // Turns off verification
 
     var activeResult := keyStore.GetActiveBranchKey(
@@ -222,41 +222,39 @@ module TestGetKeys {
         expect nestedError.InvalidCiphertextException?;
       case _ => expect false, "Wrong Logical Keystore Name SHOULD Fail with KMS InvalidCiphertextException.";
     }
+
+    var activeResultHV2 := keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := hv2BranchKeyId
+      ));
+
+    expect activeResultHV2.Failure?;
+    expect activeResultHV2.error == Types.Error.KeyStoreException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
   }
 
   method {:test} TestGetActiveKeyDoesNotExistFails()
   {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
+    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn, logicalKeyStoreName, branchKeyStoreName);
 
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    TestGetActiveKeyDoesNotExistFailsHelper(keyStore, "Robbie")
+    //AwsCryptographyKeyStoreTypes.Error.KeyStoreException(No item found for corresponding branch key identifier.)
+  }
 
-    var activeResult := keyStore.GetActiveBranchKey(
+  method TestGetActiveKeyDoesNotExistFailsHelper(keyStore: Types.IKeyStoreClient, branchKeyId: string) 
+    requires keyStore.ValidState()
+  {
+    assume {:axiom} keyStore.Modifies == {}; // Turns off verification
+
+    var branchKeyResult :- expect keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := "Robbie"
+        branchKeyIdentifier := branchKeyId
       ));
-
+      
     expect activeResult.Failure?;
     expect activeResult.error == Types.KeyStoreException(message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY);
-    //AwsCryptographyKeyStoreTypes.Error.KeyStoreException(No item found for corresponding branch key identifier.)
   }
 
   method {:test} TestGetActiveKeyWithNoClients() {
@@ -283,7 +281,7 @@ module TestGetKeys {
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
   }
 
-  method GetKeyStore(kmsClient: ComAmazonawsKmsTypes.IKMSClient, ddbClient: ComAmazonawsDynamodbTypes.IDynamoDBClient, keyArn: string) returns (keyStore: KeyStore.KeyStoreClient)
+  method GetKeyStore(kmsClient: ComAmazonawsKmsTypes.IKMSClient, ddbClient: ComAmazonawsDynamodbTypes.IDynamoDBClient, keyArn: string, logicalKeyStoreName: string, branchKeyStoreName: string) returns (keyStore: KeyStore.KeyStoreClient)
     requires kmsClient.ValidState()
     requires ddbClient.ValidState()
     ensures keyStore.ValidState()
