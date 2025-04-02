@@ -74,7 +74,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient,
     storage: KeyStoreTypes.IKeyStorageInterface,
-    hierachyVersion: KeyStoreTypes.HierarchyVersion
+    hierarchyVersion: KeyStoreTypes.HierarchyVersion
   )
     returns (output: Result<Types.CreateKeyOutput, Types.Error>)
     requires 0 < |branchKeyIdentifier|
@@ -82,7 +82,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     requires forall k <- customEncryptionContext :: DDB.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + k)
     requires storage.Modifies !! kmsClient.Modifies
     requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
-    requires hierachyVersion.v2?
+    requires hierarchyVersion.v2?
 
     requires kmsClient.ValidState() && storage.ValidState()
     modifies storage.Modifies, kmsClient.Modifies
@@ -105,7 +105,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
                                                 timestamp,
                                                 logicalKeyStoreName,
                                                 KMSKeystoreOperations.GetKeyId(kmsConfiguration),
-                                                hierachyVersion,
+                                                hierarchyVersion,
                                                 customEncryptionContext
                                               );
 
@@ -213,7 +213,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
       timestamp,
       logicalKeyStoreName,
       KMSKeystoreOperations.GetKeyId(kmsConfiguration),
-      hierachyVersion,
+      hierarchyVersion,
       customEncryptionContext
     );
     var activeBranchKeyContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext);
@@ -316,7 +316,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     output := Success(
       Types.CreateKeyOutput(
         Identifier := branchKeyIdentifier,
-        HierarchyVersion := hierachyVersion
+        HierarchyVersion := hierarchyVersion
       ));
   }
 
