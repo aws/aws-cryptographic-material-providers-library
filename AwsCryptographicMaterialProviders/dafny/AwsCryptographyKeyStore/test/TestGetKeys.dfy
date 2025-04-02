@@ -16,6 +16,7 @@ module TestGetKeys {
   import ComAmazonawsDynamodbTypes
   import opened Wrappers
   import opened Fixtures
+  import opened StandardLibrary.UInt
   import UTF8
   import ErrorMessages = KeyStoreErrorMessages
 
@@ -27,10 +28,10 @@ module TestGetKeys {
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
     assume {:axiom} ddbClient.Modifies == {}; // Turns off verification
-    var keyStore := GetKeyStore(kmsClient, ddbClient);
+    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn);
 
-    testBeaconKeyResult(keyStore, branchKeyId);
-    testBeaconKeyResult(keyStore, hv2BranchKeyId);
+    testBeaconKeyHappyCase(keyStore, branchKeyId);
+    testBeaconKeyHappyCase(keyStore, hv2BranchKeyId);
   }
 
   method {:test} {:isolate_assertions} TestGetActiveKey()
@@ -39,42 +40,10 @@ module TestGetKeys {
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
     assume {:axiom} ddbClient.Modifies == {}; // Turns off verification
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
+    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn);
 
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-
-    var activeResult :- expect keyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := branchKeyId
-      ));
-
-    expect activeResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
-    expect activeResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes;
-    expect |activeResult.branchKeyMaterials.branchKey| == 32;
-
-    var hv2ActiveResult :- expect keyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := hv2BranchKeyId
-      ));
-
-    expect hv2ActiveResult.branchKeyMaterials.branchKeyIdentifier == hv2BranchKeyId;
-    expect hv2ActiveResult.branchKeyMaterials.branchKeyVersion == hv2BranchKeyIdActiveVersionUtf8Bytes;
-    expect |hv2ActiveResult.branchKeyMaterials.branchKey| == 32;
+    testBranchKeyHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersionUtf8Bytes);
+    testBranchKeyHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdActiveVersionUtf8Bytes);
   }
 
   method {:test} {:isolate_assertions} TestGetActiveMrkKey()
@@ -215,49 +184,17 @@ module TestGetKeys {
         branchKeyVersion := branchKeyIdActiveVersion
       ));
 
-    var testBytes :- expect UTF8.Encode(branchKeyIdActiveVersion);
-
-    expect versionResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
-    expect versionResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes == testBytes;
-    expect |versionResult.branchKeyMaterials.branchKey| == 32;
-
-    var hv2versionResult :- expect keyStore.GetBranchKeyVersion(
-      Types.GetBranchKeyVersionInput(
-        branchKeyIdentifier := hv2BranchKeyId,
-        branchKeyVersion := hv2BranchKeyIdWithEC
-      ));
-
-    var hv2testBytes :- expect UTF8.Encode(hv2BranchKeyIdWithEC);
-
-    expect hv2versionResult.branchKeyMaterials.branchKeyIdentifier == hv2BranchKeyId;
-    expect hv2versionResult.branchKeyMaterials.branchKeyVersion == hv2BranchKeyIdActiveVersionUtf8Bytes == hv2testBytes;
-    expect |hv2versionResult.branchKeyMaterials.branchKey| == 32;
+    testBranchKeyVersionHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersion, branchKeyIdActiveVersionUtf8Bytes);
+    testBranchKeyVersionHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdWithEC, hv2BranchKeyIdActiveVersionUtf8Bytes);
   }
 
 
   method {:test} TestGetActiveKeyWithIncorrectKmsKeyArn() {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
-
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn);
+    assume {:axiom} keyStore.Modifies == {}; // Turns off verification
 
     var activeResult := keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
@@ -270,26 +207,9 @@ module TestGetKeys {
   method {:test} TestGetActiveKeyWrongLogicalKeyStoreName() {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := incorrectLogicalName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
-
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn);
+    assume {:axiom} keyStore.Modifies == {}; // Turns off verification
 
     var activeResult := keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
@@ -363,9 +283,10 @@ module TestGetKeys {
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
   }
 
-  method GetKeyStore(kmsClient: ComAmazonawsKmsTypes.IKMSClient, ddbClient: ComAmazonawsDynamodbTypes.IDynamoDBClient) returns (keyStore: KeyStore.KeyStoreClient)
+  method GetKeyStore(kmsClient: ComAmazonawsKmsTypes.IKMSClient, ddbClient: ComAmazonawsDynamodbTypes.IDynamoDBClient, keyArn: string) returns (keyStore: KeyStore.KeyStoreClient)
     requires kmsClient.ValidState()
     requires ddbClient.ValidState()
+    ensures keyStore.ValidState()
   {
     assume {:axiom} ddbClient.Modifies == {}; // Turns off verification
       var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
@@ -388,7 +309,7 @@ module TestGetKeys {
       keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
   }
 
-  method testBeaconKeyResult(keyStore: KeyStore.KeyStoreClient, branchKeyId: string) 
+  method testBeaconKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string) 
     requires keyStore.ValidState()
   {
     assume {:axiom} keyStore.Modifies == {}; // Turns off verification
@@ -401,5 +322,38 @@ module TestGetKeys {
     expect beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier == branchKeyId;
     expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
     expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
+  }
+
+  method testBranchKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersionUtf8Bytes: seq<uint8>) 
+    requires keyStore.ValidState()
+  {
+    assume {:axiom} keyStore.Modifies == {}; // Turns off verification
+
+    var branchKeyResult :- expect keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+      
+    expect branchKeyResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
+    expect branchKeyResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes;
+    expect |branchKeyResult.branchKeyMaterials.branchKey| == 32;
+  }
+
+  method testBranchKeyVersionHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersion: string, branchKeyIdActiveVersionUtf8Bytes: seq<uint8>) 
+    requires keyStore.ValidState()
+  {
+    assume {:axiom} keyStore.Modifies == {}; // Turns off verification
+
+    var versionResult :- expect keyStore.GetBranchKeyVersion(
+      Types.GetBranchKeyVersionInput(
+        branchKeyIdentifier := branchKeyId,
+        branchKeyVersion := branchKeyIdActiveVersion
+      ));
+    
+    var testBytes :- expect UTF8.Encode(branchKeyIdActiveVersion);
+
+    expect versionResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
+    expect versionResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes == testBytes;
+    expect |versionResult.branchKeyMaterials.branchKey| == 32;
   }
 }
