@@ -23,6 +23,7 @@ module TestGetKeys {
 
   const incorrectLogicalName := "MySuperAwesomeTableName"
 
+  // TODO-HV-2-M1-FF: Refactor Verify Get Keys into sub methods that each get ACTIVE, Version & Beacon items and verify.
   method VerifyGetKeys(
     identifier : string,
     keyStore : Types.IKeyStoreClient,
