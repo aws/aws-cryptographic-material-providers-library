@@ -22,35 +22,29 @@ module TestGetKeys {
 
   const incorrectLogicalName := "MySuperAwesomeTableName"
 
-  method {:test} TestGetBeaconKey()
+  method {:test} TestGetKeysHappyCase()
   {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
-    
+
     var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
 
     testBeaconKeyHappyCase(keyStore, branchKeyId);
     testBeaconKeyHappyCase(keyStore, hv2BranchKeyId);
-  }
-
-  method {:test} {:isolate_assertions} TestGetActiveKey()
-  {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
-    
-    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
 
     testBranchKeyHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersionUtf8Bytes);
     testBranchKeyHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdActiveVersionUtf8Bytes);
+
+    testBranchKeyVersionHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersion, branchKeyIdActiveVersionUtf8Bytes);
+    testBranchKeyVersionHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyVersion, hv2BranchKeyIdActiveVersionUtf8Bytes);
   }
 
-  // TODO-HV2-M1: Add MRK test
+  // TODO-HV2-M1: Add MRK test for hv2
   method {:test} {:isolate_assertions} TestGetActiveMrkKey()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
-    
+
     var eastKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := KmsConfigEast,
@@ -175,20 +169,6 @@ module TestGetKeys {
     // it's an opaque error, so I can't test its contents
   }
 
-  method {:test} TestGetBranchKeyVersion()
-  {
-    var keyStore :- expect DefaultKeyStore();
-
-    var versionResult :- expect keyStore.GetBranchKeyVersion(
-      Types.GetBranchKeyVersionInput(
-        branchKeyIdentifier := branchKeyId,
-        branchKeyVersion := branchKeyIdActiveVersion
-      ));
-
-    testBranchKeyVersionHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersion, branchKeyIdActiveVersionUtf8Bytes);
-    testBranchKeyVersionHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdWithEC, hv2BranchKeyIdActiveVersionUtf8Bytes);
-  }
-
   method {:test} TestKeyWithIncorrectKmsKeyArn() {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
@@ -202,10 +182,130 @@ module TestGetKeys {
     GetBeaconKeyWithIncorrectKmsKeyArnHelper(keyStore, hv2BranchKeyId);
 
     GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(keyStore, branchKeyId, branchKeyIdActiveVersion);
-    GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(keyStore, branchKeyId, hv2BranchKeyIdWithEC);
+    GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(keyStore, hv2BranchKeyId, hv2BranchKeyVersion);
   }
 
-  method GetActiveKeyWithIncorrectKmsKeyArnHelper(keyStore: Types.IKeyStoreClient, branchKeyId: string) 
+  method {:test} TestGetActiveKeyWrongLogicalKeyStoreName() {
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+
+    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
+    GetActiveKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, "1");
+    GetActiveKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, "2");
+
+    GetBeaconKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, "1");
+    GetBeaconKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, "2");
+  }
+
+  method {:test} TestGetKeyDoesNotExistFails()
+  {
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+
+    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
+    GetActiveKeyDoesNotExistFailsHelper(keyStore, "Robbie");
+    GetBeaconKeyDoesNotExistFailsHelper(keyStore, "Robbie");
+    GetBranchKeyVersionDoesNotExistFailsHelper(keyStore, "Robbie", branchKeyIdActiveVersion);
+  }
+
+  method {:test} TestGetKeysWithNoClients() {
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
+
+    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName:=branchKeyStoreName, logicalName := logicalKeyStoreName);
+
+    testBranchKeyHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersionUtf8Bytes);
+    testBranchKeyHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdActiveVersionUtf8Bytes);
+
+    testBeaconKeyHappyCase(keyStore, branchKeyId);
+    testBeaconKeyHappyCase(keyStore, hv2BranchKeyId);
+
+    testBranchKeyVersionHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersion, branchKeyIdActiveVersionUtf8Bytes);
+    testBranchKeyVersionHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyVersion, hv2BranchKeyIdActiveVersionUtf8Bytes);
+  }
+
+  method GetActiveKeyWrongLogicalKeyStoreName(keyStore: Types.IKeyStoreClient, branchKeyId: string, hv: string)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var activeResult := keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+    expect activeResult.Failure?;
+
+    if (hv == "1") {
+      match activeResult.error {
+        case ComAmazonawsKms(nestedError) =>
+          expect nestedError.InvalidCiphertextException?;
+        case _ => expect false, "Wrong Logical Keystore Name SHOULD Fail with KMS InvalidCiphertextException.";
+      }
+    } else if (hv == "2") {
+      expect activeResult.error == Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
+    } else {
+      expect false;
+    }
+  }
+
+  method GetBeaconKeyWrongLogicalKeyStoreName(keyStore: Types.IKeyStoreClient, branchKeyId: string, hv: string)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var beaconKeyResult := keyStore.GetBeaconKey(
+      Types.GetBeaconKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+    expect beaconKeyResult.Failure?;
+    if (hv == "1") {
+      match beaconKeyResult.error {
+        case ComAmazonawsKms(nestedError) =>
+          expect nestedError.InvalidCiphertextException?;
+        case _ => expect false, "Wrong Logical Keystore Name SHOULD Fail with KMS InvalidCiphertextException.";
+      }
+    } else if (hv == "2") {
+      expect beaconKeyResult.error == Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
+    } else {
+      expect false;
+    }
+  }
+
+  method GetActiveKeyDoesNotExistFailsHelper(keyStore: Types.IKeyStoreClient, branchKeyId: string)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var activeResult := keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+    expect activeResult.Failure?;
+    expect activeResult.error == Types.KeyStoreException(message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY);
+  }
+
+  method GetBeaconKeyDoesNotExistFailsHelper(keyStore: Types.IKeyStoreClient, branchKeyId: string)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var beaconKeyResult := keyStore.GetBeaconKey(
+      Types.GetBeaconKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+    expect beaconKeyResult.Failure?;
+    expect beaconKeyResult.error == Types.KeyStoreException(message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY);
+  }
+
+  method GetBranchKeyVersionDoesNotExistFailsHelper(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersion: string)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var versionResult := keyStore.GetBranchKeyVersion(
+      Types.GetBranchKeyVersionInput(
+        branchKeyIdentifier := branchKeyId,
+        branchKeyVersion := branchKeyIdActiveVersion
+      ));
+    expect versionResult.Failure?;
+    expect versionResult.error == Types.KeyStoreException(message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY);
+  }
+
+  method GetActiveKeyWithIncorrectKmsKeyArnHelper(keyStore: Types.IKeyStoreClient, branchKeyId: string)
     requires keyStore.ValidState()
     modifies keyStore.Modifies
   {
@@ -242,75 +342,6 @@ module TestGetKeys {
 
     expect versionResult.Failure?;
     expect versionResult.error == Types.KeyStoreException(message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT);
-  }
-
-  method {:test} TestGetActiveKeyWrongLogicalKeyStoreName() {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-
-    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
-
-    var activeResult := keyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := branchKeyId
-      ));
-
-    expect activeResult.Failure?;
-    match activeResult.error {
-      case ComAmazonawsKms(nestedError) =>
-        expect nestedError.InvalidCiphertextException?;
-      case _ => expect false, "Wrong Logical Keystore Name SHOULD Fail with KMS InvalidCiphertextException.";
-    }
-
-    var activeResultHV2 := keyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := hv2BranchKeyId
-      ));
-
-    expect activeResultHV2.Failure?;
-    expect activeResultHV2.error == Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
-  }
-
-  method {:test} TestGetActiveKeyDoesNotExistFails()
-  {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-
-    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
-
-    var activeResult := keyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := "Robbie"
-      ));
-
-    expect activeResult.Failure?;
-    expect activeResult.error == Types.KeyStoreException(message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY);
-    //AwsCryptographyKeyStoreTypes.Error.KeyStoreException(No item found for corresponding branch key identifier.)
-  }
-
-  
-  method {:test} TestGetActiveKeyWithNoClients() {
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
-
-    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName:=branchKeyStoreName, logicalName := logicalKeyStoreName);
-    testBranchKeyHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersionUtf8Bytes);
-    testBranchKeyHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdActiveVersionUtf8Bytes);
-  }
-
-  method {:test} TestGetBeaconKeyWithNoClients() {
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
-
-    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName:=branchKeyStoreName, logicalName := logicalKeyStoreName);
-    testBeaconKeyHappyCase(keyStore, branchKeyId);
-    testBeaconKeyHappyCase(keyStore, hv2BranchKeyId);
-  }
-
-  method {:test} TestGetBranchKeyVersionWithNoClients() {
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
-
-    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName:=branchKeyStoreName, logicalName := logicalKeyStoreName);
-    testBranchKeyVersionHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersion, branchKeyIdActiveVersionUtf8Bytes);
-    testBranchKeyVersionHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdWithEC, hv2BranchKeyIdActiveVersionUtf8Bytes);
   }
 
   method testBeaconKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string)
