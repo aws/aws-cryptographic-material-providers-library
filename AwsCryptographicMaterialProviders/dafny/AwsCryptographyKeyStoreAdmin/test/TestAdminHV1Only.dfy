@@ -25,6 +25,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import CleanupItems
   import AdminFixtures
   import TestGetKeys
+  import TestGetKeys
 
   const happyCaseId := "test-create-key-hv-2-happy-case"
 
@@ -54,9 +55,13 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     TestGetKeys.VerifyGetKeys(
       identifier := identifier,
       keyStore := keyStore,
-      storage := storage,
-      ddbClient := ddbClient
+      storage := storage
     );
+
+    // Since this process uses a read DDB table,
+    // the number of records will forever increase.
+    // To avoid this, remove the items.
+    expect CleanupItems.DeleteBranchKey(Identifier:=identifier, ddbClient:=ddbClient);
 
     // Create key with Custom EC & Branch Key Identifier
     var uuid :- expect UUID.GenerateUUID();
@@ -80,9 +85,13 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     TestGetKeys.VerifyGetKeys(
       identifier := branchKeyId,
       keyStore := keyStore,
-      storage := storage,
-      ddbClient := ddbClient
+      storage := storage
     );
+
+    // Since this process uses a read DDB table,
+    // the number of records will forever increase.
+    // To avoid this, remove the items.
+    expect CleanupItems.DeleteBranchKey(Identifier:=identifier, ddbClient:=ddbClient);
   }
 
   // TODO-HV-2-M2 : Probably make this a happy test?

@@ -3,7 +3,6 @@
 
 include "../src/Index.dfy"
 include "Fixtures.dfy"
-include "CleanupItems.dfy"
 include "../src/ErrorMessages.dfy"
 
 // TODO-HV2-M1: add more HV2 tests.
@@ -20,22 +19,21 @@ module TestGetKeys {
   import UTF8
   import ErrorMessages = KeyStoreErrorMessages
   import UUID
-  import CleanupItems
 
   const incorrectLogicalName := "MySuperAwesomeTableName"
 
+  // TODO-HV-2-M1-FF: Refactor Verify Get Keys into sub methods that each get ACTIVE, Version & Beacon items and verify.
   method VerifyGetKeys(
     identifier : string,
     keyStore : Types.IKeyStoreClient,
-    storage : Types.IKeyStorageInterface,
-    ddbClient : DDB.Types.IDynamoDBClient
+    storage : Types.IKeyStorageInterface
   )
-    requires keyStore != null && storage != null && ddbClient != null
-    requires keyStore.ValidState() && storage.ValidState() && ddbClient.ValidState()
-    requires |identifier| > 0
+    requires
+      keyStore.ValidState() && storage.ValidState()
     modifies
-      keyStore.Modifies, storage.Modifies, ddbClient.Modifies
-    ensures keyStore.ValidState() && storage.ValidState() && ddbClient.ValidState()
+      keyStore.Modifies, storage.Modifies
+    ensures
+      keyStore.ValidState() && storage.ValidState()
 
   {
     var beaconKeyResult :- expect keyStore.GetBeaconKey(

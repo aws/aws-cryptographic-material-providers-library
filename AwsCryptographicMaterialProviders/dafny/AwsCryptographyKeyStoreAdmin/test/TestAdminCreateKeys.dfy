@@ -46,8 +46,12 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     TestGetKeys.VerifyGetKeys(
       identifier := identifier,
       keyStore := keyStore,
-      storage := storage,
-      ddbClient := ddbClient
+      storage := storage
     );
+
+    // Since this process uses a read DDB table,
+    // the number of records will forever increase.
+    // To avoid this, remove the items.
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=identifier, ddbClient:=ddbClient);
   }
 }

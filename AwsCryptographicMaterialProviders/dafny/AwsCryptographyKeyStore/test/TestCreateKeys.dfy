@@ -100,9 +100,13 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
     TestGetKeys.VerifyGetKeys(
       identifier := branchKeyId.branchKeyIdentifier,
       keyStore := keyStore,
-      storage := keyStore.config.storage,
-      ddbClient := ddbClient
+      storage := keyStore.config.storage
     );
+
+    // Since this process uses a read DDB table,
+    // the number of records will forever increase.
+    // To avoid this, remove the items.
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId.branchKeyIdentifier, ddbClient:=ddbClient);
   }
 
   method {:test} TestCreateOptions()
