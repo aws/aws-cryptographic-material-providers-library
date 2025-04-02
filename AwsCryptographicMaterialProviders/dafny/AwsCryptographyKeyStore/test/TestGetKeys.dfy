@@ -209,7 +209,7 @@ module TestGetKeys {
     var ddbClient :- expect DDB.DynamoDBClient();
 
     var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
-    
+
     assume {:axiom} keyStore.Modifies == {}; // Turns off verification
 
     var activeResult := keyStore.GetActiveBranchKey(
@@ -244,7 +244,7 @@ module TestGetKeys {
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := "Robbie"
       ));
-      
+
     expect activeResult.Failure?;
     expect activeResult.error == Types.KeyStoreException(message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY);
     //AwsCryptographyKeyStoreTypes.Error.KeyStoreException(No item found for corresponding branch key identifier.)
@@ -274,7 +274,7 @@ module TestGetKeys {
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
   }
 
-  method testBeaconKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string) 
+  method testBeaconKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string)
     requires keyStore.ValidState()
   {
     assume {:axiom} keyStore.Modifies == {}; // Turns off verification
@@ -283,13 +283,13 @@ module TestGetKeys {
       Types.GetBeaconKeyInput(
         branchKeyIdentifier := branchKeyId
       ));
-      
+
     expect beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier == branchKeyId;
     expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
     expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
   }
 
-  method testBranchKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersionUtf8Bytes: seq<uint8>) 
+  method testBranchKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersionUtf8Bytes: seq<uint8>)
     requires keyStore.ValidState()
   {
     assume {:axiom} keyStore.Modifies == {}; // Turns off verification
@@ -298,13 +298,13 @@ module TestGetKeys {
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := branchKeyId
       ));
-      
+
     expect branchKeyResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
     expect branchKeyResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes;
     expect |branchKeyResult.branchKeyMaterials.branchKey| == 32;
   }
 
-  method testBranchKeyVersionHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersion: string, branchKeyIdActiveVersionUtf8Bytes: seq<uint8>) 
+  method testBranchKeyVersionHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersion: string, branchKeyIdActiveVersionUtf8Bytes: seq<uint8>)
     requires keyStore.ValidState()
   {
     assume {:axiom} keyStore.Modifies == {}; // Turns off verification
@@ -314,7 +314,7 @@ module TestGetKeys {
         branchKeyIdentifier := branchKeyId,
         branchKeyVersion := branchKeyIdActiveVersion
       ));
-    
+
     var testBytes :- expect UTF8.Encode(branchKeyIdActiveVersion);
 
     expect versionResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
