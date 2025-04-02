@@ -28,7 +28,6 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
 
   const happyCaseId := "test-create-key-hv-2-happy-case"
 
-  // TODO-HV-2-M1 : Probably make this a happy test?
   method {:test} TestCreateKeyForHV2HappyCase()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
@@ -59,7 +58,16 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     // Since this process uses a read DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    expect CleanupItems.DeleteBranchKey(Identifier:=createKeyOutput?.Identifier, ddbClient:=ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=createKeyOutput?.Identifier, ddbClient:=ddbClient);
+  }
+
+  method {:test} TestCreateKeyForHV2CreateOptions() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
     // Create key with Custom EC & Branch Key Identifier
     var uuid :- expect UUID.GenerateUUID();
@@ -67,7 +75,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
 
     var customEC := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")];
 
-    input := Types.CreateKeyInput(
+    var input := Types.CreateKeyInput(
       Identifier := Some(branchKeyId),
       EncryptionContext := Some(customEC),
       KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
@@ -75,7 +83,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
       HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
     );
 
-    createKeyOutput? :- expect underTest.CreateKey(input);
+    var createKeyOutput? :- expect underTest.CreateKey(input);
     expect branchKeyId == createKeyOutput?.Identifier;
     expect createKeyOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
 
@@ -89,7 +97,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     // Since this process uses a read DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    expect CleanupItems.DeleteBranchKey(Identifier:=identifier, ddbClient:=ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId, ddbClient:=ddbClient);
   }
 
   // TODO-HV-2-M2 : Probably make this a happy test?
