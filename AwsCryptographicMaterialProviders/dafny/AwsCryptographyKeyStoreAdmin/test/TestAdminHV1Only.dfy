@@ -27,7 +27,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import TestGetKeys
 
   // TODO-HV-2-M1 : Probably make this a happy test?
-  method {:test} TestCreateKeyForHV2HappyCase()
+  method {:test} TestCreateKeyForHV2Fails()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
