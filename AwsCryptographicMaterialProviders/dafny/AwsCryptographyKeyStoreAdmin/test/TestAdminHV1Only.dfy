@@ -25,7 +25,6 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import CleanupItems
   import AdminFixtures
   import TestGetKeys
-  import TestGetKeys
 
   const happyCaseId := "test-create-key-hv-2-happy-case"
 
@@ -48,12 +47,11 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     );
 
     var createKeyOutput? :- expect underTest.CreateKey(input);
-    var identifier := createKeyOutput?.Identifier;
     expect createKeyOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
 
     // Get branch key items from storage
     TestGetKeys.VerifyGetKeys(
-      identifier := identifier,
+      identifier := createKeyOutput?.Identifier,
       keyStore := keyStore,
       storage := storage
     );
@@ -61,7 +59,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     // Since this process uses a read DDB table,
     // the number of records will forever increase.
     // To avoid this, remove the items.
-    expect CleanupItems.DeleteBranchKey(Identifier:=identifier, ddbClient:=ddbClient);
+    expect CleanupItems.DeleteBranchKey(Identifier:=createKeyOutput?.Identifier, ddbClient:=ddbClient);
 
     // Create key with Custom EC & Branch Key Identifier
     var uuid :- expect UUID.GenerateUUID();

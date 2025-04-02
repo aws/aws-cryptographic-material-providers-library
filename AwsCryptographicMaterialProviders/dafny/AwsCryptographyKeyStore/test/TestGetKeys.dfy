@@ -3,6 +3,7 @@
 
 include "../src/Index.dfy"
 include "Fixtures.dfy"
+include "CleanupItems.dfy"
 include "../src/ErrorMessages.dfy"
 
 // TODO-HV2-M1: add more HV2 tests.
