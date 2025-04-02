@@ -264,7 +264,7 @@ module TestGetKeys {
           )))
     );
 
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName:=branchKeyStoreName, logicalName := logicalKeyStoreName);
 
     var activeResult :- expect keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
