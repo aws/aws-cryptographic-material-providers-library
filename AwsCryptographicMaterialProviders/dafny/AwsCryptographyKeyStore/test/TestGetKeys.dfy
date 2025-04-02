@@ -26,26 +26,16 @@ module TestGetKeys {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
+    assume {:axiom} ddbClient.Modifies == {}; // Turns off verification
+    var keyStore := GetKeyStore(kmsClient, ddbClient);
 
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
+    testBeaconKeyResult(keyStore, branchKeyId);
+    testBeaconKeyResult(keyStore, hv2BranchKeyId);
+  }
 
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-
+  method {:only} testBeaconKeyResult(keyStore: KeyStore.KeyStoreClient, branchKeyId: string) 
+    requires keyStore.ValidState()
+  {
     var beaconKeyResult :- expect keyStore.GetBeaconKey(
       Types.GetBeaconKeyInput(
         branchKeyIdentifier := branchKeyId
@@ -383,5 +373,30 @@ module TestGetKeys {
       ));
 
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
+  }
+
+  method GetKeyStore(kmsClient: ComAmazonawsKmsTypes.IKMSClient, ddbClient: ComAmazonawsDynamodbTypes.IDynamoDBClient) returns (keyStore: KeyStore.KeyStoreClient)
+    requires kmsClient.ValidState()
+    requires ddbClient.ValidState()
+  {
+    assume {:axiom} ddbClient.Modifies == {}; // Turns off verification
+      var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
+      var keyStoreConfig := Types.KeyStoreConfig(
+          id := None,
+          kmsConfiguration := kmsConfig,
+          logicalKeyStoreName := logicalKeyStoreName,
+          storage := Some(
+              Types.ddb(
+                  Types.DynamoDBTable(
+                      ddbTableName := branchKeyStoreName,
+                      ddbClient := Some(ddbClient)
+                  ))),
+          keyManagement := Some(
+              Types.kms(
+                  Types.AwsKms(
+                      kmsClient := Some(kmsClient)
+                  )))
+      );
+      keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
   }
 }
