@@ -46,6 +46,7 @@ module TestGetKeys {
     testBranchKeyHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdActiveVersionUtf8Bytes);
   }
 
+  // TODO-HV2-M1: Add MRK test
   method {:test} {:isolate_assertions} TestGetActiveMrkKey()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
@@ -276,9 +277,8 @@ module TestGetKeys {
 
   method testBeaconKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string)
     requires keyStore.ValidState()
+    modifies keyStore.Modifies
   {
-    assume {:axiom} keyStore.Modifies == {}; // Turns off verification
-
     var beaconKeyResult :- expect keyStore.GetBeaconKey(
       Types.GetBeaconKeyInput(
         branchKeyIdentifier := branchKeyId
@@ -291,9 +291,8 @@ module TestGetKeys {
 
   method testBranchKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersionUtf8Bytes: seq<uint8>)
     requires keyStore.ValidState()
+    modifies keyStore.Modifies
   {
-    assume {:axiom} keyStore.Modifies == {}; // Turns off verification
-
     var branchKeyResult :- expect keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := branchKeyId
@@ -306,9 +305,8 @@ module TestGetKeys {
 
   method testBranchKeyVersionHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersion: string, branchKeyIdActiveVersionUtf8Bytes: seq<uint8>)
     requires keyStore.ValidState()
+    modifies keyStore.Modifies
   {
-    assume {:axiom} keyStore.Modifies == {}; // Turns off verification
-
     var versionResult :- expect keyStore.GetBranchKeyVersion(
       Types.GetBranchKeyVersionInput(
         branchKeyIdentifier := branchKeyId,
