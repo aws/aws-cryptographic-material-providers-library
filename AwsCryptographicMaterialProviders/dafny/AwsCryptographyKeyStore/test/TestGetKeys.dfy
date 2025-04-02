@@ -239,22 +239,14 @@ module TestGetKeys {
 
     var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn, logicalKeyStoreName, branchKeyStoreName);
 
-    TestGetActiveKeyDoesNotExistFailsHelper(keyStore, "Robbie")
-    //AwsCryptographyKeyStoreTypes.Error.KeyStoreException(No item found for corresponding branch key identifier.)
-  }
-
-  method TestGetActiveKeyDoesNotExistFailsHelper(keyStore: Types.IKeyStoreClient, branchKeyId: string) 
-    requires keyStore.ValidState()
-  {
-    assume {:axiom} keyStore.Modifies == {}; // Turns off verification
-
     var branchKeyResult :- expect keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := branchKeyId
+        branchKeyIdentifier := "Robbie"
       ));
       
     expect activeResult.Failure?;
     expect activeResult.error == Types.KeyStoreException(message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY);
+    //AwsCryptographyKeyStoreTypes.Error.KeyStoreException(No item found for corresponding branch key identifier.)
   }
 
   method {:test} TestGetActiveKeyWithNoClients() {
