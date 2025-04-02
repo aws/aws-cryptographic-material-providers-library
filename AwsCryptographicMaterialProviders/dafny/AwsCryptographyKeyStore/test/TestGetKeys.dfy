@@ -195,6 +195,9 @@ module TestGetKeys {
 
     GetBeaconKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, "1");
     GetBeaconKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, "2");
+
+    GetVersionKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, branchKeyIdActiveVersion, "1");
+    GetVersionKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, hv2BranchKeyVersion, "2");
   }
 
   method {:test} TestGetKeyDoesNotExistFails()
@@ -263,6 +266,29 @@ module TestGetKeys {
       }
     } else if (hv == "2") {
       expect beaconKeyResult.error == Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
+    } else {
+      expect false;
+    }
+  }
+
+  method GetVersionKeyWrongLogicalKeyStoreName(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersion: string, hv: string)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var versionResult := keyStore.GetBranchKeyVersion(
+      Types.GetBranchKeyVersionInput(
+        branchKeyIdentifier := branchKeyId,
+        branchKeyVersion := branchKeyIdActiveVersion
+      ));
+    expect versionResult.Failure?;
+    if (hv == "1") {
+      match versionResult.error {
+        case ComAmazonawsKms(nestedError) =>
+          expect nestedError.InvalidCiphertextException?;
+        case _ => expect false, "Wrong Logical Keystore Name SHOULD Fail with KMS InvalidCiphertextException.";
+      }
+    } else if (hv == "2") {
+      expect versionResult.error == Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
     } else {
       expect false;
     }
