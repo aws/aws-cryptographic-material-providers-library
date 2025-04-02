@@ -28,7 +28,7 @@ module TestGetKeys {
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
     assume {:axiom} ddbClient.Modifies == {}; // Turns off verification
-    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn, logicalKeyStoreName, branchKeyStoreName);
+    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
 
     testBeaconKeyHappyCase(keyStore, branchKeyId);
     testBeaconKeyHappyCase(keyStore, hv2BranchKeyId);
@@ -40,7 +40,7 @@ module TestGetKeys {
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
     assume {:axiom} ddbClient.Modifies == {}; // Turns off verification
-    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn, logicalKeyStoreName, branchKeyStoreName);
+    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
 
     testBranchKeyHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersionUtf8Bytes);
     testBranchKeyHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdActiveVersionUtf8Bytes);
@@ -193,7 +193,7 @@ module TestGetKeys {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
 
-    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn, logicalKeyStoreName, branchKeyStoreName);
+    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
     assume {:axiom} keyStore.Modifies == {}; // Turns off verification
 
     var activeResult := keyStore.GetActiveBranchKey(
@@ -208,7 +208,8 @@ module TestGetKeys {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
 
-    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn, incorrectLogicalName, branchKeyStoreName);
+    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
+    
     assume {:axiom} keyStore.Modifies == {}; // Turns off verification
 
     var activeResult := keyStore.GetActiveBranchKey(
@@ -229,7 +230,7 @@ module TestGetKeys {
       ));
 
     expect activeResultHV2.Failure?;
-    expect activeResultHV2.error == Types.Error.KeyStoreException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
+    expect activeResultHV2.error == Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
   }
 
   method {:test} TestGetActiveKeyDoesNotExistFails()
@@ -237,9 +238,9 @@ module TestGetKeys {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
 
-    var keyStore := GetKeyStore(kmsClient, ddbClient, keyArn, logicalKeyStoreName, branchKeyStoreName);
+    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName:=branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
 
-    var branchKeyResult :- expect keyStore.GetActiveBranchKey(
+    var activeResult := keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := "Robbie"
       ));
@@ -271,32 +272,6 @@ module TestGetKeys {
       ));
 
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
-  }
-
-  method GetKeyStore(kmsClient: ComAmazonawsKmsTypes.IKMSClient, ddbClient: ComAmazonawsDynamodbTypes.IDynamoDBClient, keyArn: string, logicalKeyStoreName: string, branchKeyStoreName: string) returns (keyStore: KeyStore.KeyStoreClient)
-    requires kmsClient.ValidState()
-    requires ddbClient.ValidState()
-    ensures keyStore.ValidState()
-  {
-    assume {:axiom} ddbClient.Modifies == {}; // Turns off verification
-      var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
-      var keyStoreConfig := Types.KeyStoreConfig(
-          id := None,
-          kmsConfiguration := kmsConfig,
-          logicalKeyStoreName := logicalKeyStoreName,
-          storage := Some(
-              Types.ddb(
-                  Types.DynamoDBTable(
-                      ddbTableName := branchKeyStoreName,
-                      ddbClient := Some(ddbClient)
-                  ))),
-          keyManagement := Some(
-              Types.kms(
-                  Types.AwsKms(
-                      kmsClient := Some(kmsClient)
-                  )))
-      );
-      keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
   }
 
   method testBeaconKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string) 
