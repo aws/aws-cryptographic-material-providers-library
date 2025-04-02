@@ -57,6 +57,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
               && var DigestOutput := Seq.Last(cryptoClient.History.Digest).output;
               && DigestInput.digestAlgorithm == AtomicPrimitives.Types.SHA_384
               && DigestOutput.value == output.value
+              && |output.value| == Structure.BKC_DIGEST_LENGTH as int
   {
     var utf8BKContext :- EncodeEncryptionContext(branchKeyContext).MapFailure(WrapStringToError);
     var digestResult := CanonicalEncryptionContext.EncryptionContextDigest(cryptoClient, utf8BKContext);
@@ -71,6 +72,10 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
       };
       return Failure(error);
     }
+    :-Need(
+      |digestResult.value| == Structure.BKC_DIGEST_LENGTH as int,
+      Types.KeyStoreException(message:="Could not SHA-384 Content.")
+    );
     return Success(digestResult.value);
   }
 

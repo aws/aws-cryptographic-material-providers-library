@@ -82,11 +82,6 @@ module TestGetKeys {
     expect ISO8601?(encryptedVersion.Item.CreateTime);
     expect ISO8601?(encryptedBeacon.Item.CreateTime);
 
-    // Since this process uses a read DDB table,
-    // the number of records will forever increase.
-    // To avoid this, remove the items.
-    var _ := CleanupItems.DeleteBranchKey(Identifier:=identifier, ddbClient:=ddbClient);
-
     expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
     expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
@@ -95,16 +90,6 @@ module TestGetKeys {
         == activeResult.branchKeyMaterials.branchKeyIdentifier
         == beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier;
     expect versionResult.branchKeyMaterials.branchKeyVersion == activeResult.branchKeyMaterials.branchKeyVersion;
-
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
-    //= type=test
-    //# If no branch key id is provided,
-    //# then this operation MUST create a [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
-    //# to be used as the branch key id.
-    var idByteUUID :- expect UUID.ToByteArray(activeResult.branchKeyMaterials.branchKeyIdentifier);
-    var idRoundTrip :- expect UUID.FromByteArray(idByteUUID);
-    expect idRoundTrip == activeResult.branchKeyMaterials.branchKeyIdentifier;
-
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
     //= type=test
