@@ -195,7 +195,6 @@ module TestGetKeys {
     var ddbClient :- expect DDB.DynamoDBClient();
 
     var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
-    assume {:axiom} keyStore.Modifies == {}; // Turns off verification
 
     var activeResult := keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
@@ -211,7 +210,6 @@ module TestGetKeys {
 
     var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
 
-    assume {:axiom} keyStore.Modifies == {}; // Turns off verification
 
     var activeResult := keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
