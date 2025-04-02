@@ -29,7 +29,15 @@ module TestGetKeys {
     keyStore : Types.IKeyStoreClient,
     storage : Types.IKeyStorageInterface,
     ddbClient : DDB.Types.IDynamoDBClient
-  ) {
+  )
+    requires keyStore != null && storage != null && ddbClient != null
+    requires keyStore.ValidState() && storage.ValidState() && ddbClient.ValidState()
+    requires |identifier| > 0
+    modifies
+      keyStore.Modifies, storage.Modifies, ddbClient.Modifies
+    ensures keyStore.ValidState() && storage.ValidState() && ddbClient.ValidState()
+
+  {
     var beaconKeyResult :- expect keyStore.GetBeaconKey(
       Types.GetBeaconKeyInput(
         branchKeyIdentifier := identifier

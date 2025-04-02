@@ -221,6 +221,11 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     config: InternalConfig
   )
     returns (output: Result<KeyStoreTypes.HierarchyVersion, Error>)
+    ensures
+      output.Success?
+      ==>
+        && (hierarchyVersion?.Some? ==> output.value == hierarchyVersion?.value)
+        && (hierarchyVersion?.None? ==> output.value == KeyStoreTypes.HierarchyVersion.v1)
   {
     if (hierarchyVersion?.None?) {
       return Success(KeyStoreTypes.HierarchyVersion.v1);
@@ -286,14 +291,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       && input.Identifier.Some?
       && input.EncryptionContext.None?
       ==> output.Failure?
-
-    ensures
-      output.Success?
-      ==>
-        && (input.Identifier.Some? ==> input.Identifier.value == output.value.Identifier)
-        && (input.HierarchyVersion.Some? ==> input.HierarchyVersion.value == output.value.HierarchyVersion)
-        && (input.HierarchyVersion.None? ==> output.value.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v1)
-
   {
     var hvInput :- ResolveHierarchyVersionForCreateKey(input.HierarchyVersion, config);
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
