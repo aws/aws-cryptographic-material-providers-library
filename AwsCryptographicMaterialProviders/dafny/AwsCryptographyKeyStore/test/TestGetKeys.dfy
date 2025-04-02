@@ -31,7 +31,6 @@ module TestGetKeys {
   )
     requires
       keyStore.ValidState() && storage.ValidState()
-    requires |identifier| > 0
     modifies
       keyStore.Modifies, storage.Modifies
     ensures
