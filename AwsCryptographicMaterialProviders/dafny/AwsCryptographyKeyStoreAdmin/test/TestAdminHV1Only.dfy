@@ -4,6 +4,7 @@
 include "../src/Index.dfy"
 include "../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "../../AwsCryptographyKeyStore/test/Fixtures.dfy"
+include "../../AwsCryptographyKeyStore/test/TestGetKeys.dfy"
 include "../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
 include "AdminFixtures.dfy"
 
@@ -23,6 +24,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import UUID
   import CleanupItems
   import AdminFixtures
+  import TestGetKeys
 
   // TODO-HV-2-M1 : Probably make this a happy test?
   method {:test} TestCreateKeyForHV2Fails()
@@ -31,7 +33,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
-    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
     var input := Types.CreateKeyInput(
@@ -39,7 +41,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
       EncryptionContext := None,
       KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
       Strategy := Some(strategy),
-      HierarchyVersion := Some(KeyStoreTypes.v2)
+      HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
     );
     var actualOutput := underTest.CreateKey(input);
     expect actualOutput.Failure?, "Should have failed to create an HV-2. Dirty BKID: " + actualOutput.value.Identifier;
