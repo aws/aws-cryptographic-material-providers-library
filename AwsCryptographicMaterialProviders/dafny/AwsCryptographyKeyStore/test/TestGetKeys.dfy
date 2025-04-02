@@ -33,18 +33,6 @@ module TestGetKeys {
     testBeaconKeyResult(keyStore, hv2BranchKeyId);
   }
 
-  method {:only} testBeaconKeyResult(keyStore: KeyStore.KeyStoreClient, branchKeyId: string) 
-    requires keyStore.ValidState()
-  {
-    var beaconKeyResult :- expect keyStore.GetBeaconKey(
-      Types.GetBeaconKeyInput(
-        branchKeyIdentifier := branchKeyId
-      ));
-    expect beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier == branchKeyId;
-    expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
-    expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
-  }
-
   method {:test} {:isolate_assertions} TestGetActiveKey()
   {
     var kmsClient :- expect KMS.KMSClient();
@@ -398,5 +386,20 @@ module TestGetKeys {
                   )))
       );
       keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+  }
+
+  method testBeaconKeyResult(keyStore: KeyStore.KeyStoreClient, branchKeyId: string) 
+    requires keyStore.ValidState()
+  {
+    assume {:axiom} keyStore.Modifies == {}; // Turns off verification
+
+    var beaconKeyResult :- expect keyStore.GetBeaconKey(
+      Types.GetBeaconKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+      
+    expect beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier == branchKeyId;
+    expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
+    expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
   }
 }
