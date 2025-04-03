@@ -97,8 +97,17 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
       ==>
         && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
         && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
-
-        // TODO-HV-2-M1-FF: Refactor EncryptionContext usage into BranchKeyContext
+           // Use negative indexing to select correct KMS Encrypt calls ("-i % |seq|" is effectively negative indexing)
+           // The first request we made is for the new DecryptOnly BKI
+        && var kmsEncryptRequestForDecryptOnlyBKI := kmsClient.History.Encrypt[-3 % |kmsClient.History.Encrypt|];
+        // The second request we made is for the new ACTIVE BKI
+        && var kmsEncryptRequestForActiveBKI := kmsClient.History.Encrypt[-2 % |kmsClient.History.Encrypt|];
+        // The third and last request we made is for the new Beacon BKI
+        && var kmsEncryptRequestForBeaconBKI := kmsClient.History.Encrypt[-1 % |kmsClient.History.Encrypt|];
+        && kmsEncryptRequestForDecryptOnlyBKI.output.Success?
+        && kmsEncryptRequestForActiveBKI.output.Success?
+        && kmsEncryptRequestForBeaconBKI.output.Success?
+           // TODO-HV-2-M1-FF: Refactor EncryptionContext usage into BranchKeyContext
         && var decryptOnlyBranchKeyContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
                                                 branchKeyIdentifier,
                                                 branchKeyVersion,
@@ -125,8 +134,8 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
                 && decryptOnlyBranchKeyContext[Structure.ENCRYPTION_CONTEXT_PREFIX + k] == customEncryptionContext[k])
 
         && WrappedBranchKeyCreationHV2?(
-             Seq.Last(Seq.DropLast(Seq.DropLast(kmsClient.History.Encrypt))),
-             Seq.Last(Seq.DropLast(kmsClient.History.Encrypt)),
+             kmsEncryptRequestForDecryptOnlyBKI,
+             kmsEncryptRequestForActiveBKI,
              kmsClient,
              kmsConfiguration,
              grantTokens,
@@ -135,7 +144,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
            )
 
         && WrappedBeaconKeyCreationHV2?(
-             Seq.Last(kmsClient.History.Encrypt),
+             kmsEncryptRequestForBeaconBKI,
              kmsClient,
              kmsConfiguration,
              grantTokens,
@@ -148,29 +157,20 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
         && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Active
            == Structure.ConstructEncryptedHierarchicalKey(
                 Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext),
-                Seq.Last(Seq.DropLast(kmsClient.History.Encrypt)).output.value.CiphertextBlob.value
+                kmsEncryptRequestForActiveBKI.output.value.CiphertextBlob.value
               )
         && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Version
            == Structure.ConstructEncryptedHierarchicalKey(
                 decryptOnlyBranchKeyContext,
-                Seq.Last(Seq.DropLast(Seq.DropLast(kmsClient.History.Encrypt))).output.value.CiphertextBlob.value
+                kmsEncryptRequestForDecryptOnlyBKI.output.value.CiphertextBlob.value
               )
         && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Beacon
            == Structure.ConstructEncryptedHierarchicalKey(
                 Structure.BeaconKeyEncryptionContext(decryptOnlyBranchKeyContext),
-                Seq.Last(kmsClient.History.Encrypt).output.value.CiphertextBlob.value
+                kmsEncryptRequestForBeaconBKI.output.value.CiphertextBlob.value
               )
 
         && Seq.Last(storage.History.WriteNewEncryptedBranchKey).output.Success?
-
-    ensures
-      && output.Success?
-      && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
-      && Seq.Last(Seq.DropLast(Seq.DropLast(kmsClient.History.Encrypt))).output.Success?
-      && Seq.Last(Seq.DropLast(kmsClient.History.Encrypt)).output.Success?
-      && Seq.Last(kmsClient.History.Encrypt).output.Success?
-      ==>
-        && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //= type=implication
