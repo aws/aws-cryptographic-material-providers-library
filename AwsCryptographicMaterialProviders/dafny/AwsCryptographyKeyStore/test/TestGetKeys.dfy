@@ -36,7 +36,6 @@ module TestGetKeys {
       keyStore.Modifies, storage.Modifies
     ensures
       keyStore.ValidState() && storage.ValidState()
-
   {
     var beaconKeyResult :- expect keyStore.GetBeaconKey(
       Types.GetBeaconKeyInput(
@@ -55,32 +54,7 @@ module TestGetKeys {
         branchKeyVersion := branchKeyVersion
       ));
 
-    var encryptedActive :- expect storage.GetEncryptedActiveBranchKey(
-      Types.GetEncryptedActiveBranchKeyInput(
-        Identifier := identifier
-      )
-    );
-
-    expect encryptedActive.Item.Type.ActiveHierarchicalSymmetricVersion?;
-    var encryptedVersion :- expect storage.GetEncryptedBranchKeyVersion(
-      Types.GetEncryptedBranchKeyVersionInput(
-        Identifier := identifier,
-        Version := encryptedActive.Item.Type.ActiveHierarchicalSymmetricVersion.Version
-      )
-    );
-
-    var encryptedBeacon :- expect storage.GetEncryptedBeaconKey(
-      Types.GetEncryptedBeaconKeyInput(
-        Identifier := identifier
-      )
-    );
-
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
-    //= type=test
-    //# This timestamp MUST be in ISO 8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
-    expect ISO8601?(encryptedActive.Item.CreateTime);
-    expect ISO8601?(encryptedVersion.Item.CreateTime);
-    expect ISO8601?(encryptedBeacon.Item.CreateTime);
+    VerifyGetKeysFromStorage(identifier, storage);
 
     expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
     expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
@@ -484,6 +458,43 @@ module TestGetKeys {
     expect versionResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
     expect versionResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes == testBytes;
     expect |versionResult.branchKeyMaterials.branchKey| == 32;
+  }
+
+  method VerifyGetKeysFromStorage(
+    identifier : string,
+    storage : Types.IKeyStorageInterface
+  )
+    requires storage.ValidState()
+    modifies storage.Modifies
+    ensures storage.ValidState()
+  {
+    var encryptedActiveFromStorage :- expect storage.GetEncryptedActiveBranchKey(
+      Types.GetEncryptedActiveBranchKeyInput(
+        Identifier := identifier
+      )
+    );
+
+    var encryptedBeaconFromStorage :- expect storage.GetEncryptedBeaconKey(
+      Types.GetEncryptedBeaconKeyInput(
+        Identifier := identifier
+      )
+    );
+
+    expect encryptedActiveFromStorage.Item.Type.ActiveHierarchicalSymmetricVersion?;
+
+    var encryptedVersionFromStorage :- expect storage.GetEncryptedBranchKeyVersion(
+      Types.GetEncryptedBranchKeyVersionInput(
+        Identifier := identifier,
+        Version := encryptedActiveFromStorage.Item.Type.ActiveHierarchicalSymmetricVersion.Version
+      )
+    );
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    //= type=test
+    //# This timestamp MUST be in ISO 8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
+    expect ISO8601?(encryptedActiveFromStorage.Item.CreateTime);
+    expect ISO8601?(encryptedBeaconFromStorage.Item.CreateTime);
+    expect ISO8601?(encryptedVersionFromStorage.Item.CreateTime);
   }
 
   lemma ISO8601Test()
