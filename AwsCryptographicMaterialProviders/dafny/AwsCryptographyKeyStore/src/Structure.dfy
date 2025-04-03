@@ -461,6 +461,9 @@ module {:options "/functionSyntax:4" } Structure {
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[KMS_FIELD] == kmsKeyArn
     ensures output[TABLE_FIELD] == logicalKeyStoreName
+    ensures HIERARCHY_VERSION in output
+    ensures hierarchyVersion.v1? ==> output[HIERARCHY_VERSION] == HIERARCHY_VERSION_VALUE_1
+    ensures hierarchyVersion.v2? ==> output[HIERARCHY_VERSION] == HIERARCHY_VERSION_VALUE_2
     ensures forall k <- customEncryptionContext
               ::
                 && ENCRYPTION_CONTEXT_PREFIX + k in output

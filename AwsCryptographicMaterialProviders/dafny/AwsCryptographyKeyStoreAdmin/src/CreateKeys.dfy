@@ -64,7 +64,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
   //#
   //# - `branchKeyId`: The identifier
   //# - `encryptionContext`: Additional encryption context to bind to the created keys
-  method CreateBranchAndBeaconKeys(
+  method {:only} CreateBranchAndBeaconKeys(
     branchKeyIdentifier: string,
     customEncryptionContext: map<string, string>,
     timestamp: string,
@@ -216,6 +216,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
       hierarchyVersion,
       customEncryptionContext
     );
+    assert decryptOnlyBranchKeyContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2;
     var activeBranchKeyContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext);
     var beaconBranchKeyContext := Structure.BeaconKeyEncryptionContext(decryptOnlyBranchKeyContext);
 
@@ -382,7 +383,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     requires old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
     requires beaconHistory in kmsClient.History.Encrypt[|old(kmsClient.History.Encrypt)|..]
   {
-    // Verify beacon key encryption
+    // Verify the KMS request to create the Beacon ciphertext was constructed correctly
     && var beaconInput := beaconHistory.input;
     && KMSKeystoreOperations.Compatible?(kmsConfiguration, beaconInput.KeyId)
     && |beaconInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
