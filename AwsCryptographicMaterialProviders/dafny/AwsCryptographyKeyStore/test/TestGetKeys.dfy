@@ -268,8 +268,8 @@ module TestGetKeys {
     var ddbClient :- expect DDB.DynamoDBClient();
 
     var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
-    GetActiveKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, "1");
-    GetActiveKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, "2");
+    GetActiveKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, Types.HierarchyVersion.v1);
+    GetActiveKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, Types.HierarchyVersion.v2);
 
     GetBeaconKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, "1");
     GetBeaconKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, "2");
@@ -304,7 +304,7 @@ module TestGetKeys {
     testBranchKeyVersionHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyVersion, hv2BranchKeyIdActiveVersionUtf8Bytes);
   }
 
-  method GetActiveKeyWrongLogicalKeyStoreName(keyStore: Types.IKeyStoreClient, branchKeyId: string, hv: string)
+  method GetActiveKeyWrongLogicalKeyStoreName(keyStore: Types.IKeyStoreClient, branchKeyId: string, hv: Types.HierarchyVersion)
     requires keyStore.ValidState()
     modifies keyStore.Modifies
   {
@@ -313,17 +313,14 @@ module TestGetKeys {
         branchKeyIdentifier := branchKeyId
       ));
     expect activeResult.Failure?;
-
-    if (hv == "1") {
-      match activeResult.error {
-        case ComAmazonawsKms(nestedError) =>
-          expect nestedError.InvalidCiphertextException?;
-        case _ => expect false, "Wrong Logical Keystore Name SHOULD Fail with KMS InvalidCiphertextException.";
-      }
-    } else if (hv == "2") {
-      expect activeResult.error == Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
-    } else {
-      expect false;
+    match hv {
+      case v1 =>
+        match activeResult.error {
+          case ComAmazonawsKms(nestedError) =>
+            expect nestedError.InvalidCiphertextException?;
+          case _ => expect false, "Wrong Logical Keystore Name SHOULD Fail with KMS InvalidCiphertextException for HV-1.";
+        }
+      case v2 => expect activeResult.error == Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED), "Wrong Logical Keystore Name SHOULD Fail with BranchKeyCiphertextException for HV-2.";
     }
   }
 
