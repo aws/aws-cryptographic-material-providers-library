@@ -271,11 +271,11 @@ module TestGetKeys {
     GetActiveKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, Types.HierarchyVersion.v1);
     GetActiveKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, Types.HierarchyVersion.v2);
 
-    GetBeaconKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, "1");
-    GetBeaconKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, "2");
+    GetBeaconKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, Types.HierarchyVersion.v1);
+    GetBeaconKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, Types.HierarchyVersion.v2);
 
-    GetVersionKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, branchKeyIdActiveVersion, "1");
-    GetVersionKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, hv2BranchKeyVersion, "2");
+    GetVersionKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, branchKeyIdActiveVersion, Types.HierarchyVersion.v1);
+    GetVersionKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, hv2BranchKeyVersion, Types.HierarchyVersion.v2);
   }
 
   method {:test} TestGetKeyDoesNotExistFails()
@@ -324,7 +324,7 @@ module TestGetKeys {
     }
   }
 
-  method GetBeaconKeyWrongLogicalKeyStoreName(keyStore: Types.IKeyStoreClient, branchKeyId: string, hv: string)
+  method GetBeaconKeyWrongLogicalKeyStoreName(keyStore: Types.IKeyStoreClient, branchKeyId: string, hv: Types.HierarchyVersion)
     requires keyStore.ValidState()
     modifies keyStore.Modifies
   {
@@ -333,20 +333,18 @@ module TestGetKeys {
         branchKeyIdentifier := branchKeyId
       ));
     expect beaconKeyResult.Failure?;
-    if (hv == "1") {
-      match beaconKeyResult.error {
-        case ComAmazonawsKms(nestedError) =>
-          expect nestedError.InvalidCiphertextException?;
-        case _ => expect false, "Wrong Logical Keystore Name SHOULD Fail with KMS InvalidCiphertextException.";
-      }
-    } else if (hv == "2") {
-      expect beaconKeyResult.error == Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
-    } else {
-      expect false;
+    match hv {
+      case v1 =>
+        match beaconKeyResult.error {
+          case ComAmazonawsKms(nestedError) =>
+            expect nestedError.InvalidCiphertextException?;
+          case _ => expect false, "Wrong Logical Keystore Name SHOULD Fail with KMS InvalidCiphertextException for HV-1.";
+        }
+      case v2 => expect beaconKeyResult.error == Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED), "Wrong Logical Keystore Name SHOULD Fail with BranchKeyCiphertextException for HV-2.";
     }
   }
 
-  method GetVersionKeyWrongLogicalKeyStoreName(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersion: string, hv: string)
+  method GetVersionKeyWrongLogicalKeyStoreName(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersion: string, hv: Types.HierarchyVersion)
     requires keyStore.ValidState()
     modifies keyStore.Modifies
   {
@@ -356,16 +354,14 @@ module TestGetKeys {
         branchKeyVersion := branchKeyIdActiveVersion
       ));
     expect versionResult.Failure?;
-    if (hv == "1") {
-      match versionResult.error {
-        case ComAmazonawsKms(nestedError) =>
-          expect nestedError.InvalidCiphertextException?;
-        case _ => expect false, "Wrong Logical Keystore Name SHOULD Fail with KMS InvalidCiphertextException.";
-      }
-    } else if (hv == "2") {
-      expect versionResult.error == Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED);
-    } else {
-      expect false;
+    match hv {
+      case v1 =>
+        match versionResult.error {
+          case ComAmazonawsKms(nestedError) =>
+            expect nestedError.InvalidCiphertextException?;
+          case _ => expect false, "Wrong Logical Keystore Name SHOULD Fail with KMS InvalidCiphertextException for HV-1.";
+        }
+      case v2 => expect versionResult.error == Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED), "Wrong Logical Keystore Name SHOULD Fail with BranchKeyCiphertextException for HV-2.";
     }
   }
 
