@@ -153,7 +153,11 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
            )
 
         && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
-
+           //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
+           //= type=implication
+           //# If writing to the keystore succeeds,
+           //# the operation MUST return the branch-key-id that maps to both
+           //# the branch key and the beacon key.
         && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Active
            == Structure.ConstructEncryptedHierarchicalKey(
                 Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext),
@@ -171,24 +175,13 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
               )
 
         && Seq.Last(storage.History.WriteNewEncryptedBranchKey).output.Success?
-
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
-    //= type=implication
-    //# If writing to the keystore succeeds,
-    //# the operation MUST return the branch-key-id that maps to both
-    //# the branch key and the beacon key.
-    ensures
-      && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
-      && Seq.Last(storage.History.WriteNewEncryptedBranchKey).output.Success?
-      ==>
-        && output.Success?
         && output.value.Identifier == branchKeyIdentifier
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //= type=implication
     //# Otherwise, this operation MUST yield an error.
     ensures
-
+      // TODO-HV-2-FOLLOW : Is there another way to represent this? This is also not nearly all the possible failrues...
       || (&& |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
           && Seq.Last(kmsClient.History.Encrypt).output.Failure?
           ==> output.Failure?)
