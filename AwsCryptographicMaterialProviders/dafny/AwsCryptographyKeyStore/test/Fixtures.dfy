@@ -73,7 +73,7 @@ module Fixtures {
     54,  54, 102, 99,  56,  97, 102, 57, 102
   ]
   const hv2BranchKeyId := "test-hv2-branch-key-badaa332-29f2-4c72-8ad7-071eb48499c3"
-  const hv2BranchKeyIdWithEC := "347fdc7d-e93f-4166-97c2-5f5e0053d335"
+  const hv2BranchKeyVersion := "347fdc7d-e93f-4166-97c2-5f5e0053d335"
   const hv2BranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
     51, 52, 55, 102, 100, 99, 55, 100, 45, 101, 57,
     51, 102, 45, 52, 49, 54, 54, 45, 57, 55, 99, 50,
@@ -236,6 +236,36 @@ module Fixtures {
         Types.kms(
           Types.AwsKms(
             kmsClient := Some(kmsClient)
+          )))
+    );
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    return Success(keyStore);
+  }
+
+  method KeyStoreWithNoClient(
+    nameonly kmsId: string := keyArn,
+    nameonly physicalName: string := branchKeyStoreName,
+    nameonly logicalName: string := logicalKeyStoreName
+  )
+    returns (output: Result<Types.IKeyStoreClient, Types.Error>)
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    ensures output.Success? ==> output.value.ValidState()
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(kmsId);
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalName,
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := physicalName
           )))
     );
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
