@@ -44,7 +44,7 @@ module TestGetKeys {
 
     testBranchKeyVersionHappyCase(keyStore, identifier, branchKeyVersion, activeResult.branchKeyMaterials.branchKeyVersion);
     VerifyGetKeysFromStorage(identifier, storage);
-    
+
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
     //= type=test
     //# This guid MUST be [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
@@ -438,7 +438,7 @@ module TestGetKeys {
 
   predicate method isValidActiveBranchKeyResult?(branchKeyResult: Types.GetActiveBranchKeyOutput, branchKeyId: string, branchKeyIdActiveVersionUtf8Bytes: Option<seq<uint8>>) {
     && branchKeyResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId
-    && (branchKeyIdActiveVersionUtf8Bytes.None? || 
+    && (branchKeyIdActiveVersionUtf8Bytes.None? ||
         branchKeyResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes.value)
     && |branchKeyResult.branchKeyMaterials.branchKey| == 32
   }
