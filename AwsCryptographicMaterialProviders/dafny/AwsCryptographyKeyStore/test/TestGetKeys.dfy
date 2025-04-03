@@ -292,7 +292,7 @@ module TestGetKeys {
   method {:test} TestGetKeysWithNoClients() {
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
-    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName:=branchKeyStoreName, logicalName := logicalKeyStoreName);
+    var keyStore :- expect KeyStoreWithNoClient(kmsId:=keyArn, physicalName:=branchKeyStoreName, logicalName := logicalKeyStoreName);
 
     testActiveBranchKeyHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersionUtf8Bytes);
     testActiveBranchKeyHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdActiveVersionUtf8Bytes);

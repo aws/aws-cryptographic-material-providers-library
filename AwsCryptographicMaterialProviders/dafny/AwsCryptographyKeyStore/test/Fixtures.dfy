@@ -242,6 +242,36 @@ module Fixtures {
     return Success(keyStore);
   }
 
+  method KeyStoreWithNoClient(
+    nameonly kmsId: string := keyArn,
+    nameonly physicalName: string := branchKeyStoreName,
+    nameonly logicalName: string := logicalKeyStoreName
+  )
+    returns (output: Result<Types.IKeyStoreClient, Types.Error>)
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    ensures output.Success? ==> output.value.ValidState()
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(kmsId);
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalName,
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := physicalName
+          )))
+    );
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    return Success(keyStore);
+  }
+
   datatype allThree = | allThree (
     active: Types.EncryptedHierarchicalKey,
     beacon: Types.EncryptedHierarchicalKey,
