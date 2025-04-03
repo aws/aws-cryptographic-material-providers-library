@@ -62,6 +62,12 @@ module {:options "/functionSyntax:4" } Structure {
   //# Across all versions of a Branch Key, the custom encryption context MUST be equal.
   // At this time, we have no operation that reads all the records of a Branch Key ID.
 
+  type PrefixedEncryptionContext = m: map<string, string> | PrefixedEncryptionContext?(m) witness *
+  predicate PrefixedEncryptionContext?(m: map<string, string>) {
+    && m.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    && forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX < k
+  }
+  
   type BranchKeyContext = m: map<string, string> | BranchKeyContext?(m) witness *
   predicate BranchKeyContext?(m: map<string, string>) {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
@@ -445,14 +451,14 @@ module {:options "/functionSyntax:4" } Structure {
     map i <- defixedCustomEncryptionContext :: i.0 := i.1
   }
 
-  opaque function DecryptOnlyBranchKeyEncryptionContext(
+  opaque function {:only} DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
     hierarchyVersion: Types.HierarchyVersion,
-    customEncryptionContext: map<string, string>
+    encryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
@@ -461,13 +467,14 @@ module {:options "/functionSyntax:4" } Structure {
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[KMS_FIELD] == kmsKeyArn
     ensures output[TABLE_FIELD] == logicalKeyStoreName
-    ensures HIERARCHY_VERSION in output
-    ensures hierarchyVersion.v1? ==> output[HIERARCHY_VERSION] == HIERARCHY_VERSION_VALUE_1
-    ensures hierarchyVersion.v2? ==> output[HIERARCHY_VERSION] == HIERARCHY_VERSION_VALUE_2
-    ensures forall k <- customEncryptionContext
+    ensures output[HIERARCHY_VERSION] == match hierarchyVersion {
+        case v1 => HIERARCHY_VERSION_VALUE_1
+        case v2 => HIERARCHY_VERSION_VALUE_2
+    }
+    ensures forall k <- encryptionContext
               ::
                 && ENCRYPTION_CONTEXT_PREFIX + k in output
-                && output[ENCRYPTION_CONTEXT_PREFIX + k] == customEncryptionContext[k]
+                && output[ENCRYPTION_CONTEXT_PREFIX + k] == encryptionContext[k]
   {
     // Dafny needs some help.
     // Adding a fixed string
@@ -475,20 +482,30 @@ module {:options "/functionSyntax:4" } Structure {
     // However, this leaks a lot of complexity.
     // This is why the function is now opaque.
     // Otherwise things timeout
-    assert forall k <- customEncryptionContext.Keys
+    assert forall k <- encryptionContext.Keys
         ::
-          k == (ENCRYPTION_CONTEXT_PREFIX + k)[|ENCRYPTION_CONTEXT_PREFIX|..];
-
-    map[
+        && k == (ENCRYPTION_CONTEXT_PREFIX + k)[|ENCRYPTION_CONTEXT_PREFIX|..];
+    //     && (ENCRYPTION_CONTEXT_PREFIX + k)[0] == ENCRYPTION_CONTEXT_PREFIX[0]
+    //     && (ENCRYPTION_CONTEXT_PREFIX + k) !in BRANCH_KEY_RESTRICTED_FIELD_NAMES;
+    // TODO-HV-2-FOLLOW : Using a Match statement to set the HIERARCHY_VERSION has made Dafny
+    // doubt that the prefixed-EC is disjoint from the reserved words.
+    // While this is really interesting, we KNOW this is true, and I am not going to spend
+    var prefixedEncryptionContext :=
+      map k <- encryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := encryptionContext[k];
+    assume {:axiom} forall k :: k in prefixedEncryptionContext.Keys ==> ENCRYPTION_CONTEXT_PREFIX < k;
+    assume {:axiom} prefixedEncryptionContext.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES;
+    assert PrefixedEncryptionContext?(prefixedEncryptionContext);
+    prefixedEncryptionContext + map[
       BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
       TYPE_FIELD := BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
       KEY_CREATE_TIME := timestamp,
       TABLE_FIELD := logicalKeyStoreName,
       KMS_FIELD := kmsKeyArn,
-      HIERARCHY_VERSION := match hierarchyVersion
-      case v1 => HIERARCHY_VERSION_VALUE_1
-      case v2 => HIERARCHY_VERSION_VALUE_2
-    ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
+      HIERARCHY_VERSION := match hierarchyVersion {
+        case v1 => HIERARCHY_VERSION_VALUE_1
+        case v2 => HIERARCHY_VERSION_VALUE_2
+      }
+    ] 
   }
 
   function ActiveBranchKeyEncryptionContext(
