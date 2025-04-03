@@ -94,7 +94,9 @@ public class ToDafny {
   public static Error Error(OpaqueWithTextError nativeValue) {
     return Error.create_OpaqueWithText(
       nativeValue.obj(),
-      dafny.DafnySequence.asString(nativeValue.objMessage())
+      dafny.DafnySequence.asString(
+        nativeValue.getClass().getSimpleName() + ": " + nativeValue.getMessage()
+      )
     );
   }
 
