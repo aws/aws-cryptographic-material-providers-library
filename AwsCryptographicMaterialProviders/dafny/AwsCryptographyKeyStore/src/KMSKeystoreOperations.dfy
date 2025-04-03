@@ -347,6 +347,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       GrantTokens := Some(grantTokens)
     );
 
+    print kmsEncryptRequest;
     var encryptResponse? := kmsClient.Encrypt(kmsEncryptRequest);
     var encryptResponse :- encryptResponse?
     .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));

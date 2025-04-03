@@ -23,48 +23,60 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
   import AwsArnParsing
   import TestGetKeys
 
-  /*
-    // If you need to re-create the MRK Branch Keys
-  
-    method {:test} TestCreateMRK()
-    {
-      var ddbClient :- expect DDB.DynamoDBClient();
-  
-      var keyStoreConfigEast := Types.KeyStoreConfig(
-        id := None,
-        kmsConfiguration := KmsConfigEast,
-        logicalKeyStoreName := logicalKeyStoreName,
-        grantTokens := None,
-        ddbTableName := branchKeyStoreName,
-        ddbClient := Some(ddbClient)
-      );
-  
-      var keyStoreConfigWest := Types.KeyStoreConfig(
-        id := None,
-        kmsConfiguration := KmsConfigWest,
-        logicalKeyStoreName := logicalKeyStoreName,
-        grantTokens := None,
-        ddbTableName := branchKeyStoreName,
-        ddbClient := Some(ddbClient)
-      );
-  
-      var keyStoreEast :- expect KeyStore.KeyStore(keyStoreConfigEast);
-      var keyStoreWest :- expect KeyStore.KeyStore(keyStoreConfigWest);
-  
-      var branchKeyIdWest :- expect keyStoreWest.CreateKey(Types.CreateKeyInput(
-                                                             branchKeyIdentifier := Some(WestBranchKey),
-                                                             encryptionContext := Some(KmsMrkEC)
-                                                           ));
-  
-      var branchKeyIdEast :- expect keyStoreEast.CreateKey(Types.CreateKeyInput(
-                                                             branchKeyIdentifier := Some(EastBranchKey),
-                                                             encryptionContext := Some(KmsMrkEC)
-                                                           ));
-  
-      expect branchKeyIdEast.branchKeyIdentifier == EastBranchKey;
-      expect branchKeyIdWest.branchKeyIdentifier == WestBranchKey;
-    }
-  */
+  method {:test} TestCreateMRKForHV1()
+  {
+    var ddbClient :- expect DDB.DynamoDBClient();
+
+    var keyStoreConfigEast := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := KmsConfigEast,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          )))
+    );
+
+    var keyStoreConfigWest := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := KmsConfigWest,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          )))
+    );
+
+    // Create key with Custom EC & Branch Key Identifier
+    var uuid :- expect UUID.GenerateUUID();
+    var happyCaseId := "test-happy-case-key-create";
+    var branchKeyIdWest := happyCaseId + "-" + WestBranchKey + "-" + uuid;
+    print branchKeyIdWest;
+    var branchKeyIdEast := happyCaseId + "-" + EastBranchKey + "-" + uuid;
+    print branchKeyIdEast;
+
+    var keyStoreEast :- expect KeyStore.KeyStore(keyStoreConfigEast);
+    var keyStoreWest :- expect KeyStore.KeyStore(keyStoreConfigWest);
+
+    var branchKeyIdWest? :- expect keyStoreWest.CreateKey(Types.CreateKeyInput(
+                                                            branchKeyIdentifier := Some(branchKeyIdWest),
+                                                            encryptionContext := Some(KmsMrkEC)
+                                                          ));
+
+    var branchKeyIdEast? :- expect keyStoreEast.CreateKey(Types.CreateKeyInput(
+                                                            branchKeyIdentifier := Some(branchKeyIdEast),
+                                                            encryptionContext := Some(KmsMrkEC)
+                                                          ));
+
+    expect branchKeyIdEast?.branchKeyIdentifier == branchKeyIdEast;
+    expect branchKeyIdWest?.branchKeyIdentifier == branchKeyIdWest;
+  }
 
   method {:test} TestCreateBranchAndBeaconKeys()
   {

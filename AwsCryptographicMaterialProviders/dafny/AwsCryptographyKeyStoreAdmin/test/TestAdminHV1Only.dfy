@@ -100,6 +100,46 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId, ddbClient:=ddbClient);
   }
 
+  method {:test} TestCreateMRKForHV2()
+  {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+
+    // Create key with Custom EC & Branch Key Identifier
+    var uuid :- expect UUID.GenerateUUID();
+    var branchKeyIdWest := happyCaseId + "-" + WestBranchKey + "-" + uuid;
+    var branchKeyIdEast := happyCaseId + "-" + EastBranchKey + "-" + uuid;
+
+    var customEC := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")];
+
+    var westOutput? :- expect underTest.CreateKey(Types.CreateKeyInput(
+                                                    Identifier := Some(branchKeyIdWest),
+                                                    EncryptionContext := Some(customEC),
+                                                    KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(MrkArnWest),
+                                                    Strategy := Some(strategy),
+                                                    HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+                                                  ));
+    expect westOutput?.Identifier == branchKeyIdWest;
+    expect westOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
+    print branchKeyIdWest + "\n";
+
+    var eastOutput? :- expect underTest.CreateKey(Types.CreateKeyInput(
+                                                    Identifier := Some(branchKeyIdEast),
+                                                    EncryptionContext := Some(customEC),
+                                                    KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(MrkArnEast),
+                                                    Strategy := Some(strategy),
+                                                    HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+                                                  ));
+    expect eastOutput?.Identifier == branchKeyIdEast;
+    expect eastOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
+    print branchKeyIdEast + "\n";
+  }
+
+
   // TODO-HV-2-M2 : Probably make this a happy test?
   const testMutateForHV2FailsCaseId := "dafny-initialize-mutation-hv-2-rejection"
   method {:test} TestMutateForHV2Fails()
