@@ -67,7 +67,7 @@ module {:options "/functionSyntax:4" } Structure {
     && m.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES
     && forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX < k
   }
-  
+
   type BranchKeyContext = m: map<string, string> | BranchKeyContext?(m) witness *
   predicate BranchKeyContext?(m: map<string, string>) {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
@@ -468,9 +468,9 @@ module {:options "/functionSyntax:4" } Structure {
     ensures output[KMS_FIELD] == kmsKeyArn
     ensures output[TABLE_FIELD] == logicalKeyStoreName
     ensures output[HIERARCHY_VERSION] == match hierarchyVersion {
-        case v1 => HIERARCHY_VERSION_VALUE_1
-        case v2 => HIERARCHY_VERSION_VALUE_2
-    }
+                                           case v1 => HIERARCHY_VERSION_VALUE_1
+                                           case v2 => HIERARCHY_VERSION_VALUE_2
+                                         }
     ensures forall k <- encryptionContext
               ::
                 && ENCRYPTION_CONTEXT_PREFIX + k in output
@@ -484,7 +484,7 @@ module {:options "/functionSyntax:4" } Structure {
     // Otherwise things timeout
     assert forall k <- encryptionContext.Keys
         ::
-        && k == (ENCRYPTION_CONTEXT_PREFIX + k)[|ENCRYPTION_CONTEXT_PREFIX|..];
+          && k == (ENCRYPTION_CONTEXT_PREFIX + k)[|ENCRYPTION_CONTEXT_PREFIX|..];
     //     && (ENCRYPTION_CONTEXT_PREFIX + k)[0] == ENCRYPTION_CONTEXT_PREFIX[0]
     //     && (ENCRYPTION_CONTEXT_PREFIX + k) !in BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     // TODO-HV-2-FOLLOW : Using a Match statement to set the HIERARCHY_VERSION has made Dafny
@@ -502,10 +502,10 @@ module {:options "/functionSyntax:4" } Structure {
       TABLE_FIELD := logicalKeyStoreName,
       KMS_FIELD := kmsKeyArn,
       HIERARCHY_VERSION := match hierarchyVersion {
-        case v1 => HIERARCHY_VERSION_VALUE_1
-        case v2 => HIERARCHY_VERSION_VALUE_2
-      }
-    ] 
+      case v1 => HIERARCHY_VERSION_VALUE_1
+      case v2 => HIERARCHY_VERSION_VALUE_2
+    }
+    ]
   }
 
   function ActiveBranchKeyEncryptionContext(
