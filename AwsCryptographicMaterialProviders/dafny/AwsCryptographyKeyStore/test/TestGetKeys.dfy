@@ -498,6 +498,43 @@ module TestGetKeys {
     expect ISO8601?(encryptedVersionFromStorage.Item.CreateTime);
   }
 
+  method VerifyGetKeysFromStorage(
+    identifier : string,
+    storage : Types.IKeyStorageInterface
+  )
+    requires storage.ValidState()
+    modifies storage.Modifies
+    ensures storage.ValidState()
+  {
+    var encryptedActiveFromStorage :- expect storage.GetEncryptedActiveBranchKey(
+      Types.GetEncryptedActiveBranchKeyInput(
+        Identifier := identifier
+      )
+    );
+
+    var encryptedBeaconFromStorage :- expect storage.GetEncryptedBeaconKey(
+      Types.GetEncryptedBeaconKeyInput(
+        Identifier := identifier
+      )
+    );
+
+    expect encryptedActiveFromStorage.Item.Type.ActiveHierarchicalSymmetricVersion?;
+
+    var encryptedVersionFromStorage :- expect storage.GetEncryptedBranchKeyVersion(
+      Types.GetEncryptedBranchKeyVersionInput(
+        Identifier := identifier,
+        Version := encryptedActiveFromStorage.Item.Type.ActiveHierarchicalSymmetricVersion.Version
+      )
+    );
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    //= type=test
+    //# This timestamp MUST be in ISO 8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
+    expect ISO8601?(encryptedActiveFromStorage.Item.CreateTime);
+    expect ISO8601?(encryptedBeaconFromStorage.Item.CreateTime);
+    expect ISO8601?(encryptedVersionFromStorage.Item.CreateTime);
+  }
+
   lemma ISO8601Test()
   {
     assert ISO8601?("2024-08-06T17:23:25.000874Z");
