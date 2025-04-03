@@ -61,7 +61,7 @@ pub mod Signature {
         }
 
         const ELEM_MAX_BITS: usize = 521;
-        const ELEM_MAX_BYTES: usize = (ELEM_MAX_BITS + 7) / 8;
+        const ELEM_MAX_BYTES: usize = ELEM_MAX_BITS.div_ceil(8);
         const PUBLIC_KEY_MAX_LEN: usize = 1 + (2 * ELEM_MAX_BYTES);
 
         pub(crate) fn sec1_compress(
