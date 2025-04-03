@@ -40,9 +40,10 @@ module TestGetKeys {
 
     var activeResult := testAndGetActiveBranchKeyHappyCase(keyStore, identifier);
     var branchKeyVersion :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
-    
+
     testBranchKeyVersionHappyCase(keyStore, identifier, branchKeyVersion, activeResult.branchKeyMaterials.branchKeyVersion);
     VerifyGetKeysFromStorage(identifier, storage);
+    
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
     //= type=test
     //# This guid MUST be [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
