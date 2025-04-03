@@ -694,7 +694,7 @@ module GetKeys {
 
     // Verify the digest matches
     if (bkcFromStorage != protectedMdDigest) {
-      var e := Types.KeyStoreException(
+      var e := Types.BranchKeyCiphertextException(
         message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED
       );
       return Failure(e);
