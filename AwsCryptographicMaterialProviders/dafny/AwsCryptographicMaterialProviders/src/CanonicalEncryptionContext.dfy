@@ -80,6 +80,7 @@ module CanonicalEncryptionContext {
               && var DigestOutput := Seq.Last(Crypto.History.Digest).output;
               && DigestInput.digestAlgorithm == AtomicPrimitives.Types.SHA_384
               && DigestOutput.value == output.value
+              && |output.value| == 48 // 384 bits / 8 bits per byte == 48 bytes
   {
     var canonicalEC :- EncryptionContextToAAD(encryptionContext);
 
