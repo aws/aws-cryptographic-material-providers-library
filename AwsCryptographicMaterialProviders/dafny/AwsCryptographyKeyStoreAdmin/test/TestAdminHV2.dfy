@@ -8,9 +8,10 @@ include "../../AwsCryptographyKeyStore/test/TestGetKeys.dfy"
 include "../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
 include "AdminFixtures.dfy"
 
-// TODO-HV-2-M1 : remove HV-1 restriction for CreateKey
 // TODO-HV-2-M2 : remove HV-1 restriction for Mutations
-module {:options "/functionSyntax:4" } TestAdminHV1Only {
+// TODO-HV-2-M3 : rename TestAdminHV2 -> TestAdminCreateKeyHV2
+//    and move HappyCases for version & mutations to it's own test modules
+module {:options "/functionSyntax:4" } TestAdminHV2 {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreAdmin
   import KeyStore
@@ -26,9 +27,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import AdminFixtures
   import TestGetKeys
 
-  const happyCaseId := "test-create-key-hv-2-happy-case"
-
-  method {:test} TestCreateKeyForHV2HappyCase()
+  method {:test} TestCreateKeyHV2HappyCase()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
@@ -61,7 +60,8 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var _ := CleanupItems.DeleteBranchKey(Identifier:=createKeyOutput?.Identifier, ddbClient:=ddbClient);
   }
 
-  method {:test} TestCreateKeyForHV2CreateOptions() {
+  const happyCaseId := "test-create-key-hv2-happy-case"
+  method {:test} TestCreateKeyHV2WithOptions() {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
@@ -98,6 +98,103 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     // the number of records will forever increase.
     // To avoid this, remove the items.
     var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId, ddbClient:=ddbClient);
+  }
+
+  // TODO-HV-2-M2?: Document that BKSA ONLY calls KMS/DDB for the region of the supplied clients.
+  // or Ensure BKSA has similar behavior as BKS in terms of MRK region.
+  /*
+  method {:test} TestCreateMRKForHV2()
+  {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+
+    // Create key with Custom EC & Branch Key Identifier
+    var uuid :- expect UUID.GenerateUUID();
+    var branchKeyIdWest := happyCaseId + "-" + WestBranchKey + "-" + uuid;
+    var branchKeyIdEast := happyCaseId + "-" + EastBranchKey + "-" + uuid;
+
+    var customEC := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")];
+
+    var westOutput? :- expect underTest.CreateKey(Types.CreateKeyInput(
+                                                    Identifier := Some(branchKeyIdWest),
+                                                    EncryptionContext := Some(customEC),
+                                                    KmsArn := Types.KmsSymmetricKeyArn.KmsMRKeyArn(MrkArnWest),
+                                                    Strategy := Some(strategy),
+                                                    HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+                                                  ));
+    expect westOutput?.Identifier == branchKeyIdWest;
+    expect westOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
+    print branchKeyIdWest + "\n";
+
+    var eastOutput? :- expect underTest.CreateKey(Types.CreateKeyInput(
+                                                    Identifier := Some(branchKeyIdEast),
+                                                    EncryptionContext := Some(customEC),
+                                                    KmsArn := Types.KmsSymmetricKeyArn.KmsMRKeyArn(MrkArnEast),
+                                                    Strategy := Some(strategy),
+                                                    HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+                                                  ));
+    expect eastOutput?.Identifier == branchKeyIdEast;
+    expect eastOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
+    print branchKeyIdEast + "\n";
+  }
+  */
+
+  const testCreateKeyWithBKIDandNoECFailsId := "create-key-hv2-bkid-no-ec-fail"
+  method {:test} TestCreateKeyBKIDNoECFails()
+  {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+
+    var uuid :- expect UUID.GenerateUUID();
+    var branchKeyId := testCreateKeyWithBKIDandNoECFailsId + "-" + uuid;
+    var input := Types.CreateKeyInput(
+      Identifier := Some(branchKeyId),
+      EncryptionContext := None,
+      KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
+      Strategy := Some(strategy),
+      HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+    );
+
+    var createKeyOutput := underTest.CreateKey(input);
+    expect createKeyOutput.Failure?, "Expected a failure when provided with Branch Key Identifier with no Custom Encryption Context";
+  }
+
+  method {:test} TestCreateKeyCustomECOnly()
+  {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+
+    var customEC := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")];
+
+    var input := Types.CreateKeyInput(
+      Identifier := None,
+      EncryptionContext := Some(customEC),
+      KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
+      Strategy := Some(strategy),
+      HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+    );
+
+    var createKeyOutput? :- expect underTest.CreateKey(input);
+    expect createKeyOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
+
+    // Get branch key items from storage
+    TestGetKeys.VerifyGetKeys(
+      identifier := createKeyOutput?.Identifier,
+      keyStore := keyStore,
+      storage := storage
+    );
+
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=createKeyOutput?.Identifier, ddbClient:=ddbClient);
   }
 
   // TODO-HV-2-M2 : Probably make this a happy test?
