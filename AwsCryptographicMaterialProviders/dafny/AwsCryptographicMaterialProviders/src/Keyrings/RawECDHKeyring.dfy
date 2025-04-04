@@ -363,10 +363,14 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
       //# If OnDecrypt fails to successfully decrypt any encrypted data key,
       //# then it MUST yield an error that includes all the collected errors.
       var SealedDecryptionMaterials :- outcome
-      .MapFailure(errors => Types.CollectionOfErrors(
-                      list := errors,
-                      message := "No Configured Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."
-                    )
+      .MapFailure(errors =>
+                    if |errors| == 1 then
+                      errors[0]
+                    else
+                      Types.CollectionOfErrors(
+                        list := errors,
+                        message := "No Configured Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."
+                      )
       );
 
       assert decryptClosure.Ensures(Last(attempts).input, Success(SealedDecryptionMaterials), DropLast(attempts));
