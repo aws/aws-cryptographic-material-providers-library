@@ -451,7 +451,7 @@ module {:options "/functionSyntax:4" } Structure {
     map i <- defixedCustomEncryptionContext :: i.0 := i.1
   }
 
-  opaque function {:only} DecryptOnlyBranchKeyEncryptionContext(
+  opaque function DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
     timestamp: string,
@@ -475,6 +475,7 @@ module {:options "/functionSyntax:4" } Structure {
               ::
                 && ENCRYPTION_CONTEXT_PREFIX + k in output
                 && output[ENCRYPTION_CONTEXT_PREFIX + k] == encryptionContext[k]
+    ensures PrefixedEncryptionContext?(output - BRANCH_KEY_RESTRICTED_FIELD_NAMES)
   {
     // Dafny needs some help.
     // Adding a fixed string
@@ -485,11 +486,10 @@ module {:options "/functionSyntax:4" } Structure {
     assert forall k <- encryptionContext.Keys
         ::
           && k == (ENCRYPTION_CONTEXT_PREFIX + k)[|ENCRYPTION_CONTEXT_PREFIX|..];
-    //     && (ENCRYPTION_CONTEXT_PREFIX + k)[0] == ENCRYPTION_CONTEXT_PREFIX[0]
-    //     && (ENCRYPTION_CONTEXT_PREFIX + k) !in BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     // TODO-HV-2-FOLLOW : Using a Match statement to set the HIERARCHY_VERSION has made Dafny
     // doubt that the prefixed-EC is disjoint from the reserved words.
-    // While this is really interesting, we KNOW this is true, and I am not going to spend
+    // While this is really interesting, we KNOW this is true, and I am not going to spend.
+    // I would like to make some tiny functions that handle just prefixing...
     var prefixedEncryptionContext :=
       map k <- encryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := encryptionContext[k];
     assume {:axiom} forall k :: k in prefixedEncryptionContext.Keys ==> ENCRYPTION_CONTEXT_PREFIX < k;
