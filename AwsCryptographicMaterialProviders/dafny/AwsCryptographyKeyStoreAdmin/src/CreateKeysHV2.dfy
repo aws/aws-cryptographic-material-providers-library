@@ -152,31 +152,51 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
              decryptOnlyBranchKeyContext
            )
 
-        && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
-           //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
-           //= type=implication
-           //# If writing to the keystore succeeds,
-           //# the operation MUST return the branch-key-id that maps to both
-           //# the branch key and the beacon key.
-        && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Active
-           == Structure.ConstructEncryptedHierarchicalKey(
-                Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext),
-                kmsEncryptRequestForActiveBKI.output.value.CiphertextBlob.value
-              )
-        && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Version
-           == Structure.ConstructEncryptedHierarchicalKey(
-                decryptOnlyBranchKeyContext,
-                kmsEncryptRequestForDecryptOnlyBKI.output.value.CiphertextBlob.value
-              )
-        && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Beacon
-           == Structure.ConstructEncryptedHierarchicalKey(
-                Structure.BeaconKeyEncryptionContext(decryptOnlyBranchKeyContext),
-                kmsEncryptRequestForBeaconBKI.output.value.CiphertextBlob.value
-              )
+    ensures output.Success?
+            ==>
+              && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
+              && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
+                 // Use negative indexing to select correct KMS Encrypt calls ("-i % |seq|" is effectively negative indexing)
+                 // The first request we made is for the new DecryptOnly BKI
+              && var kmsEncryptRequestForDecryptOnlyBKI := kmsClient.History.Encrypt[-3 % |kmsClient.History.Encrypt|];
+              // The second request we made is for the new ACTIVE BKI
+              && var kmsEncryptRequestForActiveBKI := kmsClient.History.Encrypt[-2 % |kmsClient.History.Encrypt|];
+              // The third and last request we made is for the new Beacon BKI
+              && var kmsEncryptRequestForBeaconBKI := kmsClient.History.Encrypt[-1 % |kmsClient.History.Encrypt|];
+              && var decryptOnlyBranchKeyContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
+                                                      branchKeyIdentifier,
+                                                      branchKeyVersion,
+                                                      timestamp,
+                                                      logicalKeyStoreName,
+                                                      KMSKeystoreOperations.GetKeyId(kmsConfiguration),
+                                                      hierarchyVersion,
+                                                      customEncryptionContext
+                                                    );
+              && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
+                 //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
+                 //= type=implication
+                 //# If writing to the keystore succeeds,
+                 //# the operation MUST return the branch-key-id that maps to both
+                 //# the branch key and the beacon key.
+              && var writeNewEncryptedBranchKey := Seq.Last(storage.History.WriteNewEncryptedBranchKey);
+              && writeNewEncryptedBranchKey.input.Active
+                 == Structure.ConstructEncryptedHierarchicalKey(
+                      Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext),
+                      kmsEncryptRequestForActiveBKI.output.value.CiphertextBlob.value
+                    )
+              && writeNewEncryptedBranchKey.input.Version
+                 == Structure.ConstructEncryptedHierarchicalKey(
+                      decryptOnlyBranchKeyContext,
+                      kmsEncryptRequestForDecryptOnlyBKI.output.value.CiphertextBlob.value
+                    )
+              && writeNewEncryptedBranchKey.input.Beacon
+                 == Structure.ConstructEncryptedHierarchicalKey(
+                      Structure.BeaconKeyEncryptionContext(decryptOnlyBranchKeyContext),
+                      kmsEncryptRequestForBeaconBKI.output.value.CiphertextBlob.value
+                    )
 
-        && Seq.Last(storage.History.WriteNewEncryptedBranchKey).output.Success?
-        && output.value.Identifier == branchKeyIdentifier
-
+              && writeNewEncryptedBranchKey.output.Success?
+              && output.value.Identifier == branchKeyIdentifier
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //= type=implication
     //# Otherwise, this operation MUST yield an error.
