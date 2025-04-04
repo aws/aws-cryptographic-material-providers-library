@@ -61,10 +61,10 @@ module Fixtures {
 
   const branchKeyStoreName := "KeyStoreDdbTable"
   const logicalKeyStoreName := branchKeyStoreName
-  const branchKeyId := "static-branch-key-id-for-hv-1"
+  const branchKeyId := "hv-2-development-static-branch-key-id-for-hv-1"
   const branchKeyIdActiveVersion := "do-not-know-yet"
 
-  const branchKeyIdWithEC := "static-branch-key-id-for-hv-1-with-ec"
+  const branchKeyIdWithEC := "hv-2-development-static-branch-key-id-for-hv-1-with-ec"
   // This is branchKeyIdActiveVersion above, as utf8bytes
   const branchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
     102, 101, 100, 55,  97, 100,  51, 51,  45,
