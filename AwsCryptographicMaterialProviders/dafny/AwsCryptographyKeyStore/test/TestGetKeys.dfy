@@ -24,7 +24,6 @@ module TestGetKeys {
 
   const incorrectLogicalName := "MySuperAwesomeTableName"
 
-  // TODO-HV-2-M1-FF: Refactor Verify Get Keys into sub methods that each get ACTIVE, Version & Beacon items and verify.
   method VerifyGetKeys(
     identifier : string,
     keyStore : Types.IKeyStoreClient,
@@ -36,34 +35,15 @@ module TestGetKeys {
       keyStore.Modifies, storage.Modifies
     ensures
       keyStore.ValidState() && storage.ValidState()
+
   {
-    var beaconKeyResult :- expect keyStore.GetBeaconKey(
-      Types.GetBeaconKeyInput(
-        branchKeyIdentifier := identifier
-      ));
+    testBeaconKeyHappyCase(keyStore, identifier);
 
-    var activeResult :- expect keyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := identifier
-      ));
-
+    var activeResult := testAndGetActiveBranchKeyHappyCase(keyStore, identifier);
     var branchKeyVersion :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
-    var versionResult :- expect keyStore.GetBranchKeyVersion(
-      Types.GetBranchKeyVersionInput(
-        branchKeyIdentifier := identifier,
-        branchKeyVersion := branchKeyVersion
-      ));
 
+    testBranchKeyVersionHappyCase(keyStore, identifier, branchKeyVersion, activeResult.branchKeyMaterials.branchKeyVersion);
     VerifyGetKeysFromStorage(identifier, storage);
-
-    expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
-    expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
-    expect |activeResult.branchKeyMaterials.branchKey| == 32;
-    expect versionResult.branchKeyMaterials.branchKey == activeResult.branchKeyMaterials.branchKey;
-    expect versionResult.branchKeyMaterials.branchKeyIdentifier
-        == activeResult.branchKeyMaterials.branchKeyIdentifier
-        == beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier;
-    expect versionResult.branchKeyMaterials.branchKeyVersion == activeResult.branchKeyMaterials.branchKeyVersion;
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
     //= type=test
@@ -423,10 +403,13 @@ module TestGetKeys {
       Types.GetBeaconKeyInput(
         branchKeyIdentifier := branchKeyId
       ));
+    expect isValidBeaconResult?(beaconKeyResult, branchKeyId);
+  }
 
-    expect beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier == branchKeyId;
-    expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?;
-    expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32;
+  predicate method isValidBeaconResult?(beaconKeyResult: Types.GetBeaconKeyOutput, branchKeyId: string) {
+    && beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier == branchKeyId
+    && beaconKeyResult.beaconKeyMaterials.beaconKey.Some?
+    && |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32
   }
 
   method testActiveBranchKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersionUtf8Bytes: seq<uint8>)
@@ -437,10 +420,27 @@ module TestGetKeys {
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := branchKeyId
       ));
+    expect isValidActiveBranchKeyResult?(branchKeyResult, branchKeyId, Some(branchKeyIdActiveVersionUtf8Bytes));
+  }
 
-    expect branchKeyResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
-    expect branchKeyResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes;
-    expect |branchKeyResult.branchKeyMaterials.branchKey| == 32;
+  method testAndGetActiveBranchKeyHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, nameonly branchKeyIdActiveVersionUtf8Bytes: Option<seq<uint8>> := None)
+    returns (output: Types.GetActiveBranchKeyOutput)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var branchKeyResult :- expect keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+    expect isValidActiveBranchKeyResult?(branchKeyResult, branchKeyId, branchKeyIdActiveVersionUtf8Bytes);
+    return branchKeyResult;
+  }
+
+  predicate method isValidActiveBranchKeyResult?(branchKeyResult: Types.GetActiveBranchKeyOutput, branchKeyId: string, branchKeyIdActiveVersionUtf8Bytes: Option<seq<uint8>>) {
+    && branchKeyResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId
+    && (branchKeyIdActiveVersionUtf8Bytes.None? ||
+        branchKeyResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes.value)
+    && |branchKeyResult.branchKeyMaterials.branchKey| == 32
   }
 
   method testBranchKeyVersionHappyCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersion: string, branchKeyIdActiveVersionUtf8Bytes: seq<uint8>)
@@ -452,12 +452,14 @@ module TestGetKeys {
         branchKeyIdentifier := branchKeyId,
         branchKeyVersion := branchKeyIdActiveVersion
       ));
-
     var testBytes :- expect UTF8.Encode(branchKeyIdActiveVersion);
+    expect isValidBranchKeyVersionResult?(versionResult, branchKeyId, branchKeyIdActiveVersionUtf8Bytes, testBytes);
+  }
 
-    expect versionResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId;
-    expect versionResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes == testBytes;
-    expect |versionResult.branchKeyMaterials.branchKey| == 32;
+  predicate method isValidBranchKeyVersionResult?(versionResult: Types.GetBranchKeyVersionOutput, branchKeyId: string, branchKeyIdActiveVersionUtf8Bytes: seq<uint8>, testBytes: UTF8.ValidUTF8Bytes) {
+    && versionResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId
+    && versionResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes == testBytes
+    && |versionResult.branchKeyMaterials.branchKey| == 32
   }
 
   method VerifyGetKeysFromStorage(
