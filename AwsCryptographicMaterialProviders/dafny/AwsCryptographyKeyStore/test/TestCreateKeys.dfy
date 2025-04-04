@@ -23,6 +23,8 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
   import AwsArnParsing
   import TestGetKeys
 
+  const happyCaseId := "test-happy-case-create-key-hv-1"
+
   method {:test} TestCreateMRKForHV1()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
@@ -55,7 +57,6 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
 
     // Create key with Custom EC & Branch Key Identifier
     var uuid :- expect UUID.GenerateUUID();
-    var happyCaseId := "test-happy-case-create-key-hv-1";
     var branchKeyIdWest := happyCaseId + "-" + "west" + "-" + uuid;
     // print branchKeyIdWest;
     var branchKeyIdEast := happyCaseId + "-" + "east" + "-" + uuid;
