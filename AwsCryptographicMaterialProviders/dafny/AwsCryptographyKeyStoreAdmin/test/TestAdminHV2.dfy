@@ -8,9 +8,10 @@ include "../../AwsCryptographyKeyStore/test/TestGetKeys.dfy"
 include "../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
 include "AdminFixtures.dfy"
 
-// TODO-HV-2-M1 : remove HV-1 restriction for CreateKey
 // TODO-HV-2-M2 : remove HV-1 restriction for Mutations
-module {:options "/functionSyntax:4" } TestAdminHV1Only {
+// TODO-HV-2-M3 : rename TestAdminHV2 -> TestAdminCreateKeyHV2
+//    and move HappyCases for version & mutations to it's own test modules
+module {:options "/functionSyntax:4" } TestAdminHV2 {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreAdmin
   import KeyStore
@@ -26,9 +27,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import AdminFixtures
   import TestGetKeys
 
-  const happyCaseId := "test-create-key-hv-2-happy-case"
-
-  method {:test} TestCreateKeyForHV2HappyCase()
+  method {:test} TestCreateKeyHV2HappyCase()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
@@ -61,7 +60,8 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var _ := CleanupItems.DeleteBranchKey(Identifier:=createKeyOutput?.Identifier, ddbClient:=ddbClient);
   }
 
-  method {:test} TestCreateKeyForHV2CreateOptions() {
+  const happyCaseId := "test-create-key-hv2-happy-case"
+  method {:test} TestCreateKeyHV2WithOptions() {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
@@ -142,6 +142,66 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     print branchKeyIdEast + "\n";
   }
   */
+  
+  const testCreateKeyWithBKIDandNoECFailsId := "create-key-hv2-bkid-no-ec-fail"
+  method {:test} TestCreateKeyBKIDNoECFails() 
+  {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+
+    var uuid :- expect UUID.GenerateUUID();
+    var branchKeyId := testCreateKeyWithBKIDandNoECFailsId + "-" + uuid;
+
+    var customEC := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")];
+
+    var input := Types.CreateKeyInput(
+      Identifier := Some(branchKeyId),
+      EncryptionContext := None,
+      KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
+      Strategy := Some(strategy),
+      HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+    );
+
+    var createKeyOutput := underTest.CreateKey(input);
+    expect createKeyOutput.Failure?, "Expected a failure when provided with Branch Key Identifier with no Custom Encryption Context";
+  }
+
+  method {:test} TestCreateKeyCustomECOnly() 
+  {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+
+    var customEC := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")];
+
+    var input := Types.CreateKeyInput(
+      Identifier := None,
+      EncryptionContext := Some(customEC),
+      KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
+      Strategy := Some(strategy),
+      HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+    );
+
+    var createKeyOutput? :- expect underTest.CreateKey(input);
+    expect createKeyOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
+
+    // Get branch key items from storage
+    TestGetKeys.VerifyGetKeys(
+      identifier := createKeyOutput?.Identifier,
+      keyStore := keyStore,
+      storage := storage
+    );
+
+    // Since this process uses a read DDB table,
+    // the number of records will forever increase.
+    // To avoid this, remove the items.
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=createKeyOutput?.Identifier, ddbClient:=ddbClient);
+  }
 
   // TODO-HV-2-M2 : Probably make this a happy test?
   const testMutateForHV2FailsCaseId := "dafny-initialize-mutation-hv-2-rejection"
