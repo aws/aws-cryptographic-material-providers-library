@@ -63,8 +63,8 @@ module Fixtures {
   const logicalKeyStoreName := branchKeyStoreName
   const branchKeyId := "3f43a9af-08c5-4317-b694-3d3e883dcaef"
   const branchKeyIdActiveVersion := "a4905627-4b7f-4272-a847-f50dae245737"
-    // This is branchKeyIdActiveVersion above, as utf8bytes
-    // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTQ5MDU2MjctNGI3Zi00MjcyLWE4NDctZjUwZGFlMjQ1NzM3&oenc=65001
+  // This is branchKeyIdActiveVersion above, as utf8bytes
+  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTQ5MDU2MjctNGI3Zi00MjcyLWE4NDctZjUwZGFlMjQ1NzM3&oenc=65001
   const branchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
     97, 52, 57, 48, 53, 54, 50, 55, 45, 52,
     98, 55, 102, 45, 52, 50, 55, 50, 45, 97,
@@ -72,7 +72,7 @@ module Fixtures {
     50, 52, 53, 55, 51, 55
   ]
 
-  const branchKeyIdWithEC := "4bb57643-07c1-419e-92ad-0df0df149d7c"  
+  const branchKeyIdWithEC := "4bb57643-07c1-419e-92ad-0df0df149d7c"
   const hv2BranchKeyId := "test-hv2-branch-key-badaa332-29f2-4c72-8ad7-071eb48499c3"
   const hv2BranchKeyVersion := "347fdc7d-e93f-4166-97c2-5f5e0053d335"
   const hv2BranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
