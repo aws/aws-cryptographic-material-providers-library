@@ -116,10 +116,6 @@ module TestGetKeys {
       mrkKey := true
     );
 
-
-    var activeResult :- expect westKeyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
-
     // All four should work when the regions match
     testActiveBranchKeyHappyCase(westKeyStore, WestBranchKey, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
     testActiveBranchKeyHappyCase(eastKeyStore, EastBranchKey, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
