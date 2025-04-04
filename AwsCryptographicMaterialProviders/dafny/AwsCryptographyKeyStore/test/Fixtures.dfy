@@ -56,16 +56,13 @@ module Fixtures {
 
   const branchKeyStoreName := "KeyStoreDdbTable"
   const logicalKeyStoreName := branchKeyStoreName
-  const branchKeyId := "75789115-1deb-4fe3-a2ec-be9e885d1945"
-  const branchKeyIdActiveVersion := "fed7ad33-0774-4f97-aa5e-6c766fc8af9f"
+  const branchKeyId := "ea8f69d0-8671-4b66-9977-e104b7e958b7"
+  const branchKeyIdActiveVersion := "b56ae3e6-6116-4d7b-9a82-3fbc6e9454fb"
 
   const branchKeyIdWithEC := "4bb57643-07c1-419e-92ad-0df0df149d7c"
   // This is branchKeyIdActiveVersion above, as utf8bytes
   const branchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
-    102, 101, 100, 55,  97, 100,  51, 51,  45,
-    48,  55,  55, 52,  45,  52, 102, 57,  55,
-    45,  97,  97, 53, 101,  45,  54, 99,  55,
-    54,  54, 102, 99,  56,  97, 102, 57, 102
+    98,53,54,97,101,51,101,54,45,54,49,49,54,45,52,100,55,98,45,57,97,56,50,45,51,102,98,99,54,101,57,52,53,52,102,98
   ]
   // THESE ARE TESTING RESOURCES DO NOT USE IN A PRODUCTION ENVIRONMENT
   const keyArn := "arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126"
