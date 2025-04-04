@@ -72,11 +72,6 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
       };
       return Failure(error);
     }
-    // TODO-HV-2-FOLLOW : See if we can refactor CanonicalEncryptionContext.EncryptionContextDigest to ensure the length of the digest
-    :-Need(
-      |digestResult.value| == Structure.BKC_DIGEST_LENGTH as int,
-      Types.KeyStoreException(message:="Could not SHA-384 Content.")
-    );
     return Success(digestResult.value);
   }
 
