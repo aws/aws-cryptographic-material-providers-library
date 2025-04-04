@@ -119,7 +119,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var westOutput? :- expect underTest.CreateKey(Types.CreateKeyInput(
                                                     Identifier := Some(branchKeyIdWest),
                                                     EncryptionContext := Some(customEC),
-                                                    KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(MrkArnWest),
+                                                    KmsArn := Types.KmsSymmetricKeyArn.KmsMRKeyArn(MrkArnWest),
                                                     Strategy := Some(strategy),
                                                     HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
                                                   ));
@@ -130,7 +130,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var eastOutput? :- expect underTest.CreateKey(Types.CreateKeyInput(
                                                     Identifier := Some(branchKeyIdEast),
                                                     EncryptionContext := Some(customEC),
-                                                    KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(MrkArnEast),
+                                                    KmsArn := Types.KmsSymmetricKeyArn.KmsMRKeyArn(MrkArnEast),
                                                     Strategy := Some(strategy),
                                                     HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
                                                   ));
