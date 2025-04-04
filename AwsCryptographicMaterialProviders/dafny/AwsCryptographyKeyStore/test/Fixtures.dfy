@@ -66,7 +66,12 @@ module Fixtures {
   const branchKeyIdActiveVersion := "a4905627-4b7f-4272-a847-f50dae245737"
   // This is branchKeyIdActiveVersion above, as utf8bytes
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTQ5MDU2MjctNGI3Zi00MjcyLWE4NDctZjUwZGFlMjQ1NzM3&oenc=65001
+  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTQ5MDU2MjctNGI3Zi00MjcyLWE4NDctZjUwZGFlMjQ1NzM3&oenc=65001
   const branchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
+    97, 52, 57, 48, 53, 54, 50, 55, 45, 52,
+    98, 55, 102, 45, 52, 50, 55, 50, 45, 97,
+    56, 52, 55, 45, 102, 53, 48, 100, 97, 101,
+    50, 52, 53, 55, 51, 55
     97, 52, 57, 48, 53, 54, 50, 55, 45, 52,
     98, 55, 102, 45, 52, 50, 55, 50, 45, 97,
     56, 52, 55, 45, 102, 53, 48, 100, 97, 101,
