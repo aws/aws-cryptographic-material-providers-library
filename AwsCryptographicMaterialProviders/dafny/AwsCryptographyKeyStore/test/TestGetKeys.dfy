@@ -77,107 +77,59 @@ module TestGetKeys {
   {
     var ddbClient :- expect DDB.DynamoDBClient();
 
-    var eastKeyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := KmsConfigEast,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          )))
+    var westKeyStore :- expect KeyStoreWithOptionalClient(
+      kmsId := MrkArnWest, 
+      physicalName := branchKeyStoreName, 
+      logicalName := logicalKeyStoreName, 
+      ddbClient? := Some(ddbClient));
+
+    var eastKeyStore :- expect KeyStoreWithOptionalClient(
+      kmsId := MrkArnEast, 
+      physicalName := branchKeyStoreName, 
+      logicalName := logicalKeyStoreName, 
+      ddbClient? := Some(ddbClient));
+
+    var westMrkKeyStore :- expect KeyStoreWithOptionalClient(
+      kmsId := MrkArnWest, 
+      physicalName := branchKeyStoreName, 
+      logicalName := logicalKeyStoreName, 
+      ddbClient? := Some(ddbClient),
+      srkKey := false,
+      mrkKey := true
     );
 
-    var westKeyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := KmsConfigWest,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          )))
+    var eastMrkKeyStore :- expect KeyStoreWithOptionalClient(
+      kmsId := MrkArnEast, 
+      physicalName := branchKeyStoreName, 
+      logicalName := logicalKeyStoreName, 
+      ddbClient? := Some(ddbClient),
+      srkKey := false,
+      mrkKey := true
     );
 
-    var eastMrkKeyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := KmsMrkConfigEast,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          )))
+    var apMrkKeyStore :- expect KeyStoreWithOptionalClient(
+      kmsId := MrkArnAP, 
+      physicalName := branchKeyStoreName, 
+      logicalName := logicalKeyStoreName, 
+      ddbClient? := Some(ddbClient),
+      srkKey := false,
+      mrkKey := true
     );
 
-    var westMrkKeyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := KmsMrkConfigWest,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          )))
-    );
-
-    // KmsMrkConfigAP is NOT created
-    var apMrkKeyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := KmsMrkConfigAP,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          )))
-    );
-
-
-    var westKeyStore :- expect KeyStore.KeyStore(westKeyStoreConfig);
-    var eastKeyStore :- expect KeyStore.KeyStore(eastKeyStoreConfig);
-    var westMrkKeyStore :- expect KeyStore.KeyStore(westMrkKeyStoreConfig);
-    var eastMrkKeyStore :- expect KeyStore.KeyStore(eastMrkKeyStoreConfig);
-    var apMrkKeyStore :- expect KeyStore.KeyStore(apMrkKeyStoreConfig);
-
-    // All four should work when the regions match
 
     var activeResult :- expect westKeyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
-    expect activeResult.branchKeyMaterials.branchKeyIdentifier == WestBranchKey;
-    expect |activeResult.branchKeyMaterials.branchKey| == 32;
 
-    activeResult :- expect eastKeyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(branchKeyIdentifier := EastBranchKey));
-    expect activeResult.branchKeyMaterials.branchKeyIdentifier == EastBranchKey;
-    expect |activeResult.branchKeyMaterials.branchKey| == 32;
-
-    activeResult :- expect westMrkKeyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
-    expect activeResult.branchKeyMaterials.branchKeyIdentifier == WestBranchKey;
-    expect |activeResult.branchKeyMaterials.branchKey| == 32;
-
-    activeResult :- expect eastMrkKeyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(branchKeyIdentifier := EastBranchKey));
-    expect activeResult.branchKeyMaterials.branchKeyIdentifier == EastBranchKey;
-    expect |activeResult.branchKeyMaterials.branchKey| == 32;
+    // All four should work when the regions match
+    testActiveBranchKeyHappyCase(westKeyStore, WestBranchKey, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testActiveBranchKeyHappyCase(eastKeyStore, EastBranchKey, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testActiveBranchKeyHappyCase(westMrkKeyStore, WestBranchKey, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testActiveBranchKeyHappyCase(eastMrkKeyStore, EastBranchKey, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
 
     // MRK Configuration should work with the other region
 
-    activeResult :- expect westMrkKeyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(branchKeyIdentifier := EastBranchKey));
-    expect activeResult.branchKeyMaterials.branchKeyIdentifier == EastBranchKey;
-    expect |activeResult.branchKeyMaterials.branchKey| == 32;
-
-    activeResult :- expect eastMrkKeyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
-    expect activeResult.branchKeyMaterials.branchKeyIdentifier == WestBranchKey;
-    expect |activeResult.branchKeyMaterials.branchKey| == 32;
+    testActiveBranchKeyHappyCase(westMrkKeyStore, EastBranchKey, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes)
+    testActiveBranchKeyHappyCase(eastMrkKeyStore, WestBranchKey, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes)
 
     // Plain Configuration should fail with the other region
 
@@ -246,7 +198,7 @@ module TestGetKeys {
   method {:test} TestGetKeysWithNoClients() {
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
-    var keyStore :- expect KeyStoreWithNoClient(kmsId:=keyArn, physicalName:=branchKeyStoreName, logicalName := logicalKeyStoreName);
+    var keyStore :- expect KeyStoreWithOptionalClient(kmsId:=keyArn, physicalName:=branchKeyStoreName, logicalName := logicalKeyStoreName);
 
     testActiveBranchKeyHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersionUtf8Bytes);
     testActiveBranchKeyHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyIdActiveVersionUtf8Bytes);
