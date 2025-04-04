@@ -41,8 +41,8 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     return Success(Crypto);
   }
 
-  // TODO-HV2: Create a known answer test for createBKCDigest. See https://github.com/aws/aws-cryptographic-material-providers-library/commit/09a84e15b5d7311b0418180ddda69dc7314b320e
-  method createBKCDigest (
+  // TODO-HV2: Create a known answer test for CreateBKCDigest. See https://github.com/aws/aws-cryptographic-material-providers-library/commit/09a84e15b5d7311b0418180ddda69dc7314b320e
+  method CreateBKCDigest (
     branchKeyContext: map<string, string>,
     cryptoClient: AtomicPrimitives.AtomicPrimitivesClient
   ) returns (output: Result<seq<uint8>, BKCDigestError>)
@@ -57,6 +57,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
               && var DigestOutput := Seq.Last(cryptoClient.History.Digest).output;
               && DigestInput.digestAlgorithm == AtomicPrimitives.Types.SHA_384
               && DigestOutput.value == output.value
+              && |output.value| == Structure.BKC_DIGEST_LENGTH as int
   {
     var utf8BKContext :- EncodeEncryptionContext(branchKeyContext).MapFailure(WrapStringToError);
     var digestResult := CanonicalEncryptionContext.EncryptionContextDigest(cryptoClient, utf8BKContext);
