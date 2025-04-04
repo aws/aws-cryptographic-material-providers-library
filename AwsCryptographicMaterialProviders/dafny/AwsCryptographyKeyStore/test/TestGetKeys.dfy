@@ -72,10 +72,28 @@ module TestGetKeys {
     testBranchKeyVersionHappyCase(keyStore, hv2BranchKeyId, hv2BranchKeyVersion, hv2BranchKeyIdActiveVersionUtf8Bytes);
   }
 
+  // This is a static test case to Get Branch Keys created with Mrk Keys
+  method {:test} TestGetActiveMrkKey()
+  {
+    VerifyGetActiveMrkKey(
+      KmsConfigEast := KmsConfigEast,
+      KmsConfigWest := KmsConfigWest,
+      KmsMrkConfigEast := KmsMrkConfigEast,
+      KmsMrkConfigWest := KmsMrkConfigWest
+    );
+  }
+
   // TODO-HV2-M1: Add MRK test for hv2
-  method {:test} {:isolate_assertions} TestGetActiveMrkKey()
+  method {:isolate_assertions} VerifyGetActiveMrkKey(
+    KmsConfigEast : Types.KMSConfiguration,
+    KmsConfigWest : Types.KMSConfiguration,
+    KmsMrkConfigEast : Types.KMSConfiguration,
+    KmsMrkConfigWest : Types.KMSConfiguration
+  )
   {
     var ddbClient :- expect DDB.DynamoDBClient();
+
+    print "Running MRK";
 
     var eastKeyStoreConfig := Types.KeyStoreConfig(
       id := None,
