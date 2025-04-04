@@ -153,9 +153,6 @@ module {:options "/functionSyntax:4" } TestAdminHV2 {
 
     var uuid :- expect UUID.GenerateUUID();
     var branchKeyId := testCreateKeyWithBKIDandNoECFailsId + "-" + uuid;
-
-    var customEC := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")];
-
     var input := Types.CreateKeyInput(
       Identifier := Some(branchKeyId),
       EncryptionContext := None,
@@ -197,9 +194,6 @@ module {:options "/functionSyntax:4" } TestAdminHV2 {
       storage := storage
     );
 
-    // Since this process uses a read DDB table,
-    // the number of records will forever increase.
-    // To avoid this, remove the items.
     var _ := CleanupItems.DeleteBranchKey(Identifier:=createKeyOutput?.Identifier, ddbClient:=ddbClient);
   }
 
