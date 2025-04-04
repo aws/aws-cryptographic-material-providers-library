@@ -81,13 +81,15 @@ module TestGetKeys {
       kmsId := MrkArnWest,
       physicalName := branchKeyStoreName,
       logicalName := logicalKeyStoreName,
-      ddbClient? := Some(ddbClient));
+      ddbClient? := Some(ddbClient)
+    );
 
     var eastKeyStore :- expect KeyStoreWithOptionalClient(
       kmsId := MrkArnEast,
       physicalName := branchKeyStoreName,
       logicalName := logicalKeyStoreName,
-      ddbClient? := Some(ddbClient));
+      ddbClient? := Some(ddbClient)
+    );
 
     var westMrkKeyStore :- expect KeyStoreWithOptionalClient(
       kmsId := MrkArnWest,
