@@ -26,8 +26,9 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import AdminFixtures
   import TestGetKeys
 
-  // TODO-HV-2-M1 : Probably make this a happy test?
-  method {:test} TestCreateKeyForHV2Fails()
+  const happyCaseId := "test-create-key-hv-2-happy-case"
+
+  method {:test} TestCreateKeyForHV2HappyCase()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
@@ -43,8 +44,60 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
       Strategy := Some(strategy),
       HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
     );
-    var actualOutput := underTest.CreateKey(input);
-    expect actualOutput.Failure?, "Should have failed to create an HV-2. Dirty BKID: " + actualOutput.value.Identifier;
+
+    var createKeyOutput? :- expect underTest.CreateKey(input);
+    expect createKeyOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
+
+    // Get branch key items from storage
+    TestGetKeys.VerifyGetKeys(
+      identifier := createKeyOutput?.Identifier,
+      keyStore := keyStore,
+      storage := storage
+    );
+
+    // Since this process uses a read DDB table,
+    // the number of records will forever increase.
+    // To avoid this, remove the items.
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=createKeyOutput?.Identifier, ddbClient:=ddbClient);
+  }
+
+  method {:test} TestCreateKeyForHV2CreateOptions() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+
+    // Create key with Custom EC & Branch Key Identifier
+    var uuid :- expect UUID.GenerateUUID();
+    var branchKeyId := happyCaseId + "-" + uuid;
+
+    var customEC := map[UTF8.EncodeAscii("Koda") := UTF8.EncodeAscii("Is a dog.")];
+
+    var input := Types.CreateKeyInput(
+      Identifier := Some(branchKeyId),
+      EncryptionContext := Some(customEC),
+      KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
+      Strategy := Some(strategy),
+      HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+    );
+
+    var createKeyOutput? :- expect underTest.CreateKey(input);
+    expect branchKeyId == createKeyOutput?.Identifier;
+    expect createKeyOutput?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v2;
+
+    // Get branch key items from storage
+    TestGetKeys.VerifyGetKeys(
+      identifier := branchKeyId,
+      keyStore := keyStore,
+      storage := storage
+    );
+
+    // Since this process uses a read DDB table,
+    // the number of records will forever increase.
+    // To avoid this, remove the items.
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId, ddbClient:=ddbClient);
   }
 
   // TODO-HV-2-M2 : Probably make this a happy test?
