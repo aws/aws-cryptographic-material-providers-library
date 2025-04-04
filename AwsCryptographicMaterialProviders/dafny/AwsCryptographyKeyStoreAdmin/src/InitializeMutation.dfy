@@ -22,8 +22,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   import AwsKmsUtils
     // KeyStore Imports
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
+  import HvUtils = HierarchicalVersionUtils
   import Structure
   import DefaultKeyStorageInterface
+  import KeyStoreErrorMessages
   import KmsArn
   import KMSKeystoreOperations
     // KeyStoreAdmin Imports
@@ -111,7 +113,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     Success(input)
   }
 
-  method {:isolate_assertions} InitializeMutation(
+  method {:only} {:isolate_assertions} InitializeMutation(
     input: InternalInitializeMutationInput
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
@@ -139,7 +141,14 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Types.AwsCryptographyKeyStoreTypes.GetItemsForInitializeMutationInput(Identifier := input.Identifier));
     var readItems :- readItems?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
-
+    // TODO-HV2-M2: Do this only on HV-2 path
+    :- Need(
+      HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
+      Types.UnexpectedStateException(
+        message :=
+          KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+      )
+    );
     if (readItems.MutationCommitment.None? && readItems.MutationIndex.Some?) {
       var indexUUID := readItems.MutationIndex.value.UUID;
       return Failure(
