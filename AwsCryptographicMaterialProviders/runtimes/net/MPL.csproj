@@ -57,7 +57,7 @@
 
     <ItemGroup>
         <PackageReference Include="DafnyRuntime" Version="[4.2.0,$(DafnyVersion)]" />
-        <PackageReference Include="BouncyCastle.Cryptography" Version="2.3.1" />
+        <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.1" />
         <ProjectReference Include="../../../AwsCryptographyPrimitives/runtimes/net/Crypto.csproj" />
         <ProjectReference Include="../../../ComAmazonawsDynamodb/runtimes/net/ComAmazonawsDynamodb.csproj" />
         <ProjectReference Include="../../../ComAmazonawsKms/runtimes/net/AWS-KMS.csproj" />
