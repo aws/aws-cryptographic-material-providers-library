@@ -6,19 +6,31 @@ include "InitializeMutation.dfy"
 include "ApplyMutation.dfy"
 include "KmsUtils.dfy"
 include "DescribeMutation.dfy"
+include "CreateKeysHV2.dfy"
 
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
   import opened AwsKmsUtils
-  import KmsArn
-  import DefaultKeyStorageInterface
-  import KeyStoreOperations = AwsCryptographyKeyStoreOperations
-  import KeyStoreTypes = KeyStoreOperations.Types
+    // StandardLibrary
+  import UUID
+  import Time
+    // Types
   import KMS = Com.Amazonaws.Kms
+  import DDB = ComAmazonawsDynamodbTypes
+    // KeyStore
+  import KeyStoreTypes = KeyStoreOperations.Types
+  import KeyStoreOperations = AwsCryptographyKeyStoreOperations
+  import DefaultKeyStorageInterface
+  import ErrorMessages = KeyStoreErrorMessages
+  import Structure
+  import KO = KMSKeystoreOperations
+  import KmsArn
+    //KeyStoreAdmin
   import Mutations
   import KSAInitializeMutation = InternalInitializeMutation
   import KSAApplyMutation = InternalApplyMutation
   import DM = DescribeMutation
   import KmsUtils
+  import CreateKeysHV2
 
   datatype Config = Config(
     nameonly logicalKeyStoreName: string,
@@ -209,6 +221,11 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     config: InternalConfig
   )
     returns (output: Result<KeyStoreTypes.HierarchyVersion, Error>)
+    ensures
+      output.Success?
+      ==>
+        && (hierarchyVersion?.Some? ==> output.value == hierarchyVersion?.value)
+        && (hierarchyVersion?.None? ==> output.value == KeyStoreTypes.HierarchyVersion.v1)
   {
     if (hierarchyVersion?.None?) {
       return Success(KeyStoreTypes.HierarchyVersion.v1);
@@ -216,20 +233,20 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     return Success(hierarchyVersion?.value);
   }
 
-
+  // TODO-HV-2-M2?: LegacyConfig can be only called for a single KmsTuple (ReEncrypt & KmsSimple)
+  // Resolve for DecryptEncrypt Strategy (Encrypt: KmsTuple, Decrypt: KmsTuple)
   function method LegacyConfig(
-    keyManagerStrat: KmsUtils.keyManagerStrat,
+    kmsTuple: KmsUtils.KMSTuple,
     kmsArn: Types.KmsSymmetricKeyArn,
     config: InternalConfig
   ): (output: Result<KeyStoreOperations.Config, Error>)
     requires ValidInternalConfig?(config)
     requires
-      && keyManagerStrat.reEncrypt?
-      && keyManagerStrat.reEncrypt.kmsClient.ValidState()
-      && GetValidGrantTokens(Some(keyManagerStrat.reEncrypt.grantTokens)).Success?
+      && kmsTuple.kmsClient.ValidState()
+      && GetValidGrantTokens(Some(kmsTuple.grantTokens)).Success?
     ensures output.Success?
             ==>
-              && keyManagerStrat.reEncrypt.kmsClient.ValidState()
+              && kmsTuple.kmsClient.ValidState()
     ensures output.Success? ==> KeyStoreOperations.ValidInternalConfig?(output.value)
   {
     var _ :- KmsArn.IsValidKeyArn(match kmsArn
@@ -241,8 +258,8 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
                           ddbTableName := None,
                           logicalKeyStoreName := config.logicalKeyStoreName,
                           kmsConfiguration := KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(kmsArn),
-                          grantTokens := keyManagerStrat.reEncrypt.grantTokens,
-                          kmsClient := keyManagerStrat.reEncrypt.kmsClient,
+                          grantTokens := kmsTuple.grantTokens,
+                          kmsClient := kmsTuple.kmsClient,
                           ddbClient := None,
                           storage := config.storage,
                           kmsConstructedRegion := None,
@@ -275,41 +292,135 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
 
   method CreateKey ( config: InternalConfig , input: CreateKeyInput )
     returns (output: Result<CreateKeyOutput, Error>)
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
+    //= type=implication
+    //# If an optional branch key id is provided
+    //# and no encryption context is provided this operation MUST fail.
+    ensures
+      && input.Identifier.Some?
+      && input.EncryptionContext.None?
+      ==> output.Failure?
   {
-    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
-    :- Need(
-      keyManagerStrat.reEncrypt?,
-      Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
-    );
-    var _ :- KmsMrkKeyIsNotSupported(input.KmsArn);
-
-    var legacyConfig :- LegacyConfig(keyManagerStrat, input.KmsArn, config);
-
-    // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
-    assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
-
+    var _ :- KmsMrkKeyIsNotSupported(input.KmsArn);  
     var hvInput :- ResolveHierarchyVersionForCreateKey(input.HierarchyVersion, config);
-    :- Need(
-      hvInput.v1?,
-      Types.KeyStoreAdminException(message :="Only hierarchy-version-1 is supported at this time.")
-    );
+    var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
+    match hvInput {
+      case v1 =>
+        :- Need(
+          keyManagerStrat.reEncrypt?,
+          Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time for HV-1")
+        );
 
-    var output? := KeyStoreOperations.CreateKey(
-      config := legacyConfig,
-      input := KeyStoreOperations.Types.CreateKeyInput(
-        branchKeyIdentifier := input.Identifier,
-        encryptionContext := input.EncryptionContext
-      )
-    );
-    var value :- output?
-    .MapFailure(e => Types.AwsCryptographyKeyStore(e));
+        var legacyConfig :- LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config);
+        // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
+        assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
-    output := Success(
-      Types.CreateKeyOutput(
-        Identifier := value.branchKeyIdentifier,
-        // TODO-HV-2-M1: this will need to be properly wired
-        HierarchyVersion := hvInput
-      ));
+        var output? := KeyStoreOperations.CreateKey(
+          config := legacyConfig,
+          input := KeyStoreOperations.Types.CreateKeyInput(
+            branchKeyIdentifier := input.Identifier,
+            encryptionContext := input.EncryptionContext
+          )
+        );
+        var value :- output?
+        .MapFailure(e => Types.AwsCryptographyKeyStore(e));
+
+        output := Success(
+          Types.CreateKeyOutput(
+            Identifier := value.branchKeyIdentifier,
+            HierarchyVersion := hvInput
+          ));
+      case v2 =>
+        :- Need(
+          keyManagerStrat.kmsSimple?,
+          Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
+        );
+
+        var legacyConfig :- LegacyConfig(keyManagerStrat.kmsSimple, input.KmsArn, config);
+        // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
+        assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
+
+        :- Need(input.Identifier.Some? ==>
+                  && input.EncryptionContext.Some?
+                  && 0 < |input.EncryptionContext.value|,
+                Types.KeyStoreAdminException(message := ErrorMessages.CUSTOM_BRANCH_KEY_ID_NEED_EC));
+
+          // TODO-HV-2-FOLLOW : See if legacyConfig in Admin can ensure non-Discovery.
+        :- Need(
+          KO.HasKeyId(legacyConfig.kmsConfiguration),
+          Types.KeyStoreAdminException(
+            message := ErrorMessages.DISCOVERY_CREATE_KEY_NOT_SUPPORTED
+          )
+        );
+
+        var branchKeyIdentifier: string;
+
+        if input.Identifier.None? {
+          //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
+          //# If no branch key id is provided,
+          //# then this operation MUST create a [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
+          //# to be used as the branch key id.
+          var maybeBranchKeyId := UUID.GenerateUUID();
+          branchKeyIdentifier :- maybeBranchKeyId
+          .MapFailure(e => Types.KeyStoreAdminException(message := e));
+        } else {
+          :- Need(0 < |input.Identifier.value|, Types.KeyStoreAdminException(message := "Custom branch key id can not be an empty string."));
+          branchKeyIdentifier := input.Identifier.value;
+        }
+
+        //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+        //# - `timestamp`: a timestamp for the current time.
+        //# This timestamp MUST be in ISO8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
+        var timestamp? := Time.GetCurrentTimeStamp();
+        var timestamp :- timestamp?
+        .MapFailure(e => Types.KeyStoreAdminException(message := e));
+
+        var maybeBranchKeyVersion := UUID.GenerateUUID();
+        //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+        //# - `version`: a new guid. This guid MUST be [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
+        var branchKeyVersion :- maybeBranchKeyVersion
+        .MapFailure(e => Types.KeyStoreAdminException(message := e));
+
+        // TODO-HV-2-M1: Ensure Correctness about HV-2 Behavior
+        var unwrapEncryptionContext := input.EncryptionContext.UnwrapOr(map[]);
+        var encodedEncryptionContext
+          := set k <- unwrapEncryptionContext
+          ::
+            (UTF8.Decode(k), UTF8.Decode(unwrapEncryptionContext[k]), k);
+
+          // TODO-UTF8-OPTIMIZATION :: It is silly to Decode and then Encode
+          // This SHOULD be impossible
+          // A Dafny string SHOULD all be encodable
+        :- Need(forall i <- encodedEncryptionContext
+                  ::
+                    && i.0.Success?
+                    && i.1.Success?
+                    && DDB.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + i.0.value)
+                       // Dafny requires that I *prove* that k == Encode(Decode(k))
+                       // Since UTF8 can be lossy in some implementations
+                       // this is the simplest...
+                       // A prove that ValidUTF8Seq(i) ==> Decode(i).Success?
+                       // would improve the situation
+                    && var encoded := UTF8.Encode(i.0.value);
+                    && encoded.Success?
+                    && i.2 == encoded.value
+               ,
+                Types.KeyStoreAdminException( message := ErrorMessages.UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR));
+
+        output := CreateKeysHV2.CreateBranchAndBeaconKeys(
+          branchKeyIdentifier,
+          map i <- encodedEncryptionContext :: i.0.value := i.1.value,
+          timestamp,
+          branchKeyVersion,
+          legacyConfig.logicalKeyStoreName,
+          legacyConfig.kmsConfiguration,
+          legacyConfig.grantTokens,
+          legacyConfig.kmsClient,
+          legacyConfig.storage,
+          hvInput
+        );
+    }
   }
 
   predicate VersionKeyEnsuresPublicly(input: VersionKeyInput, output: Result<VersionKeyOutput, Error>)
@@ -324,7 +435,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
     );
     var _ :- KmsMrkKeyIsNotSupported(input.KmsArn);
-    var legacyConfig :- LegacyConfig(keyManagerStrat, input.KmsArn, config);
+    var legacyConfig :- LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config);
 
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
