@@ -78,75 +78,86 @@ module TestGetKeys {
     var ddbClient :- expect DDB.DynamoDBClient();
 
     var westKeyStore :- expect KeyStoreWithOptionalClient(
-      kmsId := MrkArnWest, 
-      physicalName := branchKeyStoreName, 
-      logicalName := logicalKeyStoreName, 
+      kmsId := MrkArnWest,
+      physicalName := branchKeyStoreName,
+      logicalName := logicalKeyStoreName,
       ddbClient? := Some(ddbClient));
 
     var eastKeyStore :- expect KeyStoreWithOptionalClient(
-      kmsId := MrkArnEast, 
-      physicalName := branchKeyStoreName, 
-      logicalName := logicalKeyStoreName, 
+      kmsId := MrkArnEast,
+      physicalName := branchKeyStoreName,
+      logicalName := logicalKeyStoreName,
       ddbClient? := Some(ddbClient));
 
     var westMrkKeyStore :- expect KeyStoreWithOptionalClient(
-      kmsId := MrkArnWest, 
-      physicalName := branchKeyStoreName, 
-      logicalName := logicalKeyStoreName, 
+      kmsId := MrkArnWest,
+      physicalName := branchKeyStoreName,
+      logicalName := logicalKeyStoreName,
       ddbClient? := Some(ddbClient),
       srkKey := false,
       mrkKey := true
     );
 
     var eastMrkKeyStore :- expect KeyStoreWithOptionalClient(
-      kmsId := MrkArnEast, 
-      physicalName := branchKeyStoreName, 
-      logicalName := logicalKeyStoreName, 
+      kmsId := MrkArnEast,
+      physicalName := branchKeyStoreName,
+      logicalName := logicalKeyStoreName,
       ddbClient? := Some(ddbClient),
       srkKey := false,
       mrkKey := true
     );
 
     var apMrkKeyStore :- expect KeyStoreWithOptionalClient(
-      kmsId := MrkArnAP, 
-      physicalName := branchKeyStoreName, 
-      logicalName := logicalKeyStoreName, 
+      kmsId := MrkArnAP,
+      physicalName := branchKeyStoreName,
+      logicalName := logicalKeyStoreName,
       ddbClient? := Some(ddbClient),
       srkKey := false,
       mrkKey := true
     );
 
-    // All four should work when the regions match
+    // All four set of keys (branch, beacon and version) should work when the regions match
     testActiveBranchKeyHappyCase(westKeyStore, WestBranchKey, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testBeaconKeyHappyCase(westKeyStore, WestBranchKey);
+    testBranchKeyVersionHappyCase(westKeyStore, WestBranchKey, WestBranchKeyIdActiveVersion, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+
     testActiveBranchKeyHappyCase(eastKeyStore, EastBranchKey, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testBeaconKeyHappyCase(eastKeyStore, EastBranchKey);
+    testBranchKeyVersionHappyCase(eastKeyStore, EastBranchKey, EastBranchKeyIdActiveVersion, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+
     testActiveBranchKeyHappyCase(westMrkKeyStore, WestBranchKey, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testBeaconKeyHappyCase(westMrkKeyStore, WestBranchKey);
+    testBranchKeyVersionHappyCase(westMrkKeyStore, WestBranchKey, WestBranchKeyIdActiveVersion, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+
     testActiveBranchKeyHappyCase(eastMrkKeyStore, EastBranchKey, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testBeaconKeyHappyCase(eastMrkKeyStore, EastBranchKey);
+    testBranchKeyVersionHappyCase(eastMrkKeyStore, EastBranchKey, EastBranchKeyIdActiveVersion, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
 
     // MRK Configuration should work with the other region
 
-    testActiveBranchKeyHappyCase(westMrkKeyStore, EastBranchKey, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes)
-    testActiveBranchKeyHappyCase(eastMrkKeyStore, WestBranchKey, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes)
+    testActiveBranchKeyHappyCase(westMrkKeyStore, EastBranchKey, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testBeaconKeyHappyCase(westMrkKeyStore, EastBranchKey);
+    testBranchKeyVersionHappyCase(westMrkKeyStore, EastBranchKey, EastBranchKeyIdActiveVersion, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+
+    testActiveBranchKeyHappyCase(eastMrkKeyStore, WestBranchKey, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testBeaconKeyHappyCase(eastMrkKeyStore, WestBranchKey);
+    testBranchKeyVersionHappyCase(eastMrkKeyStore, WestBranchKey, WestBranchKeyIdActiveVersion, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
 
     // Plain Configuration should fail with the other region
 
-    var badResult := westKeyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(branchKeyIdentifier := EastBranchKey));
-    expect badResult.Failure?;
-    expect badResult.error == Types.Error.KeyStoreException(message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT);
+    GetActiveKeyWithIncorrectKmsKeyArnHelper(westKeyStore, EastBranchKey);
+    GetBeaconKeyWithIncorrectKmsKeyArnHelper(westKeyStore, EastBranchKey);
+    GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(westKeyStore, EastBranchKey, EastBranchKeyIdActiveVersion);
 
-    badResult := eastKeyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
-    expect badResult.Failure?;
-    expect badResult.error == Types.Error.KeyStoreException(message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT);
+    GetActiveKeyWithIncorrectKmsKeyArnHelper(eastKeyStore, WestBranchKey);
+    GetBeaconKeyWithIncorrectKmsKeyArnHelper(eastKeyStore, WestBranchKey);
+    GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(eastKeyStore, WestBranchKey, WestBranchKeyIdActiveVersion);
 
     // apMrkKeyStore should always fail
 
-    badResult := apMrkKeyStore.GetActiveBranchKey(
-      Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
-    expect badResult.Failure?;
-    expect badResult.error.ComAmazonawsKms?;
-    expect badResult.error.ComAmazonawsKms.OpaqueWithText?;
-    // it's an opaque error, so I can't test its contents
+    testActiveBranchKeyKMSFailureCase(apMrkKeyStore, WestBranchKey);
+    testBranchKeyVersionKMSFailureCase(apMrkKeyStore, WestBranchKey, WestBranchKeyIdActiveVersion);
+    testBeaconKeyKMSFailureCase(apMrkKeyStore, WestBranchKey);
   }
 
   method {:test} TestKeyWithIncorrectKmsKeyArn() {
@@ -408,6 +419,46 @@ module TestGetKeys {
     && versionResult.branchKeyMaterials.branchKeyIdentifier == branchKeyId
     && versionResult.branchKeyMaterials.branchKeyVersion == branchKeyIdActiveVersionUtf8Bytes == testBytes
     && |versionResult.branchKeyMaterials.branchKey| == 32
+  }
+
+  method testActiveBranchKeyKMSFailureCase(keyStore: Types.IKeyStoreClient, branchKeyId: string)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var branchKeyResult := keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+    expect branchKeyResult.Failure?;
+    expect branchKeyResult.error.ComAmazonawsKms?;
+    expect branchKeyResult.error.ComAmazonawsKms.OpaqueWithText?;
+  }
+
+  method testBranchKeyVersionKMSFailureCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersion: string)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var versionResult := keyStore.GetBranchKeyVersion(
+      Types.GetBranchKeyVersionInput(
+        branchKeyIdentifier := branchKeyId,
+        branchKeyVersion := branchKeyIdActiveVersion
+      ));
+    expect versionResult.Failure?;
+    expect versionResult.error.ComAmazonawsKms?;
+    expect versionResult.error.ComAmazonawsKms.OpaqueWithText?;
+  }
+
+  method testBeaconKeyKMSFailureCase(keyStore: Types.IKeyStoreClient, branchKeyId: string)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var beaconKeyResult := keyStore.GetBeaconKey(
+      Types.GetBeaconKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+    expect beaconKeyResult.Failure?;
+    expect beaconKeyResult.error.ComAmazonawsKms?;
+    expect beaconKeyResult.error.ComAmazonawsKms.OpaqueWithText?;
   }
 
   method VerifyGetKeysFromStorage(
