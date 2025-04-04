@@ -62,10 +62,10 @@ module Fixtures {
   const branchKeyIdWithEC := "4bb57643-07c1-419e-92ad-0df0df149d7c"
   // This is branchKeyIdActiveVersion above, as utf8bytes
   const branchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
-    102, 101, 100, 55,  97, 100,  51, 51,  45,
-    48,  55,  55, 52,  45,  52, 102, 57,  55,
-    45,  97,  97, 53, 101,  45,  54, 99,  55,
-    54,  54, 102, 99,  56,  97, 102, 57, 102
+    50, 53, 49, 101, 52, 100, 57, 100, 45, 
+    50, 52, 99, 52, 45, 52, 102, 48, 51, 
+    45, 97, 57, 54, 51, 45, 55, 98, 101, 
+    100, 102, 57, 102, 54, 48, 100, 98, 97
   ]
   // THESE ARE TESTING RESOURCES DO NOT USE IN A PRODUCTION ENVIRONMENT
   const keyArn := "arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126"
