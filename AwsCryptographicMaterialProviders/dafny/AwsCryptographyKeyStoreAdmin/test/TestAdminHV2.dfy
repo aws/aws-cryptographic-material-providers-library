@@ -142,9 +142,9 @@ module {:options "/functionSyntax:4" } TestAdminHV2 {
     print branchKeyIdEast + "\n";
   }
   */
-  
+
   const testCreateKeyWithBKIDandNoECFailsId := "create-key-hv2-bkid-no-ec-fail"
-  method {:test} TestCreateKeyBKIDNoECFails() 
+  method {:test} TestCreateKeyBKIDNoECFails()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
@@ -168,7 +168,7 @@ module {:options "/functionSyntax:4" } TestAdminHV2 {
     expect createKeyOutput.Failure?, "Expected a failure when provided with Branch Key Identifier with no Custom Encryption Context";
   }
 
-  method {:test} TestCreateKeyCustomECOnly() 
+  method {:test} TestCreateKeyCustomECOnly()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
