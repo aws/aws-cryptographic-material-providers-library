@@ -26,6 +26,8 @@ MAX_RESOURCE_COUNT=10000000
 STD_LIBRARY=StandardLibrary
 SMITHY_DEPS=model
 
+DIR_STRUCTURE_V2=V2
+
 # GO_MODULE_NAME="github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms"
 
 # GO_DEPENDENCY_MODULE_NAMES := \

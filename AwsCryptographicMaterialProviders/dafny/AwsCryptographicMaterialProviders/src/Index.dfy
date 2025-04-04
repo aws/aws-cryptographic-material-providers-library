@@ -9,6 +9,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny" }
   import Operations = AwsCryptographyMaterialProvidersOperations
   import AtomicPrimitives
   import Crypto = AwsCryptographyPrimitivesTypes
+  import Metrics
+  import MetricTypes = AwsCryptographyMetricsTypes
 
   function method DefaultMaterialProvidersConfig(): MaterialProvidersConfig
   {

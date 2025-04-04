@@ -43,12 +43,14 @@ MAX_RESOURCE_COUNT=90000000
 PROJECT_DEPENDENCIES := \
 	AwsCryptographyPrimitives \
 	ComAmazonawsKms \
-	ComAmazonawsDynamodb
+	ComAmazonawsDynamodb \
+	Metrics
 
 PROJECT_INDEX := \
 	AwsCryptographyPrimitives/src/Index.dfy \
 	ComAmazonawsKms/src/Index.dfy \
-	ComAmazonawsDynamodb/src/Index.dfy
+	ComAmazonawsDynamodb/src/Index.dfy \
+	Metrics/src/Index.dfy
 
 STD_LIBRARY=StandardLibrary
 SMITHY_DEPS=model
@@ -57,12 +59,14 @@ DIR_STRUCTURE_V2=V2
 
 # Dependencies for each local service
 SERVICE_DEPS_AwsCryptographicMaterialProviders := \
+	Metrics/dafny/Metrics \
 	AwsCryptographyPrimitives \
 	ComAmazonawsKms \
 	ComAmazonawsDynamodb \
 	AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStore \
 
 SERVICE_DEPS_AwsCryptographyKeyStore := \
+	Metrics/dafny/Metrics \
 	AwsCryptographyPrimitives \
 	ComAmazonawsKms \
 	ComAmazonawsDynamodb \

@@ -7,7 +7,7 @@ module {:extern "software.amazon.cryptography.primitives.internaldafny.types" } 
   import opened Wrappers
   import opened StandardLibrary.UInt
   import opened UTF8
-    // Generic helpers for verification of mock/unit tests.
+  // Generic helpers for verification of mock/unit tests.
   datatype DafnyCallEvent<I, O> = DafnyCallEvent(input: I, output: O)
 
   // Begin Generated Types

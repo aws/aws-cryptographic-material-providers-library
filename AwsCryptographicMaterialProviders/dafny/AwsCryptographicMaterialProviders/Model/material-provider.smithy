@@ -4,6 +4,7 @@ use aws.cryptography.keyStore#KeyStore
 use aws.cryptography.primitives#AwsCryptographicPrimitives
 use com.amazonaws.dynamodb#DynamoDB_20120810
 use com.amazonaws.kms#TrentService
+use aws.cryptography.metrics#AwsCryptographicMetrics
 
 @range(min: 0)
 integer PositiveInteger
@@ -19,7 +20,8 @@ long PositiveLong
     AwsCryptographicPrimitives,
     DynamoDB_20120810,
     TrentService,
-    KeyStore
+    KeyStore,
+    AwsCryptographicMetrics 
   ]
 )
 service AwsCryptographicMaterialProviders {
@@ -76,7 +78,10 @@ service AwsCryptographicMaterialProviders {
   errors: [AwsCryptographicMaterialProvidersException],
 }
 
-structure MaterialProvidersConfig {}
+structure MaterialProvidersConfig {
+  loggerConfig: aws.cryptography.metrics#MetricsLoggerConfig,
+  logger: aws.cryptography.metrics#MetricsLoggerReference
+}
 
 // Errors
 

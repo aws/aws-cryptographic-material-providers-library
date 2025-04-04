@@ -1,41 +1,24 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
-include "../../StandardLibrary/src/Index.dfy"
+include "../../../../StandardLibrary/src/Index.dfy"
 module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } AwsCryptographyMetricsTypes
 {
   import opened Wrappers
   import opened StandardLibrary.UInt
   import opened UTF8
-    // Generic helpers for verification of mock/unit tests.
+  // Generic helpers for verification of mock/unit tests.
   datatype DafnyCallEvent<I, O> = DafnyCallEvent(input: I, output: O)
 
   // Begin Generated Types
 
-  datatype ChainInput = | ChainInput (
-    nameonly chainedLogger: Metrics ,
-    nameonly newLogger: Metrics
-  )
-  datatype ChainOutput = | ChainOutput (
-    nameonly newChainedLogger: Metrics
-  )
-  datatype Metrics = | Metrics (
-    nameonly logger: MetricsLoggerList ,
-    nameonly transactionId: string
-  )
-  datatype MetricsLoggerConfig = | MetricsLoggerConfig (
-
-                                 )
-  type MetricsLoggerList = seq<IMetricsLogger>
-  class IMetricsLoggerCallHistory {
+  class IAwsCryptographicMetricsClientCallHistory {
     ghost constructor() {
-      Put := [];
-      Chain := [];
+      CreateTextLogger := [];
     }
-    ghost var Put: seq<DafnyCallEvent<PutInput, Result<PutOutput, Error>>>
-    ghost var Chain: seq<DafnyCallEvent<ChainInput, Result<ChainOutput, Error>>>
+    ghost var CreateTextLogger: seq<DafnyCallEvent<CreateTextLoggerInput, Result<CreateLoggerOutput, Error>>>
   }
-  trait {:termination false} IMetricsLogger
+  trait {:termination false} IAwsCryptographicMetricsClient
   {
     // Helper to define any additional modifies/reads clauses.
     // If your operations need to mutate state,
@@ -61,7 +44,92 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } Aws
     // You MUST also ensure ValidState in your constructor.
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
-    ghost const History: IMetricsLoggerCallHistory
+    ghost const History: IAwsCryptographicMetricsClientCallHistory
+    predicate CreateTextLoggerEnsuresPublicly(input: CreateTextLoggerInput , output: Result<CreateLoggerOutput, Error>)
+    // The public method to be called by library consumers
+    method CreateTextLogger ( input: CreateTextLoggerInput )
+      returns (output: Result<CreateLoggerOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`CreateTextLogger
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+        && ( output.Success? ==>
+               && output.value.logger.ValidState()
+               && output.value.logger.Modifies !! {History}
+               && fresh(output.value.logger)
+               && fresh ( output.value.logger.Modifies
+                          - Modifies - {History} ) )
+      ensures CreateTextLoggerEnsuresPublicly(input, output)
+      ensures History.CreateTextLogger == old(History.CreateTextLogger) + [DafnyCallEvent(input, output)]
+
+  }
+  datatype ChainInput = | ChainInput (
+    nameonly chainedLogger: Metrics ,
+    nameonly newLogger: Metrics
+  )
+  datatype ChainOutput = | ChainOutput (
+    nameonly newChainedLogger: Metrics
+  )
+  type CountingNumber = x: int32 | IsValid_CountingNumber(x) witness *
+  predicate method IsValid_CountingNumber(x: int32) {
+    ( 1 <= x  )
+  }
+  datatype CreateLoggerOutput = | CreateLoggerOutput (
+    nameonly logger: ILogger
+  )
+  datatype CreateTextLoggerInput = | CreateTextLoggerInput (
+    nameonly fileName: Option<string> := Option.None
+  )
+  datatype MessageLimitInput = | MessageLimitInput (
+    nameonly numberOfMessages: int32
+  )
+  datatype Metrics = | Metrics (
+    nameonly logger: ILogger ,
+    nameonly transactionId: string
+  )
+  datatype MetricsLoggerConfig = | MetricsLoggerConfig (
+    nameonly Logger: Option<ILogger> := Option.None ,
+    nameonly PublishingCriteria: Option<PublishingCriteria> := Option.None
+  )
+  class ILoggerCallHistory {
+    ghost constructor() {
+      Put := [];
+      Publish := [];
+    }
+    ghost var Put: seq<DafnyCallEvent<PutInput, Result<PutOutput, Error>>>
+    ghost var Publish: seq<DafnyCallEvent<PublishInput, Result<PublishOutput, Error>>>
+  }
+  trait {:termination false} ILogger
+  {
+    // Helper to define any additional modifies/reads clauses.
+    // If your operations need to mutate state,
+    // add it in your constructor function:
+    // Modifies := {your, fields, here, History};
+    // If you do not need to mutate anything:
+    // Modifies := {History};
+
+    ghost const Modifies: set<object>
+    // For an unassigned field defined in a trait,
+    // Dafny can only assign a value in the constructor.
+    // This means that for Dafny to reason about this value,
+    // it needs some way to know (an invariant),
+    // about the state of the object.
+    // This builds on the Valid/Repr paradigm
+    // To make this kind requires safe to add
+    // to methods called from unverified code,
+    // the predicate MUST NOT take any arguments.
+    // This means that the correctness of this requires
+    // MUST only be evaluated by the class itself.
+    // If you require any additional mutation,
+    // then you MUST ensure everything you need in ValidState.
+    // You MUST also ensure ValidState in your constructor.
+    predicate ValidState()
+      ensures ValidState() ==> History in Modifies
+    ghost const History: ILoggerCallHistory
     predicate PutEnsuresPublicly(input: PutInput , output: Result<PutOutput, Error>)
     // The public method to be called by library consumers
     method Put ( input: PutInput )
@@ -93,27 +161,27 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } Aws
       ensures PutEnsuresPublicly(input, output)
       ensures unchanged(History)
 
-    predicate ChainEnsuresPublicly(input: ChainInput , output: Result<ChainOutput, Error>)
+    predicate PublishEnsuresPublicly(input: PublishInput , output: Result<PublishOutput, Error>)
     // The public method to be called by library consumers
-    method Chain ( input: ChainInput )
-      returns (output: Result<ChainOutput, Error>)
+    method Publish ( input: PublishInput )
+      returns (output: Result<PublishOutput, Error>)
       requires
         && ValidState()
       modifies Modifies - {History} ,
-               History`Chain
+               History`Publish
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History}
       ensures
         && ValidState()
-      ensures ChainEnsuresPublicly(input, output)
-      ensures History.Chain == old(History.Chain) + [DafnyCallEvent(input, output)]
+      ensures PublishEnsuresPublicly(input, output)
+      ensures History.Publish == old(History.Publish) + [DafnyCallEvent(input, output)]
     {
-      output := Chain' (input);
-      History.Chain := History.Chain + [DafnyCallEvent(input, output)];
+      output := Publish' (input);
+      History.Publish := History.Publish + [DafnyCallEvent(input, output)];
     }
     // The method to implement in the concrete class.
-    method Chain' ( input: ChainInput )
-      returns (output: Result<ChainOutput, Error>)
+    method Publish' ( input: PublishInput )
+      returns (output: Result<PublishOutput, Error>)
       requires
         && ValidState()
       modifies Modifies - {History}
@@ -121,45 +189,23 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } Aws
       decreases Modifies - {History}
       ensures
         && ValidState()
-      ensures ChainEnsuresPublicly(input, output)
+      ensures PublishEnsuresPublicly(input, output)
       ensures unchanged(History)
 
   }
-  class IMetricsPublisherClientCallHistory {
-    ghost constructor() {
+  datatype OperationLimitInput = | OperationLimitInput (
+    nameonly endOfOperation: bool
+  )
+  datatype PublishingCriteria =
+    | TimeLimit(TimeLimit: SecondLimitInput)
+    | MessageLimit(MessageLimit: MessageLimitInput)
+    | OperationLimit(OperationLimit: OperationLimitInput)
+  datatype PublishInput = | PublishInput (
 
-    }
+                          )
+  datatype PublishOutput = | PublishOutput (
 
-  }
-  trait {:termination false} IMetricsPublisherClient
-  {
-    // Helper to define any additional modifies/reads clauses.
-    // If your operations need to mutate state,
-    // add it in your constructor function:
-    // Modifies := {your, fields, here, History};
-    // If you do not need to mutate anything:
-    // Modifies := {History};
-
-    ghost const Modifies: set<object>
-    // For an unassigned field defined in a trait,
-    // Dafny can only assign a value in the constructor.
-    // This means that for Dafny to reason about this value,
-    // it needs some way to know (an invariant),
-    // about the state of the object.
-    // This builds on the Valid/Repr paradigm
-    // To make this kind requires safe to add
-    // to methods called from unverified code,
-    // the predicate MUST NOT take any arguments.
-    // This means that the correctness of this requires
-    // MUST only be evaluated by the class itself.
-    // If you require any additional mutation,
-    // then you MUST ensure everything you need in ValidState.
-    // You MUST also ensure ValidState in your constructor.
-    predicate ValidState()
-      ensures ValidState() ==> History in Modifies
-    ghost const History: IMetricsPublisherClientCallHistory
-
-  }
+                           )
   datatype PutInput = | PutInput (
     nameonly logger: Metrics ,
     nameonly message: string
@@ -167,9 +213,19 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } Aws
   datatype PutOutput = | PutOutput (
 
                        )
+  datatype SecondLimitInput = | SecondLimitInput (
+    nameonly interval: CountingNumber ,
+    nameonly timeUnits: TimeUnits
+  )
+  datatype TimeUnits =
+    | Seconds
+    | Milliseconds
   datatype Error =
       // Local Error structures are listed here
     | MetricsChainError (
+        nameonly message: string
+      )
+    | MetricsPublishError (
         nameonly message: string
       )
     | MetricsPutError (
@@ -224,20 +280,31 @@ abstract module AbstractAwsCryptographyMetricsService
   function method DefaultMetricsLoggerConfig(): MetricsLoggerConfig
   method MetricsLogger(config: MetricsLoggerConfig := DefaultMetricsLoggerConfig())
     returns (res: Result<MetricsLoggerClient, Error>)
+    requires config.Logger.Some? ==>
+               config.Logger.value.ValidState()
+    modifies if config.Logger.Some? then
+               config.Logger.value.Modifies
+             else {}
     ensures res.Success? ==>
               && fresh(res.value)
-              && fresh(res.value.Modifies)
+              && fresh(res.value.Modifies
+                       - ( if config.Logger.Some? then
+                             config.Logger.value.Modifies
+                           else {}
+                       ) )
               && fresh(res.value.History)
               && res.value.ValidState()
+    ensures config.Logger.Some? ==>
+              config.Logger.value.ValidState()
 
   // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
-  function method CreateSuccessOfClient(client: IMetricsPublisherClient): Result<IMetricsPublisherClient, Error> {
+  function method CreateSuccessOfClient(client: IAwsCryptographicMetricsClient): Result<IAwsCryptographicMetricsClient, Error> {
     Success(client)
   }
-  function method CreateFailureOfError(error: Error): Result<IMetricsPublisherClient, Error> {
+  function method CreateFailureOfError(error: Error): Result<IAwsCryptographicMetricsClient, Error> {
     Failure(error)
   }
-  class MetricsLoggerClient extends IMetricsPublisherClient
+  class MetricsLoggerClient extends IAwsCryptographicMetricsClient
   {
     constructor(config: Operations.InternalConfig)
       requires Operations.ValidInternalConfig?(config)
@@ -251,6 +318,31 @@ abstract module AbstractAwsCryptographyMetricsService
                 && Operations.ValidInternalConfig?(config)
                 && History !in Operations.ModifiesInternalConfig(config)
                 && Modifies == Operations.ModifiesInternalConfig(config) + {History}
+    predicate CreateTextLoggerEnsuresPublicly(input: CreateTextLoggerInput , output: Result<CreateLoggerOutput, Error>)
+    {Operations.CreateTextLoggerEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method CreateTextLogger ( input: CreateTextLoggerInput )
+      returns (output: Result<CreateLoggerOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`CreateTextLogger
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+        && ( output.Success? ==>
+               && output.value.logger.ValidState()
+               && output.value.logger.Modifies !! {History}
+               && fresh(output.value.logger)
+               && fresh ( output.value.logger.Modifies
+                          - Modifies - {History} ) )
+      ensures CreateTextLoggerEnsuresPublicly(input, output)
+      ensures History.CreateTextLogger == old(History.CreateTextLogger) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.CreateTextLogger(config, input);
+      History.CreateTextLogger := History.CreateTextLogger + [DafnyCallEvent(input, output)];
+    }
 
   }
 }
@@ -262,4 +354,23 @@ abstract module AbstractAwsCryptographyMetricsOperations {
   type InternalConfig
   predicate ValidInternalConfig?(config: InternalConfig)
   function ModifiesInternalConfig(config: InternalConfig): set<object>
+  predicate CreateTextLoggerEnsuresPublicly(input: CreateTextLoggerInput , output: Result<CreateLoggerOutput, Error>)
+  // The private method to be refined by the library developer
+
+
+  method CreateTextLogger ( config: InternalConfig , input: CreateTextLoggerInput )
+    returns (output: Result<CreateLoggerOutput, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+      && ( output.Success? ==>
+             && output.value.logger.ValidState()
+             && fresh(output.value.logger)
+             && fresh ( output.value.logger.Modifies
+                        - ModifiesInternalConfig(config) ) )
+    ensures CreateTextLoggerEnsuresPublicly(input, output)
 }
