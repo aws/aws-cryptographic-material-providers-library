@@ -100,19 +100,6 @@ pub mod DafnyLibraries {
             let file_name = dafny_runtime::dafny_runtime_conversions::unicode_chars_false::dafny_string_to_string(file);
             let path = Path::new(&file_name);
 
-            if let Some(parent) = path.parent() {
-                if let Err(why) = std::fs::create_dir_all(parent) {
-                    let err_msg = format!(
-                        "couldn't create {} from {}: {}",
-                        path.display(),
-                        curr_dir(),
-                        why
-                    );
-                    let err_msg = dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(&err_msg);
-                    return (true, dafny_runtime::Sequence::default(), err_msg);
-                }
-            }
-
             let mut file = match File::open(path) {
                 Err(why) => {
                     let err_msg = format!(
