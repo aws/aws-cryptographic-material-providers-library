@@ -115,7 +115,19 @@ module Fixtures {
     53, 54, 45, 52, 52, 51, 52, 45, 56, 51, 101, 50,
     45, 50, 55, 56, 50, 101, 50, 49, 54, 48, 49, 55, 50
   ]
+  const EastBranchKeyIdActiveVersion : string := "6f22825b-bd56-4434-83e2-2782e2160172"
+  const EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
+    54, 102, 50, 50, 56, 50, 53, 98, 45, 98, 100,
+    53, 54, 45, 52, 52, 51, 52, 45, 56, 51, 101, 50,
+    45, 50, 55, 56, 50, 101, 50, 49, 54, 48, 49, 55, 50
+  ]
   const WestBranchKey : string := "MyWestBranch2"
+  const WestBranchKeyIdActiveVersion : string := "094715a4-b98d-4c98-bf50-17422a8938f4"
+  const WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
+    48, 57, 52, 55, 49, 53, 97, 52, 45, 98, 57, 56,
+    100, 45, 52, 99, 57, 56, 45, 98, 102, 53, 48, 45,
+    49, 55, 52, 50, 50, 97, 56, 57, 51, 56, 102, 52
+  ]
   const WestBranchKeyIdActiveVersion : string := "094715a4-b98d-4c98-bf50-17422a8938f4"
   const WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
     48, 57, 52, 55, 49, 53, 97, 52, 45, 98, 57, 56,
@@ -295,6 +307,20 @@ module Fixtures {
     );
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
     return Success(keyStore);
+  }
+
+  function method createSrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    ensures output.kmsKeyArn?
+  {
+    Types.KMSConfiguration.kmsKeyArn(kmsId)
+  }
+
+  function method createMrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    ensures output.kmsMRKeyArn?
+  {
+    Types.KMSConfiguration.kmsMRKeyArn(kmsId)
   }
 
   datatype allThree = | allThree (
