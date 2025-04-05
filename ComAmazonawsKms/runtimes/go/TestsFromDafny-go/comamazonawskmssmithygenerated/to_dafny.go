@@ -2814,14 +2814,14 @@ func Com_amazonaws_kms_XksKeyConfigurationType_Id_ToDafny(input *string) Wrapper
 
 func Com_amazonaws_kms_DecryptRequest_CiphertextBlob_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -2928,14 +2928,14 @@ func Com_amazonaws_kms_RecipientInfo_KeyEncryptionAlgorithm_ToDafny(input types.
 
 func Com_amazonaws_kms_RecipientInfo_AttestationDocument_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -2965,14 +2965,14 @@ func Com_amazonaws_kms_DecryptResponse_KeyId_ToDafny(input *string) Wrappers.Opt
 
 func Com_amazonaws_kms_DecryptResponse_Plaintext_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -3003,14 +3003,14 @@ func Com_amazonaws_kms_DecryptResponse_EncryptionAlgorithm_ToDafny(input types.E
 
 func Com_amazonaws_kms_DecryptResponse_CiphertextForRecipient_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -3101,14 +3101,14 @@ func Com_amazonaws_kms_DeriveSharedSecretRequest_KeyAgreementAlgorithm_ToDafny(i
 
 func Com_amazonaws_kms_DeriveSharedSecretRequest_PublicKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -3161,27 +3161,27 @@ func Com_amazonaws_kms_DeriveSharedSecretResponse_KeyId_ToDafny(input *string) W
 
 func Com_amazonaws_kms_DeriveSharedSecretResponse_SharedSecret_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_DeriveSharedSecretResponse_CiphertextForRecipient_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -3716,14 +3716,14 @@ func Com_amazonaws_kms_EncryptRequest_KeyId_ToDafny(input *string) dafny.Sequenc
 
 func Com_amazonaws_kms_EncryptRequest_Plaintext_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -3790,14 +3790,14 @@ func Com_amazonaws_kms_EncryptRequest_DryRun_ToDafny(input *bool) Wrappers.Optio
 
 func Com_amazonaws_kms_EncryptResponse_CiphertextBlob_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -3937,27 +3937,27 @@ func Com_amazonaws_kms_GenerateDataKeyRequest_DryRun_ToDafny(input *bool) Wrappe
 
 func Com_amazonaws_kms_GenerateDataKeyResponse_CiphertextBlob_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GenerateDataKeyResponse_Plaintext_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -3978,14 +3978,14 @@ func Com_amazonaws_kms_GenerateDataKeyResponse_KeyId_ToDafny(input *string) Wrap
 
 func Com_amazonaws_kms_GenerateDataKeyResponse_CiphertextForRecipient_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4076,40 +4076,40 @@ func Com_amazonaws_kms_GenerateDataKeyPairRequest_DryRun_ToDafny(input *bool) Wr
 
 func Com_amazonaws_kms_GenerateDataKeyPairResponse_PrivateKeyCiphertextBlob_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GenerateDataKeyPairResponse_PrivateKeyPlaintext_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GenerateDataKeyPairResponse_PublicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4155,14 +4155,14 @@ func Com_amazonaws_kms_GenerateDataKeyPairResponse_KeyPairSpec_ToDafny(input typ
 
 func Com_amazonaws_kms_GenerateDataKeyPairResponse_CiphertextForRecipient_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4244,27 +4244,27 @@ func Com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest_DryRun_ToDafny
 
 func Com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse_PrivateKeyCiphertextBlob_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse_PublicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4395,14 +4395,14 @@ func Com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest_DryRun_ToDafny(inp
 
 func Com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse_CiphertextBlob_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4423,14 +4423,14 @@ func Com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse_KeyId_ToDafny(inp
 
 func Com_amazonaws_kms_GenerateMacRequest_Message_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -4499,14 +4499,14 @@ func Com_amazonaws_kms_GenerateMacRequest_DryRun_ToDafny(input *bool) Wrappers.O
 
 func Com_amazonaws_kms_GenerateMacResponse_Mac_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4585,27 +4585,27 @@ func Com_amazonaws_kms_GenerateRandomRequest_Recipient_ToDafny(input *types.Reci
 
 func Com_amazonaws_kms_GenerateRandomResponse_Plaintext_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GenerateRandomResponse_CiphertextForRecipient_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4829,27 +4829,27 @@ func Com_amazonaws_kms_GetParametersForImportResponse_KeyId_ToDafny(input *strin
 
 func Com_amazonaws_kms_GetParametersForImportResponse_ImportToken_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GetParametersForImportResponse_PublicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4915,14 +4915,14 @@ func Com_amazonaws_kms_GetPublicKeyResponse_KeyId_ToDafny(input *string) Wrapper
 
 func Com_amazonaws_kms_GetPublicKeyResponse_PublicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -5060,27 +5060,27 @@ func Com_amazonaws_kms_ImportKeyMaterialRequest_KeyId_ToDafny(input *string) daf
 
 func Com_amazonaws_kms_ImportKeyMaterialRequest_ImportToken_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
 func Com_amazonaws_kms_ImportKeyMaterialRequest_EncryptedKeyMaterial_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -5977,14 +5977,14 @@ func Com_amazonaws_kms_PutKeyPolicyRequest_BypassPolicyLockoutSafetyCheck_ToDafn
 
 func Com_amazonaws_kms_ReEncryptRequest_CiphertextBlob_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -6119,14 +6119,14 @@ func Com_amazonaws_kms_ReEncryptRequest_DryRun_ToDafny(input *bool) Wrappers.Opt
 
 func Com_amazonaws_kms_ReEncryptResponse_CiphertextBlob_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -6558,14 +6558,14 @@ func Com_amazonaws_kms_SignRequest_KeyId_ToDafny(input *string) dafny.Sequence {
 
 func Com_amazonaws_kms_SignRequest_Message_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -6659,14 +6659,14 @@ func Com_amazonaws_kms_SignResponse_KeyId_ToDafny(input *string) Wrappers.Option
 
 func Com_amazonaws_kms_SignResponse_Signature_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -7012,14 +7012,14 @@ func Com_amazonaws_kms_VerifyRequest_KeyId_ToDafny(input *string) dafny.Sequence
 
 func Com_amazonaws_kms_VerifyRequest_Message_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -7050,14 +7050,14 @@ func Com_amazonaws_kms_VerifyRequest_MessageType_ToDafny(input types.MessageType
 
 func Com_amazonaws_kms_VerifyRequest_Signature_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -7158,14 +7158,14 @@ func Com_amazonaws_kms_VerifyResponse_SigningAlgorithm_ToDafny(input types.Signi
 
 func Com_amazonaws_kms_VerifyMacRequest_Message_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -7211,14 +7211,14 @@ func Com_amazonaws_kms_VerifyMacRequest_MacAlgorithm_ToDafny(input types.MacAlgo
 
 func Com_amazonaws_kms_VerifyMacRequest_Mac_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 

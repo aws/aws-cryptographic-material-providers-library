@@ -867,18 +867,15 @@ func Aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_forOper
 }
 func Aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionInput_json_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
+		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		b := make([]byte, 0, a.Length())
+		for i := uint32(0); i < a.Length(); i++ {
+			b = append(b, a.Select(i).(byte))
 		}
+		return b
 	}()
 }
 func Aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionOutput_keyDescription_FromDafny(input interface{}) awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription {
@@ -1041,18 +1038,15 @@ func Aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionInp
 }
 func Aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionOutput_json_FromDafny(input interface{}) []byte {
 	return func() []byte {
-		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		for i := dafny.Iterate(input); ; {
-			val, ok := i()
-			if !ok {
-				return b
-			} else {
-				b = append(b, val.(byte))
-			}
+		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		b := make([]byte, 0, a.Length())
+		for i := uint32(0); i < a.Length(); i++ {
+			b = append(b, a.Select(i).(byte))
 		}
+		return b
 	}()
 }
 func Aws_cryptography_materialProvidersTestVectorKeys_KeyVectorException_message_FromDafny(input interface{}) string {
