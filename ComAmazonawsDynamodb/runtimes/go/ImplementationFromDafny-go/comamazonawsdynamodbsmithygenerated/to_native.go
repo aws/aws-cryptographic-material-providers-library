@@ -2216,7 +2216,7 @@ func Com_amazonaws_dynamodb_BinarySetAttributeValue_member_FromDafny(input inter
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))

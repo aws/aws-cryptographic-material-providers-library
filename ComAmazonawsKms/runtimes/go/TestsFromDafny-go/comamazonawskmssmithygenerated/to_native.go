@@ -3175,7 +3175,7 @@ func Com_amazonaws_kms_RecipientInfo_AttestationDocument_FromDafny(input interfa
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -3208,7 +3208,7 @@ func Com_amazonaws_kms_DecryptOutput_Plaintext_FromDafny(input interface{}) []by
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -3242,7 +3242,7 @@ func Com_amazonaws_kms_DecryptOutput_CiphertextForRecipient_FromDafny(input inte
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -3365,7 +3365,7 @@ func Com_amazonaws_kms_DeriveSharedSecretOutput_SharedSecret_FromDafny(input int
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -3378,7 +3378,7 @@ func Com_amazonaws_kms_DeriveSharedSecretOutput_CiphertextForRecipient_FromDafny
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -3914,7 +3914,7 @@ func Com_amazonaws_kms_EncryptOutput_CiphertextBlob_FromDafny(input interface{})
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4051,7 +4051,7 @@ func Com_amazonaws_kms_GenerateDataKeyOutput_CiphertextBlob_FromDafny(input inte
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4064,7 +4064,7 @@ func Com_amazonaws_kms_GenerateDataKeyOutput_Plaintext_FromDafny(input interface
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4087,7 +4087,7 @@ func Com_amazonaws_kms_GenerateDataKeyOutput_CiphertextForRecipient_FromDafny(in
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4180,7 +4180,7 @@ func Com_amazonaws_kms_GenerateDataKeyPairOutput_PrivateKeyCiphertextBlob_FromDa
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4193,7 +4193,7 @@ func Com_amazonaws_kms_GenerateDataKeyPairOutput_PrivateKeyPlaintext_FromDafny(i
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4206,7 +4206,7 @@ func Com_amazonaws_kms_GenerateDataKeyPairOutput_PublicKey_FromDafny(input inter
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4250,7 +4250,7 @@ func Com_amazonaws_kms_GenerateDataKeyPairOutput_CiphertextForRecipient_FromDafn
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4332,7 +4332,7 @@ func Com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextOutput_PrivateKeyCiphe
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4345,7 +4345,7 @@ func Com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextOutput_PublicKey_FromD
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4471,7 +4471,7 @@ func Com_amazonaws_kms_GenerateDataKeyWithoutPlaintextOutput_CiphertextBlob_From
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4559,7 +4559,7 @@ func Com_amazonaws_kms_GenerateMacOutput_Mac_FromDafny(input interface{}) []byte
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4634,7 +4634,7 @@ func Com_amazonaws_kms_GenerateRandomOutput_Plaintext_FromDafny(input interface{
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4647,7 +4647,7 @@ func Com_amazonaws_kms_GenerateRandomOutput_CiphertextForRecipient_FromDafny(inp
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4826,7 +4826,7 @@ func Com_amazonaws_kms_GetParametersForImportOutput_ImportToken_FromDafny(input 
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4839,7 +4839,7 @@ func Com_amazonaws_kms_GetParametersForImportOutput_PublicKey_FromDafny(input in
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -4904,7 +4904,7 @@ func Com_amazonaws_kms_GetPublicKeyOutput_PublicKey_FromDafny(input interface{})
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -5963,7 +5963,7 @@ func Com_amazonaws_kms_ReEncryptOutput_CiphertextBlob_FromDafny(input interface{
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
@@ -6417,7 +6417,7 @@ func Com_amazonaws_kms_SignOutput_Signature_FromDafny(input interface{}) []byte 
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
+		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
 		b := make([]byte, 0, a.Length())
 		for i := uint32(0); i < a.Length(); i++ {
 			b = append(b, a.Select(i).(byte))
