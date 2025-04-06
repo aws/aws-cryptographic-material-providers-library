@@ -97,12 +97,12 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
           Types.DynamoDBTable(
             ddbTableName := branchKeyStoreName,
             ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
           )))
-      // keyManagement := Some(
-      //   Types.kms(
-      //     Types.AwsKms(
-      //       kmsClient := Some(kmsClient)
-      //     )))
     );
 
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);

@@ -90,6 +90,7 @@ module {:options "/functionSyntax:4" } TestAdminHV2 {
     // Get branch key items from storage
     TestGetKeys.VerifyGetKeys(
       identifier := branchKeyId,
+      encryptionContext := customEC,
       keyStore := keyStore,
       storage := storage
     );
@@ -190,6 +191,7 @@ module {:options "/functionSyntax:4" } TestAdminHV2 {
     // Get branch key items from storage
     TestGetKeys.VerifyGetKeys(
       identifier := createKeyOutput?.Identifier,
+      encryptionContext := customEC,
       keyStore := keyStore,
       storage := storage
     );
