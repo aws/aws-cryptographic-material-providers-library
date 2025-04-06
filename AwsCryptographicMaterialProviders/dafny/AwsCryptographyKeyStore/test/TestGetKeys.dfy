@@ -150,47 +150,163 @@ module TestGetKeys {
     );
 
     // All four set of keys (branch, beacon and version) should work when the regions match
-    testActiveBranchKeyHappyCase(westKeyStore, WestBranchKey, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
-    testBeaconKeyHappyCase(westKeyStore, WestBranchKey);
-    testBranchKeyVersionHappyCase(westKeyStore, WestBranchKey, WestBranchKeyIdActiveVersion, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testActiveBranchKeyHappyCase(
+      keyStore := westKeyStore,
+      branchKeyId := WestBranchKey,
+      branchKeyIdActiveVersionUtf8Bytes := WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes,
+      encryptionContext := KmsMrkEC
+    );
+    testBeaconKeyHappyCase(
+      keyStore := westKeyStore,
+      branchKeyId := WestBranchKey,
+      encryptionContext := KmsMrkEC
+    );
+    testBranchKeyVersionHappyCase(
+      keyStore := westKeyStore,
+      branchKeyId := WestBranchKey,
+      branchKeyIdActiveVersion := WestBranchKeyIdActiveVersion,
+      branchKeyIdActiveVersionUtf8Bytes := WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes,
+      encryptionContext := KmsMrkEC
+    );
 
-    testActiveBranchKeyHappyCase(eastKeyStore, EastBranchKey, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
-    testBeaconKeyHappyCase(eastKeyStore, EastBranchKey);
-    testBranchKeyVersionHappyCase(eastKeyStore, EastBranchKey, EastBranchKeyIdActiveVersion, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testActiveBranchKeyHappyCase(
+      keyStore := eastKeyStore,
+      branchKeyId := EastBranchKey,
+      branchKeyIdActiveVersionUtf8Bytes := EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes,
+      encryptionContext := KmsMrkEC
+    );
+    testBeaconKeyHappyCase(
+      keyStore := eastKeyStore,
+      branchKeyId := EastBranchKey,
+      encryptionContext := KmsMrkEC
+    );
+    testBranchKeyVersionHappyCase(
+      keyStore := eastKeyStore,
+      branchKeyId := EastBranchKey,
+      branchKeyIdActiveVersion := EastBranchKeyIdActiveVersion,
+      branchKeyIdActiveVersionUtf8Bytes := EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes,
+      encryptionContext := KmsMrkEC
+    );
 
-    testActiveBranchKeyHappyCase(westMrkKeyStore, WestBranchKey, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
-    testBeaconKeyHappyCase(westMrkKeyStore, WestBranchKey);
-    testBranchKeyVersionHappyCase(westMrkKeyStore, WestBranchKey, WestBranchKeyIdActiveVersion, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testActiveBranchKeyHappyCase(
+      keyStore := westMrkKeyStore,
+      branchKeyId := WestBranchKey,
+      branchKeyIdActiveVersionUtf8Bytes := WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes,
+      encryptionContext := KmsMrkEC
+    );
+    testBeaconKeyHappyCase(
+      keyStore := westMrkKeyStore,
+      branchKeyId := WestBranchKey,
+      encryptionContext := KmsMrkEC
+    );
+    testBranchKeyVersionHappyCase(
+      keyStore := westMrkKeyStore,
+      branchKeyId := WestBranchKey,
+      branchKeyIdActiveVersion := WestBranchKeyIdActiveVersion,
+      branchKeyIdActiveVersionUtf8Bytes := WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes,
+      encryptionContext := KmsMrkEC
+    );
 
-    testActiveBranchKeyHappyCase(eastMrkKeyStore, EastBranchKey, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
-    testBeaconKeyHappyCase(eastMrkKeyStore, EastBranchKey);
-    testBranchKeyVersionHappyCase(eastMrkKeyStore, EastBranchKey, EastBranchKeyIdActiveVersion, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testActiveBranchKeyHappyCase(
+      keyStore := eastMrkKeyStore,
+      branchKeyId := EastBranchKey,
+      branchKeyIdActiveVersionUtf8Bytes := EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes,
+      encryptionContext := KmsMrkEC
+    );
+    testBeaconKeyHappyCase(
+      keyStore := eastMrkKeyStore,
+      branchKeyId := EastBranchKey,
+      encryptionContext := KmsMrkEC
+    );
+    testBranchKeyVersionHappyCase(
+      keyStore := eastMrkKeyStore,
+      branchKeyId := EastBranchKey,
+      branchKeyIdActiveVersion := EastBranchKeyIdActiveVersion,
+      branchKeyIdActiveVersionUtf8Bytes := EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes,
+      encryptionContext := KmsMrkEC
+    );
 
-    // MRK Configuration should work with the other region
+    testActiveBranchKeyHappyCase(
+      keyStore := westMrkKeyStore,
+      branchKeyId := EastBranchKey,
+      branchKeyIdActiveVersionUtf8Bytes := EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes,
+      encryptionContext := KmsMrkEC
+    );
+    testBeaconKeyHappyCase(
+      keyStore := westMrkKeyStore,
+      branchKeyId := EastBranchKey,
+      encryptionContext := KmsMrkEC
+    );
+    testBranchKeyVersionHappyCase(
+      keyStore := westMrkKeyStore,
+      branchKeyId := EastBranchKey,
+      branchKeyIdActiveVersion := EastBranchKeyIdActiveVersion,
+      branchKeyIdActiveVersionUtf8Bytes := EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes,
+      encryptionContext := KmsMrkEC
+    );
 
-    testActiveBranchKeyHappyCase(westMrkKeyStore, EastBranchKey, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
-    testBeaconKeyHappyCase(westMrkKeyStore, EastBranchKey);
-    testBranchKeyVersionHappyCase(westMrkKeyStore, EastBranchKey, EastBranchKeyIdActiveVersion, EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
-
-    testActiveBranchKeyHappyCase(eastMrkKeyStore, WestBranchKey, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
-    testBeaconKeyHappyCase(eastMrkKeyStore, WestBranchKey);
-    testBranchKeyVersionHappyCase(eastMrkKeyStore, WestBranchKey, WestBranchKeyIdActiveVersion, WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes);
+    testActiveBranchKeyHappyCase(
+      keyStore := eastMrkKeyStore,
+      branchKeyId := WestBranchKey,
+      branchKeyIdActiveVersionUtf8Bytes := WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes,
+      encryptionContext := KmsMrkEC
+    );
+    testBeaconKeyHappyCase(
+      keyStore := eastMrkKeyStore,
+      branchKeyId := WestBranchKey,
+      encryptionContext := KmsMrkEC
+    );
+    testBranchKeyVersionHappyCase(
+      keyStore := eastMrkKeyStore,
+      branchKeyId := WestBranchKey,
+      branchKeyIdActiveVersion := WestBranchKeyIdActiveVersion,
+      branchKeyIdActiveVersionUtf8Bytes := WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes,
+      encryptionContext := KmsMrkEC
+    );
 
     // Plain Configuration should fail with the other region
+    GetActiveKeyWithIncorrectKmsKeyArnHelper(
+      keyStore := westKeyStore,
+      branchKeyId := EastBranchKey
+    );
+    GetBeaconKeyWithIncorrectKmsKeyArnHelper(
+      keyStore := westKeyStore,
+      branchKeyId := EastBranchKey
+    );
+    GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(
+      keyStore := westKeyStore,
+      branchKeyId := EastBranchKey,
+      branchKeyIdActiveVersion := EastBranchKeyIdActiveVersion
+    );
 
-    GetActiveKeyWithIncorrectKmsKeyArnHelper(westKeyStore, EastBranchKey);
-    GetBeaconKeyWithIncorrectKmsKeyArnHelper(westKeyStore, EastBranchKey);
-    GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(westKeyStore, EastBranchKey, EastBranchKeyIdActiveVersion);
-
-    GetActiveKeyWithIncorrectKmsKeyArnHelper(eastKeyStore, WestBranchKey);
-    GetBeaconKeyWithIncorrectKmsKeyArnHelper(eastKeyStore, WestBranchKey);
-    GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(eastKeyStore, WestBranchKey, WestBranchKeyIdActiveVersion);
+    GetActiveKeyWithIncorrectKmsKeyArnHelper(
+      keyStore := eastKeyStore,
+      branchKeyId := WestBranchKey
+    );
+    GetBeaconKeyWithIncorrectKmsKeyArnHelper(
+      keyStore := eastKeyStore,
+      branchKeyId := WestBranchKey
+    );
+    GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(
+      keyStore := eastKeyStore,
+      branchKeyId := WestBranchKey,
+      branchKeyIdActiveVersion := WestBranchKeyIdActiveVersion
+    );
 
     // apMrkKeyStore should always fail
-
-    testActiveBranchKeyKMSFailureCase(apMrkKeyStore, WestBranchKey);
-    testBranchKeyVersionKMSFailureCase(apMrkKeyStore, WestBranchKey, WestBranchKeyIdActiveVersion);
-    testBeaconKeyKMSFailureCase(apMrkKeyStore, WestBranchKey);
+    testActiveBranchKeyKMSFailureCase(
+      keyStore := apMrkKeyStore,
+      branchKeyId := WestBranchKey
+    );
+    testBranchKeyVersionKMSFailureCase(
+      keyStore := apMrkKeyStore,
+      branchKeyId := WestBranchKey,
+      branchKeyIdActiveVersion := WestBranchKeyIdActiveVersion
+    );
+    testBeaconKeyKMSFailureCase(
+      keyStore := apMrkKeyStore,
+      branchKeyId := WestBranchKey
+    );
   }
 
   method {:test} TestKeyWithIncorrectKmsKeyArn() {

@@ -41,6 +41,8 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     );
     var identifier? :- expect underTest.CreateKey(input);
     var identifier := identifier?.Identifier;
+    expect identifier?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v1,
+      "KeyStoreAdmin should create branch key with `hierarchy-version-1` when no `HierarchyVersion` provided";
 
     // Get branch key items from storage
     TestGetKeys.VerifyGetKeys(
