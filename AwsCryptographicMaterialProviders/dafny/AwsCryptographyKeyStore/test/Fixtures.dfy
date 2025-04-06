@@ -79,8 +79,8 @@ module Fixtures {
   // This is hv2BranchKeyVersion above, as utf8bytes
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTA0OTZiNWMtZTA0OC00MmJjLThiNzUtNjhhMDA0ODUxODAz&oenc=65001
   const hv2BranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
-    97, 48, 52, 57, 54, 98, 53, 99, 45, 101, 48, 52, 
-    56, 45, 52, 50, 98, 99, 45, 56, 98, 55, 53, 45, 
+    97, 48, 52, 57, 54, 98, 53, 99, 45, 101, 48, 52,
+    56, 45, 52, 50, 98, 99, 45, 56, 98, 55, 53, 45,
     54, 56, 97, 48, 48, 52, 56, 53, 49, 56, 48, 51
   ]
   // THESE ARE TESTING RESOURCES DO NOT USE IN A PRODUCTION ENVIRONMENT
