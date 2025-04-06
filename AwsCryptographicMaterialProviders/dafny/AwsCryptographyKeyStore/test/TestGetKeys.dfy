@@ -226,6 +226,7 @@ module TestGetKeys {
       encryptionContext := KmsMrkEC
     );
 
+    // MRK Configuration should work with the other region
     testActiveBranchKeyHappyCase(
       keyStore := westMrkKeyStore,
       branchKeyId := EastBranchKey,
