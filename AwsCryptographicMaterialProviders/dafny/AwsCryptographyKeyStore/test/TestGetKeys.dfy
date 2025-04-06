@@ -534,6 +534,46 @@ module TestGetKeys {
     expect beaconKeyResult.error.ComAmazonawsKms.OpaqueWithText?;
   }
 
+  method testActiveBranchKeyKMSFailureCase(keyStore: Types.IKeyStoreClient, branchKeyId: string)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var branchKeyResult := keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+    expect branchKeyResult.Failure?;
+    expect branchKeyResult.error.ComAmazonawsKms?;
+    expect branchKeyResult.error.ComAmazonawsKms.OpaqueWithText?;
+  }
+
+  method testBranchKeyVersionKMSFailureCase(keyStore: Types.IKeyStoreClient, branchKeyId: string, branchKeyIdActiveVersion: string)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var versionResult := keyStore.GetBranchKeyVersion(
+      Types.GetBranchKeyVersionInput(
+        branchKeyIdentifier := branchKeyId,
+        branchKeyVersion := branchKeyIdActiveVersion
+      ));
+    expect versionResult.Failure?;
+    expect versionResult.error.ComAmazonawsKms?;
+    expect versionResult.error.ComAmazonawsKms.OpaqueWithText?;
+  }
+
+  method testBeaconKeyKMSFailureCase(keyStore: Types.IKeyStoreClient, branchKeyId: string)
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+  {
+    var beaconKeyResult := keyStore.GetBeaconKey(
+      Types.GetBeaconKeyInput(
+        branchKeyIdentifier := branchKeyId
+      ));
+    expect beaconKeyResult.Failure?;
+    expect beaconKeyResult.error.ComAmazonawsKms?;
+    expect beaconKeyResult.error.ComAmazonawsKms.OpaqueWithText?;
+  }
+
   method VerifyGetKeysFromStorage(
     identifier : string,
     storage : Types.IKeyStorageInterface
