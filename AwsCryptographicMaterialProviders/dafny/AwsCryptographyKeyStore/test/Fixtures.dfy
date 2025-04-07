@@ -61,17 +61,18 @@ module Fixtures {
 
   const branchKeyStoreName := "KeyStoreDdbTable"
   const logicalKeyStoreName := branchKeyStoreName
-  const branchKeyId := "75789115-1deb-4fe3-a2ec-be9e885d1945"
-  const branchKeyIdActiveVersion := "fed7ad33-0774-4f97-aa5e-6c766fc8af9f"
+  const branchKeyId := "3f43a9af-08c5-4317-b694-3d3e883dcaef"
+  const branchKeyIdActiveVersion := "a4905627-4b7f-4272-a847-f50dae245737"
+  // This is branchKeyIdActiveVersion above, as utf8bytes
+  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTQ5MDU2MjctNGI3Zi00MjcyLWE4NDctZjUwZGFlMjQ1NzM3&oenc=65001
+  const branchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
+    97, 52, 57, 48, 53, 54, 50, 55, 45, 52,
+    98, 55, 102, 45, 52, 50, 55, 50, 45, 97,
+    56, 52, 55, 45, 102, 53, 48, 100, 97, 101,
+    50, 52, 53, 55, 51, 55
+  ]
 
   const branchKeyIdWithEC := "4bb57643-07c1-419e-92ad-0df0df149d7c"
-  // This is branchKeyIdActiveVersion above, as utf8bytes
-  const branchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
-    102, 101, 100, 55,  97, 100,  51, 51,  45,
-    48,  55,  55, 52,  45,  52, 102, 57,  55,
-    45,  97,  97, 53, 101,  45,  54, 99,  55,
-    54,  54, 102, 99,  56,  97, 102, 57, 102
-  ]
   const hv2BranchKeyId := "test-hv2-branch-key-badaa332-29f2-4c72-8ad7-071eb48499c3"
   const hv2BranchKeyVersion := "347fdc7d-e93f-4166-97c2-5f5e0053d335"
   const hv2BranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
@@ -99,7 +100,19 @@ module Fixtures {
   const KmsMrkConfigAP : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnAP)
   const KmsMrkEC : Types.EncryptionContext := map[UTF8.EncodeAscii("abc") := UTF8.EncodeAscii("123")]
   const EastBranchKey : string := "MyEastBranch2"
+  const EastBranchKeyIdActiveVersion : string := "6f22825b-bd56-4434-83e2-2782e2160172"
+  const EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
+    54, 102, 50, 50, 56, 50, 53, 98, 45, 98, 100,
+    53, 54, 45, 52, 52, 51, 52, 45, 56, 51, 101, 50,
+    45, 50, 55, 56, 50, 101, 50, 49, 54, 48, 49, 55, 50
+  ]
   const WestBranchKey : string := "MyWestBranch2"
+  const WestBranchKeyIdActiveVersion : string := "094715a4-b98d-4c98-bf50-17422a8938f4"
+  const WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
+    48, 57, 52, 55, 49, 53, 97, 52, 45, 98, 57, 56,
+    100, 45, 52, 99, 57, 56, 45, 98, 102, 53, 48, 45,
+    49, 55, 52, 50, 50, 97, 56, 57, 51, 56, 102, 52
+  ]
   const publicKeyArn := "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"
 
   // TODO: After ~2024/06/11 launch, add the next two lines to cfn/ESDK-Hierarchy-CI.yaml
@@ -242,14 +255,19 @@ module Fixtures {
     return Success(keyStore);
   }
 
-  method KeyStoreWithNoClient(
+  method KeyStoreWithOptionalClient(
     nameonly kmsId: string := keyArn,
     nameonly physicalName: string := branchKeyStoreName,
-    nameonly logicalName: string := logicalKeyStoreName
+    nameonly logicalName: string := logicalKeyStoreName,
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
+    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None,
+    nameonly srkKey: bool := true,
+    nameonly mrkKey: bool := false
   )
     returns (output: Result<Types.IKeyStoreClient, Types.Error>)
     requires DDB.Types.IsValid_TableName(physicalName)
     requires KMS.Types.IsValid_KeyIdType(kmsId)
+    requires srkKey != mrkKey
     ensures output.Success? ==> output.value.ValidState()
     ensures output.Success?
             ==>
@@ -257,7 +275,19 @@ module Fixtures {
               && fresh(output.value)
               && fresh(output.value.Modifies)
   {
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(kmsId);
+    if ddbClient?.Some? {
+      assume {:axiom} fresh(ddbClient?.value) && fresh(ddbClient?.value.Modifies);
+    }
+    if kmsClient?.Some? {
+      assume {:axiom} fresh(kmsClient?.value) && fresh(kmsClient?.value.Modifies);
+    }
+    expect srkKey != mrkKey;
+    var kmsConfig := if srkKey then
+      createSrkKMSConfig(kmsId)
+    else
+      createMrkKMSConfig(kmsId);
+    expect srkKey ==> kmsConfig.kmsKeyArn?;
+    expect mrkKey ==> kmsConfig.kmsMRKeyArn?;
     var keyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := kmsConfig,
@@ -265,11 +295,31 @@ module Fixtures {
       storage := Some(
         Types.ddb(
           Types.DynamoDBTable(
-            ddbTableName := physicalName
+            ddbTableName := physicalName,
+            ddbClient := ddbClient?
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := kmsClient?
           )))
     );
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
     return Success(keyStore);
+  }
+
+  function method createSrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    ensures output.kmsKeyArn?
+  {
+    Types.KMSConfiguration.kmsKeyArn(kmsId)
+  }
+
+  function method createMrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    ensures output.kmsMRKeyArn?
+  {
+    Types.KMSConfiguration.kmsMRKeyArn(kmsId)
   }
 
   datatype allThree = | allThree (
