@@ -7,8 +7,6 @@ include "CleanupItems.dfy"
 include "../src/ErrorMessages.dfy"
 include "BranchKeyValidators.dfy"
 
-// TODO-HV2-M1: add more HV2 tests.
-// TODO-HV2-M1: Maybe rename this module to TestGetHv1Keys and create another TestGetHv2Keys
 module {:options "/functionSyntax:4" } TestGetKeys {
   import Types = AwsCryptographyKeyStoreTypes
   import ComAmazonawsKmsTypes
@@ -28,44 +26,101 @@ module {:options "/functionSyntax:4" } TestGetKeys {
 
   method {:test} TestGetKeysHappyCase()
   {
-    var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
-    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
+    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient));
     var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
     BranchKeyValidators.VerifyGetKeys(branchKeyId, keyStore, storage, versionUtf8Bytes?:=Some(branchKeyIdActiveVersionUtf8Bytes));
   }
 
   method {:test} TestGetKeysHV2HappyCase()
   {
-    var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
-    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
+    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient));
     var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
     BranchKeyValidators.VerifyGetKeys(hv2BranchKeyId, keyStore, storage, versionUtf8Bytes?:=Some(hv2BranchKeyIdActiveVersionUtf8Bytes));
   }
 
-  method {:test} TestKeyWithIncorrectKmsKeyArn() {
+  method {:test} TestGetMRKeySameRegionHappyCase()
+  {
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var keyStore :- expect KeyStoreWithOptionalClient(
+      kmsId := MrkArnWest,
+      physicalName := branchKeyStoreName,
+      logicalName := logicalKeyStoreName,
+      ddbClient? := Some(ddbClient)
+    );
+    var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
+    BranchKeyValidators.VerifyGetKeys(WestBranchKey, keyStore, storage, versionUtf8Bytes?:=Some(WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes));
+  }
+
+  method {:test} TestGetMRKeyReplicatedRegionHappyCase()
+  {
+    var ddbClient :- expect DDB.DynamoDBClient();
+    // Creating the KMS client puts it in the default region;
+    // for our CI, that is us-west-2.
+    var kmsClient :- expect KMS.KMSClient();
+    var keyStore :- expect KeyStoreWithOptionalClient(
+      kmsId := MrkArnEast,
+      ddbClient? := Some(ddbClient),
+      kmsClient? := Some(kmsClient),
+      mrkKey := true,
+      srkKey := false
+    );
+    var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
+    BranchKeyValidators.VerifyGetKeys(EastBranchKey, keyStore, storage, versionUtf8Bytes?:=Some(EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes));
+  }
+
+  method {:test} TestGetMRKeyMrkNotReplicatedFails()
+  {
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var keyStore :- expect KeyStoreWithOptionalClient(
+      kmsId := MrkArnAP,
+      ddbClient? := Some(ddbClient),
+      // By not creating KMS Client, we use the Index's create KMS Client logic, which creates the KMS Client for the region in KMS ARN
+      // in this case, that is AP-south-1, for which the MRK is NOT replicated, so this fails
+      mrkKey := true,
+      srkKey := false
+    );
+    GetActiveKeyWithIncorrectKmsKeyArnHelper(keyStore, EastBranchKey);
+    GetBeaconKeyWithIncorrectKmsKeyArnHelper(keyStore, EastBranchKey);
+    GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(keyStore, EastBranchKey, EastBranchKeyIdActiveVersion);
+  }
+
+  method {:test} TestGetSRKeyButKmsArnOutOfRegionFails()
+  {
+    // Creating the KMS client puts it in the default region; for our CI, that is us-west-2.
+    // The BK's KMS-ARN is not us-east-?;
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
-    var keyStore :- expect DefaultKeyStore(kmsId := postalHornKeyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
+    var keyStore :- expect KeyStoreWithOptionalClient(
+      kmsId := MrkArnWest,
+      ddbClient? := Some(ddbClient),
+      // By not creating KMS Client, we use the Index's create KMS Client logic, which creates the KMS Client for the region in KMS ARN
+      // in this case, that is us-west-2, for which the MRK is NOT replicated, so this fails
+      mrkKey := false,
+      srkKey := true
+    );
+    GetActiveKeyWithIncorrectKmsKeyArnHelper(keyStore, EastBranchKey);
+    GetBeaconKeyWithIncorrectKmsKeyArnHelper(keyStore, EastBranchKey);
+    GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(keyStore, EastBranchKey, EastBranchKeyIdActiveVersion);
+  }
+
+  method {:test} TestKeyWithIncorrectKmsKeyArn() {
+    var keyStore :- expect DefaultKeyStore(kmsId := postalHornKeyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName);
     GetActiveKeyWithIncorrectKmsKeyArnHelper(keyStore, branchKeyId);
     GetBeaconKeyWithIncorrectKmsKeyArnHelper(keyStore, branchKeyId);
     GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(keyStore, branchKeyId, branchKeyIdActiveVersion);
   }
 
   method {:test} TestKeyWithIncorrectKmsKeyArnHV2() {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var keyStore :- expect DefaultKeyStore(kmsId := postalHornKeyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
+    var keyStore :- expect DefaultKeyStore(kmsId := postalHornKeyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName);
     GetActiveKeyWithIncorrectKmsKeyArnHelper(keyStore, hv2BranchKeyId);
     GetBeaconKeyWithIncorrectKmsKeyArnHelper(keyStore, hv2BranchKeyId);
     GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(keyStore, hv2BranchKeyId, hv2BranchKeyVersion);
   }
 
   method {:test} TestGetActiveKeyWrongLogicalKeyStoreName() {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
+    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName);
     GetActiveKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, Types.HierarchyVersion.v1);
     GetBeaconKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, Types.HierarchyVersion.v1);
     GetVersionKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, branchKeyIdActiveVersion, Types.HierarchyVersion.v1);
@@ -73,20 +128,16 @@ module {:options "/functionSyntax:4" } TestGetKeys {
 
 
   method {:test} TestGetActiveKeyWrongLogicalKeyStoreNameHV2() {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
+    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName);
     GetActiveKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, Types.HierarchyVersion.v2);
     GetBeaconKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, Types.HierarchyVersion.v2);
     GetVersionKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, hv2BranchKeyVersion, Types.HierarchyVersion.v2);
   }
 
-  // These tests do not consider HV
+  // This test does not consider HV b/c it is really testing the storage layer
   method {:test} TestGetKeyDoesNotExistFails()
   {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient), kmsClient? := Some(kmsClient));
+    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName);
     GetActiveKeyDoesNotExistFailsHelper(keyStore, "Robbie");
     GetBeaconKeyDoesNotExistFailsHelper(keyStore, "Robbie");
     GetBranchKeyVersionDoesNotExistFailsHelper(keyStore, "Robbie", branchKeyIdActiveVersion);
