@@ -323,6 +323,20 @@ module Fixtures {
     Types.KMSConfiguration.kmsMRKeyArn(kmsId)
   }
 
+  function method createSrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    ensures output.kmsKeyArn?
+  {
+    Types.KMSConfiguration.kmsKeyArn(kmsId)
+  }
+
+  function method createMrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    ensures output.kmsMRKeyArn?
+  {
+    Types.KMSConfiguration.kmsMRKeyArn(kmsId)
+  }
+
   datatype allThree = | allThree (
     active: Types.EncryptedHierarchicalKey,
     beacon: Types.EncryptedHierarchicalKey,
