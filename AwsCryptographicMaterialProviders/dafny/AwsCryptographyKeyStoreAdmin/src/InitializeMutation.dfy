@@ -113,7 +113,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     Success(input)
   }
 
-  method {:only} {:isolate_assertions} InitializeMutation(
+  method {:isolate_assertions} InitializeMutation(
     input: InternalInitializeMutationInput
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
@@ -197,10 +197,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         message := "Active Branch Key Item read from storage is malformed!")
     );
     if (
-      && input.Mutations.TerminalHierarchyVersion.Some?
-      && input.Mutations.TerminalHierarchyVersion.value.v2?
-    ) {
-      :- Need( 
+        && input.Mutations.TerminalHierarchyVersion.Some?
+        && input.Mutations.TerminalHierarchyVersion.value.v2?
+      ) {
+      :- Need(
         HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
         Types.UnexpectedStateException(
           message :=
