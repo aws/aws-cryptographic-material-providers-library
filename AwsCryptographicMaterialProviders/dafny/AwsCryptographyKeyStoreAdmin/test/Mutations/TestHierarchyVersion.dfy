@@ -16,6 +16,17 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
   import opened Wrappers
 
   method {:test} {:vcs_split_on_every_assert} TestHasUniqueTransformedKeys() {
+    // Commented code that adds {"Robbie": "Is a dog."} to the dynamodb item
+    // This code will create a item that contains non unique branch key context key
+    //
+    // var ddbClient :- expect Fixtures.ProvideDDBClient();
+    // var kmsClient :- expect Fixtures.ProvideKMSClient();
+    // var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
+    //   id:="DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check",
+    //   keyValue:=AdminFixtures.KeyValue(key:="Robbie", value:="Is a dog."),
+    //   alsoViolateBeacon? := true, ddbClient? := Some(ddbClient),
+    //   kmsClient?:=Some(kmsClient), violateReservedAttribute:=true);
+
     var testId := "DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check";
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
@@ -24,16 +35,18 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
 
     var mutationsRequest := Types.Mutations(
-      TerminalKmsArn := Some(Fixtures.postalHornKeyArn),
-      TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+    TerminalKmsArn := Some(Fixtures.postalHornKeyArn),
+    TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
     );
     var initInput := Types.InitializeMutationInput(
-      Identifier := testId,
-      Mutations := mutationsRequest,
-      Strategy := Some(strategy),
-      SystemKey := systemKey,
-      DoNotVersion := Some(true));
+    Identifier := testId,
+    Mutations := mutationsRequest,
+    Strategy := Some(strategy),
+    SystemKey := systemKey,
+    DoNotVersion := Some(true));
     var initializeOutput := underTest.InitializeMutation(initInput);
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
+    expect initializeOutput.error.UnexpectedStateException?, "Should have UnexpectedStateException";
+    expect initializeOutput.error.message == KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS, "Incorrect error message. Should have had `KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS`";
   }
 }
