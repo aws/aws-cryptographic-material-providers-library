@@ -452,6 +452,36 @@ module {:options "/functionSyntax:4" } Structure {
     map i <- defixedCustomEncryptionContext :: i.0 := i.1
   }
 
+  function HierarchyVersionToString(version: Types.HierarchyVersion): (output: string)
+    ensures output == HIERARCHY_VERSION_VALUE_1 || output == HIERARCHY_VERSION_VALUE_2
+    ensures StringToHierarchyVersion(output).Success? && StringToHierarchyVersion(output).value == version
+  {
+    match version {
+      case v1 => HIERARCHY_VERSION_VALUE_1
+      case v2 => HIERARCHY_VERSION_VALUE_2
+    }
+  }
+
+  function StringToHierarchyVersion(version: string): (output: Result<Types.HierarchyVersion, Types.Error>)
+    ensures version == HIERARCHY_VERSION_VALUE_1 ==> output.Success? && output.value.v1?
+    ensures version == HIERARCHY_VERSION_VALUE_2 ==> output.Success? && output.value.v2?
+    ensures version != HIERARCHY_VERSION_VALUE_1 && version != HIERARCHY_VERSION_VALUE_2 ==> output.Failure?
+  {
+    match version
+    case HIERARCHY_VERSION_VALUE_1 => Success(Types.HierarchyVersion.v1)
+    case HIERARCHY_VERSION_VALUE_2 => Success(Types.HierarchyVersion.v2)
+    case _ => Failure(Types.KeyStoreException(
+                        message := ErrorMessages.INVALID_HIERARCHY_VERSION
+                      ))
+  }
+
+  lemma HierarchyVersionRoundTrip(version: Types.HierarchyVersion)
+    ensures StringToHierarchyVersion(HierarchyVersionToString(version)).Success?
+    ensures StringToHierarchyVersion(HierarchyVersionToString(version)).value == version
+  {
+  }
+
+
   opaque function DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
