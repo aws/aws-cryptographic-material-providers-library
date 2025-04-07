@@ -176,8 +176,7 @@ module EdkWrapping {
                  wrapInfo := ret.value.wrapInfo)),
              [])
   {
-
-      // TODO require this
+    // It would be nice if we could require this.
     :- Need(Materials.ValidEncryptionMaterials(encryptionMaterials),
             Types.AwsCryptographicMaterialProvidersException(
               message := "Invalid materials for encryption."));

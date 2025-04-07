@@ -530,10 +530,6 @@ module AwsKmsDiscoveryKeyring {
         && Seq.Last(client.History.Decrypt).output.value.KeyId == Some(keyArn)
     }
 
-    predicate Requires(helper: AwsKmsEdkHelper){
-      true
-    }
-
     method Invoke(
       helper: AwsKmsEdkHelper,
       ghost attemptsState: seq<ActionInvoke<AwsKmsEdkHelper, Result<Materials.SealedDecryptionMaterials, Types.Error>>>
