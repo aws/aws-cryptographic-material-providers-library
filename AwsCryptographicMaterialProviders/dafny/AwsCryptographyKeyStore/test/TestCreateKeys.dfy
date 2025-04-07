@@ -25,7 +25,7 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
 
   const happyCaseId := "test-happy-case-create-key-hv-1"
 
-  method {:test} TestCreateMRKForHV1()
+  method {:test} {:isolate_assertions} TestCreateMRKForHV1()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
 
