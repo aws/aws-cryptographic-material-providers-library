@@ -113,7 +113,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     Success(input)
   }
 
-  method {:isolate_assertions} InitializeMutation(
+  method {:only} {:isolate_assertions} InitializeMutation(
     input: InternalInitializeMutationInput
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
@@ -196,22 +196,18 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Types.KeyStoreAdminException(
         message := "Active Branch Key Item read from storage is malformed!")
     );
-
-      // TODO-HV-2-M2: Support items in HV-2
-    :- Need(
-      readItems.ActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
-      Types.KeyStoreAdminException(
-        message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
-    );
-
-    :- Need(
-      && readItems.ActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2
-      && HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
-      Types.UnexpectedStateException(
-        message :=
-          KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
-      )
-    );
+    if (
+      && input.Mutations.TerminalHierarchyVersion.Some?
+      && input.Mutations.TerminalHierarchyVersion.value.v2?
+    ) {
+      :- Need( 
+        HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
+        Types.UnexpectedStateException(
+          message :=
+            KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+        )
+      );
+    }
     :- Need(
       || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
