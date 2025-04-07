@@ -141,14 +141,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Types.AwsCryptographyKeyStoreTypes.GetItemsForInitializeMutationInput(Identifier := input.Identifier));
     var readItems :- readItems?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
-    // TODO-HV2-M2: Do this only on HV-2 path
-    :- Need(
-      HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
-      Types.UnexpectedStateException(
-        message :=
-          KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
-      )
-    );
     if (readItems.MutationCommitment.None? && readItems.MutationIndex.Some?) {
       var indexUUID := readItems.MutationIndex.value.UUID;
       return Failure(
@@ -212,6 +204,14 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
     );
 
+    :- Need(
+      && readItems.ActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2
+      && HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
+      Types.UnexpectedStateException(
+        message :=
+          KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+      )
+    );
     :- Need(
       || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
