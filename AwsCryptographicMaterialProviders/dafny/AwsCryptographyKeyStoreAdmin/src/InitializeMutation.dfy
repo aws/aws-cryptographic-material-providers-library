@@ -111,7 +111,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     Success(input)
   }
 
-  method {:only} {:isolate_assertions} InitializeMutation(
+  method {:isolate_assertions} InitializeMutation(
     input: InternalInitializeMutationInput
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
