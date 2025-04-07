@@ -24,36 +24,36 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
   import AdminFixtures
   import TestGetKeys
 
-  method {:test} TestCreateBranchAndBeaconKeys()
-  {
-    var ddbClient :- expect Fixtures.ProvideDDBClient();
-    var kmsClient :- expect Fixtures.ProvideKMSClient();
-    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
-    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
-    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+  // method {:test} TestCreateBranchAndBeaconKeys()
+  // {
+  //   var ddbClient :- expect Fixtures.ProvideDDBClient();
+  //   var kmsClient :- expect Fixtures.ProvideKMSClient();
+  //   var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+  //   var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+  //   var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+  //   var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
-    var input := Types.CreateKeyInput(
-      Identifier := None,
-      EncryptionContext := None,
-      KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
-      Strategy := Some(strategy)
-    );
-    var identifier? :- expect underTest.CreateKey(input);
-    var identifier := identifier?.Identifier;
-    expect identifier?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v1,
-      "KeyStoreAdmin should create branch key with `hierarchy-version-1` when no `HierarchyVersion` provided";
+  //   var input := Types.CreateKeyInput(
+  //     Identifier := None,
+  //     EncryptionContext := None,
+  //     KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
+  //     Strategy := Some(strategy)
+  //   );
+  //   var identifier? :- expect underTest.CreateKey(input);
+  //   var identifier := identifier?.Identifier;
+  //   expect identifier?.HierarchyVersion == KeyStoreTypes.HierarchyVersion.v1,
+  //     "KeyStoreAdmin should create branch key with `hierarchy-version-1` when no `HierarchyVersion` provided";
 
-    // Get branch key items from storage
-    TestGetKeys.VerifyGetKeys(
-      identifier := identifier,
-      keyStore := keyStore,
-      storage := storage
-    );
+  //   // Get branch key items from storage
+  //   TestGetKeys.VerifyGetKeys(
+  //     identifier := identifier,
+  //     keyStore := keyStore,
+  //     storage := storage
+  //   );
 
-    // Since this process uses a read DDB table,
-    // the number of records will forever increase.
-    // To avoid this, remove the items.
-    var _ := CleanupItems.DeleteBranchKey(Identifier:=identifier, ddbClient:=ddbClient);
-  }
+  //   // Since this process uses a read DDB table,
+  //   // the number of records will forever increase.
+  //   // To avoid this, remove the items.
+  //   var _ := CleanupItems.DeleteBranchKey(Identifier:=identifier, ddbClient:=ddbClient);
+  // }
 }

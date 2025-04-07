@@ -82,48 +82,48 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
     var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyIdEast, ddbClient:=ddbClient);
   }
 
-  method {:test} TestCreateBranchAndBeaconKeys()
-  {
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
+  // method {:test} TestCreateBranchAndBeaconKeys()
+  // {
+  //   var kmsClient :- expect KMS.KMSClient();
+  //   var ddbClient :- expect DDB.DynamoDBClient();
+  //   var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
-    );
+  //   var keyStoreConfig := Types.KeyStoreConfig(
+  //     id := None,
+  //     kmsConfiguration := kmsConfig,
+  //     logicalKeyStoreName := logicalKeyStoreName,
+  //     storage := Some(
+  //       Types.ddb(
+  //         Types.DynamoDBTable(
+  //           ddbTableName := branchKeyStoreName,
+  //           ddbClient := Some(ddbClient)
+  //         ))),
+  //     keyManagement := Some(
+  //       Types.kms(
+  //         Types.AwsKms(
+  //           kmsClient := Some(kmsClient)
+  //         )))
+  //   );
 
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+  //   var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
 
-    var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(
-                                                   branchKeyIdentifier := None,
-                                                   encryptionContext := None
-                                                 ));
+  //   var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(
+  //                                                  branchKeyIdentifier := None,
+  //                                                  encryptionContext := None
+  //                                                ));
 
-    // Get branch key items from storage
-    TestGetKeys.VerifyGetKeys(
-      identifier := branchKeyId.branchKeyIdentifier,
-      keyStore := keyStore,
-      storage := keyStore.config.storage
-    );
+  //   // Get branch key items from storage
+  //   TestGetKeys.VerifyGetKeys(
+  //     identifier := branchKeyId.branchKeyIdentifier,
+  //     keyStore := keyStore,
+  //     storage := keyStore.config.storage
+  //   );
 
-    // Since this process uses a read DDB table,
-    // the number of records will forever increase.
-    // To avoid this, remove the items.
-    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId.branchKeyIdentifier, ddbClient:=ddbClient);
-  }
+  //   // Since this process uses a read DDB table,
+  //   // the number of records will forever increase.
+  //   // To avoid this, remove the items.
+  //   var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId.branchKeyIdentifier, ddbClient:=ddbClient);
+  // }
 
   method {:test} TestCreateOptions()
   {

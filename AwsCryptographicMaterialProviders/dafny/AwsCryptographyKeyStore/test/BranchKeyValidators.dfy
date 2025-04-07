@@ -145,6 +145,13 @@ module {:options "/functionSyntax:4" } BranchKeyValidators {
       Types.GetBeaconKeyInput(
         branchKeyIdentifier := branchKeyId
       ));
+    expect beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier == branchKeyId, "Wrong Branch Key ID.";
+    expect beaconKeyResult.beaconKeyMaterials.beaconKey.Some?, "Beacon Key Materials MUST be present.";
+    expect |beaconKeyResult.beaconKeyMaterials.beaconKey.value| == 32, "Lenght of Beacon Key Materials MUST be 32 bytes.";
+    if (beaconKeyResult.beaconKeyMaterials.encryptionContext != encryptionContext) {
+      print "Beacon Key's encryption context is incorrect. Expected: ", encryptionContext, " but got: ", beaconKeyResult.beaconKeyMaterials.encryptionContext;
+    }
+    expect beaconKeyResult.beaconKeyMaterials.encryptionContext == encryptionContext, "Beacon Key's encryption context is incorrect.";
     expect isValidBeaconResult?(beaconKeyResult, branchKeyId, encryptionContext);
     return beaconKeyResult.beaconKeyMaterials;
   }
