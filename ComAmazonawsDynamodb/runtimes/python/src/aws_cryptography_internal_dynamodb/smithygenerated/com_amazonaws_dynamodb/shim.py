@@ -130,8 +130,10 @@ import aws_cryptography_internal_dynamodb.internaldafny.generated.ComAmazonawsDy
 
 
 def _sdk_error_to_dafny_error(e: ClientError):
-    """Converts the provided native Smithy-modelled error into the
-    corresponding Dafny error."""
+    """
+    Converts the provided native Smithy-modelled error
+    into the corresponding Dafny error.
+    """
     if e.response["Error"]["Code"] == "BackupInUseException":
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_to_dafny.com_amazonaws_dynamodb_BackupInUseException(
             e.response
