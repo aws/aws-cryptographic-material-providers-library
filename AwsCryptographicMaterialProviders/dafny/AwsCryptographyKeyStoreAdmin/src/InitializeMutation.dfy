@@ -141,7 +141,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Types.AwsCryptographyKeyStoreTypes.GetItemsForInitializeMutationInput(Identifier := input.Identifier));
     var readItems :- readItems?
     .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
-    
     if (readItems.MutationCommitment.None? && readItems.MutationIndex.Some?) {
       var indexUUID := readItems.MutationIndex.value.UUID;
       return Failure(
