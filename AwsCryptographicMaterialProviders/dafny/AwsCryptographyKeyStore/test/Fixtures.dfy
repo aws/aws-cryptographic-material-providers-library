@@ -85,12 +85,15 @@ module Fixtures {
     50, 52, 53, 55, 51, 55
   ]
   const branchKeyIdWithEC := "4bb57643-07c1-419e-92ad-0df0df149d7c"
-  const hv2BranchKeyId := "test-hv2-branch-key-badaa332-29f2-4c72-8ad7-071eb48499c3"
-  const hv2BranchKeyVersion := "347fdc7d-e93f-4166-97c2-5f5e0053d335"
+  // hierarchy-version-2 branch key
+  const hv2BranchKeyId := "4a0c7b92-3703-4209-8961-24b07ab6562b"
+  const hv2BranchKeyVersion := "a0496b5c-e048-42bc-8b75-68a004851803"
+  // This is hv2BranchKeyVersion above, as utf8bytes
+  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTA0OTZiNWMtZTA0OC00MmJjLThiNzUtNjhhMDA0ODUxODAz&oenc=65001
   const hv2BranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
-    51, 52, 55, 102, 100, 99, 55, 100, 45, 101, 57,
-    51, 102, 45, 52, 49, 54, 54, 45, 57, 55, 99, 50,
-    45, 53, 102, 53, 101, 48, 48, 53, 51, 100, 51, 51, 53
+    97, 48, 52, 57, 54, 98, 53, 99, 45, 101, 48, 52,
+    56, 45, 52, 50, 98, 99, 45, 56, 98, 55, 53, 45,
+    54, 56, 97, 48, 48, 52, 56, 53, 49, 56, 48, 51
   ]
   // THESE ARE TESTING RESOURCES DO NOT USE IN A PRODUCTION ENVIRONMENT
   const keyArn := "arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126"
@@ -111,6 +114,7 @@ module Fixtures {
   const KmsSrkConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnWest)
   const KmsMrkConfigAP : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnAP)
   const KmsMrkEC : Types.EncryptionContext := map[abc := x123]
+  const RobbieEC : Types.EncryptionContext := map[Robbie := IsADog]
   const EastBranchKey : string := "MyEastBranch2"
   const EastBranchKeyIdActiveVersion : string := "6f22825b-bd56-4434-83e2-2782e2160172"
   const EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
@@ -293,19 +297,14 @@ module Fixtures {
     return Success(keyStore);
   }
 
-  method KeyStoreWithOptionalClient(
-    nameonly kmsId: string := keyArn,
+  method KeyStoreFromKMSConfig(
+    nameonly kmsConfig: Types.KMSConfiguration,
     nameonly physicalName: string := branchKeyStoreName,
     nameonly logicalName: string := logicalKeyStoreName,
-    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
-    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None,
-    nameonly srkKey: bool := true,
-    nameonly mrkKey: bool := false
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
   )
     returns (output: Result<Types.IKeyStoreClient, Types.Error>)
     requires DDB.Types.IsValid_TableName(physicalName)
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    requires srkKey != mrkKey
     ensures output.Success? ==> output.value.ValidState()
     ensures output.Success?
             ==>
@@ -316,16 +315,6 @@ module Fixtures {
     if ddbClient?.Some? {
       assume {:axiom} fresh(ddbClient?.value) && fresh(ddbClient?.value.Modifies);
     }
-    if kmsClient?.Some? {
-      assume {:axiom} fresh(kmsClient?.value) && fresh(kmsClient?.value.Modifies);
-    }
-    expect srkKey != mrkKey;
-    var kmsConfig := if srkKey then
-      createSrkKMSConfig(kmsId)
-    else
-      createMrkKMSConfig(kmsId);
-    expect srkKey ==> kmsConfig.kmsKeyArn?;
-    expect mrkKey ==> kmsConfig.kmsMRKeyArn?;
     var keyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := kmsConfig,
@@ -335,29 +324,10 @@ module Fixtures {
           Types.DynamoDBTable(
             ddbTableName := physicalName,
             ddbClient := ddbClient?
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := kmsClient?
           )))
     );
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
     return Success(keyStore);
-  }
-
-  function method createSrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    ensures output.kmsKeyArn?
-  {
-    Types.KMSConfiguration.kmsKeyArn(kmsId)
-  }
-
-  function method createMrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    ensures output.kmsMRKeyArn?
-  {
-    Types.KMSConfiguration.kmsMRKeyArn(kmsId)
   }
 
   datatype allThree = | allThree (
