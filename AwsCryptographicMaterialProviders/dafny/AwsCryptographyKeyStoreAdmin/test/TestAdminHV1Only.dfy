@@ -24,6 +24,33 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import AdminFixtures
   import TestGetKeys
 
+  const testMutateForHV2FailsCaseId := "dafny-initialize-mutation-hv-2-rejection"
+  method {:test} TestMutateForHV2Fails()
+  {
+    var uuid :- expect UUID.GenerateUUID();
+    var testId := testMutateForHV2FailsCaseId + "-" + uuid;
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
+    Fixtures.CreateHappyCaseId(id:=testId);
+
+    var mutationsRequest := Types.Mutations(
+      TerminalKmsArn := Some(Fixtures.postalHornKeyArn),
+      TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+    );
+    var initInput := Types.InitializeMutationInput(
+      Identifier := testId,
+      Mutations := mutationsRequest,
+      Strategy := Some(strategy),
+      SystemKey := systemKey,
+      DoNotVersion := Some(true));
+    var initializeOutput := underTest.InitializeMutation(initInput);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
+    expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
+  }
+
   // TODO-HV-2-M2 : Probably make this a happy test?
   const testMutateForHV1WithAwsKmsSimpleFailsCaseId := "dafny-initialize-mutation-hv-1-simpleKms-rejection"
   method {:test} TestMutateForHV1WithAwsKmsSimpleFails()
@@ -32,7 +59,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var testId := testMutateForHV1WithAwsKmsSimpleFailsCaseId + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
-    var underTest :- expect AdminFixtures.DefaultAdmin();
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var simpleStrategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
     Fixtures.CreateHappyCaseId(id:=testId);
@@ -61,7 +88,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var testId := testMutateInitEncountersHV2FailsCaseId + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
-    var underTest :- expect AdminFixtures.DefaultAdmin();
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
     Fixtures.CreateHappyCaseId(id:=testId);
@@ -97,7 +124,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var testId := testVersionKeyEncountersHV2FailsCaseId + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
-    var underTest :- expect AdminFixtures.DefaultAdmin();
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
     Fixtures.CreateHappyCaseId(id:=testId);
