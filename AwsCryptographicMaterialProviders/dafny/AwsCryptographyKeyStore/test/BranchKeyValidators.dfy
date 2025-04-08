@@ -10,13 +10,15 @@ module {:options "/functionSyntax:4" } BranchKeyValidators {
   import UTF8
   import UUID
   import Types = AwsCryptographyKeyStoreTypes
+  import Structure
 
   method VerifyGetKeys(
     identifier : string,
     keyStore : Types.IKeyStoreClient,
     storage : Types.IKeyStorageInterface,
     nameonly versionUtf8Bytes?: Option<seq<uint8>> := None,
-    nameonly encryptionContext : Types.EncryptionContext := map[]
+    nameonly encryptionContext : Types.EncryptionContext := map[],
+    nameonly hierarchyVersion : Types.HierarchyVersion := Types.HierarchyVersion.v1
   )
     requires
       keyStore.ValidState() && storage.ValidState()
@@ -46,7 +48,7 @@ module {:options "/functionSyntax:4" } BranchKeyValidators {
       branchKeyIdActiveVersionUtf8Bytes := activeResult.branchKeyVersion,
       encryptionContext := encryptionContext
     );
-    VerifyGetKeysFromStorage(identifier, storage);
+    VerifyGetKeysFromStorage(identifier, storage, hierarchyVersion:=hierarchyVersion);
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
     //= type=test
@@ -59,39 +61,71 @@ module {:options "/functionSyntax:4" } BranchKeyValidators {
 
   method VerifyGetKeysFromStorage(
     identifier : string,
-    storage : Types.IKeyStorageInterface
+    storage : Types.IKeyStorageInterface,
+    nameonly hierarchyVersion : Types.HierarchyVersion := Types.HierarchyVersion.v1
   )
     requires storage.ValidState()
     modifies storage.Modifies
     ensures storage.ValidState()
   {
-    var encryptedActiveFromStorage :- expect storage.GetEncryptedActiveBranchKey(
+    var active :- expect storage.GetEncryptedActiveBranchKey(
       Types.GetEncryptedActiveBranchKeyInput(
         Identifier := identifier
       )
     );
+    expect active.Item.Type.ActiveHierarchicalSymmetricVersion?;
 
-    var encryptedBeaconFromStorage :- expect storage.GetEncryptedBeaconKey(
+    var beacon :- expect storage.GetEncryptedBeaconKey(
       Types.GetEncryptedBeaconKeyInput(
         Identifier := identifier
       )
     );
+    expect beacon.Item.Type.ActiveHierarchicalSymmetricBeacon?;
 
-    expect encryptedActiveFromStorage.Item.Type.ActiveHierarchicalSymmetricVersion?;
-
-    var encryptedVersionFromStorage :- expect storage.GetEncryptedBranchKeyVersion(
+    var version :- expect storage.GetEncryptedBranchKeyVersion(
       Types.GetEncryptedBranchKeyVersionInput(
         Identifier := identifier,
-        Version := encryptedActiveFromStorage.Item.Type.ActiveHierarchicalSymmetricVersion.Version
+        Version := active.Item.Type.ActiveHierarchicalSymmetricVersion.Version
       )
     );
+    expect version.Item.Type.HierarchicalSymmetricVersion?;
+
+    var hvMatches? := match hierarchyVersion {
+      case v1
+        =>
+        && branchKeyContextSaysHV1(active.Item.EncryptionContext)
+        && branchKeyContextSaysHV1(beacon.Item.EncryptionContext)
+        && branchKeyContextSaysHV1(version.Item.EncryptionContext)
+      case v2
+        =>
+        && branchKeyContextSaysHV2(active.Item.EncryptionContext)
+        && branchKeyContextSaysHV2(beacon.Item.EncryptionContext)
+        && branchKeyContextSaysHV2(version.Item.EncryptionContext)
+    };
+    if (!hvMatches?) {
+      print "HV did not match expectation, did bkc have hv?: ", Structure.HIERARCHY_VERSION in active.Item.EncryptionContext;
+      if (Structure.HIERARCHY_VERSION in active.Item.EncryptionContext) {
+        print " Actual HV: ", active.Item.EncryptionContext[Structure.HIERARCHY_VERSION];
+      }
+    }
+    expect hvMatches?, "Hierarchy Version did not match expectation.";
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
     //= type=test
     //# This timestamp MUST be in ISO 8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
-    expect ISO8601?(encryptedActiveFromStorage.Item.CreateTime);
-    expect ISO8601?(encryptedBeaconFromStorage.Item.CreateTime);
-    expect ISO8601?(encryptedVersionFromStorage.Item.CreateTime);
+    expect ISO8601?(active.Item.CreateTime);
+    expect ISO8601?(beacon.Item.CreateTime);
+    expect ISO8601?(version.Item.CreateTime);
+  }
+
+  predicate branchKeyContextSaysHV1(bkc: Types.EncryptionContextString)
+  {
+    Structure.HIERARCHY_VERSION in bkc && bkc[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
+  }
+
+  predicate branchKeyContextSaysHV2(bkc: Types.EncryptionContextString)
+  {
+    Structure.HIERARCHY_VERSION in bkc && bkc[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2
   }
 
   method testActiveBranchKeyHappyCase(

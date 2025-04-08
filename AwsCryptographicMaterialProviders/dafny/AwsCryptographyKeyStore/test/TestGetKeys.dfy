@@ -37,7 +37,9 @@ module {:options "/functionSyntax:4" } TestGetKeys {
     var ddbClient :- expect DDB.DynamoDBClient();
     var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient));
     var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
-    BranchKeyValidators.VerifyGetKeys(hv2BranchKeyId, keyStore, storage, versionUtf8Bytes?:=Some(hv2BranchKeyIdActiveVersionUtf8Bytes));
+    BranchKeyValidators.VerifyGetKeys(hv2BranchKeyId, keyStore, storage,
+                                      versionUtf8Bytes?:=Some(hv2BranchKeyIdActiveVersionUtf8Bytes),
+                                      hierarchyVersion := Types.HierarchyVersion.v2);
   }
 
   method {:test} TestGetMRKeySameRegionHappyCase()
