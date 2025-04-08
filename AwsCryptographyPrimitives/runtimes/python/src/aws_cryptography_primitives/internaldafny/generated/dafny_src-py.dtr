@@ -51,6 +51,9 @@ python-module-name = "aws_cryptography_primitives.internaldafny.generated"
 [options_by_module.AwsCryptographyPrimitivesOperations]
 legacy-module-names = false
 python-module-name = "aws_cryptography_primitives.internaldafny.generated"
+[options_by_module.ErrorUtils]
+legacy-module-names = false
+python-module-name = "aws_cryptography_primitives.internaldafny.generated"
 [options_by_module.AtomicPrimitives]
 legacy-module-names = false
 python-module-name = "aws_cryptography_primitives.internaldafny.generated"

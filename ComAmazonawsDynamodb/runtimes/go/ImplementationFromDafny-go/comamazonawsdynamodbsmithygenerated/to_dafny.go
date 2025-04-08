@@ -1586,14 +1586,14 @@ func Com_amazonaws_dynamodb_AttributeValue_N_ToDafny(input string) Wrappers.Opti
 
 func Com_amazonaws_dynamodb_AttributeValue_B_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -1667,14 +1667,14 @@ func Com_amazonaws_dynamodb_AttributeValue_BS_ToDafny(input [][]byte) Wrappers.O
 
 func Com_amazonaws_dynamodb_BinarySetAttributeValue_member_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -2079,11 +2079,11 @@ func Com_amazonaws_dynamodb_ConsumedCapacity_CapacityUnits_ToDafny(input *float6
 		var bits = math.Float64bits(*input)
 		var bytes = make([]byte, 8)
 		binary.LittleEndian.PutUint64(bytes, bits)
-		var v []interface{}
+		v := make([]interface{}, 0, 8)
 		for _, e := range bytes {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -2095,11 +2095,11 @@ func Com_amazonaws_dynamodb_ConsumedCapacity_ReadCapacityUnits_ToDafny(input *fl
 		var bits = math.Float64bits(*input)
 		var bytes = make([]byte, 8)
 		binary.LittleEndian.PutUint64(bytes, bits)
-		var v []interface{}
+		v := make([]interface{}, 0, 8)
 		for _, e := range bytes {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -2111,11 +2111,11 @@ func Com_amazonaws_dynamodb_ConsumedCapacity_WriteCapacityUnits_ToDafny(input *f
 		var bits = math.Float64bits(*input)
 		var bytes = make([]byte, 8)
 		binary.LittleEndian.PutUint64(bytes, bits)
-		var v []interface{}
+		v := make([]interface{}, 0, 8)
 		for _, e := range bytes {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -2136,11 +2136,11 @@ func Com_amazonaws_dynamodb_Capacity_ReadCapacityUnits_ToDafny(input *float64) W
 		var bits = math.Float64bits(*input)
 		var bytes = make([]byte, 8)
 		binary.LittleEndian.PutUint64(bytes, bits)
-		var v []interface{}
+		v := make([]interface{}, 0, 8)
 		for _, e := range bytes {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -2152,11 +2152,11 @@ func Com_amazonaws_dynamodb_Capacity_WriteCapacityUnits_ToDafny(input *float64) 
 		var bits = math.Float64bits(*input)
 		var bytes = make([]byte, 8)
 		binary.LittleEndian.PutUint64(bytes, bits)
-		var v []interface{}
+		v := make([]interface{}, 0, 8)
 		for _, e := range bytes {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -2168,11 +2168,11 @@ func Com_amazonaws_dynamodb_Capacity_CapacityUnits_ToDafny(input *float64) Wrapp
 		var bits = math.Float64bits(*input)
 		var bytes = make([]byte, 8)
 		binary.LittleEndian.PutUint64(bytes, bits)
-		var v []interface{}
+		v := make([]interface{}, 0, 8)
 		for _, e := range bytes {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -2858,11 +2858,11 @@ func Com_amazonaws_dynamodb_ItemCollectionSizeEstimateRange_member_ToDafny(input
 		var bits = math.Float64bits(input)
 		var bytes = make([]byte, 8)
 		binary.LittleEndian.PutUint64(bytes, bits)
-		var v []interface{}
+		v := make([]interface{}, 0, 8)
 		for _, e := range bytes {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -6767,11 +6767,11 @@ func Com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationD
 		var bits = math.Float64bits(*input)
 		var bytes = make([]byte, 8)
 		binary.LittleEndian.PutUint64(bytes, bits)
-		var v []interface{}
+		v := make([]interface{}, 0, 8)
 		for _, e := range bytes {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -12272,11 +12272,11 @@ func Com_amazonaws_dynamodb_AutoScalingTargetTrackingScalingPolicyConfigurationU
 		var bits = math.Float64bits(*input)
 		var bytes = make([]byte, 8)
 		binary.LittleEndian.PutUint64(bytes, bits)
-		var v []interface{}
+		v := make([]interface{}, 0, 8)
 		for _, e := range bytes {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
