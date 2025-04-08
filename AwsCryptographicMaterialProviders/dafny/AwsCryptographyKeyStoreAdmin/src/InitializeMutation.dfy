@@ -195,6 +195,12 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Types.KeyStoreAdminException(
         message := "Active Branch Key Item read from storage is malformed!")
     );
+    // TODO-HV-2-M2: Support items in HV-2
+    :- Need(
+      readItems.ActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
+      Types.KeyStoreAdminException(
+        message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
+    );
     if (
         && input.Mutations.TerminalHierarchyVersion.Some?
         && input.Mutations.TerminalHierarchyVersion.value.v2?
