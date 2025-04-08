@@ -197,8 +197,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Types.KeyStoreAdminException(
         message := "Active Branch Key Item read from storage is malformed!")
     );
-    var isTerminalHv2 := input.Mutations.TerminalHierarchyVersion.Some? && 
-                        input.Mutations.TerminalHierarchyVersion.value.v2?;
+    var isTerminalHv2 := input.Mutations.TerminalHierarchyVersion.Some? &&
+                         input.Mutations.TerminalHierarchyVersion.value.v2?;
     :- Need(
       !isTerminalHv2 || HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
       Types.KeyStoreAdminException(
