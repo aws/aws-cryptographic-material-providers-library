@@ -21,7 +21,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     // Commented code that adds {"Robbie": "Is a dog."} to the dynamodb item "DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check" in table KeyStoreDdbTable
     // This code will create a branch key and make changes so that branch key item contains non unique branch key context key
     //
-    // Fixtures.CreateHappyCaseId(id:=testId, versionCount=0);
+    // Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
     // var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
     //   id:=testId,
     //   keyValue:=AdminFixtures.KeyValue(key:="Robbie", value:="Is a dog."),
