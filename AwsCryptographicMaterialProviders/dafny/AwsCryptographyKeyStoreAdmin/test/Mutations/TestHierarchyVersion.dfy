@@ -18,8 +18,8 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     var testId := "DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check";
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
-    // Commented code that adds {"Robbie": "Is a dog."} to the dynamodb item "DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check" in table KeyStoreDdbTable
-    // This code will create a branch key and make changes so that branch key item contains non unique branch key context key
+    // Commented code adds creates a branch key and adds {"Robbie": "Is a dog."} to the branch key item by violating the reserved attribute in table KeyStoreDdbTable
+    // Adding {"Robbie": "Is a dog."} will create a non unique branch key context
     //
     // Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
     // var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
@@ -54,8 +54,8 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     var testId := "DO-NOT-EDIT-Branch-Key-For-TestNonUniqueTerminalAndInferredECKeys-Check";
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
-    // Commented code that adds {"Koda": "Is a dog."} to the dynamodb item "DO-NOT-EDIT-Branch-Key-For-TestNonUniqueTerminalAndInferredECKeys-Check" in table KeyStoreDdbTable
-    // This code will create a branch key and make changes so that branch key item contains non unique branch key context key
+    // Commented code adds creates a branch key and adds {"Koda": "Is a dog."} to the branch key item by violating the reserved attribute in table KeyStoreDdbTable
+    // Adding {"Koda": "Is a dog."} will NOT create a non unique branch key context 
     //
     // Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
     // var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
