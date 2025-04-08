@@ -32,6 +32,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
     Fixtures.CreateHappyCaseId(id:=testId);

@@ -62,6 +62,7 @@ module Fixtures {
   const branchKeyStoreName := "KeyStoreDdbTable"
   const logicalKeyStoreName := branchKeyStoreName
   // hierarchy-version-1 branch key
+  // hierarchy-version-1 branch key
   const branchKeyId := "3f43a9af-08c5-4317-b694-3d3e883dcaef"
   const branchKeyIdActiveVersion := "a4905627-4b7f-4272-a847-f50dae245737"
   // This is branchKeyIdActiveVersion above, as utf8bytes
@@ -83,7 +84,15 @@ module Fixtures {
   const hv2BranchKeyVersion := "a0496b5c-e048-42bc-8b75-68a004851803"
   // This is hv2BranchKeyVersion above, as utf8bytes
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTA0OTZiNWMtZTA0OC00MmJjLThiNzUtNjhhMDA0ODUxODAz&oenc=65001
+  // hierarchy-version-2 branch key
+  const hv2BranchKeyId := "4a0c7b92-3703-4209-8961-24b07ab6562b"
+  const hv2BranchKeyVersion := "a0496b5c-e048-42bc-8b75-68a004851803"
+  // This is hv2BranchKeyVersion above, as utf8bytes
+  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTA0OTZiNWMtZTA0OC00MmJjLThiNzUtNjhhMDA0ODUxODAz&oenc=65001
   const hv2BranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
+    97, 48, 52, 57, 54, 98, 53, 99, 45, 101, 48, 52,
+    56, 45, 52, 50, 98, 99, 45, 56, 98, 55, 53, 45,
+    54, 56, 97, 48, 48, 52, 56, 53, 49, 56, 48, 51
     97, 48, 52, 57, 54, 98, 53, 99, 45, 101, 48, 52,
     56, 45, 52, 50, 98, 99, 45, 56, 98, 55, 53, 45,
     54, 56, 97, 48, 48, 52, 56, 53, 49, 56, 48, 51
@@ -107,6 +116,7 @@ module Fixtures {
   const KmsSrkConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnWest)
   const KmsMrkConfigAP : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnAP)
   const KmsMrkEC : Types.EncryptionContext := map[UTF8.EncodeAscii("abc") := UTF8.EncodeAscii("123")]
+  const RobbieEC : Types.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("is a dog.")]
   const RobbieEC : Types.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("is a dog.")]
   const EastBranchKey : string := "MyEastBranch2"
   const EastBranchKeyIdActiveVersion : string := "6f22825b-bd56-4434-83e2-2782e2160172"
@@ -278,8 +288,11 @@ module Fixtures {
 
   method KeyStoreFromKMSConfig(
     nameonly kmsConfig: Types.KMSConfiguration,
+  method KeyStoreFromKMSConfig(
+    nameonly kmsConfig: Types.KMSConfiguration,
     nameonly physicalName: string := branchKeyStoreName,
     nameonly logicalName: string := logicalKeyStoreName,
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
     nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
   )
     returns (output: Result<Types.IKeyStoreClient, Types.Error>)
