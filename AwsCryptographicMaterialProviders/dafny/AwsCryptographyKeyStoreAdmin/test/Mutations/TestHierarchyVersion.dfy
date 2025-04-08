@@ -43,7 +43,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
       SystemKey := systemKey,
       DoNotVersion := Some(true));
     var initializeOutput := underTest.InitializeMutation(initInput);
-    
+
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.KeyStoreAdminException?, "Should have KeyStoreAdminException";
     expect initializeOutput.error.message == KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS, "Incorrect error message. Should have had `KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS`";
@@ -81,7 +81,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
       SystemKey := systemKey,
       DoNotVersion := Some(true));
     var initializeOutput := underTest.InitializeMutation(initInput);
-    
+
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.KeyStoreAdminException?, "Should have KeyStoreAdminException";
     expect initializeOutput.error.message == KeyStoreErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE, "Incorrect error message. Should have had `KeyStoreErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE`";
