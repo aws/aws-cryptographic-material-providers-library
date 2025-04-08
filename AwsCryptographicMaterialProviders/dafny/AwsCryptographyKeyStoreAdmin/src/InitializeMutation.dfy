@@ -205,9 +205,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         && input.Mutations.TerminalHierarchyVersion.Some?
         && input.Mutations.TerminalHierarchyVersion.value.v2?
       ) {
+      // TODO-HV-2-M2 : Check combination of terminalEC and inferredEC for unique EC
       :- Need(
         HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
-        Types.UnexpectedStateException(
+        Types.KeyStoreAdminException(
           message :=
             KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
         )
