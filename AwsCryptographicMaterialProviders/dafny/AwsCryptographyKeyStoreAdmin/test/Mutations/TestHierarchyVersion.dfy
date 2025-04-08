@@ -3,10 +3,7 @@
 
 include "../../src/Index.dfy"
 include "../AdminFixtures.dfy"
-  // include "../../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "../../../AwsCryptographyKeyStore/test/Fixtures.dfy"
-  // include "../../../AwsCryptographyKeyStore/test/TestGetKeys.dfy"
-  // include "../../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
 
 module {:options "/functionSyntax:4" } TestHierarchyVersion {
   import Types = AwsCryptographyKeyStoreAdminTypes
@@ -16,7 +13,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
   import Fixtures
   import opened Wrappers
 
-  method {:test} {:vcs_split_on_every_assert} TestHasUniqueTransformedKeys() {
+  method {:test} {:vcs_split_on_every_assert} TestInitializeMutationFailsWithNonUniqueBranchKeyContext() {
     // Commented code that adds {"Robbie": "Is a dog."} to the dynamodb item
     // This code will create a item that contains non unique branch key context key
     //
