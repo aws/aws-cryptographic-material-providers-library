@@ -413,6 +413,14 @@ func BranchKeyCiphertextException_ToDafny(nativeInput awscryptographykeystoresmi
 
 }
 
+func HierarchyVersionException_ToDafny(nativeInput awscryptographykeystoresmithygeneratedtypes.HierarchyVersionException) AwsCryptographyKeyStoreTypes.Error {
+	return func() AwsCryptographyKeyStoreTypes.Error {
+
+		return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_HierarchyVersionException_(Aws_cryptography_keyStore_HierarchyVersionException_message_ToDafny(nativeInput.Message))
+	}()
+
+}
+
 func KeyManagementException_ToDafny(nativeInput awscryptographykeystoresmithygeneratedtypes.KeyManagementException) AwsCryptographyKeyStoreTypes.Error {
 	return func() AwsCryptographyKeyStoreTypes.Error {
 
@@ -494,6 +502,9 @@ func Error_ToDafny(err error) AwsCryptographyKeyStoreTypes.Error {
 
 	case awscryptographykeystoresmithygeneratedtypes.BranchKeyCiphertextException:
 		return BranchKeyCiphertextException_ToDafny(err.(awscryptographykeystoresmithygeneratedtypes.BranchKeyCiphertextException))
+
+	case awscryptographykeystoresmithygeneratedtypes.HierarchyVersionException:
+		return HierarchyVersionException_ToDafny(err.(awscryptographykeystoresmithygeneratedtypes.HierarchyVersionException))
 
 	case awscryptographykeystoresmithygeneratedtypes.KeyManagementException:
 		return KeyManagementException_ToDafny(err.(awscryptographykeystoresmithygeneratedtypes.KeyManagementException))
@@ -641,6 +652,33 @@ func MutationIndex_ToDafny(nativeInput awscryptographykeystoresmithygeneratedtyp
 	return func() AwsCryptographyKeyStoreTypes.MutationIndex {
 
 		return AwsCryptographyKeyStoreTypes.Companion_MutationIndex_.Create_MutationIndex_(Aws_cryptography_keyStore_MutationIndex_Identifier_ToDafny(nativeInput.Identifier), Aws_cryptography_keyStore_MutationIndex_CreateTime_ToDafny(nativeInput.CreateTime), Aws_cryptography_keyStore_MutationIndex_UUID_ToDafny(nativeInput.UUID), Aws_cryptography_keyStore_MutationIndex_PageIndex_ToDafny(nativeInput.PageIndex), Aws_cryptography_keyStore_MutationIndex_CiphertextBlob_ToDafny(nativeInput.CiphertextBlob))
+	}()
+
+}
+
+func HierarchyVersion_ToDafny(nativeInput awscryptographykeystoresmithygeneratedtypes.HierarchyVersion) AwsCryptographyKeyStoreTypes.HierarchyVersion {
+	return func() AwsCryptographyKeyStoreTypes.HierarchyVersion {
+
+		var index int
+		for _, enumVal := range nativeInput.Values() {
+			index++
+			if enumVal == nativeInput {
+				break
+			}
+			if index == len(nativeInput.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
+		}
+		var enum interface{}
+		for allEnums, i := dafny.Iterate(AwsCryptographyKeyStoreTypes.CompanionStruct_HierarchyVersion_{}.AllSingletonConstructors()), 0; i < index; i++ {
+			var ok bool
+			enum, ok = allEnums()
+			if !ok {
+				break
+			}
+		}
+		return enum.(AwsCryptographyKeyStoreTypes.HierarchyVersion)
 	}()
 
 }
@@ -864,14 +902,14 @@ func Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_ToDafny(inpu
 
 func Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -920,14 +958,14 @@ func Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_ToDafny(inpu
 
 func Aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -956,14 +994,14 @@ func Aws_cryptography_keyStore_HmacKeyMap_key_ToDafny(input string) dafny.Sequen
 
 func Aws_cryptography_keyStore_HmacKeyMap_value_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -1042,7 +1080,7 @@ func Aws_cryptography_keyStore_GetKeyStoreInfoOutput_logicalKeyStoreName_ToDafny
 func Aws_cryptography_keyStore_GetKeyStoreInfoOutput_grantTokens_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0)
+		var fieldValue []interface{} = make([]interface{}, 0, len(input))
 		for _, val := range input {
 			element := Aws_cryptography_keyStore_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1201,53 +1239,53 @@ func Aws_cryptography_keyStore_MutationCommitment_UUID_ToDafny(input string) daf
 
 func Aws_cryptography_keyStore_MutationCommitment_Original_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
 func Aws_cryptography_keyStore_MutationCommitment_Terminal_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
 func Aws_cryptography_keyStore_MutationCommitment_Input_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
 func Aws_cryptography_keyStore_MutationCommitment_CiphertextBlob_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -1415,14 +1453,14 @@ func Aws_cryptography_keyStore_EncryptionContextString_value_ToDafny(input strin
 
 func Aws_cryptography_keyStore_EncryptedHierarchicalKey_CiphertextBlob_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -1565,27 +1603,27 @@ func Aws_cryptography_keyStore_MutationIndex_UUID_ToDafny(input string) dafny.Se
 
 func Aws_cryptography_keyStore_MutationIndex_PageIndex_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
 func Aws_cryptography_keyStore_MutationIndex_CiphertextBlob_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -1656,14 +1694,14 @@ func Aws_cryptography_keyStore_GetMutationOutput_MutationIndex_ToDafny(input *aw
 
 func Aws_cryptography_keyStore_QueryForVersionsInput_ExclusiveStartKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -1689,21 +1727,21 @@ func Aws_cryptography_keyStore_QueryForVersionsInput_PageSize_ToDafny(input int3
 
 func Aws_cryptography_keyStore_QueryForVersionsOutput_ExclusiveStartKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
 func Aws_cryptography_keyStore_QueryForVersionsOutput_Items_ToDafny(input []awscryptographykeystoresmithygeneratedtypes.EncryptedHierarchicalKey) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0)
+		var fieldValue []interface{} = make([]interface{}, 0, len(input))
 		for _, val := range input {
 			element := Aws_cryptography_keyStore_EncryptedHierarchicalKeys_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1781,7 +1819,7 @@ func Aws_cryptography_keyStore_WriteAtomicMutationInput_Beacon_ToDafny(input aws
 func Aws_cryptography_keyStore_WriteAtomicMutationInput_Items_ToDafny(input []awscryptographykeystoresmithygeneratedtypes.OverWriteEncryptedHierarchicalKey) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0)
+		var fieldValue []interface{} = make([]interface{}, 0, len(input))
 		for _, val := range input {
 			element := Aws_cryptography_keyStore_OverWriteEncryptedHierarchicalKeys_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1845,7 +1883,7 @@ func Aws_cryptography_keyStore_WriteInitializeMutationInput_MutationIndex_ToDafn
 func Aws_cryptography_keyStore_WriteMutatedVersionsInput_Items_ToDafny(input []awscryptographykeystoresmithygeneratedtypes.OverWriteEncryptedHierarchicalKey) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0)
+		var fieldValue []interface{} = make([]interface{}, 0, len(input))
 		for _, val := range input {
 			element := Aws_cryptography_keyStore_OverWriteEncryptedHierarchicalKeys_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1952,6 +1990,19 @@ func Aws_cryptography_keyStore_AlreadyExistsConditionFailed_message_ToDafny(inpu
 }
 
 func Aws_cryptography_keyStore_BranchKeyCiphertextException_message_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(input))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}()
+	}()
+}
+
+func Aws_cryptography_keyStore_HierarchyVersionException_message_ToDafny(input string) dafny.Sequence {
 	return func() dafny.Sequence {
 
 		return func() dafny.Sequence {
@@ -2119,7 +2170,7 @@ func Aws_cryptography_keyStore_AwsKms_grantTokens_ToDafny(input []string) Wrappe
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0)
+		var fieldValue []interface{} = make([]interface{}, 0, len(input))
 		for _, val := range input {
 			element := Aws_cryptography_keyStore_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -2172,7 +2223,7 @@ func Aws_cryptography_keyStore_KeyStoreConfig_grantTokens_ToDafny(input []string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0)
+		var fieldValue []interface{} = make([]interface{}, 0, len(input))
 		for _, val := range input {
 			element := Aws_cryptography_keyStore_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
