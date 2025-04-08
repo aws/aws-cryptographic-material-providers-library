@@ -7,6 +7,7 @@ module {:options "/functionSyntax:4" } Structure {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
   import Types = AwsCryptographyKeyStoreTypes
+  import KeyStoreErrorMessages
   import DDB = ComAmazonawsDynamodbTypes
   import UTF8
 
@@ -471,7 +472,7 @@ module {:options "/functionSyntax:4" } Structure {
     case HIERARCHY_VERSION_VALUE_1 => Success(Types.HierarchyVersion.v1)
     case HIERARCHY_VERSION_VALUE_2 => Success(Types.HierarchyVersion.v2)
     case _ => Failure(Types.KeyStoreException(
-                        message := ErrorMessages.INVALID_HIERARCHY_VERSION
+                        message := KeyStoreErrorMessages.INVALID_HIERARCHY_VERSION
                       ))
   }
 
@@ -575,19 +576,22 @@ module {:options "/functionSyntax:4" } Structure {
   function ReplaceMutableContext(
     branchKeyContext: map<string, string>,
     terminalKmsArn: string,
-    terminalCustomEncryptionContext: map<string, string>
+    terminalCustomEncryptionContext: map<string, string>,
+    terminalHierarchyVersion: string
   ) : (output: map<string, string>)
 
     requires BranchKeyContext?(branchKeyContext)
     requires BRANCH_KEY_RESTRICTED_FIELD_NAMES !! terminalCustomEncryptionContext.Keys
 
     ensures BranchKeyContext?(output)
-    ensures output[KMS_FIELD] == terminalKmsArn
+    ensures 
+      && output[KMS_FIELD] == terminalKmsArn
+      && output[HIERARCHY_VERSION] == terminalHierarchyVersion
+
     ensures
       && branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD] == output[BRANCH_KEY_IDENTIFIER_FIELD]
       && branchKeyContext[TYPE_FIELD] == output[TYPE_FIELD]
       && branchKeyContext[KEY_CREATE_TIME] == output[KEY_CREATE_TIME]
-      && branchKeyContext[HIERARCHY_VERSION] == output[HIERARCHY_VERSION]
       && branchKeyContext[TABLE_FIELD] == output[TABLE_FIELD]
       && (BRANCH_KEY_ACTIVE_VERSION_FIELD in branchKeyContext
           <==>
@@ -600,7 +604,7 @@ module {:options "/functionSyntax:4" } Structure {
         BRANCH_KEY_IDENTIFIER_FIELD := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
         TYPE_FIELD := branchKeyContext[TYPE_FIELD],
         KEY_CREATE_TIME := branchKeyContext[KEY_CREATE_TIME],
-        HIERARCHY_VERSION := branchKeyContext[HIERARCHY_VERSION],
+        HIERARCHY_VERSION := terminalHierarchyVersion,
         TABLE_FIELD := branchKeyContext[TABLE_FIELD],
         KMS_FIELD := terminalKmsArn,
         BRANCH_KEY_ACTIVE_VERSION_FIELD := branchKeyContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
@@ -610,7 +614,7 @@ module {:options "/functionSyntax:4" } Structure {
         BRANCH_KEY_IDENTIFIER_FIELD := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
         TYPE_FIELD := branchKeyContext[TYPE_FIELD],
         KEY_CREATE_TIME := branchKeyContext[KEY_CREATE_TIME],
-        HIERARCHY_VERSION := branchKeyContext[HIERARCHY_VERSION],
+        HIERARCHY_VERSION := terminalHierarchyVersion,
         TABLE_FIELD := branchKeyContext[TABLE_FIELD],
         KMS_FIELD := terminalKmsArn
       ]
@@ -804,7 +808,8 @@ module {:options "/functionSyntax:4" } Structure {
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && TYPE_FIELD in m && m[TYPE_FIELD].S?
     && M_UUID in m && m[M_UUID].S?
-    && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N? && m[HIERARCHY_VERSION].N == HIERARCHY_VERSION_VALUE
+    && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N?
+    && (m[HIERARCHY_VERSION].N == HIERARCHY_VERSION_VALUE_1 || m[HIERARCHY_VERSION].N == HIERARCHY_VERSION_VALUE_2)
 
     && 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD].S|
     && 0 < |m[TYPE_FIELD].S|
@@ -862,6 +867,7 @@ module {:options "/functionSyntax:4" } Structure {
     )
   }
 
+  // TODO-HV2-M2?: Refactor to allow Hierarchy Version
   function MutationCommitmentToAttributeMap(
     lock: Types.MutationCommitment
   ): (output: DDB.AttributeMap)
@@ -895,7 +901,8 @@ module {:options "/functionSyntax:4" } Structure {
     && BRANCH_KEY_IDENTIFIER_FIELD in m && m[BRANCH_KEY_IDENTIFIER_FIELD].S? && 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD].S|
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && TYPE_FIELD in m && m[TYPE_FIELD].S? && 0 < |m[TYPE_FIELD].S|
-    && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N? && m[HIERARCHY_VERSION].N == HIERARCHY_VERSION_VALUE
+    && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N? 
+    && (m[HIERARCHY_VERSION].N == HIERARCHY_VERSION_VALUE_1 || m[HIERARCHY_VERSION].N == HIERARCHY_VERSION_VALUE_2)
     && M_UUID in m && m[M_UUID].S? && 0 < |m[M_UUID].S|
 
     && (forall k <- m.Keys - {M_PAGE_INDEX, HIERARCHY_VERSION, ENC_FIELD} :: m[k].S?)
@@ -940,6 +947,7 @@ module {:options "/functionSyntax:4" } Structure {
     )
   }
 
+  // TODO-HV2-M2?: Refactor to allow Hierarchy Version
   function MutationIndexToAttributeMap(
     index: Types.MutationIndex
   ): (output: DDB.AttributeMap)

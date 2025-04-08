@@ -48,14 +48,17 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
           &&  forall k <- input.TerminalEncryptionContext.value ::
                && |k| > 0 && |input.TerminalEncryptionContext.value[k]| > 0
                && input.TerminalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
-    && !(input.TerminalKmsArn.None? && input.TerminalEncryptionContext.None?)
+    && (input.TerminalHierarchyVersion.Some? ==>
+          || input.TerminalHierarchyVersion.value.v1?
+          || input.TerminalHierarchyVersion.value.v2?)
+    && !(input.TerminalKmsArn.None? && input.TerminalEncryptionContext.None? && input.TerminalHierarchyVersion.None?)
   }
 
   // TODO-HV-2-M2: Refactor to allow HV-2 for Mutations
   datatype MutableProperties = | MutableProperties (
     nameonly kmsArn: validKmsArn,
-    nameonly customEncryptionContext: KeyStoreTypes.EncryptionContextString
-    // nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion
+    nameonly customEncryptionContext: KeyStoreTypes.EncryptionContextString,
+    nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion
   )
 
   type validKmsArn = s:string | KmsArn.ValidKmsArn?(s) witness *
@@ -80,6 +83,14 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       && KmsArn.ValidKmsArn?(Terminal.kmsArn)
       && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! Original.customEncryptionContext.Keys)
       && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! Terminal.customEncryptionContext.Keys)
+      && match Original.hierarchyVersion {
+           case v1 =>
+             || Terminal.hierarchyVersion.v1?
+             || Terminal.hierarchyVersion.v2?
+           case v2 =>
+             Terminal.hierarchyVersion.v2?
+         }
+
     }
   }
 
