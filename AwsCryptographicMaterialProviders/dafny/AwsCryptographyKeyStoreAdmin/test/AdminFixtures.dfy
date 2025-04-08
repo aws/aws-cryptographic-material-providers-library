@@ -44,7 +44,8 @@ module {:options "/functionSyntax:4" } AdminFixtures {
       ddbClient := ddbClient,
       logicalKeyStoreName := logicalName,
       ddbTableNameUtf8 := physicalNameUtf8,
-      logicalKeyStoreNameUtf8 := logicalNameUtf8);
+      logicalKeyStoreNameUtf8 := logicalNameUtf8
+    );
 
     var underTestConfig := Types.KeyStoreAdminConfig(
       logicalKeyStoreName := logicalName,
