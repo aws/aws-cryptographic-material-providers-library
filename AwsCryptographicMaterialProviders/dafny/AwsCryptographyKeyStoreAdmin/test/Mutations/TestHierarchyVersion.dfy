@@ -15,7 +15,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
 
   method {:test} TestInitializeMutationFailsWithNonUniqueBranchKeyContext() {
 
-    var testId := "Test-Branch-Key-For-HasUniqueTransformedKeys-Check";
+    var testId := "DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check";
 
     // Commented code that adds {"Robbie": "Is a dog."} to the dynamodb item "DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check" in table KeyStoreDdbTable
     // This code will create a branch key and make changes so that branch key item contains non unique branch key context key
