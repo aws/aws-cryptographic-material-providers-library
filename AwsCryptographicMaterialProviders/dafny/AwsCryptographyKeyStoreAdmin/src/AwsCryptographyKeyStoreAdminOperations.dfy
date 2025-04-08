@@ -283,6 +283,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   ): (output: Result<(), Error>)
   {
     if kmsArn.KmsMRKey?
+    // TODO : move error message to BKSA Error Messages
     then Failure(UnsupportedFeatureException(message := "At this time, the MRK configuration is not supported by the Admin client."))
     else Success(())
   }
@@ -302,7 +303,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       && input.EncryptionContext.None?
       ==> output.Failure?
   {
-    var _ :- KmsMrkKeyIsNotSupported(input.KmsArn);  
+    var _ :- KmsMrkKeyIsNotSupported(input.KmsArn);
     var hvInput :- ResolveHierarchyVersionForCreateKey(input.HierarchyVersion, config);
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     match hvInput {
