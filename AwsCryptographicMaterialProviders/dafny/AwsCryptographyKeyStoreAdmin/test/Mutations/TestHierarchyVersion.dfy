@@ -36,15 +36,15 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
 
     var mutationsRequest := Types.Mutations(
-    TerminalKmsArn := Some(Fixtures.postalHornKeyArn),
-    TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+      TerminalKmsArn := Some(Fixtures.postalHornKeyArn),
+      TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
     );
     var initInput := Types.InitializeMutationInput(
-    Identifier := testId,
-    Mutations := mutationsRequest,
-    Strategy := Some(strategy),
-    SystemKey := systemKey,
-    DoNotVersion := Some(true));
+      Identifier := testId,
+      Mutations := mutationsRequest,
+      Strategy := Some(strategy),
+      SystemKey := systemKey,
+      DoNotVersion := Some(true));
     var initializeOutput := underTest.InitializeMutation(initInput);
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     // TODO-HV2-M2: Uncomment these test. Currently, Failure(Types.KeyStoreAdminException(message :="At this time, Mutations do not support mutations to hierarchy-version-2.")) mask the UnexpectedStateException for NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
