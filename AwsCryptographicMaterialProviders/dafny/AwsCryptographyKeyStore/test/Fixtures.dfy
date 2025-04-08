@@ -102,6 +102,7 @@ module Fixtures {
   const KmsSrkConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnWest)
   const KmsMrkConfigAP : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnAP)
   const KmsMrkEC : Types.EncryptionContext := map[UTF8.EncodeAscii("abc") := UTF8.EncodeAscii("123")]
+  const RobbieEC : Types.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("is a dog.")]
   const EastBranchKey : string := "MyEastBranch2"
   const EastBranchKeyIdActiveVersion : string := "6f22825b-bd56-4434-83e2-2782e2160172"
   const EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
@@ -258,19 +259,14 @@ module Fixtures {
     return Success(keyStore);
   }
 
-  method KeyStoreWithOptionalClient(
-    nameonly kmsId: string := keyArn,
+  method KeyStoreFromKMSConfig(
+    nameonly kmsConfig: Types.KMSConfiguration,
     nameonly physicalName: string := branchKeyStoreName,
     nameonly logicalName: string := logicalKeyStoreName,
-    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
-    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None,
-    nameonly srkKey: bool := true,
-    nameonly mrkKey: bool := false
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
   )
     returns (output: Result<Types.IKeyStoreClient, Types.Error>)
     requires DDB.Types.IsValid_TableName(physicalName)
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    requires srkKey != mrkKey
     ensures output.Success? ==> output.value.ValidState()
     ensures output.Success?
             ==>
@@ -281,16 +277,6 @@ module Fixtures {
     if ddbClient?.Some? {
       assume {:axiom} fresh(ddbClient?.value) && fresh(ddbClient?.value.Modifies);
     }
-    if kmsClient?.Some? {
-      assume {:axiom} fresh(kmsClient?.value) && fresh(kmsClient?.value.Modifies);
-    }
-    expect srkKey != mrkKey;
-    var kmsConfig := if srkKey then
-      createSrkKMSConfig(kmsId)
-    else
-      createMrkKMSConfig(kmsId);
-    expect srkKey ==> kmsConfig.kmsKeyArn?;
-    expect mrkKey ==> kmsConfig.kmsMRKeyArn?;
     var keyStoreConfig := Types.KeyStoreConfig(
       id := None,
       kmsConfiguration := kmsConfig,
@@ -300,29 +286,10 @@ module Fixtures {
           Types.DynamoDBTable(
             ddbTableName := physicalName,
             ddbClient := ddbClient?
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := kmsClient?
           )))
     );
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
     return Success(keyStore);
-  }
-
-  function method createSrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    ensures output.kmsKeyArn?
-  {
-    Types.KMSConfiguration.kmsKeyArn(kmsId)
-  }
-
-  function method createMrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    ensures output.kmsMRKeyArn?
-  {
-    Types.KMSConfiguration.kmsMRKeyArn(kmsId)
   }
 
   datatype allThree = | allThree (
