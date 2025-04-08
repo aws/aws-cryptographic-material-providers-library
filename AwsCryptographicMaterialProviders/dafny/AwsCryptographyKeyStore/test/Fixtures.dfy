@@ -62,7 +62,6 @@ module Fixtures {
   const branchKeyStoreName := "KeyStoreDdbTable"
   const logicalKeyStoreName := branchKeyStoreName
   // hierarchy-version-1 branch key
-  // hierarchy-version-1 branch key
   const branchKeyId := "3f43a9af-08c5-4317-b694-3d3e883dcaef"
   const branchKeyIdActiveVersion := "a4905627-4b7f-4272-a847-f50dae245737"
   // This is branchKeyIdActiveVersion above, as utf8bytes
