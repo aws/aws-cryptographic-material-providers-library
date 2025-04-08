@@ -111,7 +111,28 @@ module RawAESKeyring {
 
     }
 
-    predicate OnEncryptEnsuresPublicly(input: Types.OnEncryptInput, output: Result<Types.OnEncryptOutput, Types.Error>) {true}
+    predicate OnEncryptEnsuresPublicly (
+      input: Types.OnEncryptInput ,
+      output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
+    {
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
+    }
 
     //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#onencrypt
     //= type=implication
@@ -125,12 +146,6 @@ module RawAESKeyring {
       ensures ValidState()
       ensures OnEncryptEnsuresPublicly(input, output)
       ensures unchanged(History)
-      ensures output.Success?
-              ==>
-                && Materials.ValidEncryptionMaterialsTransition(
-                  input.materials,
-                  output.value.materials
-                )
 
       // EDK created using expected AAD
       ensures output.Success?
@@ -231,7 +246,24 @@ module RawAESKeyring {
       }
     }
 
-    predicate OnDecryptEnsuresPublicly(input: Types.OnDecryptInput, output: Result<Types.OnDecryptOutput, Types.Error>){true}
+    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
+    {
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
+    }
 
     //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#ondecrypt
     //= type=implication
@@ -472,7 +504,8 @@ module RawAESKeyring {
              MaterialWrapping.WrapInput(
                plaintextMaterial := plaintextMaterial,
                algorithmSuite := input.algorithmSuite,
-               encryptionContext := input.encryptionContext
+               encryptionContext := input.encryptionContext,
+               serializedEC := input.serializedEC
              ),
              Success(MaterialWrapping.WrapOutput(
                        wrappedMaterial := res.value.wrappedMaterial,
@@ -509,7 +542,8 @@ module RawAESKeyring {
         MaterialWrapping.WrapInput(
           plaintextMaterial := plaintextMaterial,
           algorithmSuite := input.algorithmSuite,
-          encryptionContext := input.encryptionContext
+          encryptionContext := input.encryptionContext,
+          serializedEC := input.serializedEC
         ), []);
 
       res := Success(MaterialWrapping.GenerateAndWrapOutput(

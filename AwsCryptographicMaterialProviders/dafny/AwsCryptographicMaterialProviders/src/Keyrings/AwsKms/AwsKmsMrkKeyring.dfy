@@ -88,7 +88,28 @@ module AwsKmsMrkKeyring {
       Modifies := {History} + client.Modifies;
     }
 
-    predicate OnEncryptEnsuresPublicly ( input: Types.OnEncryptInput , output: Result<Types.OnEncryptOutput, Types.Error> ) {true}
+    predicate OnEncryptEnsuresPublicly (
+      input: Types.OnEncryptInput ,
+      output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
+    {
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
+    }
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-keyring.md#onencrypt
     //= type=implication
@@ -102,12 +123,6 @@ module AwsKmsMrkKeyring {
       ensures ValidState()
       ensures unchanged(History)
       ensures OnEncryptEnsuresPublicly(input, output)
-      ensures output.Success?
-              ==>
-                && Materials.ValidEncryptionMaterialsTransition(
-                  input.materials,
-                  output.value.materials
-                )
 
       ensures StringifyEncryptionContext(input.materials.encryptionContext).Failure?
               ==>
@@ -388,7 +403,24 @@ module AwsKmsMrkKeyring {
       }
     }
 
-    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> ) {true}
+    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
+    {
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
+    }
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-keyring.md#ondecrypt
     //= type=implication
@@ -604,6 +636,10 @@ module AwsKmsMrkKeyring {
                    == res.value.plaintextDataKey)
             && Last(client.History.Decrypt).output.value.KeyId == Some(awsKmsKey)
       )
+    }
+
+    predicate Requires(edk: Types.EncryptedDataKey){
+      true
     }
 
     method Invoke(

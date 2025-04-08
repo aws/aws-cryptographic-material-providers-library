@@ -84,7 +84,28 @@ module AwsKmsMrkDiscoveryKeyring {
       Modifies := {History} + client.Modifies;
     }
 
-    predicate OnEncryptEnsuresPublicly ( input: Types.OnEncryptInput , output: Result<Types.OnEncryptOutput, Types.Error> ) {true}
+    predicate OnEncryptEnsuresPublicly (
+      input: Types.OnEncryptInput ,
+      output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
+    {
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
+    }
 
     method OnEncrypt'(
       input: Types.OnEncryptInput
@@ -105,7 +126,24 @@ module AwsKmsMrkDiscoveryKeyring {
                        message := "Encryption is not supported with a Discovery Keyring."));
     }
 
-    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> ) {true}
+    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
+    {
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
+    }
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-discovery-keyring.md#ondecrypt
     //= type=implication
@@ -473,6 +511,10 @@ module AwsKmsMrkDiscoveryKeyring {
              materials.algorithmSuite.edkWrapping.DIRECT_KEY_WRAPPING? ==>
                Seq.Last(client.History.Decrypt).output.value.Plaintext
                == res.value.plaintextDataKey)
+    }
+
+    predicate Requires(helper: AwsKmsEdkHelper){
+      true
     }
 
     method Invoke(
