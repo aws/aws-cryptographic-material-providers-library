@@ -24,9 +24,6 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import AdminFixtures
   import TestGetKeys
 
-  const happyCaseId := "test-create-key-hv-2-happy-case"
-
-  // TODO-HV-2-M2 : Move this test to a better file or rename this file
   const testMutateForHV2SuccessCaseId := "dafny-initialize-mutation-hv-2-rejection"
   method {:test} TestMutateForHV2Succeeds()
   {
@@ -82,7 +79,6 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation for HV-1 with Simple.";
   }
 
-  // TODO-HV-2-M2 : Move this test to a better file or rename this file
   const testMutateInitEncountersHV2SucceedsCaseId := "dafny-initialize-mutation-encounters-hv-2-rejection"
   const logPrefix := "\n" + testMutateInitEncountersHV2SucceedsCaseId + " :: "
   method {:test} TestMutateInitEncountersHV2SucceedsCaseId()
