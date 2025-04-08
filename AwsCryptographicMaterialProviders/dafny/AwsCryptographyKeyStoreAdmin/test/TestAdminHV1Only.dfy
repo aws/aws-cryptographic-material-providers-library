@@ -5,10 +5,8 @@ include "../src/Index.dfy"
 include "../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 include "../../AwsCryptographyKeyStore/test/TestGetKeys.dfy"
-include "../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
 include "AdminFixtures.dfy"
 
-// TODO-HV-2-M1 : remove HV-1 restriction for CreateKey
 // TODO-HV-2-M2 : remove HV-1 restriction for Mutations
 module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import Types = AwsCryptographyKeyStoreAdminTypes
@@ -108,7 +106,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var testId := testMutateForHV2SuccessCaseId + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
-    var underTest :- expect AdminFixtures.DefaultAdmin();
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
     Fixtures.CreateHappyCaseId(id:=testId);
@@ -136,7 +134,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var testId := testMutateForHV1WithAwsKmsSimpleFailsCaseId + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
-    var underTest :- expect AdminFixtures.DefaultAdmin();
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var simpleStrategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
     Fixtures.CreateHappyCaseId(id:=testId);
@@ -165,7 +163,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var testId := testMutateInitEncountersHV2FailsCaseId + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
-    var underTest :- expect AdminFixtures.DefaultAdmin();
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
     Fixtures.CreateHappyCaseId(id:=testId);
@@ -175,7 +173,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
       alsoViolateBeacon? := true, ddbClient? := Some(ddbClient),
       kmsClient?:=Some(kmsClient), violateReservedAttribute:=true);
 
-    print logPrefix + "re-wrote the item to be described as HV-2 even though it's not" + "\n";
+    // print logPrefix + "re-wrote the item to be described as HV-2 even though it's not" + "\n";
 
     var mutationsRequest := Types.Mutations(TerminalKmsArn := Some(Fixtures.postalHornKeyArn));
     var initInput := Types.InitializeMutationInput(
@@ -186,13 +184,13 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
       DoNotVersion := Some(true));
     var initializeOutput := underTest.InitializeMutation(initInput);
 
-    print logPrefix + "initializeOutput :: ", initializeOutput, "\n";
+    // print logPrefix + "initializeOutput :: ", initializeOutput, "\n";
 
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     expect initializeOutput.Success?, "Should have failed InitializeMutation when HV-2 encountered by InitMutation.";
   }
 
-  // TODO-HV-2-M2 : Probably make this a happy test?
+  // TODO-HV-2-M3 : Probably make this a happy test?
   const testVersionKeyEncountersHV2FailsCaseId := "dafny-version-key-encounters-hv-2-rejection"
   const logPrefixVersion := "\n" + testVersionKeyEncountersHV2FailsCaseId + " :: "
   method {:test} TestVersionKeyEncountersHV2Fails()
@@ -201,7 +199,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var testId := testVersionKeyEncountersHV2FailsCaseId + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
-    var underTest :- expect AdminFixtures.DefaultAdmin();
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
     Fixtures.CreateHappyCaseId(id:=testId);
@@ -211,7 +209,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
       alsoViolateBeacon? := true, ddbClient? := Some(ddbClient),
       kmsClient?:=Some(kmsClient), violateReservedAttribute:=true);
 
-    print logPrefixVersion + "re-wrote the item to be described as HV-2 even though it's not" + "\n";
+    // print logPrefixVersion + "re-wrote the item to be described as HV-2 even though it's not" + "\n";
 
     var versionInput := Types.VersionKeyInput(
       Identifier := testId,
@@ -219,7 +217,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
       Strategy := Some(strategy));
     var actualOutput := underTest.VersionKey(versionInput);
 
-    print logPrefixVersion + "actualOutput :: ", actualOutput, "\n";
+    // print logPrefixVersion + "actualOutput :: ", actualOutput, "\n";
 
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     expect actualOutput.Failure?, "Should have failed VersionKey when HV-2 encountered by VersionKey.";

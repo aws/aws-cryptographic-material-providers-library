@@ -4,7 +4,8 @@
 include "../src/Index.dfy"
 include "Fixtures.dfy"
 include "CleanupItems.dfy"
-include "TestGetKeys.dfy"
+include "BranchKeyValidators.dfy"
+
 
 module {:options "/functionSyntax:4" } TestCreateKeys {
   import Types = AwsCryptographyKeyStoreTypes
@@ -21,92 +22,58 @@ module {:options "/functionSyntax:4" } TestCreateKeys {
   import KmsArn
   import UUID
   import AwsArnParsing
-  import TestGetKeys
+  import BranchKeyValidators
 
-  /*
-    // If you need to re-create the MRK Branch Keys
-  
-    method {:test} TestCreateMRK()
-    {
-      var ddbClient :- expect DDB.DynamoDBClient();
-  
-      var keyStoreConfigEast := Types.KeyStoreConfig(
-        id := None,
-        kmsConfiguration := KmsConfigEast,
-        logicalKeyStoreName := logicalKeyStoreName,
-        grantTokens := None,
-        ddbTableName := branchKeyStoreName,
-        ddbClient := Some(ddbClient)
-      );
-  
-      var keyStoreConfigWest := Types.KeyStoreConfig(
-        id := None,
-        kmsConfiguration := KmsConfigWest,
-        logicalKeyStoreName := logicalKeyStoreName,
-        grantTokens := None,
-        ddbTableName := branchKeyStoreName,
-        ddbClient := Some(ddbClient)
-      );
-  
-      var keyStoreEast :- expect KeyStore.KeyStore(keyStoreConfigEast);
-      var keyStoreWest :- expect KeyStore.KeyStore(keyStoreConfigWest);
-  
-      var branchKeyIdWest :- expect keyStoreWest.CreateKey(Types.CreateKeyInput(
-                                                             branchKeyIdentifier := Some(WestBranchKey),
-                                                             encryptionContext := Some(KmsMrkEC)
-                                                           ));
-  
-      var branchKeyIdEast :- expect keyStoreEast.CreateKey(Types.CreateKeyInput(
-                                                             branchKeyIdentifier := Some(EastBranchKey),
-                                                             encryptionContext := Some(KmsMrkEC)
-                                                           ));
-  
-      expect branchKeyIdEast.branchKeyIdentifier == EastBranchKey;
-      expect branchKeyIdWest.branchKeyIdentifier == WestBranchKey;
-    }
-  */
-
-  method {:test} TestCreateBranchAndBeaconKeys()
+  const happyCaseId := "test-happy-case-create-key-hv-1"
+  method {:test} TestCreateMRKForHV1()
   {
-    var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
+    var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
+    var keyStoreEast :- expect KeyStoreFromKMSConfig(
+      kmsConfig := KmsConfigEast,
+      ddbClient? := Some(ddbClient)
+    );
+    var uuid :- expect UUID.GenerateUUID();
+    var bkid := happyCaseId + "-east-mrk-" + uuid;
+    var bk :- expect keyStoreEast.CreateKey(
+      Types.CreateKeyInput(
+        branchKeyIdentifier := Some(bkid),
+        encryptionContext := Some(KmsMrkEC)
+      ));
+    expect bk.branchKeyIdentifier == bkid;
+    BranchKeyValidators.VerifyGetKeys(bkid, keyStoreEast, storage,
+                                      encryptionContext := KmsMrkEC);
+    var keyStoreWest :- expect KeyStoreFromKMSConfig(
+      // Passing in KmsMrkConfigWest causes the KMS Client to be created for us-west-2
+      // EastBranchKey's KMS-ARN is replicated to us-west-2
+      kmsConfig := KmsMrkConfigWest,
+      ddbClient? := Some(ddbClient)
+    );
+    BranchKeyValidators.VerifyGetKeys(bkid, keyStoreWest, storage,
+                                      encryptionContext := KmsMrkEC);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=bkid, ddbClient:=ddbClient);
+  }
+
+  method {:test} TestCreateSRKForHV1()
+  {
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
-
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      kmsConfiguration := kmsConfig,
-      logicalKeyStoreName := logicalKeyStoreName,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          ))),
-      keyManagement := Some(
-        Types.kms(
-          Types.AwsKms(
-            kmsClient := Some(kmsClient)
-          )))
+    var keyStore :- expect KeyStoreFromKMSConfig(
+      kmsConfig := kmsConfig,
+      ddbClient? := Some(ddbClient)
     );
-
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-
-    var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(
-                                                   branchKeyIdentifier := None,
-                                                   encryptionContext := None
-                                                 ));
-
-    // Get branch key items from storage
-    TestGetKeys.VerifyGetKeys(
-      identifier := branchKeyId.branchKeyIdentifier,
-      keyStore := keyStore,
-      storage := keyStore.config.storage
-    );
-
-    // Since this process uses a read DDB table,
-    // the number of records will forever increase.
-    // To avoid this, remove the items.
-    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyId.branchKeyIdentifier, ddbClient:=ddbClient);
+    var uuid :- expect UUID.GenerateUUID();
+    var bkid := happyCaseId + "-srk-" + uuid;
+    var bk :- expect keyStore.CreateKey(
+      Types.CreateKeyInput(
+        branchKeyIdentifier := Some(bkid),
+        encryptionContext := Some(KmsMrkEC)
+      ));
+    expect bk.branchKeyIdentifier == bkid;
+    BranchKeyValidators.VerifyGetKeys(bkid, keyStore, storage,
+                                      encryptionContext := KmsMrkEC);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=bkid, ddbClient:=ddbClient);
   }
 
   method {:test} TestCreateOptions()
