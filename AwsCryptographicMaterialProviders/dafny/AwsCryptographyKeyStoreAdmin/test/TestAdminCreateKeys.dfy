@@ -65,6 +65,8 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     var _ := CleanupItems.DeleteBranchKey(Identifier:=bkid, ddbClient:=ddbClient);
   }
 
+  // TODO-HV-2-M2?: Document that BKSA ONLY calls KMS/DDB for the region of the supplied clients.
+  // or Ensure BKSA has similar behavior as BKS in terms of MRK region.
   const happyCaseIdHV2 := "test-happy-case-admin-create-key-hv-2"
   method {:test} TestCreateMRKForHV2()
   {
@@ -117,7 +119,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var uuid :- expect UUID.GenerateUUID();
     var bkid := happyCaseIdHV2 + "-west-srk-" + uuid;
-    // Create an HV-2 BK with a West MRK by calling us-west-2
+    // Create an HV-2 BK with a West SRK by calling us-west-2
     var bk :- expect underTest.CreateKey(
       Types.CreateKeyInput(
         Identifier := Some(bkid),
@@ -128,11 +130,49 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
         HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
       ));
     expect bk.Identifier == bkid;
-    // Validate an HV-2 BK with a West MRK by calling us-east-1
+    // Validate an HV-2 BK with a West SRK by calling us-west-2
     BranchKeyValidators.VerifyGetKeys(bkid, keyStore, storage,
                                       encryptionContext := RobbieEC,
                                       hierarchyVersion := KeyStoreTypes.HierarchyVersion.v2);
     var _ := CleanupItems.DeleteBranchKey(Identifier:=bkid, ddbClient:=ddbClient);
   }
 
+  method {:test} TestCreateSRKForHV2NoEC()
+  {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+    var bk :- expect underTest.CreateKey(
+      Types.CreateKeyInput(
+        KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
+        Strategy := Some(strategy),
+        HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+      ));
+    BranchKeyValidators.VerifyGetKeys(bk.Identifier, keyStore, storage,
+                                      hierarchyVersion := KeyStoreTypes.HierarchyVersion.v2);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=bk.Identifier, ddbClient:=ddbClient);
+  }
+
+  method {:test} TestCreateSRKForHV2BkidWithNoECFails()
+  {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+    var uuid :- expect UUID.GenerateUUID();
+    var bkid := happyCaseIdHV2 + "-west-srk-no-ec-fails-" + uuid;
+    var bk? := underTest.CreateKey(
+      Types.CreateKeyInput(
+        Identifier := Some(bkid),
+        KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
+        Strategy := Some(strategy),
+        HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
+      ));
+    expect bk?.Failure?, "Admin CreateKey, with an Identifier, but no EC, MUST Fail";
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=bkid, ddbClient:=ddbClient);
+  }
 }
