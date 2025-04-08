@@ -55,7 +55,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     // Commented code creates a branch key and adds {"Koda": "Is a dog."} to the branch key item by violating the reserved attribute in table KeyStoreDdbTable
-    // Adding {"Koda": "Is a dog."} will NOT create a non unique branch key context 
+    // Adding {"Koda": "Is a dog."} will NOT create a non unique branch key context
     //
     // Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
     // var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
