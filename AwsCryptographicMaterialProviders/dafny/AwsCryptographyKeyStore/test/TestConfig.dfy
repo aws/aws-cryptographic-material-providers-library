@@ -3,7 +3,10 @@
 
 include "../src/Index.dfy"
 include "Fixtures.dfy"
+include "BranchKeyValidators.dfy"
 
+// This really tests the logic in BKS/Index.dfy
+// and KmsArn.dfy
 module TestConfig {
   import Types = AwsCryptographyKeyStoreTypes
   import ComAmazonawsKmsTypes
@@ -14,6 +17,7 @@ module TestConfig {
   import opened Fixtures
   import UUID
   import ErrorMessages = KeyStoreErrorMessages
+  import BranchKeyValidators
 
   method {:test} TestInvalidKmsKeyArnConfig() {
     var kmsClient :- expect KMS.KMSClient();
@@ -187,5 +191,23 @@ module TestConfig {
     );
     keyStore := KeyStore.KeyStore(keyStoreConfig);
     expect keyStore.Success?;
+  }
+
+  // Actually tests constructing a Key Store with no Clients
+  method {:test} TestGetKeysWithNoClients() {
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := Some(branchKeyStoreName),
+      ddbClient := None,
+      kmsClient := None
+    );
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+    var _ := BranchKeyValidators.testBeaconKeyHappyCase(keyStore, branchKeyId);
+    var _ := BranchKeyValidators.testActiveBranchKeyHappyCase(keyStore, branchKeyId, versionUtf8Bytes?:=Some(branchKeyIdActiveVersionUtf8Bytes));
+    var _ := BranchKeyValidators.testBranchKeyVersionHappyCase(keyStore, branchKeyId, branchKeyIdActiveVersion, branchKeyIdActiveVersionUtf8Bytes);
   }
 }
