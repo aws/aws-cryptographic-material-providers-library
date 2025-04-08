@@ -43,10 +43,8 @@ module {:options "/functionSyntax:4" } TestGetKeys {
   method {:test} TestGetMRKeySameRegionHappyCase()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
-    var keyStore :- expect KeyStoreWithOptionalClient(
-      kmsId := MrkArnWest,
-      physicalName := branchKeyStoreName,
-      logicalName := logicalKeyStoreName,
+    var keyStore :- expect KeyStoreFromKMSConfig(
+      kmsConfig := KmsMrkConfigWest,
       ddbClient? := Some(ddbClient)
     );
     var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
@@ -59,22 +57,13 @@ module {:options "/functionSyntax:4" } TestGetKeys {
   {
     var ddbClient :- expect DDB.DynamoDBClient();
     var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
-    var keyStoreConfigWest := Types.KeyStoreConfig(
-      id := None,
+    var keyStore :- expect KeyStoreFromKMSConfig(
       // Passing in KmsMrkConfigWest causes the KMS Client to be created for us-west-2
       // EastBranchKey's KMS-ARN is replicated to us-west-2
-      kmsConfiguration := KmsMrkConfigWest,
-      logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          )))
+      kmsConfig := KmsMrkConfigWest,
+      ddbClient? := Some(ddbClient)
     );
-    var keyStoreWest :- expect KeyStore.KeyStore(keyStoreConfigWest);
-    BranchKeyValidators.VerifyGetKeys(EastBranchKey, keyStoreWest, storage,
+    BranchKeyValidators.VerifyGetKeys(EastBranchKey, keyStore, storage,
                                       versionUtf8Bytes?:=Some(EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes),
                                       encryptionContext := KmsMrkEC);
   }
@@ -82,30 +71,14 @@ module {:options "/functionSyntax:4" } TestGetKeys {
   method {:test} TestGetMRKeyMrkNotReplicatedFails()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
-    // var keyStore :- expect KeyStoreWithOptionalClient(
-    //   kmsId := MrkArnAP,
-    //   ddbClient? := Some(ddbClient),
-    //   // By not creating KMS Client, we use the Index's create KMS Client logic, which creates the KMS Client for the region in KMS ARN
-    //   // in this case, that is AP-south-1, for which the MRK is NOT replicated, so this fails
-    //   mrkKey := true,
-    //   srkKey := false
-    // );
-
-    var keyStoreConfig := Types.KeyStoreConfig(
-      id := None,
-      // Passing in KmsMrkConfigWest causes the KMS Client to be created for ap-south-2
+    var keyStore :- expect KeyStoreFromKMSConfig(
+      // Passing in KmsMrkConfigAP causes the KMS Client to be created for ap-south-2
       // EastBranchKey's KMS-ARN is NOT replicated to ap-south-2
-      kmsConfiguration := KmsMrkConfigAP,
-      logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      storage := Some(
-        Types.ddb(
-          Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
-            ddbClient := Some(ddbClient)
-          )))
+      kmsConfig := KmsMrkConfigAP,
+      // However, we MUST pass in a DDB Client, as that needs to be created in us-west-2,
+      // or the error will be a DDB Error.
+      ddbClient? := Some(ddbClient)
     );
-    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
     testActiveBranchKeyKMSFailureCase(keyStore, EastBranchKey);
     testBeaconKeyKMSFailureCase(keyStore, EastBranchKey);
     testBranchKeyVersionKMSFailureCase(keyStore, EastBranchKey, EastBranchKeyIdActiveVersion);
@@ -113,17 +86,8 @@ module {:options "/functionSyntax:4" } TestGetKeys {
 
   method {:test} TestGetSRKeyButKmsArnOutOfRegionFails()
   {
-    // Creating the KMS client puts it in the default region; for our CI, that is us-west-2.
-    // The BK's KMS-ARN is not us-east-?;
-    var kmsClient :- expect KMS.KMSClient();
-    var ddbClient :- expect DDB.DynamoDBClient();
-    var keyStore :- expect KeyStoreWithOptionalClient(
-      kmsId := MrkArnWest,
-      ddbClient? := Some(ddbClient),
-      // By not creating KMS Client, we use the Index's create KMS Client logic, which creates the KMS Client for the region in KMS ARN
-      // in this case, that is us-west-2, for which the MRK is NOT replicated, so this fails
-      mrkKey := false,
-      srkKey := true
+    var keyStore :- expect KeyStoreFromKMSConfig(
+      kmsConfig := KmsConfigWest
     );
     GetActiveKeyWithIncorrectKmsKeyArnHelper(keyStore, EastBranchKey);
     GetBeaconKeyWithIncorrectKmsKeyArnHelper(keyStore, EastBranchKey);
@@ -326,6 +290,9 @@ module {:options "/functionSyntax:4" } TestGetKeys {
         branchKeyIdentifier := branchKeyId
       ));
     expect branchKeyResult.Failure?;
+    if (!branchKeyResult.error.ComAmazonawsKms?) {
+      print "Expected KMS Error, but got: ", branchKeyResult.error;
+    }
     expect branchKeyResult.error.ComAmazonawsKms?;
     expect branchKeyResult.error.ComAmazonawsKms.OpaqueWithText?;
   }
