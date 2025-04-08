@@ -458,6 +458,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       Types.KeyStoreAdminException(message := "At this time, Mutations do not support KeyManagementStrategy#AwsKmsSimple.")
     );
 
+    // TODO-HV-2-M2: Support mutations to HV-2
     if (
         && input.Mutations.TerminalHierarchyVersion.Some?
         && input.Mutations.TerminalHierarchyVersion.value.v2?
