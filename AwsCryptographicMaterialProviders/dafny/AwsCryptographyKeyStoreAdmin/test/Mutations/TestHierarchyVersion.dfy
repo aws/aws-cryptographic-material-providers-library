@@ -13,41 +13,20 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
   import Fixtures
   import opened Wrappers
 
-  method {:test} {:vcs_split_on_every_assert} TestInitializeMutationFailsWithNonUniqueBranchKeyContext() {
-    // Commented code that adds {"Robbie": "Is a dog."} to the dynamodb item
+  method {:test} TestInitializeMutationFailsWithNonUniqueBranchKeyContext() {
+
+    var testId := "Test-Branch-Key-For-HasUniqueTransformedKeys-Check";
+
+    // Commented code that adds {"Robbie": "Is a dog."} to the dynamodb item "DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check" in table KeyStoreDdbTable
     // This code will create a branch key and make changes so that branch key item contains non unique branch key context key
     //
-    // var ddbClient :- expect Fixtures.ProvideDDBClient();
-    // var kmsClient :- expect Fixtures.ProvideKMSClient();
-    // var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(Fixtures.keyArn);
-    // var keyStoreConfig := KeyStoreTypes.KeyStoreConfig(
-    //   id := None,
-    //   kmsConfiguration := kmsConfig,
-    //   logicalKeyStoreName := Fixtures.logicalKeyStoreName,
-    //   storage := Some(
-    //     KeyStoreTypes.ddb(
-    //       KeyStoreTypes.DynamoDBTable(
-    //         ddbTableName := Fixtures.branchKeyStoreName,
-    //         ddbClient := Some(ddbClient)
-    //       )))
-    // );
-    // var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-    // var ECkey := "Robbie";
-    // var ECvalue := "Is a dog.";
-    // var encryptionContext :- expect Fixtures.EncodeEncryptionContext(map[
-    //                                                           ECkey := ECvalue
-    //                                                         ]);
-    // var branchKeyId :- expect keyStore.CreateKey(KeyStoreTypes.CreateKeyInput(
-    //                                                branchKeyIdentifier := Some("DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check"),
-    //                                                encryptionContext := Some(encryptionContext)
-    //                                              ));
+    // Fixtures.CreateHappyCaseId(id:=testId);
     // var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
-    //   id:="DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check",
+    //   id:=testId,
     //   keyValue:=AdminFixtures.KeyValue(key:=ECkey, value:=ECvalue),
     //   alsoViolateBeacon? := true, ddbClient? := Some(ddbClient),
     //   kmsClient?:=Some(kmsClient), violateReservedAttribute:=true);
-
-    var testId := "DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check";
+    
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var underTest :- expect AdminFixtures.DefaultAdmin();
@@ -68,7 +47,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
 
     // TODO-HV-2-M2: Uncomment these test. Currently, Failure(Types.KeyStoreAdminException(message :="At this time, Mutations do not support mutations to hierarchy-version-2.")) mask the UnexpectedStateException for NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
-    // expect initializeOutput.error.KeyStoreAdminException?, "Should have KeyStoreAdminException";
-    // expect initializeOutput.error.message == KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS, "Incorrect error message. Should have had `KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS`";
+    expect initializeOutput.error.KeyStoreAdminException?, "Should have KeyStoreAdminException";
+    expect initializeOutput.error.message == KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS, "Incorrect error message. Should have had `KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS`";
   }
 }
