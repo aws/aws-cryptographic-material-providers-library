@@ -124,7 +124,7 @@ module CleanupItems {
   method DeleteBranchKey(
     nameonly Identifier: string,
     nameonly tableName: string := branchKeyStoreName,
-    nameonly hierarchyVersion: string := Structure.HIERARCHY_VERSION_VALUE,
+    nameonly hierarchyVersion: string := Structure.HIERARCHY_VERSION_VALUE_1,
     nameonly ddbClient: DDB.Types.IDynamoDBClient
   )
     returns (output: Result<bool, DDB.Types.Error>)

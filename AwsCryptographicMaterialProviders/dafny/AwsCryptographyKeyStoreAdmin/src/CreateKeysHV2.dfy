@@ -11,9 +11,7 @@ include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "../../AwsCryptographyKeyStore/src/KmsArn.dfy"
 include "SystemKey/ContentHandler.dfy"
 
-// TODO-HV-2-M1: WIP
 module {:options "/functionSyntax:4" } CreateKeysHV2 {
-  // TODO-HV-2-M1-FF: Group imports according to libraries
   import opened StandardLibrary
   import opened Wrappers
   import Structure
@@ -107,7 +105,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
         && kmsEncryptRequestForDecryptOnlyBKI.output.Success?
         && kmsEncryptRequestForActiveBKI.output.Success?
         && kmsEncryptRequestForBeaconBKI.output.Success?
-           // TODO-HV-2-M1-FF: Refactor EncryptionContext usage into BranchKeyContext
+           // TODO-HV-2-FF: Refactor EncryptionContext usage into BranchKeyContext
         && var decryptOnlyBranchKeyContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
                                                 branchKeyIdentifier,
                                                 branchKeyVersion,
