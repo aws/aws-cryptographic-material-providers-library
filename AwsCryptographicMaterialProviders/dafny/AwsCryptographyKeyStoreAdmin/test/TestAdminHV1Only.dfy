@@ -84,7 +84,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   method {:test} TestMutateInitEncountersHV2SucceedsCaseId()
   {
     var uuid :- expect UUID.GenerateUUID();
-    var testId := testMutateInitEncountersHV2FailsCaseId + "-" + uuid;
+    var testId := testMutateInitEncountersHV2SucceedsCaseId + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
