@@ -67,7 +67,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     var initializeOutput := underTest.InitializeMutation(initInput);
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
 
-    // TODO-HV2-M2: Uncomment these test. Currently, Failure(Types.KeyStoreAdminException(message :="At this time, Mutations do not support mutations to hierarchy-version-2.")) mask the UnexpectedStateException for NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+    // TODO-HV-2-M2: Uncomment these test. Currently, Failure(Types.KeyStoreAdminException(message :="At this time, Mutations do not support mutations to hierarchy-version-2.")) mask the UnexpectedStateException for NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
     // expect initializeOutput.error.KeyStoreAdminException?, "Should have KeyStoreAdminException";
     // expect initializeOutput.error.message == KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS, "Incorrect error message. Should have had `KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS`";
   }
