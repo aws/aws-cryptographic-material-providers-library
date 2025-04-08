@@ -42,7 +42,11 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=dHJ1c3RTdG9yYWdl&oenc=65001&oeol=CR
   const TRUST_STORAGE_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("trustStorage") // [116,114,117,115,116,83,116,111,114,97,103,101]
   const HIERARCHY_VERSION_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii(Structure.HIERARCHY_VERSION) // [116,114,117,115,116,83,116,111,114,97,103,101]
-  const HIERARCHY_VERSION_VALUE_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii(Structure.HIERARCHY_VERSION_VALUE)
+  // TODO-HV-2-M2: Update Mutations to support multiple hierarchy versions
+  // This change will:
+  // 1. Replace hardcoded HIERARCHY_VERSION_VALUE and/or add HierarchyVersion to types to handle both v1 and v2 versions
+  // 2. Suggestion, we MAY omit writing HIERARCHY_VERSION to storage for MutationCommitment and MutationIndex.
+  const HIERARCHY_VERSION_VALUE_UTF8_BYTES: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii(Structure.HIERARCHY_VERSION_VALUE_1)
 
   // TODO : Move type *ToSHA along with other constants to SystemKey.Constants
   type CommitmentContentToSHA =
