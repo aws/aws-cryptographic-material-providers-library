@@ -113,7 +113,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     Success(input)
   }
 
-  method {:only} {:isolate_assertions} InitializeMutation(
+  method {:isolate_assertions} InitializeMutation(
     input: InternalInitializeMutationInput
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
@@ -207,12 +207,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         && input.Mutations.TerminalHierarchyVersion.value.v2?
       ) {
       :- Need(
-        || HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext)
-        || (
-          && input.Mutations.TerminalEncryptionContext.Some?
-          && HvUtils.HasUniqueTransformedKeys?(input.Mutations.TerminalEncryptionContext.value)
-        ),
-        Types.KeyStoreAdminException(
+        HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
+        Types.UnexpectedStateException(
           message :=
             KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
         )
