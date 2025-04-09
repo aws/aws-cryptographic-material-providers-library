@@ -162,6 +162,22 @@ Resources:
             Action: "kms:*"
             Resource: "*"
 
+  HierarchicalGitHubKMSKeyIDWithoutEncrypt:
+    Type: "AWS::KMS::Key"
+    Properties:
+      Description: KMS Key for GitHub Action Workflow (Decrypt Only)
+      Enabled: true
+      KeyPolicy:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action:
+              - "kms:Decrypt"
+              - "kms:DescribeKey"
+            Resource: "*"
+
   KeyStoreAdminSystemKeyKmsSymEnc:
     Type: "AWS::KMS::Key"
     Properties:
@@ -239,7 +255,8 @@ Resources:
               ],
               "Resource": [
                 "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyID}",
-                "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDTwo}"
+                "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDTwo}",
+                "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDWithoutEncrypt}"
               ]
             },
             {
@@ -262,16 +279,7 @@ Resources:
                 "arn:aws:kms:*:${AWS::AccountId}:key/${EccP384}",
                 "arn:aws:kms:*:${AWS::AccountId}:key/${EccP521}"
               ]
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "kms:GenerateRandom"
-              ],
-              "Resource": [
-                "*"
-              ]
-            }   
+            }
           ]
         }
       ManagedPolicyName: Hierarchical-GitHub-KMS-Key-Policy
