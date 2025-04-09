@@ -8,6 +8,7 @@ include "MutationIndexUtils.dfy"
 include "SystemKey/Handler.dfy"
 include "Mutations.dfy"
 include "MutationErrorRefinement.dfy"
+include "KeyStoreAdminErrorMessages.dfy"
 
 module {:options "/functionSyntax:4" } InternalInitializeMutation {
   // StandardLibrary Imports
@@ -35,6 +36,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   import SystemKeyHandler = SystemKey.Handler
   import Mutations
   import MutationErrorRefinement
+  import ErrorMessages = KeyStoreAdminErrorMessages
 
   datatype InternalInitializeMutationInput = | InternalInitializeMutationInput (
     nameonly Identifier: string ,
@@ -73,6 +75,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && input.Mutations.TerminalKmsArn.Some?
       ==>
         && KmsArn.ValidKmsArn?(input.Mutations.TerminalKmsArn.value)
+    ensures
+      && input.Mutations.TerminalHierarchyVersion.Some?
+      && input.Mutations.TerminalHierarchyVersion.value.v1?
+      ==> output.Failure?
   {
     :- Need(|input.Identifier| > 0,
             Types.KeyStoreAdminException(message := "Branch Key Identifier cannot be empty!"));
@@ -108,7 +114,15 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     :- Need(StateStrucs.ValidMutations?(input.Mutations),
             Types.KeyStoreAdminException(
               message := "Mutations parameter is invalid; If Encryption Context is given, it cannot be empty or have empty values."));
+    :- Need(
+         !IsMutationsTerminalHV1?(input.Mutations),
+         Types.UnsupportedFeatureException(message := ErrorMessages.NO_MUTATE_TO_HV_1));
     Success(input)
+  }
+
+  predicate IsMutationsTerminalHV1?(mutations: Types.Mutations)
+  {
+    mutations.TerminalHierarchyVersion.Some? && mutations.TerminalHierarchyVersion.value.v1?
   }
 
   method {:isolate_assertions} InitializeMutation(
