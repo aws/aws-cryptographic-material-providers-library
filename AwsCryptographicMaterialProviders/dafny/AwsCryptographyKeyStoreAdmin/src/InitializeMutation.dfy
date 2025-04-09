@@ -291,7 +291,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     var isTerminalHv2 := input.Mutations.TerminalHierarchyVersion.Some? &&
                          input.Mutations.TerminalHierarchyVersion.value.v2?;
     if (isTerminalHv2) {
-      :- Need(input.keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only simple"));
+      // TODO-HV-2-M4: Support other key manager strategy
+      :- Need(input.keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));
       Mutations.Hv1ToHv2Mutation(
         activeItem,
         // For later: is activeItem.KmsArn the correct one?
