@@ -66,12 +66,7 @@ module Fixtures {
   const branchKeyIdActiveVersion := "a4905627-4b7f-4272-a847-f50dae245737"
   // This is branchKeyIdActiveVersion above, as utf8bytes
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTQ5MDU2MjctNGI3Zi00MjcyLWE4NDctZjUwZGFlMjQ1NzM3&oenc=65001
-  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTQ5MDU2MjctNGI3Zi00MjcyLWE4NDctZjUwZGFlMjQ1NzM3&oenc=65001
   const branchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
-    97, 52, 57, 48, 53, 54, 50, 55, 45, 52,
-    98, 55, 102, 45, 52, 50, 55, 50, 45, 97,
-    56, 52, 55, 45, 102, 53, 48, 100, 97, 101,
-    50, 52, 53, 55, 51, 55
     97, 52, 57, 48, 53, 54, 50, 55, 45, 52,
     98, 55, 102, 45, 52, 50, 55, 50, 45, 97,
     56, 52, 55, 45, 102, 53, 48, 100, 97, 101,
@@ -83,15 +78,7 @@ module Fixtures {
   const hv2BranchKeyVersion := "a0496b5c-e048-42bc-8b75-68a004851803"
   // This is hv2BranchKeyVersion above, as utf8bytes
   // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTA0OTZiNWMtZTA0OC00MmJjLThiNzUtNjhhMDA0ODUxODAz&oenc=65001
-  // hierarchy-version-2 branch key
-  const hv2BranchKeyId := "4a0c7b92-3703-4209-8961-24b07ab6562b"
-  const hv2BranchKeyVersion := "a0496b5c-e048-42bc-8b75-68a004851803"
-  // This is hv2BranchKeyVersion above, as utf8bytes
-  // https://cyberchef.infosec.amazon.dev/#recipe=Encode_text('UTF-8%20(65001)')To_Decimal('Comma',false)&input=YTA0OTZiNWMtZTA0OC00MmJjLThiNzUtNjhhMDA0ODUxODAz&oenc=65001
   const hv2BranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
-    97, 48, 52, 57, 54, 98, 53, 99, 45, 101, 48, 52,
-    56, 45, 52, 50, 98, 99, 45, 56, 98, 55, 53, 45,
-    54, 56, 97, 48, 48, 52, 56, 53, 49, 56, 48, 51
     97, 48, 52, 57, 54, 98, 53, 99, 45, 101, 48, 52,
     56, 45, 52, 50, 98, 99, 45, 56, 98, 55, 53, 45,
     54, 56, 97, 48, 48, 52, 56, 53, 49, 56, 48, 51
@@ -116,7 +103,6 @@ module Fixtures {
   const KmsMrkConfigAP : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnAP)
   const KmsMrkEC : Types.EncryptionContext := map[UTF8.EncodeAscii("abc") := UTF8.EncodeAscii("123")]
   const RobbieEC : Types.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("is a dog.")]
-  const RobbieEC : Types.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("is a dog.")]
   const EastBranchKey : string := "MyEastBranch2"
   const EastBranchKeyIdActiveVersion : string := "6f22825b-bd56-4434-83e2-2782e2160172"
   const EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
@@ -124,19 +110,7 @@ module Fixtures {
     53, 54, 45, 52, 52, 51, 52, 45, 56, 51, 101, 50,
     45, 50, 55, 56, 50, 101, 50, 49, 54, 48, 49, 55, 50
   ]
-  const EastBranchKeyIdActiveVersion : string := "6f22825b-bd56-4434-83e2-2782e2160172"
-  const EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
-    54, 102, 50, 50, 56, 50, 53, 98, 45, 98, 100,
-    53, 54, 45, 52, 52, 51, 52, 45, 56, 51, 101, 50,
-    45, 50, 55, 56, 50, 101, 50, 49, 54, 48, 49, 55, 50
-  ]
   const WestBranchKey : string := "MyWestBranch2"
-  const WestBranchKeyIdActiveVersion : string := "094715a4-b98d-4c98-bf50-17422a8938f4"
-  const WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
-    48, 57, 52, 55, 49, 53, 97, 52, 45, 98, 57, 56,
-    100, 45, 52, 99, 57, 56, 45, 98, 102, 53, 48, 45,
-    49, 55, 52, 50, 50, 97, 56, 57, 51, 56, 102, 52
-  ]
   const WestBranchKeyIdActiveVersion : string := "094715a4-b98d-4c98-bf50-17422a8938f4"
   const WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
     48, 57, 52, 55, 49, 53, 97, 52, 45, 98, 57, 56,
@@ -287,11 +261,8 @@ module Fixtures {
 
   method KeyStoreFromKMSConfig(
     nameonly kmsConfig: Types.KMSConfiguration,
-  method KeyStoreFromKMSConfig(
-    nameonly kmsConfig: Types.KMSConfiguration,
     nameonly physicalName: string := branchKeyStoreName,
     nameonly logicalName: string := logicalKeyStoreName,
-    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
     nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
   )
     returns (output: Result<Types.IKeyStoreClient, Types.Error>)
@@ -319,34 +290,6 @@ module Fixtures {
     );
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
     return Success(keyStore);
-  }
-
-  function method createSrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    ensures output.kmsKeyArn?
-  {
-    Types.KMSConfiguration.kmsKeyArn(kmsId)
-  }
-
-  function method createMrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    ensures output.kmsMRKeyArn?
-  {
-    Types.KMSConfiguration.kmsMRKeyArn(kmsId)
-  }
-
-  function method createSrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    ensures output.kmsKeyArn?
-  {
-    Types.KMSConfiguration.kmsKeyArn(kmsId)
-  }
-
-  function method createMrkKMSConfig(kmsId: string) : (output: Types.KMSConfiguration)
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    ensures output.kmsMRKeyArn?
-  {
-    Types.KMSConfiguration.kmsMRKeyArn(kmsId)
   }
 
   datatype allThree = | allThree (
