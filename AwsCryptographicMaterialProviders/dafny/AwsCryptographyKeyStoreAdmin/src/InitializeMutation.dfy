@@ -22,8 +22,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   import AwsKmsUtils
     // KeyStore Imports
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
+  import HvUtils = HierarchicalVersionUtils
   import Structure
   import DefaultKeyStorageInterface
+  import KeyStoreErrorMessages
   import KmsArn
   import KMSKeystoreOperations
     // KeyStoreAdmin Imports
@@ -195,19 +197,15 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Types.KeyStoreAdminException(
         message := "Active Branch Key Item read from storage is malformed!")
     );
-    if (
-        && input.Mutations.TerminalHierarchyVersion.Some?
-        && input.Mutations.TerminalHierarchyVersion.value.v2?
-      ) {
-      // TODO-HV-2-M2 : Check combination of terminalEC and inferredEC for unique EC
-      :- Need(
-        HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
-        Types.KeyStoreAdminException(
-          message :=
-            KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
-        )
-      );
-    }
+    var isTerminalHv2 := input.Mutations.TerminalHierarchyVersion.Some? &&
+                         input.Mutations.TerminalHierarchyVersion.value.v2?;
+    :- Need(
+      !isTerminalHv2 || HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
+      Types.KeyStoreAdminException(
+        message :=
+          KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+      )
+    );
     :- Need(
       || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
@@ -269,6 +267,12 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       );
       terminalEC? := Some(terminalEC);
       assert terminalEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
+      :- Need(
+        && (!isTerminalHv2 || HvUtils.HasUniqueTransformedKeys?(terminalEC)),
+        Types.KeyStoreAdminException(
+          message := KeyStoreErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE
+        )
+      );
     }
 
     assert KmsArn.ValidKmsArn?(activeItem.KmsArn);
