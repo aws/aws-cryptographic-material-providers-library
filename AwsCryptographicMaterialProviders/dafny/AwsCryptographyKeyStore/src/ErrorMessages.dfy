@@ -72,7 +72,7 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
   const NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS :=
     "Duplicate attribute name found in branch key item after removing prefix 'aws-crypto-ec'."
 
-   // TODO-HV-2-M3 : Revise Error message
+  // TODO-HV-2-M3 : Revise Error message
   const NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE :=
     "Duplicate attribute name found in terminal encryption context key and existing attribute in non reserved attribute without 'aws-crypto-ec'."
 }
