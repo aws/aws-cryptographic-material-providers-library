@@ -218,32 +218,31 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
       Failure("Unable to decode string")
   }
 
-  // function HierarchyVersionToString(version: Types.HierarchyVersion): (output: string)
-  //   ensures output == Structure.HIERARCHY_VERSION_VALUE_1 || output == Structure.HIERARCHY_VERSION_VALUE_2
-  //   ensures StringToHierarchyVersion(output).Success? && StringToHierarchyVersion(output).value == version
-  // {
-  //   match version {
-  //     case v1 => Structure.HIERARCHY_VERSION_VALUE_1
-  //     case v2 => Structure.HIERARCHY_VERSION_VALUE_2
-  //   }
-  // }
+  function HierarchyVersionToString(version: Types.HierarchyVersion): (output: string)
+    ensures StringIsValidHierarchyVersion?(output)
+    ensures  StringToHierarchyVersion(output) == version
+  {
+    match version {
+      case v1 => Structure.HIERARCHY_VERSION_VALUE_1
+      case v2 => Structure.HIERARCHY_VERSION_VALUE_2
+    }
+  }
 
-  // function StringToHierarchyVersion(version: string): (output: Result<Types.HierarchyVersion, Types.Error>)
-  //   ensures version == Structure.HIERARCHY_VERSION_VALUE_1 ==> output.Success? && output.value.v1?
-  //   ensures version == Structure.HIERARCHY_VERSION_VALUE_2 ==> output.Success? && output.value.v2?
-  //   ensures version != Structure.HIERARCHY_VERSION_VALUE_1 && version != Structure.HIERARCHY_VERSION_VALUE_2 ==> output.Failure?
-  // {
-  //   match version
-  //   case HIERARCHY_VERSION_VALUE_1 => Success(Types.HierarchyVersion.v1)
-  //   case HIERARCHY_VERSION_VALUE_2 => Success(Types.HierarchyVersion.v2)
-  //   case _ => Failure(Types.KeyStoreException(
-  //                       message := KeyStoreErrorMessages.INVALID_HIERARCHY_VERSION
-  //                     ))
-  // }
+  function StringToHierarchyVersion(version: string): (output: Types.HierarchyVersion)
+    requires StringIsValidHierarchyVersion?(version)
+    ensures version == Structure.HIERARCHY_VERSION_VALUE_1 ==> output.v1?
+    ensures version == Structure.HIERARCHY_VERSION_VALUE_2 ==> output.v2?
+  {
+    if version == Structure.HIERARCHY_VERSION_VALUE_1 then Types.HierarchyVersion.v1 else Types.HierarchyVersion.v2
+  }
 
-  // lemma HierarchyVersionRoundTrip(version: Types.HierarchyVersion)
-  //   ensures StringToHierarchyVersion(HierarchyVersionToString(version)).Success?
-  //   ensures StringToHierarchyVersion(HierarchyVersionToString(version)).value == version
-  // {
-  // }
+  lemma HierarchyVersionRoundTrip(version: Types.HierarchyVersion)
+    ensures StringToHierarchyVersion(HierarchyVersionToString(version)) == version
+  {
+  }
+
+  predicate StringIsValidHierarchyVersion?(version: string)
+  {
+    version == Structure.HIERARCHY_VERSION_VALUE_1 || version == Structure.HIERARCHY_VERSION_VALUE_2
+  }
 }
