@@ -162,7 +162,7 @@ Resources:
             Action: "kms:*"
             Resource: "*"
 
-  KmsKeyForHV1Only:
+  KmsKeyForHV1ReEncryptStrategy:
     Type: "AWS::KMS::Key"
     Properties:
       Description: KMS Key for GitHub Action Workflow for HV1 Only Branch Keys
@@ -278,7 +278,7 @@ Resources:
                 "kms:Decrypt"
               ],
               "Resource": [
-                "arn:aws:kms:*:${AWS::AccountId}:key/${KmsKeyForHV1Only}"
+                "arn:aws:kms:*:${AWS::AccountId}:key/${KmsKeyForHV1ReEncryptStrategy}"
               ]
             }, 
             {
