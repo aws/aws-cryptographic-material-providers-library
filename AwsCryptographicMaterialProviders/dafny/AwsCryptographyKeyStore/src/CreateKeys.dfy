@@ -421,8 +421,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= type=implication
               //# If creation of the keys are successful,
               //# then the key store MUST call the configured [KeyStorage interface's](./key-store/key-storage.md#interface)
-              //# [WriteNewEncryptedBranchKeyVersion](./key-store/key-storage.md##writenewencryptedbranchkeyversion)
-              //# with these 2 [EncryptedHierarchicalKeys](./key-store/key-storage.md##encryptedhierarchicalkey).
+              //# [WriteNewEncryptedBranchKeyVersion](./key-store/key-storage.md#writenewencryptedbranchkeyversion)
+              //# with an [OverWriteEncryptedHierarchicalKey](./key-store/key-storage.md#overwriteencryptedhierarchicalkey)
+              //# with an `Item` that is the new ACTIVE
+              //# and an `Old` that is the original ACTIVE,
+              //# along with DECRYPT_ONLY.
               && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Active.Item
                  == Structure.ConstructEncryptedHierarchicalKey(
                       Seq.Last(kmsClient.History.ReEncrypt).input.DestinationEncryptionContext.value,

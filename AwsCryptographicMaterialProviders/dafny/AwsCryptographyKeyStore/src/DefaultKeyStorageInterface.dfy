@@ -479,9 +479,10 @@ module DefaultKeyStorageInterface {
                     //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#writenewencryptedbranchkeyversion
                     //= type=implication
                     //#- PUT:
-                    //#  - Item: A [record formatted item](#record-format) constructed from the active input
-                    //#  - ConditionExpression: `attribute_exists(branch-key-id)`
-                    //#  - TableName: the configured Table Name
+                    //#- Item: A [record formatted item](#record-format) constructed from the active input
+                    //#- ConditionExpression: `attribute_exists(branch-key-id) AND enc = :encOld`
+                    //#- ExpressionAttributeValues: `{":encOld" := DDB.AttributeValue.B(oldCiphertextBlob)}`
+                    //#- TableName: the configured Table Name
                     TransactOverwriteHKey(
                       input.Active.Item,
                       input.Active.Old,

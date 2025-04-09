@@ -393,7 +393,7 @@ structure WriteNewEncryptedBranchKeyOutput {}
 //= type=implication
 //# The WriteNewEncryptedBranchKeyVersion caller MUST provide:
 //#
-//#- An [EncryptedHierarchicalKey](#encryptedhierarchicalkey) with a [type](#type) of ActiveHierarchicalSymmetricVersion
+//#- An [OverWriteEncryptedHierarchicalKey](#overwriteencryptedhierarchicalkey) with both `Item` and `Old` with [type](#type) of ActiveHierarchicalSymmetricVersion
 //#- An [EncryptedHierarchicalKey](#encryptedhierarchicalkey) with a [type](#type) of HierarchicalSymmetricVersion
 @documentation("
 The information required to atomically write a new version for an existing branch key into a key store.
