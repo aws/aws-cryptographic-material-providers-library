@@ -207,28 +207,7 @@ module AwsKmsHierarchicalKeyring {
       }
     }
 
-    predicate OnEncryptEnsuresPublicly (
-      input: Types.OnEncryptInput ,
-      output: Result<Types.OnEncryptOutput, Types.Error> )
-      : (outcome: bool)
-      ensures
-        outcome ==>
-          output.Success?
-          ==>
-            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
-            && Materials.ValidEncryptionMaterialsTransition(
-                 input.materials,
-                 output.value.materials
-               )
-    {
-      output.Success?
-      ==>
-        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
-        && Materials.ValidEncryptionMaterialsTransition(
-             input.materials,
-             output.value.materials
-           )
-    }
+    predicate OnEncryptEnsuresPublicly ( input: Types.OnEncryptInput , output: Result<Types.OnEncryptOutput, Types.Error> ) {true}
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#onencrypt
     //= type=implication
@@ -242,6 +221,12 @@ module AwsKmsHierarchicalKeyring {
       ensures ValidState()
       ensures OnEncryptEnsuresPublicly(input, res)
       ensures unchanged(History)
+      ensures res.Success?
+              ==>
+                && Materials.ValidEncryptionMaterialsTransition(
+                  input.materials,
+                  res.value.materials
+                )
     {
       var materials := input.materials;
       var suite := materials.algorithmSuite;
@@ -324,24 +309,7 @@ module AwsKmsHierarchicalKeyring {
       }
     }
 
-    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
-      : (outcome: bool)
-      ensures
-        outcome ==>
-          output.Success?
-          ==>
-            && Materials.DecryptionMaterialsTransitionIsValid(
-              input.materials,
-              output.value.materials
-            )
-    {
-      output.Success?
-      ==>
-        && Materials.DecryptionMaterialsTransitionIsValid(
-          input.materials,
-          output.value.materials
-        )
-    }
+    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> ) {true}
     method OnDecrypt'(input: Types.OnDecryptInput)
       returns (res: Result<Types.OnDecryptOutput, Types.Error>)
       requires ValidState()
@@ -351,6 +319,11 @@ module AwsKmsHierarchicalKeyring {
       ensures OnDecryptEnsuresPublicly(input, res)
       ensures unchanged(History)
 
+      ensures res.Success?
+              ==>
+                && Materials.DecryptionMaterialsTransitionIsValid(
+                  input.materials,
+                  res.value.materials)
     {
       var materials := input.materials;
       var suite := input.materials.algorithmSuite;
@@ -536,7 +509,11 @@ module AwsKmsHierarchicalKeyring {
 
         return Success(branchKeyMaterials);
       } else {
-        :- Need(getCacheOutput.value.materials.BranchKey?, E("Invalid Material Type."));
+        :- Need(
+          && getCacheOutput.value.materials.BranchKey?
+          && getCacheOutput.value.materials == Types.Materials.BranchKey(getCacheOutput.value.materials.BranchKey),
+          E("Invalid Material Type.")
+        );
         return Success(getCacheOutput.value.materials.BranchKey);
       }
     }
@@ -620,9 +597,7 @@ module AwsKmsHierarchicalKeyring {
         && res.Success?
         && res.value
         ==>
-          && edk.keyProviderId == PROVIDER_ID_HIERARCHY
-          && UTF8.ValidUTF8Seq(edk.keyProviderInfo)
-      )
+          edk.keyProviderId == PROVIDER_ID_HIERARCHY)
     }
 
     method Invoke(edk: Types.EncryptedDataKey)
@@ -638,14 +613,16 @@ module AwsKmsHierarchicalKeyring {
         return Success(false);
       }
 
-      // We filter out values that do not match,
-      // Therefore we know that this provider ID is UTF8 encoded
-      assert UTF8.ValidUTF8Seq(PROVIDER_ID_HIERARCHY);
-      assert providerId == PROVIDER_ID_HIERARCHY;
+      if !UTF8.ValidUTF8Seq(providerInfo) {
+        // The Keyring produces UTF8 keyProviderInfo.
+        // If an `aws-kms-hierarchy` encrypted data key's keyProviderInfo is not UTF8
+        // this is an error, not simply an EDK to filter out.
+        return Failure(E("Invalid encoding, provider info is not UTF8."));
+      }
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#ondecrypt
       //# -- The deserialized key provider info MUST be UTF8 Decoded
-      var branchKeyId :- UTF8.Decode(providerInfo).MapFailure(e => E("Invalid encoding, provider info is not UTF8."));
+      var branchKeyId :- UTF8.Decode(providerInfo).MapFailure(WrapStringToError);
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#ondecrypt
       //#  MUST match this keyring's configured `Branch Key Identifier`.
@@ -725,23 +702,20 @@ module AwsKmsHierarchicalKeyring {
         && Materials.DecryptionMaterialsTransitionIsValid(materials, res.value)
 
     }
-
-    predicate Requires(edk: Types.EncryptedDataKey){
-      && UTF8.ValidUTF8Seq(edk.keyProviderInfo)
-    }
     method Invoke(
       edk: Types.EncryptedDataKey,
       ghost attemptsState: seq<ActionInvoke<Types.EncryptedDataKey, Result<Materials.SealedDecryptionMaterials, Types.Error>>>
     ) returns (res: Result<Materials.SealedDecryptionMaterials, Types.Error>)
       requires Invariant()
-      requires Requires(edk)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
       ensures Ensures(edk, res, attemptsState)
     {
-
-      assert UTF8.ValidUTF8Seq(edk.keyProviderId);
+      :- Need (
+        UTF8.ValidUTF8Seq(edk.keyProviderInfo),
+        Types.AwsCryptographicMaterialProvidersException(message := "Received invalid EDK provider info for Hierarchical Keyring")
+      );
 
       var suite := materials.algorithmSuite;
       var keyProviderId := edk.keyProviderId;
@@ -832,7 +806,7 @@ module AwsKmsHierarchicalKeyring {
         UTF8.IsASCIIString(branchKeyVersion),
         E("Unable to represent as an ASCII string.")
       );
-      var versionBytes :- UTF8.Encode(branchKeyVersion).MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
+      var versionBytes := UTF8.EncodeAscii(branchKeyVersion);
 
       // Create the suffix
       var suffix : seq<uint8> := logicalKeyStoreNameBytes + NULL_BYTE + branchKeyIdUtf8 + NULL_BYTE + versionBytes;
@@ -846,7 +820,11 @@ module AwsKmsHierarchicalKeyring {
       var maybeCacheDigest := Digest.Digest(identifierDigestInput);
       var cacheDigest :- maybeCacheDigest.MapFailure(e => Types.AwsCryptographyPrimitives(e));
 
-      assert |cacheDigest| == Digest.Length(hashAlgorithm);
+      :- Need(
+        |cacheDigest| == Digest.Length(hashAlgorithm),
+        Types.AwsCryptographicMaterialProvidersException(
+          message := "Digest generated a message not equal to the expected length.")
+      );
 
       return Success(cacheDigest);
     }
@@ -920,7 +898,11 @@ module AwsKmsHierarchicalKeyring {
 
         return Success(branchKeyMaterials);
       } else {
-        :- Need(getCacheOutput.value.materials.BranchKey?, E("Invalid Material Type."));
+        :- Need(
+          && getCacheOutput.value.materials.BranchKey?
+          && getCacheOutput.value.materials == Types.Materials.BranchKey(getCacheOutput.value.materials.BranchKey),
+          E("Invalid Material Type.")
+        );
         return Success(getCacheOutput.value.materials.BranchKey);
       }
     }
@@ -1008,7 +990,6 @@ module AwsKmsHierarchicalKeyring {
       ghost attemptsState: seq<ActionInvoke<MaterialWrapping.UnwrapInput, Result<MaterialWrapping.UnwrapOutput<HierarchyUnwrapInfo>, Types.Error>>>
     ) returns (res: Result<MaterialWrapping.UnwrapOutput<HierarchyUnwrapInfo>, Types.Error>)
       requires Invariant()
-      requires Requires(input)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
@@ -1034,7 +1015,7 @@ module AwsKmsHierarchicalKeyring {
       var wrappedKey := wrappedMaterial[EDK_CIPHERTEXT_VERSION_INDEX.. EDK_CIPHERTEXT_VERSION_INDEX + KeyLength];
       var authTag := wrappedMaterial[EDK_CIPHERTEXT_VERSION_INDEX + KeyLength..];
 
-      var serializedEC :- input.serializedEC;
+      var serializedEC :- CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext);
       var wrappingAad := WrappingAad(branchKeyIdUtf8, branchKeyVersionAsBytes, serializedEC);
       var derivedBranchKey :- DeriveEncryptionKeyFromBranchKey(
         branchKey,
@@ -1055,7 +1036,10 @@ module AwsKmsHierarchicalKeyring {
       );
       var unwrappedPdk :- maybeUnwrappedPdk.MapFailure(e => Types.AwsCryptographyPrimitives(AwsCryptographyPrimitives := e));
 
-      assert |unwrappedPdk| == AlgorithmSuites.GetEncryptKeyLength(input.algorithmSuite) as nat;
+      :- Need(
+        |unwrappedPdk| == AlgorithmSuites.GetEncryptKeyLength(input.algorithmSuite) as nat,
+        E("Invalid Key Length")
+      );
 
       var output := MaterialWrapping.UnwrapOutput(
         unwrappedMaterial := unwrappedPdk,
@@ -1121,7 +1105,6 @@ module AwsKmsHierarchicalKeyring {
       ghost attemptsState: seq<ActionInvoke<MaterialWrapping.GenerateAndWrapInput, Result<MaterialWrapping.GenerateAndWrapOutput<HierarchyWrapInfo>, Types.Error>>>
     ) returns (res: Result<MaterialWrapping.GenerateAndWrapOutput<HierarchyWrapInfo>, Types.Error>)
       requires Invariant()
-      requires Requires(input)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
@@ -1144,8 +1127,7 @@ module AwsKmsHierarchicalKeyring {
         MaterialWrapping.WrapInput(
           plaintextMaterial := pdk,
           algorithmSuite := input.algorithmSuite,
-          encryptionContext := input.encryptionContext,
-          serializedEC := input.serializedEC
+          encryptionContext := input.encryptionContext
         ), []);
 
       var output := MaterialWrapping.GenerateAndWrapOutput(
@@ -1227,7 +1209,6 @@ module AwsKmsHierarchicalKeyring {
       ghost attemptsState: seq<ActionInvoke<MaterialWrapping.WrapInput, Result<MaterialWrapping.WrapOutput<HierarchyWrapInfo>, Types.Error>>>
     ) returns (res: Result<MaterialWrapping.WrapOutput<HierarchyWrapInfo>, Types.Error>)
       requires Invariant()
-      requires Requires(input)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
@@ -1259,7 +1240,7 @@ module AwsKmsHierarchicalKeyring {
       //  1. [version](../structures.md#branch-key-version) as Bytes
       //  1. [encryption context](structures.md#encryption-context-1) from the input
       //     [encryption materials](../structures.md#encryption-materials) according to the [encryption context serialization specification](../structures.md#serialization).
-      var serializedEC :- input.serializedEC;
+      var serializedEC :- CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext);
       var wrappingAad := WrappingAad(branchKeyIdUtf8, branchKeyVersionAsBytes, serializedEC);
 
       var derivedBranchKey :- DeriveEncryptionKeyFromBranchKey(

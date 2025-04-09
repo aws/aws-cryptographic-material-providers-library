@@ -122,28 +122,7 @@ module RawRSAKeyring {
       Modifies := { History } + cryptoPrimitives.Modifies;
     }
 
-    predicate OnEncryptEnsuresPublicly (
-      input: Types.OnEncryptInput ,
-      output: Result<Types.OnEncryptOutput, Types.Error> )
-      : (outcome: bool)
-      ensures
-        outcome ==>
-          output.Success?
-          ==>
-            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
-            && Materials.ValidEncryptionMaterialsTransition(
-                 input.materials,
-                 output.value.materials
-               )
-    {
-      output.Success?
-      ==>
-        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
-        && Materials.ValidEncryptionMaterialsTransition(
-             input.materials,
-             output.value.materials
-           )
-    }
+    predicate OnEncryptEnsuresPublicly(input: Types.OnEncryptInput, output: Result<Types.OnEncryptOutput, Types.Error>) {true}
 
     //= aws-encryption-sdk-specification/framework/raw-rsa-keyring.md#onencrypt
     //= type=implication
@@ -157,6 +136,13 @@ module RawRSAKeyring {
       ensures ValidState()
       ensures OnEncryptEnsuresPublicly(input, output)
       ensures unchanged(History)
+      ensures
+        output.Success?
+        ==>
+          && Materials.ValidEncryptionMaterialsTransition(
+            input.materials,
+            output.value.materials
+          )
 
       //= aws-encryption-sdk-specification/framework/raw-rsa-keyring.md#onencrypt
       //= type=implication
@@ -277,24 +263,7 @@ module RawRSAKeyring {
       }
     }
 
-    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
-      : (outcome: bool)
-      ensures
-        outcome ==>
-          output.Success?
-          ==>
-            && Materials.DecryptionMaterialsTransitionIsValid(
-              input.materials,
-              output.value.materials
-            )
-    {
-      output.Success?
-      ==>
-        && Materials.DecryptionMaterialsTransitionIsValid(
-          input.materials,
-          output.value.materials
-        )
-    }
+    predicate OnDecryptEnsuresPublicly(input: Types.OnDecryptInput, output: Result<Types.OnDecryptOutput, Types.Error>){true}
 
     //= aws-encryption-sdk-specification/framework/raw-rsa-keyring.md#ondecrypt
     //= type=implication
@@ -520,8 +489,7 @@ module RawRSAKeyring {
         MaterialWrapping.WrapInput(
           plaintextMaterial := plaintextMaterial,
           algorithmSuite := input.algorithmSuite,
-          encryptionContext := input.encryptionContext,
-          serializedEC := input.serializedEC
+          encryptionContext := input.encryptionContext
         ), []);
 
       var output := MaterialWrapping.GenerateAndWrapOutput(

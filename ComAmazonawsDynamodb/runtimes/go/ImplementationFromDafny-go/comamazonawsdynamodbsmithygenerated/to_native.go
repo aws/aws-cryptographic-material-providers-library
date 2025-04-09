@@ -2136,15 +2136,18 @@ func Com_amazonaws_dynamodb_AttributeValue_N_FromDafny(input interface{}) string
 }
 func Com_amazonaws_dynamodb_AttributeValue_B_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Com_amazonaws_dynamodb_AttributeValue_SS_FromDafny(input interface{}) []string {
@@ -2213,15 +2216,18 @@ func Com_amazonaws_dynamodb_AttributeValue_BS_FromDafny(input interface{}) [][]b
 }
 func Com_amazonaws_dynamodb_BinarySetAttributeValue_member_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Com_amazonaws_dynamodb_AttributeValue_M_FromDafny(input interface{}) map[string]types.AttributeValue {

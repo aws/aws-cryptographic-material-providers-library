@@ -59,21 +59,6 @@ module StandardLibrary.UInt {
     x0 + s[1] as uint16
   }
 
-  function method SeqPosToUInt16(s: seq<uint8>, pos : nat): (x: uint16)
-    requires |s| >= pos+2
-    ensures UInt16ToSeq(x) == s[pos..pos+2]
-    ensures x >= 0
-  {
-    var x0 := s[pos] as uint16 * 0x100;
-    x0 + s[pos+1] as uint16
-  }
-
-  lemma SeqPosToUInt16Same(s: seq<uint8>, pos : nat)
-    requires |s| >= pos+2
-    ensures UInt16ToSeq(SeqPosToUInt16(s, pos)) == s[pos..pos+2]
-    ensures SeqToUInt16(s[pos..pos+2]) == SeqPosToUInt16(s, pos)
-  {}
-
   lemma UInt16SeqSerializeDeserialize(x: uint16)
     ensures SeqToUInt16(UInt16ToSeq(x)) == x
   {}

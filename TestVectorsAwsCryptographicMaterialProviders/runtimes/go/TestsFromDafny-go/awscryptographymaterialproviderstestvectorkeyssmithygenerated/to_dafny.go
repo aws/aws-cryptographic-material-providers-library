@@ -726,7 +726,7 @@ func Aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextC
 func Aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_requiredEncryptionContextKeys_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := awscryptographymaterialproviderssmithygenerated.Aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -738,7 +738,7 @@ func Aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextC
 func Aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_ToDafny(input []awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -869,14 +869,14 @@ func Aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_forOper
 
 func Aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionInput_json_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
@@ -976,14 +976,14 @@ func Aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionInp
 
 func Aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionOutput_json_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 

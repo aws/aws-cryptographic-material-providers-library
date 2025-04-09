@@ -299,8 +299,7 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
         MaterialWrapping.WrapInput(
           plaintextMaterial := pdk,
           algorithmSuite := input.algorithmSuite,
-          encryptionContext := input.encryptionContext,
-          serializedEC := input.serializedEC
+          encryptionContext := input.encryptionContext
         ), []);
 
       var output := MaterialWrapping.GenerateAndWrapOutput(

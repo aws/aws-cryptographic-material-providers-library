@@ -26,7 +26,7 @@ impl crate::UUID::_default {
                 Ok(u) => {
                     let b = u.as_bytes();
                     dafny_runtime::Rc::new(_Wrappers_Compile::Result::Success { value :
-                        dafny_runtime::Sequence::from_array_owned(b.to_vec())
+                        b.iter().cloned().collect()
                     })
                 }
                 Err(e) => {
@@ -47,7 +47,7 @@ impl crate::UUID::_default {
             ::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>,
         >,
     > {
-        let vec = &bytes.to_array();
+        let vec: Vec<u8> = bytes.iter().collect();
         if vec.len() != 16 {
             return dafny_runtime::Rc::new(_Wrappers_Compile::Result::Failure{ error :
                     dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string("Not 16 bytes of input to FromByteArray.")

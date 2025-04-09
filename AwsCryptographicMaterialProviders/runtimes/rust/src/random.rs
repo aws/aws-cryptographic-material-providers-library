@@ -15,9 +15,7 @@ impl crate::ExternRandom::_default {
     ) -> ::dafny_runtime::Rc<
         _Wrappers_Compile::Result<
             ::dafny_runtime::Sequence<u8>,
-            ::dafny_runtime::Rc<
-                software::amazon::cryptography::primitives::internaldafny::types::Error,
-            >,
+            ::dafny_runtime::Rc<software::amazon::cryptography::primitives::internaldafny::types::Error>,
         >,
     > {
         let mut rand_bytes: Vec<u8> = vec![0; num_bytes as usize];
@@ -25,7 +23,7 @@ impl crate::ExternRandom::_default {
         Ok(_) => {
           ::dafny_runtime::Rc::new(
             _Wrappers_Compile::Result::Success{value :
-              dafny_runtime::Sequence::from_array_owned(rand_bytes)
+              dafny_runtime::dafny_runtime_conversions::vec_to_dafny_sequence(&rand_bytes, |x| *x)
             }
           )
         }

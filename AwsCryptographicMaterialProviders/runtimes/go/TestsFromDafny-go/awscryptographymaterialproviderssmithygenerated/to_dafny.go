@@ -776,7 +776,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_discov
 func Aws_cryptography_materialProviders_DiscoveryFilter_accountIds_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_AccountIdList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -816,7 +816,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryKeyringInput_grantT
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -841,7 +841,7 @@ func Aws_cryptography_materialProviders_GrantTokenList_member_ToDafny(input stri
 func Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_regions_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_RegionList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -877,7 +877,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsDiscoveryMultiKeyringInput_g
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -945,27 +945,27 @@ func Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_send
 
 func Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderPublicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
 	}()
 }
 
 func Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_recipientPublicKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
@@ -1004,7 +1004,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_grantTokens
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1262,7 +1262,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_grantTokens_ToD
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1289,7 +1289,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_gra
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1314,7 +1314,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryKeyringInput_reg
 func Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInput_regions_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_RegionList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1337,7 +1337,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsMrkDiscoveryMultiKeyringInpu
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1368,7 +1368,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsMrkKeyringInput_grantTokens_
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1397,7 +1397,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_kmsKeyI
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_KmsKeyIdList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1424,7 +1424,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsMrkMultiKeyringInput_grantTo
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1453,7 +1453,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_kmsKeyIds_
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_KmsKeyIdList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1467,7 +1467,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_grantToken
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1478,14 +1478,14 @@ func Aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_grantToken
 
 func Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_publicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
 	}()
 }
 
@@ -1542,7 +1542,7 @@ func Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_grantTokens_
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1588,7 +1588,7 @@ func Aws_cryptography_materialProviders_CreateCryptographicMaterialsCacheInput_c
 func Aws_cryptography_materialProviders_CreateMultiKeyringInput_childKeyrings_ToDafny(input []awscryptographymaterialproviderssmithygeneratedtypes.IKeyring) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Keyring_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1625,14 +1625,14 @@ func Aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyName_ToDafny
 
 func Aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
@@ -1691,14 +1691,14 @@ func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_PublicKeyDis
 
 func Aws_cryptography_materialProviders_PublicKeyDiscoveryInput_recipientStaticPrivateKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
@@ -1711,27 +1711,27 @@ func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_RawPrivateKe
 
 func Aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_senderStaticPrivateKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
 func Aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_recipientPublicKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
@@ -1744,14 +1744,14 @@ func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_EphemeralPri
 
 func Aws_cryptography_materialProviders_EphemeralPrivateKeyToStaticPublicKeyInput_recipientPublicKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
@@ -1835,34 +1835,34 @@ func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_paddingScheme_T
 
 func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_publicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
 	}()
 }
 
 func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_privateKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
 	}()
 }
 
 func Aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -1966,14 +1966,14 @@ func Aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_ToDafny(input awscr
 
 func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_binaryId_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
@@ -2352,7 +2352,7 @@ func Aws_cryptography_materialProviders_EncryptionContext_value_ToDafny(input st
 func Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionContextKeys_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -2363,40 +2363,40 @@ func Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionCo
 
 func Aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
 	}()
 }
 
 func Aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
 	}()
 }
 
 func Aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
 	}()
 }
 
@@ -2420,7 +2420,7 @@ func Aws_cryptography_materialProviders_EncryptionMaterials_encryptionContext_To
 func Aws_cryptography_materialProviders_EncryptionMaterials_encryptedDataKeys_ToDafny(input []awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_EncryptedDataKeyList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -2455,34 +2455,34 @@ func Aws_cryptography_materialProviders_EncryptedDataKey_keyProviderId_ToDafny(i
 
 func Aws_cryptography_materialProviders_EncryptedDataKey_keyProviderInfo_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
 func Aws_cryptography_materialProviders_EncryptedDataKey_ciphertext_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
 func Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -2493,27 +2493,27 @@ func Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionCo
 
 func Aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
 	}()
 }
 
 func Aws_cryptography_materialProviders_EncryptionMaterials_signingKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
 	}()
 }
 
@@ -2522,7 +2522,7 @@ func Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_SymmetricSigningKeyList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -2533,27 +2533,27 @@ func Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys
 
 func Aws_cryptography_materialProviders_SymmetricSigningKeyList_member_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
 func Aws_cryptography_materialProviders_GetAlgorithmSuiteInfoInput_binaryId_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
@@ -2587,7 +2587,7 @@ func Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_encry
 func Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_requiredEncryptionContextKeys_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -2626,7 +2626,7 @@ func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_encry
 func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requiredEncryptionContextKeys_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -2637,27 +2637,27 @@ func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requi
 
 func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_signingKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
 	}()
 }
 
 func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_verificationKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
 	}()
 }
 
@@ -2851,27 +2851,27 @@ func Aws_cryptography_materialProviders_GetClientOutput_client_ToDafny(input *km
 
 func Aws_cryptography_materialProviders_DeleteCacheEntryInput_identifier_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
 func Aws_cryptography_materialProviders_GetCacheEntryInput_identifier_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
@@ -2965,14 +2965,14 @@ func Aws_cryptography_materialProviders_GetCacheEntryOutput_bytesUsed_ToDafny(in
 
 func Aws_cryptography_materialProviders_PutCacheEntryInput_identifier_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
@@ -3033,14 +3033,14 @@ func Aws_cryptography_materialProviders_PutCacheEntryInput_bytesUsed_ToDafny(inp
 
 func Aws_cryptography_materialProviders_UpdateUsageMetadataInput_identifier_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
+		var v []interface{}
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOf(v...)
 	}()
 }
 
@@ -3088,7 +3088,7 @@ func Aws_cryptography_materialProviders_DecryptMaterialsInput_commitmentPolicy_T
 func Aws_cryptography_materialProviders_DecryptMaterialsInput_encryptedDataKeys_ToDafny(input []awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_EncryptedDataKeyList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -3184,7 +3184,7 @@ func Aws_cryptography_materialProviders_GetEncryptionMaterialsInput_requiredEncr
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -3210,7 +3210,7 @@ func Aws_cryptography_materialProviders_OnDecryptInput_materials_ToDafny(input a
 func Aws_cryptography_materialProviders_OnDecryptInput_encryptedDataKeys_ToDafny(input []awscryptographymaterialproviderssmithygeneratedtypes.EncryptedDataKey) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		var fieldValue []interface{} = make([]interface{}, 0)
 		for _, val := range input {
 			element := Aws_cryptography_materialProviders_EncryptedDataKeyList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)

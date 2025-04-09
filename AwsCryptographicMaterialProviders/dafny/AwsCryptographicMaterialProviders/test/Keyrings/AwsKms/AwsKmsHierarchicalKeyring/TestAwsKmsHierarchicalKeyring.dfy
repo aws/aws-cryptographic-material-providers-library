@@ -43,21 +43,9 @@ module TestAwsKmsHierarchicalKeyring {
   const BRANCH_KEY_ID := Fixtures.branchKeyId
 
   // Constants for TestBranchKeySupplier
-  const BRANCH_KEY : UTF8.ValidUTF8Bytes :=
-    var s := [0x62, 0x72, 0x61, 0x6e, 0x63, 0x68, 0x4b, 0x65, 0x79];
-    assert s == UTF8.EncodeAscii("branchKey");
-    s
-
-  const CASE_A : UTF8.ValidUTF8Bytes :=
-    var s := [0x63, 0x61, 0x73, 0x65, 0x41];
-    assert s == UTF8.EncodeAscii("caseA");
-    s
-
-  const CASE_B : UTF8.ValidUTF8Bytes :=
-    var s := [0x63, 0x61, 0x73, 0x65, 0x42];
-    assert s == UTF8.EncodeAscii("caseB");
-    s
-
+  const BRANCH_KEY := UTF8.EncodeAscii("branchKey")
+  const CASE_A := UTF8.EncodeAscii("caseA")
+  const CASE_B := UTF8.EncodeAscii("caseB")
   const BRANCH_KEY_ID_A := BRANCH_KEY_ID
   const BRANCH_KEY_ID_B := Fixtures.branchKeyIdWithEC
 

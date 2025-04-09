@@ -883,28 +883,34 @@ func Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_send
 }
 func Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderPublicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_CreateAwsKmsEcdhKeyringInput_curveSpec_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec {
@@ -1389,15 +1395,18 @@ func Aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_grantToken
 }
 func Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_publicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_kmsKeyId_FromDafny(input interface{}) string {
@@ -1523,15 +1532,18 @@ func Aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyName_FromDaf
 }
 func Aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingAlg_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AesWrappingAlg {
@@ -1582,15 +1594,18 @@ func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_PublicKeyDis
 }
 func Aws_cryptography_materialProviders_PublicKeyDiscoveryInput_recipientStaticPrivateKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_RawPrivateKeyToStaticPublicKey_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.RawPrivateKeyToStaticPublicKeyInput {
@@ -1600,28 +1615,34 @@ func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_RawPrivateKe
 }
 func Aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_senderStaticPrivateKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_EphemeralPrivateKeyToStaticPublicKey_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.EphemeralPrivateKeyToStaticPublicKeyInput {
@@ -1629,15 +1650,18 @@ func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_EphemeralPri
 }
 func Aws_cryptography_materialProviders_EphemeralPrivateKeyToStaticPublicKeyInput_recipientPublicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_CreateRawEcdhKeyringInput_curveSpec_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec {
@@ -1696,28 +1720,34 @@ func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_paddingScheme_F
 }
 func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_publicKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_privateKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_CreateRequiredEncryptionContextCMMInput_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
@@ -1811,15 +1841,18 @@ func Aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_FromDafny(input int
 }
 func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_binaryId_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_messageVersion_FromDafny(input interface{}) int32 {
@@ -2170,41 +2203,50 @@ func Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionCo
 }
 func Aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_EncryptionMaterials_algorithmSuite_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteInfo {
@@ -2264,28 +2306,34 @@ func Aws_cryptography_materialProviders_EncryptedDataKey_keyProviderId_FromDafny
 }
 func Aws_cryptography_materialProviders_EncryptedDataKey_keyProviderInfo_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_EncryptedDataKey_ciphertext_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionContextKeys_FromDafny(input interface{}) []string {
@@ -2301,28 +2349,34 @@ func Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionCo
 }
 func Aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_EncryptionMaterials_signingKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys_FromDafny(input interface{}) [][]byte {
@@ -2341,28 +2395,34 @@ func Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys
 }
 func Aws_cryptography_materialProviders_SymmetricSigningKeyList_member_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_GetAlgorithmSuiteInfoInput_binaryId_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
@@ -2457,28 +2517,34 @@ func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requi
 }
 func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_signingKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_verificationKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_ValidateCommitmentPolicyOnDecryptInput_algorithm_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.AlgorithmSuiteId {
@@ -2674,28 +2740,34 @@ func Aws_cryptography_materialProviders_GetClientOutput_client_FromDafny(input i
 }
 func Aws_cryptography_materialProviders_DeleteCacheEntryInput_identifier_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_GetCacheEntryInput_identifier_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_GetCacheEntryInput_bytesUsed_FromDafny(input interface{}) *int64 {
@@ -2800,15 +2872,18 @@ func Aws_cryptography_materialProviders_GetCacheEntryOutput_bytesUsed_FromDafny(
 }
 func Aws_cryptography_materialProviders_PutCacheEntryInput_identifier_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_PutCacheEntryInput_materials_FromDafny(input interface{}) awscryptographymaterialproviderssmithygeneratedtypes.Materials {
@@ -2878,15 +2953,18 @@ func Aws_cryptography_materialProviders_PutCacheEntryInput_bytesUsed_FromDafny(i
 }
 func Aws_cryptography_materialProviders_UpdateUsageMetadataInput_identifier_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_materialProviders_UpdateUsageMetadataInput_bytesUsed_FromDafny(input interface{}) int32 {

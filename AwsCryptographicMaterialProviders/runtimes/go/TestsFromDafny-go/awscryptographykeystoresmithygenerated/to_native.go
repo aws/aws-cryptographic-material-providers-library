@@ -289,15 +289,18 @@ func Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_FromDafny(in
 }
 func Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_keyStore_GetBeaconKeyInput_branchKeyIdentifier_FromDafny(input interface{}) string {
@@ -342,15 +345,18 @@ func Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_FromDafny(in
 }
 func Aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_keyStore_BeaconKeyMaterials_hmacKeys_FromDafny(input interface{}) map[string][]byte {
@@ -379,15 +385,18 @@ func Aws_cryptography_keyStore_HmacKeyMap_key_FromDafny(input interface{}) strin
 }
 func Aws_cryptography_keyStore_HmacKeyMap_value_FromDafny(input interface{}) []byte {
 	return func() []byte {
+		b := []byte{}
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
+		for i := dafny.Iterate(input); ; {
+			val, ok := i()
+			if !ok {
+				return b
+			} else {
+				b = append(b, val.(byte))
+			}
 		}
-		return b
 	}()
 }
 func Aws_cryptography_keyStore_GetBranchKeyVersionInput_branchKeyIdentifier_FromDafny(input interface{}) string {

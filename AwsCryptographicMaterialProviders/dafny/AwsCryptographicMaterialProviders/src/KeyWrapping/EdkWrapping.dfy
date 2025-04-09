@@ -93,9 +93,7 @@ module EdkWrapping {
           WrapInput(
             plaintextMaterial := encryptionMaterials.plaintextDataKey.value,
             algorithmSuite := encryptionMaterials.algorithmSuite,
-            encryptionContext := encryptionMaterials.encryptionContext,
-            serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(encryptionMaterials.encryptionContext)
-          ),
+            encryptionContext := encryptionMaterials.encryptionContext),
           Success(wrapRes),
           [])
 
@@ -115,9 +113,7 @@ module EdkWrapping {
         && generateAndWrap.Ensures(
              MaterialWrapping.GenerateAndWrapInput(
                algorithmSuite := encryptionMaterials.algorithmSuite,
-               encryptionContext := encryptionMaterials.encryptionContext,
-               serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(encryptionMaterials.encryptionContext)
-             ),
+               encryptionContext := encryptionMaterials.encryptionContext),
              Success(
                MaterialWrapping.GenerateAndWrapOutput(
                  plaintextMaterial := ret.value.intermediateMaterial.value,
@@ -142,9 +138,7 @@ module EdkWrapping {
         && generateAndWrap.Ensures(
              MaterialWrapping.GenerateAndWrapInput(
                algorithmSuite := encryptionMaterials.algorithmSuite,
-               encryptionContext := encryptionMaterials.encryptionContext,
-               serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(encryptionMaterials.encryptionContext)
-             ),
+               encryptionContext := encryptionMaterials.encryptionContext),
              Success(generateAndWrapRes),
              [])
         && |ret.value.plaintextDataKey| == AlgorithmSuites.GetEncryptKeyLength(encryptionMaterials.algorithmSuite) as nat
@@ -164,9 +158,7 @@ module EdkWrapping {
         && generateAndWrap.Ensures(
              MaterialWrapping.GenerateAndWrapInput(
                algorithmSuite := encryptionMaterials.algorithmSuite,
-               encryptionContext := encryptionMaterials.encryptionContext,
-               serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(encryptionMaterials.encryptionContext)
-             ),
+               encryptionContext := encryptionMaterials.encryptionContext),
              Success(
                MaterialWrapping.GenerateAndWrapOutput(
                  plaintextMaterial := ret.value.intermediateMaterial.value,
@@ -176,7 +168,6 @@ module EdkWrapping {
                  wrapInfo := ret.value.wrapInfo)),
              [])
   {
-    // It would be nice if we could require this.
     :- Need(Materials.ValidEncryptionMaterials(encryptionMaterials),
             Types.AwsCryptographicMaterialProvidersException(
               message := "Invalid materials for encryption."));
@@ -188,8 +179,7 @@ module EdkWrapping {
         WrapInput(
           plaintextMaterial := encryptionMaterials.plaintextDataKey.value,
           algorithmSuite := encryptionMaterials.algorithmSuite,
-          encryptionContext := encryptionMaterials.encryptionContext,
-          serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(encryptionMaterials.encryptionContext)
+          encryptionContext := encryptionMaterials.encryptionContext
         ), []);
 
       return Success(
@@ -225,8 +215,7 @@ module EdkWrapping {
       var directOutput :- generateAndWrap.Invoke(
         MaterialWrapping.GenerateAndWrapInput(
           algorithmSuite := encryptionMaterials.algorithmSuite,
-          encryptionContext := encryptionMaterials.encryptionContext,
-          serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(encryptionMaterials.encryptionContext)
+          encryptionContext := encryptionMaterials.encryptionContext
         ), []);
 
       return Success(
@@ -284,9 +273,7 @@ module EdkWrapping {
                 UnwrapInput(
                   wrappedMaterial := wrappedMaterial,
                   algorithmSuite := decryptionMaterials.algorithmSuite,
-                  encryptionContext := decryptionMaterials.encryptionContext,
-                  serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(decryptionMaterials.encryptionContext)
-                ),
+                  encryptionContext := decryptionMaterials.encryptionContext),
                 Failure(ret.error),
                 [])
 
@@ -306,13 +293,10 @@ module EdkWrapping {
                 UnwrapInput(
                   wrappedMaterial := maybeProviderWrappedMaterial.value,
                   algorithmSuite := decryptionMaterials.algorithmSuite,
-                  encryptionContext := decryptionMaterials.encryptionContext,
-                  serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(decryptionMaterials.encryptionContext)
-                ),
+                  encryptionContext := decryptionMaterials.encryptionContext),
                 Success(unwrapRes),
                 [])
   {
-    // TODO require this
     :- Need(Materials.ValidDecryptionMaterials(decryptionMaterials),
             Types.AwsCryptographicMaterialProvidersException(
               message := "Invalid materials for decryption."));
@@ -322,11 +306,8 @@ module EdkWrapping {
         UnwrapInput(
           wrappedMaterial := wrappedMaterial,
           algorithmSuite := decryptionMaterials.algorithmSuite,
-          encryptionContext := decryptionMaterials.encryptionContext,
-          serializedEC := CanonicalEncryptionContext.EncryptionContextToAAD(decryptionMaterials.encryptionContext)
-        ),
-        []
-      );
+          encryptionContext := decryptionMaterials.encryptionContext
+        ), []);
 
       return Success(
           UnwrapEdkMaterialOutput(

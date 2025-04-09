@@ -133,28 +133,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
     }
 
 
-    ghost     predicate OnEncryptEnsuresPublicly (
-      input: Types.OnEncryptInput ,
-      output: Result<Types.OnEncryptOutput, Types.Error> )
-      : (outcome: bool)
-      ensures
-        outcome ==>
-          output.Success?
-          ==>
-            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
-            && Materials.ValidEncryptionMaterialsTransition(
-                 input.materials,
-                 output.value.materials
-               )
-    {
-      output.Success?
-      ==>
-        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
-        && Materials.ValidEncryptionMaterialsTransition(
-             input.materials,
-             output.value.materials
-           )
-    }
+    ghost predicate OnEncryptEnsuresPublicly ( input: Types.OnEncryptInput , output: Result<Types.OnEncryptOutput, Types.Error> ) {true}
 
     //= aws-encryption-sdk-specification/framework/raw-ecdh-keyring.md#onencrypt
     //= type=implication
@@ -167,6 +146,12 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
       ensures ValidState()
       ensures OnEncryptEnsuresPublicly(input, res)
       ensures unchanged(History)
+      ensures res.Success?
+              ==>
+                && Materials.ValidEncryptionMaterialsTransition(
+                  input.materials,
+                  res.value.materials
+                )
       //= aws-encryption-sdk-specification/framework/raw-ecdh-keyring.md#onencrypt
       //= type=implication
       //# OnEncrypt MUST fail if configured with a
@@ -303,24 +288,7 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
       }
     }
 
-    ghost predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
-      : (outcome: bool)
-      ensures
-        outcome ==>
-          output.Success?
-          ==>
-            && Materials.DecryptionMaterialsTransitionIsValid(
-              input.materials,
-              output.value.materials
-            )
-    {
-      output.Success?
-      ==>
-        && Materials.DecryptionMaterialsTransitionIsValid(
-          input.materials,
-          output.value.materials
-        )
-    }
+    ghost predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> ) {true}
 
     method {:vcs_split_on_every_assert} OnDecrypt'(input: Types.OnDecryptInput)
       returns (res: Result<Types.OnDecryptOutput, Types.Error>)
@@ -445,7 +413,6 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
         ==>
           (edk.keyProviderId == KMS_ECDH_PROVIDER_ID ||
            edk.keyProviderId == RAW_ECDH_PROVIDER_ID)
-          && UTF8.ValidUTF8Seq(edk.keyProviderId)
       )
     }
 
@@ -573,11 +540,6 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
         && Materials.DecryptionMaterialsTransitionIsValid(materials, res.value)
 
     }
-
-    ghost predicate Requires(edk: Types.EncryptedDataKey){
-      && UTF8.ValidUTF8Seq(edk.keyProviderId)
-    }
-
     method {:vcs_split_on_every_assert} Invoke(
       edk: Types.EncryptedDataKey,
       ghost attemptsState: seq<ActionInvoke<Types.EncryptedDataKey, Result<Materials.SealedDecryptionMaterials, Types.Error>>>
@@ -588,7 +550,10 @@ module {:options "/functionSyntax:4" } RawECDHKeyring {
       ensures Invariant()
       ensures Ensures(edk, res, attemptsState)
     {
-      assert UTF8.ValidUTF8Seq(edk.keyProviderId);
+      :- Need (
+        UTF8.ValidUTF8Seq(edk.keyProviderId),
+        Types.AwsCryptographicMaterialProvidersException(message := "Received invalid EDK provider id for AWS KMS ECDH Keyring")
+      );
 
       var suite := materials.algorithmSuite;
       var keyProviderId := edk.keyProviderId;
