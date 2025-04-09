@@ -112,7 +112,6 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
 
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     expect initializeOutput.Success?, "Should have failed InitializeMutation when HV-2 encountered by InitMutation.";
-    expect initializeOutput.Success?, "Should have failed InitializeMutation when HV-2 encountered by InitMutation.";
   }
 
   // TODO-HV-2-M3 : Probably make this a happy test?
