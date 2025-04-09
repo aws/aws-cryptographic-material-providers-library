@@ -165,7 +165,7 @@ Resources:
   HierarchicalGitHubKMSKeyIDWithoutEncrypt:
     Type: "AWS::KMS::Key"
     Properties:
-      Description: KMS Key for GitHub Action Workflow (Decrypt Only)
+      Description: KMS Key for GitHub Action Workflow (Decrypt Only IAM Permissions)
       Enabled: true
       KeyPolicy:
         Version: 2012-10-17
@@ -173,9 +173,7 @@ Resources:
           - Effect: Allow
             Principal:
               AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
-            Action:
-              - "kms:Decrypt"
-              - "kms:DescribeKey"
+            Action: "kms:*"
             Resource: "*"
 
   KeyStoreAdminSystemKeyKmsSymEnc:
@@ -255,10 +253,19 @@ Resources:
               ],
               "Resource": [
                 "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyID}",
-                "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDTwo}",
-                "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDWithoutEncrypt}"
+                "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDTwo}"
               ]
             },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "kms:DescribeKey",
+                "kms:Decrypt"
+              ],
+              "Resource": [
+                "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDWithoutEncrypt}"
+              ]
+            },  
             {
               "Effect": "Allow",
               "Action": [
