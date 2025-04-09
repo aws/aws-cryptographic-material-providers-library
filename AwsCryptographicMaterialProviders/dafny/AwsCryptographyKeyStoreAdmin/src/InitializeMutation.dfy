@@ -288,15 +288,19 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     assert MutationToApply.Original.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     assert MutationToApply.Terminal.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     assert MutationToApply.ValidState();
-
-    Mutations.Hv1ToHv2Mutation(
-      activeItem,
-      // For later: is activeItem.KmsArn the correct one?
-      kmsUtils.KmsSymmetricKeyArnToKMSConfiguration(activeItem.KmsArn),
-      // Need check for it to be kms simple
-      keyManagerStrat.kmsSimple.grantTokens,
-      keyManagerStrat.kmsSimple.kmsClient
-    )
+    var isTerminalHv2 := input.Mutations.TerminalHierarchyVersion.Some? &&
+                         input.Mutations.TerminalHierarchyVersion.value.v2?;
+    if (isTerminalHv2) {
+      :- Need(input.keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only simple"));
+      Mutations.Hv1ToHv2Mutation(
+        activeItem,
+        // For later: is activeItem.KmsArn the correct one?
+        KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(activeItem.KmsArn)),
+        // Need check for it to be kms simple
+        input.keyManagerStrategy.kmsSimple.grantTokens,
+        input.keyManagerStrategy.kmsSimple.kmsClient
+      );
+    }
     // --= Validate Active Branch Key
     var verifyActive? := Mutations.VerifyEncryptedHierarchicalKey(
       item := activeItem,
