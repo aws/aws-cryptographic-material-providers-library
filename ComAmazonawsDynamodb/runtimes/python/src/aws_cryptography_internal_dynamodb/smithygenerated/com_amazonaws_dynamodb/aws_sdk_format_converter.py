@@ -41,10 +41,26 @@ def com_amazonaws_dynamodb_BatchStatementRequest(
     if "ConsistentRead" in this_structure:
         transformed_output["ConsistentRead"] = this_structure["ConsistentRead"]
 
+    if "ReturnValuesOnConditionCheckFailure" in this_structure:
+        transformed_output["ReturnValuesOnConditionCheckFailure"] = (
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                this_structure["ReturnValuesOnConditionCheckFailure"],
+                item_handler,
+                condition_handler,
+            )
+        )
+
     return transformed_output
 
 
 def com_amazonaws_dynamodb_ReturnConsumedCapacity(
+    this_structure, item_handler, condition_handler
+):
+    # Always return input enum
+    return this_structure
+
+
+def com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
     this_structure, item_handler, condition_handler
 ):
     # Always return input enum
@@ -151,6 +167,11 @@ def com_amazonaws_dynamodb_BatchStatementError(
 
     if "Message" in this_structure:
         transformed_output["Message"] = this_structure["Message"]
+
+    if "Item" in this_structure:
+        transformed_output["Item"] = {
+            key: item_handler(value) for (key, value) in this_structure["Item"].items()
+        }
 
     return transformed_output
 
@@ -1648,6 +1669,15 @@ def com_amazonaws_dynamodb_DeleteItemInput(
             for (key, value) in this_structure["ExpressionAttributeValues"].items()
         }
 
+    if "ReturnValuesOnConditionCheckFailure" in this_structure:
+        transformed_output["ReturnValuesOnConditionCheckFailure"] = (
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                this_structure["ReturnValuesOnConditionCheckFailure"],
+                item_handler,
+                condition_handler,
+            )
+        )
+
     return transformed_output
 
 
@@ -3007,6 +3037,15 @@ def com_amazonaws_dynamodb_ExecuteStatementInput(
     if "Limit" in this_structure:
         transformed_output["Limit"] = this_structure["Limit"]
 
+    if "ReturnValuesOnConditionCheckFailure" in this_structure:
+        transformed_output["ReturnValuesOnConditionCheckFailure"] = (
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                this_structure["ReturnValuesOnConditionCheckFailure"],
+                item_handler,
+                condition_handler,
+            )
+        )
+
     return transformed_output
 
 
@@ -3073,6 +3112,15 @@ def com_amazonaws_dynamodb_ParameterizedStatement(
         transformed_output["Parameters"] = [
             item_handler(list_element) for list_element in this_structure["Parameters"]
         ]
+
+    if "ReturnValuesOnConditionCheckFailure" in this_structure:
+        transformed_output["ReturnValuesOnConditionCheckFailure"] = (
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                this_structure["ReturnValuesOnConditionCheckFailure"],
+                item_handler,
+                condition_handler,
+            )
+        )
 
     return transformed_output
 
@@ -3798,6 +3846,15 @@ def com_amazonaws_dynamodb_PutItemInput(
             key: item_handler(value)
             for (key, value) in this_structure["ExpressionAttributeValues"].items()
         }
+
+    if "ReturnValuesOnConditionCheckFailure" in this_structure:
+        transformed_output["ReturnValuesOnConditionCheckFailure"] = (
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                this_structure["ReturnValuesOnConditionCheckFailure"],
+                item_handler,
+                condition_handler,
+            )
+        )
 
     return transformed_output
 
@@ -4609,13 +4666,6 @@ def com_amazonaws_dynamodb_Update(this_structure, item_handler, condition_handle
     return transformed_output
 
 
-def com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
-    this_structure, item_handler, condition_handler
-):
-    # Always return input enum
-    return this_structure
-
-
 def com_amazonaws_dynamodb_TransactWriteItemsOutput(
     this_structure, item_handler, condition_handler
 ):
@@ -5100,6 +5150,15 @@ def com_amazonaws_dynamodb_UpdateItemInput(
             key: item_handler(value)
             for (key, value) in this_structure["ExpressionAttributeValues"].items()
         }
+
+    if "ReturnValuesOnConditionCheckFailure" in this_structure:
+        transformed_output["ReturnValuesOnConditionCheckFailure"] = (
+            aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ReturnValuesOnConditionCheckFailure(
+                this_structure["ReturnValuesOnConditionCheckFailure"],
+                item_handler,
+                condition_handler,
+            )
+        )
 
     return transformed_output
 

@@ -1,5 +1,5 @@
 file_format_version = "1.0"
-dafny_version = "4.10.1.0"
+dafny_version = "4.9.0.0"
 [options_by_module.MplManifestOptions]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"

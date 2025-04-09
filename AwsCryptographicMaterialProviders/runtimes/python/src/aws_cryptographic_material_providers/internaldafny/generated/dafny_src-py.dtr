@@ -1,5 +1,5 @@
 file_format_version = "1.0"
-dafny_version = "4.10.1.0"
+dafny_version = "4.9.0.0"
 [options_by_module.AwsCryptographyKeyStoreTypes]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
@@ -66,19 +66,10 @@ python-module-name = "aws_cryptographic_material_providers.internaldafny.generat
 [options_by_module.Keyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.MultiKeyring]
-legacy-module-names = false
-python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.AwsKmsMrkAreUnique]
-legacy-module-names = false
-python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.Constants]
+[options_by_module.CanonicalEncryptionContext]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.MaterialWrapping]
-legacy-module-names = false
-python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.CanonicalEncryptionContext]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.IntermediateKeyWrapping]
@@ -90,28 +81,28 @@ python-module-name = "aws_cryptographic_material_providers.internaldafny.generat
 [options_by_module.ErrorMessages]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.AwsKmsKeyring]
+[options_by_module.RawAESKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.StrictMultiKeyring]
+[options_by_module.Constants]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.EcdhEdkWrapping]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.RawECDHKeyring]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.RawRSAKeyring]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.AwsKmsKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.AwsKmsDiscoveryKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.DiscoveryMultiKeyring]
-legacy-module-names = false
-python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.AwsKmsMrkDiscoveryKeyring]
-legacy-module-names = false
-python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.MrkAwareDiscoveryMultiKeyring]
-legacy-module-names = false
-python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.AwsKmsMrkKeyring]
-legacy-module-names = false
-python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.MrkAwareStrictMultiKeyring]
+[options_by_module.AwsKmsEcdhKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.LocalCMC]
@@ -132,22 +123,31 @@ python-module-name = "aws_cryptographic_material_providers.internaldafny.generat
 [options_by_module.AwsKmsHierarchicalKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.AwsKmsMrkDiscoveryKeyring]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.AwsKmsMrkKeyring]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.AwsKmsRsaKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.EcdhEdkWrapping]
+[options_by_module.MultiKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.RawECDHKeyring]
+[options_by_module.AwsKmsMrkAreUnique]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.AwsKmsEcdhKeyring]
+[options_by_module.StrictMultiKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.RawAESKeyring]
+[options_by_module.DiscoveryMultiKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
-[options_by_module.RawRSAKeyring]
+[options_by_module.MrkAwareDiscoveryMultiKeyring]
+legacy-module-names = false
+python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
+[options_by_module.MrkAwareStrictMultiKeyring]
 legacy-module-names = false
 python-module-name = "aws_cryptographic_material_providers.internaldafny.generated"
 [options_by_module.CMM]
