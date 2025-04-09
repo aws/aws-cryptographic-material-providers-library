@@ -8,6 +8,7 @@ module {:options "/functionSyntax:4" } Structure {
   import opened UInt = StandardLibrary.UInt
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
+  import KeyStoreErrorMessages
   import UTF8
 
   //Attribute Names
@@ -471,7 +472,7 @@ module {:options "/functionSyntax:4" } Structure {
     case HIERARCHY_VERSION_VALUE_1 => Success(Types.HierarchyVersion.v1)
     case HIERARCHY_VERSION_VALUE_2 => Success(Types.HierarchyVersion.v2)
     case _ => Failure(Types.KeyStoreException(
-                        message := ErrorMessages.INVALID_HIERARCHY_VERSION
+                        message := KeyStoreErrorMessages.INVALID_HIERARCHY_VERSION
                       ))
   }
 
