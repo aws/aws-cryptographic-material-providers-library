@@ -304,6 +304,14 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     assert MutationToApply.Terminal.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     assert MutationToApply.ValidState();
 
+    Mutations.Hv1ToHv2Mutation(
+      activeItem,
+      // For later: is activeItem.KmsArn the correct one?
+      kmsUtils.KmsSymmetricKeyArnToKMSConfiguration(activeItem.KmsArn),
+      // Need check for it to be kms simple
+      keyManagerStrat.kmsSimple.grantTokens,
+      keyManagerStrat.kmsSimple.kmsClient
+    )
     // --= Validate Active Branch Key
     var verifyActive? := Mutations.VerifyEncryptedHierarchicalKey(
       item := activeItem,

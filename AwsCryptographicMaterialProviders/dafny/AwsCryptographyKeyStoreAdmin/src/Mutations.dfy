@@ -463,4 +463,13 @@ module {:options "/functionSyntax:4" } Mutations {
     );
     return Success(mutatedItem);
   }
+
+  method Hv1ToHv2Mutation(
+    encryptedKey: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient
+  ) {
+
+  }
 }
