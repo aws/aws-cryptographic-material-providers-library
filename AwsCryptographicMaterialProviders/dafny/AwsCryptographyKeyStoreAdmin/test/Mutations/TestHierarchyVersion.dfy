@@ -21,7 +21,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     // Commented code creates a branch key and adds {"Robbie": "Is a dog."} to the branch key item by violating the reserved attribute in table KeyStoreDdbTable
     // Adding {"Robbie": "Is a dog."} will create a non unique branch key context
     //
-    // Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
+    // Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0); // The default ec in CreateHappyCaseId is {"Robbie": "Is a dog."}
     // var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
     //   id:=testId,
     //   keyValue:=AdminFixtures.KeyValue(key:="Robbie", value:="Is a dog."),
@@ -57,7 +57,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     // Commented code creates a branch key and adds {"Koda": "Is a dog."} to the branch key item by violating the reserved attribute in table KeyStoreDdbTable
     // Adding {"Koda": "Is a dog."} will NOT create a non unique branch key context
     //
-    // Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0);
+    // Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0); // The default ec in CreateHappyCaseId is {"Robbie": "Is a dog."}
     // var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
     //   id:=testId,
     //   keyValue:=AdminFixtures.KeyValue(key:="Koda", value:="Is a dog."),
