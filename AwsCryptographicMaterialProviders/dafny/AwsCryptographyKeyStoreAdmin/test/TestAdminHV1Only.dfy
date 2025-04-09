@@ -24,11 +24,11 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import AdminFixtures
   import TestGetKeys
 
-  const testMutateForHV2FailsCaseId := "dafny-initialize-mutation-hv-2-rejection"
-  method {:test} TestMutateForHV2Fails()
+  const testMutateForHV2SuccessCaseId := "dafny-initialize-mutation-hv-2-rejection"
+  method {:test} TestMutateForHV2Succeeds()
   {
     var uuid :- expect UUID.GenerateUUID();
-    var testId := testMutateForHV2FailsCaseId + "-" + uuid;
+    var testId := testMutateForHV2SuccessCaseId + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
@@ -48,7 +48,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
       DoNotVersion := Some(true));
     var initializeOutput := underTest.InitializeMutation(initInput);
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
-    expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
+    expect initializeOutput.Success?, "Should have succeeded to InitializeMutation HV-2.";
   }
 
   // TODO-HV-2-M2 : Probably make this a happy test?
@@ -79,13 +79,12 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation for HV-1 with Simple.";
   }
 
-  // TODO-HV-2-M2 : Probably make this a happy test?
-  const testMutateInitEncountersHV2FailsCaseId := "dafny-initialize-mutation-encounters-hv-2-rejection"
-  const logPrefix := "\n" + testMutateInitEncountersHV2FailsCaseId + " :: "
-  method {:test} TestMutateInitEncountersHV2FailsCaseId()
+  const testMutateInitEncountersHV2SucceedsCaseId := "dafny-initialize-mutation-encounters-hv-2-rejection"
+  const logPrefix := "\n" + testMutateInitEncountersHV2SucceedsCaseId + " :: "
+  method {:test} TestMutateInitEncountersHV2SucceedsCaseId()
   {
     var uuid :- expect UUID.GenerateUUID();
-    var testId := testMutateInitEncountersHV2FailsCaseId + "-" + uuid;
+    var testId := testMutateInitEncountersHV2SucceedsCaseId + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
@@ -112,7 +111,8 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     // print logPrefix + "initializeOutput :: ", initializeOutput, "\n";
 
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
-    expect initializeOutput.Failure?, "Should have failed InitializeMutation when HV-2 encountered by InitMutation.";
+    expect initializeOutput.Success?, "Should have failed InitializeMutation when HV-2 encountered by InitMutation.";
+    expect initializeOutput.Success?, "Should have failed InitializeMutation when HV-2 encountered by InitMutation.";
   }
 
   // TODO-HV-2-M3 : Probably make this a happy test?
