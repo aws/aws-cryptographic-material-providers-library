@@ -11,16 +11,6 @@ module {:options "-functionSyntax:4"} JSONHelpers {
   import UTF8
   import Types = AwsCryptographyMaterialProvidersTypes
 
-  function BvToBytes(bits: seq<bv8>): seq<BoundedInts.uint8>
-  {
-    seq(|bits|, i requires 0 <= i < |bits| => bits[i] as BoundedInts.byte)
-  }
-
-  function BytesBv(bits: seq<BoundedInts.uint8>): seq<bv8>
-  {
-    seq(|bits|, i requires 0 <= i < |bits| => bits[i] as bv8)
-  }
-
   function Get(key: string, obj: seq<(string, JSON)>)
     : (output: Result<Values.JSON, string>)
   {

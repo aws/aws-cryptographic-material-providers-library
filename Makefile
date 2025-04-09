@@ -47,7 +47,7 @@ polymorph_code_gen:
 	) true
 
 setup_semantic_release:
-	npm i --no-save semantic-release @semantic-release/changelog semantic-release-replace-plugin @semantic-release/git @semantic-release/exec
+	npm i --no-save semantic-release @semantic-release/changelog semantic-release-replace-plugin conventional-changelog-conventionalcommits @semantic-release/git @semantic-release/exec
 
 run_semantic_release:
 	npx semantic-release --no-ci

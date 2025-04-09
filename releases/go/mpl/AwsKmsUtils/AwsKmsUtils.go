@@ -153,6 +153,15 @@ func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 
 var _ _dafny.TraitOffspring = &Default__{}
 
+func (_static *CompanionStruct_Default___) OkForDecrypt(id m_AwsArnParsing.AwsKmsIdentifier, arn _dafny.Sequence) m_Wrappers.Outcome {
+	if !((id).Is_AwsKmsArnIdentifier()) {
+		return m_Wrappers.Companion_Outcome_.Create_Fail_(m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("KeyID cannot be used for Decrypt : "), arn)))
+	} else if !_dafny.Companion_Sequence_.Equal((((id).Dtor_a()).Dtor_resource()).Dtor_resourceType(), _dafny.SeqOfString("key")) {
+		return m_Wrappers.Companion_Outcome_.Create_Fail_(m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Alias cannot be used for Decrypt : "), arn)))
+	} else {
+		return m_Wrappers.Companion_Outcome_.Create_Pass_()
+	}
+}
 func (_static *CompanionStruct_Default___) StringifyEncryptionContext(utf8EncCtx _dafny.Map) m_Wrappers.Result {
 	if ((utf8EncCtx).Cardinality()).Sign() == 0 {
 		return m_Wrappers.Companion_Result_.Create_Success_(_dafny.NewMapBuilder().ToMap())

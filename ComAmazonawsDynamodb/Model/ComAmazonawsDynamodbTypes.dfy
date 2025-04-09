@@ -180,7 +180,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   type BatchGetResponseMap = map<TableArn, ItemList>
   datatype BatchStatementError = | BatchStatementError (
     nameonly Code: Option<BatchStatementErrorCodeEnum> := Option.None ,
-    nameonly Message: Option<String> := Option.None
+    nameonly Message: Option<String> := Option.None ,
+    nameonly Item: Option<AttributeMap> := Option.None
   )
   datatype BatchStatementErrorCodeEnum =
     | ConditionalCheckFailed
@@ -197,7 +198,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   datatype BatchStatementRequest = | BatchStatementRequest (
     nameonly Statement: PartiQLStatement ,
     nameonly Parameters: Option<PreparedStatementParameters> := Option.None ,
-    nameonly ConsistentRead: Option<ConsistentRead> := Option.None
+    nameonly ConsistentRead: Option<ConsistentRead> := Option.None ,
+    nameonly ReturnValuesOnConditionCheckFailure: Option<ReturnValuesOnConditionCheckFailure> := Option.None
   )
   datatype BatchStatementResponse = | BatchStatementResponse (
     nameonly Error: Option<BatchStatementError> := Option.None ,
@@ -421,7 +423,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly ReturnItemCollectionMetrics: Option<ReturnItemCollectionMetrics> := Option.None ,
     nameonly ConditionExpression: Option<ConditionExpression> := Option.None ,
     nameonly ExpressionAttributeNames: Option<ExpressionAttributeNameMap> := Option.None ,
-    nameonly ExpressionAttributeValues: Option<ExpressionAttributeValueMap> := Option.None
+    nameonly ExpressionAttributeValues: Option<ExpressionAttributeValueMap> := Option.None ,
+    nameonly ReturnValuesOnConditionCheckFailure: Option<ReturnValuesOnConditionCheckFailure> := Option.None
   )
   datatype DeleteItemOutput = | DeleteItemOutput (
     nameonly Attributes: Option<AttributeMap> := Option.None ,
@@ -1595,7 +1598,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly ConsistentRead: Option<ConsistentRead> := Option.None ,
     nameonly NextToken: Option<PartiQLNextToken> := Option.None ,
     nameonly ReturnConsumedCapacity: Option<ReturnConsumedCapacity> := Option.None ,
-    nameonly Limit: Option<PositiveIntegerObject> := Option.None
+    nameonly Limit: Option<PositiveIntegerObject> := Option.None ,
+    nameonly ReturnValuesOnConditionCheckFailure: Option<ReturnValuesOnConditionCheckFailure> := Option.None
   )
   datatype ExecuteStatementOutput = | ExecuteStatementOutput (
     nameonly Items: Option<ItemList> := Option.None ,
@@ -2081,7 +2085,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
   )
   datatype ParameterizedStatement = | ParameterizedStatement (
     nameonly Statement: PartiQLStatement ,
-    nameonly Parameters: Option<PreparedStatementParameters> := Option.None
+    nameonly Parameters: Option<PreparedStatementParameters> := Option.None ,
+    nameonly ReturnValuesOnConditionCheckFailure: Option<ReturnValuesOnConditionCheckFailure> := Option.None
   )
   type ParameterizedStatements = x: seq<ParameterizedStatement> | IsValid_ParameterizedStatements(x) witness *
   predicate method IsValid_ParameterizedStatements(x: seq<ParameterizedStatement>) {
@@ -2172,7 +2177,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly ConditionalOperator: Option<ConditionalOperator> := Option.None ,
     nameonly ConditionExpression: Option<ConditionExpression> := Option.None ,
     nameonly ExpressionAttributeNames: Option<ExpressionAttributeNameMap> := Option.None ,
-    nameonly ExpressionAttributeValues: Option<ExpressionAttributeValueMap> := Option.None
+    nameonly ExpressionAttributeValues: Option<ExpressionAttributeValueMap> := Option.None ,
+    nameonly ReturnValuesOnConditionCheckFailure: Option<ReturnValuesOnConditionCheckFailure> := Option.None
   )
   type PutItemInputAttributeMap = map<AttributeName, AttributeValue>
   datatype PutItemOutput = | PutItemOutput (
@@ -2727,7 +2733,8 @@ module {:extern "software.amazon.cryptography.services.dynamodb.internaldafny.ty
     nameonly UpdateExpression: Option<UpdateExpression> := Option.None ,
     nameonly ConditionExpression: Option<ConditionExpression> := Option.None ,
     nameonly ExpressionAttributeNames: Option<ExpressionAttributeNameMap> := Option.None ,
-    nameonly ExpressionAttributeValues: Option<ExpressionAttributeValueMap> := Option.None
+    nameonly ExpressionAttributeValues: Option<ExpressionAttributeValueMap> := Option.None ,
+    nameonly ReturnValuesOnConditionCheckFailure: Option<ReturnValuesOnConditionCheckFailure> := Option.None
   )
   datatype UpdateItemOutput = | UpdateItemOutput (
     nameonly Attributes: Option<AttributeMap> := Option.None ,

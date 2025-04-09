@@ -5,6 +5,9 @@ package software.amazon.cryptography.materialproviders.model;
 
 import java.util.Objects;
 
+/**
+ * The requested element is not in the cache; AWS Crypto Tools intends to deprecate this for a non-error control scheme.
+ */
 public class EntryDoesNotExist extends RuntimeException {
 
   protected EntryDoesNotExist(BuilderImpl builder) {

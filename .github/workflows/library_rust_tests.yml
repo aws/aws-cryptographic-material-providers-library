@@ -35,7 +35,7 @@ jobs:
       id-token: write
       contents: read
     env:
-      RUST_MIN_STACK: 104857600
+      RUST_MIN_STACK: 404857600
     steps:
       - name: Support longpaths on Git checkout
         run: |
@@ -60,7 +60,7 @@ jobs:
           components: rustfmt
 
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.8.0
+        uses: ./.github/actions/setup_dafny
         with:
           dafny-version: nightly-2025-01-30-7db1e5f
 
