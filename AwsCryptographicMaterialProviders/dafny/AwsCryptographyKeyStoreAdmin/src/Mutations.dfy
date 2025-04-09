@@ -466,10 +466,22 @@ module {:options "/functionSyntax:4" } Mutations {
 
   method Hv1ToHv2Mutation(
     encryptedKey: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
-    kmsConfiguration: Types.KMSConfiguration,
+    kmsConfiguration: Types.AwsCryptographyKeyStoreTypes.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
-  ) {
+  )
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(encryptedKey)
+    requires KmsArn.ValidKmsArn?(encryptedKey.KmsArn)
+    requires KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptedKey.EncryptionContext[Structure.KMS_FIELD])
 
+    requires kmsClient.ValidState()
+    modifies kmsClient.Modifies
+  {
+    var _ := KMSKeystoreOperations.DecryptKeyForHv1(
+      encryptedKey,
+      kmsConfiguration,
+      grantTokens,
+      kmsClient
+    );
   }
 }
