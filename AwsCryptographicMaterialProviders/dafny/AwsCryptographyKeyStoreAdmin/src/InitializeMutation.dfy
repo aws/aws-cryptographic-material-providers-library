@@ -304,6 +304,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     assert MutationToApply.Terminal.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     assert MutationToApply.ValidState();
 
+    // TODO-HV-2-M3: Can this if also handle hv-2 item?
     if (isTerminalHv2) {
       // TODO-HV-2-M4: Support other key manager strategy
       :- Need(input.keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));
@@ -311,7 +312,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         activeItem,
         // For later: is activeItem.KmsArn the correct one?
         KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(activeItem.KmsArn)),
-        // Need check for it to be kms simple
         input.keyManagerStrategy.kmsSimple.grantTokens,
         input.keyManagerStrategy.kmsSimple.kmsClient
       );
