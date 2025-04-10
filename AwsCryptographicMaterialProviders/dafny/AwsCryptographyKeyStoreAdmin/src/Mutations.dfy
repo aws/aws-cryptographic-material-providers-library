@@ -173,29 +173,6 @@ module {:options "/functionSyntax:4" } Mutations {
       );
       return Failure(error);
     }
-    if (
-        && !success?
-        && item.Type.ActiveHierarchicalSymmetricVersion?
-      ) {
-      var error := MutationErrorRefinement.VerifyActiveException(
-        branchKeyItem := item,
-        error := throwAwayError,
-        localOperation := localOperation,
-        kmsOperation := kmsOperation);
-      return Failure(error);
-    }
-
-    if (
-        && !success?
-        && item.Type.HierarchicalSymmetricVersion?
-      ) {
-      var error := MutationErrorRefinement.VerifyTerminalException(
-        branchKeyItem := item,
-        error := throwAwayError,
-        localOperation := localOperation,
-        kmsOperation := kmsOperation);
-      return Failure(error);
-    }
 
     assert success?;
     return Success(InitialHVVerificationState.TerminalHV1());
