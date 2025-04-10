@@ -303,8 +303,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     assert MutationToApply.Original.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     assert MutationToApply.Terminal.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     assert MutationToApply.ValidState();
-    var isTerminalHv2 := input.Mutations.TerminalHierarchyVersion.Some? &&
-                         input.Mutations.TerminalHierarchyVersion.value.v2?;
+
     if (isTerminalHv2) {
       // TODO-HV-2-M4: Support other key manager strategy
       :- Need(input.keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));
