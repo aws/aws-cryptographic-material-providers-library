@@ -197,11 +197,11 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     );
 
       // TODO-HV-2-M2: Support items in HV-2
-    :- Need(
-      readItems.ActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
-      Types.KeyStoreAdminException(
-        message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
-    );
+      // :- Need(
+      //   readItems.ActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
+      //   Types.KeyStoreAdminException(
+      //     message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
+      // );
 
     :- Need(
       || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
@@ -301,15 +301,16 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         input.keyManagerStrategy.kmsSimple.grantTokens,
         input.keyManagerStrategy.kmsSimple.kmsClient
       );
-    }
-    // --= Validate Active Branch Key
-    var verifyActive? := Mutations.VerifyEncryptedHierarchicalKey(
-      item := activeItem,
-      keyManagerStrategy := input.keyManagerStrategy,
-      localOperation := "InitializeMutation"
-    );
-    if (verifyActive?.Fail?) {
-      return Failure(verifyActive?.error);
+    } else {
+      // --= Validate Active Branch Key
+      var verifyActive? := Mutations.VerifyEncryptedHierarchicalKey(
+        item := activeItem,
+        keyManagerStrategy := input.keyManagerStrategy,
+        localOperation := "InitializeMutation"
+      );
+      if (verifyActive?.Fail?) {
+        return Failure(verifyActive?.error);
+      }
     }
 
       // -= Assert Beacon Key is in Original
