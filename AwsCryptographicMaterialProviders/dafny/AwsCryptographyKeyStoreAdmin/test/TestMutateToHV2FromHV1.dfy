@@ -16,7 +16,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
 
   const testMutateForHV2FailureCaseId := "dafny-initialize-mutation-hv-2-rejection"
-  // TODO-HV-2-M3: Make this happy case when supporting other key strategy.
+  // TODO-HV-2-M4: Make this happy case when supporting other key strategy.
   method {:test} TestMutateForHV2Failure()
   {
     var uuid :- expect UUID.GenerateUUID();
@@ -42,7 +42,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.KeyStoreAdminException?;
-    // TODO-HV-2-M3: Support other key strategy as well.
+    // TODO-HV-2-M4: Support other key strategy as well.
     expect initializeOutput.error.message == "only KMS Simple allow when mutating to hv-2.", "Incorrect error message. Should have had `only KMS Simple allow when mutating to hv-2.`";
   }
 }
