@@ -96,21 +96,34 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     predicate ValidState()
     {
       && Commitment.Identifier == Index.Identifier
-      && 0 < |Commitment.Identifier|
       && Commitment.UUID == Index.UUID
-      && 0 < |Commitment.UUID|
+      && ValidCommitment?(Commitment)
+      && ValidIndex?(Index)
     }
+    // TODO-HV-2-FOLLOW : See if we can drop ValidUTF8
     predicate ValidUTF8()
     {
-      && UTF8.ValidUTF8Seq(Commitment.Original)
-      && UTF8.ValidUTF8Seq(Commitment.Terminal)
-      && UTF8.ValidUTF8Seq(Commitment.Input)
-      && UTF8.ValidUTF8Seq(Index.PageIndex)
-      && 0 < |Commitment.Identifier|
-      && 0 < |Index.Identifier|
-      && 0 < |Commitment.UUID|
-      && 0 < |Index.UUID|
+      && ValidCommitment?(Commitment)
+      && ValidIndex?(Index)
     }
+  }
+
+  predicate ValidCommitment?(
+    Commitment: KeyStoreTypes.MutationCommitment
+  ) {
+    && UTF8.ValidUTF8Seq(Commitment.Original)
+    && UTF8.ValidUTF8Seq(Commitment.Terminal)
+    && UTF8.ValidUTF8Seq(Commitment.Input)
+    && 0 < |Commitment.Identifier|
+    && 0 < |Commitment.UUID|
+  }
+
+  predicate ValidIndex?(
+    Index: KeyStoreTypes.MutationIndex
+  ) {
+    && 0 < |Index.Identifier|
+    && 0 < |Index.UUID|
+    && UTF8.ValidUTF8Seq(Index.PageIndex)
   }
 
   // Pre-HV-2 Mutations did not track Hierarchy Version;

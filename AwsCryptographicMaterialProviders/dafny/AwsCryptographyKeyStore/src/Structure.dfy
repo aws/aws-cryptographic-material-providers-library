@@ -791,13 +791,13 @@ module {:options "/functionSyntax:4" } Structure {
 
     && m[TYPE_FIELD].S == MUTATION_COMMITMENT_TYPE
 
-    // Structure & DefaultKeyStorage do not care about the Byte structure of the original or terminal.
+    // Structure & DefaultKeyStorage do not care about the Byte structure of the original, terminal, or input.
     // That is the concern of Mutation State Structures.
     // Structure & DefaultKeyStorage care that these are non-empty Byte Fields.
     && M_ORIGINAL in m && m[M_ORIGINAL].B? && 0 < |m[M_ORIGINAL].B|
     && M_TERMINAL in m && m[M_TERMINAL].B? && 0 < |m[M_TERMINAL].B|
-    && ENC_FIELD in m && m[ENC_FIELD].B? && 0 < |m[ENC_FIELD].B|
     && M_INPUT in m && m[M_INPUT].B? && 0 < |m[M_INPUT].B|
+    && ENC_FIELD in m && m[ENC_FIELD].B? && 0 < |m[ENC_FIELD].B|
 
     && m.Keys == {
                    TYPE_FIELD,
@@ -818,8 +818,8 @@ module {:options "/functionSyntax:4" } Structure {
     && 0 < |m.UUID|
     && 0 < |m.Original|
     && 0 < |m.Terminal|
-    && 0 < |m.CiphertextBlob|
     && 0 < |m.Input|
+    && 0 < |m.CiphertextBlob|
   }
 
   function ToMutationCommitment(
