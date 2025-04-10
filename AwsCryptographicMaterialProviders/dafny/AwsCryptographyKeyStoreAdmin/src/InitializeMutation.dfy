@@ -316,15 +316,16 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         input.keyManagerStrategy.kmsSimple.grantTokens,
         input.keyManagerStrategy.kmsSimple.kmsClient
       );
-    }
-    // --= Validate Active Branch Key
-    var verifyActive? := Mutations.VerifyEncryptedHierarchicalKey(
-      item := activeItem,
-      keyManagerStrategy := input.keyManagerStrategy,
-      localOperation := "InitializeMutation"
-    );
-    if (verifyActive?.Fail?) {
-      return Failure(verifyActive?.error);
+    } else {
+      // --= Validate Active Branch Key
+      var verifyActive? := Mutations.VerifyEncryptedHierarchicalKey(
+        item := activeItem,
+        keyManagerStrategy := input.keyManagerStrategy,
+        localOperation := "InitializeMutation"
+      );
+      if (verifyActive?.Fail?) {
+        return Failure(verifyActive?.error);
+      }
     }
 
       // -= Assert Beacon Key is in Original

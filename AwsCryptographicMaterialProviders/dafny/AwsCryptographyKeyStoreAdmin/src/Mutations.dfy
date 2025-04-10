@@ -477,7 +477,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
   {
-    var _ := KMSKeystoreOperations.DecryptKeyForHv1(
+    var decryptRes := KMSKeystoreOperations.DecryptKeyForHv1(
       encryptedKey,
       kmsConfiguration,
       grantTokens,
