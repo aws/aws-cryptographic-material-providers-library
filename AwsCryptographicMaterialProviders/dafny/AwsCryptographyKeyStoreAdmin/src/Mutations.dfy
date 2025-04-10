@@ -80,7 +80,7 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly localOperation: string := "ApplyMutation",
-    nameonly isTerminalHv2?: bool
+    nameonly isTerminalHv2?: bool := false
   )
     returns (output: Result<InitialHVVerificationState,Types.Error>)
 

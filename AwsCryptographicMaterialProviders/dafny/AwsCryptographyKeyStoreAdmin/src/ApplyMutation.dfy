@@ -370,7 +370,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
             keyManagerStrategy := keyManagerStrategy,
             localOperation := "ApplyMutation"
           );
-          if (verify?.Fail?) {
+          if (verify?.Failure?) {
             return Failure(verify?.error);
           }
           logStatements := logStatements
