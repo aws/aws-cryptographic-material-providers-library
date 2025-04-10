@@ -464,13 +464,16 @@ module {:options "/functionSyntax:4" } Mutations {
     return Success(mutatedItem);
   }
 
-  method Hv1ToHv2Mutation(
+  // TODO-HV-2-M3: Can this method also handle mutation of hv-2 item? If so the method name must be changed.
+  method {:only} Hv1ToHv2Mutation(
     encryptedKey: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     kmsConfiguration: Types.AwsCryptographyKeyStoreTypes.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
   )
     requires Structure.EncryptedHierarchicalKeyFromStorage?(encryptedKey)
+    // TODO-HV-2-M3: See if we can support hv-2 in this method itself
+    requires encryptedKey.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
     requires KmsArn.ValidKmsArn?(encryptedKey.KmsArn)
     requires KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptedKey.EncryptionContext[Structure.KMS_FIELD])
 
