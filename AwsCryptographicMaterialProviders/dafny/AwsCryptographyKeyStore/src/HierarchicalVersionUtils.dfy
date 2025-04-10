@@ -150,7 +150,6 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
                        )
   }
 
-
   function HasPrefix(key: string): bool {
     |key| > |Structure.ENCRYPTION_CONTEXT_PREFIX| &&
     key[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX
@@ -219,7 +218,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   }
 
   function HierarchyVersionToString(version: Types.HierarchyVersion): (output: string)
-    ensures StringIsValidHierarchyVersion?(output)
+    ensures Structure.StringIsValidHierarchyVersion?(output)
     ensures  StringToHierarchyVersion(output) == version
   {
     match version {
@@ -229,7 +228,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   }
 
   function StringToHierarchyVersion(version: string): (output: Types.HierarchyVersion)
-    requires StringIsValidHierarchyVersion?(version)
+    requires Structure.StringIsValidHierarchyVersion?(version)
     ensures version == Structure.HIERARCHY_VERSION_VALUE_1 ==> output.v1?
     ensures version == Structure.HIERARCHY_VERSION_VALUE_2 ==> output.v2?
   {
@@ -239,10 +238,5 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   lemma HierarchyVersionRoundTrip(version: Types.HierarchyVersion)
     ensures StringToHierarchyVersion(HierarchyVersionToString(version)) == version
   {
-  }
-
-  predicate StringIsValidHierarchyVersion?(version: string)
-  {
-    version == Structure.HIERARCHY_VERSION_VALUE_1 || version == Structure.HIERARCHY_VERSION_VALUE_2
   }
 }

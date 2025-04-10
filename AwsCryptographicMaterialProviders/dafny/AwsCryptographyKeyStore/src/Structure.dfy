@@ -69,6 +69,11 @@ module {:options "/functionSyntax:4" } Structure {
     && forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX < k
   }
 
+  predicate StringIsValidHierarchyVersion?(version: string)
+  {
+    version == HIERARCHY_VERSION_VALUE_1 || version == HIERARCHY_VERSION_VALUE_2
+  }
+
   type BranchKeyContext = m: map<string, string> | BranchKeyContext?(m) witness *
   predicate BranchKeyContext?(m: map<string, string>) {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
@@ -86,7 +91,7 @@ module {:options "/functionSyntax:4" } Structure {
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
        //= type=implication
        //# - MUST have a `hierarchy-version`
-    && (HIERARCHY_VERSION in m)
+    && (HIERARCHY_VERSION in m && StringIsValidHierarchyVersion?(m[HIERARCHY_VERSION]))
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
        //= type=implication
        //# - MUST have a `tablename` attribute to store the logicalKeyStoreName
@@ -147,6 +152,7 @@ module {:options "/functionSyntax:4" } Structure {
     && key.Identifier == key.EncryptionContext[BRANCH_KEY_IDENTIFIER_FIELD]
     && key.CreateTime == key.EncryptionContext[KEY_CREATE_TIME]
     && key.KmsArn == key.EncryptionContext[KMS_FIELD]
+    && (HIERARCHY_VERSION in key.EncryptionContext && StringIsValidHierarchyVersion?(key.EncryptionContext[HIERARCHY_VERSION]))
 
     && (match key.Type
         case ActiveHierarchicalSymmetricVersion(active) =>
@@ -619,6 +625,7 @@ module {:options "/functionSyntax:4" } Structure {
     && TYPE_FIELD in m && m[TYPE_FIELD].S?
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N?
+    && StringIsValidHierarchyVersion?(m[HIERARCHY_VERSION].N)
     && TABLE_FIELD !in m
     && KMS_FIELD in m && m[KMS_FIELD].S?
     && BRANCH_KEY_FIELD in m && m[BRANCH_KEY_FIELD].B?

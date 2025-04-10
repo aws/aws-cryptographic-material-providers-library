@@ -468,7 +468,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
              message := ERROR_PRFX + "Value for `" + HV_FIELD + "` MUST be a string, if it is present.")
        );
     :- NeedOutcome(
-         |MutableProperties.obj| == 2 || HVUtils.StringIsValidHierarchyVersion?(MutableProperties.obj[2].1.str),
+         |MutableProperties.obj| == 2 || Structure.StringIsValidHierarchyVersion?(MutableProperties.obj[2].1.str),
          () => Types.KeyStoreAdminException(
              message := ERROR_PRFX + "Value for `" + HV_FIELD + "` that has been deserialized is not '1' or '2'.")
        );
@@ -527,7 +527,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
          || |DeserializedInput.obj| == 2
          || (
               ( && DeserializedInput.obj[2].1.String?
-                && HVUtils.StringIsValidHierarchyVersion?(DeserializedInput.obj[2].1.str)
+                && Structure.StringIsValidHierarchyVersion?(DeserializedInput.obj[2].1.str)
               ) || DeserializedInput.obj[2].1.Null?),
          () => Types.KeyStoreAdminException(
              message := ERROR_PRFX + "Value for `" + HV_FIELD + "` MUST be a string or Null; if it is a string, it MUST be '1' or '2'.")

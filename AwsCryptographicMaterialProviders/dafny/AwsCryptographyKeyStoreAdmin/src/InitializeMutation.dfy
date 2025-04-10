@@ -27,6 +27,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   import DefaultKeyStorageInterface
   import KmsArn
   import KMSKeystoreOperations
+  import HVUtils = HierarchicalVersionUtils
     // KeyStoreAdmin Imports
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KmsUtils
@@ -281,15 +282,20 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     }
 
     assert KmsArn.ValidKmsArn?(activeItem.KmsArn);
+    var inferredOriginalHV: KeyStoreTypes.HierarchyVersion
+      :=
+      HVUtils.StringToHierarchyVersion(activeItem.EncryptionContext[Structure.HIERARCHY_VERSION]);
     var MutationToApply := StateStrucs.MutationToApply(
       Identifier := input.Identifier,
       Original := StateStrucs.MutableProperties(
         kmsArn := activeItem.KmsArn,
-        customEncryptionContext := inferredOriginalEC
+        customEncryptionContext := inferredOriginalEC,
+        hierarchyVersion := inferredOriginalHV
       ),
       Terminal := StateStrucs.MutableProperties(
         kmsArn := input.Mutations.TerminalKmsArn.UnwrapOr(activeItem.KmsArn),
-        customEncryptionContext := terminalEC?.UnwrapOr(inferredOriginalEC)
+        customEncryptionContext := terminalEC?.UnwrapOr(inferredOriginalEC),
+        hierarchyVersion := input.Mutations.TerminalHierarchyVersion.UnwrapOr(inferredOriginalHV)
       ),
       ExclusiveStartKey := None,
       UUID := mutationCommitmentUUID,
@@ -454,12 +460,13 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     nameonly internalInput: InternalInitializeMutationInput,
     nameonly commitment: KeyStoreTypes.MutationCommitment
   ): (output: Result<bool, Types.Error>)
+    requires 0 < |commitment.UUID| && 0 < |commitment.Identifier|
+    requires UTF8.ValidUTF8Seq(commitment.Input)
   {
     var readMutations :- StateStrucs.DeserializeMutationInput(commitment);
     var givenMutations := internalInput.Mutations;
     Success(readMutations == givenMutations)
   }
-
 
   method {:isolate_assertions} ResumeMutation(
     nameonly commitment: KeyStoreTypes.MutationCommitment,
