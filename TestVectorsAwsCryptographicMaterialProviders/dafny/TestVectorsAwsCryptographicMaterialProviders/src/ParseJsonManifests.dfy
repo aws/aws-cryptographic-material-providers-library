@@ -25,8 +25,8 @@ module {:options "-functionSyntax:4"} ParseJsonManifests {
   import CompleteVectors
   import KeyVectors
   import KeyVectorsTypes = AwsCryptographyMaterialProvidersTestVectorKeysTypes
-  // This is a HACK!
-  // This is *ONLY* because this is wrapping the MPL
+    // This is a HACK!
+    // This is *ONLY* because this is wrapping the MPL
   import AlgorithmSuites
 
   function BuildEncryptTestVector(keys: KeyVectors.KeyVectorsClient, obj: seq<(string, JSON)>)

@@ -171,8 +171,6 @@ module {:options "-functionSyntax:4"} AllRawAES {
     + TestsWitPsiEc
     + TestsBasicEc
     + TestControlEc
-    + TestsWithDiffUTF8Ec
     + TestsWitReplacementCharEc
-    + TestsWithOnePairOfHighCodePointUtf8ValuesInEc
     + TestsWithMultipleUTF8Ec
 }

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../Model/AwsCryptographyMaterialProvidersTestVectorKeysTypes.dfy"
-// Yes this is including from somewhere else.
+  // Yes this is including from somewhere else.
 include "../../TestVectorsAwsCryptographicMaterialProviders/src/LibraryIndex.dfy"
 include "KeyMaterial.dfy"
 include "CreateStaticKeyrings.dfy"
