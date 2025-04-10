@@ -411,6 +411,21 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       ))
   }
 
+  function DeserializeMutationInput(
+    commitment: KeyStoreTypes.MutationCommitment
+  ): (output: Result<Types.Mutations, Types.Error>)
+    requires 0 < |commitment.UUID| && 0 < |commitment.Identifier|
+    requires UTF8.ValidUTF8Seq(commitment.Input)
+  {
+    var InputJson :- JSON.Deserialize(commitment.Input).MapFailure(
+                       (e: JSONErrors.DeserializationError)
+                       => Types.KeyStoreAdminException(
+                           message := "Could not JSON Deserialize: Input. " + e.ToString()));
+    :- MutationsInputJson?(InputJson);
+    var input := InputMutationsFromJson(InputJson);
+    Success(input)
+  }
+
   const ERROR_PRFX := "Serialized State properties is malformed! "
 
   function MutablePropertiesJson?(
@@ -476,7 +491,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
              message := "Invalid Mutation Commitment: MUST NOT model Item specific fields!"
            )
        );
-
     Outcome.Pass
   }
 
