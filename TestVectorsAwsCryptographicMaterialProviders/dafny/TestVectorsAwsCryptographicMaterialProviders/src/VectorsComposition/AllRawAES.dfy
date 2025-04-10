@@ -149,6 +149,22 @@ module {:options "-functionSyntax:4"} AllRawAES {
           decryptDescription := keyDescription
         )
 
+  const TestsWithMultipleUTF8Ec :=
+    set
+      keyDescription <- KeyDescriptions + KeyDescriptionsWithPsi,
+      algorithmSuite <- AllAlgorithmSuites.AllAlgorithmSuites,
+      commitmentPolicy | commitmentPolicy == AllAlgorithmSuites.GetCompatibleCommitmentPolicy(algorithmSuite),
+      encryptionContext <- EncryptionContextUtils.multipleEntriesUTF8EncryptionContext
+      ::
+        TestVectors.PositiveEncryptKeyringVector(
+          name := "Generated RawAES Multiple UTF8 Entries EC " + keyDescription.AES.keyId,
+          encryptionContext := encryptionContext,
+          commitmentPolicy := commitmentPolicy,
+          algorithmSuite := algorithmSuite,
+          encryptDescription := keyDescription,
+          decryptDescription := keyDescription
+        )
+
   const Tests :=
     {}
     + TestsNoEc
@@ -157,4 +173,6 @@ module {:options "-functionSyntax:4"} AllRawAES {
     + TestControlEc
     + TestsWithDiffUTF8Ec
     + TestsWitReplacementCharEc
+    + TestsWithOnePairOfHighCodePointUtf8ValuesInEc
+    + TestsWithMultipleUTF8Ec
 }
