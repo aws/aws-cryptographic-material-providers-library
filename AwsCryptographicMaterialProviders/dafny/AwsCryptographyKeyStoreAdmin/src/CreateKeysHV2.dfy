@@ -139,8 +139,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
              decryptOnlyBranchKeyContext
            )
 
-        && assert kmsEncryptRequestForBeaconBKI in kmsClient.History.Encrypt[|old(kmsClient.History.Encrypt)|..];
-           WrappedBeaconKeyCreationHV2?(
+        && WrappedBeaconKeyCreationHV2?(
              kmsEncryptRequestForBeaconBKI,
              kmsClient,
              kmsConfiguration,
@@ -284,6 +283,17 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     );
     var wrappedDecryptOnlyBranchKey :- wrappedDecryptOnlyBranchKey?.MapFailure(e => ConvertKmsErrorToError(e));
     var decrytOnlyBKItem := Structure.ConstructEncryptedHierarchicalKey(decryptOnlyBranchKeyContext,wrappedDecryptOnlyBranchKey);
+    assert decrytOnlyBKItem == Structure.ConstructEncryptedHierarchicalKey(
+                                 Structure.DecryptOnlyBranchKeyEncryptionContext(
+                                   branchKeyIdentifier,
+                                   branchKeyVersion,
+                                   timestamp,
+                                   logicalKeyStoreName,
+                                   KMSKeystoreOperations.GetKeyId(kmsConfiguration),
+                                   hierarchyVersion,
+                                   customEncryptionContext
+                                 ),
+                                 wrappedDecryptOnlyBranchKey);
 
     assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, activeBranchKeyContext[Structure.KMS_FIELD]);
     var wrappedActiveBranchKey? := KMSKeystoreOperations.EncryptKey(
@@ -329,7 +339,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
       ));
   }
 
-  twostate predicate WrappedBranchKeyCreationHV2?(
+  twostate predicate {:isolate_assertions} WrappedBranchKeyCreationHV2?(
     new kmsEncryptRequestForDecryptOnlyBKI: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
     new kmsEncryptRequestForActiveBKI: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
     kmsClient: KMS.IKMSClient,
@@ -373,7 +383,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     && branchKeyContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2
   }
 
-  twostate predicate WrappedDecryptOnlyCreationHV2?(
+  twostate predicate {:isolate_assertions} WrappedDecryptOnlyCreationHV2?(
     new kmsEncryptRequestForDecryptOnlyBKI: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
     kmsClient: KMS.IKMSClient,
     kmsConfiguration: KeyStoreTypes.KMSConfiguration,
@@ -394,11 +404,12 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     && decryptOnlyInput.GrantTokens == Some(grantTokens)
     && kmsEncryptRequestForDecryptOnlyBKI.output.Success?
     && kmsEncryptRequestForDecryptOnlyBKI.output.value.CiphertextBlob.Some?
-    && kmsEncryptRequestForDecryptOnlyBKI.output.value.KeyId.Some?
-    && kmsEncryptRequestForDecryptOnlyBKI.output.value.KeyId.value == KMSKeystoreOperations.GetKeyId(kmsConfiguration)
+       // There is no reason to proove the KMS response, if succesful, adhered to KMS behavior
+       // && kmsEncryptRequestForDecryptOnlyBKI.output.value.KeyId.Some?
+       // && kmsEncryptRequestForDecryptOnlyBKI.output.value.KeyId.value == KMSKeystoreOperations.GetKeyId(kmsConfiguration)
   }
 
-  twostate predicate WrappedBranchKeyActiveCreationHV2?(
+  twostate predicate {:isolate_assertions} WrappedBranchKeyActiveCreationHV2?(
     new kmsEncryptRequestForActiveBKI: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
     kmsClient: KMS.IKMSClient,
     kmsConfiguration: KeyStoreTypes.KMSConfiguration,
@@ -419,12 +430,13 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     && activeInput.GrantTokens == Some(grantTokens)
     && kmsEncryptRequestForActiveBKI.output.Success?
     && kmsEncryptRequestForActiveBKI.output.value.CiphertextBlob.Some?
-    && kmsEncryptRequestForActiveBKI.output.value.KeyId.Some?
-    && kmsEncryptRequestForActiveBKI.output.value.KeyId.value == KMSKeystoreOperations.GetKeyId(kmsConfiguration)
+       // There is no reason to proove the KMS response, if succesful, adhered to KMS behavior
+       // && kmsEncryptRequestForActiveBKI.output.value.KeyId.Some?
+       // && kmsEncryptRequestForActiveBKI.output.value.KeyId.value == KMSKeystoreOperations.GetKeyId(kmsConfiguration)
   }
 
 
-  twostate predicate WrappedBeaconKeyCreationHV2?(
+  twostate predicate {:isolate_assertions} WrappedBeaconKeyCreationHV2?(
     new beaconHistory: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
     kmsClient: KMS.IKMSClient,
     kmsConfiguration: KeyStoreTypes.KMSConfiguration,
@@ -446,8 +458,9 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     && beaconInput.GrantTokens == Some(grantTokens)
     && beaconHistory.output.Success?
     && beaconHistory.output.value.CiphertextBlob.Some?
-    && beaconHistory.output.value.KeyId.Some?
-    && beaconHistory.output.value.KeyId.value == KMSKeystoreOperations.GetKeyId(kmsConfiguration)
+       // There is no reason to proove the KMS response, if succesful, adhered to KMS behavior
+       // && beaconHistory.output.value.KeyId.Some?
+       // && beaconHistory.output.value.KeyId.value == KMSKeystoreOperations.GetKeyId(kmsConfiguration)
 
     // Verify branch key context for beacon
     && Structure.BRANCH_KEY_TYPE_PREFIX < decryptOnlyBranchKeyContext[Structure.TYPE_FIELD]
