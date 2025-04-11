@@ -6,6 +6,9 @@ module {:options "/functionSyntax:4" } KmsUtils {
   import opened Wrappers
   import KMS = Com.Amazonaws.Kms
   import KMSKeystoreOperations
+  import KeyStoreTypes = KMSKeystoreOperations.Types
+  import Types = AwsCryptographyKeyStoreAdminTypes
+  import KmsArn
 
   datatype KMSTuple = | KMSTuple(
     kmsClient: KMS.Types.IKMSClient,
@@ -23,13 +26,11 @@ module {:options "/functionSyntax:4" } KmsUtils {
   datatype keyManagerStrat =
     | reEncrypt(reEncrypt: KMSTuple)
     | decryptEncrypt(decrypt: KMSTuple, encrypt: KMSTuple)
+    | kmsSimple(kmsSimple: KMSTuple)
   {
     ghost predicate ValidState()
     {
       match this
-      case reEncrypt(km) =>
-        && km.ValidState()
-        && km.Modifies == km.Modifies
       case decryptEncrypt(kmD, kmE) =>
         // We will assume this is the case in order to make verification happy
         && kmD.ValidState()
@@ -37,11 +38,34 @@ module {:options "/functionSyntax:4" } KmsUtils {
         && kmD.Modifies == kmD.Modifies
         && kmE.Modifies == kmE.Modifies
         && kmD.Modifies !! kmE.Modifies
+      // TODO : Check with Dafny team about collapsing reEncrypt & kmsSimple
+      case reEncrypt(km) => km.ValidState() && km.Modifies == km.Modifies
+      case kmsSimple(km) => km.ValidState() && km.Modifies == km.Modifies
     }
     ghost const Modifies := match this
+      case decryptEncrypt(kmD, kmE) => kmD.Modifies + kmE.Modifies
       case reEncrypt(km) => km.Modifies
-      case decryptEncrypt(kmD, kmE) =>
-        kmD.Modifies + kmE.Modifies
+      case kmsSimple(km) => km.Modifies
+    ghost const ModifiesMultiSet := match this
+      case decryptEncrypt(kmD, kmE) => multiset(kmD.kmsClient.Modifies) + multiset(kmE.kmsClient.Modifies)
+      case reEncrypt(km) => multiset(km.kmsClient.Modifies)
+      case kmsSimple(km) => multiset(km.kmsClient.Modifies)
+
+    // TODO-HV-2-M2 :: work out complete support
+    predicate SupportHV1()
+    {
+      match this
+      case decryptEncrypt(kmD, kmE) => true
+      case reEncrypt(km) => true
+      case kmsSimple(km) => false
+    }
+    predicate SupportHV2()
+    {
+      match this
+      case decryptEncrypt(kmD, kmE) => false
+      case reEncrypt(km) => false
+      case kmsSimple(km) => true
+    }
   }
 
   datatype InternalSystemKey =
@@ -76,6 +100,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     match error {
       case Opaque(obj) => None
       case KeyManagementException(s) => None
+      case BranchKeyCiphertextException(s) => None
       case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
         match comAmazonawsKms {
           case Opaque(obj) => Some(comAmazonawsKms)
@@ -92,6 +117,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     match error {
       case Opaque(obj) => None
       case KeyManagementException(s) => Some(s)
+      case BranchKeyCiphertextException(s) => Some(s)
       case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
         match comAmazonawsKms {
           case Opaque(obj) => None
@@ -100,4 +126,18 @@ module {:options "/functionSyntax:4" } KmsUtils {
         }
     }
   }
+
+  function KmsSymmetricKeyArnToKMSConfiguration(
+    kmsSymmetricArn: Types.KmsSymmetricKeyArn
+  ): (output: KeyStoreTypes.KMSConfiguration)
+    requires
+      match kmsSymmetricArn
+      case KmsKeyArn(arn) => KmsArn.ValidKmsArn?(arn)
+      case KmsMRKeyArn(arn) => KmsArn.ValidKmsArn?(arn)
+  {
+    match kmsSymmetricArn
+    case KmsKeyArn(kmsKeyArn) => KeyStoreTypes.kmsKeyArn(kmsKeyArn)
+    case KmsMRKeyArn(kmsMRKeyArn) => KeyStoreTypes.kmsMRKeyArn(kmsMRKeyArn)
+  }
+
 }

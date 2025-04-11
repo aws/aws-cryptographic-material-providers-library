@@ -151,6 +151,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype HierarchicalSymmetric = | HierarchicalSymmetric (
     nameonly Version: string
   )
+  datatype HierarchyVersion =
+    | v1
+    | v2
   type HmacKeyMap = map<string, Secret>
   datatype KeyManagement =
     | kms(kms: AwsKms)
@@ -922,6 +925,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
         nameonly message: string
       )
     | BranchKeyCiphertextException (
+        nameonly message: string
+      )
+    | HierarchyVersionException (
         nameonly message: string
       )
     | KeyManagementException (

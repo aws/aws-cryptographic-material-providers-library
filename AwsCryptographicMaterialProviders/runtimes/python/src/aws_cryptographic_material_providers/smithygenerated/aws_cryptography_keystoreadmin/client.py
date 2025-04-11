@@ -75,8 +75,16 @@ class KeyStoreAdmin:
             self._config.dafnyImplInterface.impl = dafny_client
 
     def create_key(self, input: CreateKeyInput) -> CreateKeyOutput:
-        """Create a new Branch Key in the Key Store. Additionally create a
-        Beacon Key that is tied to this Branch Key.
+        """Create a new Branch Key in the Branch Key Store.
+        This creates 3 items: the ACTIVE branch key item, the DECRYPT_ONLY for the ACTIVE branch key item, and the beacon key.
+        In DynamoDB, the sort-key for the ACTIVE branch key is 'branch:ACTIVE`;
+        the sort-key for the decrypt_only is 'branch:version:<uuid>';
+        the sort-key for the beacon key is `beacon:ACTIVE'.
+        The active branch key and the decrypt_only items have the same plain-text data key.
+        The beacon key plain-text data key is unqiue.
+        KMS calls are determined by the 'hierarchy-version' and 'KeyManagementStrategy'.
+        All three items are written to DDB by a TransactionWriteItems, conditioned on the absence of a conflicting Branch Key ID.
+        See Branch Key Store Developer Guide's 'Create Branch Keys': https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/create-branch-keys.html
 
         :param input: The operation's input.
         """
@@ -90,14 +98,21 @@ class KeyStoreAdmin:
         )
 
     def version_key(self, input: VersionKeyInput) -> VersionKeyOutput:
-        """Rotates the Branch Key by creating a new ACTIVE version of an
-        existing Branch Key, along with a complementing Version (DECRYPT_ONLY)
-        in the Key Store. This generates a fresh AES-256 key which all future
-        encrypts will use for the Key Derivation Function, until VersionKey is
-        executed again. This operation can race against other Version Key
-        requests or Initialize Mutation requests for the same Branch Key.
-        Should that occur, all but one of the requests will fail. Race errors
-        are either 'Version Race Exceptions' or 'Key Storage Exceptions'.
+        """Rotates the Branch Key by creating a new ACTIVE version of an existing Branch Key,
+        along with a complementing Version (DECRYPT_ONLY) in the Key Store.
+        This generates a fresh AES-256 key which all future encrypts will use
+        for the Key Derivation Function,
+        until VersionKey is executed again.
+        Rotation is accomplished by first authenticating the ACTIVE branch key item,
+        followed by generation of a new ACTIVE and matching DECRYPT_ONLY.
+        KMS calls are determined by the 'hierarchy-version' and 'KeyManagementStrategy'.
+        These two items are then writen to the Branch Key Store via a TransactionWriteItems;
+        this only overwrites the ACTIVE item, the DECRYPT_ONLY is a new item.
+        This leaves all the previous DECRYPT_ONLY items available to service decryption of previous rotations.
+        This operation can race against other Version Key requests or Initialize Mutation requests for the same Branch Key.
+        Should that occur, all but one of the requests will fail.
+        Race errors are either 'Version Race Exceptions' or 'Key Storage Exceptions'.
+        See Branch Key Store Developer Guide's 'Rotate your active branch key': https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/rotate-branch-key.html
 
         :param input: The operation's input.
         """

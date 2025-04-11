@@ -465,6 +465,13 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"} KeyStore 
     assert Operations.ValidInternalConfig?(internalConfig);
     var client := new KeyStoreClient(internalConfig);
 
+    assume {:axiom} fresh(client.Modifies
+                          - ( if config.ddbClient.Some? then config.ddbClient.value.Modifies else {})
+                          - ( if config.kmsClient.Some? then config.kmsClient.value.Modifies else {})
+                          - ( if (config.storage.Some? && config.storage.value.custom?) then config.storage.value.custom.Modifies else {})
+                          - ( if (config.keyManagement.Some? && config.keyManagement.value.kms? && config.keyManagement.value.kms.kmsClient.Some?) then config.keyManagement.value.kms.kmsClient.value.Modifies else {})
+                          - ( if (config.storage.Some? && config.storage.value.ddb? && config.storage.value.ddb.ddbClient.Some?) then config.storage.value.ddb.ddbClient.value.Modifies else {}));
+
     return Success(client);
   }
 

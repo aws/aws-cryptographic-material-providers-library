@@ -7,6 +7,7 @@ import dafny.DafnyMap;
 import dafny.DafnySequence;
 import java.lang.Byte;
 import java.lang.Character;
+import java.lang.IllegalArgumentException;
 import java.lang.RuntimeException;
 import java.lang.String;
 import java.nio.ByteBuffer;
@@ -16,6 +17,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.Error;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_AlreadyExistsConditionFailed;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_BranchKeyCiphertextException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_CollectionOfErrors;
+import software.amazon.cryptography.keystore.internaldafny.types.Error_HierarchyVersionException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyManagementException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException;
@@ -64,6 +66,8 @@ import software.amazon.cryptography.keystore.model.GetMutationInput;
 import software.amazon.cryptography.keystore.model.GetMutationOutput;
 import software.amazon.cryptography.keystore.model.HierarchicalKeyType;
 import software.amazon.cryptography.keystore.model.HierarchicalSymmetric;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
+import software.amazon.cryptography.keystore.model.HierarchyVersionException;
 import software.amazon.cryptography.keystore.model.KMSConfiguration;
 import software.amazon.cryptography.keystore.model.KeyManagement;
 import software.amazon.cryptography.keystore.model.KeyManagementException;
@@ -153,6 +157,19 @@ public class ToNative {
   ) {
     BranchKeyCiphertextException.Builder nativeBuilder =
       BranchKeyCiphertextException.builder();
+    nativeBuilder.message(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_message()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
+  public static HierarchyVersionException Error(
+    Error_HierarchyVersionException dafnyValue
+  ) {
+    HierarchyVersionException.Builder nativeBuilder =
+      HierarchyVersionException.builder();
     nativeBuilder.message(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_message()
@@ -253,6 +270,9 @@ public class ToNative {
     }
     if (dafnyValue.is_BranchKeyCiphertextException()) {
       return ToNative.Error((Error_BranchKeyCiphertextException) dafnyValue);
+    }
+    if (dafnyValue.is_HierarchyVersionException()) {
+      return ToNative.Error((Error_HierarchyVersionException) dafnyValue);
     }
     if (dafnyValue.is_KeyManagementException()) {
       return ToNative.Error((Error_KeyManagementException) dafnyValue);
@@ -1184,6 +1204,21 @@ public class ToNative {
     WriteNewEncryptedBranchKeyVersionOutput.Builder nativeBuilder =
       WriteNewEncryptedBranchKeyVersionOutput.builder();
     return nativeBuilder.build();
+  }
+
+  public static HierarchyVersion HierarchyVersion(
+    software.amazon.cryptography.keystore.internaldafny.types.HierarchyVersion dafnyValue
+  ) {
+    if (dafnyValue.is_v1()) {
+      return HierarchyVersion.v1;
+    }
+    if (dafnyValue.is_v2()) {
+      return HierarchyVersion.v2;
+    }
+    throw new IllegalArgumentException(
+      "No entry of software.amazon.cryptography.keystore.model.HierarchyVersion matches the input : " +
+      dafnyValue
+    );
   }
 
   public static HierarchicalKeyType HierarchicalKeyType(

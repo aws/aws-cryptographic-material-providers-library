@@ -3,7 +3,6 @@
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "MutationStateStructures.dfy"
 include "MutationErrorRefinement.dfy"
-include "MutateViaDecryptEncrypt.dfy"
 include "KmsUtils.dfy"
 
 /** Common Functions/Methods for Mutations. */
@@ -23,7 +22,6 @@ module {:options "/functionSyntax:4" } Mutations {
   import StateStrucs = MutationStateStructures
   import MutationErrorRefinement
   import KmsUtils
-  import MutateViaDecryptEncrypt
 
   method ValidateCommitmentAndIndexStructures(
     token: Types.MutationToken,
@@ -81,14 +79,12 @@ module {:options "/functionSyntax:4" } Mutations {
   )
     returns (output: Outcome<Types.Error>)
 
-    requires Structure.EncryptedHierarchicalKey?(item)
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
     requires keyManagerStrategy.ValidState()
+    requires keyManagerStrategy.SupportHV1()
     requires item.Type.ActiveHierarchicalSymmetricVersion? || item.Type.HierarchicalSymmetricVersion?
-    modifies
-      match keyManagerStrategy
-      case reEncrypt(km) => km.kmsClient.Modifies
-      case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
+    modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
   {
     var kmsOperation: string;
@@ -177,7 +173,7 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly localOperation: string := "InitializeMutation"
   )
     returns (output: Result<Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
-    requires Structure.EncryptedHierarchicalKey?(item)
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KMS.IsValid_KeyIdType(terminalKmsArn)
     requires KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext)
     requires KmsArn.ValidKmsArn?(terminalKmsArn)
@@ -186,7 +182,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires keyManagerStrategy.decryptEncrypt?
     requires item.Type.HierarchicalSymmetricVersion? // the input is a Version
     requires Structure.ActiveHierarchicalSymmetricVersionEncryptionContext?(terminalEncryptionContext)
-    modifies keyManagerStrategy.encrypt.Modifies
+    modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
     ensures output.Success? ==> output.value.Type.ActiveHierarchicalSymmetricVersion? // the output is an ACTIVE
   {
@@ -232,18 +228,13 @@ module {:options "/functionSyntax:4" } Mutations {
   {
     ghost predicate Pre()
     {
-      && Structure.EncryptedHierarchicalKey?(item)
+      && Structure.EncryptedHierarchicalKeyFromStorage?(item)
       && KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext)
       && KmsArn.ValidKmsArn?(originalKmsArn) && KmsArn.ValidKmsArn?(terminalKmsArn)
       && item.KmsArn == originalKmsArn
       && keyManagerStrategy.ValidState()
     }
-    // TODO-Mutations-FF : Refactor KmsUtils.KeyMang Modifies to be like below and replace all copies
-    ghost const Modifies :=
-      match keyManagerStrategy {
-        case reEncrypt(km) => multiset(km.kmsClient.Modifies)
-        case decryptEncrypt(kmD, kmE) => multiset(kmD.kmsClient.Modifies) + multiset(kmE.kmsClient.Modifies)
-      }
+    ghost const Modifies := keyManagerStrategy.ModifiesMultiSet
     ghost predicate Post()
     {
       && keyManagerStrategy.ValidState()
@@ -260,6 +251,9 @@ module {:options "/functionSyntax:4" } Mutations {
     ensures input.Post()
     modifies input.Modifies
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
+    requires input.keyManagerStrategy.decryptEncrypt? || input.keyManagerStrategy.reEncrypt?
+    requires input.item.EncryptionContext[Structure.KMS_FIELD] == input.originalKmsArn
+    requires input.terminalEncryptionContext[Structure.KMS_FIELD] == input.terminalKmsArn
   {
     var wrappedKey?;
     var kmsOperation: string;
@@ -276,10 +270,9 @@ module {:options "/functionSyntax:4" } Mutations {
           kmsClient := kms.kmsClient
         );
       case decryptEncrypt(kmsD, kmsE) =>
-        var decryptedKey? := MutateViaDecryptEncrypt.Decrypt(
-          ciphertext := input.item.CiphertextBlob,
-          encryptionContext := input.item.EncryptionContext,
-          kmsArn := input.originalKmsArn,
+        var decryptedKey? := KMSKeystoreOperations.DecryptKeyForHv1(
+          encryptedKey := input.item,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(input.originalKmsArn),
           grantTokens := kmsD.grantTokens,
           kmsClient := kmsD.kmsClient);
         if (decryptedKey?.Failure?) {
@@ -292,10 +285,11 @@ module {:options "/functionSyntax:4" } Mutations {
           return Failure(error);
         }
         kmsOperation := "Encrypt";
-        wrappedKey? := MutateViaDecryptEncrypt.Encrypt(
-          plaintext := decryptedKey?.value,
+        wrappedKey? := KMSKeystoreOperations.EncryptKey(
+          plaintext := decryptedKey?.value.Plaintext.value,
           encryptionContext := input.terminalEncryptionContext,
-          kmsArn := input.terminalKmsArn,
+          kmsArnToStorage := input.terminalEncryptionContext[Structure.KMS_FIELD],
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(input.terminalKmsArn),
           grantTokens := kmsE.grantTokens,
           kmsClient := kmsE.kmsClient
         );
@@ -335,6 +329,7 @@ module {:options "/functionSyntax:4" } Mutations {
     reveal Seq.Filter();
   }
 
+  // TODO-HV-2-M2: Refactor to allow HV-2 for Mutations
   /** This function is largely identical to Structure.DecryptOnlyBranchKeyEncryptionContext, **/
   /** except the "custom Encryption Context" has already been prefixed. **/
   function DecryptOnlyBranchKeyEncryptionContextForMutation(
@@ -343,6 +338,7 @@ module {:options "/functionSyntax:4" } Mutations {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
+    // hierachyVersion: HierarchyVersion,
     prefixedCustomEncryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
@@ -379,7 +375,7 @@ module {:options "/functionSyntax:4" } Mutations {
     | forall i <- s :: !i.itemNeither?
     witness *
 
-  lemma OriginalOrTerminalIsEncryptedHierarchicalKey?(items: OriginalOrTerminal)
+  lemma OriginalOrTerminalIsEncryptedHierarchicalKeyFromStorage?(items: OriginalOrTerminal)
     ensures forall item <- items ::
               && (item.itemOriginal? || item.itemTerminal?)
               && item.item is KeyStoreTypes.EncryptedHierarchicalKey
@@ -390,9 +386,9 @@ module {:options "/functionSyntax:4" } Mutations {
     MutationToApply: StateStrucs.MutationToApply
   ): (output: CheckedItem)
     requires item.Type.HierarchicalSymmetricVersion?
-    requires Structure.EncryptedHierarchicalKey?(item)
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires MutationToApply.ValidState()
-    ensures Structure.EncryptedHierarchicalKey?(output.item)
+    ensures Structure.EncryptedHierarchicalKeyFromStorage?(output.item)
     ensures
       && output.itemOriginal?
       ==>
@@ -441,14 +437,12 @@ module {:options "/functionSyntax:4" } Mutations {
     doNotVersion: bool
   ) returns (output: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires mutationToApply.ValidState() && keyManagerStrategy.ValidState()
-    modifies match keyManagerStrategy {
-               case reEncrypt(km) => multiset(km.kmsClient.Modifies)
-               case decryptEncrypt(kmD, kmE) => multiset(kmD.kmsClient.Modifies) + multiset(kmE.kmsClient.Modifies)
-             }
+    modifies keyManagerStrategy.ModifiesMultiSet
     ensures mutationToApply.ValidState() && keyManagerStrategy.ValidState()
     requires item.KmsArn == mutationToApply.Original.kmsArn
-    requires Structure.EncryptedHierarchicalKey?(item)
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
+    requires keyManagerStrategy.SupportHV1()
   {
     var terminalEncryptionContext := Structure.ReplaceMutableContext(
       item.EncryptionContext,

@@ -6,23 +6,12 @@ package software.amazon.cryptography.keystore.model;
 import java.util.Objects;
 
 /**
- *
- * The cipher-text or branch key context incorporated into the cipher-text,
- * such as the encryption context, is corrupted, missing, or otherwise invalid.
- * For branch keys,
- * the branch key context (BKC) is a combination of:
- * - the encryption context
- * - storage identifiers (partition key, sort key, logical name)
- * - metadata that binds the Branch Key to encrypted data (version)
- * - create-time
- * - hierarchy-version
- *
- * If any of the above are modified without calling KMS,
- * the branch key's cipher-text becomes invalid.
+ * The HierarchyVersion of the Branch Key is not supported by the operation.
+ * 'hierarchy-version-2' Branch Keys can only be created or versioned (rotated) via the Branch Key Store Admin.
  */
-public class BranchKeyCiphertextException extends RuntimeException {
+public class HierarchyVersionException extends RuntimeException {
 
-  protected BranchKeyCiphertextException(BuilderImpl builder) {
+  protected HierarchyVersionException(BuilderImpl builder) {
     super(messageFromBuilder(builder), builder.cause());
   }
 
@@ -79,7 +68,7 @@ public class BranchKeyCiphertextException extends RuntimeException {
      */
     Throwable cause();
 
-    BranchKeyCiphertextException build();
+    HierarchyVersionException build();
   }
 
   static class BuilderImpl implements Builder {
@@ -90,7 +79,7 @@ public class BranchKeyCiphertextException extends RuntimeException {
 
     protected BuilderImpl() {}
 
-    protected BuilderImpl(BranchKeyCiphertextException model) {
+    protected BuilderImpl(HierarchyVersionException model) {
       this.message = model.message();
       this.cause = model.cause();
     }
@@ -113,13 +102,13 @@ public class BranchKeyCiphertextException extends RuntimeException {
       return this.cause;
     }
 
-    public BranchKeyCiphertextException build() {
+    public HierarchyVersionException build() {
       if (Objects.isNull(this.message())) {
         throw new IllegalArgumentException(
           "Missing value for required field `message`"
         );
       }
-      return new BranchKeyCiphertextException(this);
+      return new HierarchyVersionException(this);
     }
   }
 }

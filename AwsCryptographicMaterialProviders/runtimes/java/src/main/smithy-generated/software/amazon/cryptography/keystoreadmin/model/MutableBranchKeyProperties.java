@@ -5,6 +5,7 @@ package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Map;
 import java.util.Objects;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 
 /**
  *
@@ -21,13 +22,19 @@ public class MutableBranchKeyProperties {
   private final String KmsArn;
 
   /**
-   * The custom Encryption Context authenticated with this Branch Key.
+   * The Encryption Context authenticated with this Branch Key.
    */
   private final Map<String, String> CustomEncryptionContext;
+
+  /**
+   * The 'hierarchy-version' of the Branch Key.
+   */
+  private final HierarchyVersion HierarchyVersion;
 
   protected MutableBranchKeyProperties(BuilderImpl builder) {
     this.KmsArn = builder.KmsArn();
     this.CustomEncryptionContext = builder.CustomEncryptionContext();
+    this.HierarchyVersion = builder.HierarchyVersion();
   }
 
   /**
@@ -38,10 +45,17 @@ public class MutableBranchKeyProperties {
   }
 
   /**
-   * @return The custom Encryption Context authenticated with this Branch Key.
+   * @return The Encryption Context authenticated with this Branch Key.
    */
   public Map<String, String> CustomEncryptionContext() {
     return this.CustomEncryptionContext;
+  }
+
+  /**
+   * @return The 'hierarchy-version' of the Branch Key.
+   */
+  public HierarchyVersion HierarchyVersion() {
+    return this.HierarchyVersion;
   }
 
   public Builder toBuilder() {
@@ -64,16 +78,26 @@ public class MutableBranchKeyProperties {
     String KmsArn();
 
     /**
-     * @param CustomEncryptionContext The custom Encryption Context authenticated with this Branch Key.
+     * @param CustomEncryptionContext The Encryption Context authenticated with this Branch Key.
      */
     Builder CustomEncryptionContext(
       Map<String, String> CustomEncryptionContext
     );
 
     /**
-     * @return The custom Encryption Context authenticated with this Branch Key.
+     * @return The Encryption Context authenticated with this Branch Key.
      */
     Map<String, String> CustomEncryptionContext();
+
+    /**
+     * @param HierarchyVersion The 'hierarchy-version' of the Branch Key.
+     */
+    Builder HierarchyVersion(HierarchyVersion HierarchyVersion);
+
+    /**
+     * @return The 'hierarchy-version' of the Branch Key.
+     */
+    HierarchyVersion HierarchyVersion();
 
     MutableBranchKeyProperties build();
   }
@@ -84,11 +108,14 @@ public class MutableBranchKeyProperties {
 
     protected Map<String, String> CustomEncryptionContext;
 
+    protected HierarchyVersion HierarchyVersion;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(MutableBranchKeyProperties model) {
       this.KmsArn = model.KmsArn();
       this.CustomEncryptionContext = model.CustomEncryptionContext();
+      this.HierarchyVersion = model.HierarchyVersion();
     }
 
     public Builder KmsArn(String KmsArn) {
@@ -111,6 +138,15 @@ public class MutableBranchKeyProperties {
       return this.CustomEncryptionContext;
     }
 
+    public Builder HierarchyVersion(HierarchyVersion HierarchyVersion) {
+      this.HierarchyVersion = HierarchyVersion;
+      return this;
+    }
+
+    public HierarchyVersion HierarchyVersion() {
+      return this.HierarchyVersion;
+    }
+
     public MutableBranchKeyProperties build() {
       if (Objects.isNull(this.KmsArn())) {
         throw new IllegalArgumentException(
@@ -120,6 +156,11 @@ public class MutableBranchKeyProperties {
       if (Objects.isNull(this.CustomEncryptionContext())) {
         throw new IllegalArgumentException(
           "Missing value for required field `CustomEncryptionContext`"
+        );
+      }
+      if (Objects.isNull(this.HierarchyVersion())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `HierarchyVersion`"
         );
       }
       return new MutableBranchKeyProperties(this);

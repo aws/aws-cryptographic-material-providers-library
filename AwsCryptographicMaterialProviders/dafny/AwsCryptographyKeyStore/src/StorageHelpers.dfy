@@ -115,7 +115,7 @@ module {:options "/functionSyntax:4"} StorageHelpers {
   ): (output: Result<Types.EncryptedHierarchicalKey, Types.Error>)
     ensures output.Success?
             ==>
-              && Structure.EncryptedHierarchicalKey?(output.value)
+              && Structure.EncryptedHierarchicalKeyFromStorage?(output.value)
               && output.value.Identifier == identifier
               && output.value.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
               && KmsArn.ValidKmsArn?(output.value.KmsArn)

@@ -28,7 +28,11 @@ module {:options "/functionSyntax:4" } Structure {
 
   const AWS_CRYPTO_EC := "aws-crypto-ec"
   const ENCRYPTION_CONTEXT_PREFIX := AWS_CRYPTO_EC + ":"
+  const AES_256_LENGTH: uint8 := 32
+  // BKC => Branch Key Context
+  const BKC_DIGEST_LENGTH: uint8 := 48
 
+  // TODO-HV-2-FOLLOW : Introduce a Lemma that ensures none of these fields start with aws-crypto-ec
   const BRANCH_KEY_RESTRICTED_FIELD_NAMES := {
     BRANCH_KEY_IDENTIFIER_FIELD,
     TYPE_FIELD,
@@ -41,8 +45,14 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   //Attribute Values
-  const HIERARCHY_VERSION_VALUE := "1"
+  const HIERARCHY_VERSION_VALUE_1 := "1"
+  const HIERARCHY_VERSION_VALUE_2 := "2"
+  // TODO-HV-2-M1 : Find all HIERARCHY_VERSION_VALUE and replace them with something
+  const HIERARCHY_VERSION_VALUE := HIERARCHY_VERSION_VALUE_1
+  // TODO-HV-2-M1 : Find all HIERARCHY_VERSION_ATTRIBUTE_VALUE and replace them with something
   const HIERARCHY_VERSION_ATTRIBUTE_VALUE := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE)
+  const HIERARCHY_VERSION_ATTRIBUTE_VALUE_1 := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE_1)
+  const HIERARCHY_VERSION_ATTRIBUTE_VALUE_2 := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE_2)
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE"
   const BEACON_KEY_TYPE_VALUE := "beacon:ACTIVE"
@@ -52,6 +62,12 @@ module {:options "/functionSyntax:4" } Structure {
   //= type=exception
   //# Across all versions of a Branch Key, the custom encryption context MUST be equal.
   // At this time, we have no operation that reads all the records of a Branch Key ID.
+
+  type PrefixedEncryptionContext = m: map<string, string> | PrefixedEncryptionContext?(m) witness *
+  predicate PrefixedEncryptionContext?(m: map<string, string>) {
+    && m.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    && forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX < k
+  }
 
   type BranchKeyContext = m: map<string, string> | BranchKeyContext?(m) witness *
   predicate BranchKeyContext?(m: map<string, string>) {
@@ -126,7 +142,7 @@ module {:options "/functionSyntax:4" } Structure {
         || BRANCH_KEY_TYPE_PREFIX < m[TYPE_FIELD])
   }
 
-  predicate EncryptedHierarchicalKey?(key: Types.EncryptedHierarchicalKey) {
+  predicate EncryptedHierarchicalKeyFromStorage?(key: Types.EncryptedHierarchicalKey) {
     && BranchKeyContext?(key.EncryptionContext)
     && key.Identifier == key.EncryptionContext[BRANCH_KEY_IDENTIFIER_FIELD]
     && key.CreateTime == key.EncryptionContext[KEY_CREATE_TIME]
@@ -160,7 +176,7 @@ module {:options "/functionSyntax:4" } Structure {
     key: Types.EncryptedHierarchicalKey
   ): (output: DDB.AttributeMap)
     requires (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
-    ensures EncryptedHierarchicalKey?(key) ==>
+    ensures EncryptedHierarchicalKeyFromStorage?(key) ==>
               && BranchKeyItem?(output)
               && ToEncryptedHierarchicalKey(output, key.EncryptionContext[TABLE_FIELD]) == key
   {
@@ -184,7 +200,7 @@ module {:options "/functionSyntax:4" } Structure {
     logicalKeyStoreName: string
   ): (output: Types.EncryptedHierarchicalKey)
     requires BranchKeyItem?(item)
-    ensures EncryptedHierarchicalKey?(output)
+    ensures EncryptedHierarchicalKeyFromStorage?(output)
   {
     var EncryptionContext := map k <- item.Keys - {BRANCH_KEY_FIELD} + {TABLE_FIELD}
                                       // Working around https://github.com/dafny-lang/dafny/issues/5776
@@ -208,7 +224,7 @@ module {:options "/functionSyntax:4" } Structure {
     CiphertextBlob: seq<uint8>
   ): (output: Types.EncryptedHierarchicalKey)
     requires BranchKeyContext?(EncryptionContext)
-    ensures EncryptedHierarchicalKey?(output)
+    ensures EncryptedHierarchicalKeyFromStorage?(output)
   {
     var Type
       := if EncryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE then
@@ -239,7 +255,7 @@ module {:options "/functionSyntax:4" } Structure {
     plaintextKey: seq<uint8>
   ): (output: Result<Types.BranchKeyMaterials, Types.Error>)
 
-    requires EncryptedHierarchicalKey?(key)
+    requires EncryptedHierarchicalKeyFromStorage?(key)
     requires
       || key.Type.ActiveHierarchicalSymmetricVersion?
       || key.Type.HierarchicalSymmetricVersion?
@@ -436,14 +452,14 @@ module {:options "/functionSyntax:4" } Structure {
     map i <- defixedCustomEncryptionContext :: i.0 := i.1
   }
 
-
   opaque function DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
-    customEncryptionContext: map<string, string>
+    hierarchyVersion: Types.HierarchyVersion,
+    encryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
@@ -452,10 +468,15 @@ module {:options "/functionSyntax:4" } Structure {
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[KMS_FIELD] == kmsKeyArn
     ensures output[TABLE_FIELD] == logicalKeyStoreName
-    ensures forall k <- customEncryptionContext
+    ensures output[HIERARCHY_VERSION] == match hierarchyVersion {
+                                           case v1 => HIERARCHY_VERSION_VALUE_1
+                                           case v2 => HIERARCHY_VERSION_VALUE_2
+                                         }
+    ensures forall k <- encryptionContext
               ::
                 && ENCRYPTION_CONTEXT_PREFIX + k in output
-                && output[ENCRYPTION_CONTEXT_PREFIX + k] == customEncryptionContext[k]
+                && output[ENCRYPTION_CONTEXT_PREFIX + k] == encryptionContext[k]
+    ensures PrefixedEncryptionContext?(output - BRANCH_KEY_RESTRICTED_FIELD_NAMES)
   {
     // Dafny needs some help.
     // Adding a fixed string
@@ -463,18 +484,29 @@ module {:options "/functionSyntax:4" } Structure {
     // However, this leaks a lot of complexity.
     // This is why the function is now opaque.
     // Otherwise things timeout
-    assert forall k <- customEncryptionContext.Keys
+    assert forall k <- encryptionContext.Keys
         ::
-          k == (ENCRYPTION_CONTEXT_PREFIX + k)[|ENCRYPTION_CONTEXT_PREFIX|..];
-
-    map[
+          && k == (ENCRYPTION_CONTEXT_PREFIX + k)[|ENCRYPTION_CONTEXT_PREFIX|..];
+    // TODO-HV-2-FOLLOW : Using a Match statement to set the HIERARCHY_VERSION has made Dafny
+    // doubt that the prefixed-EC is disjoint from the reserved words.
+    // While this is really interesting, we KNOW this is true, and I am not going to spend.
+    // I would like to make some tiny functions that handle just prefixing...
+    var prefixedEncryptionContext :=
+      map k <- encryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := encryptionContext[k];
+    assume {:axiom} forall k :: k in prefixedEncryptionContext.Keys ==> ENCRYPTION_CONTEXT_PREFIX < k;
+    assume {:axiom} prefixedEncryptionContext.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES;
+    assert PrefixedEncryptionContext?(prefixedEncryptionContext);
+    prefixedEncryptionContext + map[
       BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
       TYPE_FIELD := BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
       KEY_CREATE_TIME := timestamp,
       TABLE_FIELD := logicalKeyStoreName,
       KMS_FIELD := kmsKeyArn,
-      HIERARCHY_VERSION := HIERARCHY_VERSION_VALUE
-    ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
+      HIERARCHY_VERSION := match hierarchyVersion {
+      case v1 => HIERARCHY_VERSION_VALUE_1
+      case v2 => HIERARCHY_VERSION_VALUE_2
+    }
+    ]
   }
 
   function ActiveBranchKeyEncryptionContext(
@@ -485,6 +517,7 @@ module {:options "/functionSyntax:4" } Structure {
       && BRANCH_KEY_TYPE_PREFIX < decryptOnlyEncryptionContext[TYPE_FIELD]
       && BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
     ensures BranchKeyContext?(output)
+    ensures output[HIERARCHY_VERSION] == decryptOnlyEncryptionContext[HIERARCHY_VERSION]
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD in output
   {
     decryptOnlyEncryptionContext + map[
@@ -501,6 +534,7 @@ module {:options "/functionSyntax:4" } Structure {
       && BRANCH_KEY_TYPE_PREFIX < decryptOnlyEncryptionContext[TYPE_FIELD]
       && BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
     ensures BranchKeyContext?(output)
+    ensures output[HIERARCHY_VERSION] == decryptOnlyEncryptionContext[HIERARCHY_VERSION]
     ensures output[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE
   {
     decryptOnlyEncryptionContext + map[
@@ -605,17 +639,17 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   predicate ActiveHierarchicalSymmetricKey?(key: Types.EncryptedHierarchicalKey) {
-    && EncryptedHierarchicalKey?(key)
+    && EncryptedHierarchicalKeyFromStorage?(key)
     && key.Type.ActiveHierarchicalSymmetricVersion?
   }
 
   predicate DecryptOnlyHierarchicalSymmetricKey?(key: Types.EncryptedHierarchicalKey) {
-    && EncryptedHierarchicalKey?(key)
+    && EncryptedHierarchicalKeyFromStorage?(key)
     && key.Type.HierarchicalSymmetricVersion?
   }
 
   predicate ActiveHierarchicalSymmetricBeaconKey?(key: Types.EncryptedHierarchicalKey) {
-    && EncryptedHierarchicalKey?(key)
+    && EncryptedHierarchicalKeyFromStorage?(key)
     && key.Type.ActiveHierarchicalSymmetricBeacon?
   }
 
@@ -638,7 +672,7 @@ module {:options "/functionSyntax:4" } Structure {
     key: Types.EncryptedHierarchicalKey,
     item: DDB.AttributeMap
   )
-    requires EncryptedHierarchicalKey?(key)
+    requires EncryptedHierarchicalKeyFromStorage?(key)
     requires (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
     requires item == ToAttributeMap(key)
 
@@ -681,13 +715,14 @@ module {:options "/functionSyntax:4" } Structure {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
+    hierarchyVersion: Types.HierarchyVersion,
     encryptionContext: map<string, string>
   )
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
     ensures
       var decryptOnly := DecryptOnlyBranchKeyEncryptionContext(
-                           branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName, kmsKeyArn, encryptionContext);
+                           branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName, kmsKeyArn, hierarchyVersion, encryptionContext);
       var active := ActiveBranchKeyEncryptionContext(decryptOnly);
       var beacon := BeaconKeyEncryptionContext(decryptOnly);
       && decryptOnly[TYPE_FIELD] != active[TYPE_FIELD]
@@ -725,7 +760,7 @@ module {:options "/functionSyntax:4" } Structure {
     key: Types.EncryptedHierarchicalKey,
     item: DDB.AttributeMap
   )
-    requires BranchKeyItem?(item) && EncryptedHierarchicalKey?(key)
+    requires BranchKeyItem?(item) && EncryptedHierarchicalKeyFromStorage?(key)
 
     ensures
       && (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))

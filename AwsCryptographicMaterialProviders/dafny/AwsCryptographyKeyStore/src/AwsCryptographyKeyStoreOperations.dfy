@@ -228,6 +228,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
                 && i.0.Success?
                 && i.1.Success?
                 && DDB.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + i.0.value)
+                   // TODO-UTF8-OPTIMIZATION :: It is silly to Decode and then Encode
                    // Dafny requires that I *prove* that k == Encode(Decode(k))
                    // Since UTF8 can be lossy in some implementations
                    // this is the simplest...
