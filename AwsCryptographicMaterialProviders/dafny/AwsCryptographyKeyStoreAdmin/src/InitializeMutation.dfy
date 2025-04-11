@@ -77,6 +77,9 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     :- Need(|input.Identifier| > 0,
             Types.KeyStoreAdminException(message := "Branch Key Identifier cannot be empty!"));
     var terminalEC := input.Mutations.TerminalEncryptionContext.UnwrapOr(map[]);
+    // TODO-HV2-Follow: Currently Mutations do not allow BRANCH_KEY_RESTRICTED_FIELD_NAMES in the encryption context.
+    // We should revisit this Need to have consistent behavior with key store.
+    // There are couple of other places where we need to remove/replace assertions for disjoints.
     :- Need(
          terminalEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES,
          Types.KeyStoreAdminException(
