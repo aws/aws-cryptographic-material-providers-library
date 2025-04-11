@@ -6,44 +6,63 @@ import java.util.Collections;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import org.testng.annotations.Test;
 import software.amazon.awssdk.utils.StringUtils;
+import software.amazon.cryptography.keystore.model.AwsKms;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
+import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 
 /*
   The Hierarchical Keyring Example relies on the existence of a
   key store with pre-existing branch key material or beacon key material.
 
-  This example demonstrates configuring a Key Store Admin and then
-  using a helper method to create a branch key and beacon key
+  This example demonstrates configuring a Key Store Admin and then 
+  to create Hierarchy Version 2 (HV2) branch key and beacon key materials 
   that share the same Id, then return that Id.
+  
+  For HV2 branch keys:
+  - The branch key materials are created with 'hierarchy-version-2'
+  - Kms Simple Strategy is required to create branch keys with 'hierarchy-version-2'
+
   We will always create a new beacon key alongside a new branch key,
   even if you are not using searchable encryption.
 
   This key creation should occur within your control plane.
  */
-public class CreateKeyExample {
 
+public class CreateKeyHv2Example {
+
+  @Test
   public static String CreateKey(
     @Nonnull String kmsKeyArn,
+    @Nonnull HierarchyVersion hierarchyVersion,
     @Nullable String branchKeyId,
     @Nullable KeyStoreAdmin admin
   ) {
     // 1. Configure your Key Store Admin resource.
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
-    // 2. If you need to specify the Identifier for a Branch Key, you may.
+    // 2. Configure Key Management Strategy.
+    // Only KMS Simple is supported at this time for HV-2 to Create Keys
+    final KeyManagementStrategy strategy = KeyManagementStrategy
+      .builder()
+      .AwsKmsSimple(AwsKms.builder().build())
+      .build();
+
+    // 3. If you need to specify the Identifier for a Branch Key, you may.
     // This is an optional argument.
     // If an Identifier is not provided, a v4 UUID will be generated and used.
     // This example provides a combination of a fixed string and a v4 UUID;
     // this makes it easy for Crypto Tools to clean up these Example Branch Keys.
     branchKeyId =
       StringUtils.isBlank(branchKeyId)
-        ? "mpl-java-example-" + java.util.UUID.randomUUID().toString()
+        ? "mpl-java-example-hv2-" + java.util.UUID.randomUUID().toString()
         : branchKeyId;
 
-    // 3. Create a custom encryption context for the Branch Key.
+    // 4. Create a custom encryption context for the Branch Key.
     // Most encrypted data should have an associated encryption context
     // to protect integrity. This sample uses placeholder values.
     // Note that the custom encryption context for a Branch Key is
@@ -55,7 +74,7 @@ public class CreateKeyExample {
       "ExampleContextValue"
     );
 
-    // 4. Create a new branch key and beacon key in our KeyStore.
+    // 5. Create a new branch key and beacon key in our KeyStore.
     //    Both the branch key and the beacon key will share an Id.
     //    This creation is eventually consistent.
     final String actualBranchKeyId = _admin
@@ -71,6 +90,15 @@ public class CreateKeyExample {
           // If a branch key Identifier is provided,
           // custom encryption context MUST be provided as well.
           .EncryptionContext(encryptionContext)
+          // Only KMS Simple is supported at this time for HV-2 to Create Keys
+          // This is an optional argument which defaults to
+          // AwsKmsDecryptEncrypt Strategy if no input is provided
+          .Strategy(strategy)
+          // If a Hierarchy Version is set to `v2`
+          // Branch Key is created with `hierarchy-version-2`.
+          // This is an optional argument, if no Hierarchy Version is provided,
+          // Hierarchy Version defaults to v1.
+          .HierarchyVersion(hierarchyVersion)
           .build()
       )
       .Identifier();
@@ -93,6 +121,6 @@ public class CreateKeyExample {
       logicalKeyStoreName,
       null
     );
-    CreateKey(kmsKeyArn, null, admin);
+    CreateKey(kmsKeyArn, HierarchyVersion.v2, null, admin);
   }
 }
