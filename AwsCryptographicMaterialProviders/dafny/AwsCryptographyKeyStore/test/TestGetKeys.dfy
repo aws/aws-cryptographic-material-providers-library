@@ -4,7 +4,7 @@
 include "../src/Index.dfy"
 include "Fixtures.dfy"
 include "CleanupItems.dfy"
-include "../src/ErrorMessages.dfy"
+include "../src/KeyStoreErrorMessages.dfy"
 include "BranchKeyValidators.dfy"
 
 module {:options "/functionSyntax:4" } TestGetKeys {

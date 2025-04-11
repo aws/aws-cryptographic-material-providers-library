@@ -4,7 +4,7 @@
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
 include "KMSKeystoreOperations.dfy"
-include "ErrorMessages.dfy"
+include "KeyStoreErrorMessages.dfy"
 include "KmsArn.dfy"
 include "HierarchicalVersionUtils.dfy"
 

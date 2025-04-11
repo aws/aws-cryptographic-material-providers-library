@@ -3,7 +3,7 @@
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 
-include "ErrorMessages.dfy"
+include "KeyStoreErrorMessages.dfy"
 
 module {:options "/functionSyntax:4" } KmsArn {
   import opened Wrappers

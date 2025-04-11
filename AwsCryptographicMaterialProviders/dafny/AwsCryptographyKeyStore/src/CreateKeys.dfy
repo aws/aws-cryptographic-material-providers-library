@@ -5,7 +5,7 @@ include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
 include "DefaultKeyStorageInterface.dfy"
 include "KMSKeystoreOperations.dfy"
-include "ErrorMessages.dfy"
+include "KeyStoreErrorMessages.dfy"
 include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "KmsArn.dfy"
 
