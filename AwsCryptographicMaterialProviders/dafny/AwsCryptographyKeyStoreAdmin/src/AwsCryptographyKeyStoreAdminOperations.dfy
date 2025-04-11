@@ -371,7 +371,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         var branchKeyVersion :- maybeBranchKeyVersion
         .MapFailure(e => Types.KeyStoreAdminException(message := e));
 
-        // TODO-HV-2-M1: Ensure Correctness about HV-2 Behavior
         var unwrapEncryptionContext := input.EncryptionContext.UnwrapOr(map[]);
         var encodedEncryptionContext
           := set k <- unwrapEncryptionContext
