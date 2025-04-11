@@ -7,8 +7,11 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.utils.StringUtils;
+import software.amazon.cryptography.keystore.model.AwsKms;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.CreateKeyInput;
+import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 
 /*
@@ -28,12 +31,34 @@ public class CreateKeyExample {
   public static String CreateKey(
     @Nonnull String kmsKeyArn,
     @Nullable String branchKeyId,
-    @Nullable KeyStoreAdmin admin
+    @Nullable KeyStoreAdmin admin,
+    @Nullable HierarchyVersion hierarchyVersion
   ) {
     // 1. Configure your Key Store Admin resource.
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
+    final HierarchyVersion _hierarchyVersion = hierarchyVersion == null
+      ? HierarchyVersion.v1
+      : hierarchyVersion;
 
-    // 2. If you need to specify the Identifier for a Branch Key, you may.
+    // 2. Configure Key Management Strategy.
+    final KeyManagementStrategy strategy;
+    if (_hierarchyVersion == HierarchyVersion.v2) {
+      // Only KMS Simple is supported at this time for HV-2 to Create Keys
+      strategy =
+        KeyManagementStrategy
+          .builder()
+          .AwsKmsSimple(AwsKms.builder().build())
+          .build();
+    } else {
+      // Only KMS ReEncrypt is supported at this time for HV-1 Create Keys
+      strategy =
+        KeyManagementStrategy
+          .builder()
+          .AwsKmsReEncrypt(AwsKms.builder().build())
+          .build();
+    }
+
+    // 3. If you need to specify the Identifier for a Branch Key, you may.
     // This is an optional argument.
     // If an Identifier is not provided, a v4 UUID will be generated and used.
     // This example provides a combination of a fixed string and a v4 UUID;
@@ -43,7 +68,7 @@ public class CreateKeyExample {
         ? "mpl-java-example-" + java.util.UUID.randomUUID().toString()
         : branchKeyId;
 
-    // 3. Create a custom encryption context for the Branch Key.
+    // 4. Create a custom encryption context for the Branch Key.
     // Most encrypted data should have an associated encryption context
     // to protect integrity. This sample uses placeholder values.
     // Note that the custom encryption context for a Branch Key is
@@ -55,7 +80,7 @@ public class CreateKeyExample {
       "ExampleContextValue"
     );
 
-    // 4. Create a new branch key and beacon key in our KeyStore.
+    // 5. Create a new branch key and beacon key in our KeyStore.
     //    Both the branch key and the beacon key will share an Id.
     //    This creation is eventually consistent.
     final String actualBranchKeyId = _admin
@@ -71,6 +96,10 @@ public class CreateKeyExample {
           // If a branch key Identifier is provided,
           // custom encryption context MUST be provided as well.
           .EncryptionContext(encryptionContext)
+          // The Branch Key Store Admin can create HV-1 or HV-2 Branch Keys
+          .HierarchyVersion(_hierarchyVersion)
+          // But the Strategy MUST support the Hierarchy Version
+          .Strategy(strategy)
           .build()
       )
       .Identifier();
@@ -93,6 +122,6 @@ public class CreateKeyExample {
       logicalKeyStoreName,
       null
     );
-    CreateKey(kmsKeyArn, null, admin);
+    CreateKey(kmsKeyArn, null, admin, HierarchyVersion.v1);
   }
 }

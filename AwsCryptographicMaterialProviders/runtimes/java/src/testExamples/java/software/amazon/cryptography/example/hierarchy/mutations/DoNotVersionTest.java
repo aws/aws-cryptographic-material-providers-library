@@ -14,6 +14,7 @@ import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
 import software.amazon.cryptography.example.hierarchy.KeyStoreProvider;
 import software.amazon.cryptography.example.hierarchy.ValidateKeyStoreItem;
 import software.amazon.cryptography.keystore.KeyStore;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
@@ -30,7 +31,12 @@ public class DoNotVersionTest {
     String branchKeyId = testPrefix + java.util.UUID.randomUUID().toString();
     Assert.assertEquals(
       branchKeyId,
-      CreateKeyExample.CreateKey(Fixtures.KEYSTORE_KMS_ARN, branchKeyId, admin),
+      CreateKeyExample.CreateKey(
+        Fixtures.KEYSTORE_KMS_ARN,
+        branchKeyId,
+        admin,
+        HierarchyVersion.v1
+      ),
       "Creation of test BK failed."
     );
     SystemKey systemKey = MutationsProvider.KmsSystemKey();
