@@ -19,6 +19,7 @@ import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
@@ -204,7 +205,12 @@ public class TestMutationsSystemKeyKMSTamper {
     final String identifier =
       testPrefix + java.util.UUID.randomUUID().toString();
 
-    CreateKeyExample.CreateKey(Fixtures.MRK_ARN_WEST, identifier, null);
+    CreateKeyExample.CreateKey(
+      Fixtures.MRK_ARN_WEST,
+      identifier,
+      null,
+      HierarchyVersion.v1
+    );
     //noinspection unchecked
     SystemKey systemKey = MutationsProvider.KmsSystemKey(
       Fixtures.KSA_SYSTEM_KEY,

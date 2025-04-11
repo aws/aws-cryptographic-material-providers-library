@@ -24,35 +24,38 @@ import software.amazon.cryptography.keystore.model.HierarchyVersion;
 
 public class ExampleTests {
 
+  static final String hv2CreateTestPrefix = "create-hierarchy-version-2-java-";
+
   @Test
   public void CreateKeyHv2Test() {
+    String branchKeyId =
+      hv2CreateTestPrefix + java.util.UUID.randomUUID().toString();
     // Create Branch Key with `hierarchy-version-2` (HV-2)
-    final String branchKeyId = CreateKeyHv2Example.CreateKey(
+    final String actualBranchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
-      HierarchyVersion.v2,
-      null,
-      AdminProvider.admin()
+      branchKeyId,
+      AdminProvider.admin(),
+      HierarchyVersion.v2
     );
-
-    System.out.println("Create Branch Key for HV-2: " + branchKeyId);
-
     final KeyStore keyStore = KeyStoreProvider.keyStore(
       Fixtures.KEYSTORE_KMS_ARN
     );
-
     // Get Branch Key Items
     GetActiveBranchKeyOutput activeOutput = keyStore.GetActiveBranchKey(
-      GetActiveBranchKeyInput.builder().branchKeyIdentifier(branchKeyId).build()
+      GetActiveBranchKeyInput
+        .builder()
+        .branchKeyIdentifier(actualBranchKeyId)
+        .build()
     );
     GetBranchKeyVersionOutput decryptOnlyOutput = keyStore.GetBranchKeyVersion(
       GetBranchKeyVersionInput
         .builder()
-        .branchKeyIdentifier(branchKeyId)
+        .branchKeyIdentifier(actualBranchKeyId)
         .branchKeyVersion(activeOutput.branchKeyMaterials().branchKeyVersion())
         .build()
     );
     GetBeaconKeyOutput beaconOutput = keyStore.GetBeaconKey(
-      GetBeaconKeyInput.builder().branchKeyIdentifier(branchKeyId).build()
+      GetBeaconKeyInput.builder().branchKeyIdentifier(actualBranchKeyId).build()
     );
 
     assert branchKeyId.equals(
@@ -82,7 +85,8 @@ public class ExampleTests {
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
-      AdminProvider.admin()
+      AdminProvider.admin(),
+      HierarchyVersion.v1
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
@@ -188,7 +192,8 @@ public class ExampleTests {
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
-      AdminProvider.admin()
+      AdminProvider.admin(),
+      HierarchyVersion.v1
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
