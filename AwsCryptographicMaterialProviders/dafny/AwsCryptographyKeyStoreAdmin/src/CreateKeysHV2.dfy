@@ -1,40 +1,36 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
+include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
 include "../../../../AwsCryptographyPrimitives/Model/AwsCryptographyPrimitivesTypes.dfy"
-include "../../AwsCryptographyKeyStore/src/Structure.dfy"
-include "../../AwsCryptographyKeyStore/src/DefaultKeyStorageInterface.dfy"
-include "../../AwsCryptographyKeyStore/src/KMSKeystoreOperations.dfy"
-include "../../AwsCryptographyKeyStore/src/KeyStoreErrorMessages.dfy"
-include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
-include "../../AwsCryptographyKeyStore/src/KmsArn.dfy"
-include "SystemKey/ContentHandler.dfy"
 
-// TODO-HV-2-M1: WIP
 module {:options "/functionSyntax:4" } CreateKeysHV2 {
-  // TODO-HV-2-M1-FF: Group imports according to libraries
+  // Standard Library Imports
   import opened StandardLibrary
   import opened Wrappers
+  import opened Seq
+  import opened UInt = StandardLibrary.UInt
+  import Time
+    // SDK Imports
+  import DDB = ComAmazonawsDynamodbTypes
+  import KMS = ComAmazonawsKmsTypes
+    // Crypto Primitives Imports
+  import AtomicPrimitives
+  import CryptoTypes = AwsCryptographyPrimitivesTypes
+    // MPL Imports
+  import AwsArnParsing
+  import CanonicalEncryptionContext
+    // (Branch) Key Store Imports
   import Structure
   import DefaultKeyStorageInterface
   import KMSKeystoreOperations
   import ErrorMessages = KeyStoreErrorMessages
-
-  import opened Seq
-  import opened UInt = StandardLibrary.UInt
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
-  import Types = AwsCryptographyKeyStoreAdminTypes
-  import DDB = ComAmazonawsDynamodbTypes
-  import KMS = ComAmazonawsKmsTypes
-  import AwsArnParsing
   import KmsArn
-  import AtomicPrimitives
-  import CanonicalEncryptionContext
-  import Time
+    // (Branch) Key Store Admin Imports
   import HvUtils = HierarchicalVersionUtils
-  import CryptoTypes = AwsCryptographyPrimitivesTypes
-  import ContentHandler = SystemKey.ContentHandler
+  import Types = AwsCryptographyKeyStoreAdminTypes
 
   function ConvertKmsErrorToError(
     e: KMSKeystoreOperations.KmsError
@@ -143,7 +139,8 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
              decryptOnlyBranchKeyContext
            )
 
-        && WrappedBeaconKeyCreationHV2?(
+        && assert kmsEncryptRequestForBeaconBKI in kmsClient.History.Encrypt[|old(kmsClient.History.Encrypt)|..];
+           WrappedBeaconKeyCreationHV2?(
              kmsEncryptRequestForBeaconBKI,
              kmsClient,
              kmsConfiguration,
