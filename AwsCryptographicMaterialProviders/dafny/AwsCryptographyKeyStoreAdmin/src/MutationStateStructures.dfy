@@ -2,13 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "../../../../libraries/src/JSON/API.dfy"
-include "../../../../libraries/src/JSON/Errors.dfy"
-include "../../../../libraries/src/JSON/Values.dfy"
 include "MutationIndexUtils.dfy"
 
 /** Mutation State Structures describe the Mutable Branch Key Properties that can be changed by Mutaiton. **/
 /** Methods here normialize these descriptions so they may be compared. **/
 module {:options "/functionSyntax:4" } MutationStateStructures {
+  // CT Standard Library Imports
   import opened StandardLibrary
   import opened StandardLibrary.UInt
   import opened StandardLibrary.NeedError
@@ -17,7 +16,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   import UTF8
   import String = StandardLibrary.String
   import SortedSets
-
+    // (Branch) Key Store Imports
   import ErrorMessages = KeyStoreErrorMessages
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreOperations = AwsCryptographyKeyStoreOperations
@@ -25,10 +24,11 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   import KmsArn
   import Structure
   import HVUtils = HierarchicalVersionUtils
-
+    // Dafny Standard Libraries Imports
   import JSON = JSON.API
   import JSONErrors = JSON.Errors
   import JSONValues = JSON.Values
+    // (Branch) Key Store Admin Imports
   import MutationIndexUtils
 
   const AWS_CRYPTO_EC := Structure.AWS_CRYPTO_EC
