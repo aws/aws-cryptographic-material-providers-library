@@ -2,13 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "../../../../libraries/src/JSON/API.dfy"
-include "../../../../libraries/src/JSON/Errors.dfy"
-include "../../../../libraries/src/JSON/Values.dfy"
 include "MutationIndexUtils.dfy"
 
 /** Mutation State Structures describe the Mutable Branch Key Properties that can be changed by Mutaiton. **/
 /** Methods here normialize these descriptions so they may be compared. **/
 module {:options "/functionSyntax:4" } MutationStateStructures {
+  // CT Standard Library Imports
   import opened StandardLibrary
   import opened StandardLibrary.UInt
   import opened StandardLibrary.NeedError
@@ -17,23 +16,24 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   import UTF8
   import String = StandardLibrary.String
   import SortedSets
-
+    // (Branch) Key Store Imports
   import ErrorMessages = KeyStoreErrorMessages
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreOperations = AwsCryptographyKeyStoreOperations
   import KeyStoreTypes = KeyStoreOperations.Types
   import KmsArn
   import Structure
-
+  import HVUtils = HierarchicalVersionUtils
+    // Dafny Standard Libraries Imports
   import JSON = JSON.API
   import JSONErrors = JSON.Errors
   import JSONValues = JSON.Values
+    // (Branch) Key Store Admin Imports
   import MutationIndexUtils
 
-  const MUTABLE_PROPERTY_COUNT: int := 2
-  const MUTABLE_PROPERTY_COUNT_str := "2"
   const AWS_CRYPTO_EC := Structure.AWS_CRYPTO_EC
   const KMS_FIELD := Structure.KMS_FIELD
+  const HV_FIELD := Structure.HIERARCHY_VERSION
   // Ensures
   // - if KMS ARN, Valid KMS ARN
   // - if EC, Valid non-empty EC, & not restricted field names
@@ -51,11 +51,19 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     && !(input.TerminalKmsArn.None? && input.TerminalEncryptionContext.None?)
   }
 
-  // TODO-HV-2-M2: Refactor to allow HV-2 for Mutations
+  /**
+     These are the members of a Branch Key Item
+     that can be changed by a Mutation.
+     We track the Original values AND the terminal values;
+     this affords us the ability to implement a roll back mechanism
+     in the future.
+     Currently, we also use the Original Values as an anti-entropy check;
+     every Branch Key Item MUST be in the Original OR Terminal state exactly.
+   */
   datatype MutableProperties = | MutableProperties (
     nameonly kmsArn: validKmsArn,
-    nameonly customEncryptionContext: KeyStoreTypes.EncryptionContextString
-    // nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion
+    nameonly customEncryptionContext: KeyStoreTypes.EncryptionContextString,
+    nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion
   )
 
   type validKmsArn = s:string | KmsArn.ValidKmsArn?(s) witness *
@@ -83,42 +91,100 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     }
   }
 
-  /** The Commitment & Index are persisted to the storage by Initialize. **/
-  /** The Commitment & Index are read by Apply. **/
-  /** The Index is updated by Apply. **/
-  /** Both are deleted when the Mutation is completed by Apply. **/
+  /**
+     The Commitment & Index are persisted to the storage by Initialize.
+     The Commitment & Index are read by Apply.
+     The Index is updated by Apply.
+     Both are deleted when the Mutation is completed by Apply.
+   */
   datatype CommitmentAndIndex = CommitmentAndIndex(
     Commitment: KeyStoreTypes.MutationCommitment,
     Index: KeyStoreTypes.MutationIndex
   )
   {
-    /** The Commitment & Index MUST always have the same Identifier & UUID. **/
-    /** They MAY NOT have the same CreateTime. **/
+    /** 
+      The Commitment & Index MUST always have the same Identifier & UUID. 
+      They MAY NOT have the same CreateTime. 
+    */
     predicate ValidState()
     {
       && Commitment.Identifier == Index.Identifier
-      && 0 < |Commitment.Identifier|
       && Commitment.UUID == Index.UUID
-      && 0 < |Commitment.UUID|
+      && ValidCommitment?(Commitment)
+      && ValidIndex?(Index)
     }
+    // TODO-HV-2-FOLLOW : See if we can drop ValidUTF8
     predicate ValidUTF8()
     {
-      && UTF8.ValidUTF8Seq(Commitment.Original)
-      && UTF8.ValidUTF8Seq(Commitment.Terminal)
-      && UTF8.ValidUTF8Seq(Commitment.Input)
-      && UTF8.ValidUTF8Seq(Index.PageIndex)
-      && 0 < |Commitment.Identifier|
-      && 0 < |Index.Identifier|
-      && 0 < |Commitment.UUID|
-      && 0 < |Index.UUID|
+      && ValidCommitment?(Commitment)
+      && ValidIndex?(Index)
     }
   }
 
+  predicate ValidCommitment?(
+    Commitment: KeyStoreTypes.MutationCommitment
+  ) {
+    && UTF8.ValidUTF8Seq(Commitment.Original)
+    && UTF8.ValidUTF8Seq(Commitment.Terminal)
+    && UTF8.ValidUTF8Seq(Commitment.Input)
+    && 0 < |Commitment.Identifier|
+    && 0 < |Commitment.UUID|
+  }
+
+  predicate ValidIndex?(
+    Index: KeyStoreTypes.MutationIndex
+  ) {
+    && 0 < |Index.Identifier|
+    && 0 < |Index.UUID|
+    && UTF8.ValidUTF8Seq(Index.PageIndex)
+  }
+
+  // Pre-HV-2 Mutations did not track Hierarchy Version;
+  // therefore, HV MAY NOT be present in a Mutation Commitment.
+  // If HV is not present, we KNOW it is HV1.
+  // If HV is present, then it is the third element.
+  // This is for MutableProperties, which are always set (they are "required").
+  function MutablePropertiesJsonToHierarchyVersion(
+    deserializedMutableProperties: JSONValues.JSON
+  ): (output: KeyStoreTypes.HierarchyVersion)
+    requires MutablePropertiesJson?(deserializedMutableProperties).Pass?
+  {
+    if |deserializedMutableProperties.obj| == 3
+    then HVUtils.StringToHierarchyVersion(deserializedMutableProperties.obj[2].1.str)
+    else KeyStoreTypes.HierarchyVersion.v1
+  }
+
+  // Pre-HV-2 Mutations did not track Hierarchy Version;
+  // therefore, HV MAY NOT be present in the User's Input.
+  // If HV is not present, we KNOW the customer could not and did not provide it.
+  // If HV key is present, then it is the third element, and is nullable,
+  // as a post-HV-2 mutation could mutate the HV.
+  // This is for the input, which are optional.
+  function InputMutationsJsonToHierarchyVersion(
+    deserializedInput: JSONValues.JSON
+  ): (output: Option<KeyStoreTypes.HierarchyVersion>)
+    requires MutablePropertiesJson?(deserializedInput).Pass?
+  {
+    if |deserializedInput.obj| == 3 && deserializedInput.obj[2].0 == HV_FIELD && deserializedInput.obj[2].1.String?
+    then Some(HVUtils.StringToHierarchyVersion(deserializedInput.obj[2].1.str))
+    else None
+  }
+
+  /**
+     To serialize the Encryption Context as JSON,
+     the keys of the Encryption Context, 
+     which is a map,
+     are sorted by string comparision,
+     and a JSON Object is created from this
+     now sorted map.
+     */
   function EncryptionContextStringToJSON(
     encryptionContext: KeyStoreTypes.EncryptionContextString
   ): (output: JSONValues.JSON)
-
   {
+    // TODO-HV-2-BLOCKER : Decide if we will Refactor to sort by UTF8 Bytes for IA or FOLLOW
+    // We had this logic: https://github.com/aws/private-aws-cryptographic-material-providers-library-dafny-staging/blob/c88abe97abfbc9057c28844f660cc4b5615b912e/AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStoreAdmin/src/MutationStateStructures.dfy#L55-L65
+    // But... the team moved away from it to strings...
     var keys := SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, b) => a < b);
     if |keys| == 0 then
       JSONValues.Object([])
@@ -132,6 +198,10 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       JSONValues.Object(KeysAndValues)
   }
 
+  /**
+     To deserialize the Encryption Context from the JSON,
+     the JSON Object is read as a map.
+     */
   function JSONToEncryptionContextString(
     EncryptionContext: JSONValues.JSON
   ): (output: KeyStoreTypes.EncryptionContextString)
@@ -146,6 +216,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
         EncryptionContext.obj[i].0 := EncryptionContext.obj[i].1.str
   }
 
+  /** The KMS ARN, in JSON, is just a string. */
   function KmsArnToJSON(
     kmsArn: string
   ): (output: Result<JSONValues.JSON, Types.Error>)
@@ -153,6 +224,19 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     Success(JSONValues.JSON.String(kmsArn))
   }
 
+  /** 
+    The user provided input for a Mutation is:
+    - two optional members pre-HV-2 (Encryption Context & KMS ARN)
+    - three optional members post-HV-2 (^ and hierarchy-version)
+
+    Members that were not set are represented by JSON's Null.
+    Members that were set are not null (EC : JSON.Object, HV & KMS-ARN : JSON.String).
+    {
+       "aws-crypto-ec": <Null or Object>,
+       "kms-arn": <Null or String>,
+       "hierarchy-version": <Null or String> // Pre-HV-2 Items will not have this.
+    }
+  */
   function InputMutationsToJson(
     Mutations: Types.Mutations
   ): (output: JSONValues.JSON)
@@ -165,19 +249,36 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       if Mutations.TerminalKmsArn.Some?
       then JSONValues.JSON.String(Mutations.TerminalKmsArn.value)
       else JSONValues.Null;
+    var hv: JSONValues.JSON :=
+      if Mutations.TerminalHierarchyVersion.Some?
+      then JSONValues.JSON.String(HVUtils.HierarchyVersionToString(Mutations.TerminalHierarchyVersion.value))
+      else JSONValues.Null;
+    // TODO-HV-2-M2 : Ensure that pre-HV-1 Mutation Commitments deserialize
+    // such commitments will not have the new HV field
     var inputJson
-      := JSONValues.Object([(AWS_CRYPTO_EC, ec), (KMS_FIELD, kms)]);
+      := JSONValues.Object([(AWS_CRYPTO_EC, ec), (KMS_FIELD, kms), (HV_FIELD, hv)]);
     inputJson
   }
 
+  // TODO-HV-2-M2 : Ensure that pre-HV-1 Mutation Commitments deserialize
+  // such commitments will not have the new HV field
+  /** 
+    See `InputMutationsToJson`.
+    If the member is Null, then Option.None is used.
+   */
   function InputMutationsFromJson(
     MutationsJson: JSONValues.JSON
   ): (output: Types.Mutations)
-    requires MutationsJson.Object? && |MutationsJson.obj| == 2
+    requires MutationsJson.Object? && (|MutationsJson.obj| == 2 || |MutationsJson.obj| == 3)
     requires MutationsJson.obj[0].1.Object? ==>
                (var EncryptionContext := MutationsJson.obj[0].1;
                 && (forall p <- EncryptionContext.obj :: p.1.String?)
                 && (|set p <- EncryptionContext.obj :: p.0| == |EncryptionContext.obj|))
+    requires
+      && |MutationsJson.obj| == 3 && MutationsJson.obj[2].1.String?
+      ==>
+        || MutationsJson.obj[2].1.str == Structure.HIERARCHY_VERSION_VALUE_1
+        || MutationsJson.obj[2].1.str == Structure.HIERARCHY_VERSION_VALUE_2
   {
     var ec: Option<KeyStoreTypes.EncryptionContextString> :=
       if MutationsJson.obj[0].1.Object?
@@ -187,24 +288,16 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       if MutationsJson.obj[1].1.String?
       then Some(MutationsJson.obj[1].1.str)
       else None;
+    var hv: Option<KeyStoreTypes.HierarchyVersion> :=
+      if |MutationsJson.obj| == 3 && MutationsJson.obj[2].1.String?
+      then Some(HVUtils.StringToHierarchyVersion(MutationsJson.obj[2].1.str))
+      else None;
     var input
       := Types.Mutations(
            TerminalKmsArn := kms,
-           TerminalEncryptionContext := ec);
+           TerminalEncryptionContext := ec,
+           TerminalHierarchyVersion := hv);
     input
-  }
-
-  function DeserializeMutationInput(
-    commitment: KeyStoreTypes.MutationCommitment
-  ): (output: Result<Types.Mutations, Types.Error>)
-  {
-    var InputJson :- JSON.Deserialize(commitment.Input).MapFailure(
-                       (e: JSONErrors.DeserializationError)
-                       => Types.KeyStoreAdminException(
-                           message := "Could not JSON Deserialize: Input. " + e.ToString()));
-    :- MutationsInputJson?(InputJson);
-    var input := InputMutationsFromJson(InputJson);
-    Success(input)
   }
 
   function ValidateJSONSerialize(
@@ -221,10 +314,22 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     else Failure("Failure to UTF8 Validate results of JSON Serialization.")
   }
 
+  /**
+    To serialize the Mutation,
+    convert the following to JSON:
+    - the original mutable properities (possibly renamed "mutable context")
+    - the terminal mutable properities
+    - the input
+    Convert the JSON objects into UTF-8 bytes.
+    The SystemKey is expected to populate the CiphertextBlob.
+    The Storage layer will then handle the Identifier, UUID, & CreateTime Strings,
+    but the other four fields are treated as byte blobs
+    (original, terminal, input, cipher-text).
+  */
   function SerializeMutationCommitment(
     MutationToApply: MutationToApply
   ): (output: Result<KeyStoreTypes.MutationCommitment, Types.Error>)
-    requires MutationToApply.ValidState() //MutationToApply?(MutationToApply)
+    requires MutationToApply.ValidState()
     ensures
       (&& output.Success?
        ==>
@@ -238,13 +343,15 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       := JSONValues.Object(
            [
              (AWS_CRYPTO_EC, EncryptionContextStringToJSON(MutationToApply.Original.customEncryptionContext)),
-             (KMS_FIELD, JSONValues.JSON.String(MutationToApply.Original.kmsArn))
+             (KMS_FIELD, JSONValues.JSON.String(MutationToApply.Original.kmsArn)),
+             (HV_FIELD, JSONValues.JSON.String(HVUtils.HierarchyVersionToString(MutationToApply.Original.hierarchyVersion)))
            ]);
     var TerminalJson
       := JSONValues.Object(
            [
              (AWS_CRYPTO_EC, EncryptionContextStringToJSON(MutationToApply.Terminal.customEncryptionContext)),
-             (KMS_FIELD, JSONValues.JSON.String(MutationToApply.Terminal.kmsArn))
+             (KMS_FIELD, JSONValues.JSON.String(MutationToApply.Terminal.kmsArn)),
+             (HV_FIELD, JSONValues.JSON.String(HVUtils.HierarchyVersionToString(MutationToApply.Terminal.hierarchyVersion)))
            ]);
 
     var InputJson := InputMutationsToJson(MutationToApply.Input);
@@ -278,12 +385,12 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
     var commitment := KeyStoreTypes.MutationCommitment(
                         Identifier := MutationToApply.Identifier,
-                        Original := validatedOriginalBytes, //originalBytes,
-                        Terminal := validatedTerminalBytes, //terminalBytes,
+                        Original := validatedOriginalBytes,
+                        Terminal := validatedTerminalBytes,
                         UUID := MutationToApply.UUID,
                         CreateTime := MutationToApply.CreateTime,
                         CiphertextBlob := MutationToApply.CommitmentCiphertext,
-                        Input := validatedInputBytes //inputBytes
+                        Input := validatedInputBytes
                       );
     Success(commitment)
   }
@@ -292,7 +399,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     MutationToApply: MutationToApply,
     ExclusiveStartKey: MutationIndexUtils.ExclusiveStartKey
   ): (output: Result<KeyStoreTypes.MutationIndex, Types.Error>)
-    requires MutationToApply.ValidState() //MutationToApply?(MutationToApply)
+    requires MutationToApply.ValidState()
     ensures
       (&& output.Success?
        ==>
@@ -305,12 +412,14 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
                    PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(ExclusiveStartKey),
                    UUID := MutationToApply.UUID,
                    CreateTime := MutationToApply.CreateTime,
-                   CiphertextBlob := MutationToApply.IndexCiphertext // TODO-Mutations-GA
+                   CiphertextBlob := MutationToApply.IndexCiphertext
                  );
     Success(index)
   }
 
-  function {:isolate_assertions} DeserializeMutation(
+  // TODO-HV-2-M2 : Ensure that pre-HV-1 Mutation Commitments deserialize
+  // such commitments will not have the new HV field
+  function DeserializeMutation(
     commitmentAndIndex: CommitmentAndIndex
   ): (output: Result<MutationToApply, Types.Error>)
     requires commitmentAndIndex.ValidState()
@@ -318,19 +427,19 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   {
     var commitment := commitmentAndIndex.Commitment;
     var index := commitmentAndIndex.Index;
-    var OriginalJson :- JSON.Deserialize(commitment.Original).MapFailure(
-                          (e: JSONErrors.DeserializationError)
-                          => Types.KeyStoreAdminException(
-                              message := "Could not JSON Deserialize: original properties. " + e.ToString()));
+    var OriginalJson: JSONValues.JSON :- JSON.Deserialize(commitment.Original).MapFailure(
+                                           (e: JSONErrors.DeserializationError)
+                                           => Types.KeyStoreAdminException(
+                                               message := "Could not JSON Deserialize: original properties. " + e.ToString()));
 
-    var TerminalJson :- JSON.Deserialize(commitment.Terminal).MapFailure(
-                          (e: JSONErrors.DeserializationError)
-                          => Types.KeyStoreAdminException(
-                              message := "Could not JSON Deserialize: terminal properties. " + e.ToString()));
-    var InputJson :- JSON.Deserialize(commitment.Input).MapFailure(
-                       (e: JSONErrors.DeserializationError)
-                       => Types.KeyStoreAdminException(
-                           message := "Could not JSON Deserialize: Input. " + e.ToString()));
+    var TerminalJson: JSONValues.JSON :- JSON.Deserialize(commitment.Terminal).MapFailure(
+                                           (e: JSONErrors.DeserializationError)
+                                           => Types.KeyStoreAdminException(
+                                               message := "Could not JSON Deserialize: terminal properties. " + e.ToString()));
+    var InputJson: JSONValues.JSON :- JSON.Deserialize(commitment.Input).MapFailure(
+                                        (e: JSONErrors.DeserializationError)
+                                        => Types.KeyStoreAdminException(
+                                            message := "Could not JSON Deserialize: Input. " + e.ToString()));
 
     :- MutablePropertiesJson?(OriginalJson);
     :- MutablePropertiesJson?(TerminalJson);
@@ -358,11 +467,13 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
         Identifier := commitment.Identifier,
         Original := MutableProperties(
           kmsArn := OriginalJson.obj[1].1.str,
-          customEncryptionContext := OriginalEC
+          customEncryptionContext := OriginalEC,
+          hierarchyVersion := MutablePropertiesJsonToHierarchyVersion(OriginalJson)
         ),
         Terminal := MutableProperties(
           kmsArn := TerminalJson.obj[1].1.str,
-          customEncryptionContext := TerminalEC
+          customEncryptionContext := TerminalEC,
+          hierarchyVersion := MutablePropertiesJsonToHierarchyVersion(TerminalJson)
         ),
         UUID := commitment.UUID,
         CreateTime := commitment.CreateTime,
@@ -373,15 +484,38 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       ))
   }
 
+  function DeserializeMutationInput(
+    commitment: KeyStoreTypes.MutationCommitment
+  ): (output: Result<Types.Mutations, Types.Error>)
+    requires 0 < |commitment.UUID| && 0 < |commitment.Identifier|
+    requires UTF8.ValidUTF8Seq(commitment.Input)
+  {
+    var InputJson :- JSON.Deserialize(commitment.Input).MapFailure(
+                       (e: JSONErrors.DeserializationError)
+                       => Types.KeyStoreAdminException(
+                           message := "Could not JSON Deserialize: Input. " + e.ToString()));
+    :- MutationsInputJson?(InputJson);
+    var input := InputMutationsFromJson(InputJson);
+    Success(input)
+  }
+
   const ERROR_PRFX := "Serialized State properties is malformed! "
 
+  /** Validates that a JSON object conforms to a Mutable properities.
+    The JSON structure will have 2 OR 3 items.
+    {
+       "aws-crypto-ec": {...},
+       "kms-arn": <String>,
+       "hierarchy-version": <String> // Pre-HV-2 Items will not have this.
+    }    
+  */
   function MutablePropertiesJson?(
     MutableProperties: JSONValues.JSON
   ): (output: Outcome<Types.Error>)
   {
     :- NeedOutcome(
-         MutableProperties.Object? && |MutableProperties.obj| == 2,
-         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "There should be two objects.")
+         MutableProperties.Object? && (|MutableProperties.obj| == 2 || |MutableProperties.obj| == 3),
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "There should be two or three objects.")
        );
     :- NeedOutcome(
          MutableProperties.obj[0].0 == AWS_CRYPTO_EC,
@@ -390,6 +524,10 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     :- NeedOutcome(
          MutableProperties.obj[1].0 == KMS_FIELD,
          () => Types.KeyStoreAdminException( message := ERROR_PRFX + "Second Key MUST be KMS ARN.")
+       );
+    :- NeedOutcome(
+         |MutableProperties.obj| == 2 || MutableProperties.obj[2].0 == HV_FIELD,
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "If there are three objects, the third key MUST be Hierarchy Version.")
        );
     :- NeedOutcome(
          MutableProperties.obj[0].1.Object?,
@@ -405,7 +543,16 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
          KmsArn.ValidKmsArn?(MutableProperties.obj[1].1.str),
          () => Types.KeyStoreAdminException( message := ERROR_PRFX + "KMS ARN that has been deserialized is invalid.")
        );
-
+    :- NeedOutcome(
+         |MutableProperties.obj| == 2 || MutableProperties.obj[2].1.String?,
+         () => Types.KeyStoreAdminException(
+             message := ERROR_PRFX + "Value for `" + HV_FIELD + "` MUST be a string, if it is present.")
+       );
+    :- NeedOutcome(
+         |MutableProperties.obj| == 2 || Structure.StringIsValidHierarchyVersion?(MutableProperties.obj[2].1.str),
+         () => Types.KeyStoreAdminException(
+             message := ERROR_PRFX + "Value for `" + HV_FIELD + "` that has been deserialized is not '1' or '2'.")
+       );
     var EncryptionContext := MutableProperties.obj[0].1;
     :- NeedOutcome(
          forall p <- EncryptionContext.obj :: p.1.String?,
@@ -422,46 +569,63 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     :- NeedOutcome(
          Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! EncryptionContextKeys,
          () => Types.KeyStoreAdminException(
-             message := "Invalid Mutation Token: MUST NOT model Item specific fields!"
+             message := "Invalid Mutation Commitment: MUST NOT model Item specific fields!"
            )
        );
-
     Outcome.Pass
   }
 
   function MutationsInputJson?(
-    DeserializedMutations: JSONValues.JSON
+    DeserializedInput: JSONValues.JSON
   ): (output: Outcome<Types.Error>)
   {
+    // Needs/Conditions for the entire JSON object
     :- NeedOutcome(
-         DeserializedMutations.Object? && |DeserializedMutations.obj| == 2,
-         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "There MUST not be more than two objects.")
+         DeserializedInput.Object? && (|DeserializedInput.obj| == 2 || |DeserializedInput.obj| == 3),
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "There MUST two or three objects.")
        );
+    // Needs/Conditions for the KMS-ARN
     :- NeedOutcome(
-         DeserializedMutations.obj[0].0 == AWS_CRYPTO_EC,
-         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "First Key MUST be Encryption Context.")
-       );
-    :- NeedOutcome(
-         DeserializedMutations.obj[1].0 == KMS_FIELD,
+         DeserializedInput.obj[1].0 == KMS_FIELD,
          () => Types.KeyStoreAdminException( message := ERROR_PRFX + "Second Key MUST be KMS ARN.")
        );
     :- NeedOutcome(
-         DeserializedMutations.obj[0].1.Object? || DeserializedMutations.obj[0].1.Null?,
-         () => Types.KeyStoreAdminException(
-             message := ERROR_PRFX + "Value for `" + AWS_CRYPTO_EC + "` MUST be an object or Null.")
-       );
-    :- NeedOutcome(
-         DeserializedMutations.obj[1].1.String? || DeserializedMutations.obj[1].1.Null?,
+         DeserializedInput.obj[1].1.String? || DeserializedInput.obj[1].1.Null?,
          () => Types.KeyStoreAdminException(
              message := ERROR_PRFX + "Value for `" + KMS_FIELD + "` MUST be a string or Null.")
        );
-
-    // For the input, I do not think we care if the KMS ARN is valid
-    // :- NeedOutcome(
-    //      KmsArn.ValidKmsArn?(DeserializedMutations.obj[1].1.str),
-    //      () => Types.KeyStoreAdminException( message := ERROR_PRFX + "KMS ARN that has been deserialized is invalid.")
-    //    );
-    NullableEncryptionContextJson?(DeserializedMutations.obj[0].1)
+    // Needs/Conditions for the Hierarchy Version
+    :- NeedOutcome(
+         |DeserializedInput.obj| == 2 || DeserializedInput.obj[2].0 == HV_FIELD,
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "If there is a third key, it MUST be Hierarchy Version.")
+       );
+    // If JSON has 3 objects, the third is the HV-FIELD, and MUST be a String or Nnull
+    :- NeedOutcome(
+         |DeserializedInput.obj| == 2 || (DeserializedInput.obj[2].1.String? || DeserializedInput.obj[2].1.Null?),
+         () => Types.KeyStoreAdminException(
+             message := ERROR_PRFX + "Value for `" + HV_FIELD + "` MUST be a string or Null.")
+       );
+    // If JSON has 3 objects, the third is the HV-FIELD, and if it is null, then it is None, otherwise, it is a string.
+    :- NeedOutcome(
+         || |DeserializedInput.obj| == 2
+         || (
+              ( && DeserializedInput.obj[2].1.String?
+                && Structure.StringIsValidHierarchyVersion?(DeserializedInput.obj[2].1.str)
+              ) || DeserializedInput.obj[2].1.Null?),
+         () => Types.KeyStoreAdminException(
+             message := ERROR_PRFX + "Value for `" + HV_FIELD + "` MUST be a string or Null; if it is a string, it MUST be '1' or '2'.")
+       );
+    // Needs/Conditions for the Encryption Context
+    :- NeedOutcome(
+         DeserializedInput.obj[0].0 == AWS_CRYPTO_EC,
+         () => Types.KeyStoreAdminException( message := ERROR_PRFX + "First Key MUST be Encryption Context.")
+       );
+    :- NeedOutcome(
+         DeserializedInput.obj[0].1.Object? || DeserializedInput.obj[0].1.Null?,
+         () => Types.KeyStoreAdminException(
+             message := ERROR_PRFX + "Value for `" + AWS_CRYPTO_EC + "` MUST be an object or Null.")
+       );
+    NullableEncryptionContextJson?(DeserializedInput.obj[0].1)
   }
 
   function NullableEncryptionContextJson?(

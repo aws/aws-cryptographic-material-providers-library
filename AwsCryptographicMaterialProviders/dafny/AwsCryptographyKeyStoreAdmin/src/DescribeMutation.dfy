@@ -84,6 +84,22 @@ module {:options "/functionSyntax:4" } DescribeMutation {
         + " Mutation Commitment UUID: " + Commitment.UUID + ";"
         + " Mutation Index UUID: " + Index.UUID + ";"
       ));
+    :- Need(
+      StateStrucs.ValidCommitment?(Commitment),
+      Types.MutationInvalidException(
+        message := "Mutation Commitment read from Storage is invalid or corrupted."
+        + " Recommend auditing the Branch Key's items for tampering."
+        + " Recommend auditing access to the storage."
+        + "\nBranch Key ID: " + input.Identifier + ";"
+        + " Mutation Commitment UUID: " + Commitment.UUID));
+    :- Need(
+      StateStrucs.ValidIndex?(Index),
+      Types.MutationInvalidException(
+        message := "Mutation Index read from Storage is invalid or corrupted."
+        + " Recommend auditing the Branch Key's items for tampering."
+        + " Recommend auditing access to the storage."
+        + "\nBranch Key ID: " + input.Identifier + ";"
+        + " Mutation Index UUID: " + Index.UUID));
     var CommitmentAndIndex := StateStrucs.CommitmentAndIndex(
       Commitment := Commitment,
       Index := Index);
@@ -92,14 +108,12 @@ module {:options "/functionSyntax:4" } DescribeMutation {
     var original := Types.MutableBranchKeyContext(
       KmsArn := MutationToApply.Original.kmsArn,
       EncryptionContext := MutationToApply.Original.customEncryptionContext,
-      // TODO-HV-2-BLOCKER : properly set this
-      HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1
+      HierarchyVersion := MutationToApply.Original.hierarchyVersion
     );
     var terminal := Types.MutableBranchKeyContext(
       KmsArn := MutationToApply.Terminal.kmsArn,
       EncryptionContext := MutationToApply.Terminal.customEncryptionContext,
-      // TODO-HV-2-BLOCKER : properly set this
-      HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1
+      HierarchyVersion := MutationToApply.Terminal.hierarchyVersion
     );
     var details := Types.MutationDetails(
       Original := original,
