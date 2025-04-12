@@ -44,23 +44,23 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   // TODO-HV2: Create a known answer test for CreateBKCDigest. See https://github.com/aws/aws-cryptographic-material-providers-library/commit/09a84e15b5d7311b0418180ddda69dc7314b320e
   method CreateBKCDigest (
     branchKeyContext: map<string, string>,
-    cryptoClient: AtomicPrimitives.AtomicPrimitivesClient
+    Crypto: AtomicPrimitives.AtomicPrimitivesClient
   ) returns (output: Result<seq<uint8>, BKCDigestError>)
     requires Structure.BranchKeyContext?(branchKeyContext)
-    requires cryptoClient.ValidState()
-    modifies cryptoClient.Modifies
-    ensures cryptoClient.ValidState()
+    requires Crypto.ValidState()
+    modifies Crypto.Modifies
+    ensures Crypto.ValidState()
     ensures output.Success? ==>
-              && 0 < |cryptoClient.History.Digest|
-              && Seq.Last(cryptoClient.History.Digest).output.Success?
-              && var DigestInput := Seq.Last(cryptoClient.History.Digest).input;
-              && var DigestOutput := Seq.Last(cryptoClient.History.Digest).output;
+              && |Crypto.History.Digest| == |old(Crypto.History.Digest)| + 1
+              && Seq.Last(Crypto.History.Digest).output.Success?
+              && var DigestInput := Seq.Last(Crypto.History.Digest).input;
+              && var DigestOutput := Seq.Last(Crypto.History.Digest).output;
               && DigestInput.digestAlgorithm == AtomicPrimitives.Types.SHA_384
               && DigestOutput.value == output.value
               && |output.value| == Structure.BKC_DIGEST_LENGTH as int
   {
     var utf8BKContext :- EncodeEncryptionContext(branchKeyContext).MapFailure(WrapStringToError);
-    var digestResult := CanonicalEncryptionContext.EncryptionContextDigest(cryptoClient, utf8BKContext);
+    var digestResult := CanonicalEncryptionContext.EncryptionContextDigest(Crypto, utf8BKContext);
     if (digestResult.Failure?) {
       var error: Types.Error;
       error := match digestResult.error {

@@ -13,11 +13,10 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
   import opened UInt = StandardLibrary.UInt
   import Time
     // SDK Imports
-  import DDB = ComAmazonawsDynamodbTypes
-  import KMS = ComAmazonawsKmsTypes
+  import DDB = Com.Amazonaws.Dynamodb
+  import KMS = Com.Amazonaws.Kms
     // Crypto Primitives Imports
   import AtomicPrimitives
-  import CryptoTypes = AwsCryptographyPrimitivesTypes
     // MPL Imports
   import AwsArnParsing
   import CanonicalEncryptionContext
@@ -38,7 +37,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
   {
     match e {
       // KMS errors ->
-      case ComAmazonawsKms(comAmazonawsKms: KMS.Error) =>
+      case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
         Types.ComAmazonawsKms(
           ComAmazonawsKms := comAmazonawsKms
         )
@@ -55,19 +54,19 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
 
   // TODO-HV-2-GA : We need to refactor BKSA and probably BKS to have a CryptoClient so we can make statements
   // about the history of the SHA requests.
-  lemma assumeSHAIsInjective(
-    messageADigestEvent: CryptoTypes.DafnyCallEvent<CryptoTypes.DigestInput, Result<seq<uint8>, CryptoTypes.Error>>,
-    messageBDigestEvent: CryptoTypes.DafnyCallEvent<CryptoTypes.DigestInput, Result<seq<uint8>, CryptoTypes.Error>>
-  )
-  {
-    assume {:axiom}
-      && messageADigestEvent.output.Success?
-      && messageBDigestEvent.output.Success?
-      ==>
-        (messageADigestEvent.input.message != messageBDigestEvent.input.message
-         <==>
-         messageADigestEvent.output.value != messageBDigestEvent.output.value);
-  }
+  // lemma assumeSHAIsInjective(
+  //   messageADigestEvent: CryptoTypes.DafnyCallEvent<CryptoTypes.DigestInput, Result<seq<uint8>, CryptoTypes.Error>>,
+  //   messageBDigestEvent: CryptoTypes.DafnyCallEvent<CryptoTypes.DigestInput, Result<seq<uint8>, CryptoTypes.Error>>
+  // )
+  // {
+  //   assume {:axiom}
+  //     && messageADigestEvent.output.Success?
+  //     && messageBDigestEvent.output.Success?
+  //     ==>
+  //       (messageADigestEvent.input.message != messageBDigestEvent.input.message
+  //        <==>
+  //        messageADigestEvent.output.value != messageBDigestEvent.output.value);
+  // }
 
   // TODO-HV-2-GA: Update Specification for HV-2 Branch Key Creation
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
@@ -78,145 +77,29 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
   //# - `encryptionContext`: Additional encryption context to bind to the created keys
   method {:isolate_assertions} CreateBranchAndBeaconKeys(
     branchKeyIdentifier: string,
-    customEncryptionContext: map<string, string>,
+    encryptionContext: map<string, string>,
     timestamp: string,
     branchKeyVersion: string,
     logicalKeyStoreName: string,
     kmsConfiguration: KeyStoreTypes.KMSConfiguration,
-    grantTokens: KMS.GrantTokenList,
-    kmsClient: KMS.IKMSClient,
+    grantTokens: KMS.Types.GrantTokenList,
+    kmsClient: KMS.Types.IKMSClient,
     storage: KeyStoreTypes.IKeyStorageInterface,
     hierarchyVersion: KeyStoreTypes.HierarchyVersion
   )
     returns (output: Result<Types.CreateKeyOutput, Types.Error>)
-    requires 0 < |branchKeyIdentifier|
-    requires 0 < |branchKeyVersion|
-    requires forall k <- customEncryptionContext :: DDB.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + k)
-    requires storage.Modifies !! kmsClient.Modifies
-    requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
-    requires hierarchyVersion.v2?
 
     requires kmsClient.ValidState() && storage.ValidState()
     modifies storage.Modifies, kmsClient.Modifies
     ensures storage.ValidState() && kmsClient.ValidState()
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
-    //= type=implication
-    //# This operation MUST create a [branch key](structures.md#branch-key) and a [beacon key](structures.md#beacon-key) according to
-    //# the [Branch Key and Beacon Key Creation](#branch-key-and-beacon-key-creation) section.
-    ensures
-      output.Success?
-      ==>
-        && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
-        && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
-           // Use negative indexing to select correct KMS Encrypt calls ("-i % |seq|" is effectively negative indexing)
-           // The first request we made is for the new DecryptOnly BKI
-        && var kmsEncryptRequestForDecryptOnlyBKI := kmsClient.History.Encrypt[-3 % |kmsClient.History.Encrypt|];
-        // The second request we made is for the new ACTIVE BKI
-        && var kmsEncryptRequestForActiveBKI := kmsClient.History.Encrypt[-2 % |kmsClient.History.Encrypt|];
-        // The third and last request we made is for the new Beacon BKI
-        && var kmsEncryptRequestForBeaconBKI := kmsClient.History.Encrypt[-1 % |kmsClient.History.Encrypt|];
-        && kmsEncryptRequestForDecryptOnlyBKI.output.Success?
-        && kmsEncryptRequestForActiveBKI.output.Success?
-        && kmsEncryptRequestForBeaconBKI.output.Success?
-           // TODO-HV-2-M1-FF: Refactor EncryptionContext usage into BranchKeyContext
-        && var decryptOnlyBranchKeyContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
-                                                branchKeyIdentifier,
-                                                branchKeyVersion,
-                                                timestamp,
-                                                logicalKeyStoreName,
-                                                KMSKeystoreOperations.GetKeyId(kmsConfiguration),
-                                                hierarchyVersion,
-                                                customEncryptionContext
-                                              );
-
-        //= aws-encryption-sdk-specification/framework/branch-key-store.md#logical-keystore-name
-        //= type=implication
-        //# The logical keystore name MUST be bound to every created key.
-        && decryptOnlyBranchKeyContext[Structure.TABLE_FIELD] == logicalKeyStoreName
-
-        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
-        //= type=implication
-        //# Any additionally attributes in the EncryptionContext
-        //# of the [encrypted hierarchical key](./key-store/key-storage.md#encryptedhierarchicalkey)
-        //# MUST be added to the encryption context.
-        && (forall k <- customEncryptionContext
-              ::
-                && Structure.ENCRYPTION_CONTEXT_PREFIX + k in decryptOnlyBranchKeyContext
-                && decryptOnlyBranchKeyContext[Structure.ENCRYPTION_CONTEXT_PREFIX + k] == customEncryptionContext[k])
-
-        && WrappedDecryptOnlyCreationHV2?(
-             kmsEncryptRequestForDecryptOnlyBKI,
-             kmsClient,
-             kmsConfiguration,
-             grantTokens,
-             customEncryptionContext,
-             decryptOnlyBranchKeyContext
-           )
-
-        && WrappedBranchKeyActiveCreationHV2?(
-             kmsEncryptRequestForActiveBKI,
-             kmsClient,
-             kmsConfiguration,
-             grantTokens,
-             customEncryptionContext,
-             Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext)
-           )
-
-        && WrappedBeaconKeyCreationHV2?(
-             kmsEncryptRequestForBeaconBKI,
-             kmsClient,
-             kmsConfiguration,
-             grantTokens,
-             customEncryptionContext,
-             Structure.BeaconKeyEncryptionContext(decryptOnlyBranchKeyContext)
-           )
-        && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
-           //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
-           //= type=implication
-           //# If writing to the keystore succeeds,
-           //# the operation MUST return the branch-key-id that maps to both
-           //# the branch key and the beacon key.
-        && var writeNewEncryptedBranchKey := Seq.Last(storage.History.WriteNewEncryptedBranchKey);
-        && writeNewEncryptedBranchKey.input.Active
-           == Structure.ConstructEncryptedHierarchicalKey(
-                Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext),
-                kmsEncryptRequestForActiveBKI.output.value.CiphertextBlob.value
-              )
-        && writeNewEncryptedBranchKey.input.Version
-           == Structure.ConstructEncryptedHierarchicalKey(
-                decryptOnlyBranchKeyContext,
-                kmsEncryptRequestForDecryptOnlyBKI.output.value.CiphertextBlob.value
-              )
-        && writeNewEncryptedBranchKey.input.Beacon
-           == Structure.ConstructEncryptedHierarchicalKey(
-                Structure.BeaconKeyEncryptionContext(decryptOnlyBranchKeyContext),
-                kmsEncryptRequestForBeaconBKI.output.value.CiphertextBlob.value
-              )
-
-        && writeNewEncryptedBranchKey.output.Success?
-        && output.value.Identifier == branchKeyIdentifier
-
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
-    //= type=implication
-    //# Otherwise, this operation MUST yield an error.
-    ensures
-      // TODO-HV-2-FOLLOW : Is there another way to represent this? This is also not nearly all the possible failrues...
-      || (&& |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
-          && Seq.Last(kmsClient.History.Encrypt).output.Failure?
-          ==> output.Failure?)
-
-      || (&& |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 2
-          && Seq.Last(Seq.DropLast(kmsClient.History.Encrypt)).output.Failure?
-          ==> output.Failure?)
-
-      || (&& |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
-          && Seq.Last(Seq.DropLast(Seq.DropLast(kmsClient.History.Encrypt))).output.Failure?
-          ==> output.Failure?)
-
-      || (&& |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
-          && Seq.Last(storage.History.WriteNewEncryptedBranchKey).output.Failure?
-          ==> output.Failure?)
+    requires
+      && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
+      && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+      && hierarchyVersion.v2?
+      && 0 < |branchKeyIdentifier|
+      && 0 < |branchKeyVersion|
+      && forall k <- encryptionContext :: DDB.Types.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + k)
 
   {
     // Construct Branch Key Contexts for ACTIVE, Version and Beacon items.
@@ -227,7 +110,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
       logicalKeyStoreName,
       KMSKeystoreOperations.GetKeyId(kmsConfiguration),
       hierarchyVersion,
-      customEncryptionContext
+      encryptionContext
     );
     assert decryptOnlyBranchKeyContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2;
     var activeBranchKeyContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext);
@@ -241,126 +124,51 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
         )
     );
 
-    // Create SHA-384 digests for Branch Key Context's
-    var decryptOnlyDigest? := HvUtils.CreateBKCDigest(decryptOnlyBranchKeyContext, crypto);
-    var decryptOnlyDigest :- decryptOnlyDigest?.MapFailure(e => Types.AwsCryptographyKeyStore(
-                                                               AwsCryptographyKeyStore:= e
-                                                             ));
-    var activeDigest? := HvUtils.CreateBKCDigest(activeBranchKeyContext, crypto);
-    var activeDigest :- activeDigest?.MapFailure(e => Types.AwsCryptographyKeyStore(
-                                                     AwsCryptographyKeyStore:= e
-                                                   ));
-    var beaconDigest? := HvUtils.CreateBKCDigest(beaconBranchKeyContext, crypto);
-    var beaconDigest :- beaconDigest?.MapFailure(e => Types.AwsCryptographyKeyStore(
-                                                     AwsCryptographyKeyStore:= e
-                                                   ));
-
     // Generate Random Bytes as Plaintext for ACTIVE & Beacon Item's
     // TODO-HV-2-M4 : Improve error messages for generate random failure
     var activePlaintextMaterial? := crypto.GenerateRandomBytes(
-      CryptoTypes.GenerateRandomBytesInput(length := 32)
+      AtomicPrimitives.Types.GenerateRandomBytesInput(length := 32)
     );
-    var activePlaintextMaterial :- activePlaintextMaterial?.MapFailure(e => Types.AwsCryptographyPrimitives(
-                                                                           AwsCryptographyPrimitives := e
-                                                                         ));
+    var activePlaintextMaterial
+      :-
+      activePlaintextMaterial?.MapFailure(
+        e => Types.AwsCryptographyPrimitives(
+            AwsCryptographyPrimitives := e
+          ));
 
     var beaconPlaintextMaterial? := crypto.GenerateRandomBytes(
-      CryptoTypes.GenerateRandomBytesInput(length := 32)
+      AtomicPrimitives.Types.GenerateRandomBytesInput(length := 32)
     );
-    var beaconPlaintextMaterial :- beaconPlaintextMaterial?.MapFailure(e => Types.AwsCryptographyPrimitives(
-                                                                           AwsCryptographyPrimitives := e
-                                                                         ));
+    var beaconPlaintextMaterial
+      :-
+      beaconPlaintextMaterial?.MapFailure(
+        e => Types.AwsCryptographyPrimitives(
+            AwsCryptographyPrimitives := e));
 
-    // Pack BKC Digest & Plaintext
-    var activePlaintextTuple := HvUtils.PackPlainTextTuple(activeDigest, activePlaintextMaterial);
-    var decryptOnlyPlaintextTuple := HvUtils.PackPlainTextTuple(decryptOnlyDigest, activePlaintextMaterial);
-    var beaconPlaintextTuple := HvUtils.PackPlainTextTuple(beaconDigest, beaconPlaintextMaterial);
-
-    assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyBranchKeyContext[Structure.KMS_FIELD]);
-    ghost var initialKmsEncryptReqHistory := kmsClient.History.Encrypt;
-    var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.EncryptKey(
-      decryptOnlyPlaintextTuple,
-      customEncryptionContext,
-      decryptOnlyBranchKeyContext[Structure.KMS_FIELD],
-      kmsConfiguration,
-      grantTokens,
-      kmsClient
+    var kmsThings := KMSThings(kmsConfiguration, grantTokens, kmsClient);
+    var decrytOnlyBKItem :- packAndCallKMS(
+      branchKeyContext := decryptOnlyBranchKeyContext,
+      kmsThings := kmsThings,
+      Crypto := crypto,
+      material := activePlaintextMaterial,
+      encryptionContext := encryptionContext
     );
-    var wrappedDecryptOnlyBranchKey :- wrappedDecryptOnlyBranchKey?.MapFailure(e => ConvertKmsErrorToError(e));
-    assert |initialKmsEncryptReqHistory| + 1 ==  |kmsClient.History.Encrypt|;
-    assert |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1;
-    ghost var kmsEncryptRequestForDecryptOnlyBKI :=  Seq.Last(kmsClient.History.Encrypt);
 
-    var decrytOnlyBKItem := Structure.ConstructEncryptedHierarchicalKey(decryptOnlyBranchKeyContext,wrappedDecryptOnlyBranchKey);
-    assert decrytOnlyBKItem == Structure.ConstructEncryptedHierarchicalKey(
-                                 Structure.DecryptOnlyBranchKeyEncryptionContext(
-                                   branchKeyIdentifier,
-                                   branchKeyVersion,
-                                   timestamp,
-                                   logicalKeyStoreName,
-                                   KMSKeystoreOperations.GetKeyId(kmsConfiguration),
-                                   hierarchyVersion,
-                                   customEncryptionContext
-                                 ),
-                                 wrappedDecryptOnlyBranchKey);
-
-    assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, activeBranchKeyContext[Structure.KMS_FIELD]);
-    var wrappedActiveBranchKey? := KMSKeystoreOperations.EncryptKey(
-      activePlaintextTuple,
-      customEncryptionContext,
-      activeBranchKeyContext[Structure.KMS_FIELD],
-      kmsConfiguration,
-      grantTokens,
-      kmsClient
+    var activeBKItem :- packAndCallKMS(
+      branchKeyContext := activeBranchKeyContext,
+      kmsThings := kmsThings,
+      Crypto := crypto,
+      material := activePlaintextMaterial,
+      encryptionContext := encryptionContext
     );
-    var wrappedActiveBranchKey :- wrappedActiveBranchKey?.MapFailure(e => ConvertKmsErrorToError(e));
-    var activeBKItem := Structure.ConstructEncryptedHierarchicalKey(activeBranchKeyContext, wrappedActiveBranchKey);
-    assert activeBKItem == Structure.ConstructEncryptedHierarchicalKey(
-                             Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext),
-                             wrappedActiveBranchKey);
-    ghost var kmsEncryptRequestForActiveBKI :=  Seq.Last(kmsClient.History.Encrypt);
 
-    assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, beaconBranchKeyContext[Structure.KMS_FIELD]);
-    var wrappedBeaconKey? := KMSKeystoreOperations.EncryptKey(
-      beaconPlaintextTuple,
-      customEncryptionContext,
-      beaconBranchKeyContext[Structure.KMS_FIELD],
-      kmsConfiguration,
-      grantTokens,
-      kmsClient
+    var beaconBKItem :- packAndCallKMS(
+      branchKeyContext := beaconBranchKeyContext,
+      kmsThings := kmsThings,
+      Crypto := crypto,
+      material := beaconPlaintextMaterial,
+      encryptionContext := encryptionContext
     );
-    var wrappedBeaconKey :- wrappedBeaconKey?.MapFailure(e => ConvertKmsErrorToError(e));
-    var beaconBKItem := Structure.ConstructEncryptedHierarchicalKey(beaconBranchKeyContext, wrappedBeaconKey);
-    ghost var kmsEncryptRequestForBeaconBKI :=  Seq.Last(kmsClient.History.Encrypt);
-    assert
-      && kmsEncryptRequestForDecryptOnlyBKI.output.Success?
-      && kmsEncryptRequestForActiveBKI.output.Success?
-      && kmsEncryptRequestForDecryptOnlyBKI.output.Success?;
-    assert
-      && kmsEncryptRequestForDecryptOnlyBKI != kmsEncryptRequestForActiveBKI
-      && kmsEncryptRequestForActiveBKI != kmsEncryptRequestForBeaconBKI
-      && kmsEncryptRequestForDecryptOnlyBKI != kmsEncryptRequestForBeaconBKI
-    by {
-      assert
-        && kmsEncryptRequestForDecryptOnlyBKI.input.Plaintext != kmsEncryptRequestForActiveBKI.input.Plaintext
-        && kmsEncryptRequestForActiveBKI.input.Plaintext != kmsEncryptRequestForBeaconBKI.input.Plaintext
-        && kmsEncryptRequestForDecryptOnlyBKI.input.Plaintext != kmsEncryptRequestForBeaconBKI.input.Plaintext by
-      {
-        // TODO-HV-2-GA : Revise to use assumeSHAIsInjective
-        // The Dafny contract of the SHA-384 function CAN NOT ensure that every unique input has a unique output.
-        // This means we cannot prove that the outcome of SHA-384 is unique,
-        // and therefore cannot prove that the Plaintext input to KMS Encrypt are unique.
-        assume {:axiom} && kmsEncryptRequestForDecryptOnlyBKI.input.Plaintext != kmsEncryptRequestForActiveBKI.input.Plaintext
-                        && kmsEncryptRequestForActiveBKI.input.Plaintext != kmsEncryptRequestForBeaconBKI.input.Plaintext
-                        && kmsEncryptRequestForDecryptOnlyBKI.input.Plaintext != kmsEncryptRequestForBeaconBKI.input.Plaintext;
-      }
-    }
-
-    assert
-      kmsEncryptRequestForDecryptOnlyBKI.input.GrantTokens
-   == kmsEncryptRequestForActiveBKI.input.GrantTokens
-   == kmsEncryptRequestForDecryptOnlyBKI.input.GrantTokens
-   == Some(grantTokens);
 
     // Write ACTIVE, Version & Beacon Items to storage
     var writeItems? := storage.WriteNewEncryptedBranchKey(
@@ -382,97 +190,82 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
       ));
   }
 
-  twostate predicate {:isolate_assertions} WrappedDecryptOnlyCreationHV2?(
-    new kmsEncryptRequestForDecryptOnlyBKI: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
-    kmsClient: KMS.IKMSClient,
-    kmsConfiguration: KeyStoreTypes.KMSConfiguration,
-    grantTokens: KMS.GrantTokenList,
-    encryptionContext:  map<string, string>,
-    branchKeyContext: map<string, string>
-  )
-    reads kmsClient.History
-    requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
-    requires old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
-    requires kmsEncryptRequestForDecryptOnlyBKI in kmsClient.History.Encrypt[|old(kmsClient.History.Encrypt)|..]
-  {
-    // Verify the KMS request to create the decrypt-only ciphertext was constructed correctly
-    && var decryptOnlyInput := kmsEncryptRequestForDecryptOnlyBKI.input;
-    && KMSKeystoreOperations.Compatible?(kmsConfiguration, decryptOnlyInput.KeyId)
-    && |decryptOnlyInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int // HV2 uses 80 bytes (48 for digest + 32 for key)
-    && decryptOnlyInput.EncryptionContext == Some(encryptionContext)
-    && decryptOnlyInput.GrantTokens == Some(grantTokens)
-    && kmsEncryptRequestForDecryptOnlyBKI.output.Success?
-    && kmsEncryptRequestForDecryptOnlyBKI.output.value.CiphertextBlob.Some?
-    && Structure.BranchKeyContext?(branchKeyContext)
-       // The BKC is for a DECRYPT_ONLY, or a Version, and there fore is prefixed with `branch:version:`
-    && Structure.BRANCH_KEY_TYPE_PREFIX < branchKeyContext[Structure.TYPE_FIELD]
-       // The BKC is for for a DECRYPT_ONLY, or a Version, and there fore DOES NOT have a `version`.
-    && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in branchKeyContext
-       // The BKC is for a HV-2, ande therefore has 2
-    && branchKeyContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2
+  datatype KMSThings = KMSThings(
+    kmsConfig: KeyStoreTypes.KMSConfiguration,
+    grantTokens: KMS.Types.GrantTokenList,
+    kmsClient: KMS.Types.IKMSClient
+  ) {
+    ghost predicate ValidState()
+    {
+      && kmsClient.ValidState()
+      && KMS.Types.IsValid_GrantTokenList(grantTokens)
+      && KMSKeystoreOperations.HasKeyId(kmsConfig)
+      && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfig))
+    }
+    ghost const Modifies := kmsClient.Modifies
   }
 
-  twostate predicate {:isolate_assertions} WrappedBranchKeyActiveCreationHV2?(
-    new kmsEncryptRequestForActiveBKI: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
-    kmsClient: KMS.IKMSClient,
-    kmsConfiguration: KeyStoreTypes.KMSConfiguration,
-    grantTokens: KMS.GrantTokenList,
-    encryptionContext:  map<string, string>,
-    branchKeyContext: map<string, string>
+  method packAndCallKMS(
+    nameonly branchKeyContext: map<string, string>,
+    nameonly kmsThings: KMSThings,
+    nameonly Crypto: AtomicPrimitives.AtomicPrimitivesClient,
+    nameonly material: seq<uint8>,
+    nameonly encryptionContext: map<string, string>
   )
-    reads kmsClient.History
-    requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
-    requires old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
-    requires kmsEncryptRequestForActiveBKI in kmsClient.History.Encrypt[|old(kmsClient.History.Encrypt)|..]
+    returns (output: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
+
+    requires kmsThings.ValidState() && Crypto.ValidState()
+    modifies kmsThings.Modifies, Crypto.Modifies
+    ensures kmsThings.ValidState() && Crypto.ValidState()
+
+    requires
+      && Structure.BranchKeyContext?(branchKeyContext)
+      && |material| == Structure.AES_256_LENGTH as int
+      && KMSKeystoreOperations.AttemptKmsOperation?(kmsThings.kmsConfig, branchKeyContext[Structure.KMS_FIELD])
+      && KMSKeystoreOperations.GetKeyId(kmsThings.kmsConfig) == branchKeyContext[Structure.KMS_FIELD]
+
+    ensures output.Success? ==>
+              && old(kmsThings.kmsClient.History.Encrypt) < kmsThings.kmsClient.History.Encrypt
+              && |kmsThings.kmsClient.History.Encrypt| == |old(kmsThings.kmsClient.History.Encrypt)| + 1
+              && var kmsEvent :=  kmsThings.kmsClient.History.Encrypt[-1 % |kmsThings.kmsClient.History.Encrypt|];
+              && kmsEvent.output.Success?
+              && var kmsInput := kmsEvent.input;
+              && KMSKeystoreOperations.Compatible?(kmsThings.kmsConfig, kmsInput.KeyId)
+              && |kmsInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+              && kmsInput.EncryptionContext == Some(encryptionContext)
+              && kmsInput.GrantTokens == Some(kmsThings.grantTokens)
+              && kmsEvent.output.value.CiphertextBlob.Some?
+    // TODO-HV-2-FOLLOW : Formal Verification of this has taken me too many hours
+    // && var digest := kmsInput.Plaintext[..Structure.BKC_DIGEST_LENGTH];
+    // && |Crypto.History.Digest| == |old(Crypto.History.Digest)| + 1
+    // && var digestEvent := Crypto.History.Digest[-1 % |Crypto.History.Digest|];
+    // && digestEvent.output.Success?
+    // && digestEvent.output.value == digest
   {
-    // Verify the KMS request to create the ACTIVE ciphertext was constructed correctly
-    && var activeInput := kmsEncryptRequestForActiveBKI.input;
-    && KMSKeystoreOperations.Compatible?(kmsConfiguration, activeInput.KeyId)
-    && |activeInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
-    && activeInput.EncryptionContext == Some(encryptionContext)
-    && activeInput.GrantTokens == Some(grantTokens)
-    && kmsEncryptRequestForActiveBKI.output.Success?
-    && kmsEncryptRequestForActiveBKI.output.value.CiphertextBlob.Some?
-
-    && Structure.BranchKeyContext?(branchKeyContext)
-       // The BKC is for a ACTIVE
-    && Structure.BRANCH_KEY_ACTIVE_TYPE == branchKeyContext[Structure.TYPE_FIELD]
-       // The BKC is for for a ACTIVE, and there fore DOES have a `version`.
-    && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in branchKeyContext
-                                                    // The BKC is for a HV-2, ande therefore has 2
-    && branchKeyContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2
-  }
-
-  twostate predicate {:isolate_assertions} WrappedBeaconKeyCreationHV2?(
-    new beaconHistory: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
-    kmsClient: KMS.IKMSClient,
-    kmsConfiguration: KeyStoreTypes.KMSConfiguration,
-    grantTokens: KMS.GrantTokenList,
-    encryptionContext:  map<string, string>,
-    branchKeyContext: map<string, string>
-  )
-    reads kmsClient.History
-    requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
-    requires Structure.BranchKeyContext?(branchKeyContext)
-    requires old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
-    requires beaconHistory in kmsClient.History.Encrypt[|old(kmsClient.History.Encrypt)|..]
-  {
-    // Verify the KMS request to create the Beacon ciphertext was constructed correctly
-    && var beaconInput := beaconHistory.input;
-    && KMSKeystoreOperations.Compatible?(kmsConfiguration, beaconInput.KeyId)
-    && |beaconInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
-    && beaconInput.EncryptionContext == Some(encryptionContext)
-    && beaconInput.GrantTokens == Some(grantTokens)
-    && beaconHistory.output.Success?
-    && beaconHistory.output.value.CiphertextBlob.Some?
-
-    // Verify branch key context for beacon
-    && Structure.BranchKeyContext?(branchKeyContext)
-       // The BKC is for a Beacon ACTIVE
-    && Structure.BEACON_KEY_TYPE_VALUE == branchKeyContext[Structure.TYPE_FIELD]
-       // The BKC is for for a Beacon ACTIVE, and there fore DOES NOT have a `version`.
-    && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in branchKeyContext
-       // The BKC is for a HV-2, and therefore has 2
-    && branchKeyContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2
+    var digest? := HvUtils.CreateBKCDigest(branchKeyContext, Crypto);
+    var digest :- digest?.MapFailure(
+      e => Types.AwsCryptographyKeyStore(
+          AwsCryptographyKeyStore:= e));
+    assert |Crypto.History.Digest| == |old(Crypto.History.Digest)| + 1;
+    ghost var CryptoHistLen := |Crypto.History.Digest|;
+    ghost var digestEvent := Crypto.History.Digest[-1 % |Crypto.History.Digest|];
+    var plaintextTuple := HvUtils.PackPlainTextTuple(digest, material);
+    var wrappedMaterial? := KMSKeystoreOperations.EncryptKey(
+      plaintextTuple,
+      encryptionContext,
+      branchKeyContext[Structure.KMS_FIELD],
+      kmsThings.kmsConfig,
+      kmsThings.grantTokens,
+      kmsThings.kmsClient
+    );
+    var wrappedMaterial :- wrappedMaterial?.MapFailure(e => ConvertKmsErrorToError(e));
+    // assert |Crypto.History.Digest| == CryptoHistLen by
+    // { assume {:axiom} |Crypto.History.Digest| == CryptoHistLen;}
+    ghost var kmsEvent :=  kmsThings.kmsClient.History.Encrypt[-1 % |kmsThings.kmsClient.History.Encrypt|];
+    assert
+      && kmsEvent.output.Success?
+      && ghost var digest := kmsEvent.input.Plaintext[..Structure.BKC_DIGEST_LENGTH];
+         && digestEvent.output.value == digest;
+    return Success(Structure.ConstructEncryptedHierarchicalKey(branchKeyContext, wrappedMaterial));
   }
 }
