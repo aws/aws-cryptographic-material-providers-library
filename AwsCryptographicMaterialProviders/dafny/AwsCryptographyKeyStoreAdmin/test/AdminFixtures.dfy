@@ -161,8 +161,10 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     key: string := "Robbie",
     value: string := "Is a dog.")
 
-  /** Adds an "un-modeled Attribute" to the Active & Decrypt. */
-  /** If alsoViolateBeacion?, also add to Beacon.*/
+  /** Adds an "un-modeled Attribute" to the Active & Decrypt.
+   If alsoViolateBeacion?, also add to Beacon.
+   If violateReservedAttribute, the reserved attributes can be modified,
+   such as 'create-time' or 'version'. */
   method AddAttributeWithoutLibrary(
     nameonly id: string,
     nameonly physicalName: string := Fixtures.branchKeyStoreName,

@@ -73,6 +73,13 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
     "Duplicate attribute name found in branch key item after removing prefix 'aws-crypto-ec'."
 
   // TODO-HV-2-M3 : Revise Error message
+  // TODO-HV-2-GA : Move to BKSA/src/KeyStoreAdminErrorMessages.dfy
   const NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE :=
-    "Duplicate attribute name found in terminal encryption context key and existing attribute in non reserved attribute without 'aws-crypto-ec'."
+    "Initialize Mutation has failed before any writes occurred."
+    + " This Branch Key has been modified outside of the library"
+    + " to include an attribute pair that is not prefixed with 'aws-crypto-ec'."
+    + " This modification, done without using an AWS Crypto Tools library,"
+    + " prevents the Branch Key from being used with 'hierarchy-version-2'."
+    + " Remove this modification while maintaining the Branch Key's cryptographic integrity,"
+    + " and it should be possible to use this Branch Key."
 }

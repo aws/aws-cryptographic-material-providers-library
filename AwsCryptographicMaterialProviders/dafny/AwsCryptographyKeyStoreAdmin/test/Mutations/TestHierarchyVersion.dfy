@@ -6,27 +6,33 @@ include "../AdminFixtures.dfy"
 include "../../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 
 module {:options "/functionSyntax:4" } TestHierarchyVersion {
+  import opened Wrappers
+  import UTF8
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import KeyStoreErrorMessages
   import AdminFixtures
   import Fixtures
-  import opened Wrappers
 
   method {:test} TestInitializeMutationFailsWithNonUniqueBranchKeyContext() {
 
     var testId := "DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check";
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
-    // Commented code creates a branch key and adds {"Robbie": "Is a dog."} to the branch key item by violating the reserved attribute in table KeyStoreDdbTable
+
+    // Commented code creates a branch key and adds {"Robbie": "Is a dog."}
+    // to the branch key item outside of the library's operations.
     // Adding {"Robbie": "Is a dog."} will create a non unique branch key context
-    //
-    // Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0); // The default ec in CreateHappyCaseId is {"Robbie": "Is a dog."}
+
+    // Fixtures.CreateHappyCaseId(
+    //   id:=testId,
+    //   versionCount:=0,
+    //   customEC := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")]);
     // var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
     //   id:=testId,
     //   keyValue:=AdminFixtures.KeyValue(key:="Robbie", value:="Is a dog."),
     //   alsoViolateBeacon? := true, ddbClient? := Some(ddbClient),
-    //   kmsClient?:=Some(kmsClient), violateReservedAttribute:=true);
+    //   kmsClient?:=Some(kmsClient));
 
     var underTest :- expect AdminFixtures.DefaultAdmin();
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
@@ -54,15 +60,20 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     var testId := "DO-NOT-EDIT-Branch-Key-For-TestNonUniqueTerminalAndInferredECKeys-Check";
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
-    // Commented code creates a branch key and adds {"Koda": "Is a dog."} to the branch key item by violating the reserved attribute in table KeyStoreDdbTable
+
+    // Commented code creates a branch key and adds {"Koda": "Is a dog."}
+    // to the branch key item outside of the library's operations.
     // Adding {"Koda": "Is a dog."} will NOT create a non unique branch key context
-    //
-    // Fixtures.CreateHappyCaseId(id:=testId, versionCount:=0); // The default ec in CreateHappyCaseId is {"Robbie": "Is a dog."}
+
+    // Fixtures.CreateHappyCaseId(
+    //   id:=testId,
+    //   versionCount:=0,
+    //   customEC := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")]);
     // var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
     //   id:=testId,
     //   keyValue:=AdminFixtures.KeyValue(key:="Koda", value:="Is a dog."),
     //   alsoViolateBeacon? := true, ddbClient? := Some(ddbClient),
-    //   kmsClient?:=Some(kmsClient), violateReservedAttribute:=true);
+    //   kmsClient?:=Some(kmsClient));
 
     var underTest :- expect AdminFixtures.DefaultAdmin();
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
