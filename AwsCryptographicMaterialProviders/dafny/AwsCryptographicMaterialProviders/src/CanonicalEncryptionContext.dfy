@@ -72,7 +72,7 @@ module CanonicalEncryptionContext {
     modifies Crypto.Modifies
     ensures Crypto.ValidState()
     ensures output.Success? ==>
-              && 0 < |Crypto.History.Digest|
+              && |Crypto.History.Digest| == |old(Crypto.History.Digest)| + 1
               && Seq.Last(Crypto.History.Digest).output.Success?
               && var DigestInput := Seq.Last(Crypto.History.Digest).input;
               && var DigestOutput := Seq.Last(Crypto.History.Digest).output;
