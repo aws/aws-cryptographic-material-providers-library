@@ -3,8 +3,7 @@
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "AwsCryptographyKeyStoreOperations.dfy"
 include "DefaultKeyStorageInterface.dfy"
-
-include "ErrorMessages.dfy"
+include "KeyStoreErrorMessages.dfy"
 include "KmsArn.dfy"
 
 module {:extern "software.amazon.cryptography.keystore.internaldafny"} KeyStore refines AbstractAwsCryptographyKeyStoreService
