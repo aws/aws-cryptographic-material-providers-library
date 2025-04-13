@@ -23,8 +23,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   import AwsKmsUtils
     // KeyStore Imports
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
+  import HvUtils = HierarchicalVersionUtils
   import Structure
   import DefaultKeyStorageInterface
+  import KeyStoreErrorMessages
   import KmsArn
   import KMSKeystoreOperations
   import HVUtils = HierarchicalVersionUtils
@@ -223,14 +225,21 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Types.KeyStoreAdminException(
         message := "Active Branch Key Item read from storage is malformed!")
     );
-
-      // TODO-HV-2-M2: Support items in HV-2
+    // TODO-HV-2-M3: Support mutations on HV-2 item (mutation starting with hv-2 item)
     :- Need(
       readItems.ActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
       Types.KeyStoreAdminException(
         message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
     );
-
+    var isTerminalHv2 := input.Mutations.TerminalHierarchyVersion.Some? &&
+                         input.Mutations.TerminalHierarchyVersion.value.v2?;
+    :- Need(
+      !isTerminalHv2 || HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
+      Types.KeyStoreAdminException(
+        message :=
+          KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+      )
+    );
     :- Need(
       || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
@@ -292,6 +301,12 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       );
       terminalEC? := Some(terminalEC);
       assert terminalEC.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
+      :- Need(
+        && (!isTerminalHv2 || HvUtils.HasUniqueTransformedKeys?(terminalEC)),
+        Types.KeyStoreAdminException(
+          message := KeyStoreErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE
+        )
+      );
     }
 
     assert KmsArn.ValidKmsArn?(activeItem.KmsArn);
