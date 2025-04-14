@@ -17,6 +17,7 @@ import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
@@ -44,7 +45,12 @@ public class MutationKmsAccessTerminalInFlightTestDecryptEncrypt {
     KeyStoreAdmin admin = AdminProvider.admin();
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
-    CreateKeyExample.CreateKey(POSTAL_HORN_KEY_ARN, branchKeyId, admin);
+    CreateKeyExample.CreateKey(
+      POSTAL_HORN_KEY_ARN,
+      branchKeyId,
+      admin,
+      HierarchyVersion.v1
+    );
     KeyManagementStrategy strategyWest2 = AdminProvider.decryptEncryptStrategy(
       Fixtures.kmsClientWest2,
       Fixtures.kmsClientWest2

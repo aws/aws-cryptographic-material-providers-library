@@ -10,6 +10,7 @@ import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.DescribeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.DescribeMutationOutput;
@@ -120,7 +121,12 @@ public class DescribeMutationExample {
       : strategy;
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
-    CreateKeyExample.CreateKey(kmsKeyArnOriginal, branchKeyId, _admin);
+    CreateKeyExample.CreateKey(
+      kmsKeyArnOriginal,
+      branchKeyId,
+      _admin,
+      HierarchyVersion.v1
+    );
 
     MutationToken fromInit = InitMutation(
       branchKeyId,

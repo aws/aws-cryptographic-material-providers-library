@@ -3,8 +3,6 @@
 import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
-import java.net.URI
-import javax.annotation.Nullable
 plugins {
     `java`
     `java-library`
@@ -54,8 +52,6 @@ java {
     sourceSets["test"].java {
         srcDir("src/test/java")
     }
-    withJavadocJar()
-    withSourcesJar()
 }
 
 repositories {
@@ -103,7 +99,7 @@ val testConcurrent = task<Test>("testConcurrent") {
         maxParallelForks = 2
     }
     testLogging {
-        events("passed")
+        events("passed", "skipped")
     }
     filter {
         includeTestsMatching("software.amazon.cryptography.example.hierarchy.concurrent.*")

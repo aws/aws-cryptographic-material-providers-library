@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.model.DescribeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
@@ -49,7 +50,12 @@ public class DescribeMutationTest {
       .build();
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
-    CreateKeyExample.CreateKey(Fixtures.KEYSTORE_KMS_ARN, branchKeyId, null);
+    CreateKeyExample.CreateKey(
+      Fixtures.KEYSTORE_KMS_ARN,
+      branchKeyId,
+      null,
+      HierarchyVersion.v1
+    );
     InitMutation(
       branchKeyId,
       Fixtures.POSTAL_HORN_KEY_ARN,
@@ -86,7 +92,12 @@ public class DescribeMutationTest {
     );
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
-    CreateKeyExample.CreateKey(Fixtures.KEYSTORE_KMS_ARN, branchKeyId, null);
+    CreateKeyExample.CreateKey(
+      Fixtures.KEYSTORE_KMS_ARN,
+      branchKeyId,
+      null,
+      HierarchyVersion.v1
+    );
     InitMutation(
       branchKeyId,
       Fixtures.POSTAL_HORN_KEY_ARN,
