@@ -23,9 +23,9 @@ module {:options "/functionSyntax:4" } Mutations {
   import MutationErrorRefinement
   import KmsUtils
 
-  datatype InitialHVVerificationState =
-    | TerminalHV1()
-    | TerminalHV2(decryptedBranchKey: KMS.DecryptResponse)
+  datatype ActiveVerificationHolder =
+    | NotDecrypt()
+    | KmsDecrypt(kmsRes: KMS.DecryptResponse)
 
   method ValidateCommitmentAndIndexStructures(
     token: Types.MutationToken,
