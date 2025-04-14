@@ -47,10 +47,10 @@ module {:options "/functionSyntax:4" } Structure {
   //Attribute Values
   const HIERARCHY_VERSION_VALUE_1 := "1"
   const HIERARCHY_VERSION_VALUE_2 := "2"
-  // TODO-HV-2-M1 : Find all HIERARCHY_VERSION_VALUE and replace them with something
+  // TODO-HV-2-M2 : Replace or remove once we decided about what should we write to M_COMMIT/M_INDEX
   const HIERARCHY_VERSION_VALUE := HIERARCHY_VERSION_VALUE_1
-  // TODO-HV-2-M1 : Find all HIERARCHY_VERSION_ATTRIBUTE_VALUE and replace them with something
-  const HIERARCHY_VERSION_ATTRIBUTE_VALUE := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE)
+  // TODO-HV-2-M2 : Replace or remove once we decided about what should we write to M_COMMIT/M_INDEX
+  const HIERARCHY_VERSION_ATTRIBUTE_VALUE := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE_1)
   const HIERARCHY_VERSION_ATTRIBUTE_VALUE_1 := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE_1)
   const HIERARCHY_VERSION_ATTRIBUTE_VALUE_2 := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE_2)
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
@@ -769,6 +769,10 @@ module {:options "/functionSyntax:4" } Structure {
          ToEncryptedHierarchicalKey(item, key.EncryptionContext[TABLE_FIELD]) == key
   {}
 
+  // TODO-HV-2-M2: Update MutationCommitment & MutationIndex Structure to support multiple hierarchy versions
+  // This change will:
+  // 1. Replace hardcoded HIERARCHY_VERSION_VALUE and/or add HierarchyVersion to types to handle both v1 and v2 versions
+  // 2. Suggestion, we MAY omit writing HIERARCHY_VERSION to storage for MutationCommitment and MutationIndex.
   predicate MutationCommitmentAttribute?(m: DDB.AttributeMap) {
     && BRANCH_KEY_IDENTIFIER_FIELD in m && m[BRANCH_KEY_IDENTIFIER_FIELD].S?
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
