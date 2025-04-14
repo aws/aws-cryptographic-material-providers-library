@@ -17,6 +17,7 @@ module {:options "/functionSyntax:4" } Mutations {
   import KmsArn
   import KMSKeystoreOperations
   import DefaultKeyStorageInterface
+  import GetKeys
 
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
@@ -25,7 +26,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
   datatype ActiveVerificationHolder =
     | NotDecrypt()
-    | KmsDecrypt(kmsRes: KMS.DecryptResponse)
+    | KmsDecrypt(kmsRes: KMS.PlaintextType)
 
   method ValidateCommitmentAndIndexStructures(
     token: Types.MutationToken,
@@ -104,7 +105,7 @@ module {:options "/functionSyntax:4" } Mutations {
     if (isTerminalHv2?) {
       // TODO-HV-2-M4: Support other key manager strategy
       :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));
-      var decryptRes := DecryptBranchKeyItem(
+      var decryptRes := GetKeys.DecryptBranchKeyItem(
         item,
         KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
         keyManagerStrategy.kmsSimple.grantTokens,
