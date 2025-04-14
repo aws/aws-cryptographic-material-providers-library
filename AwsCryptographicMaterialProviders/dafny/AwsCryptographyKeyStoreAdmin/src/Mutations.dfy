@@ -487,14 +487,14 @@ module {:options "/functionSyntax:4" } Mutations {
     item: KeyStoreTypes.EncryptedHierarchicalKey,
     mutationToApply: StateStrucs.MutationToApply,
     keyManagerStrategy: KmsUtils.keyManagerStrat,
-    HVVerificationState: InitialHVVerificationState
+    ActiveVerificationHolder: ActiveVerificationHolder
   ) returns (output: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires mutationToApply.ValidState() && keyManagerStrategy.ValidState()
     modifies keyManagerStrategy.ModifiesMultiSet
     ensures mutationToApply.ValidState() && keyManagerStrategy.ValidState()
     requires item.KmsArn == mutationToApply.Original.kmsArn
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
-    requires HVVerificationState.TerminalHV2?
+    requires ActiveVerificationHolder.KmsDecrypt?
   {
     var terminalBKC := Structure.ReplaceMutableContext(
       item.EncryptionContext,
@@ -520,15 +520,15 @@ module {:options "/functionSyntax:4" } Mutations {
                                              ));
 
     :- Need(
-      && HVVerificationState.decryptedBranchKey.Plaintext.Some?
-      && 32 == |HVVerificationState.decryptedBranchKey.Plaintext.value|
+      && ActiveVerificationHolder.kmsRes.Plaintext.Some?
+      && 32 == |ActiveVerificationHolder.kmsRes.Plaintext.value|
       && item.EncryptionContext[Structure.HIERARCHY_VERSION]
          == Structure.HIERARCHY_VERSION_VALUE_1,
       Types.KeyStoreAdminException(
         message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV1)
     );
 
-    var plainTextTuple := HvUtils.PackPlainTextTuple(bkcDigest, HVVerificationState.decryptedBranchKey.Plaintext.value);
+    var plainTextTuple := HvUtils.PackPlainTextTuple(bkcDigest, ActiveVerificationHolder.kmsRes.Plaintext.value);
 
     var encryptRes := KMSKeystoreOperations.EncryptKey(
       plainTextTuple,
@@ -543,9 +543,6 @@ module {:options "/functionSyntax:4" } Mutations {
                         terminalBKC,
                         encryptRes.value
                       ));
-
-
-
   }
 
   method MutateItem(
