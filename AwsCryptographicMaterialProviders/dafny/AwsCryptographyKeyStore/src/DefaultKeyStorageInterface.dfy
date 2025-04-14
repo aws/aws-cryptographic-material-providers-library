@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
-include "ErrorMessages.dfy"
+include "KeyStoreErrorMessages.dfy"
 include "KmsArn.dfy"
 include "StorageHelpers.dfy"
 

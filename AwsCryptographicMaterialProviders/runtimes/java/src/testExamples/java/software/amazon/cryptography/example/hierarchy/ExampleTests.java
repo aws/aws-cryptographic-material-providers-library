@@ -14,8 +14,68 @@ import software.amazon.cryptography.example.hierarchy.mutations.MutationResumeEx
 import software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider;
 import software.amazon.cryptography.keystore.KeyStore;
 import software.amazon.cryptography.keystore.model.AwsKms;
+import software.amazon.cryptography.keystore.model.GetActiveBranchKeyInput;
+import software.amazon.cryptography.keystore.model.GetActiveBranchKeyOutput;
+import software.amazon.cryptography.keystore.model.GetBeaconKeyInput;
+import software.amazon.cryptography.keystore.model.GetBeaconKeyOutput;
+import software.amazon.cryptography.keystore.model.GetBranchKeyVersionInput;
+import software.amazon.cryptography.keystore.model.GetBranchKeyVersionOutput;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 
 public class ExampleTests {
+
+  @Test
+  public void CreateKeyHv2Test() {
+    // Create Branch Key with `hierarchy-version-2` (HV-2)
+    final String branchKeyId = CreateKeyHv2Example.CreateKey(
+      Fixtures.KEYSTORE_KMS_ARN,
+      HierarchyVersion.v2,
+      null,
+      AdminProvider.admin()
+    );
+
+    System.out.println("Create Branch Key for HV-2: " + branchKeyId);
+
+    final KeyStore keyStore = KeyStoreProvider.keyStore(
+      Fixtures.KEYSTORE_KMS_ARN
+    );
+
+    // Get Branch Key Items
+    GetActiveBranchKeyOutput activeOutput = keyStore.GetActiveBranchKey(
+      GetActiveBranchKeyInput.builder().branchKeyIdentifier(branchKeyId).build()
+    );
+    GetBranchKeyVersionOutput decryptOnlyOutput = keyStore.GetBranchKeyVersion(
+      GetBranchKeyVersionInput
+        .builder()
+        .branchKeyIdentifier(branchKeyId)
+        .branchKeyVersion(activeOutput.branchKeyMaterials().branchKeyVersion())
+        .build()
+    );
+    GetBeaconKeyOutput beaconOutput = keyStore.GetBeaconKey(
+      GetBeaconKeyInput.builder().branchKeyIdentifier(branchKeyId).build()
+    );
+
+    assert branchKeyId.equals(
+      activeOutput.branchKeyMaterials().branchKeyIdentifier()
+    );
+    assert branchKeyId.equals(
+      decryptOnlyOutput.branchKeyMaterials().branchKeyIdentifier()
+    );
+    assert activeOutput
+      .branchKeyMaterials()
+      .branchKeyVersion()
+      .equals(decryptOnlyOutput.branchKeyMaterials().branchKeyVersion());
+    assert branchKeyId.equals(
+      beaconOutput.beaconKeyMaterials().beaconKeyIdentifier()
+    );
+
+    DdbHelper.DeleteBranchKey(
+      branchKeyId,
+      Fixtures.TEST_KEYSTORE_NAME,
+      HierarchyVersion.v2.toString(),
+      null
+    );
+  }
 
   @Test
   public void End2EndReEncryptTest() {
