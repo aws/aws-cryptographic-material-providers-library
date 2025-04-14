@@ -23,6 +23,10 @@ module {:options "/functionSyntax:4" } Mutations {
   import MutationErrorRefinement
   import KmsUtils
 
+  datatype ActiveVerificationHolder =
+    | NotDecrypt()
+    | KmsDecrypt(kmsRes: KMS.DecryptResponse)
+
   method ValidateCommitmentAndIndexStructures(
     token: Types.MutationToken,
     commitment: KeyStoreTypes.MutationCommitment,
@@ -75,9 +79,10 @@ module {:options "/functionSyntax:4" } Mutations {
   method {:isolate_assertions} VerifyEncryptedHierarchicalKey(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
-    nameonly localOperation: string := "ApplyMutation"
+    nameonly localOperation: string := "ApplyMutation",
+    nameonly isTerminalHv2?: bool := false
   )
-    returns (output: Outcome<Types.Error>)
+    returns (output: Result<ActiveVerificationHolder,Types.Error>)
 
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
@@ -90,6 +95,35 @@ module {:options "/functionSyntax:4" } Mutations {
     var kmsOperation: string;
     var success?: bool := false;
     var throwAwayError;
+    // TODO-HV-2-M3: Support mutations on HV-2 item (mutation starting with hv-2 item)
+    :- Need(
+      item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
+      Types.KeyStoreAdminException(
+        message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
+    );
+    // TODO-HV-2-M3: Can this if condition also handle hv-2 item?
+    if (isTerminalHv2?) {
+      // TODO-HV-2-M4: Support other key manager strategy
+      :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));
+      var kmsSymmetricKeyArn :- KmsUtils.stringToKmsSymmetricKeyArn(item.KmsArn);
+      var decryptRes := KMSKeystoreOperations.DecryptKeyForHv1(
+        item,
+        KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(kmsSymmetricKeyArn),
+        keyManagerStrategy.kmsSimple.grantTokens,
+        keyManagerStrategy.kmsSimple.kmsClient
+      );
+      if decryptRes.Success? {
+        return Success(ActiveVerificationHolder.KmsDecrypt(decryptRes.value));
+      } else {
+        var error := BuildErrorForFailure(
+          item,
+          decryptRes.error,
+          localOperation,
+          kmsOperation
+        );
+        return Failure(error);
+      }
+    }
 
     match keyManagerStrategy {
       case reEncrypt(kms) =>
@@ -137,32 +171,49 @@ module {:options "/functionSyntax:4" } Mutations {
         }
     }
 
-    if (
-        && !success?
-        && item.Type.ActiveHierarchicalSymmetricVersion?
-      ) {
-      var error := MutationErrorRefinement.VerifyActiveException(
-        branchKeyItem := item,
-        error := throwAwayError,
-        localOperation := localOperation,
-        kmsOperation := kmsOperation);
-      return Fail(error);
-    }
-
-    if (
-        && !success?
-        && item.Type.HierarchicalSymmetricVersion?
-      ) {
-      var error := MutationErrorRefinement.VerifyTerminalException(
-        branchKeyItem := item,
-        error := throwAwayError,
-        localOperation := localOperation,
-        kmsOperation := kmsOperation);
-      return Fail(error);
+    if (!success?) {
+      var error := BuildErrorForFailure(
+        item,
+        throwAwayError,
+        localOperation,
+        kmsOperation
+      );
+      return Failure(error);
     }
 
     assert success?;
-    return Pass;
+    return Success(ActiveVerificationHolder.NotDecrypt());
+  }
+
+  method BuildErrorForFailure(
+    item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
+    throwAwayError: KMSKeystoreOperations.KmsError,
+    localOperation: string,
+    kmsOperation: string
+  ) returns (error: Types.Error)
+    requires item.Type.ActiveHierarchicalSymmetricVersion? || item.Type.HierarchicalSymmetricVersion?
+  {
+    if item.Type.ActiveHierarchicalSymmetricVersion? {
+      error := MutationErrorRefinement.VerifyActiveException(
+        branchKeyItem := item,
+        error := throwAwayError,
+        localOperation := localOperation,
+        kmsOperation := kmsOperation
+      );
+      return error;
+    }
+
+    if item.Type.HierarchicalSymmetricVersion? {
+      error := MutationErrorRefinement.VerifyTerminalException(
+        branchKeyItem := item,
+        error := throwAwayError,
+        localOperation := localOperation,
+        kmsOperation := kmsOperation
+      );
+      return error;
+    }
+
+    assert false;
   }
 
   method {:isolate_asserations} NewActiveItemForDecryptEncrypt(

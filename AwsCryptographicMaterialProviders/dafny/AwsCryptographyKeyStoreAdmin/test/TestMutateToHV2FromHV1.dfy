@@ -39,6 +39,9 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
       DoNotVersion := Some(true));
     var initializeOutput := underTest.InitializeMutation(initInput);
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
-    expect initializeOutput.Success?, "Should have succeeded to InitializeMutation HV-2.";
+    expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
+    expect initializeOutput.error.KeyStoreAdminException?;
+    // TODO-HV-2-M4: Support other key strategy as well.
+    expect initializeOutput.error.message == "only KMS Simple allow when mutating to hv-2.", "Incorrect error message. Should have had `only KMS Simple allow when mutating to hv-2.`";
   }
 }
