@@ -101,14 +101,12 @@ module {:options "/functionSyntax:4" } Mutations {
       Types.KeyStoreAdminException(
         message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
     );
-    // TODO-HV-2-M3: Can this if condition also handle hv-2 item?
     if (isTerminalHv2?) {
       // TODO-HV-2-M4: Support other key manager strategy
       :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));
-      var kmsSymmetricKeyArn :- KmsUtils.stringToKmsSymmetricKeyArn(item.KmsArn);
-      var decryptRes := KMSKeystoreOperations.DecryptKeyForHv1(
+      var decryptRes := DecryptBranchKeyItem(
         item,
-        KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(kmsSymmetricKeyArn),
+        KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
         keyManagerStrategy.kmsSimple.grantTokens,
         keyManagerStrategy.kmsSimple.kmsClient
       );
