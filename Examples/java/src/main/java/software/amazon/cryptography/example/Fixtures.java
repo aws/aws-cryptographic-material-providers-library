@@ -43,6 +43,11 @@ public class Fixtures {
     "arn:aws:iam::370957321024:role/Restricted-KMS-HKey-Two-Only";
   public static final String KMS_KEYSTORE_ONLY =
     "arn:aws:iam::370957321024:role/Restricted-KMS-HKey-One-Only";
+  // Static Branch Key IDs
+  public static final String HV2_BRANCH_KEY_ID =
+    "4a0c7b92-3703-4209-8961-24b07ab6562b";
+  public static final String HV1_BRANCH_KEY_ID =
+    "3f43a9af-08c5-4317-b694-3d3e883dcaef";
 
   public static final AwsCredentialsProvider defaultCreds =
     DefaultCredentialsProvider.create();
