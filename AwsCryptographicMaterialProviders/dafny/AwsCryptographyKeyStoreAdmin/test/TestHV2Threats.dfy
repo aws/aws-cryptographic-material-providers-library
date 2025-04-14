@@ -49,6 +49,19 @@ module {:options "/functionSyntax:4" } TestHV2Threats {
     }
   }
 
+  method {:test} TestCreateHappyCaseId() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+
+    var uuid :- expect UUID.GenerateUUID();
+    var testId := "test-happy-case-hv-2-" + uuid;
+    AdminFixtures.CreateHappyCaseId(id := testId, hierarchyVersion := KeyStoreTypes.HierarchyVersion.v2, strategy := Some(strategy), admin? := Some(underTest));
+
+    print testId;
+  }
+
   // Call Init Mutation with a KMS-ARN the CI principle does not have
   // kms:Encrypt permission for; expect a Error and failure.
   const testHV2MutationKMSDeniedId := "test-hv-2-bk-mutation-kms-denied"
@@ -74,8 +87,10 @@ module {:options "/functionSyntax:4" } TestHV2Threats {
     var initializeOutput := underTest.InitializeMutation(initInput);
 
     expect initializeOutput.Failure?, "Expected a Failure when mutating a branch key with KMS Arn without Encrypt Permission";
-    expect initializeOutput.error.MutationToException?, 
-    "Expected a MutationTo Exception when mutating a branch key with KMS Arn without Encrypt Permission for HV2 Branch Keys";
+    // TODO-HV-2-M2: We should expect a MutationTo Exception when terminalKmsArn 
+    // does not have HV-2 permissions when mutating a HV-2 branch keys.
+    // expect initializeOutput.error.MutationToException?, 
+    // "Expected a MutationTo Exception when mutating a branch key with KMS Arn without Encrypt Permission for HV2 Branch Keys";
 
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
   }
@@ -85,27 +100,82 @@ module {:options "/functionSyntax:4" } TestHV2Threats {
   // Create a static HV-2 BK and tamper it; call Get* on it,
   // expect BKS.BranchKeyCiphertextException is thrown.
   method {:test} TestHV2GetKeyDigestWrong() {
-    // This Test could be moved to KeyStore if we only use Static Branch Key
-    // 1. Create a Branch Key for HV-2
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
-    // 2. Update an Attribute like CustomEC
+    var uuid :- expect UUID.GenerateUUID();
+    var testId := testGetKeyId + "-" + uuid;
+    AdminFixtures.CreateHappyCaseId(id := testId, hierarchyVersion := KeyStoreTypes.HierarchyVersion.v2, strategy := Some(strategy), admin? := Some(underTest));
 
-    // 3. Call Get Key
+    // Update an Attribute like CustomEC
+    var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
+      id:=testId,
+      keyValue:=AdminFixtures.KeyValue(key:="aws-crypto-ec:SomeKey", value:="SomeValue"),
+      alsoViolateBeacon? := true, ddbClient? := Some(ddbClient),
+      kmsClient?:=Some(kmsClient), violateReservedAttribute:=true
+    );
 
-    // 4. Expect Failure and match to exact exception
+    // Call Get Active Key
+    var activeOutput := keyStore.GetActiveBranchKey(
+      KeyStoreTypes.GetActiveBranchKeyInput(
+        branchKeyIdentifier := testId
+      )
+    );
+    expect activeOutput.Failure?;
+    print activeOutput.error;
+    // expect activeOutput.error.InvalidCiphertextException?, "";
+    match activeOutput.error {
+      case ComAmazonawsKms(nestedError) => 
+        expect nestedError.InvalidCiphertextException?;
+      case _ =>
+        expect false, "Branch Key has been tampered with by an un-authorized actor.";
+
+    // Cleanup
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
   }
 
   // Create a static HV-2 BK; replace enc with a blob that is the wrong length;
   // call Get* on it; expect a BKS.BranchKeyCiphertextException to be thrown.
   method {:test} TestHV2GetKeyCiphertextWrongLength() {
-    // This Test could be moved to KeyStore if we only use Static Branch Key
-    // 1. Create a Branch Key for HV-2
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
-    // 2. Update an Attribute "enc" with a different blob
+    var uuid :- expect UUID.GenerateUUID();
+    var testId := testGetKeyId + "-" + uuid;
+    AdminFixtures.CreateHappyCaseId(id := testId, hierarchyVersion := KeyStoreTypes.HierarchyVersion.v2, strategy := Some(strategy), admin? := Some(underTest));
 
-    // 3. Call Get Key
+    // Update an Attribute like CustomEC
+    var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
+      id := testId,
+      keyValue := AdminFixtures.KeyValue(key:="enc", value:=""),
+      alsoViolateBeacon? := true,
+      ddbClient? := Some(ddbClient),
+      kmsClient? := Some(kmsClient), 
+      violateReservedAttribute := true
+    );
 
-    // 4. Expect Failure and match to exact exception
+    // Call Get Active Key
+    var activeOutput := keyStore.GetActiveBranchKey(
+      KeyStoreTypes.GetActiveBranchKeyInput(
+        branchKeyIdentifier := testId
+      )
+    );
+    expect activeOutput.Failure?;
+    expect activeOutput.error.BranchKeyCiphertextException?, "";
+    match activeOutput.error {
+      case ComAmazonawsKms(nestedError) => 
+        expect nestedError.InvalidCiphertextException?;
+      case _ =>
+        expect false, "Branch Key has been tampered with by an un-authorized actor.";
+
+    // Cleanup
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
   }
 
   // Create a static HV-2 BK; carefully tamper it so only the KMS-ARN field

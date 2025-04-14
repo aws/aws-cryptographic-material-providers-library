@@ -96,40 +96,6 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     return Success(strategy);
   }
 
-  // TODO-HV-2-M3-Version: Support Versioning of Happy Case Id along with Create.
-  method CreateHappyCaseId(
-    nameonly id: string,
-    nameonly kmsId: string := keyArn,
-    nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1,
-    nameonly strategy: Option<Types.KeyManagementStrategy> := None,
-    nameonly admin?: Option<Types.IKeyStoreAdminClient> := None,
-    // nameonly versionCount: nat := 3,
-    nameonly customEC: KeyStoreTypes.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")]
-  )
-    requires KMS.Types.IsValid_KeyIdType(kmsId)
-    requires 0 < |customEC|
-  {
-    var admin;
-    if admin?.None? {
-      admin :- expect DefaultAdmin(
-        physicalName := branchKeyStoreName,
-        logicalName := logicalKeyStoreName,
-        ddbClient? := None
-      );
-    } else {
-      admin := admin?.value;
-    }
-    assume {:axiom} fresh(admin) && fresh(admin.Modifies);
-    var input := Types.CreateKeyInput(
-      Identifier := Some(id),
-      EncryptionContext := Some(customEC),
-      KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(kmsId),
-      Strategy := strategy,
-      HierarchyVersion := Some(hierarchyVersion)
-    );
-    var branchKeyId :- expect admin.CreateKey(input);
-  }
-
   method DecryptEncrypKeyManagerStrategy(
     nameonly decryptKmsClient?: Option<KMS.Types.IKMSClient> := None,
     nameonly encryptKmsClient?: Option<KMS.Types.IKMSClient> := None
@@ -289,6 +255,40 @@ module {:options "/functionSyntax:4" } AdminFixtures {
           Put := Some(DDB.Types.Put(
                         Item := Structure.ToAttributeMap(violated),
                         TableName := physicalName))));
+  }
+
+  // TODO-HV-2-M3-Version: Support Versioning of Happy Case Id along with Create.
+  method CreateHappyCaseId(
+    nameonly id: string,
+    nameonly kmsId: string := keyArn,
+    nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1,
+    nameonly strategy: Option<Types.KeyManagementStrategy> := None,
+    nameonly admin?: Option<Types.IKeyStoreAdminClient> := None,
+    // nameonly versionCount: nat := 3,
+    nameonly customEC: KeyStoreTypes.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")]
+  )
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    requires 0 < |customEC|
+  {
+    var admin;
+    if admin?.None? {
+      admin :- expect DefaultAdmin(
+        physicalName := branchKeyStoreName,
+        logicalName := logicalKeyStoreName,
+        ddbClient? := None
+      );
+    } else {
+      admin := admin?.value;
+    }
+    assume {:axiom} fresh(admin) && fresh(admin.Modifies);
+    var input := Types.CreateKeyInput(
+      Identifier := Some(id),
+      EncryptionContext := Some(customEC),
+      KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(kmsId),
+      Strategy := strategy,
+      HierarchyVersion := Some(hierarchyVersion)
+    );
+    var branchKeyId :- expect admin.CreateKey(input);
   }
 }
 
