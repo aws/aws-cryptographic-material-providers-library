@@ -23,28 +23,6 @@ module {:options "/functionSyntax:4" } TestHV2Threats {
   import Time
   import Structure
 
-  /*
-    // TODO: Create a Happy Case to Create HV-2 Key
-    method {:test} TestCreateSRKForHV2NoEC()
-    {
-      var ddbClient :- expect Fixtures.ProvideDDBClient();
-      var kmsClient :- expect Fixtures.ProvideKMSClient();
-      var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
-      var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
-      var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-      var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-      var bk :- expect underTest.CreateKey(
-        Types.CreateKeyInput(
-          KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
-          Strategy := Some(strategy),
-          HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
-        ));
-      BranchKeyValidators.VerifyGetKeys(bk.Identifier, keyStore, storage,
-                                        hierarchyVersion := KeyStoreTypes.HierarchyVersion.v2);
-      var _ := CleanupItems.DeleteBranchKey(Identifier:=bk.Identifier, ddbClient:=ddbClient);
-    }
-  */
-
   // Call CreateBK with a KMS-ARN the CI principle does not have
   // kms:Encrypt permission for; expect a Error and failure.
   const testHV2CreationKMSDeniedId := "test-hv-2-bk-creation-kms-denied"
@@ -56,9 +34,9 @@ module {:options "/functionSyntax:4" } TestHV2Threats {
     var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
-    var bk :- expect underTest.CreateKey(
+    var bk := underTest.CreateKey(
       Types.CreateKeyInput(
-        KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(Fixtures.hv1ReEncryptOnlyKeyArn),
+        KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(Fixtures.KmsKeyForHV1),
         Strategy := Some(strategy),
         HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
       ));
@@ -66,47 +44,43 @@ module {:options "/functionSyntax:4" } TestHV2Threats {
     expect bk.Failure?, "Expected a Failure when creating a branch key with KMS Arn without Encrypt Permission";
     match bk.error {
       case ComAmazonawsKms(nestedError) =>
-        print nestedError;
+        expect nestedError.OpaqueWithText?, "Branch Key Creation SHOULD Fail with KMS OpaqueWithText Exception, ";
       case _ => expect false, "Branch Key Creation SHOULD Fail with KMS Exception.";
     }
   }
 
   // Call Init Mutation with a KMS-ARN the CI principle does not have
   // kms:Encrypt permission for; expect a Error and failure.
+  const testHV2MutationKMSDeniedId := "test-hv-2-bk-mutation-kms-denied"
   method {:test} TestHV2MutationKMSDenied() {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
-    var bk :- expect underTest.CreateKey(
-      Types.CreateKeyInput(
-        KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(Fixtures.keyArn),
-        Strategy := Some(strategy),
-        HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
-      ));
+    var uuid :- expect UUID.GenerateUUID();
+    var testId := testHV2MutationKMSDeniedId + "-" + uuid;
+    AdminFixtures.CreateHappyCaseId(id := testId, hierarchyVersion := KeyStoreTypes.HierarchyVersion.v2, strategy := Some(strategy), admin? := Some(underTest));
 
-    // Mutating HV2 Branch Key with a Kms Key with ReEncyrptOnly KMS Permissions
-    var mutationsRequest := Types.Mutations(TerminalKmsArn := Some(Fixtures.hv1ReEncryptOnlyKeyArn));
+    // Mutating HV2 Branch Key with a Kms Key with ReEncyrpt Only KMS Permissions
+    var mutationsRequest := Types.Mutations(TerminalKmsArn := Some(Fixtures.KmsKeyForHV1));
 
     var initInput := Types.InitializeMutationInput(
-      Identifier := bk.Identifier,
+      Identifier := testId,
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
       SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
       DoNotVersion := Some(false));
-    var initializeOutput :- expect underTest.InitializeMutation(initInput);
+    var initializeOutput := underTest.InitializeMutation(initInput);
 
     expect initializeOutput.Failure?, "Expected a Failure when mutating a branch key with KMS Arn without Encrypt Permission";
-    match initializeOutput.error {
-      case MutationToException(nestedError) =>
-        // TODO-HV2-Threat-Model: Expect exceptions
-        print nestedError;
-      case _ => expect false, "Branch Key Mutations SHOULD Fail with KMS Exception.";
-    }
+    expect initializeOutput.error.MutationToException?, 
+    "Expected a MutationTo Exception when mutating a branch key with KMS Arn without Encrypt Permission for HV2 Branch Keys";
 
-    var _ := CleanupItems.DeleteBranchKey(Identifier:=bk.Identifier, ddbClient:=ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
   }
+
+  const testGetKeyId := "test-hv2-get-key-violate"
 
   // Create a static HV-2 BK and tamper it; call Get* on it,
   // expect BKS.BranchKeyCiphertextException is thrown.

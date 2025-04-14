@@ -85,9 +85,8 @@ module Fixtures {
   ]
   // THESE ARE TESTING RESOURCES DO NOT USE IN A PRODUCTION ENVIRONMENT
   const keyArn := "arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126"
-  // TODO-HV-2-Threat: Replace with actual KMS ARNs
-  const hv1ReEncryptOnlyKeyArn := ""
-  const hv2OnlykmsArn := ""
+  const KmsKeyForHV1 := "arn:aws:kms:us-west-2:370957321024:key/85cee5a8-fecb-41e9-affd-a1f7bb036884"
+  const kmsArnForHV2 := "arn:aws:kms:us-west-2:370957321024:key/da179005-1c04-4b91-a103-ee43b9a707e6"
   const keyId := "9d989aa2-2f9c-438c-a745-cc57d3ad0126"
 
   // mrkRsaKeyArn is an RSA Key

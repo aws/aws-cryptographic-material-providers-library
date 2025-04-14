@@ -12,7 +12,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
   import opened Wrappers
-  import Fixtures
+  import opened Fixtures
   import UTF8 = Fixtures.UTF8
   import DefaultKeyStorageInterface
   import Structure
@@ -94,6 +94,40 @@ module {:options "/functionSyntax:4" } AdminFixtures {
         kmsClient := Some(kmsClient)
       ));
     return Success(strategy);
+  }
+
+  // TODO-HV-2-M3-Version: Support Versioning of Happy Case Id along with Create.
+  method CreateHappyCaseId(
+    nameonly id: string,
+    nameonly kmsId: string := keyArn,
+    nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1,
+    nameonly strategy: Option<Types.KeyManagementStrategy> := None,
+    nameonly admin?: Option<Types.IKeyStoreAdminClient> := None,
+    // nameonly versionCount: nat := 3,
+    nameonly customEC: KeyStoreTypes.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")]
+  )
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    requires 0 < |customEC|
+  {
+    var admin;
+    if admin?.None? {
+      admin :- expect DefaultAdmin(
+        physicalName := branchKeyStoreName,
+        logicalName := logicalKeyStoreName,
+        ddbClient? := None
+      );
+    } else {
+      admin := admin?.value;
+    }
+    assume {:axiom} fresh(admin) && fresh(admin.Modifies);
+    var input := Types.CreateKeyInput(
+      Identifier := Some(id),
+      EncryptionContext := Some(customEC),
+      KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(kmsId),
+      Strategy := strategy,
+      HierarchyVersion := Some(hierarchyVersion)
+    );
+    var branchKeyId :- expect admin.CreateKey(input);
   }
 
   method DecryptEncrypKeyManagerStrategy(
