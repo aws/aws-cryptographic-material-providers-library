@@ -45,7 +45,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
   const ascii3 : seq<uint8> := [0x55] // U as UTF8
   const ascii4 : seq<uint8> := [0xc2, 0xb6] // ¶ as UTF8
   const ascii5 : seq<uint8> := [0xc3, 0xbf] // ÿ  as UTF8
-  const encryptionContextAsciiMapMultipleKeyValues :=
+  const encryptionContextAsciiMapMultipleKeyValueMap :=
     map[
       ascii1 := ascii1,
       ascii2 := ascii2,
@@ -56,6 +56,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
       ascii4 := ascii4
     ]
   const encryptionContextAscii := {encryptionContextAsciiMapSingleKeyValue}
+  const encryptionContextAsciiMultipleEntries := {encryptionContextAsciiMapMultipleKeyValueMap}
 
   const utf8_2_1: seq<uint8> := [0xc4, 0x80] // Ä as UTF8
   const utf8_2_2: seq<uint8> := [0xd4, 0x98] // Ԙ as UTF8
@@ -73,6 +74,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
       utf8_2_3 := utf8_2_3
     ]
   const encryptionContextUTF82 := {encryptionContextUTF82MapSingleKeyValue}
+  const encryptionContextUTF82MultipleEntries := {encryptionContextUTF82MapMultipleKeyValues}
 
   const utf8_3_1: seq<uint8> := [0xe0, 0xa0, 0x80] // ࠀ as UTF8
   const utf8_3_2: seq<uint8> := [0xe0, 0xb7, 0xb4] // ෴ as UTF8
@@ -90,6 +92,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
       utf8_3_3 := utf8_3_3
     ]
   const encryptionContextUTF83 := {encryptionContextUTF83MapSingleKeyValue}
+  const encryptionContextUTF83MultipleEntries := {encryptionContextUTF83MapMultipleKeyValues}
 
   const utf8_4_1: seq<uint8> := [0xf0, 0x92, 0x80, 0x80] // 𒀀 as UTF8
   const utf8_4_2: seq<uint8> := [0xf0, 0x93, 0x80, 0xa3] // 𓀣  as UTF8
@@ -107,6 +110,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
       utf8_4_1 := utf8_4_1
     ]
   const encryptionContextUTF84 := {encryptionContextUTF84MapSingleKeyValue}
+  const encryptionContextUTF84MultipleEntries := {encryptionContextUTF84MapMultipleKeyValues}
 
   const variedUTF8EncryptionContext :=
     {}
@@ -117,10 +121,11 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
     + encryptionContextWitReplacementChar
 
   const representativeEncryptionContextUtf8Values := {ascii4, utf8_2_3, utf8_3_3, utf8_4_3}
-  const multipleEntriesUTF8EncryptionContext := {
-    encryptionContextAsciiMapMultipleKeyValues,
-    encryptionContextUTF82MapMultipleKeyValues,
-    encryptionContextUTF83MapMultipleKeyValues,
-    encryptionContextUTF84MapMultipleKeyValues
-  }
+  const multipleEntriesUTF8EncryptionContext :=
+    {}
+    + encryptionContextAsciiMultipleEntries
+    + encryptionContextUTF82MultipleEntries
+    + encryptionContextUTF83MultipleEntries
+    + encryptionContextUTF84MultipleEntries
+  
 }
