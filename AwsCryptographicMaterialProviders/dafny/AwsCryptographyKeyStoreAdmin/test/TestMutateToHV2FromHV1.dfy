@@ -15,12 +15,11 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
 
-  const testMutateForHV2FailureCaseId := "dafny-initialize-mutation-hv-2-rejection"
-  // TODO-HV-2-M4: Make this happy case when supporting other key strategy.
-  method {:test} TestMutateForHV2Failure()
+  const testMutateForHV2DoesNotErrorCaseId := "dafny-initialize-mutation-hv-2-allowed"
+  method {:test} TestMutateForHV2DoesNotError()
   {
     var uuid :- expect UUID.GenerateUUID();
-    var testId := testMutateForHV2FailureCaseId + "-" + uuid;
+    var testId := testMutateForHV2DoesNotErrorCaseId + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
