@@ -453,13 +453,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       keyManagerStrat.SupportHV1(),
       Types.KeyStoreAdminException(message := "At this time, Mutations do not support KeyManagementStrategy#AwsKmsSimple.")
     );
-
-    if (
-        && input.Mutations.TerminalHierarchyVersion.Some?
-        && input.Mutations.TerminalHierarchyVersion.value.v2?
-      ) {
-      return Failure(Types.KeyStoreAdminException(message :="At this time, Mutations do not support mutations to hierarchy-version-2."));
-    }
     var internalInput := KSAInitializeMutation.InternalInitializeMutationInput(
       Identifier := input.Identifier,
       Mutations := input.Mutations,
