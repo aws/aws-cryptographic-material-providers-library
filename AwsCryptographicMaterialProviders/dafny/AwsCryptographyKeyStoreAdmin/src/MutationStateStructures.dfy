@@ -51,11 +51,10 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     && !(input.TerminalKmsArn.None? && input.TerminalEncryptionContext.None?)
   }
 
-  // TODO-HV-2-M2: Refactor to allow HV-2 for Mutations
   datatype MutableProperties = | MutableProperties (
     nameonly kmsArn: validKmsArn,
-    nameonly customEncryptionContext: KeyStoreTypes.EncryptionContextString
-    // nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion
+    nameonly customEncryptionContext: KeyStoreTypes.EncryptionContextString,
+    nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion
   )
 
   type validKmsArn = s:string | KmsArn.ValidKmsArn?(s) witness *

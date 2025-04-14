@@ -92,14 +92,12 @@ module {:options "/functionSyntax:4" } DescribeMutation {
     var original := Types.MutableBranchKeyProperties(
       KmsArn := MutationToApply.Original.kmsArn,
       CustomEncryptionContext := MutationToApply.Original.customEncryptionContext,
-      // TODO-HV-2-BLOCKER : properly set this
-      HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1
+      HierarchyVersion := MutationToApply.Original.hierarchyVersion
     );
     var terminal := Types.MutableBranchKeyProperties(
       KmsArn := MutationToApply.Terminal.kmsArn,
       CustomEncryptionContext := MutationToApply.Terminal.customEncryptionContext,
-      // TODO-HV-2-BLOCKER : properly set this
-      HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1
+      HierarchyVersion := MutationToApply.Terminal.hierarchyVersion
     );
     var details := Types.MutationDetails(
       Original := original,

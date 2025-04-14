@@ -399,14 +399,16 @@ module {:options "/functionSyntax:4" } Mutations {
        == Structure.ReplaceMutableContext(
             item.EncryptionContext,
             MutationToApply.Original.kmsArn,
-            MutationToApply.Original.customEncryptionContext
+            MutationToApply.Original.customEncryptionContext,
+            mutationToApply.Original.hierarchyVersion
           ) then
       itemOriginal(item)
     else if item.EncryptionContext
             == Structure.ReplaceMutableContext(
                  item.EncryptionContext,
                  MutationToApply.Terminal.kmsArn,
-                 MutationToApply.Terminal.customEncryptionContext
+                 MutationToApply.Terminal.customEncryptionContext,
+                 mutationToApply.Terminal.hierarchyVersion
                ) then
       itemTerminal(item)
     else
@@ -447,7 +449,8 @@ module {:options "/functionSyntax:4" } Mutations {
     var terminalEncryptionContext := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,
-      mutationToApply.Terminal.customEncryptionContext
+      mutationToApply.Terminal.customEncryptionContext,
+      mutationToApply.Terminal.hierarchyVersion
     );
     assert KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext);
     var input := ReEncryptHierarchicalKeyInput(

@@ -313,7 +313,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Structure.ReplaceMutableContext(
         readItems.BeaconItem.EncryptionContext,
         readItems.BeaconItem.KmsArn,
-        MutationToApply.Original.customEncryptionContext),
+        MutationToApply.Original.customEncryptionContext,
+        MutationToApply.Original.hierarchyVersion),
       Types.UnexpectedStateException(
         message :=
           "Beacon Item is not in the Original State!"
