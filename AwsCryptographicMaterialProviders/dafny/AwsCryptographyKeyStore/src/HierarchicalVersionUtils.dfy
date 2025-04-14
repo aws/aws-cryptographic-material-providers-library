@@ -3,6 +3,7 @@
 include "../../../dafny/AwsCryptographicMaterialProviders/Model/AwsCryptographyMaterialProvidersTypes.dfy"
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "../../AwsCryptographicMaterialProviders/src/CanonicalEncryptionContext.dfy"
+include "KeyStoreErrorMessages.dfy"
 
 module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   import opened Wrappers
@@ -13,6 +14,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   import UTF8
   import CanonicalEncryptionContext
   import Types = AwsCryptographyKeyStoreTypes
+  import KeyStoreErrorMessages
 
   type PlainTextTuple = s: seq<uint8> | |s| == 80 witness *
   type BKCDigestError = e: Types.Error | (e.KeyStoreException? ) witness *
@@ -147,7 +149,6 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
                            k1 == k2
                        )
   }
-
 
   function HasPrefix(key: string): bool {
     |key| > |Structure.ENCRYPTION_CONTEXT_PREFIX| &&

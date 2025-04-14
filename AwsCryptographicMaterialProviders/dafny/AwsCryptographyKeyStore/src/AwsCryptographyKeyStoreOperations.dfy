@@ -7,7 +7,7 @@ include "GetKeys.dfy"
 include "CreateKeyStoreTable.dfy"
 include "CreateKeys.dfy"
 include "Structure.dfy"
-include "ErrorMessages.dfy"
+include "KeyStoreErrorMessages.dfy"
 include "KmsArn.dfy"
 include "DefaultKeyStorageInterface.dfy"
 
