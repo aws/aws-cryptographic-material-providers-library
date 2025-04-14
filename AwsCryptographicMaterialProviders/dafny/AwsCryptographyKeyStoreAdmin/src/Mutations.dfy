@@ -95,6 +95,12 @@ module {:options "/functionSyntax:4" } Mutations {
     var kmsOperation: string;
     var success?: bool := false;
     var throwAwayError;
+    // TODO-HV-2-M3: Support mutations on HV-2 item (mutation starting with hv-2 item)
+    :- Need(
+      item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
+      Types.KeyStoreAdminException(
+        message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
+    );
     // TODO-HV-2-M3: Can this if condition also handle hv-2 item?
     if (isTerminalHv2?) {
       // TODO-HV-2-M4: Support other key manager strategy
