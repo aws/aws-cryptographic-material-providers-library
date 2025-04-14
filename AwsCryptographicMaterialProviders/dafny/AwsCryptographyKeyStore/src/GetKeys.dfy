@@ -27,7 +27,7 @@ module GetKeys {
   import UTF8
   import KmsArn
 
-  method {:only} GetActiveKeyAndUnwrap(
+  method GetActiveKeyAndUnwrap(
     input: Types.GetActiveBranchKeyInput,
     logicalKeyStoreName: string,
     kmsConfiguration: Types.KMSConfiguration,
@@ -806,6 +806,11 @@ module GetKeys {
               && ValidateKmsDecryption(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient, hv)
               && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
               && Structure.ToBranchKeyMaterials(branchKeyItemFromStorage, decryptResponse.Plaintext.value).Success?
+              && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
+                   && HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
+                   && result.value == decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
+                 else
+                   && result.value == decryptResponse.Plaintext.value
   {
     var hierarchyVersion := branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION];
     var plainTextKey: seq<uint8>;
