@@ -530,7 +530,7 @@ module GetKeys {
         ));
   }
 
-  method {:only} DecryptAndValidateKeyForHV2(
+  method DecryptAndValidateKeyForHV2(
     branchKeyItemFromStorage: Types.EncryptedHierarchicalKey,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
