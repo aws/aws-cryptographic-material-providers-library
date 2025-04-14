@@ -99,9 +99,10 @@ module {:options "/functionSyntax:4" } Mutations {
     if (isTerminalHv2?) {
       // TODO-HV-2-M4: Support other key manager strategy
       :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));
+      var kmsSymmetricKeyArn :- KmsUtils.stringToKmsSymmetricKeyArn(item.KmsArn);
       var decryptRes := KMSKeystoreOperations.DecryptKeyForHv1(
         item,
-        KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
+        KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(kmsSymmetricKeyArn),
         keyManagerStrategy.kmsSimple.grantTokens,
         keyManagerStrategy.kmsSimple.kmsClient
       );

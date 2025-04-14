@@ -1,6 +1,7 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
+include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 
 module {:options "/functionSyntax:4" } KmsUtils {
   import opened Wrappers
@@ -9,6 +10,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
   import KeyStoreTypes = KMSKeystoreOperations.Types
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KmsArn
+  import AwsArnParsing
 
   datatype KMSTuple = | KMSTuple(
     kmsClient: KMS.Types.IKMSClient,
@@ -138,6 +140,19 @@ module {:options "/functionSyntax:4" } KmsUtils {
     match kmsSymmetricArn
     case KmsKeyArn(kmsKeyArn) => KeyStoreTypes.kmsKeyArn(kmsKeyArn)
     case KmsMRKeyArn(kmsMRKeyArn) => KeyStoreTypes.kmsMRKeyArn(kmsMRKeyArn)
+  }
+
+  method stringToKmsSymmetricKeyArn(
+    kmsArnString: string
+  ) returns (output: Result<Types.KmsSymmetricKeyArn, Types.Error>)
+  {
+    var kmsIdentifier :- AwsArnParsing.IsAwsKmsIdentifierString(kmsArnString).MapFailure(e => Types.KeyStoreAdminException( message := e ));
+    var isMrk := AwsArnParsing.IsMultiRegionAwsKmsIdentifier(kmsIdentifier);
+    if (isMrk) {
+      return Success(Types.KmsSymmetricKeyArn.KmsMRKeyArn(kmsArnString));
+    } else {
+      return Success(Types.KmsSymmetricKeyArn.KmsKeyArn(kmsArnString));
+    }
   }
 
 }
