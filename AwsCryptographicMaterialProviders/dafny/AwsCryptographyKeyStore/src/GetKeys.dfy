@@ -177,7 +177,7 @@ module GetKeys {
       Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
 
-    var plainTextKey :- expect DecryptBranchKeyItem(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient);
+    var plainTextKey :- DecryptBranchKeyItem(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient);
 
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
       branchKeyItemFromStorage,
@@ -356,7 +356,7 @@ module GetKeys {
       )
     );
 
-    var plainTextKey :- expect DecryptBranchKeyItem(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient);
+    var plainTextKey :- DecryptBranchKeyItem(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient);
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
       branchKeyItemFromStorage,
       plainTextKey
@@ -518,7 +518,7 @@ module GetKeys {
         message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
       )
     );
-    var plainTextKey :- expect DecryptBranchKeyItem(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient);
+    var plainTextKey :- DecryptBranchKeyItem(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient);
     var branchKeyMaterials :- Structure.ToBeaconKeyMaterials(
       branchKeyItemFromStorage,
       plainTextKey
