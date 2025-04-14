@@ -82,7 +82,7 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly localOperation: string := "ApplyMutation",
     nameonly isTerminalHv2?: bool := false
   )
-    returns (output: Result<InitialHVVerificationState,Types.Error>)
+    returns (output: Result<ActiveVerificationHolder,Types.Error>)
 
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
@@ -113,7 +113,7 @@ module {:options "/functionSyntax:4" } Mutations {
         keyManagerStrategy.kmsSimple.kmsClient
       );
       if decryptRes.Success? {
-        return Success(InitialHVVerificationState.TerminalHV2(decryptRes.value));
+        return Success(ActiveVerificationHolder.KmsDecrypt(decryptRes.value));
       } else {
         var error := BuildErrorForFailure(
           item,
@@ -182,7 +182,7 @@ module {:options "/functionSyntax:4" } Mutations {
     }
 
     assert success?;
-    return Success(InitialHVVerificationState.TerminalHV1());
+    return Success(ActiveVerificationHolder.NotDecrypt());
   }
 
   method BuildErrorForFailure(
