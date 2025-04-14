@@ -26,9 +26,9 @@ module {:options "/functionSyntax:4" } Mutations {
   import MutationErrorRefinement
   import KmsUtils
 
-  datatype InitialHVVerificationState =
-    | TerminalHV1()
-    | TerminalHV2(decryptedBranchKey: KMS.DecryptResponse)
+  datatype ActiveVerificationHolder =
+    | NotDecrypt()
+    | KmsDecrypt(kmsRes: KMS.DecryptResponse)
 
   method ValidateCommitmentAndIndexStructures(
     token: Types.MutationToken,
@@ -85,7 +85,7 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly localOperation: string := "ApplyMutation",
     nameonly isTerminalHv2?: bool := false
   )
-    returns (output: Result<InitialHVVerificationState,Types.Error>)
+    returns (output: Result<ActiveVerificationHolder,Types.Error>)
 
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
@@ -98,18 +98,25 @@ module {:options "/functionSyntax:4" } Mutations {
     var kmsOperation: string;
     var success?: bool := false;
     var throwAwayError;
+    // TODO-HV-2-M3: Support mutations on HV-2 item (mutation starting with hv-2 item)
+    :- Need(
+      item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
+      Types.KeyStoreAdminException(
+        message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
+    );
     // TODO-HV-2-M3: Can this if condition also handle hv-2 item?
     if (isTerminalHv2?) {
       // TODO-HV-2-M4: Support other key manager strategy
       :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));
+      var kmsSymmetricKeyArn :- KmsUtils.stringToKmsSymmetricKeyArn(item.KmsArn);
       var decryptRes := KMSKeystoreOperations.DecryptKeyForHv1(
         item,
-        KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
+        KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(kmsSymmetricKeyArn),
         keyManagerStrategy.kmsSimple.grantTokens,
         keyManagerStrategy.kmsSimple.kmsClient
       );
       if decryptRes.Success? {
-        return Success(InitialHVVerificationState.TerminalHV2(decryptRes.value));
+        return Success(ActiveVerificationHolder.KmsDecrypt(decryptRes.value));
       } else {
         var error := BuildErrorForFailure(
           item,
@@ -178,7 +185,7 @@ module {:options "/functionSyntax:4" } Mutations {
     }
 
     assert success?;
-    return Success(InitialHVVerificationState.TerminalHV1());
+    return Success(ActiveVerificationHolder.NotDecrypt());
   }
 
   method BuildErrorForFailure(
