@@ -176,35 +176,9 @@ module GetKeys {
       KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
       Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
-    var plainTextKey: seq<uint8>;
-    if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1) {
-      var kmsRes: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
-        branchKeyItemFromStorage,
-        kmsConfiguration,
-        grantTokens,
-        kmsClient
-      );
-      plainTextKey := kmsRes.Plaintext.value;
-    } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
-      :- Need(
-        HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
-        Types.KeyStoreException(
-          message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
-        )
-      );
-      plainTextKey :- DecryptAndValidateKeyForHV2 (
-        branchKeyItemFromStorage,
-        kmsConfiguration,
-        grantTokens,
-        kmsClient
-      );
-    } else {
-      // This else block will never be reached because we have check for hierarchical keyring version before if-else.
-      var e := Types.KeyStoreException(
-        message := ErrorMessages.INVALID_HIERARCHY_VERSION
-      );
-      return Failure(e);
-    }
+
+    var plainTextKey :- DecryptBranchKeyItem(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient);
+
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
       branchKeyItemFromStorage,
       plainTextKey
@@ -382,35 +356,7 @@ module GetKeys {
       )
     );
 
-    var plainTextKey: seq<uint8>;
-    if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1) {
-      var kmsRes: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
-        branchKeyItemFromStorage,
-        kmsConfiguration,
-        grantTokens,
-        kmsClient
-      );
-      plainTextKey := kmsRes.Plaintext.value;
-    } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
-      :- Need(
-        HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
-        Types.KeyStoreException(
-          message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
-        )
-      );
-      plainTextKey :- DecryptAndValidateKeyForHV2 (
-        branchKeyItemFromStorage,
-        kmsConfiguration,
-        grantTokens,
-        kmsClient
-      );
-    } else {
-      // This else block will never be reached because we have check for hierarchical keyring version before if-else.
-      var e := Types.KeyStoreException(
-        message := ErrorMessages.INVALID_HIERARCHY_VERSION
-      );
-      return Failure(e);
-    }
+    var plainTextKey :- DecryptBranchKeyItem(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient);
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
       branchKeyItemFromStorage,
       plainTextKey
@@ -572,35 +518,7 @@ module GetKeys {
         message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
       )
     );
-    var plainTextKey: seq<uint8>;
-    if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1) {
-      var kmsRes: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKeyForHv1(
-        branchKeyItemFromStorage,
-        kmsConfiguration,
-        grantTokens,
-        kmsClient
-      );
-      plainTextKey := kmsRes.Plaintext.value;
-    } else if (branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
-      :- Need(
-        HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
-        Types.KeyStoreException(
-          message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
-        )
-      );
-      plainTextKey :- DecryptAndValidateKeyForHV2 (
-        branchKeyItemFromStorage,
-        kmsConfiguration,
-        grantTokens,
-        kmsClient
-      );
-    } else {
-      // This else block will never be reached because we have check for hierarchical keyring version before if-else.
-      var e := Types.KeyStoreException(
-        message := ErrorMessages.INVALID_HIERARCHY_VERSION
-      );
-      return Failure(e);
-    }
+    var plainTextKey :- DecryptBranchKeyItem(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient);
     var branchKeyMaterials :- Structure.ToBeaconKeyMaterials(
       branchKeyItemFromStorage,
       plainTextKey
@@ -808,5 +726,65 @@ module GetKeys {
     && beaconKeyMaterials.Success?
     && activeBranchKeyOutput.beaconKeyMaterials == beaconKeyMaterials.value
     && activeBranchKeyOutput.beaconKeyMaterials.beaconKeyIdentifier == expectedIdentifier
+  }
+
+  method DecryptBranchKeyItem(
+    branchKeyItemFromStorage: Types.EncryptedHierarchicalKey,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient
+  ) returns (result: Result<seq<uint8>, Types.Error>)
+    requires kmsClient.ValidState()
+    modifies kmsClient.Modifies
+    ensures kmsClient.ValidState()
+
+    requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(branchKeyItemFromStorage)
+    requires KmsArn.ValidKmsArn?(branchKeyItemFromStorage.KmsArn)
+    requires KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.KmsArn)
+
+    ensures result.Success?
+            ==>
+              && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
+              && var hv := branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION];
+              && ValidateKmsDecryption(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient, hv)
+              && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
+              && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
+                && HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
+                && result.value == decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
+              else
+                && result.value == decryptResponse.Plaintext.value
+  {
+    var hierarchyVersion := branchKeyItemFromStorage.EncryptionContext[Structure.HIERARCHY_VERSION];
+    var plainTextKey: seq<uint8>;
+
+    if hierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_1 {
+      var kmsRes :- KMSKeystoreOperations.DecryptKeyForHv1(
+        branchKeyItemFromStorage,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
+      );
+      plainTextKey := kmsRes.Plaintext.value;
+      return Success(plainTextKey);
+    } else if hierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_2 {
+      if !HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext) {
+        return Failure(Types.KeyStoreException(
+                         message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+                       ));
+      }
+
+      var decryptResult :- DecryptAndValidateKeyForHV2(
+        branchKeyItemFromStorage,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
+      );
+      return Success(decryptResult);
+    } else {
+      return Failure(Types.KeyStoreException(
+                       message := ErrorMessages.INVALID_HIERARCHY_VERSION
+                     ));
+    }
   }
 }
