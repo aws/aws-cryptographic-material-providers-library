@@ -79,7 +79,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation for HV-1 with Simple.";
   }
 
-  // TODO-HV-2-M2 : Probably make this a happy test?
+  // TODO-HV-2-M3 : Probably make this a happy test?
   const testMutateInitEncountersHV2FailsCaseId := "dafny-initialize-mutation-encounters-hv-2-rejection"
   const logPrefix := "\n" + testMutateInitEncountersHV2FailsCaseId + " :: "
   method {:test} TestMutateInitEncountersHV2FailsCaseId()
