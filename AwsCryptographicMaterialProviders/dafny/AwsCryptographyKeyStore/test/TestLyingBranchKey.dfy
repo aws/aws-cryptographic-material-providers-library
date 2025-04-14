@@ -130,4 +130,80 @@ module TestLyingBranchKey {
       case _ => expect false,   "Lying Branch Key SHOULD Fail with KMS IncorrectKeyException.";
     }
   }
+
+  // Create a static HV-2 BK and tamper it; call Get* on it,
+  // expect BKS.BranchKeyCiphertextException is thrown.
+  method {:test} TestHV2GetKeyWrongDigest() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+
+    var testId := "DO-NOT-DELETE-test-hv2-get-key-wrong-digest";
+
+    // Call Get Active Key
+    var activeOutput := keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := testId
+      )
+    );
+    expect activeOutput.Failure?;
+    match activeOutput.error {
+      case ComAmazonawsKms(nestedError) => 
+        expect nestedError.InvalidCiphertextException?;
+      case _ =>
+        expect false, "Expected KMS InvalidCiphertextException";
+    }
+  }
+
+  // Create a static HV-2 BK; replace enc with a blob that is the wrong length;
+  // call Get* on it; expect a BKS.BranchKeyCiphertextException to be thrown.
+  method {:test} TestHV2GetKeyWrongCiphertextLength() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+
+    var testId := "DO-NOT-DELETE-test-hv2-get-key-wrong-ciphertext";
+
+    // Call Get Active Key
+    var activeOutput := keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := testId
+      )
+    );
+    expect activeOutput.Failure?;
+    match activeOutput.error {
+      case ComAmazonawsKms(nestedError) => 
+        expect nestedError.InvalidCiphertextException?;
+      case _ =>
+        expect false, "Expected KMS InvalidCiphertextException";
+    }
+  }
+
+  // Create a static HV-2 BK; carefully tamper it so only the KMS-ARN field
+  // disagrees with the Humbolt Key ID embedded in the cipher-text;
+  // call Get* on it; expect a reasonable BKS.BranchKeyCiphertextException is thrown.
+  method {:test} TestHV2GetKeyWrongKmsArn() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+
+    // Configure Key Store with Key Arn with Branch key's tampered KMS Key ARN read from Dynamodb
+    var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient), kmsId := Fixtures.postalHornKeyArn);
+
+    var testId := "DO-NOT-DELETE-test-hv2-get-key-wrong-kms-arn";
+
+    // Call Get Active Key
+    var activeOutput := keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := testId
+      )
+    );
+    expect activeOutput.Failure?;
+    print activeOutput.error;
+    match activeOutput.error {
+      case ComAmazonawsKms(nestedError) => 
+        expect nestedError.IncorrectKeyException?;
+      case _ =>
+        expect false, "Expected KMS InvalidCiphertextException";
+    }
+  }
 }
