@@ -6,7 +6,7 @@ include "../../../../AwsCryptographyPrimitives/Model/AwsCryptographyPrimitivesTy
 include "../../AwsCryptographyKeyStore/src/Structure.dfy"
 include "../../AwsCryptographyKeyStore/src/DefaultKeyStorageInterface.dfy"
 include "../../AwsCryptographyKeyStore/src/KMSKeystoreOperations.dfy"
-include "../../AwsCryptographyKeyStore/src/ErrorMessages.dfy"
+include "../../AwsCryptographyKeyStore/src/KeyStoreErrorMessages.dfy"
 include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "../../AwsCryptographyKeyStore/src/KmsArn.dfy"
 include "SystemKey/ContentHandler.dfy"
