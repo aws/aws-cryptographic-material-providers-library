@@ -472,7 +472,8 @@ module {:options "/functionSyntax:4" } Mutations {
     item: KeyStoreTypes.EncryptedHierarchicalKey,
     mutationToApply: StateStrucs.MutationToApply,
     keyManagerStrategy: KmsUtils.keyManagerStrat,
-    localOperation: string
+    localOperation: string,
+    aes256Key?: Option<KMS.PlaintextType>
   ) returns (output: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires mutationToApply.ValidState() && keyManagerStrategy.ValidState()
     modifies keyManagerStrategy.ModifiesMultiSet
@@ -481,6 +482,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires item.KmsArn == mutationToApply.Original.kmsArn
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires localOperation == "ApplyMutation" || localOperation == "InitializeMutation"
+    requires aes256Key?.Some? ==> |aes256Key?.value| == Structure.AES_256_LENGTH as int
   {
     :- Need(
       keyManagerStrategy.kmsSimple?,
@@ -505,6 +507,67 @@ module {:options "/functionSyntax:4" } Mutations {
       );
       return Failure(e);
     }
+    var aes256Key: KMS.PlaintextType;
+    if (aes256Key?.Some?) {
+      aes256Key := aes256Key?.value;
+    } else {
+      aes256Key :- decryptOrBuildMutateException(item, keyManagerStrategy, localOperation);
+    }
+    var bkcDigest? := HvUtils.CreateBKCDigest(
+      terminalBKC,
+      crypto?.value
+    );
+    var bkcDigest :- bkcDigest?.MapFailure(e => Types.AwsCryptographyKeyStore(
+                                               AwsCryptographyKeyStore:= e
+                                             ));
+    var plainTextTuple := HvUtils.PackPlainTextTuple(bkcDigest, aes256Key);
+    var encryptRes :- expect KMSKeystoreOperations.EncryptKey(
+      plainTextTuple,
+      HvUtils.SelectKmsEncryptionContextForHv2(terminalBKC),
+      item.EncryptionContext[Structure.KMS_FIELD],
+      KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
+      keyManagerStrategy.kmsSimple.grantTokens,
+      keyManagerStrategy.kmsSimple.kmsClient
+    );
+    output := Success(Structure.ConstructEncryptedHierarchicalKey(
+                        terminalBKC,
+                        encryptRes
+                      ));
+  }
+
+  method decryptOrBuildMutateException(
+    item: KeyStoreTypes.EncryptedHierarchicalKey,
+    keyManagerStrategy: KmsUtils.keyManagerStrat,
+    localOperation: string
+  ) returns (output: Result<KMS.PlaintextType, Types.Error>)
+    requires keyManagerStrategy.ValidState()
+    modifies keyManagerStrategy.ModifiesMultiSet
+    ensures keyManagerStrategy.ValidState()
+
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
+    requires localOperation == "ApplyMutation" || localOperation == "InitializeMutation"
+    requires KmsArn.ValidKmsArn?(item.KmsArn)
+
+    requires keyManagerStrategy.kmsSimple?
+
+    ensures output.Success?
+            ==>
+              && |keyManagerStrategy.kmsSimple.kmsClient.History.Decrypt| == |old(keyManagerStrategy.kmsSimple.kmsClient.History.Decrypt)| + 1
+              && var hv := item.EncryptionContext[Structure.HIERARCHY_VERSION];
+              && GetKeys.ValidateKmsDecryption(
+                   item,
+                   KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
+                   keyManagerStrategy.kmsSimple.grantTokens,
+                   keyManagerStrategy.kmsSimple.kmsClient,
+                   hv)
+              && var decryptResponse := Seq.Last(keyManagerStrategy.kmsSimple.kmsClient.History.Decrypt).output.value;
+              && |output.value| == Structure.AES_256_LENGTH as int
+              && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
+                   && HvUtils.HasUniqueTransformedKeys?(item.EncryptionContext)
+                   && output.value == decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
+                 else
+                   && output.value == decryptResponse.Plaintext.value
+  {
     var decryptRes := GetKeys.DecryptBranchKeyItem(
       item,
       KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
@@ -527,25 +590,6 @@ module {:options "/functionSyntax:4" } Mutations {
                        ));
       }
     }
-    var bkcDigest? := HvUtils.CreateBKCDigest(
-      terminalBKC,
-      crypto?.value
-    );
-    var bkcDigest :- bkcDigest?.MapFailure(e => Types.AwsCryptographyKeyStore(
-                                               AwsCryptographyKeyStore:= e
-                                             ));
-    var plainTextTuple := HvUtils.PackPlainTextTuple(bkcDigest, decryptRes.value);
-    var encryptRes :- expect KMSKeystoreOperations.EncryptKey(
-      plainTextTuple,
-      HvUtils.SelectKmsEncryptionContextForHv2(terminalBKC),
-      item.EncryptionContext[Structure.KMS_FIELD],
-      KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
-      keyManagerStrategy.kmsSimple.grantTokens,
-      keyManagerStrategy.kmsSimple.kmsClient
-    );
-    output := Success(Structure.ConstructEncryptedHierarchicalKey(
-                        terminalBKC,
-                        encryptRes
-                      ));
+    return Success(decryptRes.value);
   }
 }
