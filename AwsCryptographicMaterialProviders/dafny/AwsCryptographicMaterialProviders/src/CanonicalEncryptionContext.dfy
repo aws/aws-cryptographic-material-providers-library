@@ -63,7 +63,7 @@ module CanonicalEncryptionContext {
     else Failure(Types.AwsCryptographicMaterialProvidersException( message := "Unable to serialize encryption context"))
   }
 
-  // @texastony had a dream of using this predicates to 
+  // @texastony had a dream of using this predicates to
   // remove duplicate code in HVUtils
   // and CreateKeyHV2.dfy but has given up on the dream for now.
   // TODO-HV-2-FOLLOW : Complete Dream or Kill this
@@ -114,15 +114,15 @@ module CanonicalEncryptionContext {
     ensures
       && output.Success?
       ==>
-      && var content? := EncryptionContextToAAD(encryptionContext);
-      && content?.Success?
-      && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
-      && var digestEvent := Seq.Last(crypto.History.Digest);
-      && digestEvent.input.digestAlgorithm == AtomicPrimitives.Types.SHA_384
-      && digestEvent.input.message == content?.value
-      && digestEvent.output.Success?
-      && |digestEvent.output.value| == 48 // 384 bits / 8 bits per byte == 48 bytes
-      && digestEvent.output.value == output.value
+        && var content? := EncryptionContextToAAD(encryptionContext);
+        && content?.Success?
+        && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
+        && var digestEvent := Seq.Last(crypto.History.Digest);
+        && digestEvent.input.digestAlgorithm == AtomicPrimitives.Types.SHA_384
+        && digestEvent.input.message == content?.value
+        && digestEvent.output.Success?
+        && |digestEvent.output.value| == 48 // 384 bits / 8 bits per byte == 48 bytes
+        && digestEvent.output.value == output.value
   {
     var canonicalEC :- EncryptionContextToAAD(encryptionContext);
 

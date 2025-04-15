@@ -139,7 +139,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
           AwsCryptographyPrimitives := e));
 
     var CryptoAndKms := CryptoAndKms(kmsConfiguration, keyManagerAndStorage.keyManagerStrat, crypto);
-    var decrytOnlyBKItem :- packAndCallKMS(
+    var decryptOnlyBKItem :- packAndCallKMS(
       branchKeyContext := decryptOnlyBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
       material := activePlaintextMaterial,
@@ -164,7 +164,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     var writeItems? := keyManagerAndStorage.storage.WriteNewEncryptedBranchKey(
       KeyStoreTypes.WriteNewEncryptedBranchKeyInput(
         Active := activeBKItem,
-        Version := decrytOnlyBKItem,
+        Version := decryptOnlyBKItem,
         Beacon := beaconBKItem
       )
     );
@@ -179,7 +179,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     assert
       && writeEvent.output.Success?
       && writeEvent.input.Active == activeBKItem
-      && writeEvent.input.Version == decrytOnlyBKItem
+      && writeEvent.input.Version == decryptOnlyBKItem
       && writeEvent.input.Beacon == beaconBKItem;
     output := Success(
       Types.CreateKeyOutput(
@@ -207,7 +207,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     // Note: even if the method fails, the clients are ValidState
     ensures cryptoAndKms.ValidState()
     ensures
-         // TODO-HV-2-GA: Update Specification for HV-2 Branch Key Creation
+      // TODO-HV-2-GA: Update Specification for HV-2 Branch Key Creation
       && output.Success? ==>
         && var kms := cryptoAndKms.kms.kmsSimple.kmsClient;
         && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 1

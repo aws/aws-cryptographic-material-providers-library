@@ -334,7 +334,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
         var keyManagerAndStorage := OptUtils.KeyManagerAndStorage(
-            config.storage, keyManagerStrat
+          config.storage, keyManagerStrat
         );
         assert keyManagerAndStorage.ValidState();
         :- Need(input.Identifier.Some? ==>
