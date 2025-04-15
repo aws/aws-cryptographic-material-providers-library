@@ -520,6 +520,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
     requires item.KmsArn == mutationToApply.Original.kmsArn
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
+    requires localOperation == "ApplyMutation" || localOperation == "InitializeMutation"
   {
     :- Need(
       keyManagerStrategy.kmsSimple?,
@@ -533,8 +534,7 @@ module {:options "/functionSyntax:4" } Mutations {
     :- Need(
       HvUtils.HasUniqueTransformedKeys?(terminalBKC),
       Types.KeyStoreAdminException(
-        message :=
-          ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+        message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
       )
     );
     var crypto? := HvUtils.ProvideCryptoClient();
@@ -552,13 +552,20 @@ module {:options "/functionSyntax:4" } Mutations {
       keyManagerStrategy.kmsSimple.kmsClient
     );
     if decryptRes.Failure? {
-      var error := MutationErrorRefinement.MutateExceptionParse(
-        item := item,
-        error := decryptRes.error,
-        terminalKmsArn := Structure.HIERARCHY_VERSION_VALUE_2,
-        localOperation := localOperation,
-        kmsOperation := "Decrypt");
-      return Failure(error);
+      var err := decryptRes.error;
+      if err.ComAmazonawsKms? || err.KeyManagementException? || err.BranchKeyCiphertextException? {
+        var error := MutationErrorRefinement.MutateExceptionParse(
+          item := item,
+          error := err,
+          terminalKmsArn := Structure.HIERARCHY_VERSION_VALUE_2,
+          localOperation := localOperation,
+          kmsOperation := "Decrypt");
+        return Failure(error);
+      } else {
+        return Failure(Types.AwsCryptographyKeyStore(
+                         AwsCryptographyKeyStore := err
+                       ));
+      }
     }
     var bkcDigest? := HvUtils.CreateBKCDigest(
       terminalBKC,
