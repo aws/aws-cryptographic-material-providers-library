@@ -28,19 +28,19 @@ impl<T: std::fmt::Debug> From<T> for BoxError {
 }
 
 pub mod local_cmc_tests {
-    use aws_mpl_rs::types::material_providers_config::MaterialProvidersConfig;
     use aws_mpl_rs::client as mpl_client;
+    use aws_mpl_rs::deps::aws_cryptography_keyStore::types::BeaconKeyMaterials;
+    use aws_mpl_rs::operation::get_cache_entry::GetCacheEntryOutput;
+    use aws_mpl_rs::types::cryptographic_materials_cache::CryptographicMaterialsCacheRef;
+    use aws_mpl_rs::types::error::Error;
+    use aws_mpl_rs::types::material_providers_config::MaterialProvidersConfig;
     use aws_mpl_rs::types::CacheType;
     use aws_mpl_rs::types::DefaultCache;
-    use aws_mpl_rs::types::cryptographic_materials_cache::CryptographicMaterialsCacheRef;
-    use aws_mpl_rs::operation::get_cache_entry::GetCacheEntryOutput;
-    use aws_mpl_rs::types::error::Error;
     use aws_mpl_rs::types::Materials;
-    use aws_mpl_rs::deps::aws_cryptography_keyStore::types::BeaconKeyMaterials;
-    use std::collections::HashMap;
     use chrono::Utc;
-    use rand::{rng, Rng};
     use futures::stream::StreamExt;
+    use rand::{rng, Rng};
+    use std::collections::HashMap;
     // Currently this is commented out to keep it consistent with other
     // runtimes but every language should eventually have a network
     // call delay while testing adding to the StormTrackingCache.
@@ -50,11 +50,11 @@ pub mod local_cmc_tests {
         let mpl_config: MaterialProvidersConfig = MaterialProvidersConfig::builder().build()?;
         let mpl: mpl_client::Client = mpl_client::Client::from_conf(mpl_config)?;
 
-        let test: CryptographicMaterialsCacheRef = mpl.create_cryptographic_materials_cache()
+        let test: CryptographicMaterialsCacheRef = mpl
+            .create_cryptographic_materials_cache()
             .cache(CacheType::Default(
-                DefaultCache::builder()
-                .entry_capacity(10)
-                .build()?))
+                DefaultCache::builder().entry_capacity(10).build()?,
+            ))
             .send()
             .await?;
 
@@ -79,14 +79,14 @@ pub mod local_cmc_tests {
             "eighteen",
             "nineteen",
             "twenty",
-            "twenty one"
+            "twenty one",
         ];
 
         let id_size: usize = identifiers.len();
 
         let invocations = 300000;
         let concurrent_tasks = 10;
-        
+
         futures::stream::iter(0..invocations)
             .map(|_i| {
                 let identifiers = identifiers.clone();
@@ -97,27 +97,32 @@ pub mod local_cmc_tests {
                     let random = rng().random_range(0..id_size);
                     let beacon_key_identifier: &str = identifiers[random];
 
-                    let cache_identifier: aws_smithy_types::Blob = aws_smithy_types::Blob::new(beacon_key_identifier.as_bytes());
+                    let cache_identifier: aws_smithy_types::Blob =
+                        aws_smithy_types::Blob::new(beacon_key_identifier.as_bytes());
 
-                    let cache_entry_output: Result<GetCacheEntryOutput, Error> = test.get_cache_entry()
+                    let cache_entry_output: Result<GetCacheEntryOutput, Error> = test
+                        .get_cache_entry()
                         .identifier(cache_identifier.clone())
                         .send()
                         .await;
 
                     match cache_entry_output {
                         Ok(_) => {
-                            println!("Cache hit for beacon key identifier: {}", beacon_key_identifier);
+                            println!(
+                                "Cache hit for beacon key identifier: {}",
+                                beacon_key_identifier
+                            );
                         }
-                        Err(Error::EntryDoesNotExist {message: _m}) => {
+                        Err(Error::EntryDoesNotExist { message: _m }) => {
                             let materials = Materials::BeaconKey(
-                                    BeaconKeyMaterials::builder()
+                                BeaconKeyMaterials::builder()
                                     .beacon_key_identifier(beacon_key_identifier.to_string())
                                     // The cacheIdentifier is used as the material
                                     // because we are not testing the cryptography here.
                                     .beacon_key(cache_identifier.clone())
                                     .encryption_context(HashMap::new())
-                                    .build()?
-                                );
+                                    .build()?,
+                            );
                             // This sleep time is to mimic a KMS or DDB call
                             // Currently this is commented out to keep it consistent with other
                             // runtimes but every language should eventually have a network
@@ -135,13 +140,15 @@ pub mod local_cmc_tests {
                                 .materials(materials)
                                 .send()
                                 .await?;
-                            
-                            println!("Cache miss for beacon key identifier: {}", beacon_key_identifier);
+
+                            println!(
+                                "Cache miss for beacon key identifier: {}",
+                                beacon_key_identifier
+                            );
                         }
                         Err(e) => {
                             panic!("Unexpected error while accessing cache: {}", e);
                         }
-
                     }
 
                     Ok::<(), crate::BoxError>(())
@@ -150,7 +157,7 @@ pub mod local_cmc_tests {
             .buffer_unordered(concurrent_tasks)
             .collect::<Vec<_>>()
             .await;
-        
+
         Ok(())
     }
 

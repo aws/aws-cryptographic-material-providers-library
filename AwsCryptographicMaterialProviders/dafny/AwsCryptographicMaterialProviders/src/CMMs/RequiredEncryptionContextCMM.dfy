@@ -7,6 +7,7 @@ include "../CMM.dfy"
 include "../Defaults.dfy"
 include "../Commitment.dfy"
 include "../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
+include "DefaultCMM.dfy"
 
 module RequiredEncryptionContextCMM {
   import opened Wrappers
@@ -17,6 +18,8 @@ module RequiredEncryptionContextCMM {
   import Types = AwsCryptographyMaterialProvidersTypes
   import Seq
   import SortedSets
+
+  import DefaultCMM
 
   class RequiredEncryptionContextCMM
     extends CMM.VerifiableInterface
@@ -65,7 +68,19 @@ module RequiredEncryptionContextCMM {
     }
 
     predicate GetEncryptionMaterialsEnsuresPublicly(input: Types.GetEncryptionMaterialsInput, output: Result<Types.GetEncryptionMaterialsOutput, Types.Error>)
-    {true}
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.encryptionMaterials)
+            && CMM.RequiredEncryptionContextKeys?(input.requiredEncryptionContextKeys, output.value.encryptionMaterials)
+    {
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.encryptionMaterials)
+        && CMM.RequiredEncryptionContextKeys?(input.requiredEncryptionContextKeys, output.value.encryptionMaterials)
+    }
 
     method GetEncryptionMaterials'(
       input: Types.GetEncryptionMaterialsInput
@@ -165,29 +180,63 @@ module RequiredEncryptionContextCMM {
         Some(input.requiredEncryptionContextKeys.UnwrapOr([]) + requiredEncryptionContextKeys))
       );
 
-      :- Need(forall k <- requiredEncryptionContextKeys :: k in result.encryptionMaterials.requiredEncryptionContextKeys,
-              Types.AwsCryptographicMaterialProvidersException(
-                message := "Expected encryption context keys do not exist in keys to only authenticate.")
-      );
+      // For Dafny these are trivial statements
+      // because they implement a trait that ensures this.
+      // However not all CMM/keyrings are Dafny CMM/keyrings.
+      // Customers can create custom CMM/keyrings.
+      if !(
+          || underlyingCMM is DefaultCMM.DefaultCMM
+          || underlyingCMM is RequiredEncryptionContextCMM
+        ) {
 
-        // For Dafny keyrings this is a trivial statement
-        // because they implement a trait that ensures this.
-        // However not all keyrings are Dafny keyrings.
-        // Customers can create custom keyrings.
-      :- Need(
-        Materials.EncryptionMaterialsHasPlaintextDataKey(result.encryptionMaterials),
-        Types.AwsCryptographicMaterialProvidersException(
-          message := "Could not retrieve materials required for encryption"));
-      :- Need(
-        CMM.RequiredEncryptionContextKeys?(input.requiredEncryptionContextKeys, result.encryptionMaterials),
-        Types.AwsCryptographicMaterialProvidersException(
-          message := "Keyring returned an invalid response"));
+        :- Need(forall k <- requiredEncryptionContextKeys :: k in result.encryptionMaterials.requiredEncryptionContextKeys,
+                Types.AwsCryptographicMaterialProvidersException(
+                  message := "Expected encryption context keys do not exist in keys to only authenticate.")
+        );
+
+        :- Need(
+          Materials.EncryptionMaterialsHasPlaintextDataKey(result.encryptionMaterials),
+          Types.AwsCryptographicMaterialProvidersException(
+            message := "Could not retrieve materials required for encryption"));
+        :- Need(
+          CMM.RequiredEncryptionContextKeys?(input.requiredEncryptionContextKeys, result.encryptionMaterials),
+          Types.AwsCryptographicMaterialProvidersException(
+            message := "Keyring returned an invalid response"));
+      }
 
       output := Success(result);
     }
 
     predicate DecryptMaterialsEnsuresPublicly(input: Types.DecryptMaterialsInput, output: Result<Types.DecryptMaterialsOutput, Types.Error>)
-    {true}
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          (output.Success?
+           ==> Materials.DecryptionMaterialsWithPlaintextDataKey(output.value.decryptionMaterials))
+          && (output.Success? ==> CMM.ReproducedEncryptionContext?(input))
+          && (!CMM.ReproducedEncryptionContext?(input) ==> output.Failure?)
+          && (output.Success? ==> CMM.EncryptionContextComplete(input, output.value.decryptionMaterials))
+    {
+      //= aws-encryption-sdk-specification/framework/cmm-interface.md#decrypt-materials
+      //= type=implication
+      //# The CMM MUST validate the [Encryption Context](structures.md#encryption-context)
+      //# by comparing it to the customer supplied [Reproduced Encryption Context](structures.md#encryption-context)
+      //# in [decrypt materials request](#decrypt-materials-request).
+      //# For every key that exists in both [Reproduced Encryption Context](structures.md#encryption-context)
+      //# and [Encryption Context](structures.md#encryption-context),
+      //# the values MUST be equal or the operation MUST fail.
+      && (output.Success? ==> CMM.ReproducedEncryptionContext?(input))
+      && (!CMM.ReproducedEncryptionContext?(input) ==> output.Failure?)
+      && (output.Success?
+          ==>
+            && Materials.DecryptionMaterialsWithPlaintextDataKey(output.value.decryptionMaterials))
+         //= aws-encryption-sdk-specification/framework/cmm-interface.md#decrypt-materials
+         //= type=implication
+         //# - All key-value pairs that exist in [Reproduced Encryption Context](structures.md#encryption-context)
+         //# but do not exist in encryption context on the [decrypt materials request](#decrypt-materials-request)
+         //# SHOULD be appended to the decryption materials.
+      && (output.Success? ==> CMM.EncryptionContextComplete(input, output.value.decryptionMaterials))
+    }
 
     method DecryptMaterials'(
       input: Types.DecryptMaterialsInput
@@ -202,28 +251,6 @@ module RequiredEncryptionContextCMM {
         && ValidState()
       ensures DecryptMaterialsEnsuresPublicly(input, output)
       ensures unchanged(History)
-
-      ensures output.Success?
-              ==>
-                && Materials.DecryptionMaterialsWithPlaintextDataKey(output.value.decryptionMaterials)
-
-      //= aws-encryption-sdk-specification/framework/cmm-interface.md#decrypt-materials
-      //= type=implication
-      //# The CMM MUST validate the [Encryption Context](structures.md#encryption-context)
-      //# by comparing it to the customer supplied [Reproduced Encryption Context](structures.md#encryption-context)
-      //# in [decrypt materials request](#decrypt-materials-request).
-      //# For every key that exists in both [Reproduced Encryption Context](structures.md#encryption-context)
-      //# and [Encryption Context](structures.md#encryption-context),
-      //# the values MUST be equal or the operation MUST fail.
-      ensures
-        && (output.Success? ==> CMM.ReproducedEncryptionContext?(input))
-        && (!CMM.ReproducedEncryptionContext?(input) ==> output.Failure?)
-      //= aws-encryption-sdk-specification/framework/cmm-interface.md#decrypt-materials
-      //= type=implication
-      //# - All key-value pairs that exist in [Reproduced Encryption Context](structures.md#encryption-context)
-      //# but do not exist in encryption context on the [decrypt materials request](#decrypt-materials-request)
-      //# SHOULD be appended to the decryption materials.
-      ensures output.Success? ==> CMM.EncryptionContextComplete(input, output.value.decryptionMaterials)
 
       //= aws-encryption-sdk-specification/framework/required-encryption-context-cmm.md#decrypt-materials
       //= type=implication
@@ -285,24 +312,33 @@ module RequiredEncryptionContextCMM {
 
       var result :- underlyingCMM.DecryptMaterials(input);
 
-      :- Need(forall k <- requiredEncryptionContextKeys :: k in result.decryptionMaterials.encryptionContext,
-              Types.AwsCryptographicMaterialProvidersException(
-                message := "Final encryption context missing required keys.")
-      );
+      // For Dafny these are trivial statements
+      // because they implement a trait that ensures this.
+      // However not all CMM/keyrings are Dafny CMM/keyrings.
+      // Customers can create custom CMM/keyrings.
+      if !(
+          || underlyingCMM is DefaultCMM.DefaultCMM
+          || underlyingCMM is RequiredEncryptionContextCMM
+        ) {
+        :- Need(forall k <- requiredEncryptionContextKeys :: k in result.decryptionMaterials.encryptionContext,
+                Types.AwsCryptographicMaterialProvidersException(
+                  message := "Final encryption context missing required keys.")
+        );
 
-      :- Need(CMM.EncryptionContextComplete(input, result.decryptionMaterials),
-              Types.AwsCryptographicMaterialProvidersException(
-                message := "Reproduced encryption context missing from encryption context.")
-      );
+        :- Need(CMM.EncryptionContextComplete(input, result.decryptionMaterials),
+                Types.AwsCryptographicMaterialProvidersException(
+                  message := "Reproduced encryption context missing from encryption context.")
+        );
 
-        // For Dafny keyrings this is a trivial statement
-        // because they implement a trait that ensures this.
-        // However not all keyrings are Dafny keyrings.
-        // Customers can create custom keyrings.
-      :- Need(
-        Materials.DecryptionMaterialsWithPlaintextDataKey(result.decryptionMaterials),
-        Types.AwsCryptographicMaterialProvidersException(
-          message := "Keyring.OnDecrypt failed to decrypt the plaintext data key."));
+          // For Dafny keyrings this is a trivial statement
+          // because they implement a trait that ensures this.
+          // However not all keyrings are Dafny keyrings.
+          // Customers can create custom keyrings.
+        :- Need(
+          Materials.DecryptionMaterialsWithPlaintextDataKey(result.decryptionMaterials),
+          Types.AwsCryptographicMaterialProvidersException(
+            message := "Keyring.OnDecrypt failed to decrypt the plaintext data key."));
+      }
 
       return Success(result);
     }
