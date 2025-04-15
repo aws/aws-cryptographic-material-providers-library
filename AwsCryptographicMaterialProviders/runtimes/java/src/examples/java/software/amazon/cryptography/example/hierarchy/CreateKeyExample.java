@@ -43,6 +43,7 @@ public class CreateKeyExample {
     // 2. Configure Key Management Strategy.
     final KeyManagementStrategy strategy;
     if (_hierarchyVersion == HierarchyVersion.v2) {
+      // TODO-HV-2-BLOCKER : Determine IF AwsKmsDecryptEncrypt will be supported with HV-2 (medium effort; probably no one will need it)
       // Only KMS Simple is supported at this time for HV-2 to Create Keys
       strategy =
         KeyManagementStrategy
@@ -50,6 +51,7 @@ public class CreateKeyExample {
           .AwsKmsSimple(AwsKms.builder().build())
           .build();
     } else {
+      // TODO-HV-2-BLOCKER : Determine IF AwsKmsSimple will be supported with HV-1 (low effort)
       // Only KMS ReEncrypt is supported at this time for HV-1 Create Keys
       strategy =
         KeyManagementStrategy
