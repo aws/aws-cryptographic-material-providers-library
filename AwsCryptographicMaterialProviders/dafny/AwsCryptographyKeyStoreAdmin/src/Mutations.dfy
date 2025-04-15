@@ -102,7 +102,7 @@ module {:options "/functionSyntax:4" } Mutations {
       Types.KeyStoreAdminException(
         message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
     );
-    if (isTerminalHv2?) {
+    if (isTerminalHv2? && item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2) {
       // TODO-HV-2-M4: Support other key manager strategy
       :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));
       var decryptRes := GetKeys.DecryptBranchKeyItem(
