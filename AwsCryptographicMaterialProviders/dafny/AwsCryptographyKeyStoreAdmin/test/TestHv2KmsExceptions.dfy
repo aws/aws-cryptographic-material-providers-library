@@ -74,9 +74,9 @@ module {:options "/functionSyntax:4" } TestHv2KmsExceptions {
     var initializeOutput := underTest.InitializeMutation(initInput);
 
     expect initializeOutput.Failure?, "Expected a Failure when mutating a branch key with KMS Arn without Encrypt Permission";
-    // TODO-HV-2-M2: We should expect a MutationTo Exception when terminalKmsArn 
+    // TODO-HV-2-M2: We should expect a MutationTo Exception when terminalKmsArn
     // does not have HV-2 permissions when mutating a HV-2 branch keys.
-    // expect initializeOutput.error.MutationToException?, 
+    // expect initializeOutput.error.MutationToException?,
     // "Expected a MutationTo Exception when mutating a branch key with KMS Arn without Encrypt Permission for HV2 Branch Keys";
 
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);

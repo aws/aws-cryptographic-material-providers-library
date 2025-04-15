@@ -129,8 +129,17 @@ module Fixtures {
 
   // Creation of this particular illegal Branch Key is detailed here:
   // `git rev-parse --show-toplevel`/cfn/lyingBranchKeyCreation.md
-  const lyingBranchKeyId := "kms-arn-attribute-is-lying"
-  const lyingBranchKeyDecryptOnlyVersion := "129c5c87-308a-41c9-8b9d-a27f66e915f4"
+  const hierarchyV1InvalidKmsArnId := "kms-arn-attribute-is-lying"
+  const hierarchyV1InvalidKmsArnVersion := "129c5c87-308a-41c9-8b9d-a27f66e915f4"
+  // TODO-HV-2-FF : Document creation of lying branch keys
+  const hierarchyV2InvalidKmsArnId := "DO-NOT-DELETE-test-hv2-get-key-wrong-kms-arn"
+  const hierarchyV2InvalidKmsArnVersion := "e3df6cf8-3edc-4781-998e-c4731b755452"
+
+  const hierarchyV2InvalidDigestId := "DO-NOT-DELETE-test-hv2-get-key-wrong-digest"
+  const hierarchyV2InvalidDigestVersion := "6b89ed22-0c74-4bfa-921f-170285ab9c2f"
+
+  const hierarchyV2InvalidCiphertextLengthId := "DO-NOT-DELETE-test-hv2-get-key-wrong-ciphertext"
+  const hierarchyV2InvalidCiphertextLengthVersion := "94a3bb88-bbaa-4830-99d4-7a949a02f4a1"
 
   // This function is the lie we will tell ourselves
   // about what the mutation scope is.
