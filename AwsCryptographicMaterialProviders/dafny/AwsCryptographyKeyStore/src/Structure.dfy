@@ -70,6 +70,11 @@ module {:options "/functionSyntax:4" } Structure {
     && forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX < k
   }
 
+  predicate StringIsValidHierarchyVersion?(version: string)
+  {
+    version == HIERARCHY_VERSION_VALUE_1 || version == HIERARCHY_VERSION_VALUE_2
+  }
+
   type BranchKeyContext = m: map<string, string> | BranchKeyContext?(m) witness *
   predicate BranchKeyContext?(m: map<string, string>) {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
@@ -87,7 +92,7 @@ module {:options "/functionSyntax:4" } Structure {
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
        //= type=implication
        //# - MUST have a `hierarchy-version`
-    && (HIERARCHY_VERSION in m)
+    && (HIERARCHY_VERSION in m && StringIsValidHierarchyVersion?(m[HIERARCHY_VERSION]))
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
        //= type=implication
        //# - MUST have a `tablename` attribute to store the logicalKeyStoreName
@@ -148,6 +153,7 @@ module {:options "/functionSyntax:4" } Structure {
     && key.Identifier == key.EncryptionContext[BRANCH_KEY_IDENTIFIER_FIELD]
     && key.CreateTime == key.EncryptionContext[KEY_CREATE_TIME]
     && key.KmsArn == key.EncryptionContext[KMS_FIELD]
+    && (HIERARCHY_VERSION in key.EncryptionContext && StringIsValidHierarchyVersion?(key.EncryptionContext[HIERARCHY_VERSION]))
 
     && (match key.Type
         case ActiveHierarchicalSymmetricVersion(active) =>
@@ -620,6 +626,7 @@ module {:options "/functionSyntax:4" } Structure {
     && TYPE_FIELD in m && m[TYPE_FIELD].S?
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N?
+    && StringIsValidHierarchyVersion?(m[HIERARCHY_VERSION].N)
     && TABLE_FIELD !in m
     && KMS_FIELD in m && m[KMS_FIELD].S?
     && BRANCH_KEY_FIELD in m && m[BRANCH_KEY_FIELD].B?
@@ -785,13 +792,13 @@ module {:options "/functionSyntax:4" } Structure {
 
     && m[TYPE_FIELD].S == MUTATION_COMMITMENT_TYPE
 
-    // Structure & DefaultKeyStorage do not care about the Byte structure of the original or terminal.
+    // Structure & DefaultKeyStorage do not care about the Byte structure of the original, terminal, or input.
     // That is the concern of Mutation State Structures.
     // Structure & DefaultKeyStorage care that these are non-empty Byte Fields.
     && M_ORIGINAL in m && m[M_ORIGINAL].B? && 0 < |m[M_ORIGINAL].B|
     && M_TERMINAL in m && m[M_TERMINAL].B? && 0 < |m[M_TERMINAL].B|
-    && ENC_FIELD in m && m[ENC_FIELD].B? && 0 < |m[ENC_FIELD].B|
     && M_INPUT in m && m[M_INPUT].B? && 0 < |m[M_INPUT].B|
+    && ENC_FIELD in m && m[ENC_FIELD].B? && 0 < |m[ENC_FIELD].B|
 
     && m.Keys == {
                    TYPE_FIELD,
@@ -812,8 +819,8 @@ module {:options "/functionSyntax:4" } Structure {
     && 0 < |m.UUID|
     && 0 < |m.Original|
     && 0 < |m.Terminal|
-    && 0 < |m.CiphertextBlob|
     && 0 < |m.Input|
+    && 0 < |m.CiphertextBlob|
   }
 
   function ToMutationCommitment(
