@@ -51,6 +51,15 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     && !(input.TerminalKmsArn.None? && input.TerminalEncryptionContext.None?)
   }
 
+  /**
+     These are the members of a Branch Key Item
+     that can be changed by a Mutation.
+     We track the Original values AND the terminal values;
+     this affords us the ability to implement a roll back mechanism
+     in the future.
+     Currently, we also use the Original Values as an anti-entropy check;
+     every Branch Key Item MUST be in the Original OR Terminal state exactly.
+   */
   datatype MutableProperties = | MutableProperties (
     nameonly kmsArn: validKmsArn,
     nameonly customEncryptionContext: KeyStoreTypes.EncryptionContextString,
@@ -82,10 +91,12 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     }
   }
 
-  /** The Commitment & Index are persisted to the storage by Initialize. **/
-  /** The Commitment & Index are read by Apply. **/
-  /** The Index is updated by Apply. **/
-  /** Both are deleted when the Mutation is completed by Apply. **/
+  /**
+     The Commitment & Index are persisted to the storage by Initialize.
+     The Commitment & Index are read by Apply.
+     The Index is updated by Apply.
+     Both are deleted when the Mutation is completed by Apply.
+   */
   datatype CommitmentAndIndex = CommitmentAndIndex(
     Commitment: KeyStoreTypes.MutationCommitment,
     Index: KeyStoreTypes.MutationIndex
@@ -130,7 +141,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   // therefore, HV MAY NOT be present in a Mutation Commitment.
   // If HV is not present, we KNOW it is HV1.
   // If HV is present, then it is the third element.
-  function MutablePropertiesJsonToHierarhcyVersion(
+  function MutablePropertiesJsonToHierarchyVersion(
     deserializedMutableProperties: JSONValues.JSON
   ): (output: KeyStoreTypes.HierarchyVersion)
     requires MutablePropertiesJson?(deserializedMutableProperties).Pass?
@@ -141,11 +152,11 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   }
 
   // Pre-HV-2 Mutations did not track Hierarchy Version;
-  // therefore, HV MAY NOT be present in the Mutation Commitment's Input.
+  // therefore, HV MAY NOT be present in the User's Input.
   // If HV is not present, we KNOW the customer could not and did not provide it.
   // If HV key is present, then it is the third element, and is nullable,
   // as a post-HV-2 mutation could mutate the HV.
-  function InputMutationsJsonToHierarhcyVersion(
+  function InputMutationsJsonToHierarchyVersion(
     deserializedInput: JSONValues.JSON
   ): (output: Option<KeyStoreTypes.HierarchyVersion>)
     requires MutablePropertiesJson?(deserializedInput).Pass?
@@ -155,10 +166,32 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     else None
   }
 
+  /**
+     To serialize the Encryption Context as JSON,
+     we sort the map by FUDGE this is the JavaSript soriting mistake...
+     we are sorting by the String ordering of the keys of the Map;
+     Yeah... this is not good.
+     We need to sort by the UTF8 byte sequence;
+     it is unlikely any internal user will hit this mistake soon,
+     but we need to revise this,
+     which will break in-flight mutations.
+     Darn.
+     @lucasmcdonald3 let's bring this up April 17th.
+     I will note that is is unlikely for an in-flight Mutation
+     to be handled by two different "local" settings;
+     i.e: one host is configured for EN-US,
+     while another is configured for CN,
+     and the two swap turns working a Mutation,
+     then things could go wrong.
+     But that is highly unlikely.
+     */
   function EncryptionContextStringToJSON(
     encryptionContext: KeyStoreTypes.EncryptionContextString
   ): (output: JSONValues.JSON)
   {
+    // TODO-HV-2-BLOCKER : Refactor to sort by UTF8 Bytes
+    // We had this logic: https://github.com/aws/private-aws-cryptographic-material-providers-library-dafny-staging/blob/c88abe97abfbc9057c28844f660cc4b5615b912e/AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStoreAdmin/src/MutationStateStructures.dfy#L55-L65
+    // But... the team moved away from it to strings...
     var keys := SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, b) => a < b);
     if |keys| == 0 then
       JSONValues.Object([])
@@ -408,12 +441,12 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
         Original := MutableProperties(
           kmsArn := OriginalJson.obj[1].1.str,
           customEncryptionContext := OriginalEC,
-          hierarchyVersion := MutablePropertiesJsonToHierarhcyVersion(OriginalJson)
+          hierarchyVersion := MutablePropertiesJsonToHierarchyVersion(OriginalJson)
         ),
         Terminal := MutableProperties(
           kmsArn := TerminalJson.obj[1].1.str,
           customEncryptionContext := TerminalEC,
-          hierarchyVersion := MutablePropertiesJsonToHierarhcyVersion(TerminalJson)
+          hierarchyVersion := MutablePropertiesJsonToHierarchyVersion(TerminalJson)
         ),
         UUID := commitment.UUID,
         CreateTime := commitment.CreateTime,
@@ -441,6 +474,14 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
   const ERROR_PRFX := "Serialized State properties is malformed! "
 
+  /** Validates that a JSON object conforms to a Mutable properities.
+    The JSON structure will have 2 OR 3 items.
+    {
+       "aws-crypto-ec": {...},
+       "kms-arn": <String>,
+       "hierarchy-version": <String> // Pre-HV-2 Items will not have this.
+    }    
+  */
   function MutablePropertiesJson?(
     MutableProperties: JSONValues.JSON
   ): (output: Outcome<Types.Error>)
