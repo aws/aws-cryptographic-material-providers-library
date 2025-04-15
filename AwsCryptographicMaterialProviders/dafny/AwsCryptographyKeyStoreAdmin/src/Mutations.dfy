@@ -552,12 +552,12 @@ module {:options "/functionSyntax:4" } Mutations {
       keyManagerStrategy.kmsSimple.kmsClient
     );
     if decryptRes.Failure? {
-      var error := BuildErrorForFailure(
-        item,
-        decryptRes.error,
-        localOperation,
-        "decrypt"
-      );
+      var error := MutationErrorRefinement.MutateExceptionParse(
+        item := item,
+        error := decryptRes.error,
+        terminalKmsArn := Structure.HIERARCHY_VERSION_VALUE_2,
+        localOperation := localOperation,
+        kmsOperation := "Decrypt");
       return Failure(error);
     }
     var bkcDigest? := HvUtils.CreateBKCDigest(
