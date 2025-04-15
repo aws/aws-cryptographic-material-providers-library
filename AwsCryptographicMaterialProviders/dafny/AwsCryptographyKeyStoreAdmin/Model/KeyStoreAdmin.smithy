@@ -234,6 +234,8 @@ structure CreateKeyInput {
   used to protect the Branch Key, but not aliases!")
   KmsArn: KmsSymmetricKeyArn
 
+  // TODO-HV-2-BLOCKER : Determine IF AwsKmsSimple will be supported with HV-1 (low effort)
+  // TODO-HV-2-BLOCKER : Determine IF AwsKmsDecryptEncrypt will be supported with HV-2 (medium effort; probably no one will need it)
   @documentation(
   "For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported (for now).
   For 'hierarchy-version-2' (HV-2), only AwsKmsDecryptEncrypt or AwsKmsSimple are supported.")
