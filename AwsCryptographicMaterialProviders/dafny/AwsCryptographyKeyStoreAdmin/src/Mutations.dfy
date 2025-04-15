@@ -93,7 +93,7 @@ module {:options "/functionSyntax:4" } Mutations {
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
   {
-    var kmsOperation: string;
+
     var success?: bool := false;
     var throwAwayError;
     // TODO-HV-2-M3: Support mutations on HV-2 item (mutation starting with hv-2 item)
@@ -118,12 +118,12 @@ module {:options "/functionSyntax:4" } Mutations {
           item,
           decryptRes.error,
           localOperation,
-          kmsOperation
+          "decrypt"
         );
         return Failure(error);
       }
     }
-
+    var kmsOperation: string;
     match keyManagerStrategy {
       case reEncrypt(kms) =>
         kmsOperation := "ReEncrypt";
