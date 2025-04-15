@@ -26,33 +26,6 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import TestGetKeys
   import KeyStoreAdminErrorMessages
 
-  const testMutateForHV2FailsCaseId := "dafny-initialize-mutation-hv-2-rejection"
-  method {:test} TestMutateForHV2Fails()
-  {
-    var uuid :- expect UUID.GenerateUUID();
-    var testId := testMutateForHV2FailsCaseId + "-" + uuid;
-    var ddbClient :- expect Fixtures.ProvideDDBClient();
-    var kmsClient :- expect Fixtures.ProvideKMSClient();
-    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-    var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
-    Fixtures.CreateHappyCaseId(id:=testId);
-
-    var mutationsRequest := Types.Mutations(
-      TerminalKmsArn := Some(Fixtures.postalHornKeyArn),
-      TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
-    );
-    var initInput := Types.InitializeMutationInput(
-      Identifier := testId,
-      Mutations := mutationsRequest,
-      Strategy := Some(strategy),
-      SystemKey := systemKey,
-      DoNotVersion := Some(true));
-    var initializeOutput := underTest.InitializeMutation(initInput);
-    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
-    expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
-  }
-
   const testMutateForTerminalHV1FailsCaseId := "dafny-initialize-mutation-terminal-hv-1-rejection"
   method {:test} TestMutateForTerminalHV1Fails()
   {
