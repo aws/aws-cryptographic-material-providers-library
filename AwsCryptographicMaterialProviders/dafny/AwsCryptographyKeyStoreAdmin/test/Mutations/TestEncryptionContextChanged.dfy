@@ -153,7 +153,7 @@ module {:options "/functionSyntax:4" } TestEncryptionContextChanged {
     var _ :- expect keyStore.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := testId));
     // print testLogPrefix + " Beacon Validated with KMS/KeyStore: " + testId + "\n";
 
-    // var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     // print "TestEncryptionContextChanged.TestHappyCase: ";
   }
 }
