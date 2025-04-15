@@ -511,7 +511,7 @@ module {:options "/functionSyntax:4" } Mutations {
     item: KeyStoreTypes.EncryptedHierarchicalKey,
     mutationToApply: StateStrucs.MutationToApply,
     keyManagerStrategy: KmsUtils.keyManagerStrat,
-    ActiveVerificationHolder: ActiveVerificationHolder
+    localOperation: string
   ) returns (output: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires mutationToApply.ValidState() && keyManagerStrategy.ValidState()
     modifies keyManagerStrategy.ModifiesMultiSet
@@ -519,14 +519,16 @@ module {:options "/functionSyntax:4" } Mutations {
 
     requires item.KmsArn == mutationToApply.Original.kmsArn
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
-    requires ActiveVerificationHolder.KmsDecrypt?
   {
+    :- Need(
+      keyManagerStrategy.kmsSimple?,
+      Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
+    );
     var terminalBKC := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,
       mutationToApply.Terminal.customEncryptionContext
     );
-
     :- Need(
       HvUtils.HasUniqueTransformedKeys?(terminalBKC),
       Types.KeyStoreAdminException(
@@ -534,7 +536,6 @@ module {:options "/functionSyntax:4" } Mutations {
           ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
       )
     );
-
     var crypto? := HvUtils.ProvideCryptoClient();
     if (crypto?.Failure?) {
       var e := Types.KeyStoreAdminException(
@@ -543,7 +544,21 @@ module {:options "/functionSyntax:4" } Mutations {
       );
       return Failure(e);
     }
-
+    var decryptRes := GetKeys.DecryptBranchKeyItem(
+      item,
+      KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
+      keyManagerStrategy.kmsSimple.grantTokens,
+      keyManagerStrategy.kmsSimple.kmsClient
+    );
+    if decryptRes.Failure? {
+      var error := BuildErrorForFailure(
+        item,
+        decryptRes.error,
+        localOperation,
+        "decrypt"
+      );
+      return Failure(error);
+    }
     var bkcDigest? := HvUtils.CreateBKCDigest(
       terminalBKC,
       crypto?.value
@@ -551,20 +566,7 @@ module {:options "/functionSyntax:4" } Mutations {
     var bkcDigest :- bkcDigest?.MapFailure(e => Types.AwsCryptographyKeyStore(
                                                AwsCryptographyKeyStore:= e
                                              ));
-
-    :- Need(
-      && 32 == |ActiveVerificationHolder.kmsRes|
-      && item.EncryptionContext[Structure.HIERARCHY_VERSION]
-         == Structure.HIERARCHY_VERSION_VALUE_1,
-      Types.KeyStoreAdminException(
-        message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV1)
-    );
-    :- Need(
-      keyManagerStrategy.kmsSimple?,
-      Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
-    );
-
-    var plainTextTuple := HvUtils.PackPlainTextTuple(bkcDigest, ActiveVerificationHolder.kmsRes);
+    var plainTextTuple := HvUtils.PackPlainTextTuple(bkcDigest, decryptRes.value);
 
     var encryptRes :- expect KMSKeystoreOperations.EncryptKey(
       plainTextTuple,
