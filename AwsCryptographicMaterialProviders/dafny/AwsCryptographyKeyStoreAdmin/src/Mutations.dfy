@@ -119,7 +119,7 @@ module {:options "/functionSyntax:4" } Mutations {
           item,
           decryptRes.error,
           localOperation,
-          "decrypt"
+          "Decrypt"
         );
         return Failure(error);
       }
