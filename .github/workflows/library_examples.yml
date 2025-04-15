@@ -51,8 +51,14 @@ jobs:
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make build_java CORES=$CORES
+          make mvn_local_deploy
 
       - name: Test AwsCryptographicMaterialProviders Java Examples
-        working-directory: ./AwsCryptographicMaterialProviders
+        working-directory: ./Examples
         run: |
-          make test_example_java
+          make test_java
+
+      - name: Test AwsCryptographicMaterialProviders Java Concurrent
+        working-directory: ./Examples
+        run: |
+          make test_java_concurrent
