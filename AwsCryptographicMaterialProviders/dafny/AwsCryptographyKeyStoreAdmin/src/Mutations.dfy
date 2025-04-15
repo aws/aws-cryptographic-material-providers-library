@@ -96,7 +96,7 @@ module {:options "/functionSyntax:4" } Mutations {
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
   {
-    var kmsOperation: string;
+
     var success?: bool := false;
     var throwAwayError;
     // TODO-HV-2-M3: Support mutations on HV-2 item (mutation starting with hv-2 item)
@@ -106,6 +106,7 @@ module {:options "/functionSyntax:4" } Mutations {
         message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
     );
     if (isTerminalHv2?) {
+      // TODO-HV-2-M2: Add test to cover the if condition of this code path
       // TODO-HV-2-M4: Support other key manager strategy
       :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));
       var decryptRes := GetKeys.DecryptBranchKeyItem(
@@ -121,12 +122,12 @@ module {:options "/functionSyntax:4" } Mutations {
           item,
           decryptRes.error,
           localOperation,
-          kmsOperation
+          "decrypt"
         );
         return Failure(error);
       }
     }
-
+    var kmsOperation: string;
     match keyManagerStrategy {
       case reEncrypt(kms) =>
         kmsOperation := "ReEncrypt";
