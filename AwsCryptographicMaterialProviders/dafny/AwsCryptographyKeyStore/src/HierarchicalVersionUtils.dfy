@@ -46,23 +46,26 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   // TODO-HV2: Create a known answer test for CreateBKCDigest. See https://github.com/aws/aws-cryptographic-material-providers-library/commit/09a84e15b5d7311b0418180ddda69dc7314b320e
   method CreateBKCDigest (
     branchKeyContext: map<string, string>,
-    Crypto: AtomicPrimitives.AtomicPrimitivesClient
+    crypto: AtomicPrimitives.AtomicPrimitivesClient
   ) returns (output: Result<seq<uint8>, BKCDigestError>)
-    requires Structure.BranchKeyContext?(branchKeyContext)
-    requires Crypto.ValidState()
-    modifies Crypto.Modifies
-    ensures Crypto.ValidState()
-    ensures output.Success? ==>
-              && |Crypto.History.Digest| == |old(Crypto.History.Digest)| + 1
-              && Seq.Last(Crypto.History.Digest).output.Success?
-              && var DigestInput := Seq.Last(Crypto.History.Digest).input;
-              && var DigestOutput := Seq.Last(Crypto.History.Digest).output;
-              && DigestInput.digestAlgorithm == AtomicPrimitives.Types.SHA_384
-              && DigestOutput.value == output.value
-              && |output.value| == Structure.BKC_DIGEST_LENGTH as int
+    requires crypto.ValidState() && Structure.BranchKeyContext?(branchKeyContext)
+    modifies crypto.Modifies
+    ensures crypto.ValidState()
+    ensures EncodeEncryptionContext(branchKeyContext).Failure? ==> output.Failure?
+    ensures
+      && output.Success?
+      ==>
+        // Note there is no proof that the input to the digest
+        // is utf8BKContext; dafny could not handle that
+        && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
+        && var digestEvent := Seq.Last(crypto.History.Digest);
+        && digestEvent.input.digestAlgorithm == AtomicPrimitives.Types.SHA_384
+        && digestEvent.output.Success?
+        && digestEvent.output.value == output.value
+        && |output.value| == Structure.BKC_DIGEST_LENGTH as int
   {
     var utf8BKContext :- EncodeEncryptionContext(branchKeyContext).MapFailure(WrapStringToError);
-    var digestResult := CanonicalEncryptionContext.EncryptionContextDigest(Crypto, utf8BKContext);
+    var digestResult := CanonicalEncryptionContext.EncryptionContextDigest(crypto, utf8BKContext);
     if (digestResult.Failure?) {
       var error: Types.Error;
       error := match digestResult.error {
