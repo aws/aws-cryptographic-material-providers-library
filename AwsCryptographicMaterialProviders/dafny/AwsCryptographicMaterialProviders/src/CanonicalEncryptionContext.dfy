@@ -65,22 +65,66 @@ module CanonicalEncryptionContext {
     else Failure(Types.AwsCryptographicMaterialProvidersException( message := "Unable to serialize encryption context"))
   }
 
+  // @texastony had a dream of using this predicates to
+  // remove duplicate code in HVUtils
+  // and CreateKeyHV2.dfy but has given up on the dream for now.
+  // TODO-HV-2-FOLLOW : Complete Dream or Kill this
+  // predicate digestSHA384ContextPostConditions(
+  //   nameonly content: seq<uint8>,
+  //   nameonly digest: seq<uint8>,
+  //   nameonly digestEvent: AtomicPrimitives.Types.DafnyCallEvent<AtomicPrimitives.Types.DigestInput, Result<seq<uint8>, AtomicPrimitives.Types.Error>>
+  // )
+  // {
+  //   var input := digestEvent.input;
+  //   var output := digestEvent.output;
+  //   && input.digestAlgorithm == AtomicPrimitives.Types.SHA_384
+  //   && input.message == content
+  //   && output.Success?
+  //   ==>
+  //     && |output.value| == 48 // 384 bits / 8 bits per byte == 48 bytes
+  //     && output.value == digest
+  // }
+
+  // twostate predicate encryptionContextDigestPostConditions(
+  //   crypto: AtomicPrimitives.AtomicPrimitivesClient,
+  //   encryptionContext: Types.EncryptionContext,
+  //   digest: seq<uint8>
+  // )
+  //   reads crypto.History
+  // {
+  //   && var content? := EncryptionContextToAAD(encryptionContext);
+  //   && content?.Success?
+  //   && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
+  //   && var digestEvent := Seq.Last(crypto.History.Digest);
+  //   && digestSHA384ContextPostConditions(
+  //     content := content?.value,
+  //     digest := digest,
+  //     digestEvent := digestEvent)
+  // }
+
   method EncryptionContextDigest(
-    Crypto: AtomicPrimitives.AtomicPrimitivesClient,
+    crypto: AtomicPrimitives.AtomicPrimitivesClient,
     encryptionContext: Types.EncryptionContext
   )
     returns (output: Result<seq<uint8>, CanonizeDigestError>)
-    requires Crypto.ValidState()
-    modifies Crypto.Modifies
-    ensures Crypto.ValidState()
-    ensures output.Success? ==>
-              && 0 < |Crypto.History.Digest|
-              && Seq.Last(Crypto.History.Digest).output.Success?
-              && var DigestInput := Seq.Last(Crypto.History.Digest).input;
-              && var DigestOutput := Seq.Last(Crypto.History.Digest).output;
-              && DigestInput.digestAlgorithm == AtomicPrimitives.Types.SHA_384
-              && DigestOutput.value == output.value
-              && |output.value| == 48 // 384 bits / 8 bits per byte == 48 bytes
+    requires crypto.ValidState()
+    modifies crypto.Modifies
+    ensures crypto.ValidState()
+    // We tried to collapse all of this post condition into a common predicate.
+    // We failed; we will have to copy and paste it.
+    // @texastony thinks reason is that is very difficult to keep track of the input.
+    ensures
+      && output.Success?
+      ==>
+        && var content? := EncryptionContextToAAD(encryptionContext);
+        && content?.Success?
+        && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
+        && var digestEvent := Seq.Last(crypto.History.Digest);
+        && digestEvent.input.digestAlgorithm == AtomicPrimitives.Types.SHA_384
+        && digestEvent.input.message == content?.value
+        && digestEvent.output.Success?
+        && |digestEvent.output.value| == 48 // 384 bits / 8 bits per byte == 48 bytes
+        && digestEvent.output.value == output.value
   {
     var canonicalEC :- EncryptionContextToAAD(encryptionContext);
 
@@ -88,7 +132,7 @@ module CanonicalEncryptionContext {
       digestAlgorithm := AtomicPrimitives.Types.SHA_384,
       message := canonicalEC
     );
-    var maybeDigest := Crypto.Digest(DigestInput);
+    var maybeDigest := crypto.Digest(DigestInput);
     var digest :- maybeDigest.MapFailure(e => Types.AwsCryptographyPrimitives(e));
 
     // The digest is not truncated.
