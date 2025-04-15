@@ -3059,7 +3059,7 @@ class CreateAwsKmsMultiKeyringInput:
 class CreateAwsKmsRsaKeyringInput:
     public_key: Optional[bytes | bytearray]
     kms_key_id: str
-    encryption_algorithm: str
+    encryption_algorithm: dict[str, Any]
     kms_client: Optional[BaseClient]
     grant_tokens: Optional[list[str]]
 
@@ -3067,7 +3067,7 @@ class CreateAwsKmsRsaKeyringInput:
         self,
         *,
         kms_key_id: str,
-        encryption_algorithm: str,
+        encryption_algorithm: dict[str, Any],
         public_key: Optional[bytes | bytearray] = None,
         kms_client: Optional[BaseClient] = None,
         grant_tokens: Optional[list[str]] = None,

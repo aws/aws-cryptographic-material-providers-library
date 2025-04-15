@@ -3,6 +3,8 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.materialproviders.model;
 
+import java.util.Objects;
+
 /**
  * The best choice for most situations. Probably a StormTrackingCache.
  */
@@ -11,7 +13,7 @@ public class DefaultCache {
   /**
    * Maximum number of entries cached.
    */
-  private final int entryCapacity;
+  private final Integer entryCapacity;
 
   protected DefaultCache(BuilderImpl builder) {
     this.entryCapacity = builder.entryCapacity();
@@ -20,7 +22,7 @@ public class DefaultCache {
   /**
    * @return Maximum number of entries cached.
    */
-  public int entryCapacity() {
+  public Integer entryCapacity() {
     return this.entryCapacity;
   }
 
@@ -36,46 +38,42 @@ public class DefaultCache {
     /**
      * @param entryCapacity Maximum number of entries cached.
      */
-    Builder entryCapacity(int entryCapacity);
+    Builder entryCapacity(Integer entryCapacity);
 
     /**
      * @return Maximum number of entries cached.
      */
-    int entryCapacity();
+    Integer entryCapacity();
 
     DefaultCache build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected int entryCapacity;
-
-    private boolean _entryCapacitySet = false;
+    protected Integer entryCapacity;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(DefaultCache model) {
       this.entryCapacity = model.entryCapacity();
-      this._entryCapacitySet = true;
     }
 
-    public Builder entryCapacity(int entryCapacity) {
+    public Builder entryCapacity(Integer entryCapacity) {
       this.entryCapacity = entryCapacity;
-      this._entryCapacitySet = true;
       return this;
     }
 
-    public int entryCapacity() {
+    public Integer entryCapacity() {
       return this.entryCapacity;
     }
 
     public DefaultCache build() {
-      if (!this._entryCapacitySet) {
+      if (Objects.isNull(this.entryCapacity())) {
         throw new IllegalArgumentException(
           "Missing value for required field `entryCapacity`"
         );
       }
-      if (this._entryCapacitySet && this.entryCapacity() < 1) {
+      if (Objects.nonNull(this.entryCapacity()) && this.entryCapacity() < 1) {
         throw new IllegalArgumentException(
           "`entryCapacity` must be greater than or equal to 1"
         );

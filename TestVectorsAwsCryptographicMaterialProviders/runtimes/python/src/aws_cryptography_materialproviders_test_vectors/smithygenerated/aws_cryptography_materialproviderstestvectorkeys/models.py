@@ -447,13 +447,13 @@ class KmsMrkAwareDiscovery:
 
 class KmsRsaKeyring:
     key_id: str
-    encryption_algorithm: str
+    encryption_algorithm: dict[str, Any]
 
     def __init__(
         self,
         *,
         key_id: str,
-        encryption_algorithm: str,
+        encryption_algorithm: dict[str, Any],
     ):
         self.key_id = key_id
         self.encryption_algorithm = encryption_algorithm

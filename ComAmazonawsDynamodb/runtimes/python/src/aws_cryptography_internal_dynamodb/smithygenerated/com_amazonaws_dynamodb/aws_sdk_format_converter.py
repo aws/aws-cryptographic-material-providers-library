@@ -1653,9 +1653,13 @@ def com_amazonaws_dynamodb_DeleteItemInput(
         )
         transformed_output["ConditionExpression"] = condition_expression
         if len(attribute_names) > 0:
-            transformed_output["ExpressionAttributeNames"] = attribute_names
+            this_structure.setdefault("ExpressionAttributeNames", {}).update(
+                attribute_names
+            )
         if len(attribute_values) > 0:
-            transformed_output["ExpressionAttributeValues"] = attribute_values
+            this_structure.setdefault("ExpressionAttributeValues", {}).update(
+                attribute_values
+            )
 
     if "ExpressionAttributeNames" in this_structure:
         transformed_output["ExpressionAttributeNames"] = {
@@ -3831,9 +3835,13 @@ def com_amazonaws_dynamodb_PutItemInput(
         )
         transformed_output["ConditionExpression"] = condition_expression
         if len(attribute_names) > 0:
-            transformed_output["ExpressionAttributeNames"] = attribute_names
+            this_structure.setdefault("ExpressionAttributeNames", {}).update(
+                attribute_names
+            )
         if len(attribute_values) > 0:
-            transformed_output["ExpressionAttributeValues"] = attribute_values
+            this_structure.setdefault("ExpressionAttributeValues", {}).update(
+                attribute_values
+            )
 
     if "ExpressionAttributeNames" in this_structure:
         transformed_output["ExpressionAttributeNames"] = {
@@ -3989,14 +3997,27 @@ def com_amazonaws_dynamodb_QueryInput(this_structure, item_handler, condition_ha
         )
         transformed_output["FilterExpression"] = condition_expression
         if len(attribute_names) > 0:
-            transformed_output["ExpressionAttributeNames"] = attribute_names
+            this_structure.setdefault("ExpressionAttributeNames", {}).update(
+                attribute_names
+            )
         if len(attribute_values) > 0:
-            transformed_output["ExpressionAttributeValues"] = attribute_values
+            this_structure.setdefault("ExpressionAttributeValues", {}).update(
+                attribute_values
+            )
 
     if "KeyConditionExpression" in this_structure:
-        transformed_output["KeyConditionExpression"] = this_structure[
-            "KeyConditionExpression"
-        ]
+        condition_expression, attribute_names, attribute_values = condition_handler(
+            "KeyConditionExpression", this_structure
+        )
+        transformed_output["KeyConditionExpression"] = condition_expression
+        if len(attribute_names) > 0:
+            this_structure.setdefault("ExpressionAttributeNames", {}).update(
+                attribute_names
+            )
+        if len(attribute_values) > 0:
+            this_structure.setdefault("ExpressionAttributeValues", {}).update(
+                attribute_values
+            )
 
     if "ExpressionAttributeNames" in this_structure:
         transformed_output["ExpressionAttributeNames"] = {
@@ -4291,9 +4312,13 @@ def com_amazonaws_dynamodb_ScanInput(this_structure, item_handler, condition_han
         )
         transformed_output["FilterExpression"] = condition_expression
         if len(attribute_names) > 0:
-            transformed_output["ExpressionAttributeNames"] = attribute_names
+            this_structure.setdefault("ExpressionAttributeNames", {}).update(
+                attribute_names
+            )
         if len(attribute_values) > 0:
-            transformed_output["ExpressionAttributeValues"] = attribute_values
+            this_structure.setdefault("ExpressionAttributeValues", {}).update(
+                attribute_values
+            )
 
     if "ExpressionAttributeNames" in this_structure:
         transformed_output["ExpressionAttributeNames"] = {
@@ -4517,9 +4542,13 @@ def com_amazonaws_dynamodb_ConditionCheck(
         )
         transformed_output["ConditionExpression"] = condition_expression
         if len(attribute_names) > 0:
-            transformed_output["ExpressionAttributeNames"] = attribute_names
+            this_structure.setdefault("ExpressionAttributeNames", {}).update(
+                attribute_names
+            )
         if len(attribute_values) > 0:
-            transformed_output["ExpressionAttributeValues"] = attribute_values
+            this_structure.setdefault("ExpressionAttributeValues", {}).update(
+                attribute_values
+            )
 
     if "ExpressionAttributeNames" in this_structure:
         transformed_output["ExpressionAttributeNames"] = {
@@ -4557,9 +4586,13 @@ def com_amazonaws_dynamodb_Put(this_structure, item_handler, condition_handler):
         )
         transformed_output["ConditionExpression"] = condition_expression
         if len(attribute_names) > 0:
-            transformed_output["ExpressionAttributeNames"] = attribute_names
+            this_structure.setdefault("ExpressionAttributeNames", {}).update(
+                attribute_names
+            )
         if len(attribute_values) > 0:
-            transformed_output["ExpressionAttributeValues"] = attribute_values
+            this_structure.setdefault("ExpressionAttributeValues", {}).update(
+                attribute_values
+            )
 
     if "ExpressionAttributeNames" in this_structure:
         transformed_output["ExpressionAttributeNames"] = {
@@ -4597,9 +4630,13 @@ def com_amazonaws_dynamodb_Delete(this_structure, item_handler, condition_handle
         )
         transformed_output["ConditionExpression"] = condition_expression
         if len(attribute_names) > 0:
-            transformed_output["ExpressionAttributeNames"] = attribute_names
+            this_structure.setdefault("ExpressionAttributeNames", {}).update(
+                attribute_names
+            )
         if len(attribute_values) > 0:
-            transformed_output["ExpressionAttributeValues"] = attribute_values
+            this_structure.setdefault("ExpressionAttributeValues", {}).update(
+                attribute_values
+            )
 
     if "ExpressionAttributeNames" in this_structure:
         transformed_output["ExpressionAttributeNames"] = {
@@ -4638,9 +4675,13 @@ def com_amazonaws_dynamodb_Update(this_structure, item_handler, condition_handle
         )
         transformed_output["ConditionExpression"] = condition_expression
         if len(attribute_names) > 0:
-            transformed_output["ExpressionAttributeNames"] = attribute_names
+            this_structure.setdefault("ExpressionAttributeNames", {}).update(
+                attribute_names
+            )
         if len(attribute_values) > 0:
-            transformed_output["ExpressionAttributeValues"] = attribute_values
+            this_structure.setdefault("ExpressionAttributeValues", {}).update(
+                attribute_values
+            )
 
     if "ExpressionAttributeNames" in this_structure:
         transformed_output["ExpressionAttributeNames"] = {
@@ -5135,9 +5176,13 @@ def com_amazonaws_dynamodb_UpdateItemInput(
         )
         transformed_output["ConditionExpression"] = condition_expression
         if len(attribute_names) > 0:
-            transformed_output["ExpressionAttributeNames"] = attribute_names
+            this_structure.setdefault("ExpressionAttributeNames", {}).update(
+                attribute_names
+            )
         if len(attribute_values) > 0:
-            transformed_output["ExpressionAttributeValues"] = attribute_values
+            this_structure.setdefault("ExpressionAttributeValues", {}).update(
+                attribute_values
+            )
 
     if "ExpressionAttributeNames" in this_structure:
         transformed_output["ExpressionAttributeNames"] = {

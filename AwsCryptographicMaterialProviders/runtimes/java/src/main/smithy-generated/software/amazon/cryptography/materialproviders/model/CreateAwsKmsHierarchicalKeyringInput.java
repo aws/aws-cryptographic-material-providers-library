@@ -31,7 +31,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   /**
    * How many seconds the Branch Key material is allowed to be reused within the local cache before it is re-retrieved from Amazon DynamoDB and re-authenticated with AWS KMS.
    */
-  private final long ttlSeconds;
+  private final Long ttlSeconds;
 
   /**
    * Sets the type of cache for this Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. That is, if the cache is shared across other Cryptographic Material Providers, for instance other Hierarchical Keyrings or Caching Cryptographic Materials Managers (Caching CMMs). If any other type of cache in the CacheType union is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
@@ -76,7 +76,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
   /**
    * @return How many seconds the Branch Key material is allowed to be reused within the local cache before it is re-retrieved from Amazon DynamoDB and re-authenticated with AWS KMS.
    */
-  public long ttlSeconds() {
+  public Long ttlSeconds() {
     return this.ttlSeconds;
   }
 
@@ -136,12 +136,12 @@ public class CreateAwsKmsHierarchicalKeyringInput {
     /**
      * @param ttlSeconds How many seconds the Branch Key material is allowed to be reused within the local cache before it is re-retrieved from Amazon DynamoDB and re-authenticated with AWS KMS.
      */
-    Builder ttlSeconds(long ttlSeconds);
+    Builder ttlSeconds(Long ttlSeconds);
 
     /**
      * @return How many seconds the Branch Key material is allowed to be reused within the local cache before it is re-retrieved from Amazon DynamoDB and re-authenticated with AWS KMS.
      */
-    long ttlSeconds();
+    Long ttlSeconds();
 
     /**
      * @param cache Sets the type of cache for this Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. That is, if the cache is shared across other Cryptographic Material Providers, for instance other Hierarchical Keyrings or Caching Cryptographic Materials Managers (Caching CMMs). If any other type of cache in the CacheType union is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.
@@ -174,9 +174,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
 
     protected KeyStore keyStore;
 
-    protected long ttlSeconds;
-
-    private boolean _ttlSecondsSet = false;
+    protected Long ttlSeconds;
 
     protected CacheType cache;
 
@@ -189,7 +187,6 @@ public class CreateAwsKmsHierarchicalKeyringInput {
       this.branchKeyIdSupplier = model.branchKeyIdSupplier();
       this.keyStore = model.keyStore();
       this.ttlSeconds = model.ttlSeconds();
-      this._ttlSecondsSet = true;
       this.cache = model.cache();
       this.partitionId = model.partitionId();
     }
@@ -223,13 +220,12 @@ public class CreateAwsKmsHierarchicalKeyringInput {
       return this.keyStore;
     }
 
-    public Builder ttlSeconds(long ttlSeconds) {
+    public Builder ttlSeconds(Long ttlSeconds) {
       this.ttlSeconds = ttlSeconds;
-      this._ttlSecondsSet = true;
       return this;
     }
 
-    public long ttlSeconds() {
+    public Long ttlSeconds() {
       return this.ttlSeconds;
     }
 
@@ -257,12 +253,12 @@ public class CreateAwsKmsHierarchicalKeyringInput {
           "Missing value for required field `keyStore`"
         );
       }
-      if (!this._ttlSecondsSet) {
+      if (Objects.isNull(this.ttlSeconds())) {
         throw new IllegalArgumentException(
           "Missing value for required field `ttlSeconds`"
         );
       }
-      if (this._ttlSecondsSet && this.ttlSeconds() < 0) {
+      if (Objects.nonNull(this.ttlSeconds()) && this.ttlSeconds() < 0) {
         throw new IllegalArgumentException(
           "`ttlSeconds` must be greater than or equal to 0"
         );

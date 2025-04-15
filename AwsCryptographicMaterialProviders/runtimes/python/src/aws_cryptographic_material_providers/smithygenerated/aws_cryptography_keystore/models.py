@@ -280,12 +280,12 @@ class CreateKeyStoreInput:
 
 
 class CreateKeyStoreOutput:
-    table_arn: str
+    table_arn: dict[str, Any]
 
     def __init__(
         self,
         *,
-        table_arn: str,
+        table_arn: dict[str, Any],
     ):
         """Outputs for Key Store DynamoDB table creation.
 
@@ -640,12 +640,12 @@ class GetBranchKeyVersionOutput:
 
 
 class MRDiscovery:
-    region: str
+    region: dict[str, Any]
 
     def __init__(
         self,
         *,
-        region: str,
+        region: dict[str, Any],
     ):
         """
         :param region: Any MRK ARN discovered will have its region replaced with this.
@@ -699,7 +699,7 @@ class KMSConfigurationKmsKeyArn:
     MUST strictly equal this value to be considered valid.
     """
 
-    def __init__(self, value: str):
+    def __init__(self, value: "dict[str, Any]"):
         if (value is not None) and (len(value) < 1):
             raise ValueError("The size of value must be greater than or equal to 1")
 
@@ -736,7 +736,7 @@ class KMSConfigurationKmsMRKeyArn:
     as kmsKeyArn.
     """
 
-    def __init__(self, value: str):
+    def __init__(self, value: "dict[str, Any]"):
         if (value is not None) and (len(value) < 1):
             raise ValueError("The size of value must be greater than or equal to 1")
 
@@ -881,7 +881,7 @@ def _kms_configuration_from_dict(d: Dict[str, Any]) -> KMSConfiguration:
 
 class GetKeyStoreInfoOutput:
     key_store_id: str
-    key_store_name: str
+    key_store_name: dict[str, Any]
     logical_key_store_name: str
     grant_tokens: list[str]
     kms_configuration: KMSConfiguration
@@ -890,7 +890,7 @@ class GetKeyStoreInfoOutput:
         self,
         *,
         key_store_id: str,
-        key_store_name: str,
+        key_store_name: dict[str, Any],
         logical_key_store_name: str,
         grant_tokens: list[str],
         kms_configuration: KMSConfiguration,
