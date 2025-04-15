@@ -24,6 +24,8 @@ module {:options "/functionSyntax:4" } Mutations {
   import MutationErrorRefinement
   import KmsUtils
 
+  // ActiveVerificationHolder stores the decrypted branch key after verification (KMS decryption for hv1, KMS decryption + SHA validation for hv2)
+  // With ActiveVerificationHolder, we can avoid redundant decryption during mutations
   datatype ActiveVerificationHolder =
     | NotDecrypt()
     | KmsDecrypt(kmsRes: KMS.PlaintextType)
@@ -105,7 +107,7 @@ module {:options "/functionSyntax:4" } Mutations {
     if (isTerminalHv2?) {
       // TODO-HV-2-M2: Add test to cover the if condition of this code path
       // TODO-HV-2-M4: Support other key manager strategy
-      :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));
+      :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="Only KeyManagementStrategy.AwsKmsSimple is allowed when mutating to hv-2."));
       var decryptRes := GetKeys.DecryptBranchKeyItem(
         item,
         KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
@@ -213,7 +215,6 @@ module {:options "/functionSyntax:4" } Mutations {
       return error;
     }
 
-    assert false;
   }
 
   method {:isolate_asserations} NewActiveItemForDecryptEncrypt(
