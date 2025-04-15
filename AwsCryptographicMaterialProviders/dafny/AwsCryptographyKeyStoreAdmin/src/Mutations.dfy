@@ -17,8 +17,11 @@ module {:options "/functionSyntax:4" } Mutations {
   import KmsArn
   import KMSKeystoreOperations
   import DefaultKeyStorageInterface
+  import AtomicPrimitives
   import GetKeys
 
+  import ErrorMessages = KeyStoreErrorMessages
+  import HvUtils = HierarchicalVersionUtils
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
   import MutationErrorRefinement
@@ -480,6 +483,106 @@ module {:options "/functionSyntax:4" } Mutations {
   }
 
   method MutateItem(
+    item: KeyStoreTypes.EncryptedHierarchicalKey,
+    mutationToApply: StateStrucs.MutationToApply,
+    keyManagerStrategy: KmsUtils.keyManagerStrat,
+    localOperation: string,
+    doNotVersion: bool
+  ) returns (output: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
+    requires mutationToApply.ValidState() && keyManagerStrategy.ValidState()
+    modifies keyManagerStrategy.ModifiesMultiSet
+    ensures mutationToApply.ValidState() && keyManagerStrategy.ValidState()
+    requires item.KmsArn == mutationToApply.Original.kmsArn
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
+    requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
+    requires keyManagerStrategy.SupportHV1()
+  {
+    var mutatedItem :- MutateToHV1(
+      item,
+      mutationToApply,
+      keyManagerStrategy,
+      localOperation,
+      doNotVersion
+    );
+    return Success(mutatedItem);
+  }
+
+  method MutateToHV2(
+    item: KeyStoreTypes.EncryptedHierarchicalKey,
+    mutationToApply: StateStrucs.MutationToApply,
+    keyManagerStrategy: KmsUtils.keyManagerStrat,
+    ActiveVerificationHolder: ActiveVerificationHolder
+  ) returns (output: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
+    requires mutationToApply.ValidState() && keyManagerStrategy.ValidState()
+    modifies keyManagerStrategy.ModifiesMultiSet
+    ensures mutationToApply.ValidState() && keyManagerStrategy.ValidState()
+
+    requires item.KmsArn == mutationToApply.Original.kmsArn
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
+    requires ActiveVerificationHolder.KmsDecrypt?
+  {
+    var terminalBKC := Structure.ReplaceMutableContext(
+      item.EncryptionContext,
+      mutationToApply.Terminal.kmsArn,
+      mutationToApply.Terminal.customEncryptionContext
+    );
+
+    :- Need(
+      HvUtils.HasUniqueTransformedKeys?(terminalBKC),
+      Types.KeyStoreAdminException(
+        message :=
+          ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+      )
+    );
+
+    var crypto? := HvUtils.ProvideCryptoClient();
+    if (crypto?.Failure?) {
+      var e := Types.KeyStoreAdminException(
+        message := "Local Cryptography error: " +
+        AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto?.error)
+      );
+      return Failure(e);
+    }
+
+    var bkcDigest? := HvUtils.CreateBKCDigest(
+      terminalBKC,
+      crypto?.value
+    );
+    var bkcDigest :- bkcDigest?.MapFailure(e => Types.AwsCryptographyKeyStore(
+                                               AwsCryptographyKeyStore:= e
+                                             ));
+
+    :- Need(
+      && ActiveVerificationHolder.kmsRes.Plaintext.Some?
+      && 32 == |ActiveVerificationHolder.kmsRes.Plaintext.value|
+      && item.EncryptionContext[Structure.HIERARCHY_VERSION]
+         == Structure.HIERARCHY_VERSION_VALUE_1,
+      Types.KeyStoreAdminException(
+        message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV1)
+    );
+    :- Need(
+      keyManagerStrategy.kmsSimple?,
+      Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
+    );
+
+    var plainTextTuple := HvUtils.PackPlainTextTuple(bkcDigest, ActiveVerificationHolder.kmsRes.Plaintext.value);
+
+    var encryptRes :- expect KMSKeystoreOperations.EncryptKey(
+      plainTextTuple,
+      HvUtils.SelectKmsEncryptionContextForHv2(terminalBKC),
+      item.EncryptionContext[Structure.KMS_FIELD],
+      KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
+      keyManagerStrategy.kmsSimple.grantTokens,
+      keyManagerStrategy.kmsSimple.kmsClient
+    );
+
+    output := Success(Structure.ConstructEncryptedHierarchicalKey(
+                        terminalBKC,
+                        encryptRes
+                      ));
+  }
+
+  method MutateToHV1(
     item: KeyStoreTypes.EncryptedHierarchicalKey,
     mutationToApply: StateStrucs.MutationToApply,
     keyManagerStrategy: KmsUtils.keyManagerStrat,
