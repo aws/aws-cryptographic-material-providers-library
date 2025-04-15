@@ -7,6 +7,7 @@ include "ApplyMutation.dfy"
 include "KmsUtils.dfy"
 include "DescribeMutation.dfy"
 include "CreateKeysHV2.dfy"
+include "BKSAOperationUtils.dfy"
 
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
   import opened AwsKmsUtils
@@ -31,6 +32,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import DM = DescribeMutation
   import KmsUtils
   import CreateKeysHV2
+  import OptUtils = BKSAOperationUtils
 
   datatype Config = Config(
     nameonly logicalKeyStoreName: string,
@@ -279,6 +281,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   predicate CreateKeyEnsuresPublicly(input: CreateKeyInput , output: Result<CreateKeyOutput, Error>)
   {true}
 
+  // TODO-HV-2-FOLLOW : Refactor BKS & BKSA CreateKey to remove duplicate code
   method CreateKey ( config: InternalConfig , input: CreateKeyInput )
     returns (output: Result<CreateKeyOutput, Error>)
 
@@ -320,6 +323,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
             HierarchyVersion := hvInput
           ));
       case v2 =>
+        // TODO-HV-2-FOLLOW : Refactor BKS & BKSA CreateKey to remove duplicate code
         :- Need(
           keyManagerStrat.kmsSimple?,
           Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
@@ -329,6 +333,10 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
         assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
+        var keyManagerAndStorage := OptUtils.KeyManagerAndStorage(
+          config.storage, keyManagerStrat
+        );
+        assert keyManagerAndStorage.ValidState();
         :- Need(input.Identifier.Some? ==>
                   && input.EncryptionContext.Some?
                   && 0 < |input.EncryptionContext.value|,
@@ -397,16 +405,14 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
                 Types.KeyStoreAdminException( message := ErrorMessages.UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR));
 
         output := CreateKeysHV2.CreateBranchAndBeaconKeys(
-          branchKeyIdentifier,
-          map i <- encodedEncryptionContext :: i.0.value := i.1.value,
-          timestamp,
-          branchKeyVersion,
-          legacyConfig.logicalKeyStoreName,
-          legacyConfig.kmsConfiguration,
-          legacyConfig.grantTokens,
-          legacyConfig.kmsClient,
-          legacyConfig.storage,
-          hvInput
+          branchKeyIdentifier := branchKeyIdentifier,
+          encryptionContext := map i <- encodedEncryptionContext :: i.0.value := i.1.value,
+          timestamp := timestamp,
+          branchKeyVersion := branchKeyVersion,
+          logicalKeyStoreName := config.logicalKeyStoreName,
+          kmsConfiguration := legacyConfig.kmsConfiguration,
+          keyManagerAndStorage := keyManagerAndStorage,
+          hierarchyVersion := hvInput
         );
     }
   }
