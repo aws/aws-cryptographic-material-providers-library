@@ -560,19 +560,20 @@ module {:options "/functionSyntax:4" } Structure {
   function ReplaceMutableContext(
     branchKeyContext: map<string, string>,
     terminalKmsArn: string,
-    terminalCustomEncryptionContext: map<string, string>
+    terminalCustomEncryptionContext: map<string, string>,
+    terminalHierarchyVersion: string
   ) : (output: map<string, string>)
 
     requires BranchKeyContext?(branchKeyContext)
     requires BRANCH_KEY_RESTRICTED_FIELD_NAMES !! terminalCustomEncryptionContext.Keys
-
+    requires terminalHierarchyVersion == HIERARCHY_VERSION_VALUE_1 || terminalHierarchyVersion == HIERARCHY_VERSION_VALUE_2
     ensures BranchKeyContext?(output)
     ensures output[KMS_FIELD] == terminalKmsArn
     ensures
       && branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD] == output[BRANCH_KEY_IDENTIFIER_FIELD]
       && branchKeyContext[TYPE_FIELD] == output[TYPE_FIELD]
       && branchKeyContext[KEY_CREATE_TIME] == output[KEY_CREATE_TIME]
-      && branchKeyContext[HIERARCHY_VERSION] == output[HIERARCHY_VERSION]
+      && terminalHierarchyVersion == output[HIERARCHY_VERSION]
       && branchKeyContext[TABLE_FIELD] == output[TABLE_FIELD]
       && (BRANCH_KEY_ACTIVE_VERSION_FIELD in branchKeyContext
           <==>
@@ -585,7 +586,7 @@ module {:options "/functionSyntax:4" } Structure {
         BRANCH_KEY_IDENTIFIER_FIELD := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
         TYPE_FIELD := branchKeyContext[TYPE_FIELD],
         KEY_CREATE_TIME := branchKeyContext[KEY_CREATE_TIME],
-        HIERARCHY_VERSION := branchKeyContext[HIERARCHY_VERSION],
+        HIERARCHY_VERSION := terminalHierarchyVersion,
         TABLE_FIELD := branchKeyContext[TABLE_FIELD],
         KMS_FIELD := terminalKmsArn,
         BRANCH_KEY_ACTIVE_VERSION_FIELD := branchKeyContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
@@ -595,7 +596,7 @@ module {:options "/functionSyntax:4" } Structure {
         BRANCH_KEY_IDENTIFIER_FIELD := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
         TYPE_FIELD := branchKeyContext[TYPE_FIELD],
         KEY_CREATE_TIME := branchKeyContext[KEY_CREATE_TIME],
-        HIERARCHY_VERSION := branchKeyContext[HIERARCHY_VERSION],
+        HIERARCHY_VERSION := terminalHierarchyVersion,
         TABLE_FIELD := branchKeyContext[TABLE_FIELD],
         KMS_FIELD := terminalKmsArn
       ]
