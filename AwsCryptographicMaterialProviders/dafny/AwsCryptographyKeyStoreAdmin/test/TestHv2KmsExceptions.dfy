@@ -29,8 +29,6 @@ module {:options "/functionSyntax:4" } TestHv2KmsExceptions {
   method {:test} TestHV2CreationKMSDenied() {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
-    // var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
-    // var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
     var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
 
