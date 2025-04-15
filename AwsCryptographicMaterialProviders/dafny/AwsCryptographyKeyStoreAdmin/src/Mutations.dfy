@@ -553,8 +553,7 @@ module {:options "/functionSyntax:4" } Mutations {
                                              ));
 
     :- Need(
-      && ActiveVerificationHolder.kmsRes.Plaintext.Some?
-      && 32 == |ActiveVerificationHolder.kmsRes.Plaintext.value|
+      && 32 == |ActiveVerificationHolder.kmsRes|
       && item.EncryptionContext[Structure.HIERARCHY_VERSION]
          == Structure.HIERARCHY_VERSION_VALUE_1,
       Types.KeyStoreAdminException(
@@ -565,7 +564,7 @@ module {:options "/functionSyntax:4" } Mutations {
       Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
     );
 
-    var plainTextTuple := HvUtils.PackPlainTextTuple(bkcDigest, ActiveVerificationHolder.kmsRes.Plaintext.value);
+    var plainTextTuple := HvUtils.PackPlainTextTuple(bkcDigest, ActiveVerificationHolder.kmsRes);
 
     var encryptRes :- expect KMSKeystoreOperations.EncryptKey(
       plainTextTuple,
