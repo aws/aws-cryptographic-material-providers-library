@@ -118,7 +118,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   }
 
 
-  method ApplyMutation(
+  method {:isolate_assertions} ApplyMutation(
     input: InternalApplyMutationInput
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
@@ -356,7 +356,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     return Success(queryOut);
   }
 
-  method ProcessBranchKeysInApplyMutation(
+  method {:isolate_assertions} ProcessBranchKeysInApplyMutation(
     items: Mutations.OriginalOrTerminal,
     keyManagerStrategy: KmsUtils.keyManagerStrat,
     mutationToApply: StateStrucs.MutationToApply
