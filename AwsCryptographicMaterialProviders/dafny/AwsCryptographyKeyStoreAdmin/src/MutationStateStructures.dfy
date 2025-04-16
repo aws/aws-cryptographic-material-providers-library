@@ -599,7 +599,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
          |DeserializedInput.obj| == 2 || DeserializedInput.obj[2].0 == HV_FIELD,
          () => Types.KeyStoreAdminException( message := ERROR_PRFX + "If there is a third key, it MUST be Hierarchy Version.")
        );
-    // If JSON has 3 objects, the third is the HV-FIELD, and MUST be a String or Nnull
+    // If JSON has 3 objects, the third is the HV-FIELD, and MUST be a String or Null
     :- NeedOutcome(
          |DeserializedInput.obj| == 2 || (DeserializedInput.obj[2].1.String? || DeserializedInput.obj[2].1.Null?),
          () => Types.KeyStoreAdminException(
