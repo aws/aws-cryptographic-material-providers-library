@@ -10,7 +10,7 @@ module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
     + " Only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsDecryptEncrypt"
     + " is allowed when terminal hierarchical version is 1."
     + " Only KeyManagementStrategy.kmsSimple is allowed when terminal hierarchical version is 2."
-    
+
   const UNSUPPORTED_KEYMANAGEMENTSTRATEGY_HV_2: string :=
     "Only KeyManagementStrategy.AwsKmsSimple is allowed when mutating to hv-2."
 }
