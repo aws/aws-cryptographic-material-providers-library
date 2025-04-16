@@ -302,7 +302,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
     return Success(valid);
   }
 
-  method {:isolate_assertions} VerifyIndex(
+  method VerifyIndex(
     MutationIndex: KSTypes.MutationIndex,
     InternalSystemKey: KmsUtils.InternalSystemKey
   )

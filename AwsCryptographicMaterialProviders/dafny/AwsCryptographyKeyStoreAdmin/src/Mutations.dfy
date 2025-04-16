@@ -439,7 +439,7 @@ module {:options "/functionSyntax:4" } Mutations {
               && item.item is KeyStoreTypes.EncryptedHierarchicalKey
   {}
 
-  function {:isolate_assertions}  MatchItemToState(
+  function MatchItemToState(
     item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     MutationToApply: StateStrucs.MutationToApply
   ): (output: CheckedItem)

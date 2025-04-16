@@ -419,7 +419,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
   // TODO-HV-2-M2 : Ensure that pre-HV-1 Mutation Commitments deserialize
   // such commitments will not have the new HV field
-  function {:isolate_assertions} DeserializeMutation(
+  function DeserializeMutation(
     commitmentAndIndex: CommitmentAndIndex
   ): (output: Result<MutationToApply, Types.Error>)
     requires commitmentAndIndex.ValidState()
