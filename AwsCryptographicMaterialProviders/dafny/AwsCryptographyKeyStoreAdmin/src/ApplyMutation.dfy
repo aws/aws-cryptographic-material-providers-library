@@ -368,7 +368,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
           var verify? := Mutations.VerifyEncryptedHierarchicalKey(
             item := item,
             keyManagerStrategy := keyManagerStrategy,
-            localOperation := "ApplyMutation"
+            localOperation := "ApplyMutation",
+            mutationToApply := mutationToApply
           );
           if (verify?.Failure?) {
             return Failure(verify?.error);
