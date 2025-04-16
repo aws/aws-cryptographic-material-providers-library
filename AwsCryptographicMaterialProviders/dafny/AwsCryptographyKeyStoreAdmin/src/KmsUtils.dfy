@@ -140,7 +140,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     case KmsKeyArn(kmsKeyArn) => KeyStoreTypes.kmsKeyArn(kmsKeyArn)
   }
 
-  predicate IsSupportedKeyManagerStrategy(
+  predicate {:opaque} IsSupportedKeyManagerStrategy(
     mutationToApply: StateStrucs.MutationToApply,
     keyManagerStrategy: keyManagerStrat
   )
