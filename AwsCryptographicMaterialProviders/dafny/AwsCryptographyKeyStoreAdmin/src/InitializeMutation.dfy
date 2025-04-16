@@ -39,7 +39,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   import SystemKeyHandler = SystemKey.Handler
   import Mutations
   import MutationErrorRefinement
-  import ErrorMessages = KeyStoreAdminErrorMessages
+  import KeyStoreAdminErrorMessages
 
   datatype InternalInitializeMutationInput = | InternalInitializeMutationInput (
     nameonly Identifier: string ,
@@ -337,9 +337,9 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     );
     :- Need(
       KmsUtils.IsSupportedKeyManagerStrategy(MutationToApply, input.keyManagerStrategy),
-      Types.KeyStoreAdminException(
+      Types.UnsupportedFeatureException(
         message :=
-          KeyStoreErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY
+          KeyStoreAdminErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY
       )
     );
 
