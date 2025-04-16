@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../src/Index.dfy"
+include "../src/KeyStoreAdminErrorMessages.dfy"
 include "../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 include "../../AwsCryptographyKeyStore/test/TestGetKeys.dfy"
@@ -23,6 +24,34 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   import CleanupItems
   import AdminFixtures
   import TestGetKeys
+  import KeyStoreAdminErrorMessages
+
+  const testMutateForTerminalHV1FailsCaseId := "dafny-initialize-mutation-terminal-hv-1-rejection"
+  method {:test} TestMutateForTerminalHV1Fails()
+  {
+    var uuid :- expect UUID.GenerateUUID();
+    var testId := testMutateForTerminalHV1FailsCaseId + "-" + uuid;
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
+    Fixtures.CreateHappyCaseId(id:=testId);
+    var mutationsRequest := Types.Mutations(
+      TerminalKmsArn := Some(Fixtures.postalHornKeyArn),
+      TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v1)
+    );
+    var initInput := Types.InitializeMutationInput(
+      Identifier := testId,
+      Mutations := mutationsRequest,
+      Strategy := Some(strategy),
+      SystemKey := systemKey,
+      DoNotVersion := Some(true));
+    var initializeOutput := underTest.InitializeMutation(initInput);
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
+    expect initializeOutput.Failure?, "Should have failed to InitializeMutation with terminal HV-1.";
+    expect initializeOutput.error == Types.Error.UnsupportedFeatureException(message:=KeyStoreAdminErrorMessages.NO_MUTATE_TO_HV_1);
+  }
 
   // TODO-HV-2-M2 : Probably make this a happy test?
   const testMutateForHV1WithAwsKmsSimpleFailsCaseId := "dafny-initialize-mutation-hv-1-simpleKms-rejection"
@@ -70,9 +99,6 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
       keyValue:=AdminFixtures.KeyValue(key:=Structure.HIERARCHY_VERSION, value:=Structure.HIERARCHY_VERSION_VALUE_2),
       alsoViolateBeacon? := true, ddbClient? := Some(ddbClient),
       kmsClient?:=Some(kmsClient), violateReservedAttribute:=true);
-
-    // print logPrefix + "re-wrote the item to be described as HV-2 even though it's not" + "\n";
-
     var mutationsRequest := Types.Mutations(TerminalKmsArn := Some(Fixtures.postalHornKeyArn));
     var initInput := Types.InitializeMutationInput(
       Identifier := testId,
@@ -81,9 +107,6 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
       SystemKey := systemKey,
       DoNotVersion := Some(true));
     var initializeOutput := underTest.InitializeMutation(initInput);
-
-    // print logPrefix + "initializeOutput :: ", initializeOutput, "\n";
-
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     expect initializeOutput.Failure?, "Should have failed InitializeMutation when HV-2 encountered by InitMutation.";
   }
