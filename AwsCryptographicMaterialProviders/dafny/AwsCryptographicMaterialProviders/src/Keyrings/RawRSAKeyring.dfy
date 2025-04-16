@@ -113,6 +113,8 @@ module RawRSAKeyring {
       ensures this.paddingScheme == paddingScheme
       ensures this.publicKey == publicKey
       ensures ValidState() && fresh(History) && fresh(Modifies - cryptoPrimitives.Modifies)
+      ensures publicKey.None? ==> this.publicKeyMaterial.None?
+      ensures privateKey.None? ==> this.privateKeyMaterial.None?
     {
       this.keyNamespace := namespace;
       this.keyName := name;
@@ -195,10 +197,10 @@ module RawRSAKeyring {
       //= type=implication
       //# OnEncrypt MUST fail if this keyring does not have a specified [public
       //# key](#public-key).
-      // ensures
-      //   this.publicKey.None? || |this.publicKey.Extract()| == 0
-      //   ==>
-      //     output.Failure?
+      ensures
+        this.publicKeyMaterial.None?
+        ==>
+          output.Failure?
 
       //= aws-encryption-sdk-specification/framework/raw-rsa-keyring.md#onencrypt
       //= type=implication
