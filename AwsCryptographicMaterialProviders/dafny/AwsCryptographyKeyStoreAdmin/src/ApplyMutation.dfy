@@ -326,7 +326,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     return Success(());
   }
 
-  method {:isolate_assertions} QueryForVersionsAndValidate(
+  method QueryForVersionsAndValidate(
     input: InternalApplyMutationInput,
     mutationToApply: StateStrucs.MutationToApply
   ) returns (output: Result<KeyStoreTypes.QueryForVersionsOutput, Types.Error>)
