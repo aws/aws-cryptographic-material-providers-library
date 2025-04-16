@@ -333,6 +333,13 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       CommitmentCiphertext := [0], // TODO-Mutations-GA Create Commitment Ciphertext
       IndexCiphertext := [0] // TODO-Mutations-GA Create Index Ciphertext
     );
+    :- Need(
+      KmsUtils.IsSupportedKeyManagerStrategy(MutationToApply, input.keyManagerStrategy),
+      Types.KeyStoreAdminException(
+        message :=
+          KeyStoreErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY
+      )
+    );
 
     assert MutationToApply.Original.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     assert MutationToApply.Terminal.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
@@ -454,6 +461,9 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       case decryptEncrypt(kmsD, kmsE) =>
         grantTokens := kmsE.grantTokens;
         kmsClient := kmsE.kmsClient;
+      case kmsSimple(kms) =>
+        grantTokens := kms.grantTokens;
+        kmsClient := kms.kmsClient;
     }
 
     var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
@@ -645,6 +655,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     returns (output: Result<InitializeMutationActiveOutput, Types.Error>)
     requires localInput.ValidState()
     modifies localInput.Modifies
+    requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply, localInput.input.keyManagerStrategy)
     ensures localInput.ValidState()
     ensures
       && localInput.input.DoNotVersion
@@ -674,6 +685,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     modifies localInput.Modifies
     ensures localInput.ValidState()
     requires !localInput.input.DoNotVersion
+    requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply, localInput.input.keyManagerStrategy)
     ensures
       output.Success?
       ==>
@@ -752,6 +764,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     modifies localInput.Modifies
     ensures localInput.ValidState()
     requires localInput.input.DoNotVersion
+    requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply, localInput.input.keyManagerStrategy)
     ensures
       output.Success?
       ==>
