@@ -499,8 +499,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
     requires aes256Key?.Some? ==> |aes256Key?.value| == Structure.AES_256_LENGTH as int
 
-    requires mutationToApply.Terminal.hierarchyVersion.v1? ==> keyManagerStrategy.SupportHV1()
-    requires mutationToApply.Terminal.hierarchyVersion.v2? ==> keyManagerStrategy.SupportHV2()
+    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply, keyManagerStrategy)
   {
     var mutatedItem: KeyStoreTypes.EncryptedHierarchicalKey;
     if (mutationToApply.Terminal.hierarchyVersion.v1?) {
