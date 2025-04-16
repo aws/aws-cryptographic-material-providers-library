@@ -244,6 +244,10 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     requires storage.ValidState()
     ensures storage.ValidState()
     modifies storage.Modifies
+
+    ensures result.Success? ==>
+              && result.value.MutationCommitment.Some?
+              && result.value.MutationIndex.Some?
   {
     var fetchMutation? := storage.GetMutation(
       Types.AwsCryptographyKeyStoreTypes.GetMutationInput(
@@ -365,11 +369,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
     requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply, keyManagerStrategy)
-    requires forall item <- items :: item.item is KeyStoreTypes.EncryptedHierarchicalKey
-    requires forall item <- items :: item.item.Type.HierarchicalSymmetricVersion?
-    requires forall item <- items :: KmsArn.ValidKmsArn?(item.item.KmsArn)
-    requires forall item <- items :: Structure.EncryptedHierarchicalKeyFromStorage?(item.item)
-    requires forall item <- items :: item.itemOriginal? ==> item.item.KmsArn == mutationToApply.Original.kmsArn
+    requires ValidOriginalOrTerminalItems(items, mutationToApply)
     requires Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! mutationToApply.Terminal.customEncryptionContext.Keys
   {
     var logStatements: seq<Types.MutatedBranchKeyItem> := [];
@@ -406,5 +406,14 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
       }
     }
     return Success((itemsEvaluated, logStatements));
+  }
+
+  predicate {:opaque} ValidOriginalOrTerminalItems(items: Mutations.OriginalOrTerminal, mutationToApply: StateStrucs.MutationToApply)
+  {
+    && (forall item <- items :: item.item is KeyStoreTypes.EncryptedHierarchicalKey)
+    && (forall item <- items :: item.item.Type.HierarchicalSymmetricVersion?)
+    && (forall item <- items :: KmsArn.ValidKmsArn?(item.item.KmsArn))
+    && (forall item <- items :: Structure.EncryptedHierarchicalKeyFromStorage?(item.item))
+    && (forall item <- items :: item.itemOriginal? ==> item.item.KmsArn == mutationToApply.Original.kmsArn)
   }
 }
