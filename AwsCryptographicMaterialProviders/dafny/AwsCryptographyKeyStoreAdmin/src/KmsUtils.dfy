@@ -149,20 +149,20 @@ module {:options "/functionSyntax:4" } KmsUtils {
   //   && (mutationToApply.Terminal.hierarchyVersion.v2? ==> keyManagerStrategy.SupportHV2())
   // }
 
-  opaque predicate IsHV1Supported(
+  predicate IsHV1Supported(
     mutationToApply: StateStrucs.MutationToApply,
     keyManagerStrategy: keyManagerStrat
   )
   {
-    mutationToApply.Terminal.hierarchyVersion.v1? ==> keyManagerStrategy.SupportHV1()
+    mutationToApply.Terminal.hierarchyVersion.v1? && keyManagerStrategy.SupportHV1()
   }
 
-  opaque predicate IsHV2Supported(
+  predicate IsHV2Supported(
     mutationToApply: StateStrucs.MutationToApply,
     keyManagerStrategy: keyManagerStrat
   )
   {
-    mutationToApply.Terminal.hierarchyVersion.v2? ==> keyManagerStrategy.SupportHV2()
+    mutationToApply.Terminal.hierarchyVersion.v2? && keyManagerStrategy.SupportHV2()
   }
 
   predicate {:isolate_assertions} IsSupportedKeyManagerStrategy(
