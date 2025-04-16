@@ -102,8 +102,10 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     Index: KeyStoreTypes.MutationIndex
   )
   {
-    /** The Commitment & Index MUST always have the same Identifier & UUID. **/
-    /** They MAY NOT have the same CreateTime. **/
+    /** 
+      The Commitment & Index MUST always have the same Identifier & UUID. 
+      They MAY NOT have the same CreateTime. 
+    */
     predicate ValidState()
     {
       && Commitment.Identifier == Index.Identifier
@@ -205,6 +207,10 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       JSONValues.Object(KeysAndValues)
   }
 
+  /**
+     To deserialize the Encryption Context from the JSON,
+     the JSON Object is read as a map.
+     */
   function JSONToEncryptionContextString(
     EncryptionContext: JSONValues.JSON
   ): (output: KeyStoreTypes.EncryptionContextString)
@@ -219,6 +225,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
         EncryptionContext.obj[i].0 := EncryptionContext.obj[i].1.str
   }
 
+  /** The KMS ARN, in JSON, is just a string. */
   function KmsArnToJSON(
     kmsArn: string
   ): (output: Result<JSONValues.JSON, Types.Error>)
@@ -226,6 +233,19 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     Success(JSONValues.JSON.String(kmsArn))
   }
 
+  /** 
+    The user provided input for a Mutation is:
+    - two optional members pre-HV-2 (Encryption Context & KMS ARN)
+    - three optional members post-HV-2 (^ and hierarchy-version)
+
+    Members that were not set are represented by JSON's Null.
+    Members that were set are not null (EC : JSON.Object, HV & KMS-ARN : JSON.String).
+    {
+       "aws-crypto-ec": <Null or Object>,
+       "kms-arn": <Null or String>,
+       "hierarchy-version": <Null or String> // Pre-HV-2 Items will not have this.
+    }
+  */
   function InputMutationsToJson(
     Mutations: Types.Mutations
   ): (output: JSONValues.JSON)
@@ -299,10 +319,22 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     else Failure("Failure to UTF8 Validate results of JSON Serialization.")
   }
 
+  /**
+    To serialize the Mutation,
+    convert the following to JSON:
+    - the original mutable properities (possibly renamed "mutable context")
+    - the terminal mutable properities
+    - the input
+    Convert the JSON objects into UTF-8 bytes.
+    The SystemKey is expected to populate the CiphertextBlob.
+    The Storage layer will then handle the Identifier, UUID, & CreateTime Strings,
+    but the other four fields are treated as byte blobs
+    (original, terminal, input, cipher-text).
+  */
   function SerializeMutationCommitment(
     MutationToApply: MutationToApply
   ): (output: Result<KeyStoreTypes.MutationCommitment, Types.Error>)
-    requires MutationToApply.ValidState() //MutationToApply?(MutationToApply)
+    requires MutationToApply.ValidState()
     ensures
       (&& output.Success?
        ==>
@@ -358,12 +390,12 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
     var commitment := KeyStoreTypes.MutationCommitment(
                         Identifier := MutationToApply.Identifier,
-                        Original := validatedOriginalBytes, //originalBytes,
-                        Terminal := validatedTerminalBytes, //terminalBytes,
+                        Original := validatedOriginalBytes,
+                        Terminal := validatedTerminalBytes,
                         UUID := MutationToApply.UUID,
                         CreateTime := MutationToApply.CreateTime,
                         CiphertextBlob := MutationToApply.CommitmentCiphertext,
-                        Input := validatedInputBytes //inputBytes
+                        Input := validatedInputBytes
                       );
     Success(commitment)
   }
@@ -372,7 +404,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     MutationToApply: MutationToApply,
     ExclusiveStartKey: MutationIndexUtils.ExclusiveStartKey
   ): (output: Result<KeyStoreTypes.MutationIndex, Types.Error>)
-    requires MutationToApply.ValidState() //MutationToApply?(MutationToApply)
+    requires MutationToApply.ValidState()
     ensures
       (&& output.Success?
        ==>
@@ -385,7 +417,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
                    PageIndex := MutationIndexUtils.ExclusiveStartKeyToPageIndex(ExclusiveStartKey),
                    UUID := MutationToApply.UUID,
                    CreateTime := MutationToApply.CreateTime,
-                   CiphertextBlob := MutationToApply.IndexCiphertext // TODO-Mutations-GA
+                   CiphertextBlob := MutationToApply.IndexCiphertext
                  );
     Success(index)
   }
@@ -572,11 +604,13 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
          |DeserializedInput.obj| == 2 || DeserializedInput.obj[2].0 == HV_FIELD,
          () => Types.KeyStoreAdminException( message := ERROR_PRFX + "If there is a third key, it MUST be Hierarchy Version.")
        );
+    // Needs/Conditions for the Hierarchy Version
     :- NeedOutcome(
          |DeserializedInput.obj| == 2 || (DeserializedInput.obj[2].1.String? || DeserializedInput.obj[2].1.Null?),
          () => Types.KeyStoreAdminException(
              message := ERROR_PRFX + "Value for `" + HV_FIELD + "` MUST be a string or Null.")
        );
+    // If JSON has 3 objects, the third is the HV-FIELD, and if it is null, then it is None, otherwise, it is a string.
     :- NeedOutcome(
          || |DeserializedInput.obj| == 2
          || (
