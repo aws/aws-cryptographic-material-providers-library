@@ -118,6 +118,11 @@ module {:options "/functionSyntax:4" } Mutations {
       if decryptRes.Success? {
         return Success(ActiveVerificationHolder.KmsDecrypt(decryptRes.value));
       } else {
+        if !(decryptRes.error.ComAmazonawsKms? || decryptRes.error.KeyManagementException? || decryptRes.error.BranchKeyCiphertextException?) {
+          return Failure(Types.AwsCryptographyKeyStore(
+                           AwsCryptographyKeyStore := decryptRes.error
+                         ));
+        }
         var error := BuildErrorForFailure(
           item,
           decryptRes.error,
@@ -215,8 +220,6 @@ module {:options "/functionSyntax:4" } Mutations {
       );
       return error;
     }
-
-    assert false;
   }
 
   method {:isolate_asserations} NewActiveItemForDecryptEncrypt(
