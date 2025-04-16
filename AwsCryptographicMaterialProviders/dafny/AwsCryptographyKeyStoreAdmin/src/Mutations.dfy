@@ -547,32 +547,6 @@ module {:options "/functionSyntax:4" } Mutations {
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
     requires keyManagerStrategy.SupportHV1()
   {
-    // TODO-HV-2-M2: Wire up MutateToHV2 once hierarchyVersion is added to MutableProperties
-    var mutatedItem :- MutateToHV1(
-      item,
-      mutationToApply,
-      keyManagerStrategy,
-      localOperation,
-      doNotVersion
-    );
-    return Success(mutatedItem);
-  }
-
-  method MutateToHV1(
-    item: KeyStoreTypes.EncryptedHierarchicalKey,
-    mutationToApply: StateStrucs.MutationToApply,
-    keyManagerStrategy: KmsUtils.keyManagerStrat,
-    localOperation: string,
-    doNotVersion: bool
-  ) returns (output: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
-    requires mutationToApply.ValidState() && keyManagerStrategy.ValidState()
-    modifies keyManagerStrategy.ModifiesMultiSet
-    ensures mutationToApply.ValidState() && keyManagerStrategy.ValidState()
-    requires item.KmsArn == mutationToApply.Original.kmsArn
-    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
-    requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
-    requires keyManagerStrategy.SupportHV1()
-  {
     var terminalEncryptionContext := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,
