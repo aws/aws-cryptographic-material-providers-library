@@ -341,15 +341,15 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     return Success(queryOut);
   }
 
-  method {:isolate_assertions} ProcessBranchKeysInApplyMutation(
+  method ProcessBranchKeysInApplyMutation(
     items: Mutations.OriginalOrTerminal,
     keyManagerStrategy: KmsUtils.keyManagerStrat,
     mutationToApply: StateStrucs.MutationToApply
   ) returns (output: Result<(seq<KeyStoreTypes.OverWriteEncryptedHierarchicalKey>, seq<Types.MutatedBranchKeyItem>), Types.Error>)
     requires keyManagerStrategy.ValidState() && mutationToApply.ValidState()
-    requires keyManagerStrategy.SupportHV1()
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
+    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply, keyManagerStrategy)
     requires forall item <- items :: item.item is KeyStoreTypes.EncryptedHierarchicalKey
     requires forall item <- items :: item.item.Type.HierarchicalSymmetricVersion?
     requires forall item <- items :: KmsArn.ValidKmsArn?(item.item.KmsArn)
