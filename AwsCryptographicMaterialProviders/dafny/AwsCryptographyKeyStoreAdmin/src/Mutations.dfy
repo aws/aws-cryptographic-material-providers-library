@@ -117,7 +117,7 @@ module {:options "/functionSyntax:4" } Mutations {
       if decryptRes.Success? {
         return Success(ActiveVerificationHolder.KmsDecrypt(decryptRes.value));
       } else {
-        var error := BuildErrorForFailure(
+        var error := BuildErrorForInvalidActiveAndDecryptOnly(
           item,
           decryptRes.error,
           localOperation,
@@ -174,7 +174,7 @@ module {:options "/functionSyntax:4" } Mutations {
     }
 
     if (!success?) {
-      var error := BuildErrorForFailure(
+      var error := BuildErrorForInvalidActiveAndDecryptOnly(
         item,
         throwAwayError,
         localOperation,
@@ -187,7 +187,7 @@ module {:options "/functionSyntax:4" } Mutations {
     return Success(ActiveVerificationHolder.NotDecrypt());
   }
 
-  method BuildErrorForFailure(
+  method BuildErrorForInvalidActiveAndDecryptOnly(
     item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     throwAwayError: KMSKeystoreOperations.KmsError,
     localOperation: string,
