@@ -118,7 +118,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   }
 
 
-  method {:only} ApplyMutation(
+  method ApplyMutation(
     input: InternalApplyMutationInput
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
