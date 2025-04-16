@@ -46,10 +46,10 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   }
 
   const testMutateForHV2SucceedsForKMSSimple := "dafny-initialize-mutation-hv-2-allowed"
-  method {:test} TestMutateForHV2ErrorsForNotKMSSimple()
+  method {:test} TestMutateForHV2SucceedsForKMSSimple()
   {
     var uuid :- expect UUID.GenerateUUID();
-    var testId := testMutateForHV2ErrorsForNotKMSSimple + "-" + uuid;
+    var testId := testMutateForHV2SucceedsForKMSSimple + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
