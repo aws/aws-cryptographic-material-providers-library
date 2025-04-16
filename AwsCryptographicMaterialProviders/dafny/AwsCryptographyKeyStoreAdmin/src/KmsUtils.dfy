@@ -145,7 +145,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     keyManagerStrategy: keyManagerStrat
   )
   {
-    mutationToApply.Terminal.hierarchyVersion.v1? && keyManagerStrategy.SupportHV1()
+    !mutationToApply.Terminal.hierarchyVersion.v1? || keyManagerStrategy.SupportHV1()
   }
 
   predicate IsHV2Supported(
@@ -153,7 +153,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     keyManagerStrategy: keyManagerStrat
   )
   {
-    mutationToApply.Terminal.hierarchyVersion.v2? && keyManagerStrategy.SupportHV2()
+    !mutationToApply.Terminal.hierarchyVersion.v2? || keyManagerStrategy.SupportHV2()
   }
 
   predicate {:isolate_assertions} IsSupportedKeyManagerStrategy(
