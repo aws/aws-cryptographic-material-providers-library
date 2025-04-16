@@ -652,12 +652,10 @@ module DefaultKeyStorageInterface {
       var lockCanidate := ddbResponse.Responses.value[0].Item;
       var lockItem: Option<Types.MutationCommitment> :-
         MutationCommitmentFromOptionalItem(lockCanidate, input.Identifier, ddbTableName);
-      assert lockItem.Some? ==> lockCanidate.Some? && Structure.MutationCommitmentAttribute?(lockCanidate.value);
 
       var indexCanidate := ddbResponse.Responses.value[1].Item;
       var indexItem: Option<Types.MutationIndex> :-
         MutationIndexFromOptionalItem(indexCanidate, input.Identifier, ddbTableName);
-      assert indexItem.Some? ==> indexCanidate.Some? && Structure.MutationIndexAttribute?(indexCanidate.value);
 
       return Success(
           Types.GetMutationOutput(

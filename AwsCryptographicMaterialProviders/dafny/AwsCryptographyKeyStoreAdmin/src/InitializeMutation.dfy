@@ -480,8 +480,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Structure.BRANCH_KEY_TYPE_PREFIX < newDecryptOnly.EncryptionContext[Structure.TYPE_FIELD],
       Types.KeyStoreAdminException(message := "Invalid Branch Key prefix.")
     );
-    // TODO-Mutations-FF : require Decrypt Only Encryption Context
-    // TODO-Mutations-FF : ensure Decrypt Only Item
 
     return Success(newDecryptOnly);
   }

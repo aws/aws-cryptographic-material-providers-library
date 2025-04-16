@@ -53,7 +53,7 @@ public class ValidateKeyStoreItem {
 
   public static void ValidateBranchKey(String branchKeyId, KeyStore keyStore) {
     final List<Map<String, AttributeValue>> allBKItems =
-      DdbHelper.QueryForAllBkItemsDDBKeys(branchKeyId, null, null, null);
+      DdbHelper.QueryForAllBkItemsDDBKeys(branchKeyId, null, null);
     for (Map<String, AttributeValue> item : allBKItems) {
       validateBranchKeyItem(keyStore, item);
     }
