@@ -95,7 +95,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
     requires keyManagerStrategy.ValidState()
-    requires keyManagerStrategy.SupportHV1()
+    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply, keyManagerStrategy)
     requires item.Type.ActiveHierarchicalSymmetricVersion? || item.Type.HierarchicalSymmetricVersion?
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
