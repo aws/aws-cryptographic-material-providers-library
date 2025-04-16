@@ -73,6 +73,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       ==>
         && StateStrucs.ValidMutations?(input.Mutations)
         && 0 < |input.Identifier|
+        && output.value.ValidState()
     ensures
       && output.Success?
       && input.Mutations.TerminalKmsArn.Some?
