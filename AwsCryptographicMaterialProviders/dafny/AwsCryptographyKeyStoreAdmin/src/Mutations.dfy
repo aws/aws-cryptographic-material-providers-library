@@ -21,11 +21,11 @@ module {:options "/functionSyntax:4" } Mutations {
   import AtomicPrimitives
   import GetKeys
 
-  import ErrorMessages = KeyStoreErrorMessages
+  import KeyStoreErrorMessages
   import HvUtils = HierarchicalVersionUtils
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
-  import ErrorMessages = KeyStoreAdminErrorMessages
+  import KeyStoreAdminErrorMessages
   import MutationErrorRefinement
   import KmsUtils
 
@@ -112,7 +112,7 @@ module {:options "/functionSyntax:4" } Mutations {
     if (mutationToApply.Terminal.hierarchyVersion.v2?) {
       // TODO-HV-2-M2: Add test to cover the if condition of this code path
       // TODO-HV-2-M4: Support other key manager strategy
-      :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:=ErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY_HV_2));
+      :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:=KeyStoreAdminErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY_HV_2));
       var decryptRes := GetKeys.DecryptBranchKeyItem(
         item,
         KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
@@ -591,6 +591,7 @@ module {:options "/functionSyntax:4" } Mutations {
       keyManagerStrategy.kmsSimple?,
       Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
     );
+    // TODO-HV-2-M2: Make ReplaceMutableContext modify hierarchical version.
     var terminalBKC := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,
@@ -599,13 +600,13 @@ module {:options "/functionSyntax:4" } Mutations {
     :- Need(
       HvUtils.HasUniqueTransformedKeys?(terminalBKC),
       Types.KeyStoreAdminException(
-        message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+        message := KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
       )
     );
     var crypto? := HvUtils.ProvideCryptoClient();
     if (crypto?.Failure?) {
       var e := Types.KeyStoreAdminException(
-        message := "Local Cryptography error: " +
+        message := "Failed to create internal AtomicPrimitivesClient:" +
         AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto?.error)
       );
       return Failure(e);
