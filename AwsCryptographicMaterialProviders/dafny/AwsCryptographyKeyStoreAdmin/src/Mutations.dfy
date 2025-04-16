@@ -4,6 +4,7 @@ include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "MutationStateStructures.dfy"
 include "MutationErrorRefinement.dfy"
 include "KmsUtils.dfy"
+include "KeyStoreAdminErrorMessages.dfy"
 
 /** Common Functions/Methods for Mutations. */
 module {:options "/functionSyntax:4" } Mutations {
@@ -24,9 +25,12 @@ module {:options "/functionSyntax:4" } Mutations {
   import HvUtils = HierarchicalVersionUtils
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
+  import ErrorMessages = KeyStoreAdminErrorMessages
   import MutationErrorRefinement
   import KmsUtils
 
+  // ActiveVerificationHolder stores the decrypted branch key after verification (KMS decryption for hv1, KMS decryption + SHA validation for hv2)
+  // With ActiveVerificationHolder, we can avoid redundant decryption during mutations
   datatype ActiveVerificationHolder =
     | NotDecrypt()
     | KmsDecrypt(kmsRes: KMS.PlaintextType)
@@ -108,7 +112,7 @@ module {:options "/functionSyntax:4" } Mutations {
     if (mutationToApply.Terminal.hierarchyVersion.v2?) {
       // TODO-HV-2-M2: Add test to cover the if condition of this code path
       // TODO-HV-2-M4: Support other key manager strategy
-      :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));
+      :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:=ErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY_HV_2));
       var decryptRes := GetKeys.DecryptBranchKeyItem(
         item,
         KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
@@ -123,7 +127,7 @@ module {:options "/functionSyntax:4" } Mutations {
                            AwsCryptographyKeyStore := decryptRes.error
                          ));
         }
-        var error := BuildErrorForFailure(
+        var error := BuildVerificationError(
           item,
           decryptRes.error,
           localOperation,
@@ -180,7 +184,7 @@ module {:options "/functionSyntax:4" } Mutations {
     }
 
     if (!success?) {
-      var error := BuildErrorForFailure(
+      var error := BuildVerificationError(
         item,
         throwAwayError,
         localOperation,
@@ -193,7 +197,9 @@ module {:options "/functionSyntax:4" } Mutations {
     return Success(ActiveVerificationHolder.NotDecrypt());
   }
 
-  method BuildErrorForFailure(
+  // TODO-HV-2-M2: Add precondition  that the ActiveHierarchicalSymmetricVersion Item's have the original context,
+  // and the HierarchicalSymmetricVersion have the terminal context.
+  method BuildVerificationError(
     item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     throwAwayError: KMSKeystoreOperations.KmsError,
     localOperation: string,
