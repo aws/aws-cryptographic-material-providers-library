@@ -121,7 +121,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
               message := "Mutations parameter is invalid; If Encryption Context is given, it cannot be empty or have empty values."));
     :- Need(
          !IsMutationsTerminalHV1?(input.Mutations),
-         Types.UnsupportedFeatureException(message := ErrorMessages.NO_MUTATE_TO_HV_1));
+         Types.UnsupportedFeatureException(message := KeyStoreAdminErrorMessages.NO_MUTATE_TO_HV_1));
     Success(input)
   }
 
