@@ -462,14 +462,16 @@ module {:options "/functionSyntax:4" } Mutations {
        == Structure.ReplaceMutableContext(
             item.EncryptionContext,
             MutationToApply.Original.kmsArn,
-            MutationToApply.Original.customEncryptionContext
+            MutationToApply.Original.customEncryptionContext,
+            HvUtils.HierarchyVersionToString(MutationToApply.Original.hierarchyVersion)
           ) then
       itemOriginal(item)
     else if item.EncryptionContext
             == Structure.ReplaceMutableContext(
                  item.EncryptionContext,
                  MutationToApply.Terminal.kmsArn,
-                 MutationToApply.Terminal.customEncryptionContext
+                 MutationToApply.Terminal.customEncryptionContext,
+                 HvUtils.HierarchyVersionToString(MutationToApply.Terminal.hierarchyVersion)
                ) then
       itemTerminal(item)
     else
@@ -554,7 +556,8 @@ module {:options "/functionSyntax:4" } Mutations {
     var terminalEncryptionContext := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,
-      mutationToApply.Terminal.customEncryptionContext
+      mutationToApply.Terminal.customEncryptionContext,
+      HvUtils.HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion)
     );
     assert KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext);
     var input := ReEncryptHierarchicalKeyInput(
@@ -595,7 +598,8 @@ module {:options "/functionSyntax:4" } Mutations {
     var terminalBKC := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,
-      mutationToApply.Terminal.customEncryptionContext
+      mutationToApply.Terminal.customEncryptionContext,
+      HvUtils.HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion)
     );
     :- Need(
       HvUtils.HasUniqueTransformedKeys?(terminalBKC),
