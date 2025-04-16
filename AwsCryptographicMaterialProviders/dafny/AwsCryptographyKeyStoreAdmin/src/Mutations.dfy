@@ -84,7 +84,7 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly localOperation: string := "ApplyMutation",
-    nameonly isTerminalHv2?: bool := false
+    nameonly mutationToApply: StateStrucs.MutationToApply
   )
     returns (output: Result<ActiveVerificationHolder,Types.Error>)
 
@@ -105,7 +105,7 @@ module {:options "/functionSyntax:4" } Mutations {
       Types.KeyStoreAdminException(
         message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
     );
-    if (isTerminalHv2?) {
+    if (mutationToApply.Terminal.hierarchyVersion.v2?) {
       // TODO-HV-2-M2: Add test to cover the if condition of this code path
       // TODO-HV-2-M4: Support other key manager strategy
       :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="only KMS Simple allow when mutating to hv-2."));

@@ -343,7 +343,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       item := activeItem,
       keyManagerStrategy := input.keyManagerStrategy,
       localOperation := "InitializeMutation",
-      isTerminalHv2? := isTerminalHv2
+      mutationToApply := MutationToApply
     );
     if (verifyActive?.Failure?) {
       return Failure(verifyActive?.error);
