@@ -529,7 +529,7 @@ module {:options "/functionSyntax:4" } Mutations {
     var crypto? := HvUtils.ProvideCryptoClient();
     if (crypto?.Failure?) {
       var e := Types.KeyStoreAdminException(
-        message := "Creation of internal AtomicPrimitivesClient failed:" +
+        message := "Failed to create internal AtomicPrimitivesClient:" +
         AtomicPrimitives.ErrorUtils.MessageOrUnknown(crypto?.error)
       );
       return Failure(e);
