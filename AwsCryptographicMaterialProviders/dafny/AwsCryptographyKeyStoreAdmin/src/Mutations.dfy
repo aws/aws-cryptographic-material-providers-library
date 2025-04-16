@@ -21,11 +21,11 @@ module {:options "/functionSyntax:4" } Mutations {
   import AtomicPrimitives
   import GetKeys
 
-  import ErrorMessages = KeyStoreErrorMessages
+  import KeyStoreErrorMessages
   import HvUtils = HierarchicalVersionUtils
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
-  import ErrorMessages = KeyStoreAdminErrorMessages
+  import KeyStoreAdminErrorMessages
   import MutationErrorRefinement
   import KmsUtils
 
@@ -112,7 +112,7 @@ module {:options "/functionSyntax:4" } Mutations {
     if (isTerminalHv2?) {
       // TODO-HV-2-M2: Add test to cover the if condition of this code path
       // TODO-HV-2-M4: Support other key manager strategy
-      :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:=ErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY_HV_2));
+      :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:=KeyStoreAdminErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY_HV_2));
       var decryptRes := GetKeys.DecryptBranchKeyItem(
         item,
         KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
@@ -578,7 +578,7 @@ module {:options "/functionSyntax:4" } Mutations {
     :- Need(
       HvUtils.HasUniqueTransformedKeys?(terminalBKC),
       Types.KeyStoreAdminException(
-        message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+        message := KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
       )
     );
     var crypto? := HvUtils.ProvideCryptoClient();
