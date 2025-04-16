@@ -18,8 +18,6 @@ module {:options "/functionSyntax:4" } Mutations {
   import KmsArn
   import KMSKeystoreOperations
   import DefaultKeyStorageInterface
-  import AtomicPrimitives
-  import GetKeys
 
   import KeyStoreErrorMessages
   import HvUtils = HierarchicalVersionUtils
@@ -504,7 +502,8 @@ module {:options "/functionSyntax:4" } Mutations {
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
     requires aes256Key?.Some? ==> |aes256Key?.value| == Structure.AES_256_LENGTH as int
 
-    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply, keyManagerStrategy)
+    requires mutationToApply.Terminal.hierarchyVersion.v1? ==> keyManagerStrategy.SupportHV1()
+    requires mutationToApply.Terminal.hierarchyVersion.v2? ==> keyManagerStrategy.SupportHV2()
   {
     var mutatedItem: KeyStoreTypes.EncryptedHierarchicalKey;
     if (mutationToApply.Terminal.hierarchyVersion.v1?) {
@@ -529,32 +528,6 @@ module {:options "/functionSyntax:4" } Mutations {
                        message := ErrorMessages.INVALID_HIERARCHY_VERSION
                      ));
     }
-    return Success(mutatedItem);
-  }
-
-  method MutateToHV1(
-    item: KeyStoreTypes.EncryptedHierarchicalKey,
-    mutationToApply: StateStrucs.MutationToApply,
-    keyManagerStrategy: KmsUtils.keyManagerStrat,
-    localOperation: string,
-    doNotVersion: bool
-  ) returns (output: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
-    requires mutationToApply.ValidState() && keyManagerStrategy.ValidState()
-    modifies keyManagerStrategy.ModifiesMultiSet
-    ensures mutationToApply.ValidState() && keyManagerStrategy.ValidState()
-    requires item.KmsArn == mutationToApply.Original.kmsArn
-    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
-    requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
-    requires keyManagerStrategy.SupportHV1()
-  {
-    // TODO-HV-2-M2: Wire up MutateToHV2 once hierarchyVersion is added to MutableProperties
-    var mutatedItem :- MutateToHV1(
-      item,
-      mutationToApply,
-      keyManagerStrategy,
-      localOperation,
-      doNotVersion
-    );
     return Success(mutatedItem);
   }
 
