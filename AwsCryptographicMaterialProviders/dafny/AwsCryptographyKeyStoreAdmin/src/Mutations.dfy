@@ -88,7 +88,7 @@ module {:options "/functionSyntax:4" } Mutations {
     nameonly localOperation: string := "ApplyMutation",
     nameonly mutationToApply: StateStrucs.MutationToApply
   )
-    returns (output: Result<ActiveVerificationHolder,Types.Error>)
+    returns (output: Outcome<Types.Error>)
 
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
@@ -98,7 +98,7 @@ module {:options "/functionSyntax:4" } Mutations {
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
   {
-
+    var kmsOperation: string;
     var success?: bool := false;
     var throwAwayError;
     // TODO-HV-2-M3: Support mutations on HV-2 item (mutation starting with hv-2 item)
