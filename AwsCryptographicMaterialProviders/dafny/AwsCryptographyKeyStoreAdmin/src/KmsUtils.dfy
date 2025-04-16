@@ -54,14 +54,14 @@ module {:options "/functionSyntax:4" } KmsUtils {
       case kmsSimple(km) => multiset(km.kmsClient.Modifies)
 
     // TODO-HV-2-M2 :: work out complete support
-    predicate SupportHV1()
+    opaque predicate SupportHV1()
     {
       match this
       case decryptEncrypt(kmD, kmE) => true
       case reEncrypt(km) => true
       case kmsSimple(km) => false
     }
-    predicate SupportHV2()
+    opaque predicate SupportHV2()
     {
       match this
       case decryptEncrypt(kmD, kmE) => false
@@ -140,14 +140,38 @@ module {:options "/functionSyntax:4" } KmsUtils {
     case KmsKeyArn(kmsKeyArn) => KeyStoreTypes.kmsKeyArn(kmsKeyArn)
   }
 
-  predicate {:opaque} IsSupportedKeyManagerStrategy(
+  // predicate {:isolate_assertions} IsSupportedKeyManagerStrategy(
+  //   mutationToApply: StateStrucs.MutationToApply,
+  //   keyManagerStrategy: keyManagerStrat
+  // )
+  // {
+  //   && (mutationToApply.Terminal.hierarchyVersion.v1? ==> keyManagerStrategy.SupportHV1())
+  //   && (mutationToApply.Terminal.hierarchyVersion.v2? ==> keyManagerStrategy.SupportHV2())
+  // }
+
+  opaque predicate IsHV1Supported(
     mutationToApply: StateStrucs.MutationToApply,
     keyManagerStrategy: keyManagerStrat
   )
   {
-    && (mutationToApply.Terminal.hierarchyVersion.v1? ==> keyManagerStrategy.SupportHV1())
-    && (mutationToApply.Terminal.hierarchyVersion.v2? ==> keyManagerStrategy.SupportHV2())
+    mutationToApply.Terminal.hierarchyVersion.v1? ==> keyManagerStrategy.SupportHV1()
   }
 
+  opaque predicate IsHV2Supported(
+    mutationToApply: StateStrucs.MutationToApply,
+    keyManagerStrategy: keyManagerStrat
+  )
+  {
+    mutationToApply.Terminal.hierarchyVersion.v2? ==> keyManagerStrategy.SupportHV2()
+  }
 
+  predicate {:isolate_assertions} IsSupportedKeyManagerStrategy(
+    mutationToApply: StateStrucs.MutationToApply,
+    keyManagerStrategy: keyManagerStrat
+  )
+    requires mutationToApply.Terminal.hierarchyVersion.v1? || mutationToApply.Terminal.hierarchyVersion.v2?
+  {
+    && IsHV1Supported(mutationToApply, keyManagerStrategy)
+    && IsHV2Supported(mutationToApply, keyManagerStrategy)
+  }
 }

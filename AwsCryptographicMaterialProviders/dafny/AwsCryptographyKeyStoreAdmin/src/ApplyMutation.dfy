@@ -6,6 +6,7 @@ include "KmsUtils.dfy"
 include "MutationIndexUtils.dfy"
 include "SystemKey/Handler.dfy"
 include "Mutations.dfy"
+include "KeyStoreAdminErrorMessages.dfy"
 
 module {:options "/functionSyntax:4" } InternalApplyMutation {
   // StandardLibrary Imports
@@ -25,6 +26,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   import MutationIndexUtils
   import SystemKeyHandler = SystemKey.Handler
   import Mutations
+  import KeyStoreAdminErrorMessages
 
   const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
 
@@ -118,7 +120,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   }
 
 
-  method {:only} {:isolate_assertions} ApplyMutation(
+  method {:isolate_assertions} ApplyMutation(
     input: InternalApplyMutationInput
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
@@ -163,6 +165,13 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
 
     var MutationToApply :- StateStrucs.DeserializeMutation(CommitmentAndIndex);
 
+    :- Need(
+      KmsUtils.IsSupportedKeyManagerStrategy(MutationToApply, input.keyManagerStrategy),
+      Types.UnsupportedFeatureException(
+        message :=
+          KeyStoreAdminErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY
+      )
+    );
     // -= Query for page Size Branch Key Items
     var queryOut :- QueryForVersionsAndValidate(input, MutationToApply);
 
