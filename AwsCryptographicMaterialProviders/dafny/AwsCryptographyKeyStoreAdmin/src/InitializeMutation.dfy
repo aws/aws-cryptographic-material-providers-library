@@ -134,14 +134,14 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     input: InternalInitializeMutationInput
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
-    requires
-      && ValidateInitializeMutationInput(input).Success?
     requires StateStrucs.ValidMutations?(input.Mutations) // may not need this
     requires
       && input.storage.ValidState()
       && input.keyManagerStrategy.ValidState()
       && input.SystemKey.ValidState()
       && input.ValidState()
+    requires
+      && ValidateInitializeMutationInput(input).Success?
     ensures
       && input.storage.ValidState()
       && input.SystemKey.ValidState()
