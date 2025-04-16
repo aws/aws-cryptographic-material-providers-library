@@ -42,7 +42,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.UnsupportedFeatureException?;
     // TODO-HV-2-M4: Support other key strategy as well.
-    expect initializeOutput.error.message == "Only KeyManagementStrategy.AwsKmsSimple is allowed when mutating to hv-2.", "Incorrect error message. Should have had `Only KeyManagementStrategy.AwsKmsSimple is allowed when mutating to hv-2.`";
+    expect initializeOutput.error.message == "Unsupported KeyManagementStrategy. Only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsDecryptEncrypt is allowed when terminal hierarchical version is 1. Only KeyManagementStrategy.kmsSimple is allowed when terminal hierarchical version is 2.", "Incorrect error message. Should have had `Only KeyManagementStrategy.AwsKmsSimple is allowed when mutating to hv-2.`";
   }
 
   const testMutateForHV2SucceedsForKMSSimple := "dafny-initialize-mutation-hv-2-allowed"
