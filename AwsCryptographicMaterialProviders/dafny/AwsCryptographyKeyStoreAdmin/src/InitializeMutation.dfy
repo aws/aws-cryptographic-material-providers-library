@@ -345,7 +345,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       localOperation := "InitializeMutation",
       mutationToApply := MutationToApply
     );
-    if (verifyActive?.Fail?) {
+    if (verifyActive?.Failure?) {
       return Failure(verifyActive?.error);
     }
 
