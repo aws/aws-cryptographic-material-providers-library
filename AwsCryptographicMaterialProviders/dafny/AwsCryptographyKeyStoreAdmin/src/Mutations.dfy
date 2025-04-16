@@ -438,7 +438,7 @@ module {:options "/functionSyntax:4" } Mutations {
               && item.item is KeyStoreTypes.EncryptedHierarchicalKey
   {}
 
-  function MatchItemToState(
+  function {:opaque} MatchItemToState(
     item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     MutationToApply: StateStrucs.MutationToApply
   ): (output: CheckedItem)

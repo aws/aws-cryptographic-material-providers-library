@@ -118,7 +118,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   }
 
 
-  method {:isolate_assertions} ApplyMutation(
+  method {:only} {:isolate_assertions} ApplyMutation(
     input: InternalApplyMutationInput
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
@@ -237,7 +237,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
       ));
   }
 
-  method FetchAndValidateMutation(
+  method {:isolate_assertions} FetchAndValidateMutation(
     storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
     mutationToken: Types.MutationToken
   ) returns (result: Result<Types.AwsCryptographyKeyStoreTypes.GetMutationOutput, Types.Error>)
@@ -317,7 +317,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     return Success(());
   }
 
-  method QueryForVersionsAndValidate(
+  method {:isolate_assertions} QueryForVersionsAndValidate(
     input: InternalApplyMutationInput,
     mutationToApply: StateStrucs.MutationToApply
   ) returns (output: Result<KeyStoreTypes.QueryForVersionsOutput, Types.Error>)
@@ -408,7 +408,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     return Success((itemsEvaluated, logStatements));
   }
 
-  predicate {:opaque} ValidOriginalOrTerminalItems(items: Mutations.OriginalOrTerminal, mutationToApply: StateStrucs.MutationToApply)
+  predicate ValidOriginalOrTerminalItems(items: Mutations.OriginalOrTerminal, mutationToApply: StateStrucs.MutationToApply)
   {
     && (forall item <- items :: item.item is KeyStoreTypes.EncryptedHierarchicalKey)
     && (forall item <- items :: item.item.Type.HierarchicalSymmetricVersion?)
