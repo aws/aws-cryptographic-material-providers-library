@@ -143,6 +143,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   // therefore, HV MAY NOT be present in a Mutation Commitment.
   // If HV is not present, we KNOW it is HV1.
   // If HV is present, then it is the third element.
+  // This is for MutableProperties, which are always set (they are "required").
   function MutablePropertiesJsonToHierarchyVersion(
     deserializedMutableProperties: JSONValues.JSON
   ): (output: KeyStoreTypes.HierarchyVersion)
@@ -158,6 +159,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   // If HV is not present, we KNOW the customer could not and did not provide it.
   // If HV key is present, then it is the third element, and is nullable,
   // as a post-HV-2 mutation could mutate the HV.
+  // This is for the input, which are optional.
   function InputMutationsJsonToHierarchyVersion(
     deserializedInput: JSONValues.JSON
   ): (output: Option<KeyStoreTypes.HierarchyVersion>)
@@ -170,28 +172,17 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
   /**
      To serialize the Encryption Context as JSON,
-     we sort the map by FUDGE this is the JavaSript soriting mistake...
-     we are sorting by the String ordering of the keys of the Map;
-     Yeah... this is not good.
-     We need to sort by the UTF8 byte sequence;
-     it is unlikely any internal user will hit this mistake soon,
-     but we need to revise this,
-     which will break in-flight mutations.
-     Darn.
-     @lucasmcdonald3 let's bring this up April 17th.
-     I will note that is is unlikely for an in-flight Mutation
-     to be handled by two different "local" settings;
-     i.e: one host is configured for EN-US,
-     while another is configured for CN,
-     and the two swap turns working a Mutation,
-     then things could go wrong.
-     But that is highly unlikely.
+     the keys of the Encryption Context, 
+     which is a map,
+     are sorted by string comparision,
+     and a JSON Object is created from this
+     now sorted map.
      */
   function EncryptionContextStringToJSON(
     encryptionContext: KeyStoreTypes.EncryptionContextString
   ): (output: JSONValues.JSON)
   {
-    // TODO-HV-2-BLOCKER : Refactor to sort by UTF8 Bytes
+    // TODO-HV-2-BLOCKER : Decide if we will Refactor to sort by UTF8 Bytes for IA or FOLLOW
     // We had this logic: https://github.com/aws/private-aws-cryptographic-material-providers-library-dafny-staging/blob/c88abe97abfbc9057c28844f660cc4b5615b912e/AwsCryptographicMaterialProviders/dafny/AwsCryptographyKeyStoreAdmin/src/MutationStateStructures.dfy#L55-L65
     // But... the team moved away from it to strings...
     var keys := SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, (a, b) => a < b);
@@ -271,6 +262,10 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
   // TODO-HV-2-M2 : Ensure that pre-HV-1 Mutation Commitments deserialize
   // such commitments will not have the new HV field
+  /** 
+    See `InputMutationsToJson`.
+    If the member is Null, then Option.None is used.
+   */
   function InputMutationsFromJson(
     MutationsJson: JSONValues.JSON
   ): (output: Types.Mutations)
@@ -584,7 +579,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     DeserializedInput: JSONValues.JSON
   ): (output: Outcome<Types.Error>)
   {
-    // Needs/Conditions for the entire object
+    // Needs/Conditions for the entire JSON object
     :- NeedOutcome(
          DeserializedInput.Object? && (|DeserializedInput.obj| == 2 || |DeserializedInput.obj| == 3),
          () => Types.KeyStoreAdminException( message := ERROR_PRFX + "There MUST two or three objects.")
@@ -604,7 +599,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
          |DeserializedInput.obj| == 2 || DeserializedInput.obj[2].0 == HV_FIELD,
          () => Types.KeyStoreAdminException( message := ERROR_PRFX + "If there is a third key, it MUST be Hierarchy Version.")
        );
-    // Needs/Conditions for the Hierarchy Version
+    // If JSON has 3 objects, the third is the HV-FIELD, and MUST be a String or Null
     :- NeedOutcome(
          |DeserializedInput.obj| == 2 || (DeserializedInput.obj[2].1.String? || DeserializedInput.obj[2].1.Null?),
          () => Types.KeyStoreAdminException(
