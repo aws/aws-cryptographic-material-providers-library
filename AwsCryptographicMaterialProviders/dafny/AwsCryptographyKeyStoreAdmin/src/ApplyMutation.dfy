@@ -371,7 +371,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
             localOperation := "ApplyMutation",
             mutationToApply := mutationToApply
           );
-          if (verify?.Failure?) {
+          if (verify?.Fail?) {
             return Failure(verify?.error);
           }
           logStatements := logStatements
