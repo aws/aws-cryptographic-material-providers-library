@@ -286,7 +286,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       ));
   }
 
-  method VersionActiveBranchKey(
+  method {:vcs_split_on_every_assert} VersionActiveBranchKey(
     input: Types.VersionKeyInput,
     timestamp: string,
     branchKeyVersion: string,
@@ -316,29 +316,105 @@ module {:options "/functionSyntax:4" } CreateKeys {
     //# using the `branch-key-id`.
     ensures
       && |storage.History.GetEncryptedActiveBranchKey| == |old(storage.History.GetEncryptedActiveBranchKey)| + 1
-      && Seq.Last(storage.History.GetEncryptedActiveBranchKey).input.Identifier == input.branchKeyIdentifier
+      && var getEncryptedActiveBranchKeyInput := Seq.Last(storage.History.GetEncryptedActiveBranchKey).input;
+      && input.branchKeyIdentifier == getEncryptedActiveBranchKeyInput.Identifier
+    // ensures
+    //     && |storage.History.GetEncryptedActiveBranchKey| == |old(storage.History.GetEncryptedActiveBranchKey)| + 1
+    //     && Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.Success?
+    //     && var oldActiveItem := Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.value.Item;
+    //     //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+    //     //= type=implication
+    //     //# VersionKey MUST verify that the returned EncryptedHierarchicalKey MUST have the requested `branch-key-id`.
+    //     && oldActiveItem.Identifier == input.branchKeyIdentifier
+    //     //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+    //     //= type=implication
+    //     //# VersionKey MUST verify that the returned EncryptedHierarchicalKey is an ActiveHierarchicalSymmetricVersion.
+    //     && Structure.ActiveHierarchicalSymmetricKey?(oldActiveItem)
+
+    //     //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+    //     //= type=implication
+    //     //# VersionKey MUST verify that the returned EncryptedHierarchicalKey MUST have a logical table name equal to the configured logical table name.
+    //     && oldActiveItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+  {
+    var getEncryptedActiveBranchKeyInput := Types.GetEncryptedActiveBranchKeyInput(Identifier := input.branchKeyIdentifier);
+    var getEncryptedActiveBranchKeyOutput :- storage.GetEncryptedActiveBranchKey(getEncryptedActiveBranchKeyInput);
+    
+    var oldActiveItem := getEncryptedActiveBranchKeyOutput.Item;
+
+    :- Need(
+      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+      || (
+           && oldActiveItem.Identifier == input.branchKeyIdentifier
+           && Structure.ActiveHierarchicalSymmetricKey?(oldActiveItem)
+           && oldActiveItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
+         ),
+      Types.KeyStoreException(
+        message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
+    );
+
+    var hierarchyVersion := oldActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION];
+    
+    match hierarchyVersion {
+      case "1" =>
+        // output := VersionActiveBranchKeyVersion1(
+        //   oldActiveItem,
+        //   timestamp,
+        //   branchKeyVersion,
+        //   logicalKeyStoreName,
+        //   kmsConfiguration,
+        //   grantTokens,
+        //   kmsClient,
+        //   storage
+        // );
+        output := Failure(Types.KeyStoreException(
+          message := 
+            "Active Branch Key found with hierarchy-version 2.\n"
+            + "VersionKey operation does not support versioning hierarchy-version 2.\n"
+        ));
+      case "2" =>
+        // TODO-HV-2-M3: Support Version in HV-2
+        output := Failure(Types.KeyStoreException(
+          message := 
+            "Active Branch Key found with hierarchy-version 2.\n"
+            + "VersionKey operation does not support versioning hierarchy-version 2.\n"
+        ));
+      case _ => 
+        output := Failure(Types.KeyStoreException(
+          message := 
+            "Active Branch Key found with an unsupported hierarchy-version.\n"
+            + "Only hierarchy-version 1 or hierarchy-version 2 are supported.\n"
+            + "Found hierarchy-version " + hierarchyVersion + ".\n"
+        ));
+    }
+  }
+
+  method VersionActiveBranchKeyVersion1(
+    oldActiveItem: Types.EncryptedHierarchicalKey,
+    timestamp: string,
+    branchKeyVersion: string,
+    logicalKeyStoreName: string,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient,
+    storage: Types.IKeyStorageInterface
+  )
+    returns (output: Result<Types.VersionKeyOutput, Types.Error>)
+    requires 0 < |branchKeyVersion|
+    requires Structure.ActiveHierarchicalSymmetricKey?(oldActiveItem)
+    requires storage.Modifies !! kmsClient.Modifies
+    requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+    requires storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+             ==>
+               logicalKeyStoreName == (storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName
+
+    requires kmsClient.ValidState() && storage.ValidState()
+    modifies storage.Modifies, kmsClient.Modifies
+    ensures storage.ValidState() && kmsClient.ValidState()
+
+    ensures |storage.History.GetEncryptedActiveBranchKey| == |old(storage.History.GetEncryptedActiveBranchKey)| 
 
     ensures output.Success?
             ==>
-              && Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.Success?
-              && var oldActiveItem := Seq.Last(storage.History.GetEncryptedActiveBranchKey).output.value.Item;
-
-
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
-              //= type=implication
-              //# VersionKey MUST verify that the returned EncryptedHierarchicalKey MUST have the requested `branch-key-id`.
-              && oldActiveItem.Identifier == input.branchKeyIdentifier
-
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
-              //= type=implication
-              //# VersionKey MUST verify that the returned EncryptedHierarchicalKey is an ActiveHierarchicalSymmetricVersion.
-              && Structure.ActiveHierarchicalSymmetricKey?(oldActiveItem)
-
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
-              //= type=implication
-              //# VersionKey MUST verify that the returned EncryptedHierarchicalKey MUST have a logical table name equal to the configured logical table name.
-              && oldActiveItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
-
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
               //= type=implication
               //# The `KmsArn` of the [EncryptedHierarchicalKey](./key-store/key-storage.md#encryptedhierarchicalkey)
@@ -470,39 +546,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
           && Seq.Last(kmsClient.History.ReEncrypt).output.Failure?
           ==> output.Failure?)
 
-      || (&& |storage.History.GetEncryptedActiveBranchKey| == |old(storage.History.GetEncryptedActiveBranchKey)| + 1
-          && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).output.Failure?
-          ==> output.Failure?)
-
       || (&& |storage.History.WriteNewEncryptedBranchKeyVersion| == |old(storage.History.WriteNewEncryptedBranchKeyVersion)| + 1
           && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).output.Failure?
           ==> output.Failure?)
 
   {
-
-    var GetEncryptedActiveBranchKeyOutput :- storage.GetEncryptedActiveBranchKey(
-      Types.GetEncryptedActiveBranchKeyInput(
-        Identifier := input.branchKeyIdentifier
-      )
-    );
-    var oldActiveItem := GetEncryptedActiveBranchKeyOutput.Item;
-
-    :- Need(
-      || storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
-      || (
-           && oldActiveItem.Identifier == input.branchKeyIdentifier
-           && Structure.ActiveHierarchicalSymmetricKey?(oldActiveItem)
-           && oldActiveItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
-         ),
-      Types.KeyStoreException(
-        message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
-    );
-    // TODO-HV-2-M3: Support Version in HV-2
-    :- Need(
-      oldActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
-      Types.KeyStoreException(
-        message := "At this time, VersionKey ONLY supports HV-1; BK's Active Item is HV-2.")
-    );
     :- Need(
       && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem.EncryptionContext[Structure.KMS_FIELD]),
       Types.KeyStoreException(
