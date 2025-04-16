@@ -342,9 +342,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     var verifyActive? := Mutations.VerifyEncryptedHierarchicalKey(
       item := activeItem,
       keyManagerStrategy := input.keyManagerStrategy,
-      localOperation := "InitializeMutation"
+      localOperation := "InitializeMutation",
+      isTerminalHv2? := isTerminalHv2
     );
-    if (verifyActive?.Fail?) {
+    if (verifyActive?.Failure?) {
       return Failure(verifyActive?.error);
     }
 
