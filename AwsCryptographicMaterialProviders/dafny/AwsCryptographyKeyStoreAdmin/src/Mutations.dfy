@@ -119,7 +119,7 @@ module {:options "/functionSyntax:4" } Mutations {
       if decryptRes.Success? {
         return Success(ActiveVerificationHolder.KmsDecrypt(decryptRes.value));
       } else {
-        var error := BuildErrorForInvalidActiveAndDecryptOnly(
+        var error := BuildVerificationError(
           item,
           decryptRes.error,
           localOperation,
@@ -176,7 +176,7 @@ module {:options "/functionSyntax:4" } Mutations {
     }
 
     if (!success?) {
-      var error := BuildErrorForInvalidActiveAndDecryptOnly(
+      var error := BuildVerificationError(
         item,
         throwAwayError,
         localOperation,
@@ -189,7 +189,9 @@ module {:options "/functionSyntax:4" } Mutations {
     return Success(ActiveVerificationHolder.NotDecrypt());
   }
 
-  method BuildErrorForInvalidActiveAndDecryptOnly(
+  // TODO-HV-2-M2: Add precondition  that the ActiveHierarchicalSymmetricVersion Item's have the original context,
+  // and the HierarchicalSymmetricVersion have the terminal context.
+  method BuildVerificationError(
     item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     throwAwayError: KMSKeystoreOperations.KmsError,
     localOperation: string,
