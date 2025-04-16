@@ -118,7 +118,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   }
 
 
-  method ApplyMutation(
+  method {:only} ApplyMutation(
     input: InternalApplyMutationInput
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
@@ -135,33 +135,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     var keyManagerStrategy := input.keyManagerStrategy;
     var SystemKey := input.SystemKey;
     // var logicalKeyStoreName := input.logicalKeyStoreName;
-    var fetchMutation? := storage.GetMutation(
-      Types.AwsCryptographyKeyStoreTypes.GetMutationInput(
-        Identifier := input.MutationToken.Identifier));
-    var fetchMutation: KeyStoreTypes.GetMutationOutput :- fetchMutation?
-    .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
+    var fetchMutation :- FetchAndValidateMutation(storage, input.MutationToken);
 
-      // -= Validate Commitment and Index
-    :- Need(
-      fetchMutation.MutationCommitment.Some?,
-      Types.MutationInvalidException(
-        message := "No Mutation is in-flight for this Branch Key ID " + input.MutationToken.Identifier + " ."
-      ));
-    :- Need(
-      input.MutationToken.UUID == fetchMutation.MutationCommitment.value.UUID,
-      Types.MutationInvalidException(
-        message := "The Token and the Mutation Commitment read from storage disagree."
-        + " This indicates that the Token is for a different Mutation than the one in-flight."
-        + " A possible cause is this token is from an earlier Mutation that already finished?"
-        + " Branch Key ID: " + input.MutationToken.Identifier + ";"
-        + " Mutation Commitment UUID: " + fetchMutation.MutationCommitment.value.UUID + ";"
-        + " Token UUID: " + input.MutationToken.UUID + ";"
-      ));
-    :- Need(
-      fetchMutation.MutationIndex.Some?,
-      Types.MutationInvalidException(
-        message := "No Mutation Index exsists for this in-flight mutation of Branch Key ID " + input.MutationToken.Identifier + " ."
-      ));
     var CommitmentAndIndex :- Mutations.ValidateCommitmentAndIndexStructures(
       input.MutationToken,
       fetchMutation.MutationCommitment.value,
@@ -261,6 +236,46 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
         MutatedBranchKeyItems := logStatements
       ));
   }
+
+  method FetchAndValidateMutation(
+    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
+    mutationToken: Types.MutationToken
+  ) returns (result: Result<Types.AwsCryptographyKeyStoreTypes.GetMutationOutput, Types.Error>)
+    requires storage.ValidState()
+    ensures storage.ValidState()
+    modifies storage.Modifies
+  {
+    var fetchMutation? := storage.GetMutation(
+      Types.AwsCryptographyKeyStoreTypes.GetMutationInput(
+        Identifier := mutationToken.Identifier));
+    var fetchMutation :- fetchMutation?
+    .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
+
+      // -= Validate Commitment and Index
+    :- Need(
+      fetchMutation.MutationCommitment.Some?,
+      Types.MutationInvalidException(
+        message := "No Mutation is in-flight for this Branch Key ID " + mutationToken.Identifier + " ."
+      ));
+    :- Need(
+      mutationToken.UUID == fetchMutation.MutationCommitment.value.UUID,
+      Types.MutationInvalidException(
+        message := "The Token and the Mutation Commitment read from storage disagree."
+        + " This indicates that the Token is for a different Mutation than the one in-flight."
+        + " A possible cause is this token is from an earlier Mutation that already finished?"
+        + " Branch Key ID: " + mutationToken.Identifier + ";"
+        + " Mutation Commitment UUID: " + fetchMutation.MutationCommitment.value.UUID + ";"
+        + " Token UUID: " + mutationToken.UUID + ";"
+      ));
+    :- Need(
+      fetchMutation.MutationIndex.Some?,
+      Types.MutationInvalidException(
+        message := "No Mutation Index exsists for this in-flight mutation of Branch Key ID " + mutationToken.Identifier + " ."
+      ));
+
+    return Success(fetchMutation);
+  }
+
 
   method WriteMutations(
     storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
