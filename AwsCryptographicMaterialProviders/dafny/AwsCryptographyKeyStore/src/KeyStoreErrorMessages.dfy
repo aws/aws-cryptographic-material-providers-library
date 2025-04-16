@@ -82,4 +82,10 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
     + " prevents the Branch Key from being used with 'hierarchy-version-2'."
     + " Remove this modification while maintaining the Branch Key's cryptographic integrity,"
     + " and it should be possible to use this Branch Key."
+
+  const UNSUPPORTED_KEYMANAGEMENTSTRATEGY :=
+    "Unsupported KeyManagementStrategy."
+    + " Only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsDecryptEncrypt"
+    + " is allowed when terminal hierarchical version is 1."
+    + " Only KeyManagementStrategy.kmsSimple is allowed when terminal hierarchical version is 2."
 }
