@@ -10,9 +10,9 @@ module {:options "-functionSyntax:4"} AllHierarchy {
   import KeyVectorsTypes = AwsCryptographyMaterialProvidersTestVectorKeysTypes
 
   const AllHierarchyKeys := [
-     "static-branch-key-1",
-     "static-branch-key-hv-2",
-     "static-branch-key-hv-2-with-ec"
+    "static-branch-key-1",
+    "static-branch-key-hv-2",
+    "static-branch-key-hv-2-with-ec"
   ]
   const KeyDescriptions :=
     set
