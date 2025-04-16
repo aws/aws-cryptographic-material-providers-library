@@ -525,7 +525,7 @@ module {:options "/functionSyntax:4" } Mutations {
       );
     } else {
       return Failure(Types.KeyStoreAdminException(
-                       message := ErrorMessages.INVALID_HIERARCHY_VERSION
+                       message := KeyStoreErrorMessages.INVALID_HIERARCHY_VERSION
                      ));
     }
     return Success(mutatedItem);
