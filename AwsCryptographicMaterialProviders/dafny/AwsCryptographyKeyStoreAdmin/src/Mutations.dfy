@@ -4,6 +4,7 @@ include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "MutationStateStructures.dfy"
 include "MutationErrorRefinement.dfy"
 include "KmsUtils.dfy"
+include "KeyStoreAdminErrorMessages.dfy"
 
 /** Common Functions/Methods for Mutations. */
 module {:options "/functionSyntax:4" } Mutations {
@@ -21,6 +22,7 @@ module {:options "/functionSyntax:4" } Mutations {
 
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
+  import ErrorMessages = KeyStoreAdminErrorMessages
   import MutationErrorRefinement
   import KmsUtils
 
@@ -107,7 +109,7 @@ module {:options "/functionSyntax:4" } Mutations {
     if (isTerminalHv2?) {
       // TODO-HV-2-M2: Add test to cover the if condition of this code path
       // TODO-HV-2-M4: Support other key manager strategy
-      :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:="Only KeyManagementStrategy.AwsKmsSimple is allowed when mutating to hv-2."));
+      :- Need(keyManagerStrategy.kmsSimple?, Types.KeyStoreAdminException(message:=ErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY_HV_2));
       var decryptRes := GetKeys.DecryptBranchKeyItem(
         item,
         KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
