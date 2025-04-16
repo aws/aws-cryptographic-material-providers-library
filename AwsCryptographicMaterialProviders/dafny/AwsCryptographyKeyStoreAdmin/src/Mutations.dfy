@@ -221,7 +221,6 @@ module {:options "/functionSyntax:4" } Mutations {
       );
       return error;
     }
-
   }
 
   method {:isolate_asserations} NewActiveItemForDecryptEncrypt(
