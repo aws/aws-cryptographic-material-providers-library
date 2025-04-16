@@ -68,6 +68,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   function {:isolate_assertions} ValidateInitializeMutationInput(
     input: InternalInitializeMutationInput
   ): (output: Result<InternalInitializeMutationInput, Types.Error>)
+    requires input.ValidState()
     ensures
       output.Success?
       ==>
