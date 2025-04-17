@@ -759,7 +759,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         ));
   }
 
-  method {:only} InitializeMutationActiveMutate(
+  method InitializeMutationActiveMutate(
     localInput: InitializeMutationActiveInput
   )
     returns (output: Result<InitializeMutationActiveOutput, Types.Error>)
