@@ -15,29 +15,26 @@ module TestLyingBranchKey {
   import UTF8
   import ErrorMessages = KeyStoreErrorMessages
 
-  // Define the subset of KMS errors we care about
-  type KmsTestError = e: ComAmazonawsKmsTypes.Error | (
-        || e.IncorrectKeyException?
-        || e.InvalidCiphertextException?
-      ) witness *
-
   // Helper method to verify if an error matches the expected KMS error type
   method VerifyKMSError(
     actual: Types.Error,
-    expected: KmsTestError
+    expected: Types.Error
   ) {
     match actual {
       case ComAmazonawsKms(nestedError) =>
+        expect expected.ComAmazonawsKms?;
         match nestedError {
           case IncorrectKeyException(_) =>
-            expect expected.IncorrectKeyException?;
+            expect expected.ComAmazonawsKms.IncorrectKeyException?;
           case InvalidCiphertextException(_) =>
-            expect expected.InvalidCiphertextException?;
+            expect expected.ComAmazonawsKms.InvalidCiphertextException?;
           case _ =>
             expect false, "Unexpected KMS error type";
         }
+      case BranchKeyCiphertextException(_) =>
+        expect expected.BranchKeyCiphertextException?;
       case _ =>
-        expect false, "Expected KMS error but got different error type";
+        expect false, "Expected KMS error or BranchKeyCiphertextException, but got different error type";
     }
   }
 
@@ -51,7 +48,7 @@ module TestLyingBranchKey {
   // Thus, all Keystore Operations related to the Branch Key MUST fail with exceptions from KMS.
   // The branch key claims to be protected by KMS Arn (postalHornKeyArn)
   // but was actually encrypted using a different KMS key (keyArn)
-  // Expected: KMS IncorrectKeyException
+  // Expected Error: KMS IncorrectKeyException
   method {:test} TestHv1GetKeysForLyingBranchKey() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
@@ -60,7 +57,7 @@ module TestLyingBranchKey {
     TestBranchKeyOperationsExpectsException(
       id := hierarchyV1InvalidKmsArnId,
       version := hierarchyV1InvalidKmsArnVersion,
-      expectedError := ComAmazonawsKmsTypes.Error.IncorrectKeyException,
+      expectedError := Types.Error.ComAmazonawsKms(ComAmazonawsKmsTypes.Error.IncorrectKeyException),
       keyStore := keyStore
     );
   }
@@ -71,7 +68,7 @@ module TestLyingBranchKey {
   // Thus, all Keystore Operations related to the Branch Key MUST fail with exceptions from KMS.
   // DDB Item KMS ARN:      Fixtures.dfy#postalHornKeyArn
   // Actual KMS ARN used:   Fixtures.dfy#keyArn
-  // Expected: KMS.IncorrectKeyException
+  // Expected Error: KMS.IncorrectKeyException
   method {:test} TestHv2GetKeysForLyingBranchKeyWrongKmsArn() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
@@ -80,15 +77,15 @@ module TestLyingBranchKey {
     TestBranchKeyOperationsExpectsException(
       id := hierarchyV2InvalidKmsArnId,
       version := hierarchyV2InvalidKmsArnVersion,
-      expectedError := ComAmazonawsKmsTypes.Error.IncorrectKeyException,
+      expectedError := Types.Error.ComAmazonawsKms(ComAmazonawsKmsTypes.Error.IncorrectKeyException),
       keyStore := keyStore
     );
   }
 
-  // Test Case: Mismatched Encryption Context
-  // The Branch Key's encryption context in DDB: "TamperedKey:TamperedValue"
-  // Actual encryption context used with KMS Requests: "ExampleContextKey:ExampleContextValue"
-  // Expected: KMS.InvalidCiphertextException due to encryption context mismatch
+  // Test Case: Create Time Tampering
+  // The Branch Key's creation time in DDB: "1970-01-01T00:00:00.000000Z"
+  // Actual creation time when Branch Key was created: "2025-04-17T19:11:28.000676Z"
+  // Expected: BranchKeyCiphertextException due to wrong BKC digest
   method {:test} TestHv2GetKeysForLyingBranchKeyWrongDigest() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
@@ -97,7 +94,7 @@ module TestLyingBranchKey {
     TestBranchKeyOperationsExpectsException(
       id := hierarchyV2InvalidDigestId,
       version := hierarchyV2InvalidDigestVersion,
-      expectedError := ComAmazonawsKmsTypes.Error.InvalidCiphertextException,
+      expectedError := Types.Error.BranchKeyCiphertextException(message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED),
       keyStore := keyStore
     );
   }
@@ -114,7 +111,40 @@ module TestLyingBranchKey {
     TestBranchKeyOperationsExpectsException(
       id := hierarchyV2InvalidCiphertextLengthId,
       version := hierarchyV2InvalidCiphertextLengthVersion,
-      expectedError := ComAmazonawsKmsTypes.Error.InvalidCiphertextException,
+      expectedError := Types.Error.ComAmazonawsKms(ComAmazonawsKmsTypes.Error.InvalidCiphertextException),
+      keyStore := keyStore
+    );
+  }
+
+  // Test Case: Missing Encryption Context
+  // The Branch Key's encryption context in DDB: "TamperedKey:TamperedValue"
+  // Actual encryption context used with KMS Requests: "ExampleContextKey:ExampleContextValue"
+  // Expected Error: KMS.InvalidCiphertextException due to encryption context mismatch
+  method {:test} TestHv2GetKeysForLyingBranchKeyMissingPrefixedEC() {
+    var ddbClient :- expect ProvideDDBClient();
+    var kmsClient :- expect ProvideKMSClient();
+    var keyStore :- expect DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+
+    TestBranchKeyOperationsExpectsException(
+      id := hierarchyV2MissingPrefixedECId,
+      version := hierarchyV2MissingPrefixedECVersion,
+      expectedError := Types.Error.ComAmazonawsKms(ComAmazonawsKmsTypes.Error.InvalidCiphertextException),
+      keyStore := keyStore
+    );
+  }
+
+  // Test Case: Unexpected Encryption Context
+  // The Branch Key's encryption context in DDB includes additional unmodeled EC: "unexpected-key:unexpected-value"
+  // Expected Error: KMS.InvalidCiphertextException due to unexpected encryption context
+  method {:test} TestHv2GetKeysForLyingBranchKeyUnexpectedEC() {
+    var ddbClient :- expect ProvideDDBClient();
+    var kmsClient :- expect ProvideKMSClient();
+    var keyStore :- expect DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+
+    TestBranchKeyOperationsExpectsException(
+      id := hierarchyV2UnexpectedECId,
+      version := hierarchyV2UnexpectedECVersion,
+      expectedError := Types.Error.ComAmazonawsKms(ComAmazonawsKmsTypes.Error.InvalidCiphertextException),
       keyStore := keyStore
     );
   }
@@ -126,7 +156,7 @@ module TestLyingBranchKey {
   method TestBranchKeyOperationsExpectsException(
     id: string,
     version : string,
-    expectedError : KmsTestError,
+    expectedError : Types.Error,
     keyStore: Types.IKeyStoreClient
   )
     requires keyStore.ValidState()

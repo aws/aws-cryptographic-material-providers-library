@@ -262,7 +262,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     nameonly id: string,
     nameonly kmsId: string := Fixtures.keyArn,
     nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1,
-    nameonly strategy: Option<Types.KeyManagementStrategy> := None,
+    nameonly strategy: Types.KeyManagementStrategy,
     nameonly admin?: Option<Types.IKeyStoreAdminClient> := None,
     // nameonly versionCount: nat := 3,
     nameonly customEC: KeyStoreTypes.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")]
@@ -285,7 +285,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
       Identifier := Some(id),
       EncryptionContext := Some(customEC),
       KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(kmsId),
-      Strategy := strategy,
+      Strategy := Some(strategy),
       HierarchyVersion := Some(hierarchyVersion)
     );
     var branchKeyId :- expect admin.CreateKey(input);

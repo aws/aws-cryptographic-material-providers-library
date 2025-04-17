@@ -136,10 +136,16 @@ module Fixtures {
   const hierarchyV2InvalidKmsArnVersion := "e3df6cf8-3edc-4781-998e-c4731b755452"
 
   const hierarchyV2InvalidDigestId := "DO-NOT-DELETE-test-hv2-get-key-wrong-digest"
-  const hierarchyV2InvalidDigestVersion := "6b89ed22-0c74-4bfa-921f-170285ab9c2f"
+  const hierarchyV2InvalidDigestVersion := "755404a1-a295-4ec9-ba13-c540e16515d5"
 
   const hierarchyV2InvalidCiphertextLengthId := "DO-NOT-DELETE-test-hv2-get-key-wrong-ciphertext"
   const hierarchyV2InvalidCiphertextLengthVersion := "94a3bb88-bbaa-4830-99d4-7a949a02f4a1"
+
+  const hierarchyV2MissingPrefixedECId := "DO-NOT-DELETE-test-hv2-get-key-missing-prefixed-ec"
+  const hierarchyV2MissingPrefixedECVersion := "d3e7b039-71fb-41af-8549-2564a170935c"
+
+  const hierarchyV2UnexpectedECId := "DO-NOT-DELETE-test-hv2-get-key-unexpected-ec"
+  const hierarchyV2UnexpectedECVersion := "a01eec17-9b1c-4f4a-9b66-2c84816854ac"
 
   // This function is the lie we will tell ourselves
   // about what the mutation scope is.
