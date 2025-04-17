@@ -5,6 +5,7 @@ include "MutationStateStructures.dfy"
 include "MutationErrorRefinement.dfy"
 include "KmsUtils.dfy"
 include "KeyStoreAdminErrorMessages.dfy"
+include "CreateKeysHV2.dfy"
 
 /** Common Functions/Methods for Mutations. */
 module {:options "/functionSyntax:4" } Mutations {
@@ -12,6 +13,7 @@ module {:options "/functionSyntax:4" } Mutations {
   import opened Wrappers
   import opened Seq
   import KMS = ComAmazonawsKmsTypes
+  import opened UInt = StandardLibrary.UInt
 
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
   import Structure
@@ -28,6 +30,7 @@ module {:options "/functionSyntax:4" } Mutations {
   import KeyStoreAdminErrorMessages
   import MutationErrorRefinement
   import KmsUtils
+  import CreateKeysHV2
 
   // ActiveVerificationHolder stores the decrypted branch key after verification (KMS decryption for hv1, KMS decryption + SHA validation for hv2)
   // With ActiveVerificationHolder, we can avoid redundant decryption during mutations
@@ -451,6 +454,12 @@ module {:options "/functionSyntax:4" } Mutations {
     requires item.Type.HierarchicalSymmetricVersion?
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires MutationToApply.ValidState()
+    requires item.EncryptionContext[Structure.HIERARCHY_VERSION] == HvUtils.HierarchyVersionToString(MutationToApply.Original.hierarchyVersion)
+    requires var terminalHierarchyVersion := HvUtils.HierarchyVersionToString(MutationToApply.Terminal.hierarchyVersion);
+             && terminalHierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_1
+             ==>
+               && MutationToApply.Original.hierarchyVersion == MutationToApply.Terminal.hierarchyVersion
+               && terminalHierarchyVersion == item.EncryptionContext[Structure.HIERARCHY_VERSION]
     ensures Structure.EncryptedHierarchicalKeyFromStorage?(output.item)
     ensures
       && output.itemOriginal?
@@ -514,7 +523,12 @@ module {:options "/functionSyntax:4" } Mutations {
   {
     var mutatedItem: KeyStoreTypes.EncryptedHierarchicalKey;
     if (mutationToApply.Terminal.hierarchyVersion.v1?) {
-      // TODO-HV-2-M2: Wire up MutateToHV2 once hierarchyVersion is added to MutableProperties
+      :- Need(
+        item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
+        Types.UnsupportedFeatureException(
+          message := "Downgrading hierarchical version (example: from v2 to v1) is not supported."
+        )
+      );
       mutatedItem :- MutateToHV1(
         item,
         mutationToApply,
@@ -552,6 +566,8 @@ module {:options "/functionSyntax:4" } Mutations {
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
     requires keyManagerStrategy.SupportHV1()
+    requires mutationToApply.Terminal.hierarchyVersion.v1?
+    requires HvUtils.HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion) == Structure.HIERARCHY_VERSION_VALUE_1 == item.EncryptionContext[Structure.HIERARCHY_VERSION]
   {
     var terminalEncryptionContext := Structure.ReplaceMutableContext(
       item.EncryptionContext,
@@ -589,6 +605,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires localOperation == "ApplyMutation" || localOperation == "InitializeMutation"
     requires aes256Key?.Some? ==> |aes256Key?.value| == Structure.AES_256_LENGTH as int
+    requires HvUtils.HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion) == Structure.HIERARCHY_VERSION_VALUE_2
   {
     :- Need(
       keyManagerStrategy.kmsSimple?,
