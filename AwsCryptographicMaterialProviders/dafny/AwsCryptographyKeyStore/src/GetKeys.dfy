@@ -770,7 +770,7 @@ module GetKeys {
       return Success(plainTextKey);
     } else if hierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_2 {
       if !HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext) {
-        return Failure(Types.KeyStoreException(
+        return Failure(Types.BranchKeyCiphertextException(
                          message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
                        ));
       }
@@ -783,7 +783,7 @@ module GetKeys {
       );
       return Success(decryptResult);
     } else {
-      return Failure(Types.KeyStoreException(
+      return Failure(Types.HierarchyVersionException(
                        message := ErrorMessages.INVALID_HIERARCHY_VERSION
                      ));
     }

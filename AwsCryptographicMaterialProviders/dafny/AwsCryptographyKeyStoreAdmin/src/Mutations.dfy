@@ -87,7 +87,7 @@ module {:options "/functionSyntax:4" } Mutations {
     return Success(commitmentAndIndex);
   }
 
-  method {:isolate_assertions} VerifyEncryptedHierarchicalKey(
+  method {:only} {:isolate_assertions} VerifyEncryptedHierarchicalKey(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly localOperation: string := "ApplyMutation",
@@ -95,6 +95,7 @@ module {:options "/functionSyntax:4" } Mutations {
   )
     returns (output: Result<ActiveVerificationHolder,Types.Error>)
 
+    requires mutationToApply.ValidState()
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
     requires keyManagerStrategy.ValidState()
@@ -124,7 +125,8 @@ module {:options "/functionSyntax:4" } Mutations {
       );
       if decryptRes.Success? {
         return Success(ActiveVerificationHolder.KmsDecrypt(decryptRes.value));
-      } else {
+      }
+      if decryptRes.error.ComAmazonawsKms? || decryptRes.error.KeyManagementException? || decryptRes.error.BranchKeyCiphertextException? {
         var error := BuildVerificationError(
           item,
           decryptRes.error,
@@ -133,6 +135,9 @@ module {:options "/functionSyntax:4" } Mutations {
         );
         return Failure(error);
       }
+      return Failure(Types.AwsCryptographyKeyStore(
+                       AwsCryptographyKeyStore := decryptRes.error
+                     ));
     }
     var kmsOperation: string;
     match keyManagerStrategy {
