@@ -446,6 +446,10 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
     var output? := KeyStoreOperations.VersionKey(
+      // since we pass in the legacyConfig and not the datatype of keyManagerStrat
+      // we loose that information, but it doesn't matter because both
+      // reEncrypt and kmsSimple use one client. It is up to the customer
+      // to make sure they are passing the right client with the right permissions. 
       config := legacyConfig,
       input := KeyStoreOperations.Types.VersionKeyInput(
         branchKeyIdentifier := input.Identifier
