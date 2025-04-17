@@ -317,7 +317,7 @@ module {:options "/functionSyntax:4" } Mutations {
     ensures input.Post()
     modifies input.Modifies
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
-    requires input.keyManagerStrategy.decryptEncrypt? || input.keyManagerStrategy.reEncrypt?
+    requires input.keyManagerStrategy.decryptEncrypt? || input.keyManagerStrategy.reEncrypt? || input.keyManagerStrategy.kmsSimple?
     requires input.item.EncryptionContext[Structure.KMS_FIELD] == input.originalKmsArn
     requires input.terminalEncryptionContext[Structure.KMS_FIELD] == input.terminalKmsArn
   {

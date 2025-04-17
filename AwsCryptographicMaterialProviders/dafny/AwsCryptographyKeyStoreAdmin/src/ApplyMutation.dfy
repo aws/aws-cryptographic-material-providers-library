@@ -22,6 +22,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     // KeyStoreAdmin Imports
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
+  import HvUtils = HierarchicalVersionUtils
   import KmsUtils
   import MutationIndexUtils
   import SystemKeyHandler = SystemKey.Handler
@@ -120,7 +121,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   }
 
 
-  method {:isolate_assertions} ApplyMutation(
+  method {:only} {:isolate_assertions} ApplyMutation(
     input: InternalApplyMutationInput
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
@@ -174,6 +175,17 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     );
     // -= Query for page Size Branch Key Items
     var queryOut :- QueryForVersionsAndValidate(input, MutationToApply);
+
+    for i := 0 to |queryOut.Items|
+    {
+      var item := queryOut.Items[i];
+      :- Need(
+        item.EncryptionContext[Structure.HIERARCHY_VERSION] == HvUtils.HierarchyVersionToString(MutationToApply.Original.hierarchyVersion),
+        Types.UnsupportedFeatureException(
+          message := "Downgrading hierarchical version (example: from v2 to v1) is not supported."
+        )
+      );
+    }
 
     var queryOutItems := Seq.Map(
       item
