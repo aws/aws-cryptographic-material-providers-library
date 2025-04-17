@@ -63,6 +63,15 @@ module {:options "/functionSyntax:4" } Structure {
   //# Across all versions of a Branch Key, the custom encryption context MUST be equal.
   // At this time, we have no operation that reads all the records of a Branch Key ID.
 
+  type ValidBKType = s: string | ValidBKType?(s) witness *
+  predicate ValidBKType?(s: string) {
+    || BRANCH_KEY_TYPE_PREFIX < s
+    || s == BRANCH_KEY_ACTIVE_TYPE
+    || s == BEACON_KEY_TYPE_VALUE
+    || s == MUTATION_COMMITMENT_TYPE
+    || s == MUTATION_INDEX_TYPE
+  }
+
   type PrefixedEncryptionContext = m: map<string, string> | PrefixedEncryptionContext?(m) witness *
   predicate PrefixedEncryptionContext?(m: map<string, string>) {
     && m.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES
@@ -776,12 +785,19 @@ module {:options "/functionSyntax:4" } Structure {
          ToEncryptedHierarchicalKey(item, key.EncryptionContext[TABLE_FIELD]) == key
   {}
 
-  predicate MutationCommitmentAttribute?(m: DDB.AttributeMap) {
+  predicate MutationCommitmentAttribute?(
+    m: DDB.AttributeMap,
+    schemaVersion: string := HIERARCHY_VERSION_VALUE_2
+  )
+    requires StringIsValidHierarchyVersion?(schemaVersion)
+  {
     && BRANCH_KEY_IDENTIFIER_FIELD in m && m[BRANCH_KEY_IDENTIFIER_FIELD].S?
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && TYPE_FIELD in m && m[TYPE_FIELD].S?
     && M_UUID in m && m[M_UUID].S?
-    && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N? && m[HIERARCHY_VERSION].N == HIERARCHY_VERSION_VALUE
+    && HIERARCHY_VERSION in m
+    && m[HIERARCHY_VERSION].N?
+    && m[HIERARCHY_VERSION].N == schemaVersion
 
     && 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD].S|
     && 0 < |m[TYPE_FIELD].S|
@@ -823,9 +839,12 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   function ToMutationCommitment(
-    item: DDB.AttributeMap
+    item: DDB.AttributeMap,
+    schemaVersion: string := HIERARCHY_VERSION_VALUE_2
   ): (output: Types.MutationCommitment)
-    requires MutationCommitmentAttribute?(item)
+    requires
+      && StringIsValidHierarchyVersion?(schemaVersion)
+      && MutationCommitmentAttribute?(item, schemaVersion)
     ensures MutationCommitment?(output)
   {
     Types.MutationCommitment(
@@ -840,21 +859,24 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   function MutationCommitmentToAttributeMap(
-    lock: Types.MutationCommitment
+    commitment: Types.MutationCommitment
   ): (output: DDB.AttributeMap)
-    requires MutationCommitment?(lock)
+    requires MutationCommitment?(commitment)
     ensures MutationCommitmentAttribute?(output)
   {
     map[
       TYPE_FIELD := DDB.AttributeValue.S(MUTATION_COMMITMENT_TYPE),
-      HIERARCHY_VERSION := HIERARCHY_VERSION_ATTRIBUTE_VALUE,
-      BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(lock.Identifier),
-      KEY_CREATE_TIME := DDB.AttributeValue.S(lock.CreateTime),
-      M_UUID := DDB.AttributeValue.S(lock.UUID),
-      M_ORIGINAL := DDB.AttributeValue.B(lock.Original),
-      M_TERMINAL := DDB.AttributeValue.B(lock.Terminal),
-      ENC_FIELD := DDB.AttributeValue.B(lock.CiphertextBlob),
-      M_INPUT := DDB.AttributeValue.B(lock.Input)
+      // The `hierarchy-version` for all post-HV-2 Mutation Items
+      // is `2`, regardless of the terminal HV (that information is embedded in the binary fields).
+      // This prevents pre-HV-2 versions of the library from throwing a confusing error.
+      HIERARCHY_VERSION := HIERARCHY_VERSION_ATTRIBUTE_VALUE_2,
+      BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(commitment.Identifier),
+      KEY_CREATE_TIME := DDB.AttributeValue.S(commitment.CreateTime),
+      M_UUID := DDB.AttributeValue.S(commitment.UUID),
+      M_ORIGINAL := DDB.AttributeValue.B(commitment.Original),
+      M_TERMINAL := DDB.AttributeValue.B(commitment.Terminal),
+      ENC_FIELD := DDB.AttributeValue.B(commitment.CiphertextBlob),
+      M_INPUT := DDB.AttributeValue.B(commitment.Input)
     ]
   }
 
@@ -868,11 +890,20 @@ module {:options "/functionSyntax:4" } Structure {
       ToMutationCommitment(item) == lock <==> MutationCommitmentToAttributeMap(lock) == item
   {}
 
-  predicate MutationIndexAttribute?(m: DDB.AttributeMap) {
+  predicate MutationIndexAttribute?(
+    m: DDB.AttributeMap,
+    schemaVersion: string := HIERARCHY_VERSION_VALUE_2
+  )
+    requires StringIsValidHierarchyVersion?(schemaVersion)
+  {
     && BRANCH_KEY_IDENTIFIER_FIELD in m && m[BRANCH_KEY_IDENTIFIER_FIELD].S? && 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD].S|
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && TYPE_FIELD in m && m[TYPE_FIELD].S? && 0 < |m[TYPE_FIELD].S|
-    && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N? && m[HIERARCHY_VERSION].N == HIERARCHY_VERSION_VALUE
+
+    && HIERARCHY_VERSION in m
+    && m[HIERARCHY_VERSION].N?
+    && m[HIERARCHY_VERSION].N == schemaVersion
+
     && M_UUID in m && m[M_UUID].S? && 0 < |m[M_UUID].S|
 
     && (forall k <- m.Keys - {M_PAGE_INDEX, HIERARCHY_VERSION, ENC_FIELD} :: m[k].S?)
@@ -903,9 +934,12 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   function ToMutationIndex(
-    item: DDB.AttributeMap
+    item: DDB.AttributeMap,
+    schemaVersion: string := HIERARCHY_VERSION_VALUE_2
   ): (output: Types.MutationIndex)
-    requires MutationIndexAttribute?(item)
+    requires
+      && StringIsValidHierarchyVersion?(schemaVersion)
+      && MutationIndexAttribute?(item, schemaVersion)
     ensures MutationIndex?(output)
   {
     Types.MutationIndex(
@@ -925,7 +959,10 @@ module {:options "/functionSyntax:4" } Structure {
   {
     map[
       TYPE_FIELD := DDB.AttributeValue.S(MUTATION_INDEX_TYPE),
-      HIERARCHY_VERSION := HIERARCHY_VERSION_ATTRIBUTE_VALUE,
+      // The `hierarchy-version` for all post-HV-2 Mutation Items
+      // is `2`, regardless of the terminal HV (that information is embedded in the binary fields).
+      // This prevents pre-HV-2 versions of the library from throwing a confusing error.
+      HIERARCHY_VERSION := HIERARCHY_VERSION_ATTRIBUTE_VALUE_2,
       BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(index.Identifier),
       KEY_CREATE_TIME := DDB.AttributeValue.S(index.CreateTime),
       M_UUID := DDB.AttributeValue.S(index.UUID),
