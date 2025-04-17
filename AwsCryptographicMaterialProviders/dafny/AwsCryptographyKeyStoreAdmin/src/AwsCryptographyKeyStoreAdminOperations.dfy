@@ -427,10 +427,21 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   {
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     :- Need(
-      keyManagerStrat.reEncrypt?,
-      Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
+      !keyManagerStrat.decryptEncrypt?,
+      Types.KeyStoreAdminException(
+        message := 
+          "Decrypt Encrypt keyManager strategy is not supported "
+          + "for VersionKey operation.")
     );
-    var legacyConfig :- LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config);
+
+    var legacyConfig :- 
+      if keyManagerStrat.reEncrypt? then
+        LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config)
+      else 
+        LegacyConfig(keyManagerStrat.kmsSimple, input.KmsArn, config);
+
+
+    // var legacyConfig :- LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config);
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
