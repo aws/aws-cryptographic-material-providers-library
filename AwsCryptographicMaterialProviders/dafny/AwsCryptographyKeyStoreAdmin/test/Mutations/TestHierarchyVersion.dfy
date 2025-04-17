@@ -121,7 +121,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
 
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var keyStoreOriginal :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
     var keyStoreTerminal :- expect Fixtures.DefaultKeyStore(
       kmsId:=Fixtures.postalHornKeyArn,
