@@ -3,8 +3,6 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.materialproviders.model;
 
-import java.util.Objects;
-
 /**
  * A cache that is safe for use in a multi threaded environment,
  * and tries to prevent redundant or overly parallel backend calls.
@@ -14,38 +12,38 @@ public class StormTrackingCache {
   /**
    * Maximum number of entries cached.
    */
-  private final Integer entryCapacity;
+  private final int entryCapacity;
 
   /**
    * Number of entries to prune at a time.
    */
-  private final Integer entryPruningTailSize;
+  private final int entryPruningTailSize;
 
   /**
    * How much time before expiration should an attempt be made to refresh the materials.
    *   If zero, use a simple cache with no storm tracking.
    */
-  private final Integer gracePeriod;
+  private final int gracePeriod;
 
   /**
    * How much time between attempts to refresh the materials.
    */
-  private final Integer graceInterval;
+  private final int graceInterval;
 
   /**
    * How many simultaneous attempts to refresh the materials.
    */
-  private final Integer fanOut;
+  private final int fanOut;
 
   /**
    * How much time until an attempt to refresh the materials should be forgotten.
    */
-  private final Integer inFlightTTL;
+  private final int inFlightTTL;
 
   /**
    * How many milliseconds should a thread sleep if fanOut is exceeded.
    */
-  private final Integer sleepMilli;
+  private final int sleepMilli;
 
   /**
    * The time unit for gracePeriod, graceInterval, and inFlightTTL.
@@ -68,14 +66,14 @@ public class StormTrackingCache {
   /**
    * @return Maximum number of entries cached.
    */
-  public Integer entryCapacity() {
+  public int entryCapacity() {
     return this.entryCapacity;
   }
 
   /**
    * @return Number of entries to prune at a time.
    */
-  public Integer entryPruningTailSize() {
+  public int entryPruningTailSize() {
     return this.entryPruningTailSize;
   }
 
@@ -83,35 +81,35 @@ public class StormTrackingCache {
    * @return How much time before expiration should an attempt be made to refresh the materials.
    *   If zero, use a simple cache with no storm tracking.
    */
-  public Integer gracePeriod() {
+  public int gracePeriod() {
     return this.gracePeriod;
   }
 
   /**
    * @return How much time between attempts to refresh the materials.
    */
-  public Integer graceInterval() {
+  public int graceInterval() {
     return this.graceInterval;
   }
 
   /**
    * @return How many simultaneous attempts to refresh the materials.
    */
-  public Integer fanOut() {
+  public int fanOut() {
     return this.fanOut;
   }
 
   /**
    * @return How much time until an attempt to refresh the materials should be forgotten.
    */
-  public Integer inFlightTTL() {
+  public int inFlightTTL() {
     return this.inFlightTTL;
   }
 
   /**
    * @return How many milliseconds should a thread sleep if fanOut is exceeded.
    */
-  public Integer sleepMilli() {
+  public int sleepMilli() {
     return this.sleepMilli;
   }
 
@@ -136,74 +134,74 @@ public class StormTrackingCache {
     /**
      * @param entryCapacity Maximum number of entries cached.
      */
-    Builder entryCapacity(Integer entryCapacity);
+    Builder entryCapacity(int entryCapacity);
 
     /**
      * @return Maximum number of entries cached.
      */
-    Integer entryCapacity();
+    int entryCapacity();
 
     /**
      * @param entryPruningTailSize Number of entries to prune at a time.
      */
-    Builder entryPruningTailSize(Integer entryPruningTailSize);
+    Builder entryPruningTailSize(int entryPruningTailSize);
 
     /**
      * @return Number of entries to prune at a time.
      */
-    Integer entryPruningTailSize();
+    int entryPruningTailSize();
 
     /**
      * @param gracePeriod How much time before expiration should an attempt be made to refresh the materials.
      *   If zero, use a simple cache with no storm tracking.
      */
-    Builder gracePeriod(Integer gracePeriod);
+    Builder gracePeriod(int gracePeriod);
 
     /**
      * @return How much time before expiration should an attempt be made to refresh the materials.
      *   If zero, use a simple cache with no storm tracking.
      */
-    Integer gracePeriod();
+    int gracePeriod();
 
     /**
      * @param graceInterval How much time between attempts to refresh the materials.
      */
-    Builder graceInterval(Integer graceInterval);
+    Builder graceInterval(int graceInterval);
 
     /**
      * @return How much time between attempts to refresh the materials.
      */
-    Integer graceInterval();
+    int graceInterval();
 
     /**
      * @param fanOut How many simultaneous attempts to refresh the materials.
      */
-    Builder fanOut(Integer fanOut);
+    Builder fanOut(int fanOut);
 
     /**
      * @return How many simultaneous attempts to refresh the materials.
      */
-    Integer fanOut();
+    int fanOut();
 
     /**
      * @param inFlightTTL How much time until an attempt to refresh the materials should be forgotten.
      */
-    Builder inFlightTTL(Integer inFlightTTL);
+    Builder inFlightTTL(int inFlightTTL);
 
     /**
      * @return How much time until an attempt to refresh the materials should be forgotten.
      */
-    Integer inFlightTTL();
+    int inFlightTTL();
 
     /**
      * @param sleepMilli How many milliseconds should a thread sleep if fanOut is exceeded.
      */
-    Builder sleepMilli(Integer sleepMilli);
+    Builder sleepMilli(int sleepMilli);
 
     /**
      * @return How many milliseconds should a thread sleep if fanOut is exceeded.
      */
-    Integer sleepMilli();
+    int sleepMilli();
 
     /**
      * @param timeUnits The time unit for gracePeriod, graceInterval, and inFlightTTL.
@@ -224,19 +222,33 @@ public class StormTrackingCache {
 
   static class BuilderImpl implements Builder {
 
-    protected Integer entryCapacity;
+    protected int entryCapacity;
 
-    protected Integer entryPruningTailSize;
+    private boolean _entryCapacitySet = false;
 
-    protected Integer gracePeriod;
+    protected int entryPruningTailSize;
 
-    protected Integer graceInterval;
+    private boolean _entryPruningTailSizeSet = false;
 
-    protected Integer fanOut;
+    protected int gracePeriod;
 
-    protected Integer inFlightTTL;
+    private boolean _gracePeriodSet = false;
 
-    protected Integer sleepMilli;
+    protected int graceInterval;
+
+    private boolean _graceIntervalSet = false;
+
+    protected int fanOut;
+
+    private boolean _fanOutSet = false;
+
+    protected int inFlightTTL;
+
+    private boolean _inFlightTTLSet = false;
+
+    protected int sleepMilli;
+
+    private boolean _sleepMilliSet = false;
 
     protected TimeUnits timeUnits;
 
@@ -244,75 +256,89 @@ public class StormTrackingCache {
 
     protected BuilderImpl(StormTrackingCache model) {
       this.entryCapacity = model.entryCapacity();
+      this._entryCapacitySet = true;
       this.entryPruningTailSize = model.entryPruningTailSize();
+      this._entryPruningTailSizeSet = true;
       this.gracePeriod = model.gracePeriod();
+      this._gracePeriodSet = true;
       this.graceInterval = model.graceInterval();
+      this._graceIntervalSet = true;
       this.fanOut = model.fanOut();
+      this._fanOutSet = true;
       this.inFlightTTL = model.inFlightTTL();
+      this._inFlightTTLSet = true;
       this.sleepMilli = model.sleepMilli();
+      this._sleepMilliSet = true;
       this.timeUnits = model.timeUnits();
     }
 
-    public Builder entryCapacity(Integer entryCapacity) {
+    public Builder entryCapacity(int entryCapacity) {
       this.entryCapacity = entryCapacity;
+      this._entryCapacitySet = true;
       return this;
     }
 
-    public Integer entryCapacity() {
+    public int entryCapacity() {
       return this.entryCapacity;
     }
 
-    public Builder entryPruningTailSize(Integer entryPruningTailSize) {
+    public Builder entryPruningTailSize(int entryPruningTailSize) {
       this.entryPruningTailSize = entryPruningTailSize;
+      this._entryPruningTailSizeSet = true;
       return this;
     }
 
-    public Integer entryPruningTailSize() {
+    public int entryPruningTailSize() {
       return this.entryPruningTailSize;
     }
 
-    public Builder gracePeriod(Integer gracePeriod) {
+    public Builder gracePeriod(int gracePeriod) {
       this.gracePeriod = gracePeriod;
+      this._gracePeriodSet = true;
       return this;
     }
 
-    public Integer gracePeriod() {
+    public int gracePeriod() {
       return this.gracePeriod;
     }
 
-    public Builder graceInterval(Integer graceInterval) {
+    public Builder graceInterval(int graceInterval) {
       this.graceInterval = graceInterval;
+      this._graceIntervalSet = true;
       return this;
     }
 
-    public Integer graceInterval() {
+    public int graceInterval() {
       return this.graceInterval;
     }
 
-    public Builder fanOut(Integer fanOut) {
+    public Builder fanOut(int fanOut) {
       this.fanOut = fanOut;
+      this._fanOutSet = true;
       return this;
     }
 
-    public Integer fanOut() {
+    public int fanOut() {
       return this.fanOut;
     }
 
-    public Builder inFlightTTL(Integer inFlightTTL) {
+    public Builder inFlightTTL(int inFlightTTL) {
       this.inFlightTTL = inFlightTTL;
+      this._inFlightTTLSet = true;
       return this;
     }
 
-    public Integer inFlightTTL() {
+    public int inFlightTTL() {
       return this.inFlightTTL;
     }
 
-    public Builder sleepMilli(Integer sleepMilli) {
+    public Builder sleepMilli(int sleepMilli) {
       this.sleepMilli = sleepMilli;
+      this._sleepMilliSet = true;
       return this;
     }
 
-    public Integer sleepMilli() {
+    public int sleepMilli() {
       return this.sleepMilli;
     }
 
@@ -326,70 +352,67 @@ public class StormTrackingCache {
     }
 
     public StormTrackingCache build() {
-      if (Objects.isNull(this.entryCapacity())) {
+      if (!this._entryCapacitySet) {
         throw new IllegalArgumentException(
           "Missing value for required field `entryCapacity`"
         );
       }
-      if (Objects.nonNull(this.entryCapacity()) && this.entryCapacity() < 1) {
+      if (this._entryCapacitySet && this.entryCapacity() < 1) {
         throw new IllegalArgumentException(
           "`entryCapacity` must be greater than or equal to 1"
         );
       }
-      if (
-        Objects.nonNull(this.entryPruningTailSize()) &&
-        this.entryPruningTailSize() < 1
-      ) {
+      if (this._entryPruningTailSizeSet && this.entryPruningTailSize() < 1) {
         throw new IllegalArgumentException(
           "`entryPruningTailSize` must be greater than or equal to 1"
         );
       }
-      if (Objects.isNull(this.gracePeriod())) {
+      if (!this._gracePeriodSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `gracePeriod`"
         );
       }
-      if (Objects.nonNull(this.gracePeriod()) && this.gracePeriod() < 1) {
+      if (this._gracePeriodSet && this.gracePeriod() < 1) {
         throw new IllegalArgumentException(
           "`gracePeriod` must be greater than or equal to 1"
         );
       }
-      if (Objects.isNull(this.graceInterval())) {
+      if (!this._graceIntervalSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `graceInterval`"
         );
       }
-      if (Objects.nonNull(this.graceInterval()) && this.graceInterval() < 1) {
+      if (this._graceIntervalSet && this.graceInterval() < 1) {
         throw new IllegalArgumentException(
           "`graceInterval` must be greater than or equal to 1"
         );
       }
-      if (Objects.isNull(this.fanOut())) {
+      if (!this._fanOutSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `fanOut`"
         );
       }
-      if (Objects.nonNull(this.fanOut()) && this.fanOut() < 1) {
+      if (this._fanOutSet && this.fanOut() < 1) {
         throw new IllegalArgumentException(
           "`fanOut` must be greater than or equal to 1"
         );
       }
-      if (Objects.isNull(this.inFlightTTL())) {
+      if (!this._inFlightTTLSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `inFlightTTL`"
         );
       }
-      if (Objects.nonNull(this.inFlightTTL()) && this.inFlightTTL() < 1) {
+      if (this._inFlightTTLSet && this.inFlightTTL() < 1) {
         throw new IllegalArgumentException(
           "`inFlightTTL` must be greater than or equal to 1"
         );
       }
-      if (Objects.isNull(this.sleepMilli())) {
+      if (!this._sleepMilliSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `sleepMilli`"
         );
       }
-      if (Objects.nonNull(this.sleepMilli()) && this.sleepMilli() < 1) {
+      if (this._sleepMilliSet && this.sleepMilli() < 1) {
         throw new IllegalArgumentException(
           "`sleepMilli` must be greater than or equal to 1"
         );

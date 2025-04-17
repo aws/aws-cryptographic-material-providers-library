@@ -3,17 +3,15 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.primitives.model;
 
-import java.util.Objects;
-
 public class GenerateRandomBytesInput {
 
-  private final Integer length;
+  private final int length;
 
   protected GenerateRandomBytesInput(BuilderImpl builder) {
     this.length = builder.length();
   }
 
-  public Integer length() {
+  public int length() {
     return this.length;
   }
 
@@ -26,39 +24,43 @@ public class GenerateRandomBytesInput {
   }
 
   public interface Builder {
-    Builder length(Integer length);
+    Builder length(int length);
 
-    Integer length();
+    int length();
 
     GenerateRandomBytesInput build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected Integer length;
+    protected int length;
+
+    private boolean _lengthSet = false;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(GenerateRandomBytesInput model) {
       this.length = model.length();
+      this._lengthSet = true;
     }
 
-    public Builder length(Integer length) {
+    public Builder length(int length) {
       this.length = length;
+      this._lengthSet = true;
       return this;
     }
 
-    public Integer length() {
+    public int length() {
       return this.length;
     }
 
     public GenerateRandomBytesInput build() {
-      if (Objects.isNull(this.length())) {
+      if (!this._lengthSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `length`"
         );
       }
-      if (Objects.nonNull(this.length()) && this.length() < 0) {
+      if (this._lengthSet && this.length() < 0) {
         throw new IllegalArgumentException(
           "`length` must be greater than or equal to 0"
         );

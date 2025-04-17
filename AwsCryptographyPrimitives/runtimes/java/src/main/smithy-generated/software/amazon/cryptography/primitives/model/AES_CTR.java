@@ -3,24 +3,22 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.primitives.model;
 
-import java.util.Objects;
-
 public class AES_CTR {
 
-  private final Integer keyLength;
+  private final int keyLength;
 
-  private final Integer nonceLength;
+  private final int nonceLength;
 
   protected AES_CTR(BuilderImpl builder) {
     this.keyLength = builder.keyLength();
     this.nonceLength = builder.nonceLength();
   }
 
-  public Integer keyLength() {
+  public int keyLength() {
     return this.keyLength;
   }
 
-  public Integer nonceLength() {
+  public int nonceLength() {
     return this.nonceLength;
   }
 
@@ -33,75 +31,83 @@ public class AES_CTR {
   }
 
   public interface Builder {
-    Builder keyLength(Integer keyLength);
+    Builder keyLength(int keyLength);
 
-    Integer keyLength();
+    int keyLength();
 
-    Builder nonceLength(Integer nonceLength);
+    Builder nonceLength(int nonceLength);
 
-    Integer nonceLength();
+    int nonceLength();
 
     AES_CTR build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected Integer keyLength;
+    protected int keyLength;
 
-    protected Integer nonceLength;
+    private boolean _keyLengthSet = false;
+
+    protected int nonceLength;
+
+    private boolean _nonceLengthSet = false;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(AES_CTR model) {
       this.keyLength = model.keyLength();
+      this._keyLengthSet = true;
       this.nonceLength = model.nonceLength();
+      this._nonceLengthSet = true;
     }
 
-    public Builder keyLength(Integer keyLength) {
+    public Builder keyLength(int keyLength) {
       this.keyLength = keyLength;
+      this._keyLengthSet = true;
       return this;
     }
 
-    public Integer keyLength() {
+    public int keyLength() {
       return this.keyLength;
     }
 
-    public Builder nonceLength(Integer nonceLength) {
+    public Builder nonceLength(int nonceLength) {
       this.nonceLength = nonceLength;
+      this._nonceLengthSet = true;
       return this;
     }
 
-    public Integer nonceLength() {
+    public int nonceLength() {
       return this.nonceLength;
     }
 
     public AES_CTR build() {
-      if (Objects.isNull(this.keyLength())) {
+      if (!this._keyLengthSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `keyLength`"
         );
       }
-      if (Objects.nonNull(this.keyLength()) && this.keyLength() < 1) {
+      if (this._keyLengthSet && this.keyLength() < 1) {
         throw new IllegalArgumentException(
           "`keyLength` must be greater than or equal to 1"
         );
       }
-      if (Objects.nonNull(this.keyLength()) && this.keyLength() > 32) {
+      if (this._keyLengthSet && this.keyLength() > 32) {
         throw new IllegalArgumentException(
           "`keyLength` must be less than or equal to 32."
         );
       }
-      if (Objects.isNull(this.nonceLength())) {
+      if (!this._nonceLengthSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `nonceLength`"
         );
       }
-      if (Objects.nonNull(this.nonceLength()) && this.nonceLength() < 0) {
+      if (this._nonceLengthSet && this.nonceLength() < 0) {
         throw new IllegalArgumentException(
           "`nonceLength` must be greater than or equal to 0"
         );
       }
-      if (Objects.nonNull(this.nonceLength()) && this.nonceLength() > 255) {
+      if (this._nonceLengthSet && this.nonceLength() > 255) {
         throw new IllegalArgumentException(
           "`nonceLength` must be less than or equal to 255."
         );

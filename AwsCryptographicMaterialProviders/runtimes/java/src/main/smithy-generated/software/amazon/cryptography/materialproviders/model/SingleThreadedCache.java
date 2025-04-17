@@ -3,8 +3,6 @@
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 package software.amazon.cryptography.materialproviders.model;
 
-import java.util.Objects;
-
 /**
  * A cache that is NOT safe for use in a multi threaded environment.
  */
@@ -13,12 +11,12 @@ public class SingleThreadedCache {
   /**
    * Maximum number of entries cached.
    */
-  private final Integer entryCapacity;
+  private final int entryCapacity;
 
   /**
    * Number of entries to prune at a time.
    */
-  private final Integer entryPruningTailSize;
+  private final int entryPruningTailSize;
 
   protected SingleThreadedCache(BuilderImpl builder) {
     this.entryCapacity = builder.entryCapacity();
@@ -28,14 +26,14 @@ public class SingleThreadedCache {
   /**
    * @return Maximum number of entries cached.
    */
-  public Integer entryCapacity() {
+  public int entryCapacity() {
     return this.entryCapacity;
   }
 
   /**
    * @return Number of entries to prune at a time.
    */
-  public Integer entryPruningTailSize() {
+  public int entryPruningTailSize() {
     return this.entryPruningTailSize;
   }
 
@@ -51,72 +49,77 @@ public class SingleThreadedCache {
     /**
      * @param entryCapacity Maximum number of entries cached.
      */
-    Builder entryCapacity(Integer entryCapacity);
+    Builder entryCapacity(int entryCapacity);
 
     /**
      * @return Maximum number of entries cached.
      */
-    Integer entryCapacity();
+    int entryCapacity();
 
     /**
      * @param entryPruningTailSize Number of entries to prune at a time.
      */
-    Builder entryPruningTailSize(Integer entryPruningTailSize);
+    Builder entryPruningTailSize(int entryPruningTailSize);
 
     /**
      * @return Number of entries to prune at a time.
      */
-    Integer entryPruningTailSize();
+    int entryPruningTailSize();
 
     SingleThreadedCache build();
   }
 
   static class BuilderImpl implements Builder {
 
-    protected Integer entryCapacity;
+    protected int entryCapacity;
 
-    protected Integer entryPruningTailSize;
+    private boolean _entryCapacitySet = false;
+
+    protected int entryPruningTailSize;
+
+    private boolean _entryPruningTailSizeSet = false;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(SingleThreadedCache model) {
       this.entryCapacity = model.entryCapacity();
+      this._entryCapacitySet = true;
       this.entryPruningTailSize = model.entryPruningTailSize();
+      this._entryPruningTailSizeSet = true;
     }
 
-    public Builder entryCapacity(Integer entryCapacity) {
+    public Builder entryCapacity(int entryCapacity) {
       this.entryCapacity = entryCapacity;
+      this._entryCapacitySet = true;
       return this;
     }
 
-    public Integer entryCapacity() {
+    public int entryCapacity() {
       return this.entryCapacity;
     }
 
-    public Builder entryPruningTailSize(Integer entryPruningTailSize) {
+    public Builder entryPruningTailSize(int entryPruningTailSize) {
       this.entryPruningTailSize = entryPruningTailSize;
+      this._entryPruningTailSizeSet = true;
       return this;
     }
 
-    public Integer entryPruningTailSize() {
+    public int entryPruningTailSize() {
       return this.entryPruningTailSize;
     }
 
     public SingleThreadedCache build() {
-      if (Objects.isNull(this.entryCapacity())) {
+      if (!this._entryCapacitySet) {
         throw new IllegalArgumentException(
           "Missing value for required field `entryCapacity`"
         );
       }
-      if (Objects.nonNull(this.entryCapacity()) && this.entryCapacity() < 1) {
+      if (this._entryCapacitySet && this.entryCapacity() < 1) {
         throw new IllegalArgumentException(
           "`entryCapacity` must be greater than or equal to 1"
         );
       }
-      if (
-        Objects.nonNull(this.entryPruningTailSize()) &&
-        this.entryPruningTailSize() < 1
-      ) {
+      if (this._entryPruningTailSizeSet && this.entryPruningTailSize() < 1) {
         throw new IllegalArgumentException(
           "`entryPruningTailSize` must be greater than or equal to 1"
         );

@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class RSAPrivateKey {
 
-  private final Integer lengthBits;
+  private final int lengthBits;
 
   private final ByteBuffer pem;
 
@@ -17,7 +17,7 @@ public class RSAPrivateKey {
     this.pem = builder.pem();
   }
 
-  public Integer lengthBits() {
+  public int lengthBits() {
     return this.lengthBits;
   }
 
@@ -34,9 +34,9 @@ public class RSAPrivateKey {
   }
 
   public interface Builder {
-    Builder lengthBits(Integer lengthBits);
+    Builder lengthBits(int lengthBits);
 
-    Integer lengthBits();
+    int lengthBits();
 
     Builder pem(ByteBuffer pem);
 
@@ -47,7 +47,9 @@ public class RSAPrivateKey {
 
   static class BuilderImpl implements Builder {
 
-    protected Integer lengthBits;
+    protected int lengthBits;
+
+    private boolean _lengthBitsSet = false;
 
     protected ByteBuffer pem;
 
@@ -55,15 +57,17 @@ public class RSAPrivateKey {
 
     protected BuilderImpl(RSAPrivateKey model) {
       this.lengthBits = model.lengthBits();
+      this._lengthBitsSet = true;
       this.pem = model.pem();
     }
 
-    public Builder lengthBits(Integer lengthBits) {
+    public Builder lengthBits(int lengthBits) {
       this.lengthBits = lengthBits;
+      this._lengthBitsSet = true;
       return this;
     }
 
-    public Integer lengthBits() {
+    public int lengthBits() {
       return this.lengthBits;
     }
 
@@ -77,12 +81,12 @@ public class RSAPrivateKey {
     }
 
     public RSAPrivateKey build() {
-      if (Objects.isNull(this.lengthBits())) {
+      if (!this._lengthBitsSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `lengthBits`"
         );
       }
-      if (Objects.nonNull(this.lengthBits()) && this.lengthBits() < 81) {
+      if (this._lengthBitsSet && this.lengthBits() < 81) {
         throw new IllegalArgumentException(
           "`lengthBits` must be greater than or equal to 81"
         );

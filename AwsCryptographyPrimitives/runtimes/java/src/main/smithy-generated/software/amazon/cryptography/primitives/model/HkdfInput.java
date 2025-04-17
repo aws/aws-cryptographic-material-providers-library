@@ -16,7 +16,7 @@ public class HkdfInput {
 
   private final ByteBuffer info;
 
-  private final Integer expectedLength;
+  private final int expectedLength;
 
   protected HkdfInput(BuilderImpl builder) {
     this.digestAlgorithm = builder.digestAlgorithm();
@@ -42,7 +42,7 @@ public class HkdfInput {
     return this.info;
   }
 
-  public Integer expectedLength() {
+  public int expectedLength() {
     return this.expectedLength;
   }
 
@@ -71,9 +71,9 @@ public class HkdfInput {
 
     ByteBuffer info();
 
-    Builder expectedLength(Integer expectedLength);
+    Builder expectedLength(int expectedLength);
 
-    Integer expectedLength();
+    int expectedLength();
 
     HkdfInput build();
   }
@@ -88,7 +88,9 @@ public class HkdfInput {
 
     protected ByteBuffer info;
 
-    protected Integer expectedLength;
+    protected int expectedLength;
+
+    private boolean _expectedLengthSet = false;
 
     protected BuilderImpl() {}
 
@@ -98,6 +100,7 @@ public class HkdfInput {
       this.ikm = model.ikm();
       this.info = model.info();
       this.expectedLength = model.expectedLength();
+      this._expectedLengthSet = true;
     }
 
     public Builder digestAlgorithm(DigestAlgorithm digestAlgorithm) {
@@ -136,12 +139,13 @@ public class HkdfInput {
       return this.info;
     }
 
-    public Builder expectedLength(Integer expectedLength) {
+    public Builder expectedLength(int expectedLength) {
       this.expectedLength = expectedLength;
+      this._expectedLengthSet = true;
       return this;
     }
 
-    public Integer expectedLength() {
+    public int expectedLength() {
       return this.expectedLength;
     }
 
@@ -161,12 +165,12 @@ public class HkdfInput {
           "Missing value for required field `info`"
         );
       }
-      if (Objects.isNull(this.expectedLength())) {
+      if (!this._expectedLengthSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `expectedLength`"
         );
       }
-      if (Objects.nonNull(this.expectedLength()) && this.expectedLength() < 0) {
+      if (this._expectedLengthSet && this.expectedLength() < 0) {
         throw new IllegalArgumentException(
           "`expectedLength` must be greater than or equal to 0"
         );

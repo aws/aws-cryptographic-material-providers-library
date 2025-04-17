@@ -260,11 +260,11 @@ namespace AWS.Cryptography.Primitives
 
             return new software.amazon.cryptography.primitives.internaldafny.types.ECDSAVerifyInput(ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput__M18_signatureAlgorithm(value.SignatureAlgorithm), ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput__M15_verificationKey(value.VerificationKey), ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput__M7_message(value.Message), ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput__M9_signature(value.Signature));
         }
-        public static bool? FromDafny_N3_aws__N12_cryptography__N10_primitives__S17_ECDSAVerifyOutput(bool value)
+        public static bool FromDafny_N3_aws__N12_cryptography__N10_primitives__S17_ECDSAVerifyOutput(bool value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S17_ECDSAVerifyOutput__M7_success(value);
         }
-        public static bool ToDafny_N3_aws__N12_cryptography__N10_primitives__S17_ECDSAVerifyOutput(bool? value)
+        public static bool ToDafny_N3_aws__N12_cryptography__N10_primitives__S17_ECDSAVerifyOutput(bool value)
         {
             return ToDafny_N3_aws__N12_cryptography__N10_primitives__S17_ECDSAVerifyOutput__M7_success(value);
         }
@@ -605,7 +605,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IAES__GCM ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput__M6_encAlg(AWS.Cryptography.Primitives.AES_GCM value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM((AWS.Cryptography.Primitives.AES_GCM)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput__M3_key(Dafny.ISequence<byte> value)
         {
@@ -613,7 +613,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput__M3_key(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput__M9_cipherTxt(Dafny.ISequence<byte> value)
         {
@@ -621,7 +621,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput__M9_cipherTxt(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput__M7_authTag(Dafny.ISequence<byte> value)
         {
@@ -629,7 +629,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput__M7_authTag(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput__M2_iv(Dafny.ISequence<byte> value)
         {
@@ -637,7 +637,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput__M2_iv(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput__M3_aad(Dafny.ISequence<byte> value)
         {
@@ -645,7 +645,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESDecryptInput__M3_aad(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_AESDecryptOutput__M9_plaintext(Dafny.ISequence<byte> value)
         {
@@ -653,7 +653,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_AESDecryptOutput__M9_plaintext(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static AWS.Cryptography.Primitives.AES_GCM FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESEncryptInput__M6_encAlg(software.amazon.cryptography.primitives.internaldafny.types._IAES__GCM value)
         {
@@ -661,7 +661,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IAES__GCM ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESEncryptInput__M6_encAlg(AWS.Cryptography.Primitives.AES_GCM value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM((AWS.Cryptography.Primitives.AES_GCM)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESEncryptInput__M2_iv(Dafny.ISequence<byte> value)
         {
@@ -669,7 +669,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESEncryptInput__M2_iv(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESEncryptInput__M3_key(Dafny.ISequence<byte> value)
         {
@@ -677,7 +677,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESEncryptInput__M3_key(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESEncryptInput__M3_msg(Dafny.ISequence<byte> value)
         {
@@ -685,7 +685,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESEncryptInput__M3_msg(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESEncryptInput__M3_aad(Dafny.ISequence<byte> value)
         {
@@ -693,7 +693,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_AESEncryptInput__M3_aad(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_AESEncryptOutput__M10_cipherText(Dafny.ISequence<byte> value)
         {
@@ -701,7 +701,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_AESEncryptOutput__M10_cipherText(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_AESEncryptOutput__M7_authTag(Dafny.ISequence<byte> value)
         {
@@ -709,7 +709,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_AESEncryptOutput__M7_authTag(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S14_AesKdfCtrInput__M3_ikm(Dafny.ISequence<byte> value)
         {
@@ -717,15 +717,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S14_AesKdfCtrInput__M3_ikm(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
-        public static int? FromDafny_N3_aws__N12_cryptography__N10_primitives__S14_AesKdfCtrInput__M14_expectedLength(int value)
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S14_AesKdfCtrInput__M14_expectedLength(int value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger(value);
         }
-        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S14_AesKdfCtrInput__M14_expectedLength(int? value)
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S14_AesKdfCtrInput__M14_expectedLength(int value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger((int)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S14_AesKdfCtrInput__M5_nonce(Wrappers_Compile._IOption<Dafny.ISequence<byte>> value)
         {
@@ -741,7 +741,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_AesKdfCtrOutput__M3_okm(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static string FromDafny_N3_aws__N12_cryptography__N10_primitives__S31_AwsCryptographicPrimitivesError__M7_message(Dafny.ISequence<char> value)
         {
@@ -749,7 +749,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_AwsCryptographicPrimitivesError__M7_message(string value)
         {
-            return ToDafny_N6_smithy__N3_api__S6_String((string)value);
+            return ToDafny_N6_smithy__N3_api__S6_String(value);
         }
         public static AWS.Cryptography.Primitives.ECCPublicKey FromDafny_N3_aws__N12_cryptography__N10_primitives__S22_CompressPublicKeyInput__M9_publicKey(software.amazon.cryptography.primitives.internaldafny.types._IECCPublicKey value)
         {
@@ -757,7 +757,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECCPublicKey ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_CompressPublicKeyInput__M9_publicKey(AWS.Cryptography.Primitives.ECCPublicKey value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_ECCPublicKey((AWS.Cryptography.Primitives.ECCPublicKey)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_ECCPublicKey(value);
         }
         public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S22_CompressPublicKeyInput__M8_eccCurve(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
         {
@@ -765,7 +765,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_CompressPublicKeyInput__M8_eccCurve(AWS.Cryptography.Primitives.ECDHCurveSpec value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec((AWS.Cryptography.Primitives.ECDHCurveSpec)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_CompressPublicKeyOutput__M19_compressedPublicKey(Dafny.ISequence<byte> value)
         {
@@ -773,7 +773,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_CompressPublicKeyOutput__M19_compressedPublicKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_DecompressPublicKeyInput__M19_compressedPublicKey(Dafny.ISequence<byte> value)
         {
@@ -781,7 +781,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S24_DecompressPublicKeyInput__M19_compressedPublicKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_DecompressPublicKeyInput__M8_eccCurve(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
         {
@@ -789,7 +789,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S24_DecompressPublicKeyInput__M8_eccCurve(AWS.Cryptography.Primitives.ECDHCurveSpec value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec((AWS.Cryptography.Primitives.ECDHCurveSpec)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
         }
         public static AWS.Cryptography.Primitives.ECCPublicKey FromDafny_N3_aws__N12_cryptography__N10_primitives__S25_DecompressPublicKeyOutput__M9_publicKey(software.amazon.cryptography.primitives.internaldafny.types._IECCPublicKey value)
         {
@@ -797,7 +797,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECCPublicKey ToDafny_N3_aws__N12_cryptography__N10_primitives__S25_DecompressPublicKeyOutput__M9_publicKey(AWS.Cryptography.Primitives.ECCPublicKey value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_ECCPublicKey((AWS.Cryptography.Primitives.ECCPublicKey)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_ECCPublicKey(value);
         }
         public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M8_eccCurve(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
         {
@@ -805,7 +805,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M8_eccCurve(AWS.Cryptography.Primitives.ECDHCurveSpec value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec((AWS.Cryptography.Primitives.ECDHCurveSpec)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
         }
         public static AWS.Cryptography.Primitives.ECCPrivateKey FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M10_privateKey(software.amazon.cryptography.primitives.internaldafny.types._IECCPrivateKey value)
         {
@@ -813,7 +813,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECCPrivateKey ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M10_privateKey(AWS.Cryptography.Primitives.ECCPrivateKey value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECCPrivateKey((AWS.Cryptography.Primitives.ECCPrivateKey)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECCPrivateKey(value);
         }
         public static AWS.Cryptography.Primitives.ECCPublicKey FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M9_publicKey(software.amazon.cryptography.primitives.internaldafny.types._IECCPublicKey value)
         {
@@ -821,7 +821,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECCPublicKey ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_DeriveSharedSecretInput__M9_publicKey(AWS.Cryptography.Primitives.ECCPublicKey value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_ECCPublicKey((AWS.Cryptography.Primitives.ECCPublicKey)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_ECCPublicKey(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_DeriveSharedSecretOutput__M12_sharedSecret(Dafny.ISequence<byte> value)
         {
@@ -829,7 +829,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S24_DeriveSharedSecretOutput__M12_sharedSecret(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static AWS.Cryptography.Primitives.DigestAlgorithm FromDafny_N3_aws__N12_cryptography__N10_primitives__S11_DigestInput__M15_digestAlgorithm(software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm value)
         {
@@ -837,7 +837,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm ToDafny_N3_aws__N12_cryptography__N10_primitives__S11_DigestInput__M15_digestAlgorithm(AWS.Cryptography.Primitives.DigestAlgorithm value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm((AWS.Cryptography.Primitives.DigestAlgorithm)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S11_DigestInput__M7_message(Dafny.ISequence<byte> value)
         {
@@ -845,7 +845,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S11_DigestInput__M7_message(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S12_DigestOutput__M6_digest(Dafny.ISequence<byte> value)
         {
@@ -853,7 +853,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_DigestOutput__M6_digest(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static AWS.Cryptography.Primitives.ECDSASignatureAlgorithm FromDafny_N3_aws__N12_cryptography__N10_primitives__S14_ECDSASignInput__M18_signatureAlgorithm(software.amazon.cryptography.primitives.internaldafny.types._IECDSASignatureAlgorithm value)
         {
@@ -861,7 +861,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECDSASignatureAlgorithm ToDafny_N3_aws__N12_cryptography__N10_primitives__S14_ECDSASignInput__M18_signatureAlgorithm(AWS.Cryptography.Primitives.ECDSASignatureAlgorithm value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_ECDSASignatureAlgorithm((AWS.Cryptography.Primitives.ECDSASignatureAlgorithm)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_ECDSASignatureAlgorithm(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S14_ECDSASignInput__M10_signingKey(Dafny.ISequence<byte> value)
         {
@@ -869,7 +869,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S14_ECDSASignInput__M10_signingKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S14_ECDSASignInput__M7_message(Dafny.ISequence<byte> value)
         {
@@ -877,7 +877,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S14_ECDSASignInput__M7_message(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_ECDSASignOutput__M9_signature(Dafny.ISequence<byte> value)
         {
@@ -885,7 +885,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_ECDSASignOutput__M9_signature(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static AWS.Cryptography.Primitives.ECDSASignatureAlgorithm FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput__M18_signatureAlgorithm(software.amazon.cryptography.primitives.internaldafny.types._IECDSASignatureAlgorithm value)
         {
@@ -893,7 +893,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECDSASignatureAlgorithm ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput__M18_signatureAlgorithm(AWS.Cryptography.Primitives.ECDSASignatureAlgorithm value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_ECDSASignatureAlgorithm((AWS.Cryptography.Primitives.ECDSASignatureAlgorithm)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_ECDSASignatureAlgorithm(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput__M15_verificationKey(Dafny.ISequence<byte> value)
         {
@@ -901,7 +901,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput__M15_verificationKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput__M7_message(Dafny.ISequence<byte> value)
         {
@@ -909,7 +909,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput__M7_message(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput__M9_signature(Dafny.ISequence<byte> value)
         {
@@ -917,15 +917,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_ECDSAVerifyInput__M9_signature(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
-        public static bool? FromDafny_N3_aws__N12_cryptography__N10_primitives__S17_ECDSAVerifyOutput__M7_success(bool value)
+        public static bool FromDafny_N3_aws__N12_cryptography__N10_primitives__S17_ECDSAVerifyOutput__M7_success(bool value)
         {
             return FromDafny_N6_smithy__N3_api__S7_Boolean(value);
         }
-        public static bool ToDafny_N3_aws__N12_cryptography__N10_primitives__S17_ECDSAVerifyOutput__M7_success(bool? value)
+        public static bool ToDafny_N3_aws__N12_cryptography__N10_primitives__S17_ECDSAVerifyOutput__M7_success(bool value)
         {
-            return ToDafny_N6_smithy__N3_api__S7_Boolean((bool)value);
+            return ToDafny_N6_smithy__N3_api__S7_Boolean(value);
         }
         public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_GenerateECCKeyPairInput__M8_eccCurve(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
         {
@@ -933,7 +933,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_GenerateECCKeyPairInput__M8_eccCurve(AWS.Cryptography.Primitives.ECDHCurveSpec value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec((AWS.Cryptography.Primitives.ECDHCurveSpec)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
         }
         public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateECCKeyPairOutput__M8_eccCurve(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
         {
@@ -941,7 +941,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateECCKeyPairOutput__M8_eccCurve(AWS.Cryptography.Primitives.ECDHCurveSpec value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec((AWS.Cryptography.Primitives.ECDHCurveSpec)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
         }
         public static AWS.Cryptography.Primitives.ECCPrivateKey FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateECCKeyPairOutput__M10_privateKey(software.amazon.cryptography.primitives.internaldafny.types._IECCPrivateKey value)
         {
@@ -949,7 +949,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECCPrivateKey ToDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateECCKeyPairOutput__M10_privateKey(AWS.Cryptography.Primitives.ECCPrivateKey value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECCPrivateKey((AWS.Cryptography.Primitives.ECCPrivateKey)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECCPrivateKey(value);
         }
         public static AWS.Cryptography.Primitives.ECCPublicKey FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateECCKeyPairOutput__M9_publicKey(software.amazon.cryptography.primitives.internaldafny.types._IECCPublicKey value)
         {
@@ -957,7 +957,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECCPublicKey ToDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateECCKeyPairOutput__M9_publicKey(AWS.Cryptography.Primitives.ECCPublicKey value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_ECCPublicKey((AWS.Cryptography.Primitives.ECCPublicKey)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_ECCPublicKey(value);
         }
         public static AWS.Cryptography.Primitives.ECDSASignatureAlgorithm FromDafny_N3_aws__N12_cryptography__N10_primitives__S30_GenerateECDSASignatureKeyInput__M18_signatureAlgorithm(software.amazon.cryptography.primitives.internaldafny.types._IECDSASignatureAlgorithm value)
         {
@@ -965,7 +965,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECDSASignatureAlgorithm ToDafny_N3_aws__N12_cryptography__N10_primitives__S30_GenerateECDSASignatureKeyInput__M18_signatureAlgorithm(AWS.Cryptography.Primitives.ECDSASignatureAlgorithm value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_ECDSASignatureAlgorithm((AWS.Cryptography.Primitives.ECDSASignatureAlgorithm)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_ECDSASignatureAlgorithm(value);
         }
         public static AWS.Cryptography.Primitives.ECDSASignatureAlgorithm FromDafny_N3_aws__N12_cryptography__N10_primitives__S31_GenerateECDSASignatureKeyOutput__M18_signatureAlgorithm(software.amazon.cryptography.primitives.internaldafny.types._IECDSASignatureAlgorithm value)
         {
@@ -973,7 +973,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECDSASignatureAlgorithm ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_GenerateECDSASignatureKeyOutput__M18_signatureAlgorithm(AWS.Cryptography.Primitives.ECDSASignatureAlgorithm value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_ECDSASignatureAlgorithm((AWS.Cryptography.Primitives.ECDSASignatureAlgorithm)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_ECDSASignatureAlgorithm(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S31_GenerateECDSASignatureKeyOutput__M15_verificationKey(Dafny.ISequence<byte> value)
         {
@@ -981,7 +981,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_GenerateECDSASignatureKeyOutput__M15_verificationKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S31_GenerateECDSASignatureKeyOutput__M10_signingKey(Dafny.ISequence<byte> value)
         {
@@ -989,15 +989,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_GenerateECDSASignatureKeyOutput__M10_signingKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
-        public static int? FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateRandomBytesInput__M6_length(int value)
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateRandomBytesInput__M6_length(int value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger(value);
         }
-        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateRandomBytesInput__M6_length(int? value)
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateRandomBytesInput__M6_length(int value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger((int)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S25_GenerateRandomBytesOutput__M4_data(Dafny.ISequence<byte> value)
         {
@@ -1005,15 +1005,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S25_GenerateRandomBytesOutput__M4_data(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
-        public static int? FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_GenerateRSAKeyPairInput__M10_lengthBits(int value)
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_GenerateRSAKeyPairInput__M10_lengthBits(int value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S30_RSAModulusLengthBitsToGenerate(value);
         }
-        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_GenerateRSAKeyPairInput__M10_lengthBits(int? value)
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_GenerateRSAKeyPairInput__M10_lengthBits(int value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S30_RSAModulusLengthBitsToGenerate((int)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S30_RSAModulusLengthBitsToGenerate(value);
         }
         public static AWS.Cryptography.Primitives.RSAPublicKey FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateRSAKeyPairOutput__M9_publicKey(software.amazon.cryptography.primitives.internaldafny.types._IRSAPublicKey value)
         {
@@ -1021,7 +1021,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IRSAPublicKey ToDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateRSAKeyPairOutput__M9_publicKey(AWS.Cryptography.Primitives.RSAPublicKey value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_RSAPublicKey((AWS.Cryptography.Primitives.RSAPublicKey)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_RSAPublicKey(value);
         }
         public static AWS.Cryptography.Primitives.RSAPrivateKey FromDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateRSAKeyPairOutput__M10_privateKey(software.amazon.cryptography.primitives.internaldafny.types._IRSAPrivateKey value)
         {
@@ -1029,7 +1029,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IRSAPrivateKey ToDafny_N3_aws__N12_cryptography__N10_primitives__S24_GenerateRSAKeyPairOutput__M10_privateKey(AWS.Cryptography.Primitives.RSAPrivateKey value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_RSAPrivateKey((AWS.Cryptography.Primitives.RSAPrivateKey)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_RSAPrivateKey(value);
         }
         public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M8_eccCurve(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
         {
@@ -1037,7 +1037,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M8_eccCurve(AWS.Cryptography.Primitives.ECDHCurveSpec value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec((AWS.Cryptography.Primitives.ECDHCurveSpec)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
         }
         public static AWS.Cryptography.Primitives.ECCPrivateKey FromDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M10_privateKey(software.amazon.cryptography.primitives.internaldafny.types._IECCPrivateKey value)
         {
@@ -1045,7 +1045,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECCPrivateKey ToDafny_N3_aws__N12_cryptography__N10_primitives__S31_GetPublicKeyFromPrivateKeyInput__M10_privateKey(AWS.Cryptography.Primitives.ECCPrivateKey value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECCPrivateKey((AWS.Cryptography.Primitives.ECCPrivateKey)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECCPrivateKey(value);
         }
         public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M8_eccCurve(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
         {
@@ -1053,7 +1053,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M8_eccCurve(AWS.Cryptography.Primitives.ECDHCurveSpec value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec((AWS.Cryptography.Primitives.ECDHCurveSpec)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
         }
         public static AWS.Cryptography.Primitives.ECCPrivateKey FromDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M10_privateKey(software.amazon.cryptography.primitives.internaldafny.types._IECCPrivateKey value)
         {
@@ -1061,7 +1061,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECCPrivateKey ToDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M10_privateKey(AWS.Cryptography.Primitives.ECCPrivateKey value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECCPrivateKey((AWS.Cryptography.Primitives.ECCPrivateKey)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECCPrivateKey(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M9_publicKey(Dafny.ISequence<byte> value)
         {
@@ -1069,7 +1069,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S32_GetPublicKeyFromPrivateKeyOutput__M9_publicKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S27_GetRSAKeyModulusLengthInput__M9_publicKey(Dafny.ISequence<byte> value)
         {
@@ -1077,15 +1077,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S27_GetRSAKeyModulusLengthInput__M9_publicKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
-        public static int? FromDafny_N3_aws__N12_cryptography__N10_primitives__S28_GetRSAKeyModulusLengthOutput__M6_length(int value)
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S28_GetRSAKeyModulusLengthOutput__M6_length(int value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S20_RSAModulusLengthBits(value);
         }
-        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S28_GetRSAKeyModulusLengthOutput__M6_length(int? value)
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S28_GetRSAKeyModulusLengthOutput__M6_length(int value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S20_RSAModulusLengthBits((int)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S20_RSAModulusLengthBits(value);
         }
         public static AWS.Cryptography.Primitives.DigestAlgorithm FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_HkdfExpandInput__M15_digestAlgorithm(software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm value)
         {
@@ -1093,7 +1093,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_HkdfExpandInput__M15_digestAlgorithm(AWS.Cryptography.Primitives.DigestAlgorithm value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm((AWS.Cryptography.Primitives.DigestAlgorithm)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_HkdfExpandInput__M3_prk(Dafny.ISequence<byte> value)
         {
@@ -1101,7 +1101,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_HkdfExpandInput__M3_prk(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_HkdfExpandInput__M4_info(Dafny.ISequence<byte> value)
         {
@@ -1109,15 +1109,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_HkdfExpandInput__M4_info(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
-        public static int? FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_HkdfExpandInput__M14_expectedLength(int value)
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_HkdfExpandInput__M14_expectedLength(int value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger(value);
         }
-        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_HkdfExpandInput__M14_expectedLength(int? value)
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_HkdfExpandInput__M14_expectedLength(int value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger((int)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_HkdfExpandOutput__M3_okm(Dafny.ISequence<byte> value)
         {
@@ -1125,7 +1125,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_HkdfExpandOutput__M3_okm(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static AWS.Cryptography.Primitives.DigestAlgorithm FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_HkdfExtractInput__M15_digestAlgorithm(software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm value)
         {
@@ -1133,7 +1133,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_HkdfExtractInput__M15_digestAlgorithm(AWS.Cryptography.Primitives.DigestAlgorithm value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm((AWS.Cryptography.Primitives.DigestAlgorithm)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_HkdfExtractInput__M4_salt(Wrappers_Compile._IOption<Dafny.ISequence<byte>> value)
         {
@@ -1149,7 +1149,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_HkdfExtractInput__M3_ikm(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S17_HkdfExtractOutput__M3_prk(Dafny.ISequence<byte> value)
         {
@@ -1157,7 +1157,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S17_HkdfExtractOutput__M3_prk(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static AWS.Cryptography.Primitives.DigestAlgorithm FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M15_digestAlgorithm(software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm value)
         {
@@ -1165,7 +1165,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M15_digestAlgorithm(AWS.Cryptography.Primitives.DigestAlgorithm value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm((AWS.Cryptography.Primitives.DigestAlgorithm)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M4_salt(Wrappers_Compile._IOption<Dafny.ISequence<byte>> value)
         {
@@ -1181,7 +1181,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M3_ikm(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M4_info(Dafny.ISequence<byte> value)
         {
@@ -1189,15 +1189,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M4_info(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
-        public static int? FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M14_expectedLength(int value)
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M14_expectedLength(int value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger(value);
         }
-        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M14_expectedLength(int? value)
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_HkdfInput__M14_expectedLength(int value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger((int)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S10_HkdfOutput__M3_okm(Dafny.ISequence<byte> value)
         {
@@ -1205,7 +1205,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S10_HkdfOutput__M3_okm(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static AWS.Cryptography.Primitives.DigestAlgorithm FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_HMacInput__M15_digestAlgorithm(software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm value)
         {
@@ -1213,7 +1213,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_HMacInput__M15_digestAlgorithm(AWS.Cryptography.Primitives.DigestAlgorithm value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm((AWS.Cryptography.Primitives.DigestAlgorithm)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_HMacInput__M3_key(Dafny.ISequence<byte> value)
         {
@@ -1221,7 +1221,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_HMacInput__M3_key(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_HMacInput__M7_message(Dafny.ISequence<byte> value)
         {
@@ -1229,7 +1229,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_HMacInput__M7_message(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S10_HMacOutput__M6_digest(Dafny.ISequence<byte> value)
         {
@@ -1237,7 +1237,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S10_HMacOutput__M6_digest(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static AWS.Cryptography.Primitives.DigestAlgorithm FromDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M15_digestAlgorithm(software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm value)
         {
@@ -1245,7 +1245,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IDigestAlgorithm ToDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M15_digestAlgorithm(AWS.Cryptography.Primitives.DigestAlgorithm value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm((AWS.Cryptography.Primitives.DigestAlgorithm)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_DigestAlgorithm(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M3_ikm(Dafny.ISequence<byte> value)
         {
@@ -1253,15 +1253,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M3_ikm(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
-        public static int? FromDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M14_expectedLength(int value)
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M14_expectedLength(int value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger(value);
         }
-        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M14_expectedLength(int? value)
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M14_expectedLength(int value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger((int)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_PositiveInteger(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S11_KdfCtrInput__M7_purpose(Wrappers_Compile._IOption<Dafny.ISequence<byte>> value)
         {
@@ -1285,7 +1285,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_KdfCtrOutput__M3_okm(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S19_ParsePublicKeyInput__M9_publicKey(Dafny.ISequence<byte> value)
         {
@@ -1293,7 +1293,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S19_ParsePublicKeyInput__M9_publicKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static AWS.Cryptography.Primitives.ECCPublicKey FromDafny_N3_aws__N12_cryptography__N10_primitives__S20_ParsePublicKeyOutput__M9_publicKey(software.amazon.cryptography.primitives.internaldafny.types._IECCPublicKey value)
         {
@@ -1301,7 +1301,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECCPublicKey ToDafny_N3_aws__N12_cryptography__N10_primitives__S20_ParsePublicKeyOutput__M9_publicKey(AWS.Cryptography.Primitives.ECCPublicKey value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_ECCPublicKey((AWS.Cryptography.Primitives.ECCPublicKey)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_ECCPublicKey(value);
         }
         public static AWS.Cryptography.Primitives.RSAPaddingMode FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_RSADecryptInput__M7_padding(software.amazon.cryptography.primitives.internaldafny.types._IRSAPaddingMode value)
         {
@@ -1309,7 +1309,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IRSAPaddingMode ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_RSADecryptInput__M7_padding(AWS.Cryptography.Primitives.RSAPaddingMode value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S14_RSAPaddingMode((AWS.Cryptography.Primitives.RSAPaddingMode)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S14_RSAPaddingMode(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_RSADecryptInput__M10_privateKey(Dafny.ISequence<byte> value)
         {
@@ -1317,7 +1317,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_RSADecryptInput__M10_privateKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_RSADecryptInput__M10_cipherText(Dafny.ISequence<byte> value)
         {
@@ -1325,7 +1325,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_RSADecryptInput__M10_cipherText(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_RSADecryptOutput__M9_plaintext(Dafny.ISequence<byte> value)
         {
@@ -1333,7 +1333,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_RSADecryptOutput__M9_plaintext(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static AWS.Cryptography.Primitives.RSAPaddingMode FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_RSAEncryptInput__M7_padding(software.amazon.cryptography.primitives.internaldafny.types._IRSAPaddingMode value)
         {
@@ -1341,7 +1341,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IRSAPaddingMode ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_RSAEncryptInput__M7_padding(AWS.Cryptography.Primitives.RSAPaddingMode value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S14_RSAPaddingMode((AWS.Cryptography.Primitives.RSAPaddingMode)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S14_RSAPaddingMode(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_RSAEncryptInput__M9_publicKey(Dafny.ISequence<byte> value)
         {
@@ -1349,7 +1349,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_RSAEncryptInput__M9_publicKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S15_RSAEncryptInput__M9_plaintext(Dafny.ISequence<byte> value)
         {
@@ -1357,7 +1357,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S15_RSAEncryptInput__M9_plaintext(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S16_RSAEncryptOutput__M10_cipherText(Dafny.ISequence<byte> value)
         {
@@ -1365,7 +1365,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S16_RSAEncryptOutput__M10_cipherText(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M8_eccCurve(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
         {
@@ -1373,7 +1373,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M8_eccCurve(AWS.Cryptography.Primitives.ECDHCurveSpec value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec((AWS.Cryptography.Primitives.ECDHCurveSpec)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECDHCurveSpec(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M9_publicKey(Dafny.ISequence<byte> value)
         {
@@ -1381,15 +1381,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S22_ValidatePublicKeyInput__M9_publicKey(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
-        public static bool? FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_ValidatePublicKeyOutput__M7_success(bool value)
+        public static bool FromDafny_N3_aws__N12_cryptography__N10_primitives__S23_ValidatePublicKeyOutput__M7_success(bool value)
         {
             return FromDafny_N6_smithy__N3_api__S7_Boolean(value);
         }
-        public static bool ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_ValidatePublicKeyOutput__M7_success(bool? value)
+        public static bool ToDafny_N3_aws__N12_cryptography__N10_primitives__S23_ValidatePublicKeyOutput__M7_success(bool value)
         {
-            return ToDafny_N6_smithy__N3_api__S7_Boolean((bool)value);
+            return ToDafny_N6_smithy__N3_api__S7_Boolean(value);
         }
         public static AWS.Cryptography.Primitives.AES_GCM FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM(software.amazon.cryptography.primitives.internaldafny.types._IAES__GCM value)
         {
@@ -1498,29 +1498,29 @@ namespace AWS.Cryptography.Primitives
         {
             return value;
         }
-        public static int? FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M9_keyLength(int value)
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M9_keyLength(int value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S18_SymmetricKeyLength(value);
         }
-        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M9_keyLength(int? value)
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M9_keyLength(int value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S18_SymmetricKeyLength((int)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S18_SymmetricKeyLength(value);
         }
-        public static int? FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M9_tagLength(int value)
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M9_tagLength(int value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S10_Uint8Bytes(value);
         }
-        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M9_tagLength(int? value)
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M9_tagLength(int value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S10_Uint8Bytes((int)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S10_Uint8Bytes(value);
         }
-        public static int? FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M8_ivLength(int value)
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M8_ivLength(int value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_Uint8Bits(value);
         }
-        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M8_ivLength(int? value)
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M8_ivLength(int value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_Uint8Bits((int)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_Uint8Bits(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S12_ECCPublicKey__M3_der(Dafny.ISequence<byte> value)
         {
@@ -1528,7 +1528,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_ECCPublicKey__M3_der(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECCPrivateKey__M3_pem(Dafny.ISequence<byte> value)
         {
@@ -1536,15 +1536,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_ECCPrivateKey__M3_pem(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
-        public static int? FromDafny_N3_aws__N12_cryptography__N10_primitives__S12_RSAPublicKey__M10_lengthBits(int value)
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S12_RSAPublicKey__M10_lengthBits(int value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S20_RSAModulusLengthBits(value);
         }
-        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_RSAPublicKey__M10_lengthBits(int? value)
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_RSAPublicKey__M10_lengthBits(int value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S20_RSAModulusLengthBits((int)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S20_RSAModulusLengthBits(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S12_RSAPublicKey__M3_pem(Dafny.ISequence<byte> value)
         {
@@ -1552,15 +1552,15 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S12_RSAPublicKey__M3_pem(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
-        public static int? FromDafny_N3_aws__N12_cryptography__N10_primitives__S13_RSAPrivateKey__M10_lengthBits(int value)
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S13_RSAPrivateKey__M10_lengthBits(int value)
         {
             return FromDafny_N3_aws__N12_cryptography__N10_primitives__S20_RSAModulusLengthBits(value);
         }
-        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_RSAPrivateKey__M10_lengthBits(int? value)
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_RSAPrivateKey__M10_lengthBits(int value)
         {
-            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S20_RSAModulusLengthBits((int)value);
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S20_RSAModulusLengthBits(value);
         }
         public static System.IO.MemoryStream FromDafny_N3_aws__N12_cryptography__N10_primitives__S13_RSAPrivateKey__M3_pem(Dafny.ISequence<byte> value)
         {
@@ -1568,7 +1568,7 @@ namespace AWS.Cryptography.Primitives
         }
         public static Dafny.ISequence<byte> ToDafny_N3_aws__N12_cryptography__N10_primitives__S13_RSAPrivateKey__M3_pem(System.IO.MemoryStream value)
         {
-            return ToDafny_N6_smithy__N3_api__S4_Blob((System.IO.MemoryStream)value);
+            return ToDafny_N6_smithy__N3_api__S4_Blob(value);
         }
         public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S18_SymmetricKeyLength(int value)
         {

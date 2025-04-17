@@ -12,7 +12,7 @@ public class KdfCtrInput {
 
   private final ByteBuffer ikm;
 
-  private final Integer expectedLength;
+  private final int expectedLength;
 
   private final ByteBuffer purpose;
 
@@ -34,7 +34,7 @@ public class KdfCtrInput {
     return this.ikm;
   }
 
-  public Integer expectedLength() {
+  public int expectedLength() {
     return this.expectedLength;
   }
 
@@ -63,9 +63,9 @@ public class KdfCtrInput {
 
     ByteBuffer ikm();
 
-    Builder expectedLength(Integer expectedLength);
+    Builder expectedLength(int expectedLength);
 
-    Integer expectedLength();
+    int expectedLength();
 
     Builder purpose(ByteBuffer purpose);
 
@@ -84,7 +84,9 @@ public class KdfCtrInput {
 
     protected ByteBuffer ikm;
 
-    protected Integer expectedLength;
+    protected int expectedLength;
+
+    private boolean _expectedLengthSet = false;
 
     protected ByteBuffer purpose;
 
@@ -96,6 +98,7 @@ public class KdfCtrInput {
       this.digestAlgorithm = model.digestAlgorithm();
       this.ikm = model.ikm();
       this.expectedLength = model.expectedLength();
+      this._expectedLengthSet = true;
       this.purpose = model.purpose();
       this.nonce = model.nonce();
     }
@@ -118,12 +121,13 @@ public class KdfCtrInput {
       return this.ikm;
     }
 
-    public Builder expectedLength(Integer expectedLength) {
+    public Builder expectedLength(int expectedLength) {
       this.expectedLength = expectedLength;
+      this._expectedLengthSet = true;
       return this;
     }
 
-    public Integer expectedLength() {
+    public int expectedLength() {
       return this.expectedLength;
     }
 
@@ -156,12 +160,12 @@ public class KdfCtrInput {
           "Missing value for required field `ikm`"
         );
       }
-      if (Objects.isNull(this.expectedLength())) {
+      if (!this._expectedLengthSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `expectedLength`"
         );
       }
-      if (Objects.nonNull(this.expectedLength()) && this.expectedLength() < 0) {
+      if (this._expectedLengthSet && this.expectedLength() < 0) {
         throw new IllegalArgumentException(
           "`expectedLength` must be greater than or equal to 0"
         );

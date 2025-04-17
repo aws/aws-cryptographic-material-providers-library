@@ -10,11 +10,11 @@ public class HKDF {
 
   private final DigestAlgorithm hmac;
 
-  private final Integer saltLength;
+  private final int saltLength;
 
-  private final Integer inputKeyLength;
+  private final int inputKeyLength;
 
-  private final Integer outputKeyLength;
+  private final int outputKeyLength;
 
   protected HKDF(BuilderImpl builder) {
     this.hmac = builder.hmac();
@@ -27,15 +27,15 @@ public class HKDF {
     return this.hmac;
   }
 
-  public Integer saltLength() {
+  public int saltLength() {
     return this.saltLength;
   }
 
-  public Integer inputKeyLength() {
+  public int inputKeyLength() {
     return this.inputKeyLength;
   }
 
-  public Integer outputKeyLength() {
+  public int outputKeyLength() {
     return this.outputKeyLength;
   }
 
@@ -52,17 +52,17 @@ public class HKDF {
 
     DigestAlgorithm hmac();
 
-    Builder saltLength(Integer saltLength);
+    Builder saltLength(int saltLength);
 
-    Integer saltLength();
+    int saltLength();
 
-    Builder inputKeyLength(Integer inputKeyLength);
+    Builder inputKeyLength(int inputKeyLength);
 
-    Integer inputKeyLength();
+    int inputKeyLength();
 
-    Builder outputKeyLength(Integer outputKeyLength);
+    Builder outputKeyLength(int outputKeyLength);
 
-    Integer outputKeyLength();
+    int outputKeyLength();
 
     HKDF build();
   }
@@ -71,19 +71,28 @@ public class HKDF {
 
     protected DigestAlgorithm hmac;
 
-    protected Integer saltLength;
+    protected int saltLength;
 
-    protected Integer inputKeyLength;
+    private boolean _saltLengthSet = false;
 
-    protected Integer outputKeyLength;
+    protected int inputKeyLength;
+
+    private boolean _inputKeyLengthSet = false;
+
+    protected int outputKeyLength;
+
+    private boolean _outputKeyLengthSet = false;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(HKDF model) {
       this.hmac = model.hmac();
       this.saltLength = model.saltLength();
+      this._saltLengthSet = true;
       this.inputKeyLength = model.inputKeyLength();
+      this._inputKeyLengthSet = true;
       this.outputKeyLength = model.outputKeyLength();
+      this._outputKeyLengthSet = true;
     }
 
     public Builder hmac(DigestAlgorithm hmac) {
@@ -95,30 +104,33 @@ public class HKDF {
       return this.hmac;
     }
 
-    public Builder saltLength(Integer saltLength) {
+    public Builder saltLength(int saltLength) {
       this.saltLength = saltLength;
+      this._saltLengthSet = true;
       return this;
     }
 
-    public Integer saltLength() {
+    public int saltLength() {
       return this.saltLength;
     }
 
-    public Builder inputKeyLength(Integer inputKeyLength) {
+    public Builder inputKeyLength(int inputKeyLength) {
       this.inputKeyLength = inputKeyLength;
+      this._inputKeyLengthSet = true;
       return this;
     }
 
-    public Integer inputKeyLength() {
+    public int inputKeyLength() {
       return this.inputKeyLength;
     }
 
-    public Builder outputKeyLength(Integer outputKeyLength) {
+    public Builder outputKeyLength(int outputKeyLength) {
       this.outputKeyLength = outputKeyLength;
+      this._outputKeyLengthSet = true;
       return this;
     }
 
-    public Integer outputKeyLength() {
+    public int outputKeyLength() {
       return this.outputKeyLength;
     }
 
@@ -128,48 +140,42 @@ public class HKDF {
           "Missing value for required field `hmac`"
         );
       }
-      if (Objects.isNull(this.saltLength())) {
+      if (!this._saltLengthSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `saltLength`"
         );
       }
-      if (Objects.nonNull(this.saltLength()) && this.saltLength() < 0) {
+      if (this._saltLengthSet && this.saltLength() < 0) {
         throw new IllegalArgumentException(
           "`saltLength` must be greater than or equal to 0"
         );
       }
-      if (Objects.isNull(this.inputKeyLength())) {
+      if (!this._inputKeyLengthSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `inputKeyLength`"
         );
       }
-      if (Objects.nonNull(this.inputKeyLength()) && this.inputKeyLength() < 1) {
+      if (this._inputKeyLengthSet && this.inputKeyLength() < 1) {
         throw new IllegalArgumentException(
           "`inputKeyLength` must be greater than or equal to 1"
         );
       }
-      if (
-        Objects.nonNull(this.inputKeyLength()) && this.inputKeyLength() > 32
-      ) {
+      if (this._inputKeyLengthSet && this.inputKeyLength() > 32) {
         throw new IllegalArgumentException(
           "`inputKeyLength` must be less than or equal to 32."
         );
       }
-      if (Objects.isNull(this.outputKeyLength())) {
+      if (!this._outputKeyLengthSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `outputKeyLength`"
         );
       }
-      if (
-        Objects.nonNull(this.outputKeyLength()) && this.outputKeyLength() < 1
-      ) {
+      if (this._outputKeyLengthSet && this.outputKeyLength() < 1) {
         throw new IllegalArgumentException(
           "`outputKeyLength` must be greater than or equal to 1"
         );
       }
-      if (
-        Objects.nonNull(this.outputKeyLength()) && this.outputKeyLength() > 32
-      ) {
+      if (this._outputKeyLengthSet && this.outputKeyLength() > 32) {
         throw new IllegalArgumentException(
           "`outputKeyLength` must be less than or equal to 32."
         );

@@ -10,7 +10,7 @@ public class UpdateUsageMetadataInput {
 
   private final ByteBuffer identifier;
 
-  private final Integer bytesUsed;
+  private final int bytesUsed;
 
   protected UpdateUsageMetadataInput(BuilderImpl builder) {
     this.identifier = builder.identifier();
@@ -21,7 +21,7 @@ public class UpdateUsageMetadataInput {
     return this.identifier;
   }
 
-  public Integer bytesUsed() {
+  public int bytesUsed() {
     return this.bytesUsed;
   }
 
@@ -38,9 +38,9 @@ public class UpdateUsageMetadataInput {
 
     ByteBuffer identifier();
 
-    Builder bytesUsed(Integer bytesUsed);
+    Builder bytesUsed(int bytesUsed);
 
-    Integer bytesUsed();
+    int bytesUsed();
 
     UpdateUsageMetadataInput build();
   }
@@ -49,13 +49,16 @@ public class UpdateUsageMetadataInput {
 
     protected ByteBuffer identifier;
 
-    protected Integer bytesUsed;
+    protected int bytesUsed;
+
+    private boolean _bytesUsedSet = false;
 
     protected BuilderImpl() {}
 
     protected BuilderImpl(UpdateUsageMetadataInput model) {
       this.identifier = model.identifier();
       this.bytesUsed = model.bytesUsed();
+      this._bytesUsedSet = true;
     }
 
     public Builder identifier(ByteBuffer identifier) {
@@ -67,12 +70,13 @@ public class UpdateUsageMetadataInput {
       return this.identifier;
     }
 
-    public Builder bytesUsed(Integer bytesUsed) {
+    public Builder bytesUsed(int bytesUsed) {
       this.bytesUsed = bytesUsed;
+      this._bytesUsedSet = true;
       return this;
     }
 
-    public Integer bytesUsed() {
+    public int bytesUsed() {
       return this.bytesUsed;
     }
 
@@ -82,12 +86,12 @@ public class UpdateUsageMetadataInput {
           "Missing value for required field `identifier`"
         );
       }
-      if (Objects.isNull(this.bytesUsed())) {
+      if (!this._bytesUsedSet) {
         throw new IllegalArgumentException(
           "Missing value for required field `bytesUsed`"
         );
       }
-      if (Objects.nonNull(this.bytesUsed()) && this.bytesUsed() < 0) {
+      if (this._bytesUsedSet && this.bytesUsed() < 0) {
         throw new IllegalArgumentException(
           "`bytesUsed` must be greater than or equal to 0"
         );
