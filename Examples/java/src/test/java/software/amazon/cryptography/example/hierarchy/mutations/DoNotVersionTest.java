@@ -74,7 +74,7 @@ public class DoNotVersionTest {
     );
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, keyStore);
     final List<Map<String, AttributeValue>> allBKItems =
-      DdbHelper.QueryForAllBkItemsDDBKeys(branchKeyId, null, null, null);
+      DdbHelper.QueryForAllBkItemsDDBKeys(branchKeyId, null, null);
     Assert.assertEquals(allBKItems.size(), 3, "Incorrect number of BK items.");
     DdbHelper.DeleteAllBkKeys(allBKItems, null, null);
   }

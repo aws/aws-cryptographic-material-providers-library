@@ -166,7 +166,6 @@ public class DdbHelper {
     final List<Map<String, AttributeValue>> ddbKeys = QueryForAllBkItemsDDBKeys(
       branchKeyId,
       _tableName,
-      _hierarchyVersion,
       _ddbClient
     );
     return DeleteAllBkKeys(ddbKeys, _tableName, _ddbClient);
@@ -203,21 +202,16 @@ public class DdbHelper {
   public static List<Map<String, AttributeValue>> QueryForAllBkItemsDDBKeys(
     final String branchKeyId,
     @Nullable String tableName,
-    @Nullable String hierarchyVersion,
     @Nullable DynamoDbClient ddbClient
   ) {
     final String _tableName = tableName == null
       ? Fixtures.TEST_KEYSTORE_NAME
       : tableName;
-    final String _hierarchyVersion = hierarchyVersion == null
-      ? "1"
-      : hierarchyVersion;
     final DynamoDbClient _ddbClient = ddbClient == null
       ? Fixtures.ddbClientWest2
       : ddbClient;
     final QueryResponse queryRes = queryForAllBkItems(
       branchKeyId,
-      _hierarchyVersion,
       _tableName,
       _ddbClient
     );
@@ -230,27 +224,20 @@ public class DdbHelper {
 
   private static QueryResponse queryForAllBkItems(
     String branchKeyId,
-    String _hierarchyVersion,
     String _tableName,
     DynamoDbClient _ddbClient
   ) {
     final Map<String, String> ExpressionAttributeNames = new HashMap<>(3, 1);
     ExpressionAttributeNames.put("#pk", Constants.BRANCH_KEY_ID);
-    ExpressionAttributeNames.put("#hv", "hierarchy-version");
     final Map<String, AttributeValue> ExpressionAttributeValues = new HashMap<>(
       3,
       1
     );
     ExpressionAttributeValues.put(":pk", AttributeValue.fromS(branchKeyId));
-    ExpressionAttributeValues.put(
-      ":hv",
-      AttributeValue.fromN(_hierarchyVersion)
-    );
     final QueryRequest queryReq = QueryRequest
       .builder()
       .tableName(_tableName)
       .keyConditionExpression("#pk = :pk")
-      .filterExpression("#hv = :hv")
       .expressionAttributeNames(ExpressionAttributeNames)
       .expressionAttributeValues(ExpressionAttributeValues)
       .build();
