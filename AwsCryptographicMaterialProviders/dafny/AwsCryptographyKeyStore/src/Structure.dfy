@@ -557,7 +557,7 @@ module {:options "/functionSyntax:4" } Structure {
 
     requires BranchKeyContext?(branchKeyContext)
     requires BRANCH_KEY_RESTRICTED_FIELD_NAMES !! terminalCustomEncryptionContext.Keys
-
+    requires terminalHierarchyVersion == HIERARCHY_VERSION_VALUE_1 || terminalHierarchyVersion == HIERARCHY_VERSION_VALUE_2
     ensures BranchKeyContext?(output)
     ensures output[KMS_FIELD] == terminalKmsArn
     ensures
