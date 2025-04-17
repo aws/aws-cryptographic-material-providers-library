@@ -87,7 +87,7 @@ module {:options "/functionSyntax:4" } Mutations {
     return Success(commitmentAndIndex);
   }
 
-  method {:only} {:isolate_assertions} VerifyEncryptedHierarchicalKey(
+  method {:isolate_assertions} VerifyEncryptedHierarchicalKey(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly localOperation: string := "ApplyMutation",
