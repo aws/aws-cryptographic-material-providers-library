@@ -256,5 +256,39 @@ module {:options "/functionSyntax:4" } AdminFixtures {
                         Item := Structure.ToAttributeMap(violated),
                         TableName := physicalName))));
   }
+
+  // TODO-HV-2-M3-Version: Support Versioning of Happy Case Id along with Create.
+  method CreateHappyCaseId(
+    nameonly id: string,
+    nameonly kmsId: string := Fixtures.keyArn,
+    nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1,
+    nameonly strategy: Types.KeyManagementStrategy,
+    nameonly admin?: Option<Types.IKeyStoreAdminClient> := None,
+    // nameonly versionCount: nat := 3,
+    nameonly customEC: KeyStoreTypes.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")]
+  )
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    requires 0 < |customEC|
+  {
+    var admin;
+    if admin?.None? {
+      admin :- expect DefaultAdmin(
+        physicalName := Fixtures.branchKeyStoreName,
+        logicalName := Fixtures.logicalKeyStoreName,
+        ddbClient? := None
+      );
+    } else {
+      admin := admin?.value;
+    }
+    assume {:axiom} fresh(admin) && fresh(admin.Modifies);
+    var input := Types.CreateKeyInput(
+      Identifier := Some(id),
+      EncryptionContext := Some(customEC),
+      KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(kmsId),
+      Strategy := Some(strategy),
+      HierarchyVersion := Some(hierarchyVersion)
+    );
+    var branchKeyId :- expect admin.CreateKey(input);
+  }
 }
 

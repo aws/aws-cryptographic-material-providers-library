@@ -97,6 +97,8 @@ module Fixtures {
   ]
   // THESE ARE TESTING RESOURCES DO NOT USE IN A PRODUCTION ENVIRONMENT
   const keyArn := "arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126"
+  const kmsKeyForHV1 := "arn:aws:kms:us-west-2:370957321024:key/85cee5a8-fecb-41e9-affd-a1f7bb036884"
+  const kmsArnForHV2 := "arn:aws:kms:us-west-2:370957321024:key/da179005-1c04-4b91-a103-ee43b9a707e6"
   const keyId := "9d989aa2-2f9c-438c-a745-cc57d3ad0126"
 
   // mrkRsaKeyArn is an RSA Key
@@ -139,8 +141,23 @@ module Fixtures {
 
   // Creation of this particular illegal Branch Key is detailed here:
   // `git rev-parse --show-toplevel`/cfn/lyingBranchKeyCreation.md
-  const lyingBranchKeyId := "kms-arn-attribute-is-lying"
-  const lyingBranchKeyDecryptOnlyVersion := "129c5c87-308a-41c9-8b9d-a27f66e915f4"
+  const hierarchyV1InvalidKmsArnId := "kms-arn-attribute-is-lying"
+  const hierarchyV1InvalidKmsArnVersion := "129c5c87-308a-41c9-8b9d-a27f66e915f4"
+  // TODO-HV-2-FF : Document creation of lying branch keys
+  const hierarchyV2InvalidKmsArnId := "DO-NOT-DELETE-test-hv2-get-key-wrong-kms-arn"
+  const hierarchyV2InvalidKmsArnVersion := "e3df6cf8-3edc-4781-998e-c4731b755452"
+
+  const hierarchyV2InvalidDigestId := "DO-NOT-DELETE-test-hv2-get-key-wrong-digest"
+  const hierarchyV2InvalidDigestVersion := "755404a1-a295-4ec9-ba13-c540e16515d5"
+
+  const hierarchyV2InvalidCiphertextLengthId := "DO-NOT-DELETE-test-hv2-get-key-wrong-ciphertext"
+  const hierarchyV2InvalidCiphertextLengthVersion := "94a3bb88-bbaa-4830-99d4-7a949a02f4a1"
+
+  const hierarchyV2MissingPrefixedECId := "DO-NOT-DELETE-test-hv2-get-key-missing-prefixed-ec"
+  const hierarchyV2MissingPrefixedECVersion := "d3e7b039-71fb-41af-8549-2564a170935c"
+
+  const hierarchyV2UnexpectedECId := "DO-NOT-DELETE-test-hv2-get-key-unexpected-ec"
+  const hierarchyV2UnexpectedECVersion := "a01eec17-9b1c-4f4a-9b66-2c84816854ac"
 
   // Constants for Testing Storage
   const ORIGINAL_BYTES : UTF8.ValidUTF8Bytes :=
