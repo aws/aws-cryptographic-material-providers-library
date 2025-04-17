@@ -12,7 +12,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
   import opened Wrappers
-  import opened Fixtures
+  import Fixtures
   import UTF8 = Fixtures.UTF8
   import DefaultKeyStorageInterface
   import Structure
@@ -260,7 +260,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
   // TODO-HV-2-M3-Version: Support Versioning of Happy Case Id along with Create.
   method CreateHappyCaseId(
     nameonly id: string,
-    nameonly kmsId: string := keyArn,
+    nameonly kmsId: string := Fixtures.keyArn,
     nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1,
     nameonly strategy: Option<Types.KeyManagementStrategy> := None,
     nameonly admin?: Option<Types.IKeyStoreAdminClient> := None,
@@ -273,8 +273,8 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     var admin;
     if admin?.None? {
       admin :- expect DefaultAdmin(
-        physicalName := branchKeyStoreName,
-        logicalName := logicalKeyStoreName,
+        physicalName := Fixtures.branchKeyStoreName,
+        logicalName := Fixtures.logicalKeyStoreName,
         ddbClient? := None
       );
     } else {
