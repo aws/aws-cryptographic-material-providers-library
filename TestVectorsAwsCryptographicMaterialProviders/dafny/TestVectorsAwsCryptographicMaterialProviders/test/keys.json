@@ -54,6 +54,24 @@
       "branchKey": "tJwf65epYvUt5HMiQsl/6jlvLxS0tgdjIuvFy2BLIwg=",
       "beaconKey": "RJiXTa/rJf+CLHAVyE652v3uhKreOuYjV+a7SVOugow="
     },
+    "static-branch-key-hv-2": {
+      "type": "static-branch-key",
+      "encrypt": true,
+      "decrypt": true,
+      "key-id": "769fa99b-b098-4ffe-a5c7-beb386189879",
+      "branchKeyVersion": "50aa6389-46b7-480b-ba79-0038419e8b54",
+      "branchKey": "mvHAFwZSoXAAglfay0yVqbQbC50vn0IiojAAxX1byz0=",
+      "beaconKey": "4l+HsRfVr1m2pRUZghwwRO5p1Nk3ul09MhGIgNVNvns="
+    },
+    "static-branch-key-hv-2-with-ec": {
+      "type": "static-branch-key",
+      "encrypt": true,
+      "decrypt": true,
+      "key-id": "ea3c7825-1368-4dfb-9f76-298b3e5e9a48",
+      "branchKeyVersion": "1673e4b7-d0ed-4e6b-b9ec-cbf8c1720cfa",
+      "branchKey": "mvHAFwZSoXAAglfay0yVqbQbC50vn0IiojAAxX1byz0=",
+      "beaconKey": "5t91WYzpw14r7kMLSyChWquXkipuGfLNQyBYLUx0CBU="
+    },
     "aes-128": {
       "encrypt": true,
       "decrypt": true,
