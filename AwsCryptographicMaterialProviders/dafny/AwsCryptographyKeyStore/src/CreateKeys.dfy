@@ -325,12 +325,16 @@ module {:options "/functionSyntax:4" } CreateKeys {
           storage
         );
       case "2" =>
-        // TODO-HV-2-M3: Support Version in HV-2
-        output := Failure(Types.KeyStoreException(
-                            message :=
-                              "Active Branch Key found with hierarchy-version 2.\n"
-                              + "VersionKey operation does not support versioning hierarchy-version 2.\n"
-                          ));
+        output := VersionActiveBranchKeyVersion2(
+          oldActiveItem,
+          timestamp,
+          branchKeyVersion,
+          logicalKeyStoreName,
+          kmsConfiguration,
+          grantTokens,
+          kmsClient,
+          storage
+        );
       case _ =>
         output := Failure(Types.KeyStoreException(
                             message :=
@@ -566,6 +570,17 @@ module {:options "/functionSyntax:4" } CreateKeys {
     output := Success(Types.VersionKeyOutput());
   }
 
+  method VersionActiveBranchKeyVersion2(
+    oldActiveItem: Types.EncryptedHierarchicalKey,
+    timestamp: string,
+    branchKeyVersion: string,
+    logicalKeyStoreName: string,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient,
+    storage: Types.IKeyStorageInterface
+  )
+    returns (output: Result<Types.VersionKeyOutput, Types.Error>)
 
   twostate predicate WrappedBranchKeyCreation?(
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
