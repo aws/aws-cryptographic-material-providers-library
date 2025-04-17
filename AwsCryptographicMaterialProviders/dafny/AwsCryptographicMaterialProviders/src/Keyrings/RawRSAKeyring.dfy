@@ -52,12 +52,15 @@ module RawRSAKeyring {
       && (publicKeyMaterial.Some? ==> (publicKeyMaterial.value.Modifies < (Modifies - {History})))
       && (publicKeyMaterial.Some? ==> publicKeyMaterial.value.Invariant())
       && (privateKeyMaterial.Some? ==> privateKeyMaterial.value.Invariant())
+      && (publicKey.None? ==> this.publicKeyMaterial.None?)
+      && (privateKey.None? ==> this.privateKeyMaterial.None?)
     }
 
     const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     const keyNamespace: UTF8.ValidUTF8Bytes
     const keyName: UTF8.ValidUTF8Bytes
     const publicKey: Option<seq<uint8>>
+    const privateKey: Option<seq<uint8>>
     const privateKeyMaterial: Option<RsaUnwrapKeyMaterial>
     const publicKeyMaterial: Option<RsaWrapKeyMaterial>
     const paddingScheme: Crypto.RSAPaddingMode
@@ -112,15 +115,14 @@ module RawRSAKeyring {
       ensures this.keyName == name
       ensures this.paddingScheme == paddingScheme
       ensures this.publicKey == publicKey
+      ensures this.privateKey == privateKey
       ensures ValidState() && fresh(History) && fresh(Modifies - cryptoPrimitives.Modifies)
-      ensures publicKey.None? ==> this.publicKeyMaterial.None?
-      ensures privateKey.None? ==> this.privateKeyMaterial.None?
     {
       this.keyNamespace := namespace;
       this.keyName := name;
       this.paddingScheme := paddingScheme;
       this.publicKey := publicKey;
-
+      this.privateKey := privateKey;
       this.cryptoPrimitives := cryptoPrimitives;
 
       var localPrivateKeyMaterial := None;
@@ -233,12 +235,12 @@ module RawRSAKeyring {
       // NOTE: Attempting to prove this by stating that a Keyring
       // without a public key but with a private key will not encrypt
       ensures
-        this.publicKey.None?
+        this.publicKeyMaterial.None?
         ==>
           output.Failure?
     {
       :- Need(
-        publicKeyMaterial.Some? && publicKey.Some?,
+        publicKeyMaterial.Some?,
         Types.AwsCryptographicMaterialProvidersException(
           message := "A RawRSAKeyring without a public key cannot provide OnEncrypt"));
 
