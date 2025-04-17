@@ -91,6 +91,9 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       && KmsArn.ValidKmsArn?(Terminal.kmsArn)
       && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! Original.customEncryptionContext.Keys)
       && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! Terminal.customEncryptionContext.Keys)
+      && (Terminal.hierarchyVersion.v1? || Terminal.hierarchyVersion.v2?)
+      && (Original.hierarchyVersion.v1? || Original.hierarchyVersion.v2?)
+      && (!Terminal.hierarchyVersion.v1? || Original.hierarchyVersion == Terminal.hierarchyVersion)
     }
   }
 

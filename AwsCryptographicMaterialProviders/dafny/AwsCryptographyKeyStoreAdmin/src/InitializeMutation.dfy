@@ -57,7 +57,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && keyManagerStrategy.ValidState()
       && storage.ValidState()
       && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
-      && keyManagerStrategy.SupportHV1()
+         // && keyManagerStrategy.SupportHV1()
     }
   }
 
@@ -759,7 +759,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         ));
   }
 
-  method InitializeMutationActiveMutate(
+  method {:only} InitializeMutationActiveMutate(
     localInput: InitializeMutationActiveInput
   )
     returns (output: Result<InitializeMutationActiveOutput, Types.Error>)
@@ -796,6 +796,12 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Types.KeyStoreAdminException(
         message := "Version (Decrypt Only) Item read from storage is malformed! Version: "
         + Structure.BRANCH_KEY_TYPE_PREFIX + oldVersion)
+    );
+    :- Need(
+      getOldRes.Item.EncryptionContext[Structure.HIERARCHY_VERSION] == HvUtils.HierarchyVersionToString(localInput.mutationToApply.Original.hierarchyVersion),
+      Types.KeyStoreAdminException(
+        message := "The original hiearchical version and the branch key context hiearchical version does not match"
+      )
     );
 
     // Assert Decrypt Only is in Original
