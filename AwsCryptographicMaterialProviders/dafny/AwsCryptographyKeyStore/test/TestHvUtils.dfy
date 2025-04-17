@@ -24,13 +24,14 @@ module TestHvUtils {
       "version" := "branch:version:dfb80b71-8e80-4d74-8ac0-0e940533219e",
       "aws-crypto-ec:Robbie" := "is a dog"
     ];
-    var activeSHA := [
-      54, -52, -120, -57, -51, -110, -103, 54, 61, -87, 40, -9, -117, 92, 4,  61,
-      37, -12, -23, 55, 89, 127, 107, 13, 85, 46, 122, 20, -71, -95, -108, -61,
-      -69, 107, -87, 126, -77, -7, -27, 63, 71, -106, -121, 81, -70, -52, -70, 41
+    var expectedActiveSHA : seq<uint8> := [
+      54, 204, 136, 199, 205, 146, 153, 54, 61, 169, 40, 247, 139, 92, 4, 61,
+      37, 244, 233, 55, 89, 127, 107, 13, 85, 46, 122, 20, 185, 161, 148, 195,
+      187, 107, 169, 126, 179, 249, 229, 63, 71, 150, 135, 81, 186, 204, 186, 41
     ];
     var actualActiveSHA :- expect HvUtils.CreateBKCDigest(activeBKC, crypto);
-    expect actualActiveSHA == activeSHA;
+    expect |actualActiveSHA| == 48;
+    expect actualActiveSHA == expectedActiveSHA;
 
     // Decrypt Only Branch Key Context
     var decryptOnlyBKC := map[
@@ -42,13 +43,14 @@ module TestHvUtils {
       "tablename" := "KeyStoreDdbTable",
       "aws-crypto-ec:Robbie" := "is a dog"
     ];
-    var decryptOnlySHA: seq<uint8> := [
-      109, -70, 69, 45, 104, 55, 54, -65, -121, -113, -80, 85, 47, 62, 20, -115,
-      -3, -28, 124, 11, 76, -33, -61, 79, 65, -127, 99, -67, -77, 1, -5, -112,
-      -35, -59, -67, -30, 106, -124, -88, -124, 113, 9, -57, 81, -81, 117, -112, 21
+    var expectedDecryptOnlySHA: seq<uint8> := [
+      109, 186, 69, 45, 104, 55, 54, 191, 135, 143, 176, 85, 47, 62, 20, 141,
+      253, 228, 124, 11, 76, 223, 195, 79, 65, 129, 99, 189, 179, 1, 251, 144,
+      221, 197, 189, 226, 106, 132, 168, 132, 113, 9, 199, 81, 175, 117, 144, 21
     ];
     var actualDecryptOnlySHA :- expect HvUtils.CreateBKCDigest(decryptOnlyBKC, crypto);
-    expect actualDecryptOnlySHA == decryptOnlySHA;
+    expect |actualDecryptOnlySHA| == 48;
+    expect actualDecryptOnlySHA == expectedDecryptOnlySHA;
 
     // Beacon Branch Key Context
     var beaconBKC := map[
@@ -60,12 +62,13 @@ module TestHvUtils {
       "tablename" := "KeyStoreDdbTable",
       "aws-crypto-ec:Robbie" := "is a dog"
     ];
-    var beaconSHA: seq<uint8> := [
-      20, 15, 0, -5, 100, 98, 54, -33, 92, -125, 60, 60, 18, -116, -105, 18,
-      58, -126, 123, 11, -111, -101, 46, -62, 11, 32, -39, -60, 79, -43, 100, -108,
-      -72, 76, -77, -1, -77, 69, -12, 98, 70, 83, 29, -91, 59, 60, 120, 38
+    var expectedBeaconSHA: seq<uint8> := [
+      20, 15, 0, 251, 100, 98, 54, 223, 92, 131, 60, 60, 18, 140, 151, 18,
+      58, 130, 123, 11, 145, 155, 46, 194, 11, 32, 217, 196, 79, 213, 100, 148,
+      184, 76, 179, 255, 179, 69, 244, 98, 70, 83, 29, 165, 59, 60, 120, 38
     ];
     var actualBeaconSHA: seq<uint8> :- expect HvUtils.CreateBKCDigest(beaconBKC, crypto);
-    expect actualBeaconSHA == beaconSHA;
+    expect |actualBeaconSHA| == 48;
+    expect actualBeaconSHA == expectedBeaconSHA;
   }
 }
