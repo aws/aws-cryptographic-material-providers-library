@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "Structure.dfy"
-include "ErrorMessages.dfy"
+include "KeyStoreErrorMessages.dfy"
 include "KmsArn.dfy"
 include "StorageHelpers.dfy"
 
@@ -577,7 +577,7 @@ module DefaultKeyStorageInterface {
     }
 
 
-    method {:vcs_split_on_every_assert} GetMutation' ( input: Types.GetMutationInput )
+    method GetMutation' ( input: Types.GetMutationInput )
       returns (output: Result<Types.GetMutationOutput, Types.Error>)
       requires ValidState()
       modifies Modifies - {History}
@@ -585,32 +585,23 @@ module DefaultKeyStorageInterface {
       ensures ValidState()
       ensures GetMutationEnsuresPublicly(input, output)
       ensures unchanged(History)
-
       ensures |ddbClient.History.TransactGetItems| == |old(ddbClient.History.TransactGetItems)| + 1
-      ensures output.Success?
-              ==>
-                && Seq.Last(ddbClient.History.TransactGetItems).output.Success?
-
+      ensures
+        output.Success?
+        ==>
+          && var tgi := Seq.Last(ddbClient.History.TransactGetItems);
+          && tgi.output.Success?
+          && tgi.output.value.Responses.Some?
+          && var responses := tgi.output.value.Responses.value;
+          && |responses| == 2
+          && var commitment? := MutationCommitmentFromOptionalItem(responses[0].Item, input.Identifier, ddbTableName);
+          && commitment?.Success?
+          && var index? := MutationIndexFromOptionalItem(responses[1].Item, input.Identifier, ddbTableName);
+          && index?.Success?
+          && output.value.MutationCommitment == commitment?.value
+          && output.value.MutationIndex == index?.value
       ensures
         && old(ddbClient.History.TransactGetItems) < ddbClient.History.TransactGetItems
-
-      // If the lock is invalid, must fail
-      // TODO-Mutations-FF I cannot get these prove quickly, even though they seem quite straight forward
-      // ensures
-      //   && Seq.Last(ddbClient.History.TransactGetItems).output.Success?
-      //   && Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.Some?
-      //   && |Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value| == 2
-      //   && Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value[0].Item.Some?
-      //   && !Structure.MutationCommitmentAttribute?(Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value[0].Item.value)
-      //   ==> output.Failure?
-      // If the index is invalid, must fail
-      // ensures
-      //   && Seq.Last(ddbClient.History.TransactGetItems).output.Success?
-      //   && Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.Some?
-      //   && |Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value| == 2
-      //   && Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value[1].Item.Some?
-      //   && !Structure.MutationIndexAttribute?(Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value[1].Item.value)
-      //   ==> output.Failure?
     {
       var transactItems: DDB.TransactGetItemList
         := Seq.Map(
@@ -652,12 +643,10 @@ module DefaultKeyStorageInterface {
       var lockCanidate := ddbResponse.Responses.value[0].Item;
       var lockItem: Option<Types.MutationCommitment> :-
         MutationCommitmentFromOptionalItem(lockCanidate, input.Identifier, ddbTableName);
-      assert lockItem.Some? ==> lockCanidate.Some? && Structure.MutationCommitmentAttribute?(lockCanidate.value);
 
       var indexCanidate := ddbResponse.Responses.value[1].Item;
       var indexItem: Option<Types.MutationIndex> :-
         MutationIndexFromOptionalItem(indexCanidate, input.Identifier, ddbTableName);
-      assert indexItem.Some? ==> indexCanidate.Some? && Structure.MutationIndexAttribute?(indexCanidate.value);
 
       return Success(
           Types.GetMutationOutput(

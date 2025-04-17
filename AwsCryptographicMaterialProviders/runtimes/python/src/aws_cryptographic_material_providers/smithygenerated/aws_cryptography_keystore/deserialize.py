@@ -9,6 +9,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     Error,
     Error_AlreadyExistsConditionFailed,
     Error_BranchKeyCiphertextException,
+    Error_HierarchyVersionException,
     Error_KeyManagementException,
     Error_KeyStorageException,
     Error_KeyStoreException,
@@ -33,6 +34,7 @@ from .errors import (
     CollectionOfErrors,
     ComAmazonawsDynamodb,
     ComAmazonawsKms,
+    HierarchyVersionException,
     KeyManagementException,
     KeyStorageException,
     KeyStoreException,
@@ -130,6 +132,8 @@ def _deserialize_error(error: Error) -> ServiceError:
         return AlreadyExistsConditionFailed(message=_dafny.string_of(error.message))
     elif error.is_BranchKeyCiphertextException:
         return BranchKeyCiphertextException(message=_dafny.string_of(error.message))
+    elif error.is_HierarchyVersionException:
+        return HierarchyVersionException(message=_dafny.string_of(error.message))
     elif error.is_KeyManagementException:
         return KeyManagementException(message=_dafny.string_of(error.message))
     elif error.is_KeyStorageException:

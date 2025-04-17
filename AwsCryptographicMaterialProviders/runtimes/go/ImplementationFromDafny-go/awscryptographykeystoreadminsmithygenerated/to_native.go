@@ -40,13 +40,16 @@ func CreateKeyInput_FromDafny(dafnyInput AwsCryptographyKeyStoreAdminTypes.Creat
 		EncryptionContext: Aws_cryptography_keyStoreAdmin_CreateKeyInput_EncryptionContext_FromDafny(dafnyInput.Dtor_EncryptionContext().UnwrapOr(nil)),
 		KmsArn:            Aws_cryptography_keyStoreAdmin_CreateKeyInput_KmsArn_FromDafny(dafnyInput.Dtor_KmsArn()),
 		Strategy:          Aws_cryptography_keyStoreAdmin_CreateKeyInput_Strategy_FromDafny(dafnyInput.Dtor_Strategy().UnwrapOr(nil)),
+		HierarchyVersion:  Aws_cryptography_keyStoreAdmin_CreateKeyInput_HierarchyVersion_FromDafny(dafnyInput.Dtor_HierarchyVersion().UnwrapOr(nil)),
 	}
 
 }
 
 func CreateKeyOutput_FromDafny(dafnyOutput AwsCryptographyKeyStoreAdminTypes.CreateKeyOutput) awscryptographykeystoreadminsmithygeneratedtypes.CreateKeyOutput {
 
-	return awscryptographykeystoreadminsmithygeneratedtypes.CreateKeyOutput{Identifier: Aws_cryptography_keyStoreAdmin_CreateKeyOutput_Identifier_FromDafny(dafnyOutput.Dtor_Identifier())}
+	return awscryptographykeystoreadminsmithygeneratedtypes.CreateKeyOutput{Identifier: Aws_cryptography_keyStoreAdmin_CreateKeyOutput_Identifier_FromDafny(dafnyOutput.Dtor_Identifier()),
+		HierarchyVersion: Aws_cryptography_keyStoreAdmin_CreateKeyOutput_HierarchyVersion_FromDafny(dafnyOutput.Dtor_HierarchyVersion()),
+	}
 
 }
 
@@ -290,6 +293,12 @@ func Aws_cryptography_keyStoreAdmin_ApplyMutationInput_Strategy_FromDafny(input 
 			Value: (Aws_cryptography_keyStoreAdmin_KeyManagementStrategy_AwsKmsDecryptEncrypt_FromDafny((input.(AwsCryptographyKeyStoreAdminTypes.KeyManagementStrategy)).Dtor_AwsKmsDecryptEncrypt())),
 		}
 	}
+	if (input.(AwsCryptographyKeyStoreAdminTypes.KeyManagementStrategy)).Is_AwsKmsSimple() {
+
+		union = &awscryptographykeystoreadminsmithygeneratedtypes.KeyManagementStrategyMemberAwsKmsSimple{
+			Value: (Aws_cryptography_keyStoreAdmin_KeyManagementStrategy_AwsKmsSimple_FromDafny((input.(AwsCryptographyKeyStoreAdminTypes.KeyManagementStrategy)).Dtor_AwsKmsSimple())),
+		}
+	}
 
 	return union
 
@@ -317,6 +326,11 @@ func Aws_cryptography_keyStoreAdmin_AwsKmsDecryptEncrypt_encrypt_FromDafny(input
 		return nil
 	}
 	return &awscryptographykeystoresmithygeneratedtypes.AwsKms{GrantTokens: awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_AwsKms_grantTokens_FromDafny(input.(AwsCryptographyKeyStoreTypes.AwsKms).Dtor_grantTokens().UnwrapOr(nil)),
+		KmsClient: awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_AwsKms_kmsClient_FromDafny(input.(AwsCryptographyKeyStoreTypes.AwsKms).Dtor_kmsClient().UnwrapOr(nil)),
+	}
+}
+func Aws_cryptography_keyStoreAdmin_KeyManagementStrategy_AwsKmsSimple_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.AwsKms {
+	return awscryptographykeystoresmithygeneratedtypes.AwsKms{GrantTokens: awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_AwsKms_grantTokens_FromDafny(input.(AwsCryptographyKeyStoreTypes.AwsKms).Dtor_grantTokens().UnwrapOr(nil)),
 		KmsClient: awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_AwsKms_kmsClient_FromDafny(input.(AwsCryptographyKeyStoreTypes.AwsKms).Dtor_kmsClient().UnwrapOr(nil)),
 	}
 }
@@ -459,26 +473,11 @@ func Aws_cryptography_keyStoreAdmin_CreateKeyInput_KmsArn_FromDafny(input interf
 			Value: (Aws_cryptography_keyStoreAdmin_KmsSymmetricKeyArn_KmsKeyArn_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
-	if (input.(AwsCryptographyKeyStoreAdminTypes.KmsSymmetricKeyArn)).Is_KmsMRKeyArn() {
-		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyKeyStoreAdminTypes.KmsSymmetricKeyArn)).Dtor_KmsMRKeyArn())
-		union = &awscryptographykeystoreadminsmithygeneratedtypes.KmsSymmetricKeyArnMemberKmsMRKeyArn{
-			Value: (Aws_cryptography_keyStoreAdmin_KmsSymmetricKeyArn_KmsMRKeyArn_FromDafny(dataSource.UnwrapOr(nil))),
-		}
-	}
 
 	return union
 
 }
 func Aws_cryptography_keyStoreAdmin_KmsSymmetricKeyArn_KmsKeyArn_FromDafny(input interface{}) string {
-	return func() string {
-
-		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
-		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
-
-		return s
-	}()
-}
-func Aws_cryptography_keyStoreAdmin_KmsSymmetricKeyArn_KmsMRKeyArn_FromDafny(input interface{}) string {
 	return func() string {
 
 		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
@@ -505,9 +504,36 @@ func Aws_cryptography_keyStoreAdmin_CreateKeyInput_Strategy_FromDafny(input inte
 			Value: (Aws_cryptography_keyStoreAdmin_KeyManagementStrategy_AwsKmsDecryptEncrypt_FromDafny((input.(AwsCryptographyKeyStoreAdminTypes.KeyManagementStrategy)).Dtor_AwsKmsDecryptEncrypt())),
 		}
 	}
+	if (input.(AwsCryptographyKeyStoreAdminTypes.KeyManagementStrategy)).Is_AwsKmsSimple() {
+
+		union = &awscryptographykeystoreadminsmithygeneratedtypes.KeyManagementStrategyMemberAwsKmsSimple{
+			Value: (Aws_cryptography_keyStoreAdmin_KeyManagementStrategy_AwsKmsSimple_FromDafny((input.(AwsCryptographyKeyStoreAdminTypes.KeyManagementStrategy)).Dtor_AwsKmsSimple())),
+		}
+	}
 
 	return union
 
+}
+func Aws_cryptography_keyStoreAdmin_CreateKeyInput_HierarchyVersion_FromDafny(input interface{}) *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+	return func() *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+		var u awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+		if input == nil {
+			return nil
+		}
+		inputEnum := input.(AwsCryptographyKeyStoreTypes.HierarchyVersion)
+		index := -1
+		for allEnums := dafny.Iterate(AwsCryptographyKeyStoreTypes.CompanionStruct_HierarchyVersion_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(AwsCryptographyKeyStoreTypes.HierarchyVersion).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+
+		return &u.Values()[index]
+	}()
 }
 func Aws_cryptography_keyStoreAdmin_CreateKeyOutput_Identifier_FromDafny(input interface{}) string {
 	return func() string {
@@ -516,6 +542,24 @@ func Aws_cryptography_keyStoreAdmin_CreateKeyOutput_Identifier_FromDafny(input i
 		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 
 		return s
+	}()
+}
+func Aws_cryptography_keyStoreAdmin_CreateKeyOutput_HierarchyVersion_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+	return func() awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+		var u awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+		inputEnum := input.(AwsCryptographyKeyStoreTypes.HierarchyVersion)
+		index := -1
+		for allEnums := dafny.Iterate(AwsCryptographyKeyStoreTypes.CompanionStruct_HierarchyVersion_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(AwsCryptographyKeyStoreTypes.HierarchyVersion).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+
+		return u.Values()[index]
 	}()
 }
 func Aws_cryptography_keyStoreAdmin_DescribeMutationInput_Identifier_FromDafny(input interface{}) string {
@@ -560,12 +604,13 @@ func Aws_cryptography_keyStoreAdmin_MutationDescription_MutationDetails_FromDafn
 		UUID:       Aws_cryptography_keyStoreAdmin_MutationDetails_UUID_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.MutationDetails).Dtor_UUID()),
 	}
 }
-func Aws_cryptography_keyStoreAdmin_MutationDetails_Original_FromDafny(input interface{}) awscryptographykeystoreadminsmithygeneratedtypes.MutableBranchKeyProperties {
-	return awscryptographykeystoreadminsmithygeneratedtypes.MutableBranchKeyProperties{KmsArn: Aws_cryptography_keyStoreAdmin_MutableBranchKeyProperties_KmsArn_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.MutableBranchKeyProperties).Dtor_KmsArn()),
-		CustomEncryptionContext: Aws_cryptography_keyStoreAdmin_MutableBranchKeyProperties_CustomEncryptionContext_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.MutableBranchKeyProperties).Dtor_CustomEncryptionContext()),
+func Aws_cryptography_keyStoreAdmin_MutationDetails_Original_FromDafny(input interface{}) awscryptographykeystoreadminsmithygeneratedtypes.MutableBranchKeyContext {
+	return awscryptographykeystoreadminsmithygeneratedtypes.MutableBranchKeyContext{KmsArn: Aws_cryptography_keyStoreAdmin_MutableBranchKeyContext_KmsArn_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.MutableBranchKeyContext).Dtor_KmsArn()),
+		EncryptionContext: Aws_cryptography_keyStoreAdmin_MutableBranchKeyContext_EncryptionContext_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.MutableBranchKeyContext).Dtor_EncryptionContext()),
+		HierarchyVersion:  Aws_cryptography_keyStoreAdmin_MutableBranchKeyContext_HierarchyVersion_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.MutableBranchKeyContext).Dtor_HierarchyVersion()),
 	}
 }
-func Aws_cryptography_keyStoreAdmin_MutableBranchKeyProperties_KmsArn_FromDafny(input interface{}) string {
+func Aws_cryptography_keyStoreAdmin_MutableBranchKeyContext_KmsArn_FromDafny(input interface{}) string {
 	return func() string {
 
 		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
@@ -574,7 +619,7 @@ func Aws_cryptography_keyStoreAdmin_MutableBranchKeyProperties_KmsArn_FromDafny(
 		return s
 	}()
 }
-func Aws_cryptography_keyStoreAdmin_MutableBranchKeyProperties_CustomEncryptionContext_FromDafny(input interface{}) map[string]string {
+func Aws_cryptography_keyStoreAdmin_MutableBranchKeyContext_EncryptionContext_FromDafny(input interface{}) map[string]string {
 	var m map[string]string = make(map[string]string)
 	if input == nil {
 		return nil
@@ -589,14 +634,34 @@ func Aws_cryptography_keyStoreAdmin_MutableBranchKeyProperties_CustomEncryptionC
 	return m
 
 }
-func Aws_cryptography_keyStoreAdmin_MutationDetails_Terminal_FromDafny(input interface{}) awscryptographykeystoreadminsmithygeneratedtypes.MutableBranchKeyProperties {
-	return awscryptographykeystoreadminsmithygeneratedtypes.MutableBranchKeyProperties{KmsArn: Aws_cryptography_keyStoreAdmin_MutableBranchKeyProperties_KmsArn_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.MutableBranchKeyProperties).Dtor_KmsArn()),
-		CustomEncryptionContext: Aws_cryptography_keyStoreAdmin_MutableBranchKeyProperties_CustomEncryptionContext_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.MutableBranchKeyProperties).Dtor_CustomEncryptionContext()),
+func Aws_cryptography_keyStoreAdmin_MutableBranchKeyContext_HierarchyVersion_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+	return func() awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+		var u awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+		inputEnum := input.(AwsCryptographyKeyStoreTypes.HierarchyVersion)
+		index := -1
+		for allEnums := dafny.Iterate(AwsCryptographyKeyStoreTypes.CompanionStruct_HierarchyVersion_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(AwsCryptographyKeyStoreTypes.HierarchyVersion).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+
+		return u.Values()[index]
+	}()
+}
+func Aws_cryptography_keyStoreAdmin_MutationDetails_Terminal_FromDafny(input interface{}) awscryptographykeystoreadminsmithygeneratedtypes.MutableBranchKeyContext {
+	return awscryptographykeystoreadminsmithygeneratedtypes.MutableBranchKeyContext{KmsArn: Aws_cryptography_keyStoreAdmin_MutableBranchKeyContext_KmsArn_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.MutableBranchKeyContext).Dtor_KmsArn()),
+		EncryptionContext: Aws_cryptography_keyStoreAdmin_MutableBranchKeyContext_EncryptionContext_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.MutableBranchKeyContext).Dtor_EncryptionContext()),
+		HierarchyVersion:  Aws_cryptography_keyStoreAdmin_MutableBranchKeyContext_HierarchyVersion_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.MutableBranchKeyContext).Dtor_HierarchyVersion()),
 	}
 }
 func Aws_cryptography_keyStoreAdmin_MutationDetails_Input_FromDafny(input interface{}) awscryptographykeystoreadminsmithygeneratedtypes.Mutations {
 	return awscryptographykeystoreadminsmithygeneratedtypes.Mutations{TerminalKmsArn: Aws_cryptography_keyStoreAdmin_Mutations_TerminalKmsArn_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.Mutations).Dtor_TerminalKmsArn().UnwrapOr(nil)),
 		TerminalEncryptionContext: Aws_cryptography_keyStoreAdmin_Mutations_TerminalEncryptionContext_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.Mutations).Dtor_TerminalEncryptionContext().UnwrapOr(nil)),
+		TerminalHierarchyVersion:  Aws_cryptography_keyStoreAdmin_Mutations_TerminalHierarchyVersion_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.Mutations).Dtor_TerminalHierarchyVersion().UnwrapOr(nil)),
 	}
 }
 func Aws_cryptography_keyStoreAdmin_Mutations_TerminalKmsArn_FromDafny(input interface{}) *string {
@@ -625,6 +690,27 @@ func Aws_cryptography_keyStoreAdmin_Mutations_TerminalEncryptionContext_FromDafn
 	}
 	return m
 
+}
+func Aws_cryptography_keyStoreAdmin_Mutations_TerminalHierarchyVersion_FromDafny(input interface{}) *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+	return func() *awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+		var u awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+		if input == nil {
+			return nil
+		}
+		inputEnum := input.(AwsCryptographyKeyStoreTypes.HierarchyVersion)
+		index := -1
+		for allEnums := dafny.Iterate(AwsCryptographyKeyStoreTypes.CompanionStruct_HierarchyVersion_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(AwsCryptographyKeyStoreTypes.HierarchyVersion).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+
+		return &u.Values()[index]
+	}()
 }
 func Aws_cryptography_keyStoreAdmin_MutationDetails_SystemKey_FromDafny(input interface{}) string {
 	return func() string {
@@ -680,6 +766,7 @@ func Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Identifier_FromDafny
 func Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Mutations_FromDafny(input interface{}) awscryptographykeystoreadminsmithygeneratedtypes.Mutations {
 	return awscryptographykeystoreadminsmithygeneratedtypes.Mutations{TerminalKmsArn: Aws_cryptography_keyStoreAdmin_Mutations_TerminalKmsArn_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.Mutations).Dtor_TerminalKmsArn().UnwrapOr(nil)),
 		TerminalEncryptionContext: Aws_cryptography_keyStoreAdmin_Mutations_TerminalEncryptionContext_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.Mutations).Dtor_TerminalEncryptionContext().UnwrapOr(nil)),
+		TerminalHierarchyVersion:  Aws_cryptography_keyStoreAdmin_Mutations_TerminalHierarchyVersion_FromDafny(input.(AwsCryptographyKeyStoreAdminTypes.Mutations).Dtor_TerminalHierarchyVersion().UnwrapOr(nil)),
 	}
 }
 func Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_FromDafny(input interface{}) awscryptographykeystoreadminsmithygeneratedtypes.KeyManagementStrategy {
@@ -698,6 +785,12 @@ func Aws_cryptography_keyStoreAdmin_InitializeMutationInput_Strategy_FromDafny(i
 
 		union = &awscryptographykeystoreadminsmithygeneratedtypes.KeyManagementStrategyMemberAwsKmsDecryptEncrypt{
 			Value: (Aws_cryptography_keyStoreAdmin_KeyManagementStrategy_AwsKmsDecryptEncrypt_FromDafny((input.(AwsCryptographyKeyStoreAdminTypes.KeyManagementStrategy)).Dtor_AwsKmsDecryptEncrypt())),
+		}
+	}
+	if (input.(AwsCryptographyKeyStoreAdminTypes.KeyManagementStrategy)).Is_AwsKmsSimple() {
+
+		union = &awscryptographykeystoreadminsmithygeneratedtypes.KeyManagementStrategyMemberAwsKmsSimple{
+			Value: (Aws_cryptography_keyStoreAdmin_KeyManagementStrategy_AwsKmsSimple_FromDafny((input.(AwsCryptographyKeyStoreAdminTypes.KeyManagementStrategy)).Dtor_AwsKmsSimple())),
 		}
 	}
 
@@ -786,12 +879,6 @@ func Aws_cryptography_keyStoreAdmin_VersionKeyInput_KmsArn_FromDafny(input inter
 			Value: (Aws_cryptography_keyStoreAdmin_KmsSymmetricKeyArn_KmsKeyArn_FromDafny(dataSource.UnwrapOr(nil))),
 		}
 	}
-	if (input.(AwsCryptographyKeyStoreAdminTypes.KmsSymmetricKeyArn)).Is_KmsMRKeyArn() {
-		var dataSource = Wrappers.Companion_Option_.Create_Some_((input.(AwsCryptographyKeyStoreAdminTypes.KmsSymmetricKeyArn)).Dtor_KmsMRKeyArn())
-		union = &awscryptographykeystoreadminsmithygeneratedtypes.KmsSymmetricKeyArnMemberKmsMRKeyArn{
-			Value: (Aws_cryptography_keyStoreAdmin_KmsSymmetricKeyArn_KmsMRKeyArn_FromDafny(dataSource.UnwrapOr(nil))),
-		}
-	}
 
 	return union
 
@@ -812,6 +899,12 @@ func Aws_cryptography_keyStoreAdmin_VersionKeyInput_Strategy_FromDafny(input int
 
 		union = &awscryptographykeystoreadminsmithygeneratedtypes.KeyManagementStrategyMemberAwsKmsDecryptEncrypt{
 			Value: (Aws_cryptography_keyStoreAdmin_KeyManagementStrategy_AwsKmsDecryptEncrypt_FromDafny((input.(AwsCryptographyKeyStoreAdminTypes.KeyManagementStrategy)).Dtor_AwsKmsDecryptEncrypt())),
+		}
+	}
+	if (input.(AwsCryptographyKeyStoreAdminTypes.KeyManagementStrategy)).Is_AwsKmsSimple() {
+
+		union = &awscryptographykeystoreadminsmithygeneratedtypes.KeyManagementStrategyMemberAwsKmsSimple{
+			Value: (Aws_cryptography_keyStoreAdmin_KeyManagementStrategy_AwsKmsSimple_FromDafny((input.(AwsCryptographyKeyStoreAdminTypes.KeyManagementStrategy)).Dtor_AwsKmsSimple())),
 		}
 	}
 

@@ -28,7 +28,11 @@ module {:options "/functionSyntax:4" } Structure {
 
   const AWS_CRYPTO_EC := "aws-crypto-ec"
   const ENCRYPTION_CONTEXT_PREFIX := AWS_CRYPTO_EC + ":"
+  const AES_256_LENGTH: uint8 := 32
+  // BKC => Branch Key Context
+  const BKC_DIGEST_LENGTH: uint8 := 48
 
+  // TODO-HV-2-FOLLOW : Introduce a Lemma that ensures none of these fields start with aws-crypto-ec
   const BRANCH_KEY_RESTRICTED_FIELD_NAMES := {
     BRANCH_KEY_IDENTIFIER_FIELD,
     TYPE_FIELD,
@@ -41,8 +45,14 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   //Attribute Values
-  const HIERARCHY_VERSION_VALUE := "1"
+  const HIERARCHY_VERSION_VALUE_1 := "1"
+  const HIERARCHY_VERSION_VALUE_2 := "2"
+  // TODO-HV-2-M1 : Find all HIERARCHY_VERSION_VALUE and replace them with something
+  const HIERARCHY_VERSION_VALUE := HIERARCHY_VERSION_VALUE_1
+  // TODO-HV-2-M1 : Find all HIERARCHY_VERSION_ATTRIBUTE_VALUE and replace them with something
   const HIERARCHY_VERSION_ATTRIBUTE_VALUE := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE)
+  const HIERARCHY_VERSION_ATTRIBUTE_VALUE_1 := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE_1)
+  const HIERARCHY_VERSION_ATTRIBUTE_VALUE_2 := DDB.AttributeValue.N(HIERARCHY_VERSION_VALUE_2)
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE"
   const BEACON_KEY_TYPE_VALUE := "beacon:ACTIVE"
@@ -52,6 +62,26 @@ module {:options "/functionSyntax:4" } Structure {
   //= type=exception
   //# Across all versions of a Branch Key, the custom encryption context MUST be equal.
   // At this time, we have no operation that reads all the records of a Branch Key ID.
+
+  type ValidBKType = s: string | ValidBKType?(s) witness *
+  predicate ValidBKType?(s: string) {
+    || BRANCH_KEY_TYPE_PREFIX < s
+    || s == BRANCH_KEY_ACTIVE_TYPE
+    || s == BEACON_KEY_TYPE_VALUE
+    || s == MUTATION_COMMITMENT_TYPE
+    || s == MUTATION_INDEX_TYPE
+  }
+
+  type PrefixedEncryptionContext = m: map<string, string> | PrefixedEncryptionContext?(m) witness *
+  predicate PrefixedEncryptionContext?(m: map<string, string>) {
+    && m.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    && forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX < k
+  }
+
+  predicate StringIsValidHierarchyVersion?(version: string)
+  {
+    version == HIERARCHY_VERSION_VALUE_1 || version == HIERARCHY_VERSION_VALUE_2
+  }
 
   type BranchKeyContext = m: map<string, string> | BranchKeyContext?(m) witness *
   predicate BranchKeyContext?(m: map<string, string>) {
@@ -70,7 +100,7 @@ module {:options "/functionSyntax:4" } Structure {
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
        //= type=implication
        //# - MUST have a `hierarchy-version`
-    && (HIERARCHY_VERSION in m)
+    && (HIERARCHY_VERSION in m && StringIsValidHierarchyVersion?(m[HIERARCHY_VERSION]))
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
        //= type=implication
        //# - MUST have a `tablename` attribute to store the logicalKeyStoreName
@@ -126,11 +156,12 @@ module {:options "/functionSyntax:4" } Structure {
         || BRANCH_KEY_TYPE_PREFIX < m[TYPE_FIELD])
   }
 
-  predicate EncryptedHierarchicalKey?(key: Types.EncryptedHierarchicalKey) {
+  predicate EncryptedHierarchicalKeyFromStorage?(key: Types.EncryptedHierarchicalKey) {
     && BranchKeyContext?(key.EncryptionContext)
     && key.Identifier == key.EncryptionContext[BRANCH_KEY_IDENTIFIER_FIELD]
     && key.CreateTime == key.EncryptionContext[KEY_CREATE_TIME]
     && key.KmsArn == key.EncryptionContext[KMS_FIELD]
+    && (HIERARCHY_VERSION in key.EncryptionContext && StringIsValidHierarchyVersion?(key.EncryptionContext[HIERARCHY_VERSION]))
 
     && (match key.Type
         case ActiveHierarchicalSymmetricVersion(active) =>
@@ -160,7 +191,7 @@ module {:options "/functionSyntax:4" } Structure {
     key: Types.EncryptedHierarchicalKey
   ): (output: DDB.AttributeMap)
     requires (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
-    ensures EncryptedHierarchicalKey?(key) ==>
+    ensures EncryptedHierarchicalKeyFromStorage?(key) ==>
               && BranchKeyItem?(output)
               && ToEncryptedHierarchicalKey(output, key.EncryptionContext[TABLE_FIELD]) == key
   {
@@ -184,7 +215,7 @@ module {:options "/functionSyntax:4" } Structure {
     logicalKeyStoreName: string
   ): (output: Types.EncryptedHierarchicalKey)
     requires BranchKeyItem?(item)
-    ensures EncryptedHierarchicalKey?(output)
+    ensures EncryptedHierarchicalKeyFromStorage?(output)
   {
     var EncryptionContext := map k <- item.Keys - {BRANCH_KEY_FIELD} + {TABLE_FIELD}
                                       // Working around https://github.com/dafny-lang/dafny/issues/5776
@@ -208,7 +239,7 @@ module {:options "/functionSyntax:4" } Structure {
     CiphertextBlob: seq<uint8>
   ): (output: Types.EncryptedHierarchicalKey)
     requires BranchKeyContext?(EncryptionContext)
-    ensures EncryptedHierarchicalKey?(output)
+    ensures EncryptedHierarchicalKeyFromStorage?(output)
   {
     var Type
       := if EncryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE then
@@ -239,7 +270,7 @@ module {:options "/functionSyntax:4" } Structure {
     plaintextKey: seq<uint8>
   ): (output: Result<Types.BranchKeyMaterials, Types.Error>)
 
-    requires EncryptedHierarchicalKey?(key)
+    requires EncryptedHierarchicalKeyFromStorage?(key)
     requires
       || key.Type.ActiveHierarchicalSymmetricVersion?
       || key.Type.HierarchicalSymmetricVersion?
@@ -436,14 +467,14 @@ module {:options "/functionSyntax:4" } Structure {
     map i <- defixedCustomEncryptionContext :: i.0 := i.1
   }
 
-
   opaque function DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
-    customEncryptionContext: map<string, string>
+    hierarchyVersion: Types.HierarchyVersion,
+    encryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
@@ -452,10 +483,15 @@ module {:options "/functionSyntax:4" } Structure {
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[KMS_FIELD] == kmsKeyArn
     ensures output[TABLE_FIELD] == logicalKeyStoreName
-    ensures forall k <- customEncryptionContext
+    ensures output[HIERARCHY_VERSION] == match hierarchyVersion {
+                                           case v1 => HIERARCHY_VERSION_VALUE_1
+                                           case v2 => HIERARCHY_VERSION_VALUE_2
+                                         }
+    ensures forall k <- encryptionContext
               ::
                 && ENCRYPTION_CONTEXT_PREFIX + k in output
-                && output[ENCRYPTION_CONTEXT_PREFIX + k] == customEncryptionContext[k]
+                && output[ENCRYPTION_CONTEXT_PREFIX + k] == encryptionContext[k]
+    ensures PrefixedEncryptionContext?(output - BRANCH_KEY_RESTRICTED_FIELD_NAMES)
   {
     // Dafny needs some help.
     // Adding a fixed string
@@ -463,18 +499,29 @@ module {:options "/functionSyntax:4" } Structure {
     // However, this leaks a lot of complexity.
     // This is why the function is now opaque.
     // Otherwise things timeout
-    assert forall k <- customEncryptionContext.Keys
+    assert forall k <- encryptionContext.Keys
         ::
-          k == (ENCRYPTION_CONTEXT_PREFIX + k)[|ENCRYPTION_CONTEXT_PREFIX|..];
-
-    map[
+          && k == (ENCRYPTION_CONTEXT_PREFIX + k)[|ENCRYPTION_CONTEXT_PREFIX|..];
+    // TODO-HV-2-FOLLOW : Using a Match statement to set the HIERARCHY_VERSION has made Dafny
+    // doubt that the prefixed-EC is disjoint from the reserved words.
+    // While this is really interesting, we KNOW this is true, and I am not going to spend.
+    // I would like to make some tiny functions that handle just prefixing...
+    var prefixedEncryptionContext :=
+      map k <- encryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := encryptionContext[k];
+    assume {:axiom} forall k :: k in prefixedEncryptionContext.Keys ==> ENCRYPTION_CONTEXT_PREFIX < k;
+    assume {:axiom} prefixedEncryptionContext.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES;
+    assert PrefixedEncryptionContext?(prefixedEncryptionContext);
+    prefixedEncryptionContext + map[
       BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
       TYPE_FIELD := BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
       KEY_CREATE_TIME := timestamp,
       TABLE_FIELD := logicalKeyStoreName,
       KMS_FIELD := kmsKeyArn,
-      HIERARCHY_VERSION := HIERARCHY_VERSION_VALUE
-    ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
+      HIERARCHY_VERSION := match hierarchyVersion {
+      case v1 => HIERARCHY_VERSION_VALUE_1
+      case v2 => HIERARCHY_VERSION_VALUE_2
+    }
+    ]
   }
 
   function ActiveBranchKeyEncryptionContext(
@@ -485,6 +532,7 @@ module {:options "/functionSyntax:4" } Structure {
       && BRANCH_KEY_TYPE_PREFIX < decryptOnlyEncryptionContext[TYPE_FIELD]
       && BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
     ensures BranchKeyContext?(output)
+    ensures output[HIERARCHY_VERSION] == decryptOnlyEncryptionContext[HIERARCHY_VERSION]
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD in output
   {
     decryptOnlyEncryptionContext + map[
@@ -501,6 +549,7 @@ module {:options "/functionSyntax:4" } Structure {
       && BRANCH_KEY_TYPE_PREFIX < decryptOnlyEncryptionContext[TYPE_FIELD]
       && BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
     ensures BranchKeyContext?(output)
+    ensures output[HIERARCHY_VERSION] == decryptOnlyEncryptionContext[HIERARCHY_VERSION]
     ensures output[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE
   {
     decryptOnlyEncryptionContext + map[
@@ -585,6 +634,7 @@ module {:options "/functionSyntax:4" } Structure {
     && TYPE_FIELD in m && m[TYPE_FIELD].S?
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N?
+    && StringIsValidHierarchyVersion?(m[HIERARCHY_VERSION].N)
     && TABLE_FIELD !in m
     && KMS_FIELD in m && m[KMS_FIELD].S?
     && BRANCH_KEY_FIELD in m && m[BRANCH_KEY_FIELD].B?
@@ -605,17 +655,17 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   predicate ActiveHierarchicalSymmetricKey?(key: Types.EncryptedHierarchicalKey) {
-    && EncryptedHierarchicalKey?(key)
+    && EncryptedHierarchicalKeyFromStorage?(key)
     && key.Type.ActiveHierarchicalSymmetricVersion?
   }
 
   predicate DecryptOnlyHierarchicalSymmetricKey?(key: Types.EncryptedHierarchicalKey) {
-    && EncryptedHierarchicalKey?(key)
+    && EncryptedHierarchicalKeyFromStorage?(key)
     && key.Type.HierarchicalSymmetricVersion?
   }
 
   predicate ActiveHierarchicalSymmetricBeaconKey?(key: Types.EncryptedHierarchicalKey) {
-    && EncryptedHierarchicalKey?(key)
+    && EncryptedHierarchicalKeyFromStorage?(key)
     && key.Type.ActiveHierarchicalSymmetricBeacon?
   }
 
@@ -638,7 +688,7 @@ module {:options "/functionSyntax:4" } Structure {
     key: Types.EncryptedHierarchicalKey,
     item: DDB.AttributeMap
   )
-    requires EncryptedHierarchicalKey?(key)
+    requires EncryptedHierarchicalKeyFromStorage?(key)
     requires (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
     requires item == ToAttributeMap(key)
 
@@ -681,13 +731,14 @@ module {:options "/functionSyntax:4" } Structure {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
+    hierarchyVersion: Types.HierarchyVersion,
     encryptionContext: map<string, string>
   )
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
     ensures
       var decryptOnly := DecryptOnlyBranchKeyEncryptionContext(
-                           branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName, kmsKeyArn, encryptionContext);
+                           branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName, kmsKeyArn, hierarchyVersion, encryptionContext);
       var active := ActiveBranchKeyEncryptionContext(decryptOnly);
       var beacon := BeaconKeyEncryptionContext(decryptOnly);
       && decryptOnly[TYPE_FIELD] != active[TYPE_FIELD]
@@ -725,7 +776,7 @@ module {:options "/functionSyntax:4" } Structure {
     key: Types.EncryptedHierarchicalKey,
     item: DDB.AttributeMap
   )
-    requires BranchKeyItem?(item) && EncryptedHierarchicalKey?(key)
+    requires BranchKeyItem?(item) && EncryptedHierarchicalKeyFromStorage?(key)
 
     ensures
       && (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
@@ -734,12 +785,19 @@ module {:options "/functionSyntax:4" } Structure {
          ToEncryptedHierarchicalKey(item, key.EncryptionContext[TABLE_FIELD]) == key
   {}
 
-  predicate MutationCommitmentAttribute?(m: DDB.AttributeMap) {
+  predicate MutationCommitmentAttribute?(
+    m: DDB.AttributeMap,
+    schemaVersion: string := HIERARCHY_VERSION_VALUE_2
+  )
+    requires StringIsValidHierarchyVersion?(schemaVersion)
+  {
     && BRANCH_KEY_IDENTIFIER_FIELD in m && m[BRANCH_KEY_IDENTIFIER_FIELD].S?
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && TYPE_FIELD in m && m[TYPE_FIELD].S?
     && M_UUID in m && m[M_UUID].S?
-    && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N? && m[HIERARCHY_VERSION].N == HIERARCHY_VERSION_VALUE
+    && HIERARCHY_VERSION in m
+    && m[HIERARCHY_VERSION].N?
+    && m[HIERARCHY_VERSION].N == schemaVersion
 
     && 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD].S|
     && 0 < |m[TYPE_FIELD].S|
@@ -749,13 +807,13 @@ module {:options "/functionSyntax:4" } Structure {
 
     && m[TYPE_FIELD].S == MUTATION_COMMITMENT_TYPE
 
-    // Structure & DefaultKeyStorage do not care about the Byte structure of the original or terminal.
+    // Structure & DefaultKeyStorage do not care about the Byte structure of the original, terminal, or input.
     // That is the concern of Mutation State Structures.
     // Structure & DefaultKeyStorage care that these are non-empty Byte Fields.
     && M_ORIGINAL in m && m[M_ORIGINAL].B? && 0 < |m[M_ORIGINAL].B|
     && M_TERMINAL in m && m[M_TERMINAL].B? && 0 < |m[M_TERMINAL].B|
-    && ENC_FIELD in m && m[ENC_FIELD].B? && 0 < |m[ENC_FIELD].B|
     && M_INPUT in m && m[M_INPUT].B? && 0 < |m[M_INPUT].B|
+    && ENC_FIELD in m && m[ENC_FIELD].B? && 0 < |m[ENC_FIELD].B|
 
     && m.Keys == {
                    TYPE_FIELD,
@@ -776,14 +834,17 @@ module {:options "/functionSyntax:4" } Structure {
     && 0 < |m.UUID|
     && 0 < |m.Original|
     && 0 < |m.Terminal|
-    && 0 < |m.CiphertextBlob|
     && 0 < |m.Input|
+    && 0 < |m.CiphertextBlob|
   }
 
   function ToMutationCommitment(
-    item: DDB.AttributeMap
+    item: DDB.AttributeMap,
+    schemaVersion: string := HIERARCHY_VERSION_VALUE_2
   ): (output: Types.MutationCommitment)
-    requires MutationCommitmentAttribute?(item)
+    requires
+      && StringIsValidHierarchyVersion?(schemaVersion)
+      && MutationCommitmentAttribute?(item, schemaVersion)
     ensures MutationCommitment?(output)
   {
     Types.MutationCommitment(
@@ -798,21 +859,24 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   function MutationCommitmentToAttributeMap(
-    lock: Types.MutationCommitment
+    commitment: Types.MutationCommitment
   ): (output: DDB.AttributeMap)
-    requires MutationCommitment?(lock)
+    requires MutationCommitment?(commitment)
     ensures MutationCommitmentAttribute?(output)
   {
     map[
       TYPE_FIELD := DDB.AttributeValue.S(MUTATION_COMMITMENT_TYPE),
-      HIERARCHY_VERSION := HIERARCHY_VERSION_ATTRIBUTE_VALUE,
-      BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(lock.Identifier),
-      KEY_CREATE_TIME := DDB.AttributeValue.S(lock.CreateTime),
-      M_UUID := DDB.AttributeValue.S(lock.UUID),
-      M_ORIGINAL := DDB.AttributeValue.B(lock.Original),
-      M_TERMINAL := DDB.AttributeValue.B(lock.Terminal),
-      ENC_FIELD := DDB.AttributeValue.B(lock.CiphertextBlob),
-      M_INPUT := DDB.AttributeValue.B(lock.Input)
+      // The `hierarchy-version` for all post-HV-2 Mutation Items
+      // is `2`, regardless of the terminal HV (that information is embedded in the binary fields).
+      // This prevents pre-HV-2 versions of the library from throwing a confusing error.
+      HIERARCHY_VERSION := HIERARCHY_VERSION_ATTRIBUTE_VALUE_2,
+      BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(commitment.Identifier),
+      KEY_CREATE_TIME := DDB.AttributeValue.S(commitment.CreateTime),
+      M_UUID := DDB.AttributeValue.S(commitment.UUID),
+      M_ORIGINAL := DDB.AttributeValue.B(commitment.Original),
+      M_TERMINAL := DDB.AttributeValue.B(commitment.Terminal),
+      ENC_FIELD := DDB.AttributeValue.B(commitment.CiphertextBlob),
+      M_INPUT := DDB.AttributeValue.B(commitment.Input)
     ]
   }
 
@@ -826,11 +890,20 @@ module {:options "/functionSyntax:4" } Structure {
       ToMutationCommitment(item) == lock <==> MutationCommitmentToAttributeMap(lock) == item
   {}
 
-  predicate MutationIndexAttribute?(m: DDB.AttributeMap) {
+  predicate MutationIndexAttribute?(
+    m: DDB.AttributeMap,
+    schemaVersion: string := HIERARCHY_VERSION_VALUE_2
+  )
+    requires StringIsValidHierarchyVersion?(schemaVersion)
+  {
     && BRANCH_KEY_IDENTIFIER_FIELD in m && m[BRANCH_KEY_IDENTIFIER_FIELD].S? && 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD].S|
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && TYPE_FIELD in m && m[TYPE_FIELD].S? && 0 < |m[TYPE_FIELD].S|
-    && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N? && m[HIERARCHY_VERSION].N == HIERARCHY_VERSION_VALUE
+
+    && HIERARCHY_VERSION in m
+    && m[HIERARCHY_VERSION].N?
+    && m[HIERARCHY_VERSION].N == schemaVersion
+
     && M_UUID in m && m[M_UUID].S? && 0 < |m[M_UUID].S|
 
     && (forall k <- m.Keys - {M_PAGE_INDEX, HIERARCHY_VERSION, ENC_FIELD} :: m[k].S?)
@@ -861,9 +934,12 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   function ToMutationIndex(
-    item: DDB.AttributeMap
+    item: DDB.AttributeMap,
+    schemaVersion: string := HIERARCHY_VERSION_VALUE_2
   ): (output: Types.MutationIndex)
-    requires MutationIndexAttribute?(item)
+    requires
+      && StringIsValidHierarchyVersion?(schemaVersion)
+      && MutationIndexAttribute?(item, schemaVersion)
     ensures MutationIndex?(output)
   {
     Types.MutationIndex(
@@ -883,7 +959,10 @@ module {:options "/functionSyntax:4" } Structure {
   {
     map[
       TYPE_FIELD := DDB.AttributeValue.S(MUTATION_INDEX_TYPE),
-      HIERARCHY_VERSION := HIERARCHY_VERSION_ATTRIBUTE_VALUE,
+      // The `hierarchy-version` for all post-HV-2 Mutation Items
+      // is `2`, regardless of the terminal HV (that information is embedded in the binary fields).
+      // This prevents pre-HV-2 versions of the library from throwing a confusing error.
+      HIERARCHY_VERSION := HIERARCHY_VERSION_ATTRIBUTE_VALUE_2,
       BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(index.Identifier),
       KEY_CREATE_TIME := DDB.AttributeValue.S(index.CreateTime),
       M_UUID := DDB.AttributeValue.S(index.UUID),

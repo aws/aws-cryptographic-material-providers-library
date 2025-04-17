@@ -43,6 +43,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
                 logicalName := input.logicalKeyStoreName)
            && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
            && item.Type.HierarchicalSymmetricVersion?
+              // TODO-HV-2-M2 : allow for HV-2
+           && item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
        )
   }
 
@@ -61,6 +63,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
       && keyManagerStrategy.ValidState()
       && storage.ValidState()
       && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
+      && keyManagerStrategy.SupportHV1()
     }
   }
 
@@ -124,10 +127,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     ensures input.ValidState()
     modifies
       input.storage.Modifies,
-            match input.keyManagerStrategy {
-              case reEncrypt(km) => km.kmsClient.Modifies
-              case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
-            },
+            input.keyManagerStrategy.Modifies,
             input.SystemKey.Modifies
   {
     // -= Fetch Commitment and Index
@@ -218,7 +218,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
 
     assert forall item <- itemsToProcess ::
         && item.item is KeyStoreTypes.EncryptedHierarchicalKey
-        && Structure.EncryptedHierarchicalKey?(item.item)
+        && Structure.EncryptedHierarchicalKeyFromStorage?(item.item)
         && item.item.Type.HierarchicalSymmetricVersion?
         && (item.itemOriginal? ==> item.item.KmsArn == MutationToApply.Original.kmsArn);
 
@@ -347,15 +347,13 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     mutationToApply: StateStrucs.MutationToApply
   ) returns (output: Result<(seq<KeyStoreTypes.OverWriteEncryptedHierarchicalKey>, seq<Types.MutatedBranchKeyItem>), Types.Error>)
     requires keyManagerStrategy.ValidState() && mutationToApply.ValidState()
-    modifies
-      match keyManagerStrategy
-      case reEncrypt(km) => km.kmsClient.Modifies
-      case decryptEncrypt(kmD, kmE) => kmD.kmsClient.Modifies + kmE.kmsClient.Modifies
+    requires keyManagerStrategy.SupportHV1()
+    modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
     requires forall item <- items :: item.item is KeyStoreTypes.EncryptedHierarchicalKey
     requires forall item <- items :: item.item.Type.HierarchicalSymmetricVersion?
     requires forall item <- items :: KmsArn.ValidKmsArn?(item.item.KmsArn)
-    requires forall item <- items :: Structure.EncryptedHierarchicalKey?(item.item)
+    requires forall item <- items :: Structure.EncryptedHierarchicalKeyFromStorage?(item.item)
     requires forall item <- items :: item.itemOriginal? ==> item.item.KmsArn == mutationToApply.Original.kmsArn
     requires Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! mutationToApply.Terminal.customEncryptionContext.Keys
   {
@@ -372,7 +370,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
             keyManagerStrategy := keyManagerStrategy,
             localOperation := "ApplyMutation"
           );
-          if (verify?.Fail?) {
+          if (verify?.Failure?) {
             return Failure(verify?.error);
           }
           logStatements := logStatements

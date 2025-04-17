@@ -62,7 +62,8 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
     // print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
-    var mutationsRequest := Types.Mutations(TerminalKmsArn := Some(Fixtures.postalHornKeyArn));
+    var mutationsRequest := Types.Mutations(
+      TerminalKmsArn := Some(Fixtures.postalHornKeyArn));
     var initInput := Types.InitializeMutationInput(
       Identifier := testId,
       Mutations := mutationsRequest,

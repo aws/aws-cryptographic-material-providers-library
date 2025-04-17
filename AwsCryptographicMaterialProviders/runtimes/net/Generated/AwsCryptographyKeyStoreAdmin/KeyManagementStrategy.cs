@@ -9,6 +9,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
   {
     private AWS.Cryptography.KeyStore.AwsKms _awsKmsReEncrypt;
     private AWS.Cryptography.KeyStoreAdmin.AwsKmsDecryptEncrypt _awsKmsDecryptEncrypt;
+    private AWS.Cryptography.KeyStore.AwsKms _awsKmsSimple;
     public AWS.Cryptography.KeyStore.AwsKms AwsKmsReEncrypt
     {
       get { return this._awsKmsReEncrypt; }
@@ -27,10 +28,20 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return this._awsKmsDecryptEncrypt != null;
     }
+    public AWS.Cryptography.KeyStore.AwsKms AwsKmsSimple
+    {
+      get { return this._awsKmsSimple; }
+      set { this._awsKmsSimple = value; }
+    }
+    public bool IsSetAwsKmsSimple()
+    {
+      return this._awsKmsSimple != null;
+    }
     public void Validate()
     {
       var numberOfPropertiesSet = Convert.ToUInt16(IsSetAwsKmsReEncrypt()) +
-      Convert.ToUInt16(IsSetAwsKmsDecryptEncrypt());
+      Convert.ToUInt16(IsSetAwsKmsDecryptEncrypt()) +
+      Convert.ToUInt16(IsSetAwsKmsSimple());
       if (numberOfPropertiesSet == 0) throw new System.ArgumentException("No union value set");
 
       if (numberOfPropertiesSet > 1) throw new System.ArgumentException("Multiple union values set");

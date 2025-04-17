@@ -84,18 +84,36 @@ module {:options "/functionSyntax:4" } DescribeMutation {
         + " Mutation Commitment UUID: " + Commitment.UUID + ";"
         + " Mutation Index UUID: " + Index.UUID + ";"
       ));
+    :- Need(
+      StateStrucs.ValidCommitment?(Commitment),
+      Types.MutationInvalidException(
+        message := "Mutation Commitment read from Storage is invalid or corrupted."
+        + " Recommend auditing the Branch Key's items for tampering."
+        + " Recommend auditing access to the storage."
+        + "\nBranch Key ID: " + input.Identifier + ";"
+        + " Mutation Commitment UUID: " + Commitment.UUID));
+    :- Need(
+      StateStrucs.ValidIndex?(Index),
+      Types.MutationInvalidException(
+        message := "Mutation Index read from Storage is invalid or corrupted."
+        + " Recommend auditing the Branch Key's items for tampering."
+        + " Recommend auditing access to the storage."
+        + "\nBranch Key ID: " + input.Identifier + ";"
+        + " Mutation Index UUID: " + Index.UUID));
     var CommitmentAndIndex := StateStrucs.CommitmentAndIndex(
       Commitment := Commitment,
       Index := Index);
     assert CommitmentAndIndex.ValidState();
     var MutationToApply :- StateStrucs.DeserializeMutation(CommitmentAndIndex);
-    var original := Types.MutableBranchKeyProperties(
+    var original := Types.MutableBranchKeyContext(
       KmsArn := MutationToApply.Original.kmsArn,
-      CustomEncryptionContext := MutationToApply.Original.customEncryptionContext
+      EncryptionContext := MutationToApply.Original.customEncryptionContext,
+      HierarchyVersion := MutationToApply.Original.hierarchyVersion
     );
-    var terminal := Types.MutableBranchKeyProperties(
+    var terminal := Types.MutableBranchKeyContext(
       KmsArn := MutationToApply.Terminal.kmsArn,
-      CustomEncryptionContext := MutationToApply.Terminal.customEncryptionContext
+      EncryptionContext := MutationToApply.Terminal.customEncryptionContext,
+      HierarchyVersion := MutationToApply.Terminal.hierarchyVersion
     );
     var details := Types.MutationDetails(
       Original := original,
