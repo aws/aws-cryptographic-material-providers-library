@@ -57,7 +57,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && keyManagerStrategy.ValidState()
       && storage.ValidState()
       && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
-         // && keyManagerStrategy.SupportHV1()
+      && (!Mutations.TerminalHierarchyVersion.Some? || KmsUtils.IsSupportedKeyManagerStrategy(Mutations.TerminalHierarchyVersion.value, keyManagerStrategy))
     }
   }
 
@@ -336,7 +336,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       IndexCiphertext := [0] // TODO-Mutations-GA Create Index Ciphertext
     );
     :- Need(
-      KmsUtils.IsSupportedKeyManagerStrategy(MutationToApply, input.keyManagerStrategy),
+      KmsUtils.IsSupportedKeyManagerStrategy(MutationToApply.Terminal.hierarchyVersion, input.keyManagerStrategy),
       Types.UnsupportedFeatureException(
         message :=
           KeyStoreAdminErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY
@@ -445,7 +445,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
                KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn), decryptOnlyEncryptionContext[Structure.KMS_FIELD]
              )
     requires keyManagerStrategy.ValidState()
-    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply, keyManagerStrategy)
+    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply.Terminal.hierarchyVersion, keyManagerStrategy)
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
     ensures res.Success? ==>
@@ -628,7 +628,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && 0 < |input.Identifier|
       && activeItem.KmsArn == mutationToApply.Original.kmsArn
       && Structure.EncryptedHierarchicalKeyFromStorage?(activeItem)
-      && input.keyManagerStrategy.SupportHV1()
+      && KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply.Terminal.hierarchyVersion, input.keyManagerStrategy)
     }
 
     ghost const Modifies :=
@@ -656,7 +656,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     returns (output: Result<InitializeMutationActiveOutput, Types.Error>)
     requires localInput.ValidState()
     modifies localInput.Modifies
-    requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply, localInput.input.keyManagerStrategy)
+    requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply.Terminal.hierarchyVersion, localInput.input.keyManagerStrategy)
     ensures localInput.ValidState()
     ensures
       && localInput.input.DoNotVersion
@@ -686,7 +686,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     modifies localInput.Modifies
     ensures localInput.ValidState()
     requires !localInput.input.DoNotVersion
-    requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply, localInput.input.keyManagerStrategy)
+    requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply.Terminal.hierarchyVersion, localInput.input.keyManagerStrategy)
     ensures
       output.Success?
       ==>
@@ -765,7 +765,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     modifies localInput.Modifies
     ensures localInput.ValidState()
     requires localInput.input.DoNotVersion
-    requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply, localInput.input.keyManagerStrategy)
+    requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply.Terminal.hierarchyVersion, localInput.input.keyManagerStrategy)
     ensures
       output.Success?
       ==>

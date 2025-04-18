@@ -99,7 +99,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
     requires keyManagerStrategy.ValidState()
-    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply, keyManagerStrategy)
+    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply.Terminal.hierarchyVersion, keyManagerStrategy)
     requires item.Type.ActiveHierarchicalSymmetricVersion? || item.Type.HierarchicalSymmetricVersion?
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
@@ -454,7 +454,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires item.Type.HierarchicalSymmetricVersion?
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires MutationToApply.ValidState()
-    requires item.EncryptionContext[Structure.HIERARCHY_VERSION] == HvUtils.HierarchyVersionToString(MutationToApply.Original.hierarchyVersion)
+    // requires item.EncryptionContext[Structure.HIERARCHY_VERSION] == HvUtils.HierarchyVersionToString(MutationToApply.Original.hierarchyVersion)
     requires var terminalHierarchyVersion := HvUtils.HierarchyVersionToString(MutationToApply.Terminal.hierarchyVersion);
              && terminalHierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_1
              ==>
@@ -519,7 +519,7 @@ module {:options "/functionSyntax:4" } Mutations {
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
     requires aes256Key?.Some? ==> |aes256Key?.value| == Structure.AES_256_LENGTH as int
 
-    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply, keyManagerStrategy)
+    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply.Terminal.hierarchyVersion, keyManagerStrategy)
   {
     var mutatedItem: KeyStoreTypes.EncryptedHierarchicalKey;
     if (mutationToApply.Terminal.hierarchyVersion.v1?) {

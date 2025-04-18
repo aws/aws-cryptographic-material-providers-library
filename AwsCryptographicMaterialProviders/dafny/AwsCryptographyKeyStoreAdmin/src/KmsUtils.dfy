@@ -9,7 +9,6 @@ module {:options "/functionSyntax:4" } KmsUtils {
   import KMSKeystoreOperations
   import KeyStoreTypes = KMSKeystoreOperations.Types
   import Types = AwsCryptographyKeyStoreAdminTypes
-  import StateStrucs = MutationStateStructures
   import KmsArn
 
   datatype KMSTuple = | KMSTuple(
@@ -141,28 +140,28 @@ module {:options "/functionSyntax:4" } KmsUtils {
   }
 
   predicate IsHV1Supported(
-    mutationToApply: StateStrucs.MutationToApply,
+    terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,
     keyManagerStrategy: keyManagerStrat
   )
   {
-    !mutationToApply.Terminal.hierarchyVersion.v1? || keyManagerStrategy.SupportHV1()
+    !terminalHierarchyVersion.v1? || keyManagerStrategy.SupportHV1()
   }
 
   predicate IsHV2Supported(
-    mutationToApply: StateStrucs.MutationToApply,
+    terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,
     keyManagerStrategy: keyManagerStrat
   )
   {
-    !mutationToApply.Terminal.hierarchyVersion.v2? || keyManagerStrategy.SupportHV2()
+    !terminalHierarchyVersion.v2? || keyManagerStrategy.SupportHV2()
   }
 
   predicate {:isolate_assertions} IsSupportedKeyManagerStrategy(
-    mutationToApply: StateStrucs.MutationToApply,
+    terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,
     keyManagerStrategy: keyManagerStrat
   )
-    requires mutationToApply.Terminal.hierarchyVersion.v1? || mutationToApply.Terminal.hierarchyVersion.v2?
+    requires terminalHierarchyVersion.v1? || terminalHierarchyVersion.v2?
   {
-    && IsHV1Supported(mutationToApply, keyManagerStrategy)
-    && IsHV2Supported(mutationToApply, keyManagerStrategy)
+    && IsHV1Supported(terminalHierarchyVersion, keyManagerStrategy)
+    && IsHV2Supported(terminalHierarchyVersion, keyManagerStrategy)
   }
 }
