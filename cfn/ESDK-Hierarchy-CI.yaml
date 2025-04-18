@@ -108,7 +108,7 @@ Resources:
             ProjectionType: "ALL"
 
   # Static Key Store table for storing static branch keys
-  KeyStoreStaticTable:
+  KeyStoreTestStaticTable:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
