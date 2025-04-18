@@ -461,7 +461,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       !input.Mutations.TerminalHierarchyVersion.Some? || KmsUtils.IsSupportedKeyManagerStrategy(input.Mutations.TerminalHierarchyVersion.value, keyManagerStrat),
       Types.UnsupportedFeatureException(
         message :=
-          KeyStoreAdminErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY
+          KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY
       )
     );
     var internalInput := KSAInitializeMutation.InternalInitializeMutationInput(
