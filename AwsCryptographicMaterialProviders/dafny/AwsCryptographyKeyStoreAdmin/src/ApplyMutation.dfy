@@ -174,8 +174,6 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     // -= Query for page Size Branch Key Items
     var queryOut :- QueryForVersionsAndValidate(input, MutationToApply);
 
-    // var _ :- ValidateHierarchyVersionsInItemQueried(queryOut.Items, MutationToApply);
-
     var queryOutItems := Seq.Map(
       item
       requires Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
@@ -245,50 +243,6 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
             Types.ApplyMutationResult.CompleteMutation(Types.MutationComplete()),
         MutatedBranchKeyItems := logStatements
       ));
-  }
-
-  method ValidateHierarchyVersionsInItemQueried(
-    items: seq<KeyStoreTypes.EncryptedHierarchicalKey>,
-    mutationToApply: StateStrucs.MutationToApply
-  ) returns (output: Result<(),Types.Error>)
-    requires forall i :: 0 <= i < |items| ==> Structure.HIERARCHY_VERSION in items[i].EncryptionContext
-    requires mutationToApply.ValidState()
-    ensures output.Success? ==>
-              && var terminalHierarchyVersion := HvUtils.HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion);
-              // if terminal hierarchy Version is not 1, output success
-              && terminalHierarchyVersion != Structure.HIERARCHY_VERSION_VALUE_1
-                 // if terminal hierarchy Version is 1, then hierarchy Version in EC and original hierarchy Version MUST be same
-              && terminalHierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_1
-              ==> (
-                  && forall i :: 0 <= i < |items|
-                                 ==>
-                                   (items[i].EncryptionContext[Structure.HIERARCHY_VERSION] ==
-                                    HvUtils.HierarchyVersionToString(mutationToApply.Original.hierarchyVersion))
-                )
-  {
-    var terminalHierarchyVersion := HvUtils.HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion);
-    // Early return if not dealing with version 1
-    if terminalHierarchyVersion != Structure.HIERARCHY_VERSION_VALUE_1 {
-      return Success(());
-    }
-
-    // Check versions match before entering loop
-    if mutationToApply.Original.hierarchyVersion != mutationToApply.Terminal.hierarchyVersion {
-      return Failure(Types.UnsupportedFeatureException(
-                       message := "Downgrading hierarchical version (example: from v2 to v1) is not supported."
-                     ));
-    }
-
-    // Single pass through items to validate encryption context
-    for i := 0 to |items| {
-      if items[i].EncryptionContext[Structure.HIERARCHY_VERSION] != Structure.HIERARCHY_VERSION_VALUE_1 {
-        return Failure(Types.UnsupportedFeatureException(
-                         message := "Downgrading hierarchical version (example: from v2 to v1) is not supported."
-                       ));
-      }
-    }
-
-    return Success(());
   }
 
   method {:isolate_assertions} FetchAndValidateMutation(
