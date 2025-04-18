@@ -425,7 +425,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
   // TODO-HV-2-M2 : Ensure that pre-HV-1 Mutation Commitments deserialize
   // such commitments will not have the new HV field
-  function DeserializeMutation(
+  function {:isolate_assertions} DeserializeMutation(
     commitmentAndIndex: CommitmentAndIndex
   ): (output: Result<MutationToApply, Types.Error>)
     requires commitmentAndIndex.ValidState()
@@ -468,6 +468,14 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
          Types.KeyStoreAdminException(
            message:="Terminal Properities contain illegal Encryption Context! There are some resereved Encryption Context Keys!"));
 
+    var originalHV := MutablePropertiesJsonToHierarchyVersion(OriginalJson);
+    var terminalHV := MutablePropertiesJsonToHierarchyVersion(TerminalJson);
+    :- Need(
+         !terminalHV.v1? || originalHV == terminalHV,
+         Types.UnsupportedFeatureException(
+           message := "Downgrading hierarchical version (example: from v2 to v1) is not supported."
+         )
+       );
     Success(
       MutationToApply(
         Identifier := commitment.Identifier,
