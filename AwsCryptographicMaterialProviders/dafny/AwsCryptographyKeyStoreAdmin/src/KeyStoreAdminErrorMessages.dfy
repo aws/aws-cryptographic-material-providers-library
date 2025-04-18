@@ -13,4 +13,7 @@ module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
 
   const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_HV_2: string :=
     "Only KeyManagementStrategy.AwsKmsSimple is allowed when mutating to hv-2."
+
+  const UNSUPPORTED_DOWNGRADE_HV: string :=
+    "Mutation which Downgrades hierarchical version (example: from v2 to v1) is not supported."
 }
