@@ -459,7 +459,6 @@ module {:options "/functionSyntax:4" } Mutations {
     requires item.Type.HierarchicalSymmetricVersion?
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires MutationToApply.ValidState()
-    // requires item.EncryptionContext[Structure.HIERARCHY_VERSION] == HvUtils.HierarchyVersionToString(MutationToApply.Original.hierarchyVersion)
     ensures Structure.EncryptedHierarchicalKeyFromStorage?(output.item)
     ensures
       && output.itemOriginal?
