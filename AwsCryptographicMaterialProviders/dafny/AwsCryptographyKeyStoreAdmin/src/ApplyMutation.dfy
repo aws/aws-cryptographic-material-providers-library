@@ -119,7 +119,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   }
 
 
-  method {:only} {:isolate_assertions} ApplyMutation(
+  method {:isolate_assertions} ApplyMutation(
     input: InternalApplyMutationInput
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
