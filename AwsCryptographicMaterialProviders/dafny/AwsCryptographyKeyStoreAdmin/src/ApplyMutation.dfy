@@ -66,7 +66,6 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
       && keyManagerStrategy.ValidState()
       && storage.ValidState()
       && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
-      && keyManagerStrategy.SupportHV1()
     }
   }
 
@@ -406,7 +405,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     requires keyManagerStrategy.ValidState() && mutationToApply.ValidState()
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
-    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply, keyManagerStrategy)
+    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply.Terminal.hierarchyVersion, keyManagerStrategy)
     requires ValidOriginalOrTerminalItems(items, mutationToApply)
     requires Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! mutationToApply.Terminal.customEncryptionContext.Keys
   {
