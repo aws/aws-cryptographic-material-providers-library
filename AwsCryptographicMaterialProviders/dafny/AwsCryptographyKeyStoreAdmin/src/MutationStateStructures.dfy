@@ -473,7 +473,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     :- Need(
          !terminalHV.v1? || originalHV == terminalHV,
          Types.UnsupportedFeatureException(
-           message := "Downgrading hierarchical version (example: from v2 to v1) is not supported."
+           message := KeyStoreAdminErrorMessages.UNSUPPORTED_DOWNGRADE_HV
          )
        );
     Success(

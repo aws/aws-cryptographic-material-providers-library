@@ -525,7 +525,7 @@ module {:options "/functionSyntax:4" } Mutations {
       :- Need(
         item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
         Types.UnsupportedFeatureException(
-          message := "Downgrading hierarchical version (example: from v2 to v1) is not supported."
+          message := KeyStoreAdminErrorMessages.UNSUPPORTED_DOWNGRADE_HV
         )
       );
       mutatedItem :- MutateToHV1(
