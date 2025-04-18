@@ -121,7 +121,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   }
 
 
-  method {:isolate_assertions} ApplyMutation(
+  method {:only} {:isolate_assertions} ApplyMutation(
     input: InternalApplyMutationInput
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
@@ -176,16 +176,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     // -= Query for page Size Branch Key Items
     var queryOut :- QueryForVersionsAndValidate(input, MutationToApply);
 
-    for i := 0 to |queryOut.Items|
-    {
-      var item := queryOut.Items[i];
-      :- Need(
-        item.EncryptionContext[Structure.HIERARCHY_VERSION] == HvUtils.HierarchyVersionToString(MutationToApply.Original.hierarchyVersion),
-        Types.UnsupportedFeatureException(
-          message := "Downgrading hierarchical version (example: from v2 to v1) is not supported."
-        )
-      );
-    }
+    var _ :- ValidateHierarchyVersionsInItemQueried(queryOut.Items, MutationToApply);
 
     var queryOutItems := Seq.Map(
       item
@@ -256,6 +247,32 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
             Types.ApplyMutationResult.CompleteMutation(Types.MutationComplete()),
         MutatedBranchKeyItems := logStatements
       ));
+  }
+
+  method ValidateHierarchyVersionsInItemQueried(
+    items: seq<KeyStoreTypes.EncryptedHierarchicalKey>,
+    mutationToApply: StateStrucs.MutationToApply
+  ) returns (output: Result<(),Types.Error>)
+    requires forall i :: 0 <= i < |items| ==> Structure.HIERARCHY_VERSION in items[i].EncryptionContext
+    ensures output.Success? ==>
+              forall i :: 0 <= i < |items| ==>
+                            && items[i].EncryptionContext[Structure.HIERARCHY_VERSION] ==
+                               HvUtils.HierarchyVersionToString(mutationToApply.Original.hierarchyVersion)
+  {
+    for i := 0 to |items|
+      invariant forall j :: 0 <= j < i ==>
+                              items[j].EncryptionContext[Structure.HIERARCHY_VERSION] ==
+                              HvUtils.HierarchyVersionToString(mutationToApply.Original.hierarchyVersion)
+    {
+      var item := items[i];
+      :- Need(
+        item.EncryptionContext[Structure.HIERARCHY_VERSION] == HvUtils.HierarchyVersionToString(mutationToApply.Original.hierarchyVersion),
+        Types.UnsupportedFeatureException(
+          message := "Downgrading hierarchical version (example: from v2 to v1) is not supported."
+        )
+      );
+    }
+    return Success(());
   }
 
   method {:isolate_assertions} FetchAndValidateMutation(
