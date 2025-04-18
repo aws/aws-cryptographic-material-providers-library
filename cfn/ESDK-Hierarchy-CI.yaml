@@ -128,7 +128,7 @@ Resources:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
       Description: "Allow Read-Only access to Static Key Store Table"
-      ManagedPolicyName: !Sub "${ProjectName}-DDB-ReadOnly-${AWS::Region}"
+      ManagedPolicyName: !Sub "${ProjectName}-DDB-${KeyStoreStaticTable}-ReadOnly-${AWS::Region}"
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
