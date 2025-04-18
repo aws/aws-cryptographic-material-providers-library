@@ -46,8 +46,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
                 logicalName := input.logicalKeyStoreName)
            && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
            && item.Type.HierarchicalSymmetricVersion?
-              // TODO-HV-2-M2 : allow for HV-2
-           && item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
+           && (item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 || item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2)
        )
   }
 
@@ -166,7 +165,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     var MutationToApply :- StateStrucs.DeserializeMutation(CommitmentAndIndex);
 
     :- Need(
-      KmsUtils.IsSupportedKeyManagerStrategy(MutationToApply, input.keyManagerStrategy),
+      KmsUtils.IsSupportedKeyManagerStrategy(MutationToApply.Terminal.hierarchyVersion, input.keyManagerStrategy),
       Types.UnsupportedFeatureException(
         message :=
           KeyStoreAdminErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY
@@ -255,8 +254,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     requires forall i :: 0 <= i < |items| ==> Structure.HIERARCHY_VERSION in items[i].EncryptionContext
     ensures output.Success? ==>
               forall i :: 0 <= i < |items| ==>
-                            && items[i].EncryptionContext[Structure.HIERARCHY_VERSION] ==
-                               HvUtils.HierarchyVersionToString(mutationToApply.Original.hierarchyVersion)
+                            (items[i].EncryptionContext[Structure.HIERARCHY_VERSION] ==
+                             HvUtils.HierarchyVersionToString(mutationToApply.Original.hierarchyVersion))
   {
     for i := 0 to |items|
       invariant forall j :: 0 <= j < i ==>
