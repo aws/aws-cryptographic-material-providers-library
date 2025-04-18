@@ -8,6 +8,7 @@ include "KmsUtils.dfy"
 include "DescribeMutation.dfy"
 include "CreateKeysHV2.dfy"
 include "BKSAOperationUtils.dfy"
+include "KeyStoreAdminErrorMessages.dfy"
 
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
   import opened AwsKmsUtils
@@ -33,6 +34,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import KmsUtils
   import CreateKeysHV2
   import OptUtils = BKSAOperationUtils
+  import KeyStoreAdminErrorMessages
 
   datatype Config = Config(
     nameonly logicalKeyStoreName: string,
@@ -455,6 +457,13 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     assume {:axiom} keyManagerStrat.Modifies < MutationLie();
     assume {:axiom} keyManagerStrat.Modifies !! systemKey.Modifies;
 
+    :- Need(
+      !input.Mutations.TerminalHierarchyVersion.Some? || KmsUtils.IsSupportedKeyManagerStrategy(input.Mutations.TerminalHierarchyVersion.value, keyManagerStrat),
+      Types.UnsupportedFeatureException(
+        message :=
+          KeyStoreAdminErrorMessages.UNSUPPORTED_KEYMANAGEMENTSTRATEGY
+      )
+    );
     var internalInput := KSAInitializeMutation.InternalInitializeMutationInput(
       Identifier := input.Identifier,
       Mutations := input.Mutations,
