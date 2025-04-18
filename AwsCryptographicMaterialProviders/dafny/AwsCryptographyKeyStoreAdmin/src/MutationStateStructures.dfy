@@ -3,6 +3,7 @@
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "../../../../libraries/src/JSON/API.dfy"
 include "MutationIndexUtils.dfy"
+include "KeyStoreAdminErrorMessages.dfy"
 
 /** Mutation State Structures describe the Mutable Branch Key Properties that can be changed by Mutaiton. **/
 /** Methods here normialize these descriptions so they may be compared. **/
@@ -21,6 +22,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreOperations = AwsCryptographyKeyStoreOperations
   import KeyStoreTypes = KeyStoreOperations.Types
+  import KeyStoreAdminErrorMessages
   import KmsArn
   import Structure
   import HVUtils = HierarchicalVersionUtils
