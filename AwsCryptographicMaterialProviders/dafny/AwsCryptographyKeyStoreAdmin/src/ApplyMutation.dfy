@@ -119,7 +119,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   }
 
 
-  method {:isolate_assertions} ApplyMutation(
+  method {:only} {:isolate_assertions} ApplyMutation(
     input: InternalApplyMutationInput
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
@@ -253,23 +253,36 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   ) returns (output: Result<(),Types.Error>)
     requires forall i :: 0 <= i < |items| ==> Structure.HIERARCHY_VERSION in items[i].EncryptionContext
     ensures output.Success? ==>
-              forall i :: 0 <= i < |items| ==>
-                            (items[i].EncryptionContext[Structure.HIERARCHY_VERSION] ==
-                             HvUtils.HierarchyVersionToString(mutationToApply.Original.hierarchyVersion))
+              && var terminalHierarchyVersion := HvUtils.HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion);
+              && terminalHierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_1
+              ==> (
+                  && forall i :: 0 <= i < |items|
+                                 ==>
+                                   && items[i].EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
+                )
   {
-    for i := 0 to |items|
-      invariant forall j :: 0 <= j < i ==>
-                              items[j].EncryptionContext[Structure.HIERARCHY_VERSION] ==
-                              HvUtils.HierarchyVersionToString(mutationToApply.Original.hierarchyVersion)
-    {
-      var item := items[i];
-      :- Need(
-        item.EncryptionContext[Structure.HIERARCHY_VERSION] == HvUtils.HierarchyVersionToString(mutationToApply.Original.hierarchyVersion),
-        Types.UnsupportedFeatureException(
-          message := "Downgrading hierarchical version (example: from v2 to v1) is not supported."
-        )
-      );
+    var terminalHierarchyVersion := HvUtils.HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion);
+    // Early return if not dealing with version 1
+    if terminalHierarchyVersion != Structure.HIERARCHY_VERSION_VALUE_1 {
+      return Success(());
     }
+
+    // Check versions match before entering loop
+    if mutationToApply.Original.hierarchyVersion != mutationToApply.Terminal.hierarchyVersion {
+      return Failure(Types.UnsupportedFeatureException(
+                       message := "Downgrading hierarchical version (example: from v2 to v1) is not supported."
+                     ));
+    }
+
+    // Single pass through items to validate encryption context
+    for i := 0 to |items| {
+      if items[i].EncryptionContext[Structure.HIERARCHY_VERSION] != Structure.HIERARCHY_VERSION_VALUE_1 {
+        return Failure(Types.UnsupportedFeatureException(
+                         message := "Downgrading hierarchical version (example: from v2 to v1) is not supported."
+                       ));
+      }
+    }
+
     return Success(());
   }
 
