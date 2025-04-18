@@ -174,7 +174,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     // -= Query for page Size Branch Key Items
     var queryOut :- QueryForVersionsAndValidate(input, MutationToApply);
 
-    var _ :- ValidateHierarchyVersionsInItemQueried(queryOut.Items, MutationToApply);
+    // var _ :- ValidateHierarchyVersionsInItemQueried(queryOut.Items, MutationToApply);
 
     var queryOutItems := Seq.Map(
       item
