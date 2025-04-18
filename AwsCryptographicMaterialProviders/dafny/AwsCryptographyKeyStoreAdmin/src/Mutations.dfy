@@ -359,6 +359,11 @@ module {:options "/functionSyntax:4" } Mutations {
           grantTokens := kmsE.grantTokens,
           kmsClient := kmsE.kmsClient
         );
+      case kmsSimple(_) =>
+        // TODO-HV-2-M2: Implement KMS simple
+        return Failure(Types.UnsupportedFeatureException(
+                         message := "kmsSimple here is in TODO."
+                       ));
     }
     assert kmsOperation == "ReEncrypt" || kmsOperation == "Encrypt";
     // We call this method to create the new Active from the new Decrypt Only
