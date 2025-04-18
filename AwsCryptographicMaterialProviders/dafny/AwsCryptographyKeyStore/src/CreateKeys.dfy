@@ -8,6 +8,7 @@ include "KMSKeystoreOperations.dfy"
 include "KeyStoreErrorMessages.dfy"
 include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "KmsArn.dfy"
+include "HierarchicalVersionUtils.dfy"
 
 module {:options "/functionSyntax:4" } CreateKeys {
   import opened StandardLibrary
@@ -22,6 +23,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
   import KMS = ComAmazonawsKmsTypes
+  import HvUtils = HierarchicalVersionUtils
   import AwsArnParsing
   import KmsArn
 
@@ -581,6 +583,52 @@ module {:options "/functionSyntax:4" } CreateKeys {
     storage: Types.IKeyStorageInterface
   )
     returns (output: Result<Types.VersionKeyOutput, Types.Error>)
+    requires 0 < |branchKeyVersion|
+    requires Structure.ActiveHierarchicalSymmetricKey?(oldActiveItem)
+    requires KmsArn.ValidKmsArn?(oldActiveItem.KmsArn)
+    requires storage.Modifies !! kmsClient.Modifies
+    requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+    requires storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+             ==>
+               logicalKeyStoreName == (storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName
+
+    requires kmsClient.ValidState() && storage.ValidState()
+    modifies storage.Modifies, kmsClient.Modifies
+    ensures storage.ValidState() && kmsClient.ValidState()
+  {
+    if !HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext) {
+      return Failure(Types.KeyStoreException(
+                        message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+                      ));
+    }
+    
+    :- Need(
+      && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem.EncryptionContext[Structure.KMS_FIELD]),
+      Types.KeyStoreException(
+        message := ErrorMessages.VERSION_KEY_KMS_KEY_ARN_DISAGREEMENT)
+    );
+    
+    var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(oldActiveItem.EncryptionContext);
+
+    // we decrypt the oldActiveItem to get the ciphertext and then
+    // we encrypt it to a versioned key
+    var oldActiveItemPlaintext :- KMSKeystoreOperations.DecryptKeyForHv2(
+      oldActiveItem.CiphertextBlob,
+      ecToKMS,
+      oldActiveItem.KmsArn,
+      kmsConfiguration,
+      grantTokens,
+      kmsClient
+    );
+    
+    var decryptOnlyEncryptionContext := Structure.NewVersionFromActiveBranchKeyEncryptionContext(
+      oldActiveItem.EncryptionContext,
+      branchKeyVersion,
+      timestamp
+    );
+
+    output := Failure(Types.KeyStoreException(message := "err")); 
+  }
 
   twostate predicate WrappedBranchKeyCreation?(
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
@@ -722,7 +770,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
                  //# VersionKey MUST verify that the returned EncryptedHierarchicalKey MUST have a logical table name equal to the configured logical table name.
               && oldActiveItem.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
     ensures output.Success? ==>
-              Structure.ActiveHierarchicalSymmetricKey?(output.value)
+              && Structure.ActiveHierarchicalSymmetricKey?(output.value)
+              && KmsArn.ValidKmsArn?(output.value.KmsArn)
   {
     var getEncryptedActiveBranchKeyOutput :- storage.GetEncryptedActiveBranchKey(
       Types.GetEncryptedActiveBranchKeyInput(
@@ -740,8 +789,13 @@ module {:options "/functionSyntax:4" } CreateKeys {
       Types.KeyStoreException(
         message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
     );
+    :- Need(
+      KmsArn.ValidKmsArn?(oldActiveItem.KmsArn),
+      Types.KeyStoreException(
+        message := ErrorMessages.INVALID_ACTIVE_BRANCH_KEY_FROM_STORAGE)
+    );
 
-    return Success(getEncryptedActiveBranchKeyOutput.Item);
+    return Success(oldActiveItem);
   }
 
 }
