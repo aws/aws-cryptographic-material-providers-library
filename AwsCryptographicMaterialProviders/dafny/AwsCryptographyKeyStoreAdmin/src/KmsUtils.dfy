@@ -155,13 +155,24 @@ module {:options "/functionSyntax:4" } KmsUtils {
     !terminalHierarchyVersion.v2? || keyManagerStrategy.SupportHV2()
   }
 
-  predicate {:isolate_assertions} IsSupportedKeyManagerStrategy(
+  // predicate {:isolate_assertions} IsSupportedKeyManagerStrategy(
+  //   terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,
+  //   keyManagerStrategy: keyManagerStrat
+  // )
+  //   requires terminalHierarchyVersion.v1? || terminalHierarchyVersion.v2?
+  // {
+  //   && IsHV1Supported(terminalHierarchyVersion, keyManagerStrategy)
+  //   && IsHV2Supported(terminalHierarchyVersion, keyManagerStrategy)
+  // }
+
+  predicate IsSupportedKeyManagerStrategy(
     terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,
     keyManagerStrategy: keyManagerStrat
   )
-    requires terminalHierarchyVersion.v1? || terminalHierarchyVersion.v2?
   {
-    && IsHV1Supported(terminalHierarchyVersion, keyManagerStrategy)
-    && IsHV2Supported(terminalHierarchyVersion, keyManagerStrategy)
+    match terminalHierarchyVersion {
+      case v1 => keyManagerStrategy.SupportHV1()
+      case v2 => keyManagerStrategy.SupportHV2()
+    }
   }
 }

@@ -12,19 +12,20 @@ module {:options "/functionSyntax:4" } Mutations {
   import opened StandardLibrary
   import opened Wrappers
   import opened Seq
-  import KMS = ComAmazonawsKmsTypes
   import opened UInt = StandardLibrary.UInt
+
+  import KMS = ComAmazonawsKmsTypes
+  import AtomicPrimitives
 
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
   import Structure
   import KmsArn
   import KMSKeystoreOperations
   import DefaultKeyStorageInterface
-  import AtomicPrimitives
-  import GetKeys
-
-  import KeyStoreErrorMessages
   import HvUtils = HierarchicalVersionUtils
+  import GetKeys
+  import KeyStoreErrorMessages
+
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
   import KeyStoreAdminErrorMessages
@@ -283,22 +284,24 @@ module {:options "/functionSyntax:4" } Mutations {
                       ));
   }
 
-  // TODO: decide if I want to do this or leave the params
-  datatype ReEncryptHierarchicalKeyInput = ReEncryptHierarchicalKeyInput(
+  datatype ReEncryptBranchKeyItemInput = ReEncryptBranchKeyItemInput(
     nameonly item: KeyStoreTypes.EncryptedHierarchicalKey,
     nameonly originalKmsArn: string,
     nameonly terminalKmsArn: string,
-    nameonly terminalEncryptionContext: Structure.BranchKeyContext,
-    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat
+    nameonly terminalBranchKeyContext: Structure.BranchKeyContext,
+    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
+    nameonly terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion
   )
   {
     ghost predicate Pre()
     {
       && Structure.EncryptedHierarchicalKeyFromStorage?(item)
-      && KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext)
+      && KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalBranchKeyContext)
       && KmsArn.ValidKmsArn?(originalKmsArn) && KmsArn.ValidKmsArn?(terminalKmsArn)
       && item.KmsArn == originalKmsArn
       && keyManagerStrategy.ValidState()
+      && HvUtils.StringToHierarchyVersion(terminalBranchKeyContext[Structure.HIERARCHY_VERSION]) == terminalHierarchyVersion
+      && KmsUtils.IsSupportedKeyManagerStrategy(terminalHierarchyVersion, keyManagerStrategy)
     }
     ghost const Modifies := keyManagerStrategy.ModifiesMultiSet
     ghost predicate Post()
@@ -307,19 +310,19 @@ module {:options "/functionSyntax:4" } Mutations {
     }
   }
 
-  method {:isolate_assertions} ReEncryptHierarchicalKey(
-    nameonly input: ReEncryptHierarchicalKeyInput,
+  method ReEncryptBranchKeyItem(
+    nameonly input: ReEncryptBranchKeyItemInput,
     nameonly localOperation: string := "ApplyMutation",
     nameonly createNewActive: bool := false
   )
     returns (output: Result<Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires input.Pre()
-    ensures input.Post()
-    modifies input.Modifies
     requires localOperation == "InitializeMutation" || localOperation == "ApplyMutation"
     requires input.keyManagerStrategy.decryptEncrypt? || input.keyManagerStrategy.reEncrypt? || input.keyManagerStrategy.kmsSimple?
     requires input.item.EncryptionContext[Structure.KMS_FIELD] == input.originalKmsArn
-    requires input.terminalEncryptionContext[Structure.KMS_FIELD] == input.terminalKmsArn
+    requires input.terminalBranchKeyContext[Structure.KMS_FIELD] == input.terminalKmsArn
+    modifies input.Modifies
+    ensures input.Post()
   {
     var wrappedKey?;
     var kmsOperation: string;
@@ -329,7 +332,7 @@ module {:options "/functionSyntax:4" } Mutations {
         wrappedKey? := KMSKeystoreOperations.MutateViaReEncrypt(
           ciphertext := input.item.CiphertextBlob,
           sourceEncryptionContext := input.item.EncryptionContext,
-          destinationEncryptionContext := input.terminalEncryptionContext,
+          destinationEncryptionContext := input.terminalBranchKeyContext,
           sourceKmsArn := input.originalKmsArn,
           destinationKmsArn := input.terminalKmsArn,
           grantTokens := kms.grantTokens,
@@ -353,11 +356,22 @@ module {:options "/functionSyntax:4" } Mutations {
         kmsOperation := "Encrypt";
         wrappedKey? := KMSKeystoreOperations.EncryptKey(
           plaintext := decryptedKey?.value.Plaintext.value,
-          encryptionContext := input.terminalEncryptionContext,
-          kmsArnToStorage := input.terminalEncryptionContext[Structure.KMS_FIELD],
+          encryptionContext := input.terminalBranchKeyContext,
+          kmsArnToStorage := input.terminalBranchKeyContext[Structure.KMS_FIELD],
           kmsConfiguration := KeyStoreTypes.kmsKeyArn(input.terminalKmsArn),
           grantTokens := kmsE.grantTokens,
           kmsClient := kmsE.kmsClient
+        );
+      case kmsSimple(kms) =>
+        kmsOperation := "ReEncrypt";
+        wrappedKey? := KMSKeystoreOperations.MutateViaReEncrypt(
+          ciphertext := input.item.CiphertextBlob,
+          sourceEncryptionContext := input.item.EncryptionContext,
+          destinationEncryptionContext := input.terminalBranchKeyContext,
+          sourceKmsArn := input.originalKmsArn,
+          destinationKmsArn := input.terminalKmsArn,
+          grantTokens := kms.grantTokens,
+          kmsClient := kms.kmsClient
         );
     }
     assert kmsOperation == "ReEncrypt" || kmsOperation == "Encrypt";
@@ -382,7 +396,7 @@ module {:options "/functionSyntax:4" } Mutations {
     // TODO-Mutations-DoNotVersion :: ActiveHierarchicalSymmetricVersion will need to be handled
 
     output := Success(Structure.ConstructEncryptedHierarchicalKey(
-                        input.terminalEncryptionContext,
+                        input.terminalBranchKeyContext,
                         wrappedKey?.value
                       ));
   }
@@ -564,21 +578,22 @@ module {:options "/functionSyntax:4" } Mutations {
     requires mutationToApply.Terminal.hierarchyVersion.v1?
     requires HvUtils.HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion) == Structure.HIERARCHY_VERSION_VALUE_1 == item.EncryptionContext[Structure.HIERARCHY_VERSION]
   {
-    var terminalEncryptionContext := Structure.ReplaceMutableContext(
+    var terminalBranchKeyContext := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,
       mutationToApply.Terminal.customEncryptionContext,
       HvUtils.HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion)
     );
-    assert KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext);
-    var input := ReEncryptHierarchicalKeyInput(
+    assert KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalBranchKeyContext);
+    var input := ReEncryptBranchKeyItemInput(
       item := item,
       originalKmsArn := mutationToApply.Original.kmsArn,
       terminalKmsArn := mutationToApply.Terminal.kmsArn,
-      terminalEncryptionContext := terminalEncryptionContext,
+      terminalBranchKeyContext := terminalBranchKeyContext,
+      terminalHierarchyVersion := mutationToApply.Terminal.hierarchyVersion,
       keyManagerStrategy := keyManagerStrategy
     );
-    var mutatedItem :- ReEncryptHierarchicalKey(
+    var mutatedItem :- ReEncryptBranchKeyItem(
       input := input,
       localOperation := localOperation
     );
@@ -606,7 +621,6 @@ module {:options "/functionSyntax:4" } Mutations {
       keyManagerStrategy.kmsSimple?,
       Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
     );
-    // TODO-HV-2-M2: Make ReplaceMutableContext modify hierarchical version.
     var terminalBKC := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,

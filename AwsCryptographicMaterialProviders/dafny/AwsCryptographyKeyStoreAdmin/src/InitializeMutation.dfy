@@ -733,14 +733,14 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         localOperation := "InitializeMutation"
       );
     } else {
-      var input := Mutations.ReEncryptHierarchicalKeyInput(
+      var input := Mutations.ReEncryptBranchKeyItemInput(
         item := newDecryptOnly,
         originalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
         terminalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
-        terminalEncryptionContext := ActiveEncryptionContext,
+        terminalBranchKeyContext := ActiveEncryptionContext,
         keyManagerStrategy := localInput.input.keyManagerStrategy
       );
-      newActive :- Mutations.ReEncryptHierarchicalKey(
+      newActive :- Mutations.ReEncryptBranchKeyItem(
         input := input,
         localOperation := "InitializeMutation",
         createNewActive := true);
