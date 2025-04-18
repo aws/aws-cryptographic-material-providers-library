@@ -6,8 +6,6 @@ import static software.amazon.cryptography.example.hierarchy.mutations.Mutations
 
 import java.util.Objects;
 import javax.annotation.Nullable;
-import software.amazon.cryptography.example.DdbHelper;
-import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
 import software.amazon.cryptography.keystore.model.HierarchyVersion;
@@ -105,6 +103,10 @@ public class DescribeMutationExample {
     return token;
   }
 
+  /**
+   * Note that this method Creates a Branch Key
+   * but does not delete it.
+   */
   public static void CompleteExample(
     String kmsKeyArnOriginal,
     String kmsKeyArnTerminal,
@@ -137,6 +139,7 @@ public class DescribeMutationExample {
     );
 
     DescribeMutationOutput describeRes = Example(branchKeyId, _admin);
+    // Prettier's formatting is really messing up the next line
     assert Objects.requireNonNull(describeRes).MutationInFlight().Yes() !=
     null : "No mutation in flight for Branch Key ID: " + branchKeyId;
     MutationToken fromDescribe = describeRes
@@ -145,11 +148,5 @@ public class DescribeMutationExample {
       .MutationToken();
     assert fromDescribe != null;
     assert Objects.equals(fromInit.UUID(), fromDescribe.UUID());
-    DdbHelper.DeleteBranchKey(
-      branchKeyId,
-      Fixtures.TEST_KEYSTORE_NAME,
-      "1",
-      null
-    );
   }
 }

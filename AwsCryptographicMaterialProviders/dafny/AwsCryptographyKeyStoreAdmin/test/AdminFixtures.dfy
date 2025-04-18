@@ -5,18 +5,27 @@ include "../src/Index.dfy"
 include "../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 
 module {:options "/functionSyntax:4" } AdminFixtures {
-  import Types = AwsCryptographyKeyStoreAdminTypes
-  import KeyStoreTypes = AwsCryptographyKeyStoreTypes
-  import KeyStoreAdmin
-  import KeyStore
+  // Standard Library Imports
+  import opened Wrappers
+  import UTF8 = Fixtures.UTF8
+    // SDK Imports
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
-  import opened Wrappers
+    // (Branch) Key Store Imports
+  import KeyStore
+  import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import Fixtures
-  import UTF8 = Fixtures.UTF8
   import DefaultKeyStorageInterface
   import Structure
+    // (Branch) Key Store Admin Imports
+  import KeyStoreAdmin
+  import Types = AwsCryptographyKeyStoreAdminTypes
   import KmsUtils
+
+  // These are Branch Keys that are in an "in-flight" mutation,
+  // but that mutation was started pre-HV-2.
+  const STATIC_PRE_HV2_MUTATION_WITH_SYSTEM_KEY := "STATIC-PRE-HV-2-MUTATION-WITH-SYSTEM-KEY"
+  const STATIC_PRE_HV2_MUTATION_WITH_TRUST_STORAGE := "STATIC-PRE-HV-2-MUTATION-WITH-TRUST-STORAGE"
 
   method DefaultAdmin(
     nameonly physicalName: string := Fixtures.branchKeyStoreName,
