@@ -252,13 +252,18 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     mutationToApply: StateStrucs.MutationToApply
   ) returns (output: Result<(),Types.Error>)
     requires forall i :: 0 <= i < |items| ==> Structure.HIERARCHY_VERSION in items[i].EncryptionContext
+    requires mutationToApply.ValidState()
     ensures output.Success? ==>
               && var terminalHierarchyVersion := HvUtils.HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion);
+              // if terminal hierarchy Version is not 1, output success
+              && terminalHierarchyVersion != Structure.HIERARCHY_VERSION_VALUE_1
+                 // if terminal hierarchy Version is 1, then hierarchy Version in EC and original hierarchy Version MUST be same
               && terminalHierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_1
               ==> (
                   && forall i :: 0 <= i < |items|
                                  ==>
-                                   && items[i].EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
+                                   (items[i].EncryptionContext[Structure.HIERARCHY_VERSION] ==
+                                    HvUtils.HierarchyVersionToString(mutationToApply.Original.hierarchyVersion))
                 )
   {
     var terminalHierarchyVersion := HvUtils.HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion);
