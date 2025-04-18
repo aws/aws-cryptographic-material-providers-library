@@ -48,7 +48,10 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
           &&  forall k <- input.TerminalEncryptionContext.value ::
                && |k| > 0 && |input.TerminalEncryptionContext.value[k]| > 0
                && input.TerminalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
-    && !(input.TerminalKmsArn.None? && input.TerminalEncryptionContext.None?)
+    && (input.TerminalHierarchyVersion.Some? ==>
+          input.TerminalHierarchyVersion.value.v1? || input.TerminalHierarchyVersion.value.v2?
+       )
+    && !(input.TerminalKmsArn.None? && input.TerminalEncryptionContext.None? && input.TerminalHierarchyVersion.None?)
   }
 
   /**

@@ -1,6 +1,7 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
+include "MutationStateStructures.dfy"
 
 module {:options "/functionSyntax:4" } KmsUtils {
   import opened Wrappers
@@ -8,6 +9,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
   import KMSKeystoreOperations
   import KeyStoreTypes = KMSKeystoreOperations.Types
   import Types = AwsCryptographyKeyStoreAdminTypes
+  import StateStrucs = MutationStateStructures
   import KmsArn
 
   datatype KMSTuple = | KMSTuple(
@@ -138,4 +140,29 @@ module {:options "/functionSyntax:4" } KmsUtils {
     case KmsKeyArn(kmsKeyArn) => KeyStoreTypes.kmsKeyArn(kmsKeyArn)
   }
 
+  predicate IsHV1Supported(
+    mutationToApply: StateStrucs.MutationToApply,
+    keyManagerStrategy: keyManagerStrat
+  )
+  {
+    !mutationToApply.Terminal.hierarchyVersion.v1? || keyManagerStrategy.SupportHV1()
+  }
+
+  predicate IsHV2Supported(
+    mutationToApply: StateStrucs.MutationToApply,
+    keyManagerStrategy: keyManagerStrat
+  )
+  {
+    !mutationToApply.Terminal.hierarchyVersion.v2? || keyManagerStrategy.SupportHV2()
+  }
+
+  predicate {:isolate_assertions} IsSupportedKeyManagerStrategy(
+    mutationToApply: StateStrucs.MutationToApply,
+    keyManagerStrategy: keyManagerStrat
+  )
+    requires mutationToApply.Terminal.hierarchyVersion.v1? || mutationToApply.Terminal.hierarchyVersion.v2?
+  {
+    && IsHV1Supported(mutationToApply, keyManagerStrategy)
+    && IsHV2Supported(mutationToApply, keyManagerStrategy)
+  }
 }
