@@ -3,6 +3,7 @@
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "../../../../libraries/src/JSON/API.dfy"
 include "MutationIndexUtils.dfy"
+include "KeyStoreAdminErrorMessages.dfy"
 
 /** Mutation State Structures describe the Mutable Branch Key Properties that can be changed by Mutaiton. **/
 /** Methods here normialize these descriptions so they may be compared. **/
@@ -21,6 +22,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreOperations = AwsCryptographyKeyStoreOperations
   import KeyStoreTypes = KeyStoreOperations.Types
+  import KeyStoreAdminErrorMessages
   import KmsArn
   import Structure
   import HVUtils = HierarchicalVersionUtils
@@ -34,6 +36,9 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   const AWS_CRYPTO_EC := Structure.AWS_CRYPTO_EC
   const KMS_FIELD := Structure.KMS_FIELD
   const HV_FIELD := Structure.HIERARCHY_VERSION
+  const StringToHierarchyVersion := Structure.StringToHierarchyVersion
+  const HierarchyVersionToString := Structure.HierarchyVersionToString
+
   // Ensures
   // - if KMS ARN, Valid KMS ARN
   // - if EC, Valid non-empty EC, & not restricted field names
@@ -48,7 +53,10 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
           &&  forall k <- input.TerminalEncryptionContext.value ::
                && |k| > 0 && |input.TerminalEncryptionContext.value[k]| > 0
                && input.TerminalEncryptionContext.value.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
-    && !(input.TerminalKmsArn.None? && input.TerminalEncryptionContext.None?)
+    && (input.TerminalHierarchyVersion.Some? ==>
+          input.TerminalHierarchyVersion.value.v1? || input.TerminalHierarchyVersion.value.v2?
+       )
+    && !(input.TerminalKmsArn.None? && input.TerminalEncryptionContext.None? && input.TerminalHierarchyVersion.None?)
   }
 
   /**
@@ -88,6 +96,9 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       && KmsArn.ValidKmsArn?(Terminal.kmsArn)
       && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! Original.customEncryptionContext.Keys)
       && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! Terminal.customEncryptionContext.Keys)
+      && (Terminal.hierarchyVersion.v1? || Terminal.hierarchyVersion.v2?)
+      && (Original.hierarchyVersion.v1? || Original.hierarchyVersion.v2?)
+      && (!Terminal.hierarchyVersion.v1? || Original.hierarchyVersion == Terminal.hierarchyVersion)
     }
   }
 
@@ -150,7 +161,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     requires MutablePropertiesJson?(deserializedMutableProperties).Pass?
   {
     if |deserializedMutableProperties.obj| == 3
-    then HVUtils.StringToHierarchyVersion(deserializedMutableProperties.obj[2].1.str)
+    then StringToHierarchyVersion(deserializedMutableProperties.obj[2].1.str)
     else KeyStoreTypes.HierarchyVersion.v1
   }
 
@@ -166,7 +177,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
     requires MutablePropertiesJson?(deserializedInput).Pass?
   {
     if |deserializedInput.obj| == 3 && deserializedInput.obj[2].0 == HV_FIELD && deserializedInput.obj[2].1.String?
-    then Some(HVUtils.StringToHierarchyVersion(deserializedInput.obj[2].1.str))
+    then Some(StringToHierarchyVersion(deserializedInput.obj[2].1.str))
     else None
   }
 
@@ -251,7 +262,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       else JSONValues.Null;
     var hv: JSONValues.JSON :=
       if Mutations.TerminalHierarchyVersion.Some?
-      then JSONValues.JSON.String(HVUtils.HierarchyVersionToString(Mutations.TerminalHierarchyVersion.value))
+      then JSONValues.JSON.String(HierarchyVersionToString(Mutations.TerminalHierarchyVersion.value))
       else JSONValues.Null;
     // TODO-HV-2-M2 : Ensure that pre-HV-1 Mutation Commitments deserialize
     // such commitments will not have the new HV field
@@ -290,7 +301,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       else None;
     var hv: Option<KeyStoreTypes.HierarchyVersion> :=
       if |MutationsJson.obj| == 3 && MutationsJson.obj[2].1.String?
-      then Some(HVUtils.StringToHierarchyVersion(MutationsJson.obj[2].1.str))
+      then Some(StringToHierarchyVersion(MutationsJson.obj[2].1.str))
       else None;
     var input
       := Types.Mutations(
@@ -344,14 +355,14 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
            [
              (AWS_CRYPTO_EC, EncryptionContextStringToJSON(MutationToApply.Original.customEncryptionContext)),
              (KMS_FIELD, JSONValues.JSON.String(MutationToApply.Original.kmsArn)),
-             (HV_FIELD, JSONValues.JSON.String(HVUtils.HierarchyVersionToString(MutationToApply.Original.hierarchyVersion)))
+             (HV_FIELD, JSONValues.JSON.String(HierarchyVersionToString(MutationToApply.Original.hierarchyVersion)))
            ]);
     var TerminalJson
       := JSONValues.Object(
            [
              (AWS_CRYPTO_EC, EncryptionContextStringToJSON(MutationToApply.Terminal.customEncryptionContext)),
              (KMS_FIELD, JSONValues.JSON.String(MutationToApply.Terminal.kmsArn)),
-             (HV_FIELD, JSONValues.JSON.String(HVUtils.HierarchyVersionToString(MutationToApply.Terminal.hierarchyVersion)))
+             (HV_FIELD, JSONValues.JSON.String(HierarchyVersionToString(MutationToApply.Terminal.hierarchyVersion)))
            ]);
 
     var InputJson := InputMutationsToJson(MutationToApply.Input);
@@ -419,7 +430,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
   // TODO-HV-2-M2 : Ensure that pre-HV-1 Mutation Commitments deserialize
   // such commitments will not have the new HV field
-  function DeserializeMutation(
+  function {:isolate_assertions} DeserializeMutation(
     commitmentAndIndex: CommitmentAndIndex
   ): (output: Result<MutationToApply, Types.Error>)
     requires commitmentAndIndex.ValidState()
@@ -462,6 +473,14 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
          Types.KeyStoreAdminException(
            message:="Terminal Properities contain illegal Encryption Context! There are some resereved Encryption Context Keys!"));
 
+    var originalHV := MutablePropertiesJsonToHierarchyVersion(OriginalJson);
+    var terminalHV := MutablePropertiesJsonToHierarchyVersion(TerminalJson);
+    :- Need(
+         !terminalHV.v1? || originalHV == terminalHV,
+         Types.UnsupportedFeatureException(
+           message := KeyStoreAdminErrorMessages.UNSUPPORTED_DOWNGRADE_HV
+         )
+       );
     Success(
       MutationToApply(
         Identifier := commitment.Identifier,

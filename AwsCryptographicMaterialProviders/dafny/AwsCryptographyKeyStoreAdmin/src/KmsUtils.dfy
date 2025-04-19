@@ -1,6 +1,7 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
+include "MutationStateStructures.dfy"
 
 module {:options "/functionSyntax:4" } KmsUtils {
   import opened Wrappers
@@ -138,4 +139,14 @@ module {:options "/functionSyntax:4" } KmsUtils {
     case KmsKeyArn(kmsKeyArn) => KeyStoreTypes.kmsKeyArn(kmsKeyArn)
   }
 
+  predicate IsSupportedKeyManagerStrategy(
+    terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,
+    keyManagerStrategy: keyManagerStrat
+  )
+  {
+    match terminalHierarchyVersion {
+      case v1 => keyManagerStrategy.SupportHV1()
+      case v2 => keyManagerStrategy.SupportHV2()
+    }
+  }
 }
