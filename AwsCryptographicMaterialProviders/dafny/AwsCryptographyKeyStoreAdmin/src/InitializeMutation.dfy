@@ -315,7 +315,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     assert KmsArn.ValidKmsArn?(activeItem.KmsArn);
     var inferredOriginalHV: KeyStoreTypes.HierarchyVersion
       :=
-      HVUtils.StringToHierarchyVersion(activeItem.EncryptionContext[Structure.HIERARCHY_VERSION]);
+      Structure.StringToHierarchyVersion(activeItem.EncryptionContext[Structure.HIERARCHY_VERSION]);
     var MutationToApply := StateStrucs.MutationToApply(
       Identifier := input.Identifier,
       Original := StateStrucs.MutableProperties(
@@ -373,7 +373,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         readItems.BeaconItem.EncryptionContext,
         readItems.BeaconItem.KmsArn,
         MutationToApply.Original.customEncryptionContext,
-        HvUtils.HierarchyVersionToString(MutationToApply.Original.hierarchyVersion)),
+        MutationToApply.Original.hierarchyVersion),
       Types.UnexpectedStateException(
         message :=
           "Beacon Item is not in the Original State!"
@@ -796,7 +796,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         + Structure.BRANCH_KEY_TYPE_PREFIX + oldVersion)
     );
     :- Need(
-      getOldRes.Item.EncryptionContext[Structure.HIERARCHY_VERSION] == HvUtils.HierarchyVersionToString(localInput.mutationToApply.Original.hierarchyVersion),
+      getOldRes.Item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HierarchyVersionToString(localInput.mutationToApply.Original.hierarchyVersion),
       Types.KeyStoreAdminException(
         message := "The original hiearchical version and the branch key context hiearchical version does not match"
       )

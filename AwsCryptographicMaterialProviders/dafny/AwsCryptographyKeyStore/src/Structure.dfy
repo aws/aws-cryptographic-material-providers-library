@@ -83,6 +83,33 @@ module {:options "/functionSyntax:4" } Structure {
     version == HIERARCHY_VERSION_VALUE_1 || version == HIERARCHY_VERSION_VALUE_2
   }
 
+  function HierarchyVersionToString(
+    version: Types.HierarchyVersion
+  ): (output: string)
+    ensures StringIsValidHierarchyVersion?(output)
+    ensures StringToHierarchyVersion(output) == version
+  {
+    match version {
+      case v1 => HIERARCHY_VERSION_VALUE_1
+      case v2 => HIERARCHY_VERSION_VALUE_2
+    }
+  }
+
+  function StringToHierarchyVersion(
+    version: string
+  ): (output: Types.HierarchyVersion)
+    requires StringIsValidHierarchyVersion?(version)
+    ensures version == HIERARCHY_VERSION_VALUE_1 ==> output.v1?
+    ensures version == HIERARCHY_VERSION_VALUE_2 ==> output.v2?
+  {
+    if version == HIERARCHY_VERSION_VALUE_1 then Types.HierarchyVersion.v1 else Types.HierarchyVersion.v2
+  }
+
+  lemma HierarchyVersionRoundTrip(version: Types.HierarchyVersion)
+    ensures StringToHierarchyVersion(HierarchyVersionToString(version)) == version
+  {
+  }
+
   type BranchKeyContext = m: map<string, string> | BranchKeyContext?(m) witness *
   predicate BranchKeyContext?(m: map<string, string>) {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
@@ -561,19 +588,18 @@ module {:options "/functionSyntax:4" } Structure {
     branchKeyContext: map<string, string>,
     terminalKmsArn: string,
     terminalCustomEncryptionContext: map<string, string>,
-    terminalHierarchyVersion: string
+    terminalHierarchyVersion: Types.HierarchyVersion
   ) : (output: map<string, string>)
 
     requires BranchKeyContext?(branchKeyContext)
     requires BRANCH_KEY_RESTRICTED_FIELD_NAMES !! terminalCustomEncryptionContext.Keys
-    requires terminalHierarchyVersion == HIERARCHY_VERSION_VALUE_1 || terminalHierarchyVersion == HIERARCHY_VERSION_VALUE_2
     ensures BranchKeyContext?(output)
     ensures output[KMS_FIELD] == terminalKmsArn
     ensures
       && branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD] == output[BRANCH_KEY_IDENTIFIER_FIELD]
       && branchKeyContext[TYPE_FIELD] == output[TYPE_FIELD]
       && branchKeyContext[KEY_CREATE_TIME] == output[KEY_CREATE_TIME]
-      && terminalHierarchyVersion == output[HIERARCHY_VERSION]
+      && terminalHierarchyVersion == StringToHierarchyVersion(output[HIERARCHY_VERSION])
       && branchKeyContext[TABLE_FIELD] == output[TABLE_FIELD]
       && (BRANCH_KEY_ACTIVE_VERSION_FIELD in branchKeyContext
           <==>
@@ -586,7 +612,7 @@ module {:options "/functionSyntax:4" } Structure {
         BRANCH_KEY_IDENTIFIER_FIELD := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
         TYPE_FIELD := branchKeyContext[TYPE_FIELD],
         KEY_CREATE_TIME := branchKeyContext[KEY_CREATE_TIME],
-        HIERARCHY_VERSION := terminalHierarchyVersion,
+        HIERARCHY_VERSION := HierarchyVersionToString(terminalHierarchyVersion),
         TABLE_FIELD := branchKeyContext[TABLE_FIELD],
         KMS_FIELD := terminalKmsArn,
         BRANCH_KEY_ACTIVE_VERSION_FIELD := branchKeyContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
@@ -596,7 +622,7 @@ module {:options "/functionSyntax:4" } Structure {
         BRANCH_KEY_IDENTIFIER_FIELD := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
         TYPE_FIELD := branchKeyContext[TYPE_FIELD],
         KEY_CREATE_TIME := branchKeyContext[KEY_CREATE_TIME],
-        HIERARCHY_VERSION := terminalHierarchyVersion,
+        HIERARCHY_VERSION := HierarchyVersionToString(terminalHierarchyVersion),
         TABLE_FIELD := branchKeyContext[TABLE_FIELD],
         KMS_FIELD := terminalKmsArn
       ]
