@@ -267,7 +267,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     :- Need(
       fetchMutation.MutationCommitment.Some?,
       Types.MutationInvalidException(
-        message := KeyStoreAdminErrorMessages.NoMutationInFlight
+        message := KeyStoreAdminErrorMessages.NoMutationInFlight(mutationToken.Identifier)
       ));
     :- Need(
       mutationToken.UUID == fetchMutation.MutationCommitment.value.UUID,
