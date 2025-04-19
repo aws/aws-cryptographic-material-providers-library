@@ -139,29 +139,14 @@ module {:options "/functionSyntax:4" } KmsUtils {
     case KmsKeyArn(kmsKeyArn) => KeyStoreTypes.kmsKeyArn(kmsKeyArn)
   }
 
-  predicate IsHV1Supported(
+  predicate IsSupportedKeyManagerStrategy(
     terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,
     keyManagerStrategy: keyManagerStrat
   )
   {
-    !terminalHierarchyVersion.v1? || keyManagerStrategy.SupportHV1()
-  }
-
-  predicate IsHV2Supported(
-    terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,
-    keyManagerStrategy: keyManagerStrat
-  )
-  {
-    !terminalHierarchyVersion.v2? || keyManagerStrategy.SupportHV2()
-  }
-
-  predicate {:isolate_assertions} IsSupportedKeyManagerStrategy(
-    terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,
-    keyManagerStrategy: keyManagerStrat
-  )
-    requires terminalHierarchyVersion.v1? || terminalHierarchyVersion.v2?
-  {
-    && IsHV1Supported(terminalHierarchyVersion, keyManagerStrategy)
-    && IsHV2Supported(terminalHierarchyVersion, keyManagerStrategy)
+    match terminalHierarchyVersion {
+      case v1 => keyManagerStrategy.SupportHV1()
+      case v2 => keyManagerStrategy.SupportHV2()
+    }
   }
 }
