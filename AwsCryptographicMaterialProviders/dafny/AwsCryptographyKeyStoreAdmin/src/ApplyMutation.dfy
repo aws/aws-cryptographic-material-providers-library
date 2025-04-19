@@ -267,22 +267,21 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     :- Need(
       fetchMutation.MutationCommitment.Some?,
       Types.MutationInvalidException(
-        message := "No Mutation is in-flight for this Branch Key ID " + mutationToken.Identifier + " ."
+        message := KeyStoreAdminErrorMessages.NoMutationInFlight
       ));
     :- Need(
       mutationToken.UUID == fetchMutation.MutationCommitment.value.UUID,
       Types.MutationInvalidException(
-        message := "The Token and the Mutation Commitment read from storage disagree."
-        + " This indicates that the Token is for a different Mutation than the one in-flight."
-        + " A possible cause is this token is from an earlier Mutation that already finished?"
-        + " Branch Key ID: " + mutationToken.Identifier + ";"
-        + " Mutation Commitment UUID: " + fetchMutation.MutationCommitment.value.UUID + ";"
-        + " Token UUID: " + mutationToken.UUID + ";"
+        message := KeyStoreAdminErrorMessages.TokenAndMutationCommitmentDisagree(
+          mutationToken.Identifier,
+          fetchMutation.MutationCommitment.value.UUID,
+          mutationToken.UUID
+        )
       ));
     :- Need(
       fetchMutation.MutationIndex.Some?,
       Types.MutationInvalidException(
-        message := "No Mutation Index exsists for this in-flight mutation of Branch Key ID " + mutationToken.Identifier + " ."
+        message := KeyStoreAdminErrorMessages.NoMutationIndexExists(mutationToken.Identifier)
       ));
 
     return Success(fetchMutation);

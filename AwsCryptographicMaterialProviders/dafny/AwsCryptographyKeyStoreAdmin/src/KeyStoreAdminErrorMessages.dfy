@@ -16,4 +16,32 @@ module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
 
   const UNSUPPORTED_DOWNGRADE_HV: string :=
     "Mutation which Downgrades hierarchical version (example: from v2 to v1) is not supported."
+
+  function TokenAndMutationCommitmentDisagree(
+    mutationTokenIdentifier: string,
+    mutationCommitmentUUID: string,
+    mutationTokenUUID: string
+  ): string
+  {
+    "The Token and the Mutation Commitment read from storage disagree."
+    + " This indicates that the Token is for a different Mutation than the one in-flight."
+    + " A possible cause is this token is from an earlier Mutation that already finished?"
+    + " Branch Key ID: " + mutationTokenIdentifier + ";"
+    + " Mutation Commitment UUID: " + mutationCommitmentUUID + ";"
+    + " Token UUID: " + mutationTokenUUID + ";"
+  }
+
+  function NoMutationInFlight(
+    mutationTokenIdentifier: string
+  ): string
+  {
+    "No Mutation is in-flight for this Branch Key ID " + mutationTokenIdentifier + " ."
+  }
+
+  function NoMutationIndexExists(
+    mutationTokenIdentifier: string
+  ): string
+  {
+    "No Mutation Index exists for this in-flight mutation of Branch Key ID " + mutationTokenIdentifier + " ."
+  }
 }
