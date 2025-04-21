@@ -2,8 +2,6 @@ package software.amazon.cryptography.example.hierarchy;
 
 import java.util.Collections;
 
-import org.testng.annotations.Test;
-
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.mutations.DescribeMutationExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider;
@@ -56,9 +54,9 @@ public class StaticMutation {
   }
 
   // Uncomment to re-create static test resources.
-  @Test
-  public void testStaticMutation() {
-    createStaticMutationSystemKey();
-    createStaticMutationTrustStorage();
-  }
+  // @Test
+  // public void testStaticMutation() {
+  //   createStaticMutationSystemKey();
+  //   createStaticMutationTrustStorage();
+  // }
 }
