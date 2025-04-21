@@ -15,6 +15,7 @@ module {:options "/functionSyntax:4" } DescribeMutation {
   import M_ErrorMessages = MutationsConstants.ErrorMessages
   import SystemKeyHandler = SystemKey.Handler
   import KMS = Com.Amazonaws.Kms
+  import CommitmentAndIndex
 
   datatype InternalDescribeMutationInput = | InternalDescribeMutationInput (
     nameonly Identifier: string ,
@@ -85,7 +86,7 @@ module {:options "/functionSyntax:4" } DescribeMutation {
         + " Mutation Index UUID: " + Index.UUID + ";"
       ));
     :- Need(
-      StateStrucs.ValidCommitment?(Commitment),
+      CommitmentAndIndex.ValidCommitment?(Commitment),
       Types.MutationInvalidException(
         message := "Mutation Commitment read from Storage is invalid or corrupted."
         + " Recommend auditing the Branch Key's items for tampering."
@@ -93,18 +94,18 @@ module {:options "/functionSyntax:4" } DescribeMutation {
         + "\nBranch Key ID: " + input.Identifier + ";"
         + " Mutation Commitment UUID: " + Commitment.UUID));
     :- Need(
-      StateStrucs.ValidIndex?(Index),
+      CommitmentAndIndex.ValidIndex?(Index),
       Types.MutationInvalidException(
         message := "Mutation Index read from Storage is invalid or corrupted."
         + " Recommend auditing the Branch Key's items for tampering."
         + " Recommend auditing access to the storage."
         + "\nBranch Key ID: " + input.Identifier + ";"
         + " Mutation Index UUID: " + Index.UUID));
-    var CommitmentAndIndex := StateStrucs.CommitmentAndIndex(
-      Commitment := Commitment,
-      Index := Index);
-    assert CommitmentAndIndex.ValidState();
-    var MutationToApply :- StateStrucs.DeserializeMutation(CommitmentAndIndex);
+    var commitmentAndIndex := CommitmentAndIndex.CommitmentAndIndex(
+      commitment := Commitment,
+      index := Index);
+    assert commitmentAndIndex.ValidIDs() && commitmentAndIndex.ValidUTF8();
+    var MutationToApply :- StateStrucs.DeserializeMutation(commitmentAndIndex);
     var original := Types.MutableBranchKeyContext(
       KmsArn := MutationToApply.Original.kmsArn,
       EncryptionContext := MutationToApply.Original.customEncryptionContext,
