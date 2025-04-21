@@ -561,7 +561,7 @@ module {:options "/functionSyntax:4" } Structure {
     branchKeyContext: map<string, string>,
     terminalKmsArn: string,
     terminalCustomEncryptionContext: map<string, string>,
-    terminalHierarchyVersion: string
+    terminalHierarchyVersion: Types.HierarchyVersion
   ) : (output: map<string, string>)
 
     requires BranchKeyContext?(branchKeyContext)
