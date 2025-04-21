@@ -1,7 +1,6 @@
 package software.amazon.cryptography.example.hierarchy;
 
 import java.util.Collections;
-
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.mutations.DescribeMutationExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider;
@@ -52,7 +51,6 @@ public class StaticMutation {
       bkid
     );
   }
-
   // Uncomment to re-create static test resources.
   // @Test
   // public void testStaticMutation() {
