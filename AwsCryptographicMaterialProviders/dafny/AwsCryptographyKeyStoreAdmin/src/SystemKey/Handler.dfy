@@ -4,6 +4,7 @@ include "../../../AwsCryptographyKeyStore/src/HierarchicalVersionUtils.dfy"
 include "../../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "../KmsUtils.dfy"
 include "ContentHandler.dfy"
+include "../CommitmentAndIndex.dfy"
 
 /* Public methods for Signing and Verifying Mutation Items */
 module {:options "/functionSyntax:4" } SystemKey.Handler {
@@ -12,14 +13,15 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
   import opened StandardLibrary.NeedError
   import UTF8
   import KMS = Com.Amazonaws.Kms
+  import AtomicPrimitives
+  import MPL = MaterialProviders
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KSTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
   import KmsUtils
-  import AtomicPrimitives
   import ContentHandler // = SystemKey.ContentHandler
-  import HvUtils = HierarchicalVersionUtils
+  import HVUtils = HierarchicalVersionUtils
   import Structure
-  import MPL = MaterialProviders
+  import CommitmentAndIndex
 
   // type SystemKeyError = e: Types.Error | e.MutationVerificationException? witness *
 
@@ -95,28 +97,18 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
   method SignCommitment(
     MutationCommitment: KSTypes.MutationCommitment,
     InternalSystemKey: KmsUtils.InternalSystemKey
-  )
-    returns (output: Result<KSTypes.MutationCommitment, Types.Error>)
-    requires InternalSystemKey.ValidState()
+  ) returns (output: Result<KSTypes.MutationCommitment, Types.Error>)
+    requires
+      && InternalSystemKey.ValidState()
+         // -= To be Signed, the binary fields must be the UTF8 bytes of their JSON rep
+      && CommitmentAndIndex.ValidCommitment?(MutationCommitment)
     ensures InternalSystemKey.ValidState()
     modifies InternalSystemKey.Modifies
-    // -= To be Signed, the binary fields must be the UTF8 bytes of their JSON rep
-    requires
-      && UTF8.ValidUTF8Seq(MutationCommitment.Original)
-      && UTF8.ValidUTF8Seq(MutationCommitment.Terminal)
-      && UTF8.ValidUTF8Seq(MutationCommitment.Input)
-      && 0 < |MutationCommitment.UUID|
-      && 0 < |MutationCommitment.Identifier|
     ensures
       && output.Success?
       ==>
-        && UTF8.ValidUTF8Seq(output.value.Original)
-        && UTF8.ValidUTF8Seq(output.value.Terminal)
-        && UTF8.ValidUTF8Seq(output.value.Input)
-        && 0 < |output.value.UUID|
-        && 0 < |output.value.Identifier|
+        && CommitmentAndIndex.ValidCommitment?(output.value)
         && 0 < |output.value.CiphertextBlob|
-    // ensures output.Failure? ==> output.error.MutationVerificationException?
   {
     if (InternalSystemKey.TrustStorage?) {
       return Success(CommitmentWithSignature(MutationCommitment, TRUST_STORAGE_UTF8_BYTES));
@@ -147,7 +139,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       SortValue := Structure.MUTATION_COMMITMENT_TYPE,
       UUIDValue := MutationCommitment.UUID);
 
-    var crypto? := HvUtils.ProvideCryptoClient();
+    var crypto? := HVUtils.ProvideCryptoClient();
     if (crypto?.Failure?) {
       var e := Types.MutationVerificationException(
         message :=
@@ -172,15 +164,17 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
     InternalSystemKey: KmsUtils.InternalSystemKey
   )
     returns (output: Result<KSTypes.MutationIndex, Types.Error>)
-    requires InternalSystemKey.ValidState()
-    ensures InternalSystemKey.ValidState()
-    modifies InternalSystemKey.Modifies
-    // -= To be Signed, the binary fields must be the UTF8 bytes of their JSON rep
     requires
-      && UTF8.ValidUTF8Seq(MutationIndex.PageIndex)
-      && 0 < |MutationIndex.UUID|
-      && 0 < |MutationIndex.Identifier|
-    // ensures output.Failure? ==> output.error.MutationVerificationException?
+      && InternalSystemKey.ValidState()
+         // -= To be Signed, the binary fields must be the UTF8 bytes of their JSON rep
+      && CommitmentAndIndex.ValidIndex?(MutationIndex)
+    modifies InternalSystemKey.Modifies
+    ensures InternalSystemKey.ValidState()
+    ensures
+      && output.Success?
+      ==>
+        && CommitmentAndIndex.ValidIndex?(output.value)
+        && 0 < |output.value.CiphertextBlob|
   {
     if (InternalSystemKey.TrustStorage?) {
       return Success(IndexWithSignature(MutationIndex, TRUST_STORAGE_UTF8_BYTES));
@@ -209,7 +203,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       SortValue := Structure.MUTATION_INDEX_TYPE,
       UUIDValue := MutationIndex.UUID);
 
-    var crypto? := HvUtils.ProvideCryptoClient();
+    var crypto? := HVUtils.ProvideCryptoClient();
     if (crypto?.Failure?) {
       var e := Types.MutationVerificationException(
         message :=
@@ -231,19 +225,13 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
   method VerifyCommitment(
     MutationCommitment: KSTypes.MutationCommitment,
     InternalSystemKey: KmsUtils.InternalSystemKey
-  )
-    returns (output: Result<bool, Types.Error>)
-    requires InternalSystemKey.ValidState()
-    ensures InternalSystemKey.ValidState()
-    modifies InternalSystemKey.Modifies
-    // -= To be Signed, the binary fields must be the UTF8 bytes of their JSON rep
+  ) returns (output: Result<bool, Types.Error>)
     requires
-      && UTF8.ValidUTF8Seq(MutationCommitment.Original)
-      && UTF8.ValidUTF8Seq(MutationCommitment.Terminal)
-      && UTF8.ValidUTF8Seq(MutationCommitment.Input)
-      && 0 < |MutationCommitment.UUID|
-      && 0 < |MutationCommitment.Identifier|
-    // ensures output.Failure? ==> output.error.MutationVerificationException?
+      && InternalSystemKey.ValidState()
+         // -= To be Verified, the binary fields must be the UTF8 bytes of their JSON rep
+      && CommitmentAndIndex.ValidCommitment?(MutationCommitment)
+    modifies InternalSystemKey.Modifies
+    ensures InternalSystemKey.ValidState()
   {
     if (InternalSystemKey.TrustStorage?) {
       if (MutationCommitment.CiphertextBlob == TRUST_STORAGE_UTF8_BYTES) {
@@ -282,7 +270,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       SortValue := Structure.MUTATION_COMMITMENT_TYPE,
       UUIDValue := MutationCommitment.UUID);
 
-    var crypto? := HvUtils.ProvideCryptoClient();
+    var crypto? := HVUtils.ProvideCryptoClient();
     if (crypto?.Failure?) {
       var e := Types.MutationVerificationException(
         message :=
@@ -305,17 +293,13 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
   method VerifyIndex(
     MutationIndex: KSTypes.MutationIndex,
     InternalSystemKey: KmsUtils.InternalSystemKey
-  )
-    returns (output: Result<bool, Types.Error>)
-    requires InternalSystemKey.ValidState()
-    ensures InternalSystemKey.ValidState()
-    modifies InternalSystemKey.Modifies
-    // -= To be Signed, the binary fields must be the UTF8 bytes of their JSON rep
+  ) returns (output: Result<bool, Types.Error>)
     requires
-      && UTF8.ValidUTF8Seq(MutationIndex.PageIndex)
-      && 0 < |MutationIndex.UUID|
-      && 0 < |MutationIndex.Identifier|
-    // ensures output.Failure? ==> output.error.MutationVerificationException?
+      && InternalSystemKey.ValidState()
+         // -= To be Verified, the binary fields must be the UTF8 bytes of their JSON rep
+      && CommitmentAndIndex.ValidIndex?(MutationIndex)
+    modifies InternalSystemKey.Modifies
+    ensures InternalSystemKey.ValidState()
   {
     if (InternalSystemKey.TrustStorage?) {
       if (MutationIndex.CiphertextBlob == TRUST_STORAGE_UTF8_BYTES) {
@@ -354,7 +338,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
       SortValue := Structure.MUTATION_INDEX_TYPE,
       UUIDValue := MutationIndex.UUID);
 
-    var crypto? := HvUtils.ProvideCryptoClient();
+    var crypto? := HVUtils.ProvideCryptoClient();
     if (crypto?.Failure?) {
       var e := Types.MutationVerificationException(
         message :=

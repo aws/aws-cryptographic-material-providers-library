@@ -4,6 +4,7 @@ include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "../../../../libraries/src/JSON/API.dfy"
 include "MutationIndexUtils.dfy"
 include "KeyStoreAdminErrorMessages.dfy"
+include "CommitmentAndIndex.dfy"
 
 /** Mutation State Structures describe the Mutable Branch Key Properties that can be changed by Mutaiton. **/
 /** Methods here normialize these descriptions so they may be compared. **/
@@ -32,6 +33,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   import JSONValues = JSON.Values
     // (Branch) Key Store Admin Imports
   import MutationIndexUtils
+  import CommitmentAndIndex
 
   const AWS_CRYPTO_EC := Structure.AWS_CRYPTO_EC
   const KMS_FIELD := Structure.KMS_FIELD
@@ -100,54 +102,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       && (Original.hierarchyVersion.v1? || Original.hierarchyVersion.v2?)
       && (!Terminal.hierarchyVersion.v1? || Original.hierarchyVersion == Terminal.hierarchyVersion)
     }
-  }
-
-  /**
-     The Commitment & Index are persisted to the storage by Initialize.
-     The Commitment & Index are read by Apply.
-     The Index is updated by Apply.
-     Both are deleted when the Mutation is completed by Apply.
-   */
-  datatype CommitmentAndIndex = CommitmentAndIndex(
-    Commitment: KeyStoreTypes.MutationCommitment,
-    Index: KeyStoreTypes.MutationIndex
-  )
-  {
-    /** 
-      The Commitment & Index MUST always have the same Identifier & UUID. 
-      They MAY NOT have the same CreateTime. 
-    */
-    predicate ValidState()
-    {
-      && Commitment.Identifier == Index.Identifier
-      && Commitment.UUID == Index.UUID
-      && ValidCommitment?(Commitment)
-      && ValidIndex?(Index)
-    }
-    // TODO-HV-2-FOLLOW : See if we can drop ValidUTF8
-    predicate ValidUTF8()
-    {
-      && ValidCommitment?(Commitment)
-      && ValidIndex?(Index)
-    }
-  }
-
-  predicate ValidCommitment?(
-    Commitment: KeyStoreTypes.MutationCommitment
-  ) {
-    && UTF8.ValidUTF8Seq(Commitment.Original)
-    && UTF8.ValidUTF8Seq(Commitment.Terminal)
-    && UTF8.ValidUTF8Seq(Commitment.Input)
-    && 0 < |Commitment.Identifier|
-    && 0 < |Commitment.UUID|
-  }
-
-  predicate ValidIndex?(
-    Index: KeyStoreTypes.MutationIndex
-  ) {
-    && 0 < |Index.Identifier|
-    && 0 < |Index.UUID|
-    && UTF8.ValidUTF8Seq(Index.PageIndex)
   }
 
   // Pre-HV-2 Mutations did not track Hierarchy Version;
@@ -431,13 +385,13 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
   // TODO-HV-2-M2 : Ensure that pre-HV-1 Mutation Commitments deserialize
   // such commitments will not have the new HV field
   function {:isolate_assertions} DeserializeMutation(
-    commitmentAndIndex: CommitmentAndIndex
+    commitmentAndIndex: CommitmentAndIndex.CommitmentAndIndex
   ): (output: Result<MutationToApply, Types.Error>)
-    requires commitmentAndIndex.ValidState()
+    requires commitmentAndIndex.ValidIDs() && commitmentAndIndex.ValidUTF8()
     ensures output.Success? ==> output.value.ValidState()
   {
-    var commitment := commitmentAndIndex.Commitment;
-    var index := commitmentAndIndex.Index;
+    var commitment := commitmentAndIndex.commitment;
+    var index := commitmentAndIndex.index;
     var OriginalJson: JSONValues.JSON :- JSON.Deserialize(commitment.Original).MapFailure(
                                            (e: JSONErrors.DeserializationError)
                                            => Types.KeyStoreAdminException(
@@ -475,6 +429,8 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
     var originalHV := MutablePropertiesJsonToHierarchyVersion(OriginalJson);
     var terminalHV := MutablePropertiesJsonToHierarchyVersion(TerminalJson);
+    // TODO: Generally, the logic of this module is around serialization and deserialization.
+    // This Need is a behavioral restriction that MAY be better enforced in a different module.
     :- Need(
          !terminalHV.v1? || originalHV == terminalHV,
          Types.UnsupportedFeatureException(
@@ -487,12 +443,12 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
         Original := MutableProperties(
           kmsArn := OriginalJson.obj[1].1.str,
           customEncryptionContext := OriginalEC,
-          hierarchyVersion := MutablePropertiesJsonToHierarchyVersion(OriginalJson)
+          hierarchyVersion := originalHV
         ),
         Terminal := MutableProperties(
           kmsArn := TerminalJson.obj[1].1.str,
           customEncryptionContext := TerminalEC,
-          hierarchyVersion := MutablePropertiesJsonToHierarchyVersion(TerminalJson)
+          hierarchyVersion := terminalHV
         ),
         UUID := commitment.UUID,
         CreateTime := commitment.CreateTime,

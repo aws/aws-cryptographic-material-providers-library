@@ -12,19 +12,20 @@ module {:options "/functionSyntax:4" } Mutations {
   import opened StandardLibrary
   import opened Wrappers
   import opened Seq
-  import KMS = ComAmazonawsKmsTypes
   import opened UInt = StandardLibrary.UInt
+
+  import KMS = ComAmazonawsKmsTypes
+  import AtomicPrimitives
 
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
   import Structure
   import KmsArn
   import KMSKeystoreOperations
   import DefaultKeyStorageInterface
-  import AtomicPrimitives
   import GetKeys
-
   import KeyStoreErrorMessages
   import HVUtils = HierarchicalVersionUtils
+
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
   import KeyStoreAdminErrorMessages
@@ -40,55 +41,6 @@ module {:options "/functionSyntax:4" } Mutations {
   datatype ActiveVerificationHolder =
     | NotDecrypt()
     | KmsDecrypt(kmsRes: KMS.PlaintextType)
-
-  method ValidateCommitmentAndIndexStructures(
-    token: Types.MutationToken,
-    commitment: KeyStoreTypes.MutationCommitment,
-    index: KeyStoreTypes.MutationIndex
-  )
-    returns (output: Result<StateStrucs.CommitmentAndIndex, Types.Error>)
-    ensures
-      output.Success? ==>
-        && commitment.Identifier == index.Identifier == token.Identifier
-        && commitment.UUID == index.UUID == token.UUID
-    ensures
-      && output.Success?
-      ==>
-        && output.value.ValidState()
-        && output.value.ValidUTF8()
-
-  {
-    if (commitment.Identifier != index.Identifier || token.Identifier != index.Identifier) {
-      return
-        Failure(Types.MutationInvalidException(
-                  message := "The Token and the Mutation Commitment read from storage disagree."
-                  + " This indicates that the Token is for a different Mutation than the one in-flight."
-                  + " A possible cause is this token is from an earlier Mutation that already finished?"
-                  + " Branch Key ID: " + token.Identifier + ";"
-                  + " Mutation Commitment UUID: " + commitment.UUID + ";"
-                  + " Token UUID: " + token.UUID + ";"
-                ));
-    }
-    if (commitment.UUID != index.UUID || token.UUID != index.UUID) {
-      return
-        Failure(Types.MutationInvalidException(
-                  message := "The Mutation Index read from storage and the Mutation Commitment are for different Mutations."
-                  + " Branch Key ID: " + token.Identifier + ";"
-                  + " Mutation Commitment UUID: " + commitment.UUID + ";"
-                  + " Mutation Index UUID: " + index.UUID + ";"
-                ));
-    }
-    var commitmentAndIndex := StateStrucs.CommitmentAndIndex(commitment, index);
-    if (!commitmentAndIndex.ValidUTF8()) {
-      return Failure(
-          Types.MutationInvalidException(
-            message :=
-              "The Mutation Commitment and Mutation Index read from storage do not contain valid UTF8 sequences."
-              + " Branch Key ID: " + token.Identifier + ";"
-              + " Mutation Commitment UUID: " + commitment.UUID + ";"));
-    }
-    return Success(commitmentAndIndex);
-  }
 
   method {:isolate_assertions} VerifyEncryptedHierarchicalKey(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,

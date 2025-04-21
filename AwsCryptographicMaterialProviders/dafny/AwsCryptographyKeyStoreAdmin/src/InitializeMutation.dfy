@@ -9,6 +9,7 @@ include "SystemKey/Handler.dfy"
 include "Mutations.dfy"
 include "MutationErrorRefinement.dfy"
 include "KeyStoreAdminErrorMessages.dfy"
+include "CommitmentAndIndex.dfy"
 
 module {:options "/functionSyntax:4" } InternalInitializeMutation {
   // StandardLibrary Imports
@@ -40,6 +41,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   import Mutations
   import MutationErrorRefinement
   import KeyStoreAdminErrorMessages
+  import CommitmentAndIndex
 
   datatype InternalInitializeMutationInput = | InternalInitializeMutationInput (
     nameonly Identifier: string ,
@@ -176,7 +178,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
 
     if (readItems.MutationCommitment.Some?) {
       :- Need(
-        StateStrucs.ValidCommitment?(readItems.MutationCommitment.value),
+        CommitmentAndIndex.ValidCommitment?(readItems.MutationCommitment.value),
         Types.AwsCryptographyKeyStore(
           // We decided that Storage would not care about the Byte Structure of MUTATION_COMMITMENT's attributes.
           // But I think a Storage Exception makes sense for a corrupted item.
@@ -558,7 +560,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
           + " This suggests the Key Store's Storage has been tampered with by an un-authorized actor."
           + " Mutation cannot continue. Audit Key Store's Storage's access."
           + " The Mutation will need to be manually restarted."));
-    var Token := Types.MutationToken(
+    var token := Types.MutationToken(
       Identifier := commitment.Identifier,
       UUID := commitment.UUID,
       CreateTime := commitment.CreateTime);
@@ -576,12 +578,13 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         CreateTime := timestamp,
         CiphertextBlob := [0] // [0] is a temporary place holder, but we should fix this by creating an internal type
       );
-      var SignedMutationIndex :- SystemKeyHandler.SignIndex(newIndex, systemKey);
+      var signedMutationIndex :- SystemKeyHandler.SignIndex(newIndex, systemKey);
+      assert CommitmentAndIndex.ValidIndex?(signedMutationIndex);
       // -= Write Mutation Index, conditioned on Mutation Commitment
       var throwAway2? := storage.WriteMutationIndex(
         KeyStoreTypes.WriteMutationIndexInput(
           MutationCommitment := commitment,
-          MutationIndex := SignedMutationIndex
+          MutationIndex := signedMutationIndex
         ));
       // TODO-Mutations-FF :: Ideally, we would diagnosis the Storage Failure.
       // What Condition Check failed?
@@ -589,11 +592,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       mutatedBranchKeyItems := mutatedBranchKeyItems
       + [Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + commitment.UUID, Description := "Created")];
     } else {
-      var commitmentAndIndex :- Mutations.ValidateCommitmentAndIndexStructures(
-        Token,
-        commitment,
-        index.value);
-      var indexIsVerified :- SystemKeyHandler.VerifyIndex(commitmentAndIndex.Index, systemKey);
+      var commitmentAndIndex := CommitmentAndIndex.CommitmentAndIndex(commitment, index.value);
+      :- CommitmentAndIndex.MutationItemsValidIDs(commitmentAndIndex);
+      :- CommitmentAndIndex.MutationItemsValidUTF8(commitmentAndIndex);
+      var indexIsVerified :- SystemKeyHandler.VerifyIndex(commitmentAndIndex.index, systemKey);
       :- Need(
         indexIsVerified,
         Types.MutationVerificationException(
@@ -605,7 +607,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     }
 
     return Success(Types.InitializeMutationOutput(
-                     MutationToken := Token,
+                     MutationToken := token,
                      MutatedBranchKeyItems := mutatedBranchKeyItems,
                      InitializeMutationFlag := Flag));
 

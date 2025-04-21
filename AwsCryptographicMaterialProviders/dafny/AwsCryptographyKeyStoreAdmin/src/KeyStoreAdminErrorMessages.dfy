@@ -44,4 +44,28 @@ module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
   {
     "No Mutation Index exists for this in-flight mutation of Branch Key ID " + mutationTokenIdentifier + " ."
   }
+
+  function IndexAndCommitmentUUIDDisagree(
+    nameonly indexUUID: string,
+    nameonly commitmentUUID: string
+  ): string
+  {
+    "Mutation Index or Mutation Commitment is corrupted; their UUIDs MUST be equal."
+    + " MUTATION_INDEX uuid: " + indexUUID + ";"
+    + " MUTATION_COMMITMENT uuid: " + commitmentUUID + ";"
+  }
+
+  function IndexAndCommitmentBKIDDisagree(
+    nameonly indexBKID: string,
+    nameonly commitmentBKID: string
+  ): string
+  {
+    "Mutation Index or Mutation Commitment is corrupted; their Branch Key IDs MUST be equal."
+    + " MUTATION_INDEX Branch Key ID: " + indexBKID + ";"
+    + " MUTATION_COMMITMENT Branch Key ID: " + commitmentBKID + ";"
+  }
+
+  const INVALID_COMMITMENT_UTF8 := "Mutation Commitment read from storage contains invalid UTF-8."
+  const INVALID_INDEX_UTF8 := "Mutation Index read from storage contains invalid UTF-8."
+  const INVALID_COMMITMENT_UUID := "Mutation Commitment read from storage has an invalid UUID."
 }
