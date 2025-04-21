@@ -105,106 +105,102 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
   }
 
   // TODO-HV-2-M2: Uncomment and work (if needed) in happy case
-  // const happyCaseId := "test-mutate-hv-only"
-  // const customEC := "aws-crypto-ec:Robbie"
-  // const kmsId: string := Fixtures.keyArn
-  // const physicalName: string := Fixtures.branchKeyStoreName
-  // const logicalName: string := Fixtures.logicalKeyStoreName
-  // const testLogPrefix := "\nTestKmsArnChanged :: TestHappyCase :: "
+  const happyCaseId := "test-mutate-hv-only"
+  const customEC := "aws-crypto-ec:Robbie"
+  const kmsId: string := Fixtures.keyArn
+  const physicalName: string := Fixtures.branchKeyStoreName
+  const logicalName: string := Fixtures.logicalKeyStoreName
+  const testLogPrefix := "\nTestKmsArnChanged :: TestHappyCase :: "
 
-  // method {:test} {:vcs_split_on_every_assert} TestHappyCase()
-  // {
-  //   // print " running";
+  method {:test} {:vcs_split_on_every_assert} TestHappyCase()
+  {
+    // print " running";
 
-  //   // expect false; // disable test till other investigation is done
-  //   var ddbClient :- expect Fixtures.ProvideDDBClient();
-  //   var kmsClient :- expect Fixtures.ProvideKMSClient();
+    // expect false; // disable test till other investigation is done
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
 
-  //   var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
-  //   var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-  //   var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-  //   var keyStoreOriginal :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
-  //   var keyStoreTerminal :- expect Fixtures.DefaultKeyStore(
-  //     kmsId:=Fixtures.postalHornKeyArn,
-  //     ddbClient?:=Some(ddbClient),
-  //     kmsClient?:=Some(kmsClient));
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var keyStoreOriginal :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
 
-  //   var uuid :- expect UUID.GenerateUUID();
-  //   var testId := happyCaseId + "-" + uuid;
+    var uuid :- expect UUID.GenerateUUID();
+    var testId := happyCaseId + "-" + uuid;
 
-  //   Fixtures.CreateHappyCaseId(id:=testId, versionCount:=1);
+    Fixtures.CreateHappyCaseId(id:=testId, versionCount:=1);
 
-  //   // print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
+    // print testLogPrefix + " Created the test items with 2 versions! testId: " + testId + "\n";
 
-  //   var timestamp :- expect Time.GetCurrentTimeStamp();
-  //   var mutationsRequest := Types.Mutations(
-  //     TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2));
-  //   var initInput := Types.InitializeMutationInput(
-  //     Identifier := testId,
-  //     Mutations := mutationsRequest,
-  //     Strategy := Some(strategy),
-  //     SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
-  //     DoNotVersion := Some(false));
-  //   var initializeOutput :- expect underTest.InitializeMutation(initInput);
-  //   var initializeToken := initializeOutput.MutationToken;
+    var timestamp :- expect Time.GetCurrentTimeStamp();
+    var mutationsRequest := Types.Mutations(
+      TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2));
+    var initInput := Types.InitializeMutationInput(
+      Identifier := testId,
+      Mutations := mutationsRequest,
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
+      DoNotVersion := Some(true));
+    var initializeOutput :- expect underTest.InitializeMutation(initInput);
+    var initializeToken := initializeOutput.MutationToken;
 
-  //   // print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID + "\n";
+    // print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID + "\n";
 
-  //   var testInput := Types.ApplyMutationInput(
-  //     MutationToken := initializeToken,
-  //     PageSize := Some(24),
-  //     Strategy := Some(strategy),
-  //     SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
-  //   var applyOutput :- expect underTest.ApplyMutation(testInput);
+    var testInput := Types.ApplyMutationInput(
+      MutationToken := initializeToken,
+      PageSize := Some(24),
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
+    var applyOutput :- expect underTest.ApplyMutation(testInput);
 
-  //   // print testLogPrefix + " Applied Mutation w/ pageSize 24. testId: " + testId + "\n";
-  //   expect applyOutput.MutationResult.CompleteMutation?, "Apply Mutation output should not continue!";
+    // print testLogPrefix + " Applied Mutation w/ pageSize 24. testId: " + testId + "\n";
+    expect applyOutput.MutationResult.CompleteMutation?, "Apply Mutation output should not continue!";
 
-  //   var versionQuery := KeyStoreTypes.QueryForVersionsInput(
-  //     Identifier := testId,
-  //     PageSize := 24
-  //   );
-  //   var queryOut :- expect storage.QueryForVersions(versionQuery);
-  //   var items := queryOut.Items;
-  //   expect
-  //     |items| == 3,
-  //     "Test expects there to be 3 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
-  //   // print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
+    var versionQuery := KeyStoreTypes.QueryForVersionsInput(
+      Identifier := testId,
+      PageSize := 24
+    );
+    var queryOut :- expect storage.QueryForVersions(versionQuery);
+    var items := queryOut.Items;
+    expect
+      |items| == 2,
+      "Test expects there to be 3 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
+    // print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
 
-  //   var itemIndex := 0;
-  //   var inputV: KeyStoreTypes.GetBranchKeyVersionInput;
-  //   while itemIndex < |items|
-  //   {
-  //     var item := items[itemIndex];
-  //     expect
-  //       item.Type.HierarchicalSymmetricVersion?,
-  //       "Query for Decrypt Only returned a non-Decrypt Only!";
-  //     var versionUUID := item.Type.HierarchicalSymmetricVersion.Version;
-  //     expect "type" in item.EncryptionContext, "Decrypt Only item is missing 'type' from EC!!";
-  //     expect
-  //       item.KmsArn == Fixtures.keyArn,
-  //       "KmsArn of Item is incorrect. Item: " + versionUUID;
-  //     expect Structure.HIERARCHY_VERSION in item.EncryptionContext, "Hierarchy version not in EC";
-  //     expect
-  //       item.EncryptionContext[Structure.HIERARCHY_VERSION] == "2",
-  //       "Hierarchy version is not mutated to 2";
-  //     inputV := KeyStoreTypes.GetBranchKeyVersionInput(
-  //       branchKeyIdentifier := testId,
-  //       branchKeyVersion := versionUUID
-  //     );
-  //     var _ :- expect keyStoreTerminal.GetBranchKeyVersion(inputV);
+    var itemIndex := 0;
+    var inputV: KeyStoreTypes.GetBranchKeyVersionInput;
+    while itemIndex < |items|
+    {
+      var item := items[itemIndex];
+      expect
+        item.Type.HierarchicalSymmetricVersion?,
+        "Query for Decrypt Only returned a non-Decrypt Only!";
+      var versionUUID := item.Type.HierarchicalSymmetricVersion.Version;
+      expect "type" in item.EncryptionContext, "Decrypt Only item is missing 'type' from EC!!";
+      expect
+        item.KmsArn == Fixtures.keyArn,
+        "KmsArn of Item is incorrect. Item: " + versionUUID;
+      expect Structure.HIERARCHY_VERSION in item.EncryptionContext, "Hierarchy version not in EC";
+      expect
+        item.EncryptionContext[Structure.HIERARCHY_VERSION] == "2",
+        "Hierarchy version is not mutated to 2";
+      inputV := KeyStoreTypes.GetBranchKeyVersionInput(
+        branchKeyIdentifier := testId,
+        branchKeyVersion := versionUUID
+      );
+      var _ :- expect keyStoreOriginal.GetBranchKeyVersion(inputV);
 
-  //     // print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
-  //     itemIndex := 1 + itemIndex;
-  //   }
+      // print testLogPrefix + " Validated Decrypt Only and tried to clean it up: " + item.EncryptionContext["type"] + "\n";
+      itemIndex := 1 + itemIndex;
+    }
 
-  //   var _ :- expect keyStoreTerminal.GetActiveBranchKey(KeyStoreTypes.GetActiveBranchKeyInput(branchKeyIdentifier := testId));
-  //   // print testLogPrefix + " Active Validated with KMS/KeyStore: " + testId + "\n";
+    var _ :- expect keyStoreOriginal.GetActiveBranchKey(KeyStoreTypes.GetActiveBranchKeyInput(branchKeyIdentifier := testId));
+    // print testLogPrefix + " Active Validated with KMS/KeyStore: " + testId + "\n";
 
-  //   var _ :- expect keyStoreTerminal.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := testId));
-  //   // print testLogPrefix + " Beacon Validated with KMS/KeyStore: " + testId + "\n";
-  //   var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
+    var _ :- expect keyStoreOriginal.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := testId));
+    // print testLogPrefix + " Beacon Validated with KMS/KeyStore: " + testId + "\n";
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
 
-  //   // print "TestKmsArnChanged.TestHappyCase: ";
-  // }
+    // print "TestKmsArnChanged.TestHappyCase: ";
+  }
 }
