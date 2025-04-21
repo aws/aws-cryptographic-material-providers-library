@@ -62,12 +62,6 @@ module {:options "/functionSyntax:4" } Mutations {
 
     var success?: bool := false;
     var throwAwayError;
-    // TODO-HV-2-M3: Support mutations on HV-2 item (mutation starting with hv-2 item)
-    :- Need(
-      item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
-      Types.UnsupportedFeatureException(
-        message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
-    );
     if (mutationToApply.Terminal.hierarchyVersion.v2?) {
       // TODO-HV-2-M2: Add test to cover the if condition of this code path
       // TODO-HV-2-M4: Support other key manager strategy
