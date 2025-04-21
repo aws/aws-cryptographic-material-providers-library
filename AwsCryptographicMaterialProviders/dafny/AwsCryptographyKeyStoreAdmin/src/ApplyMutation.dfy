@@ -123,7 +123,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     Success(input)
   }
 
-  method {:isolate_assertions} ApplyMutation(
+  method ApplyMutation(
     input: InternalApplyMutationInput
   )
     returns (output: Result<Types.ApplyMutationOutput, Types.Error>)
@@ -162,14 +162,17 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
           + " Mutation cannot continue. Audit Key Store's Storage's access."
           + " The Mutation will need to be manually restarted."));
     var MutationToApply :- StateStrucs.DeserializeMutation(commitmentAndIndex);
-
+    :- Need(
+      MutationToApply.Terminal.hierarchyVersion.v2? || MutationToApply.Original.hierarchyVersion == MutationToApply.Terminal.hierarchyVersion,
+      Types.UnsupportedFeatureException(
+        message := KeyStoreAdminErrorMessages.UNSUPPORTED_DOWNGRADE_HV
+      ));
     :- Need(
       KmsUtils.IsSupportedKeyManagerStrategy(MutationToApply.Terminal.hierarchyVersion, input.keyManagerStrategy),
       Types.UnsupportedFeatureException(
         message :=
           KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY
-      )
-    );
+      ));
     // -= Query for page Size Branch Key Items
     var queryOut :- QueryForVersionsAndValidate(input, MutationToApply);
 

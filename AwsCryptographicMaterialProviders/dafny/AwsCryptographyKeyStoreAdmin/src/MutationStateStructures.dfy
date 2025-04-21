@@ -98,9 +98,6 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
       && KmsArn.ValidKmsArn?(Terminal.kmsArn)
       && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! Original.customEncryptionContext.Keys)
       && (Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! Terminal.customEncryptionContext.Keys)
-      && (Terminal.hierarchyVersion.v1? || Terminal.hierarchyVersion.v2?)
-      && (Original.hierarchyVersion.v1? || Original.hierarchyVersion.v2?)
-      && (!Terminal.hierarchyVersion.v1? || Original.hierarchyVersion == Terminal.hierarchyVersion)
     }
   }
 
@@ -384,7 +381,7 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
 
   // TODO-HV-2-M2 : Ensure that pre-HV-1 Mutation Commitments deserialize
   // such commitments will not have the new HV field
-  function {:isolate_assertions} DeserializeMutation(
+  function DeserializeMutation(
     commitmentAndIndex: CommitmentAndIndex.CommitmentAndIndex
   ): (output: Result<MutationToApply, Types.Error>)
     requires commitmentAndIndex.ValidIDs() && commitmentAndIndex.ValidUTF8()
@@ -427,28 +424,18 @@ module {:options "/functionSyntax:4" } MutationStateStructures {
          Types.KeyStoreAdminException(
            message:="Terminal Properities contain illegal Encryption Context! There are some resereved Encryption Context Keys!"));
 
-    var originalHV := MutablePropertiesJsonToHierarchyVersion(OriginalJson);
-    var terminalHV := MutablePropertiesJsonToHierarchyVersion(TerminalJson);
-    // TODO: Generally, the logic of this module is around serialization and deserialization.
-    // This Need is a behavioral restriction that MAY be better enforced in a different module.
-    :- Need(
-         !terminalHV.v1? || originalHV == terminalHV,
-         Types.UnsupportedFeatureException(
-           message := KeyStoreAdminErrorMessages.UNSUPPORTED_DOWNGRADE_HV
-         )
-       );
     Success(
       MutationToApply(
         Identifier := commitment.Identifier,
         Original := MutableProperties(
           kmsArn := OriginalJson.obj[1].1.str,
           customEncryptionContext := OriginalEC,
-          hierarchyVersion := originalHV
+          hierarchyVersion := MutablePropertiesJsonToHierarchyVersion(OriginalJson)
         ),
         Terminal := MutableProperties(
           kmsArn := TerminalJson.obj[1].1.str,
           customEncryptionContext := TerminalEC,
-          hierarchyVersion := terminalHV
+          hierarchyVersion := MutablePropertiesJsonToHierarchyVersion(TerminalJson)
         ),
         UUID := commitment.UUID,
         CreateTime := commitment.CreateTime,
