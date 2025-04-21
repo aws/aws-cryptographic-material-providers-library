@@ -15,7 +15,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
 
-  const testMutateForHV2ErrorsForNotKMSSimple := "dafny-initialize-mutation-hv-2-allowed"
+  const testMutateForHV2ErrorsForNotKMSSimple := "dafny-initialize-mutation-hv-2-bad-strategy"
   method {:test} TestMutateForHV2ErrorsForNotKMSSimple()
   {
     var uuid :- expect UUID.GenerateUUID();
