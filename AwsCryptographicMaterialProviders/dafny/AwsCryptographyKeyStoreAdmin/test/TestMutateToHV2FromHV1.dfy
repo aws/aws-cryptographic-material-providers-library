@@ -14,6 +14,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   import opened Wrappers
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
+  import String = StandardLibrary.String
 
   const testMutateForHV2ErrorsForNotKMSSimple := "dafny-initialize-mutation-hv-2-bad-strategy"
   method {:test} TestMutateForHV2ErrorsForNotKMSSimple()

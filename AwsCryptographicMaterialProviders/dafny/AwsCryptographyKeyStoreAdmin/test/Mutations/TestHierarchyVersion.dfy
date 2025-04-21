@@ -18,7 +18,6 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
   import UUID
   import Time
   import Structure
-  import String = StandardLibrary.String
 
   method {:test} TestInitializeMutationFailsWithNonUniqueBranchKeyContext() {
 
