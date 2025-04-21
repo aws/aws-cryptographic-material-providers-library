@@ -32,7 +32,7 @@ module TestDiscoveryGetKeys {
       storage := Some(
         Types.ddb(
           Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
+            ddbTableName := staticBranchKeyStoreName,
             ddbClient := Some(ddbClient)
           ))),
       keyManagement := Some(
@@ -72,7 +72,7 @@ module TestDiscoveryGetKeys {
       storage := Some(
         Types.ddb(
           Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
+            ddbTableName := staticBranchKeyStoreName,
             ddbClient := Some(ddbClient)
           ))),
       keyManagement := Some(
@@ -112,7 +112,7 @@ module TestDiscoveryGetKeys {
       storage := Some(
         Types.ddb(
           Types.DynamoDBTable(
-            ddbTableName := branchKeyStoreName,
+            ddbTableName := staticBranchKeyStoreName,
             ddbClient := Some(ddbClient)
           ))),
       keyManagement := Some(

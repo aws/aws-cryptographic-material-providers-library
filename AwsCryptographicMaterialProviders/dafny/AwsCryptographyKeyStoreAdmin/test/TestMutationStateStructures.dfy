@@ -13,6 +13,7 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import AdminFixtures
+  import CleanupItems
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
 
@@ -111,8 +112,10 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
   }
 
   /*
-    // Test to recover in-flight mutation from pre HV-2 and complete the mutation.
-    method {:test} TestPreHV2DeserializeMutationSystemKey()
+    // Helper method to recover in-flight mutation from pre HV-2 and complete the mutation.
+    method TestPreHV2DeserializeMutationSystemKey(
+      id : string
+    )
     {
       var underTest :- expect AdminFixtures.DefaultAdmin();
       var kmsClient :- expect Fixtures.ProvideKMSClient();
@@ -124,13 +127,13 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
             grantTokens := None,
             kmsClient := Some(kmsClient))));
       var request := Types.DescribeMutationInput(
-        Identifier:= replace-with-branch-key-with-in-flight-mutation
+        Identifier:= id
       );
       var response := underTest.DescribeMutation(request);
       expect response.Success?, "Mutation Commitment is present, however unable to deserialize.";
       expect response.value.MutationInFlight.Yes?;
       var token := response.value.MutationInFlight.Yes.MutationToken;
-    
+
       var testInput := Types.ApplyMutationInput(
         MutationToken := token,
         PageSize := Some(10), //Some(24),
@@ -139,6 +142,29 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
   
       var applyOutput? :- expect underTest.ApplyMutation(testInput);
       expect applyOutput?.MutationResult.CompleteMutation?, "Should COMPLETE mutations for pre HV-2 in-flight mutations";
+    }
+
+    // This test verifies that in-flight mutation can be successfully recovered with pre-HV-2 changes and complete mutation
+    // It copies a static branch key with in-flight/in-complete muations from static table to simulate an in-flight mutation
+    // After copying, it verifies the mutation can be properly deserialized, recovered and completed.
+    method {:test} copyBranchKeyTest() {
+      var ddbClient? :- expect Fixtures.ProvideDDBClient();
+  
+      var bkid := AdminFixtures.STATIC_PRE_HV2_MUTATION_WITH_SYSTEM_KEY;
+  
+      // Delete the Branch Key, if there's one already exists in Testing Key Store Table.
+      // var _ := CleanupItems.DeleteBranchKey(Identifier:= bkid, ddbClient:=ddbClient?);
+  
+      var isCopied :- expect Fixtures.CopyBranchKey(
+        Identifier := bkid,
+        sourceTableName := Fixtures.staticBranchKeyStoreName,
+        targetTableName := Fixtures.branchKeyStoreName,
+        hierarchyVersion := "1",
+        ddbClient := ddbClient?
+      );
+      expect isCopied, "There are still some items left which are not copied from static key store table.";
+  
+      TestPreHV2DeserializeMutationSystemKey(bkid);
     }
   */
 }

@@ -52,7 +52,7 @@ module TestLyingBranchKey {
   method {:test} TestHv1GetKeysForLyingBranchKey() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
-    var keyStore :- expect DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient), kmsId := postalHornKeyArn);
+    var keyStore :- expect StaticKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient), kmsId := postalHornKeyArn);
 
     TestBranchKeyOperationsExpectsException(
       id := hierarchyV1InvalidKmsArnId,
@@ -72,7 +72,7 @@ module TestLyingBranchKey {
   method {:test} TestHv2GetKeysForLyingBranchKeyWrongKmsArn() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
-    var keyStore :- expect DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient), kmsId := postalHornKeyArn);
+    var keyStore :- expect StaticKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient), kmsId := postalHornKeyArn);
 
     TestBranchKeyOperationsExpectsException(
       id := hierarchyV2InvalidKmsArnId,
@@ -89,7 +89,7 @@ module TestLyingBranchKey {
   method {:test} TestHv2GetKeysForLyingBranchKeyWrongDigest() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
-    var keyStore :- expect DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var keyStore :- expect StaticKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
 
     TestBranchKeyOperationsExpectsException(
       id := hierarchyV2InvalidDigestId,
@@ -106,7 +106,7 @@ module TestLyingBranchKey {
   method {:test} TestHv2GetKeysForLyingBranchKeyWrongCiphertextLength() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
-    var keyStore :- expect DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var keyStore :- expect StaticKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
 
     TestBranchKeyOperationsExpectsException(
       id := hierarchyV2InvalidCiphertextLengthId,
@@ -123,7 +123,7 @@ module TestLyingBranchKey {
   method {:test} TestHv2GetKeysForLyingBranchKeyMissingPrefixedEC() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
-    var keyStore :- expect DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var keyStore :- expect StaticKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
 
     TestBranchKeyOperationsExpectsException(
       id := hierarchyV2MissingPrefixedECId,
@@ -139,7 +139,7 @@ module TestLyingBranchKey {
   method {:test} TestHv2GetKeysForLyingBranchKeyUnexpectedEC() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
-    var keyStore :- expect DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+    var keyStore :- expect StaticKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
 
     TestBranchKeyOperationsExpectsException(
       id := hierarchyV2UnexpectedECId,
