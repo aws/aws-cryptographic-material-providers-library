@@ -9,6 +9,7 @@ include "SystemKey/Handler.dfy"
 include "Mutations.dfy"
 include "MutationErrorRefinement.dfy"
 include "KeyStoreAdminErrorMessages.dfy"
+include "CommitmentAndIndex.dfy"
 
 module {:options "/functionSyntax:4" } InternalInitializeMutation {
   // StandardLibrary Imports
@@ -39,7 +40,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   import SystemKeyHandler = SystemKey.Handler
   import Mutations
   import MutationErrorRefinement
-  import ErrorMessages = KeyStoreAdminErrorMessages
+  import KeyStoreAdminErrorMessages
+  import CommitmentAndIndex
 
   datatype InternalInitializeMutationInput = | InternalInitializeMutationInput (
     nameonly Identifier: string ,
@@ -57,7 +59,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && keyManagerStrategy.ValidState()
       && storage.ValidState()
       && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
-      && keyManagerStrategy.SupportHV1()
+      && (!Mutations.TerminalHierarchyVersion.Some? || KmsUtils.IsSupportedKeyManagerStrategy(Mutations.TerminalHierarchyVersion.value, keyManagerStrategy))
     }
   }
 
@@ -68,11 +70,13 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   function {:isolate_assertions} ValidateInitializeMutationInput(
     input: InternalInitializeMutationInput
   ): (output: Result<InternalInitializeMutationInput, Types.Error>)
+    requires input.ValidState()
     ensures
       output.Success?
       ==>
         && StateStrucs.ValidMutations?(input.Mutations)
         && 0 < |input.Identifier|
+        && output.value.ValidState()
     ensures
       && output.Success?
       && input.Mutations.TerminalKmsArn.Some?
@@ -119,7 +123,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
               message := "Mutations parameter is invalid; If Encryption Context is given, it cannot be empty or have empty values."));
     :- Need(
          !IsMutationsTerminalHV1?(input.Mutations),
-         Types.UnsupportedFeatureException(message := ErrorMessages.NO_MUTATE_TO_HV_1));
+         Types.UnsupportedFeatureException(message := KeyStoreAdminErrorMessages.NO_MUTATE_TO_HV_1));
     Success(input)
   }
 
@@ -132,14 +136,14 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     input: InternalInitializeMutationInput
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
-    requires
-      && ValidateInitializeMutationInput(input).Success?
     requires StateStrucs.ValidMutations?(input.Mutations) // may not need this
     requires
       && input.storage.ValidState()
       && input.keyManagerStrategy.ValidState()
       && input.SystemKey.ValidState()
       && input.ValidState()
+    requires
+      && ValidateInitializeMutationInput(input).Success?
     ensures
       && input.storage.ValidState()
       && input.SystemKey.ValidState()
@@ -174,7 +178,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
 
     if (readItems.MutationCommitment.Some?) {
       :- Need(
-        StateStrucs.ValidCommitment?(readItems.MutationCommitment.value),
+        CommitmentAndIndex.ValidCommitment?(readItems.MutationCommitment.value),
         Types.AwsCryptographyKeyStore(
           // We decided that Storage would not care about the Byte Structure of MUTATION_COMMITMENT's attributes.
           // But I think a Storage Exception makes sense for a corrupted item.
@@ -313,7 +317,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     assert KmsArn.ValidKmsArn?(activeItem.KmsArn);
     var inferredOriginalHV: KeyStoreTypes.HierarchyVersion
       :=
-      HVUtils.StringToHierarchyVersion(activeItem.EncryptionContext[Structure.HIERARCHY_VERSION]);
+      Structure.StringToHierarchyVersion(activeItem.EncryptionContext[Structure.HIERARCHY_VERSION]);
     var MutationToApply := StateStrucs.MutationToApply(
       Identifier := input.Identifier,
       Original := StateStrucs.MutableProperties(
@@ -333,6 +337,13 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       CommitmentCiphertext := [0], // TODO-Mutations-GA Create Commitment Ciphertext
       IndexCiphertext := [0] // TODO-Mutations-GA Create Index Ciphertext
     );
+    :- Need(
+      KmsUtils.IsSupportedKeyManagerStrategy(MutationToApply.Terminal.hierarchyVersion, input.keyManagerStrategy),
+      Types.UnsupportedFeatureException(
+        message :=
+          KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY
+      )
+    );
 
     assert MutationToApply.Original.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     assert MutationToApply.Terminal.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
@@ -343,7 +354,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       item := activeItem,
       keyManagerStrategy := input.keyManagerStrategy,
       localOperation := "InitializeMutation",
-      isTerminalHv2? := isTerminalHv2
+      mutationToApply := MutationToApply
     );
     if (verifyActive?.Failure?) {
       return Failure(verifyActive?.error);
@@ -363,7 +374,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Structure.ReplaceMutableContext(
         readItems.BeaconItem.EncryptionContext,
         readItems.BeaconItem.KmsArn,
-        MutationToApply.Original.customEncryptionContext),
+        MutationToApply.Original.customEncryptionContext,
+        MutationToApply.Original.hierarchyVersion),
       Types.UnexpectedStateException(
         message :=
           "Beacon Item is not in the Original State!"
@@ -435,7 +447,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
                KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn), decryptOnlyEncryptionContext[Structure.KMS_FIELD]
              )
     requires keyManagerStrategy.ValidState()
-    requires keyManagerStrategy.SupportHV1()
+    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply.Terminal.hierarchyVersion, keyManagerStrategy)
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
     ensures res.Success? ==>
@@ -454,6 +466,9 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       case decryptEncrypt(kmsD, kmsE) =>
         grantTokens := kmsE.grantTokens;
         kmsClient := kmsE.kmsClient;
+      case kmsSimple(kms) =>
+        grantTokens := kms.grantTokens;
+        kmsClient := kms.kmsClient;
     }
 
     var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
@@ -545,7 +560,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
           + " This suggests the Key Store's Storage has been tampered with by an un-authorized actor."
           + " Mutation cannot continue. Audit Key Store's Storage's access."
           + " The Mutation will need to be manually restarted."));
-    var Token := Types.MutationToken(
+    var token := Types.MutationToken(
       Identifier := commitment.Identifier,
       UUID := commitment.UUID,
       CreateTime := commitment.CreateTime);
@@ -563,12 +578,13 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         CreateTime := timestamp,
         CiphertextBlob := [0] // [0] is a temporary place holder, but we should fix this by creating an internal type
       );
-      var SignedMutationIndex :- SystemKeyHandler.SignIndex(newIndex, systemKey);
+      var signedMutationIndex :- SystemKeyHandler.SignIndex(newIndex, systemKey);
+      assert CommitmentAndIndex.ValidIndex?(signedMutationIndex);
       // -= Write Mutation Index, conditioned on Mutation Commitment
       var throwAway2? := storage.WriteMutationIndex(
         KeyStoreTypes.WriteMutationIndexInput(
           MutationCommitment := commitment,
-          MutationIndex := SignedMutationIndex
+          MutationIndex := signedMutationIndex
         ));
       // TODO-Mutations-FF :: Ideally, we would diagnosis the Storage Failure.
       // What Condition Check failed?
@@ -576,11 +592,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       mutatedBranchKeyItems := mutatedBranchKeyItems
       + [Types.MutatedBranchKeyItem(ItemType := "Mutation Index: " + commitment.UUID, Description := "Created")];
     } else {
-      var commitmentAndIndex :- Mutations.ValidateCommitmentAndIndexStructures(
-        Token,
-        commitment,
-        index.value);
-      var indexIsVerified :- SystemKeyHandler.VerifyIndex(commitmentAndIndex.Index, systemKey);
+      var commitmentAndIndex := CommitmentAndIndex.CommitmentAndIndex(commitment, index.value);
+      :- CommitmentAndIndex.MutationItemsValidIDs(commitmentAndIndex);
+      :- CommitmentAndIndex.MutationItemsValidUTF8(commitmentAndIndex);
+      var indexIsVerified :- SystemKeyHandler.VerifyIndex(commitmentAndIndex.index, systemKey);
       :- Need(
         indexIsVerified,
         Types.MutationVerificationException(
@@ -592,7 +607,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     }
 
     return Success(Types.InitializeMutationOutput(
-                     MutationToken := Token,
+                     MutationToken := token,
                      MutatedBranchKeyItems := mutatedBranchKeyItems,
                      InitializeMutationFlag := Flag));
 
@@ -615,7 +630,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && 0 < |input.Identifier|
       && activeItem.KmsArn == mutationToApply.Original.kmsArn
       && Structure.EncryptedHierarchicalKeyFromStorage?(activeItem)
-      && input.keyManagerStrategy.SupportHV1()
+      && KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply.Terminal.hierarchyVersion, input.keyManagerStrategy)
     }
 
     ghost const Modifies :=
@@ -643,6 +658,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     returns (output: Result<InitializeMutationActiveOutput, Types.Error>)
     requires localInput.ValidState()
     modifies localInput.Modifies
+    requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply.Terminal.hierarchyVersion, localInput.input.keyManagerStrategy)
     ensures localInput.ValidState()
     ensures
       && localInput.input.DoNotVersion
@@ -672,6 +688,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     modifies localInput.Modifies
     ensures localInput.ValidState()
     requires !localInput.input.DoNotVersion
+    requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply.Terminal.hierarchyVersion, localInput.input.keyManagerStrategy)
     ensures
       output.Success?
       ==>
@@ -750,6 +767,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     modifies localInput.Modifies
     ensures localInput.ValidState()
     requires localInput.input.DoNotVersion
+    requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply.Terminal.hierarchyVersion, localInput.input.keyManagerStrategy)
     ensures
       output.Success?
       ==>
@@ -778,6 +796,12 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Types.KeyStoreAdminException(
         message := "Version (Decrypt Only) Item read from storage is malformed! Version: "
         + Structure.BRANCH_KEY_TYPE_PREFIX + oldVersion)
+    );
+    :- Need(
+      getOldRes.Item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HierarchyVersionToString(localInput.mutationToApply.Original.hierarchyVersion),
+      Types.KeyStoreAdminException(
+        message := "The original hiearchical version and the branch key context hiearchical version does not match"
+      )
     );
 
     // Assert Decrypt Only is in Original
