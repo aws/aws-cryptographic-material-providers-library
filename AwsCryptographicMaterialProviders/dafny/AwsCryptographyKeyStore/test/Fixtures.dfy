@@ -120,6 +120,7 @@ module Fixtures {
     49, 55, 52, 50, 50, 97, 56, 57, 51, 56, 102, 52
   ]
   const publicKeyArn := "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"
+  const kmsSystemKey := "arn:aws:kms:us-west-2:370957321024:key/6613e250-b2e7-4c4c-a54e-2b241f837242"
 
   // TODO: After ~2024/06/11 launch, add the next two lines to cfn/ESDK-Hierarchy-CI.yaml
   const postalHornKeyArn := "arn:aws:kms:us-west-2:370957321024:key/bc127593-f7da-452c-a1f3-cd34c46f81f8"
