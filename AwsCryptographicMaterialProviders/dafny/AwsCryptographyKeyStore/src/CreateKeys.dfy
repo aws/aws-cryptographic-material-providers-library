@@ -6,6 +6,7 @@ include "Structure.dfy"
 include "DefaultKeyStorageInterface.dfy"
 include "KMSKeystoreOperations.dfy"
 include "KeyStoreErrorMessages.dfy"
+include "GetKeys.dfy"
 include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "KmsArn.dfy"
 include "HierarchicalVersionUtils.dfy"
@@ -23,6 +24,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
   import KMS = ComAmazonawsKmsTypes
+  import AtomicPrimitives
+  import GetKeys
   import HvUtils = HierarchicalVersionUtils
   import AwsArnParsing
   import KmsArn
@@ -288,7 +291,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       ));
   }
 
-  method {:vcs_split_on_every_assert} VersionActiveBranchKey(
+  method VersionActiveBranchKey(
     input: Types.VersionKeyInput,
     timestamp: string,
     branchKeyVersion: string,
@@ -603,7 +606,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
     }
     
     :- Need(
-      && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem.EncryptionContext[Structure.KMS_FIELD]),
+      && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem.EncryptionContext[Structure.KMS_FIELD])
+      && KMSKeystoreOperations.GetKeyId(kmsConfiguration) == oldActiveItem.EncryptionContext[Structure.KMS_FIELD],
       Types.KeyStoreException(
         message := ErrorMessages.VERSION_KEY_KMS_KEY_ARN_DISAGREEMENT)
     ); 
@@ -614,20 +618,25 @@ module {:options "/functionSyntax:4" } CreateKeys {
           AwsCryptographyPrimitives := e
         )
     );
+    
+    var newActivePlaintextMaterial? := crypto.GenerateRandomBytes(
+      AtomicPrimitives.Types.GenerateRandomBytesInput(length := 32)
+    );
+    var newActivePlaintextMaterial :- newActivePlaintextMaterial?.MapFailure(
+      e => Types.AwsCryptographyPrimitives(
+          AwsCryptographyPrimitives := e
+        ));
 
     var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(oldActiveItem.EncryptionContext);
 
     // we decrypt the oldActiveItem to get the ciphertext and then
     // we encrypt it to a versioned key
-    var decryptResponseOldActiveItem :- KMSKeystoreOperations.DecryptKeyForHv2(
-      oldActiveItem.CiphertextBlob,
-      ecToKMS,
-      oldActiveItem.KmsArn,
+    var oldActiveItemPlaintext :- GetKeys.DecryptAndValidateKeyForHV2(
+      oldActiveItem,
       kmsConfiguration,
       grantTokens,
       kmsClient
     );
-    // var oldActiveItemPlaintext := decryptResponseOldActiveItem.Plaintext.value;
     
     var decryptOnlyEncryptionContext := Structure.NewVersionFromActiveBranchKeyEncryptionContext(
       oldActiveItem.EncryptionContext,
@@ -636,31 +645,40 @@ module {:options "/functionSyntax:4" } CreateKeys {
     );
     var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
 
-    var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKeyHV2(
-      decryptOnlyEncryptionContext,
-      kmsConfiguration,
-      grantTokens,
-      kmsClient,
-      crypto
+    var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.packAndCallKMS(
+      branchKeyContext := decryptOnlyEncryptionContext,
+      kmsClient := kmsClient,
+      crypto := crypto,
+      material := oldActiveItemPlaintext,
+      encryptionContext := ecToKMS,
+      kmsConfiguration := kmsConfiguration,
+      grantTokens := grantTokens
     );
 
-    // // create versioned key bkcdigest
-    // var versionedKeyDigest :- HvUtils.CreateBKCDigest(
-    //   decryptOnlyEncryptionContext,
-    //   crypto
-    // );
-    // var plaintextTuple := HvUtils.PackPlainTextTuple(versionedKeyDigest, oldActiveItemPlaintext);
-    // var wrappedMaterial? := KMSKeystoreOperations.EncryptKey(
-    //   plaintextTuple,
-    //   decryptOnlyEncryptionContext,
-    //   decryptOnlyEncryptionContext[Structure.KMS_FIELD],
-    //   kmsConfiguration,
-    //   grantTokens,
-    //   kmsClient
-    // );
-    // var wrappedMaterial :- wrappedMaterial?.MapFailure(e => ConvertKmsErrorToError(e));
+    var wrappedActiveBranchKey :- KMSKeystoreOperations.packAndCallKMS(
+      branchKeyContext := activeEncryptionContext,
+      kmsClient := kmsClient,
+      crypto := crypto,
+      material := newActivePlaintextMaterial,
+      encryptionContext := ecToKMS,
+      kmsConfiguration := kmsConfiguration,
+      grantTokens := grantTokens
+    );
+    
+    var overWrite := Types.OverWriteEncryptedHierarchicalKey(
+      Item := wrappedActiveBranchKey,
+      Old := oldActiveItem
+    );
 
-    output := Failure(Types.KeyStoreException(message := "err")); 
+
+    var _ :- storage.WriteNewEncryptedBranchKeyVersion(
+      Types.WriteNewEncryptedBranchKeyVersionInput(
+        Active := overWrite,
+        Version := wrappedDecryptOnlyBranchKey 
+      )
+    );
+    
+    output := Success(Types.VersionKeyOutput());
   }
 
   twostate predicate WrappedBranchKeyCreation?(
