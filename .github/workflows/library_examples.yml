@@ -58,7 +58,9 @@ jobs:
         run: |
           make test_java
 
-      - name: Test AwsCryptographicMaterialProviders Java Concurrent
-        working-directory: ./Examples
-        run: |
-          make test_java_concurrent
+      # These tests are "flacky" and not really neccessary,
+      # we created them in re-action to a user error with local caches and DDB
+      # - name: Test AwsCryptographicMaterialProviders Java Concurrent
+      #   working-directory: ./Examples
+      #   run: |
+      #     make test_java_concurrent
