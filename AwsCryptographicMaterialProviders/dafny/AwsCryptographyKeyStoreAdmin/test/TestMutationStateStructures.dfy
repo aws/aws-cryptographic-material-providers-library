@@ -112,7 +112,7 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
   }
 
   /*
-    // Test to recover in-flight mutation from pre HV-2 and complete the mutation.
+    // Helper method to recover in-flight mutation from pre HV-2 and complete the mutation.
     method TestPreHV2DeserializeMutationSystemKey(
       id : string
     )
@@ -143,8 +143,10 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
       var applyOutput? :- expect underTest.ApplyMutation(testInput);
       expect applyOutput?.MutationResult.CompleteMutation?, "Should COMPLETE mutations for pre HV-2 in-flight mutations";
     }
-  
-    // This test will first delete any copy of the static branch key and copy from static key store and recov
+
+    // This test verifies that in-flight mutation can be successfully recovered with pre-HV-2 changes and complete mutation
+    // It copies a static branch key with in-flight/in-complete muations from static table to simulate an in-flight mutation
+    // After copying, it verifies the mutation can be properly deserialized, recovered and completed.
     method {:test} copyBranchKeyTest() {
       var ddbClient? :- expect Fixtures.ProvideDDBClient();
   
