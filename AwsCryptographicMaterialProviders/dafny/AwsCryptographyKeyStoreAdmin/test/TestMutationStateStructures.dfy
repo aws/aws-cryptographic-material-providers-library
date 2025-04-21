@@ -70,7 +70,7 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
     var response1 := underTest.DescribeMutation(Types.DescribeMutationInput(
                                                   Identifier := AdminFixtures.STATIC_PRE_HV2_MUTATION_WITH_SYSTEM_KEY
                                                 ));
-    expect response1.Success?, "Mutation Commitment is present, however unable to deserialize.";
+    expect response1.Success?;
     expect response1.value.MutationInFlight.Yes?;
     ValidateMutationDetails(
       response1.value.MutationInFlight.Yes.MutationDetails,
@@ -102,7 +102,7 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
     var response2 := underTest.DescribeMutation(Types.DescribeMutationInput(
                                                   Identifier := AdminFixtures.STATIC_PRE_HV2_MUTATION_WITH_TRUST_STORAGE
                                                 ));
-    expect response2.Success?, "Mutation Commitment is present, however unable to deserialize.";
+    expect response2.Success?;
     expect response2.value.MutationInFlight.Yes?;
     ValidateMutationDetails(
       response2.value.MutationInFlight.Yes.MutationDetails,
