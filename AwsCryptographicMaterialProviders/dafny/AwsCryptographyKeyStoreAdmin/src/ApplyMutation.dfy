@@ -6,6 +6,7 @@ include "KmsUtils.dfy"
 include "MutationIndexUtils.dfy"
 include "SystemKey/Handler.dfy"
 include "Mutations.dfy"
+include "KeyStoreAdminErrorMessages.dfy"
 
 module {:options "/functionSyntax:4" } InternalApplyMutation {
   // StandardLibrary Imports
@@ -21,10 +22,12 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     // KeyStoreAdmin Imports
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
+  import HvUtils = HierarchicalVersionUtils
   import KmsUtils
   import MutationIndexUtils
   import SystemKeyHandler = SystemKey.Handler
   import Mutations
+  import KeyStoreAdminErrorMessages
 
   const DEFAULT_APPLY_PAGE_SIZE := 3 as StandardLibrary.UInt.int32
 
@@ -43,8 +46,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
                 logicalName := input.logicalKeyStoreName)
            && Structure.DecryptOnlyHierarchicalSymmetricKey?(item)
            && item.Type.HierarchicalSymmetricVersion?
-              // TODO-HV-2-M2 : allow for HV-2
-           && item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
+           && (item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 || item.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2)
        )
   }
 
@@ -63,7 +65,6 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
       && keyManagerStrategy.ValidState()
       && storage.ValidState()
       && SystemKey.Modifies !! keyManagerStrategy.Modifies !! storage.Modifies
-      && keyManagerStrategy.SupportHV1()
     }
   }
 
@@ -135,33 +136,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     var keyManagerStrategy := input.keyManagerStrategy;
     var SystemKey := input.SystemKey;
     // var logicalKeyStoreName := input.logicalKeyStoreName;
-    var fetchMutation? := storage.GetMutation(
-      Types.AwsCryptographyKeyStoreTypes.GetMutationInput(
-        Identifier := input.MutationToken.Identifier));
-    var fetchMutation: KeyStoreTypes.GetMutationOutput :- fetchMutation?
-    .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
+    var fetchMutation :- FetchAndValidateMutation(storage, input.MutationToken);
 
-      // -= Validate Commitment and Index
-    :- Need(
-      fetchMutation.MutationCommitment.Some?,
-      Types.MutationInvalidException(
-        message := "No Mutation is in-flight for this Branch Key ID " + input.MutationToken.Identifier + " ."
-      ));
-    :- Need(
-      input.MutationToken.UUID == fetchMutation.MutationCommitment.value.UUID,
-      Types.MutationInvalidException(
-        message := "The Token and the Mutation Commitment read from storage disagree."
-        + " This indicates that the Token is for a different Mutation than the one in-flight."
-        + " A possible cause is this token is from an earlier Mutation that already finished?"
-        + " Branch Key ID: " + input.MutationToken.Identifier + ";"
-        + " Mutation Commitment UUID: " + fetchMutation.MutationCommitment.value.UUID + ";"
-        + " Token UUID: " + input.MutationToken.UUID + ";"
-      ));
-    :- Need(
-      fetchMutation.MutationIndex.Some?,
-      Types.MutationInvalidException(
-        message := "No Mutation Index exsists for this in-flight mutation of Branch Key ID " + input.MutationToken.Identifier + " ."
-      ));
     var CommitmentAndIndex :- Mutations.ValidateCommitmentAndIndexStructures(
       input.MutationToken,
       fetchMutation.MutationCommitment.value,
@@ -188,6 +164,13 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
 
     var MutationToApply :- StateStrucs.DeserializeMutation(CommitmentAndIndex);
 
+    :- Need(
+      KmsUtils.IsSupportedKeyManagerStrategy(MutationToApply.Terminal.hierarchyVersion, input.keyManagerStrategy),
+      Types.UnsupportedFeatureException(
+        message :=
+          KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY
+      )
+    );
     // -= Query for page Size Branch Key Items
     var queryOut :- QueryForVersionsAndValidate(input, MutationToApply);
 
@@ -261,6 +244,49 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
         MutatedBranchKeyItems := logStatements
       ));
   }
+
+  method {:isolate_assertions} FetchAndValidateMutation(
+    storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
+    mutationToken: Types.MutationToken
+  ) returns (result: Result<Types.AwsCryptographyKeyStoreTypes.GetMutationOutput, Types.Error>)
+    requires storage.ValidState()
+    ensures storage.ValidState()
+    modifies storage.Modifies
+
+    ensures result.Success? ==>
+              && result.value.MutationCommitment.Some?
+              && result.value.MutationIndex.Some?
+  {
+    var fetchMutation? := storage.GetMutation(
+      Types.AwsCryptographyKeyStoreTypes.GetMutationInput(
+        Identifier := mutationToken.Identifier));
+    var fetchMutation :- fetchMutation?
+    .MapFailure(e => Types.Error.AwsCryptographyKeyStore(e));
+
+      // -= Validate Commitment and Index
+    :- Need(
+      fetchMutation.MutationCommitment.Some?,
+      Types.MutationInvalidException(
+        message := KeyStoreAdminErrorMessages.NoMutationInFlight(mutationToken.Identifier)
+      ));
+    :- Need(
+      mutationToken.UUID == fetchMutation.MutationCommitment.value.UUID,
+      Types.MutationInvalidException(
+        message := KeyStoreAdminErrorMessages.TokenAndMutationCommitmentDisagree(
+          mutationToken.Identifier,
+          fetchMutation.MutationCommitment.value.UUID,
+          mutationToken.UUID
+        )
+      ));
+    :- Need(
+      fetchMutation.MutationIndex.Some?,
+      Types.MutationInvalidException(
+        message := KeyStoreAdminErrorMessages.NoMutationIndexExists(mutationToken.Identifier)
+      ));
+
+    return Success(fetchMutation);
+  }
+
 
   method WriteMutations(
     storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
@@ -347,14 +373,10 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
     mutationToApply: StateStrucs.MutationToApply
   ) returns (output: Result<(seq<KeyStoreTypes.OverWriteEncryptedHierarchicalKey>, seq<Types.MutatedBranchKeyItem>), Types.Error>)
     requires keyManagerStrategy.ValidState() && mutationToApply.ValidState()
-    requires keyManagerStrategy.SupportHV1()
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
-    requires forall item <- items :: item.item is KeyStoreTypes.EncryptedHierarchicalKey
-    requires forall item <- items :: item.item.Type.HierarchicalSymmetricVersion?
-    requires forall item <- items :: KmsArn.ValidKmsArn?(item.item.KmsArn)
-    requires forall item <- items :: Structure.EncryptedHierarchicalKeyFromStorage?(item.item)
-    requires forall item <- items :: item.itemOriginal? ==> item.item.KmsArn == mutationToApply.Original.kmsArn
+    requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply.Terminal.hierarchyVersion, keyManagerStrategy)
+    requires ValidOriginalOrTerminalItems(items, mutationToApply)
     requires Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES !! mutationToApply.Terminal.customEncryptionContext.Keys
   {
     var logStatements: seq<Types.MutatedBranchKeyItem> := [];
@@ -368,7 +390,8 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
           var verify? := Mutations.VerifyEncryptedHierarchicalKey(
             item := item,
             keyManagerStrategy := keyManagerStrategy,
-            localOperation := "ApplyMutation"
+            localOperation := "ApplyMutation",
+            mutationToApply := mutationToApply
           );
           if (verify?.Failure?) {
             return Failure(verify?.error);
@@ -390,5 +413,14 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
       }
     }
     return Success((itemsEvaluated, logStatements));
+  }
+
+  predicate ValidOriginalOrTerminalItems(items: Mutations.OriginalOrTerminal, mutationToApply: StateStrucs.MutationToApply)
+  {
+    && (forall item <- items :: item.item is KeyStoreTypes.EncryptedHierarchicalKey)
+    && (forall item <- items :: item.item.Type.HierarchicalSymmetricVersion?)
+    && (forall item <- items :: KmsArn.ValidKmsArn?(item.item.KmsArn))
+    && (forall item <- items :: Structure.EncryptedHierarchicalKeyFromStorage?(item.item))
+    && (forall item <- items :: item.itemOriginal? ==> item.item.KmsArn == mutationToApply.Original.kmsArn)
   }
 }
