@@ -1,11 +1,11 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-include "../src/Index.dfy"
-include "../../AwsCryptographyKeyStore/test/Fixtures.dfy"
-include "../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
-include "AdminFixtures.dfy"
-include "Mutations/TestMutationHappyPath.dfy"
+include "../../src/Index.dfy"
+include "../../../AwsCryptographyKeyStore/test/Fixtures.dfy"
+include "../../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
+include "../AdminFixtures.dfy"
+include "TestMutationHappyPath.dfy"
 
 // TODO-HV-2-M2: Move this to ./Mutations
 module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
