@@ -600,7 +600,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     ensures storage.ValidState() && kmsClient.ValidState()
   {
     if !HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext) {
-      return Failure(Types.KeyStoreException(
+      return Failure(Types.BranchKeyCiphertextException(
                        message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
                      ));
     }
