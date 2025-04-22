@@ -133,7 +133,7 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
         "Query for Decrypt Only returned a non-Decrypt Only!";
       var versionUUID := item.Type.HierarchicalSymmetricVersion.Version;
       expect "type" in item.EncryptionContext, "Decrypt Only item is missing 'type' from EC!!";
-      verifyTerminalProperties(item.EncryptionContext, expectedEncryptionContext, expectedKmsArn);
+      verifyTerminalProperties(item.EncryptionContext, expectedEncryptionContext, expectedKmsArn, expectedHV);
 
       // Get branchKeyVersion from storage
       branchKeyVersionInputForStorage := KeyStoreTypes.GetEncryptedBranchKeyVersionInput(
@@ -141,7 +141,7 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
         Version := versionUUID
       );
       branchKeyVersionOutputFromStorage :- expect storage.GetEncryptedBranchKeyVersion(branchKeyVersionInputForStorage);
-      verifyTerminalProperties(branchKeyVersionOutputFromStorage.Item.EncryptionContext, expectedEncryptionContext, expectedKmsArn);
+      verifyTerminalProperties(branchKeyVersionOutputFromStorage.Item.EncryptionContext, expectedEncryptionContext, expectedKmsArn, expectedHV);
 
       // Get branchKeyVersion from keystore
       branchKeyVersionInputForKeyStore := KeyStoreTypes.GetBranchKeyVersionInput(
@@ -150,7 +150,8 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
       );
       branchKeyVersionOutputFromKeyStore :- expect keyStoreTerminal.GetBranchKeyVersion(branchKeyVersionInputForKeyStore);
       branchKeyVersionOutputEC :- expect HvUtils.DecodeEncryptionContext(branchKeyVersionOutputFromKeyStore.branchKeyMaterials.encryptionContext);
-      expect branchKeyVersionOutputEC == expectedEncryptionContext;
+      expect branchKeyVersionOutputEC == expectedEncryptionContext,
+        "Retrived branch Key Version EC from keystore did not match with the expected EC.";
 
       itemIndex := 1 + itemIndex;
     }
@@ -159,22 +160,24 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
       Identifier := branchKeyIdentifier
     );
     var activeBranchKeyOutputFromStorage :- expect storage.GetEncryptedActiveBranchKey(activeBranchKeyInputForStorage);
-    verifyTerminalProperties(activeBranchKeyOutputFromStorage.Item.EncryptionContext, expectedEncryptionContext, expectedKmsArn);
+    verifyTerminalProperties(activeBranchKeyOutputFromStorage.Item.EncryptionContext, expectedEncryptionContext, expectedKmsArn, expectedHV);
     // Get activeBranchKey from keystore
     var activeBranchKeyOutput :- expect keyStoreTerminal.GetActiveBranchKey(KeyStoreTypes.GetActiveBranchKeyInput(branchKeyIdentifier := branchKeyIdentifier));
     var activeBranchKeyEC :- expect HvUtils.DecodeEncryptionContext(activeBranchKeyOutput.branchKeyMaterials.encryptionContext);
-    expect activeBranchKeyEC == expectedEncryptionContext;
+    expect activeBranchKeyEC == expectedEncryptionContext,
+      "Retrived active branch key EC from keystore did not match with the expected EC";
 
     // Get BeaconKey from storage
     var beaconKeyInputForStorage := KeyStoreTypes.GetEncryptedBeaconKeyInput(
       Identifier := branchKeyIdentifier
     );
     var beaconKeyOutputFromStorage :- expect storage.GetEncryptedBeaconKey(beaconKeyInputForStorage);
-    verifyTerminalProperties(activeBranchKeyOutputFromStorage.Item.EncryptionContext, expectedEncryptionContext, expectedKmsArn);
+    verifyTerminalProperties(activeBranchKeyOutputFromStorage.Item.EncryptionContext, expectedEncryptionContext, expectedKmsArn, expectedHV);
     // Get BeaconKey from keystore
     var beaconKeyOutput :- expect keyStoreTerminal.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := branchKeyIdentifier));
     var beaconKeyEC :- expect HvUtils.DecodeEncryptionContext(beaconKeyOutput.beaconKeyMaterials.encryptionContext);
-    expect beaconKeyEC == expectedEncryptionContext;
+    expect beaconKeyEC == expectedEncryptionContext,
+      "Retrived beacon key EC from keystore did not match with the expected EC";
   }
 
   // returns (expectedKmsArn, expectedHV, expectedEncryptionContext)
@@ -204,14 +207,21 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
   method verifyTerminalProperties(
     actualEC: KeyStoreTypes.EncryptionContextString,
     expectedCustomEC: KeyStoreTypes.EncryptionContextString,
-    expectedKMSArn: string
+    expectedKMSArn: string,
+    expectedHV: string
   ) {
-    expect Structure.BranchKeyContext?(actualEC);
-    expect HvUtils.HasUniqueTransformedKeys?(actualEC);
-    expect HvUtils.SelectKmsEncryptionContextForHv2(actualEC) == expectedCustomEC;
+    expect Structure.BranchKeyContext?(actualEC),
+      "Actual EC is not a branch key context. It might not contain restricted keys.";
+    if (expectedHV == "2") {
+      expect HvUtils.HasUniqueTransformedKeys?(actualEC),
+        "Actual EC does not have unique transformed keys.";
+      expect HvUtils.SelectKmsEncryptionContextForHv2(actualEC) == expectedCustomEC,
+        "Actual customer send EC and expected customer send EC did not match.";
+    }
     expect
-      actualEC[Structure.HIERARCHY_VERSION] == "2",
-      "Hierarchy version is not mutated to 2";
-    expect actualEC[Structure.KMS_FIELD] == expectedKMSArn;
+      actualEC[Structure.HIERARCHY_VERSION] == expectedHV,
+      "Unexpect Hierarchy version found in the EC.";
+    expect actualEC[Structure.KMS_FIELD] == expectedKMSArn,
+      "Unexpect KMS Arn found in the EC.";
   }
 }
