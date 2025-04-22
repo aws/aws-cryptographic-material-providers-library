@@ -2,24 +2,20 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../src/Index.dfy"
-include "../../AwsCryptographyKeyStore/src/HierarchicalVersionUtils.dfy"
 include "../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 include "../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "AdminFixtures.dfy"
 include "Mutations/TestMutationHappyPath.dfy"
 
+// TODO-HV-2-M2: Move this to ./Mutations
 module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   import UUID
   import AdminFixtures
   import CleanupItems
   import TestMutationHappyPath
   import opened Fixtures
-  import opened Wrappers
-  import DDB = Com.Amazonaws.Dynamodb
-  import HvUtils = HierarchicalVersionUtils
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
-  import String = StandardLibrary.String
 
   const testMutateForHV2ErrorsForNotKMSSimple := "dafny-initialize-mutation-hv-2-bad-strategy"
   const happyCaseId := "test-mutate-hv1-to-hv2"
