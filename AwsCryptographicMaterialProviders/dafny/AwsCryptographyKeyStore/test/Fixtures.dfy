@@ -109,6 +109,7 @@ module Fixtures {
   const KmsMrkEC : Types.EncryptionContext := map[UTF8.EncodeAscii("abc") := UTF8.EncodeAscii("123")]
   const RobbieEC : Types.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")]
   const RobbieECString : Types.EncryptionContextString := map["Robbie" := "Is a dog."]
+  const KodaECString : Types.EncryptionContextString := map["Koda" := "Is a dog."]
   const EastBranchKey : string := "MyEastBranch2"
   const EastBranchKeyIdActiveVersion : string := "6f22825b-bd56-4434-83e2-2782e2160172"
   const EastBranchKeyBranchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [

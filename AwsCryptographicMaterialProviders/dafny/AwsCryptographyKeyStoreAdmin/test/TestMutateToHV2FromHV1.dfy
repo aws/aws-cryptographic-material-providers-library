@@ -81,7 +81,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   const originalKmsId: string := Fixtures.keyArn
   const terminalKmsId: string := Fixtures.kmsArnForHV2
   const originalEC: KeyStoreTypes.EncryptionContextString := Fixtures.RobbieECString
-  const newCustomEC: KeyStoreTypes.EncryptionContextString := map["Robbie" := "newEC"];
+  const newCustomEC: KeyStoreTypes.EncryptionContextString := Fixtures.KodaECString
 
   method {:test} {:vcs_split_on_every_assert} TestHV1toHV2HappyCase()
   {
