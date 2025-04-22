@@ -597,8 +597,8 @@ module {:options "/functionSyntax:4" } Mutations {
     var encryptRes :- expect KMSKeystoreOperations.EncryptKey(
       plainTextTuple,
       HVUtils.SelectKmsEncryptionContextForHv2(terminalBKC),
-      item.EncryptionContext[Structure.KMS_FIELD],
-      KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
+      terminalBKC[Structure.KMS_FIELD],
+      KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(terminalBKC[Structure.KMS_FIELD])),
       keyManagerStrategy.kmsSimple.grantTokens,
       keyManagerStrategy.kmsSimple.kmsClient
     );
