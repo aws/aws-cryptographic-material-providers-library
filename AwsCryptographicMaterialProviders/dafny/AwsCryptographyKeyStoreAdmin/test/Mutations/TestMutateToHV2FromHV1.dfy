@@ -7,7 +7,6 @@ include "../../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "../AdminFixtures.dfy"
 include "TestMutationHappyPath.dfy"
 
-// TODO-HV-2-M2: Move this to ./Mutations
 module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   import UUID
   import AdminFixtures
