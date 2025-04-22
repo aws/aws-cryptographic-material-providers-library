@@ -61,7 +61,7 @@ module {:options "/functionSyntax:4" } Mutations {
     ensures keyManagerStrategy.ValidState()
   {
     if (mutationToApply.Terminal.hierarchyVersion.v2?) {
-      var res := VerifyEncryptedHierarchicalKeyV2(
+      var res := VerifyEncryptedHierarchicalKeyForHV2(
         item := item,
         keyManagerStrategy := keyManagerStrategy,
         localOperation := localOperation,
@@ -69,7 +69,7 @@ module {:options "/functionSyntax:4" } Mutations {
       );
       return res;
     } else if (mutationToApply.Terminal.hierarchyVersion.v1?) {
-      var res := VerifyEncryptedHierarchicalKeyV1(
+      var res := VerifyEncryptedHierarchicalKeyForHV1(
         item := item,
         keyManagerStrategy := keyManagerStrategy,
         localOperation := localOperation,
@@ -84,7 +84,7 @@ module {:options "/functionSyntax:4" } Mutations {
     }
   }
 
-  method {:isolate_assertions} VerifyEncryptedHierarchicalKeyV1(
+  method {:isolate_assertions} VerifyEncryptedHierarchicalKeyForHV1(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly localOperation: string,
@@ -166,7 +166,7 @@ module {:options "/functionSyntax:4" } Mutations {
     return Success(ActiveVerificationHolder.NotDecrypt());
   }
 
-  method {:isolate_assertions} VerifyEncryptedHierarchicalKeyV2(
+  method {:isolate_assertions} VerifyEncryptedHierarchicalKeyForHV2(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly localOperation: string,
