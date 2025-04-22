@@ -22,6 +22,8 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
   const originalKmsId: string := Fixtures.keyArn
   const originalEC: KeyStoreTypes.EncryptionContextString := Fixtures.RobbieECString
 
+  // TODO-HV-2-FF: MutationRoundTripTest could be used by all mutation happy case test.
+  // This is only being used by happycases with terminal hv as 2
   method MutationRoundTripTest(
     ddbClient: DDB.Types.IDynamoDBClient,
     storage: KeyStoreTypes.IKeyStorageInterface,
