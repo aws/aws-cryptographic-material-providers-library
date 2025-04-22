@@ -268,11 +268,6 @@ public class TestMutationsSystemKeyKMSTamper {
       "Tampering should have lead to a MutationVerificationException! testId: " +
       identifier
     );
-    DdbHelper.DeleteBranchKey(
-      identifier,
-      Fixtures.TEST_KEYSTORE_NAME,
-      "1",
-      null
-    );
+    DdbHelper.DeleteBranchKey(identifier, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 }

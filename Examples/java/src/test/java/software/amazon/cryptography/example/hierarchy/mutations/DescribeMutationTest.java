@@ -34,12 +34,7 @@ public class DescribeMutationTest {
       null,
       null
     );
-    DdbHelper.DeleteBranchKey(
-      branchKeyId,
-      Fixtures.TEST_KEYSTORE_NAME,
-      "1",
-      null
-    );
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 
   @Test
@@ -74,12 +69,7 @@ public class DescribeMutationTest {
       describeRes.MutationInFlight().Yes().MutationDetails().SystemKey(),
       "Trust Storage"
     );
-    DdbHelper.DeleteBranchKey(
-      branchKeyId,
-      Fixtures.TEST_KEYSTORE_NAME,
-      "1",
-      null
-    );
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 
   @Test
@@ -116,11 +106,6 @@ public class DescribeMutationTest {
       describeRes.MutationInFlight().Yes().MutationDetails().SystemKey(),
       "KMS Symmetric Encryption"
     );
-    DdbHelper.DeleteBranchKey(
-      branchKeyId,
-      Fixtures.TEST_KEYSTORE_NAME,
-      "1",
-      null
-    );
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 }

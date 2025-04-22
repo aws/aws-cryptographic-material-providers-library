@@ -171,12 +171,7 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
     }
 
     // Clean Up
-    DdbHelper.DeleteBranchKey(
-      branchKeyId,
-      Fixtures.TEST_KEYSTORE_NAME,
-      "1",
-      null
-    );
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
     Assert.assertTrue(
       (exceptions.size() == 1),
       "Only 1 exceptions should have been thrown. But got " +
