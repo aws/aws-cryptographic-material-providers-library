@@ -45,6 +45,7 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     modifies keyStoreTerminal.Modifies
   {
     match initialHV {
+      // TODO-HV-2-FF: Both v1 and v2 item could use AdminFixtures to create key
       case v1 => Fixtures.CreateHappyCaseId(
         id := branchKeyIdentifier,
         versionCount := versionCount
