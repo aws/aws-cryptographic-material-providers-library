@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../src/Index.dfy"
+include "../../AwsCryptographyKeyStore/src/HierarchicalVersionUtils.dfy"
 include "../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 include "../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "AdminFixtures.dfy"
@@ -10,10 +11,10 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   import UUID
   import AdminFixtures
   import CleanupItems
-  import Time
   import opened Fixtures
   import opened Wrappers
   import DDB = Com.Amazonaws.Dynamodb
+  import HvUtils = HierarchicalVersionUtils
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import String = StandardLibrary.String
@@ -77,10 +78,10 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
 
 
   const happyCaseId := "test-mutate-hv1-to-hv2"
-  const kmsId: string := Fixtures.keyArn
-  const physicalName: string := Fixtures.branchKeyStoreName
-  const logicalName: string := Fixtures.logicalKeyStoreName
-  const testLogPrefix := "\nTestKmsArnChanged :: TestHappyCase :: "
+  const originalKmsId: string := Fixtures.keyArn
+  const terminalKmsId: string := Fixtures.kmsArnForHV2
+  const originalEC: KeyStoreTypes.EncryptionContextString := Fixtures.RobbieECString
+  const newCustomEC: KeyStoreTypes.EncryptionContextString := map["Robbie" := "newEC"];
 
   method {:test} {:vcs_split_on_every_assert} TestHV1toHV2HappyCase()
   {
@@ -113,8 +114,6 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     var testIdForHV2AndECMutation := happyCaseId + "-" + uuidForHV2AndECMutationTest;
     var uuid :- expect UUID.GenerateUUID();
     var testId2 := happyCaseId + "-" + uuid;
-    var timestamp :- expect Time.GetCurrentTimeStamp();
-    var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Robbie" := timestamp];
     var mutationsRequestChangeHVAndEC := Types.Mutations(
       TerminalEncryptionContext := Some(newCustomEC),
       TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2));
@@ -174,18 +173,18 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     modifies keyStoreAdminUnderTest.Modifies
     modifies keyStoreTerminal.Modifies
   {
-    Fixtures.CreateHappyCaseId(id:=branchKeyIdentifier, versionCount:=versionCount);
+    Fixtures.CreateHappyCaseId(
+      id := branchKeyIdentifier,
+      versionCount := versionCount
+    );
     var initInput := Types.InitializeMutationInput(
       Identifier := branchKeyIdentifier,
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
       SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
-      DoNotVersion := Some(true));
+      DoNotVersion := Some(doNotVersion));
     var initializeOutput :- expect keyStoreAdminUnderTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
-
-    // print testLogPrefix + " Initialized Mutation. M-Lock UUID " + initializeToken.UUID + "\n";
-
     var testInput := Types.ApplyMutationInput(
       MutationToken := initializeToken,
       PageSize := Some(24),
@@ -193,50 +192,15 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
       SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
     var applyOutput :- expect keyStoreAdminUnderTest.ApplyMutation(testInput);
 
-    // print testLogPrefix + " Applied Mutation w/ pageSize 24. branchKeyIdentifier: " + branchKeyIdentifier + "\n";
     expect applyOutput.MutationResult.CompleteMutation?, "Apply Mutation output should not continue!";
 
-    var versionQuery := KeyStoreTypes.QueryForVersionsInput(
-      Identifier := branchKeyIdentifier,
-      PageSize := 24
+    verifyMutationResults(
+      storage := storage,
+      keyStoreTerminal := keyStoreTerminal,
+      branchKeyIdentifier := branchKeyIdentifier,
+      mutationsRequest := mutationsRequest
     );
-    var queryOut :- expect storage.QueryForVersions(versionQuery);
-    var items := queryOut.Items;
-    expect
-      |items| == 2,
-      "Test expects there to be 2 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
 
-    var itemIndex := 0;
-    var inputV: KeyStoreTypes.GetBranchKeyVersionInput;
-    while itemIndex < |items|
-    {
-      var item := items[itemIndex];
-      expect
-        item.Type.HierarchicalSymmetricVersion?,
-        "Query for Decrypt Only returned a non-Decrypt Only!";
-      var versionUUID := item.Type.HierarchicalSymmetricVersion.Version;
-      expect "type" in item.EncryptionContext, "Decrypt Only item is missing 'type' from EC!!";
-      var expectedKmsArn := if mutationsRequest.TerminalKmsArn.Some? then
-        mutationsRequest.TerminalKmsArn.value
-      else
-        Fixtures.keyArn;
-      expect
-        item.KmsArn == expectedKmsArn,
-        "KmsArn of Item is incorrect. Item: " + versionUUID;
-      expect Structure.HIERARCHY_VERSION in item.EncryptionContext, "Hierarchy version not in EC";
-      expect
-        item.EncryptionContext[Structure.HIERARCHY_VERSION] == "2",
-        "Hierarchy version is not mutated to 2";
-      inputV := KeyStoreTypes.GetBranchKeyVersionInput(
-        branchKeyIdentifier := branchKeyIdentifier,
-        branchKeyVersion := versionUUID
-      );
-      var _ :- expect keyStoreTerminal.GetBranchKeyVersion(inputV);
-      itemIndex := 1 + itemIndex;
-    }
-
-    var a :- expect keyStoreTerminal.GetActiveBranchKey(KeyStoreTypes.GetActiveBranchKeyInput(branchKeyIdentifier := branchKeyIdentifier));
-    var _ :- expect keyStoreTerminal.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := branchKeyIdentifier));
     var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyIdentifier, ddbClient:=ddbClient);
   }
 
@@ -245,7 +209,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     keyStoreTerminal: KeyStoreTypes.IKeyStoreClient,
     branchKeyIdentifier: string,
     mutationsRequest: Types.Mutations
-  ) returns (success: bool)
+  )
     requires storage.ValidState()
     requires keyStoreTerminal.ValidState()
     modifies storage.Modifies
@@ -257,12 +221,19 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     );
     var queryOut :- expect storage.QueryForVersions(versionQuery);
     var items := queryOut.Items;
+    var (expectedKmsArn, expectedEncryptionContext) := getExpectedTerminalValues(mutationsRequest);
     expect
       |items| == 2,
       "Test expects there to be 2 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
 
     var itemIndex := 0;
-    var inputV: KeyStoreTypes.GetBranchKeyVersionInput;
+
+    var branchKeyVersionInputForStorage: KeyStoreTypes.GetEncryptedBranchKeyVersionInput;
+    var branchKeyVersionOutputFromStorage: KeyStoreTypes.GetEncryptedBranchKeyVersionOutput;
+    var branchKeyVersionInputForKeyStore: KeyStoreTypes.GetBranchKeyVersionInput;
+    var branchKeyVersionOutputFromKeyStore: KeyStoreTypes.GetBranchKeyVersionOutput;
+    var branchKeyVersionOutputEC: KeyStoreTypes.EncryptionContextString;
+
     while itemIndex < |items|
     {
       var item := items[itemIndex];
@@ -271,33 +242,79 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
         "Query for Decrypt Only returned a non-Decrypt Only!";
       var versionUUID := item.Type.HierarchicalSymmetricVersion.Version;
       expect "type" in item.EncryptionContext, "Decrypt Only item is missing 'type' from EC!!";
+      verifyTerminalProperties(item.EncryptionContext, expectedEncryptionContext, expectedKmsArn);
 
-      // Use mutationsRequest.TerminalKmsArn if provided, otherwise use Fixtures.keyArn
-      var expectedKmsArn := if mutationsRequest.TerminalKmsArn.Some? then
-        mutationsRequest.TerminalKmsArn.value
-      else
-        Fixtures.keyArn;
-      expect
-        item.KmsArn == expectedKmsArn,
-        "KmsArn of Item is incorrect. Item: " + versionUUID;
+      // Get branchKeyVersion from storage
+      branchKeyVersionInputForStorage := KeyStoreTypes.GetEncryptedBranchKeyVersionInput(
+        Identifier := branchKeyIdentifier,
+        Version := versionUUID
+      );
+      branchKeyVersionOutputFromStorage :- expect storage.GetEncryptedBranchKeyVersion(branchKeyVersionInputForStorage);
+      verifyTerminalProperties(branchKeyVersionOutputFromStorage.Item.EncryptionContext, expectedEncryptionContext, expectedKmsArn);
 
-      expect Structure.HIERARCHY_VERSION in item.EncryptionContext, "Hierarchy version not in EC";
-      expect
-        item.EncryptionContext[Structure.HIERARCHY_VERSION] == "2",
-        "Hierarchy version is not mutated to 2";
-
-      inputV := KeyStoreTypes.GetBranchKeyVersionInput(
+      // Get branchKeyVersion from keystore
+      branchKeyVersionInputForKeyStore := KeyStoreTypes.GetBranchKeyVersionInput(
         branchKeyIdentifier := branchKeyIdentifier,
         branchKeyVersion := versionUUID
       );
-      var _ :- expect keyStoreTerminal.GetBranchKeyVersion(inputV);
+      branchKeyVersionOutputFromKeyStore :- expect keyStoreTerminal.GetBranchKeyVersion(branchKeyVersionInputForKeyStore);
+      branchKeyVersionOutputEC :- expect HvUtils.DecodeEncryptionContext(branchKeyVersionOutputFromKeyStore.branchKeyMaterials.encryptionContext);
+      expect branchKeyVersionOutputEC == expectedEncryptionContext;
+
       itemIndex := 1 + itemIndex;
     }
+    // Get activeBranchKey from storage
+    var activeBranchKeyInputForStorage := KeyStoreTypes.GetEncryptedActiveBranchKeyInput(
+      Identifier := branchKeyIdentifier
+    );
+    var activeBranchKeyOutputFromStorage :- expect storage.GetEncryptedActiveBranchKey(activeBranchKeyInputForStorage);
+    verifyTerminalProperties(activeBranchKeyOutputFromStorage.Item.EncryptionContext, expectedEncryptionContext, expectedKmsArn);
+    // Get activeBranchKey from keystore
+    var activeBranchKeyOutput :- expect keyStoreTerminal.GetActiveBranchKey(KeyStoreTypes.GetActiveBranchKeyInput(branchKeyIdentifier := branchKeyIdentifier));
+    var activeBranchKeyEC :- expect HvUtils.DecodeEncryptionContext(activeBranchKeyOutput.branchKeyMaterials.encryptionContext);
+    expect activeBranchKeyEC == expectedEncryptionContext;
 
-    var _ :- expect keyStoreTerminal.GetActiveBranchKey(KeyStoreTypes.GetActiveBranchKeyInput(branchKeyIdentifier := branchKeyIdentifier));
-    var _ :- expect keyStoreTerminal.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := branchKeyIdentifier));
-
-    return true;
+    // Get BeaconKey from storage
+    var beaconKeyInputForStorage := KeyStoreTypes.GetEncryptedBeaconKeyInput(
+      Identifier := branchKeyIdentifier
+    );
+    var beaconKeyOutputFromStorage :- expect storage.GetEncryptedBeaconKey(beaconKeyInputForStorage);
+    verifyTerminalProperties(activeBranchKeyOutputFromStorage.Item.EncryptionContext, expectedEncryptionContext, expectedKmsArn);
+    // Get BeaconKey from keystore
+    var beaconKeyOutput :- expect keyStoreTerminal.GetBeaconKey(KeyStoreTypes.GetBeaconKeyInput(branchKeyIdentifier := branchKeyIdentifier));
+    var beaconKeyEC :- expect HvUtils.DecodeEncryptionContext(beaconKeyOutput.beaconKeyMaterials.encryptionContext);
+    expect beaconKeyEC == expectedEncryptionContext;
   }
 
+  // returns (expectedKmsArn, expectedEncryptionContext)
+  function getExpectedTerminalValues(
+    mutationsRequest: Types.Mutations
+  ) : (Result:(string, KeyStoreTypes.EncryptionContextString))
+  {
+    var kmsArn := if mutationsRequest.TerminalKmsArn.Some? then
+                    mutationsRequest.TerminalKmsArn.value
+                  else
+                    originalKmsId;
+
+    var encryptionContext := if mutationsRequest.TerminalEncryptionContext.Some? then
+                               mutationsRequest.TerminalEncryptionContext.value
+                             else
+                               originalEC;
+
+    (kmsArn, encryptionContext)
+  }
+
+  method verifyTerminalProperties(
+    actualEC: KeyStoreTypes.EncryptionContextString,
+    expectedCustomEC: KeyStoreTypes.EncryptionContextString,
+    expectedKMSArn: string
+  ) {
+    expect Structure.BranchKeyContext?(actualEC);
+    expect HvUtils.HasUniqueTransformedKeys?(actualEC);
+    expect HvUtils.SelectKmsEncryptionContextForHv2(actualEC) == expectedCustomEC;
+    expect
+      actualEC[Structure.HIERARCHY_VERSION] == "2",
+      "Hierarchy version is not mutated to 2";
+    expect actualEC[Structure.KMS_FIELD] == expectedKMSArn;
+  }
 }
