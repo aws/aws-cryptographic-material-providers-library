@@ -106,6 +106,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
       branchKeyIdentifier := testIdForHV2MutationOnly,
       mutationsRequest := mutationsRequestChangeHV,
       versionCount := 1,
+      initialHV := KeyStoreTypes.HierarchyVersion.v1,
       doNotVersion := true
     );
 
@@ -126,6 +127,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
       branchKeyIdentifier := testIdForHV2AndECMutation,
       mutationsRequest := mutationsRequestChangeHVAndEC,
       versionCount := 1,
+      initialHV := KeyStoreTypes.HierarchyVersion.v1,
       doNotVersion := true
     );
 
@@ -148,6 +150,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
       branchKeyIdentifier := uuidForHV2AndKmsArnMutationTest,
       mutationsRequest := mutationsRequestChangeHVAndKmsArn,
       versionCount := 1,
+      initialHV := KeyStoreTypes.HierarchyVersion.v1,
       doNotVersion := true
     );
   }
@@ -161,6 +164,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     branchKeyIdentifier: string,
     mutationsRequest: Types.Mutations,
     versionCount: int,
+    initialHV: KeyStoreTypes.HierarchyVersion,
     doNotVersion: bool
   )
     requires ddbClient.ValidState()
@@ -173,10 +177,19 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     modifies keyStoreAdminUnderTest.Modifies
     modifies keyStoreTerminal.Modifies
   {
-    Fixtures.CreateHappyCaseId(
-      id := branchKeyIdentifier,
-      versionCount := versionCount
-    );
+    match initialHV {
+      case v1 => Fixtures.CreateHappyCaseId(
+        id := branchKeyIdentifier,
+        versionCount := versionCount
+      );
+      case v2 => AdminFixtures.CreateHappyCaseId(
+        id := branchKeyIdentifier,
+        // versionCount := versionCount,
+        strategy := strategy,
+        hierarchyVersion := initialHV
+      );
+    }
+
     var initInput := Types.InitializeMutationInput(
       Identifier := branchKeyIdentifier,
       Mutations := mutationsRequest,
@@ -200,6 +213,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
       versionCount + 2;
     verifyMutationResults(
       storage := storage,
+      initialHV := initialHV,
       keyStoreTerminal := keyStoreTerminal,
       branchKeyIdentifier := branchKeyIdentifier,
       mutationsRequest := mutationsRequest,
@@ -211,6 +225,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
 
   method verifyMutationResults(
     storage: KeyStoreTypes.IKeyStorageInterface,
+    initialHV: KeyStoreTypes.HierarchyVersion,
     keyStoreTerminal: KeyStoreTypes.IKeyStoreClient,
     branchKeyIdentifier: string,
     mutationsRequest: Types.Mutations,
@@ -227,7 +242,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     );
     var queryOut :- expect storage.QueryForVersions(versionQuery);
     var items := queryOut.Items;
-    var (expectedKmsArn, expectedEncryptionContext) := getExpectedTerminalValues(mutationsRequest);
+    var (expectedKmsArn, expectedHV, expectedEncryptionContext) := getExpectedTerminalValues(mutationsRequest, initialHV);
     expect
       |items| == expectedDecryptOnlyItems,
       "Test expects there to be " + String.Base10Int2String(expectedDecryptOnlyItems) + " Decrypt Only items! Found: " + String.Base10Int2String(|items|);
@@ -292,22 +307,28 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     expect beaconKeyEC == expectedEncryptionContext;
   }
 
-  // returns (expectedKmsArn, expectedEncryptionContext)
+  // returns (expectedKmsArn, expectedHV, expectedEncryptionContext)
   function getExpectedTerminalValues(
-    mutationsRequest: Types.Mutations
-  ) : (Result:(string, KeyStoreTypes.EncryptionContextString))
+    mutationsRequest: Types.Mutations,
+    initialHV: KeyStoreTypes.HierarchyVersion
+  ) : (Result:(string, string, KeyStoreTypes.EncryptionContextString))
   {
     var kmsArn := if mutationsRequest.TerminalKmsArn.Some? then
                     mutationsRequest.TerminalKmsArn.value
                   else
                     originalKmsId;
 
+    var hvVersion := if mutationsRequest.TerminalHierarchyVersion.Some? then
+                       mutationsRequest.TerminalHierarchyVersion.value
+                     else
+                       initialHV;
+
     var encryptionContext := if mutationsRequest.TerminalEncryptionContext.Some? then
                                mutationsRequest.TerminalEncryptionContext.value
                              else
                                originalEC;
 
-    (kmsArn, encryptionContext)
+    (kmsArn, Structure.HierarchyVersionToString(hvVersion), encryptionContext)
   }
 
   method verifyTerminalProperties(
