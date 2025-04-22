@@ -13,6 +13,7 @@ import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.DeleteItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.Put;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 import software.amazon.awssdk.services.dynamodb.model.ReturnValue;
@@ -151,15 +152,11 @@ public class DdbHelper {
   public static boolean DeleteBranchKey(
     final String branchKeyId,
     @Nullable String tableName,
-    @Nullable String hierarchyVersion,
     @Nullable DynamoDbClient ddbClient
   ) {
     final String _tableName = tableName == null
       ? Fixtures.TEST_KEYSTORE_NAME
       : tableName;
-    final String _hierarchyVersion = hierarchyVersion == null
-      ? "1"
-      : hierarchyVersion;
     final DynamoDbClient _ddbClient = ddbClient == null
       ? Fixtures.ddbClientWest2
       : ddbClient;
@@ -197,6 +194,59 @@ public class DdbHelper {
       .build();
     _ddbClient.transactWriteItems(deleteReq);
     return deleteItems.size() < 100;
+  }
+
+  public static void CopyBranchKey(
+    final String branchKeyId,
+    @Nonnull String sourceTableName,
+    @Nonnull String targetTableName,
+    @Nullable DynamoDbClient ddbClient
+  ) {
+    final DynamoDbClient _ddbClient = ddbClient == null
+      ? Fixtures.ddbClientWest2
+      : ddbClient;
+    final List<Map<String, AttributeValue>> ddbKeys = QueryForAllBkItemsDDBKeys(
+      branchKeyId,
+      sourceTableName,
+      _ddbClient
+    );
+    CopyAllBkKeys(ddbKeys, targetTableName, _ddbClient);
+  }
+
+  public static void CopyAllBkKeys(
+    @Nonnull List<Map<String, AttributeValue>> ddbItems,
+    @Nonnull String tableName,
+    @Nullable DynamoDbClient ddbClient
+  ) {
+    final DynamoDbClient _ddbClient = ddbClient == null
+      ? Fixtures.ddbClientWest2
+      : ddbClient;
+
+    final List<TransactWriteItem> putItems = ddbItems
+      .stream()
+      .map(item ->
+        TransactWriteItem
+          .builder()
+          .put(Put.builder().item(item).tableName(tableName).build())
+          .build()
+      )
+      .collect(Collectors.toList());
+
+    if (putItems.isEmpty()) {
+      return;
+    }
+
+    // Process put items in batches of 100
+    for (int i = 0; i < putItems.size(); i += 100) {
+      int endIndex = Math.min(i + 100, putItems.size());
+      List<TransactWriteItem> batchItems = putItems.subList(i, endIndex);
+
+      final TransactWriteItemsRequest putReq = TransactWriteItemsRequest
+        .builder()
+        .transactItems(batchItems)
+        .build();
+      _ddbClient.transactWriteItems(putReq);
+    }
   }
 
   public static List<Map<String, AttributeValue>> QueryForAllBkItemsDDBKeys(
