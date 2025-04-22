@@ -437,14 +437,14 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   }
 
   method {:isolate_assertions} CreateNewTerminalDecryptOnlyBranchKey(
-    decryptOnlyEncryptionContext: Structure.BranchKeyContext,
+    branchKeyContext: Structure.BranchKeyContext,
     mutationToApply: StateStrucs.MutationToApply,
     keyManagerStrategy: KmsUtils.keyManagerStrat
   )
     returns (res: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires KmsArn.ValidKmsArn?(mutationToApply.Terminal.kmsArn)
     requires KMSKeystoreOperations.AttemptKmsOperation?(
-               KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn), decryptOnlyEncryptionContext[Structure.KMS_FIELD]
+               KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn), branchKeyContext[Structure.KMS_FIELD]
              )
     requires keyManagerStrategy.ValidState()
     requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply.Terminal.hierarchyVersion, keyManagerStrategy)
@@ -455,7 +455,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
               && Structure.EncryptedHierarchicalKeyFromStorage?(res.value)
               && res.value.KmsArn == KMSKeystoreOperations.GetKeyId(KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn))
               && Structure.BRANCH_KEY_TYPE_PREFIX < res.value.EncryptionContext[Structure.TYPE_FIELD]
-              && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
+              && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in branchKeyContext
   {
     var grantTokens: KMS.GrantTokenList;
     var kmsClient: KMS.IKMSClient;
@@ -470,33 +470,35 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         grantTokens := kms.grantTokens;
         kmsClient := kms.kmsClient;
     }
+    if (branchKeyContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1) {
+      var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateDataKeyWithoutPlaintext(
+        branchKeyContext := branchKeyContext,
+        kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
+        grantTokens := grantTokens,
+        kmsClient := kmsClient
+      );
 
-    var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
-      encryptionContext := decryptOnlyEncryptionContext,
-      kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
-      grantTokens := grantTokens,
-      kmsClient := kmsClient
-    );
+      if (wrappedDecryptOnlyBranchKey?.Failure?) {
+        var error := MutationErrorRefinement.GenerateNewActiveException(
+          identifier := branchKeyContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
+          kmsArn := mutationToApply.Terminal.kmsArn,
+          error := wrappedDecryptOnlyBranchKey?.error);
+        return Failure(error);
+      }
 
-    if (wrappedDecryptOnlyBranchKey?.Failure?) {
-      var error := MutationErrorRefinement.GenerateNewActiveException(
-        identifier := decryptOnlyEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
-        kmsArn := mutationToApply.Terminal.kmsArn,
-        error := wrappedDecryptOnlyBranchKey?.error);
-      return Failure(error);
+      var newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
+        branchKeyContext,
+        wrappedDecryptOnlyBranchKey?.value.CiphertextBlob.value
+      );
+
+      :- Need(
+        Structure.BRANCH_KEY_TYPE_PREFIX < newDecryptOnly.EncryptionContext[Structure.TYPE_FIELD],
+        Types.KeyStoreAdminException(message := "Invalid Branch Key prefix.")
+      );
+
+      return Success(newDecryptOnly);
     }
-
-    var newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
-      decryptOnlyEncryptionContext,
-      wrappedDecryptOnlyBranchKey?.value.CiphertextBlob.value
-    );
-
-    :- Need(
-      Structure.BRANCH_KEY_TYPE_PREFIX < newDecryptOnly.EncryptionContext[Structure.TYPE_FIELD],
-      Types.KeyStoreAdminException(message := "Invalid Branch Key prefix.")
-    );
-
-    return Success(newDecryptOnly);
+    return Failure(Types.UnsupportedFeatureException(message:="HV-2 does not support new version yet."));
   }
 
   function CommitmentAndInputMatch(

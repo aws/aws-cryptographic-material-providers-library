@@ -102,8 +102,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     case kmsMRKeyArn(arn) => arn
   }
 
-  method GenerateKey(
-    encryptionContext: Structure.BranchKeyContext,
+  method GenerateDataKeyWithoutPlaintext(
+    branchKeyContext: Structure.BranchKeyContext,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
@@ -111,7 +111,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     returns (res: Result<KMS.GenerateDataKeyWithoutPlaintextResponse, KmsError>)
     requires kmsClient.ValidState()
     requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
-    requires AttemptKmsOperation?(kmsConfiguration, encryptionContext[Structure.KMS_FIELD])
+    requires AttemptKmsOperation?(kmsConfiguration, branchKeyContext[Structure.KMS_FIELD])
+    requires branchKeyContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
     ensures
@@ -119,7 +120,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && var kmsKeyArn := GetKeyId(kmsConfiguration);
       && KMS.GenerateDataKeyWithoutPlaintextRequest(
            KeyId := kmsKeyArn,
-           EncryptionContext := Some(encryptionContext),
+           EncryptionContext := Some(branchKeyContext),
            KeySpec := None,
            NumberOfBytes := Some(32),
            GrantTokens := Some(grantTokens)
@@ -139,7 +140,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     var kmsKeyArn := GetKeyId(kmsConfiguration);
     var generatorRequest := KMS.GenerateDataKeyWithoutPlaintextRequest(
       KeyId := kmsKeyArn,
-      EncryptionContext := Some(encryptionContext),
+      EncryptionContext := Some(branchKeyContext),
       KeySpec := None,
       NumberOfBytes := Some(32),
       GrantTokens := Some(grantTokens)
