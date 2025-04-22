@@ -173,34 +173,34 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     kmsClient: KMS.IKMSClient,
     crypto: AtomicPrimitives.AtomicPrimitivesClient
   )
-    returns (res: Result<KMS.EncryptResponse, Types.Error>) 
+    returns (res: Result<KMS.EncryptResponse, Types.Error>)
     requires kmsClient.ValidState() && crypto.ValidState()
     requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
     requires AttemptKmsOperation?(kmsConfiguration, encryptionContext[Structure.KMS_FIELD])
     modifies kmsClient.Modifies, crypto.Modifies
     ensures kmsClient.ValidState() && crypto.ValidState()
     ensures res.Success? ==>
-    // TODO Come back and wire up the proof with the generateRandomCall
-      && var kmsKeyArn := GetKeyId(kmsConfiguration);
-      && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
-      && var kmsEncryptOperation := Seq.Last(kmsClient.History.Encrypt);
-      && var kmsEncryptRequest := kmsEncryptOperation.input;
-      && var kmsEncryptResponse := kmsEncryptOperation.output;
-      && kmsEncryptResponse.Success?
-      && KMS.EncryptRequest(
-        KeyId := kmsKeyArn,
-        Plaintext := kmsEncryptRequest.Plaintext,
-        EncryptionContext := Some(encryptionContext),
-        GrantTokens := Some(grantTokens)
-      ) == kmsEncryptRequest
-      && res.value == kmsEncryptResponse.value
+              // TODO Come back and wire up the proof with the generateRandomCall
+              && var kmsKeyArn := GetKeyId(kmsConfiguration);
+              && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
+              && var kmsEncryptOperation := Seq.Last(kmsClient.History.Encrypt);
+              && var kmsEncryptRequest := kmsEncryptOperation.input;
+              && var kmsEncryptResponse := kmsEncryptOperation.output;
+              && kmsEncryptResponse.Success?
+              && KMS.EncryptRequest(
+                   KeyId := kmsKeyArn,
+                   Plaintext := kmsEncryptRequest.Plaintext,
+                   EncryptionContext := Some(encryptionContext),
+                   GrantTokens := Some(grantTokens)
+                 ) == kmsEncryptRequest
+              && res.value == kmsEncryptResponse.value
     ensures res.Success? ==>
-      && res.value.KeyId.Some?
-      && res.value.CiphertextBlob.Some?
-      && KMS.IsValid_CiphertextType(res.value.CiphertextBlob.value)
-      && var kmsOperationOutput := Seq.Last(kmsClient.History.Encrypt).output;
-      && kmsOperationOutput.Success?
-      && kmsOperationOutput.value == res.value
+              && res.value.KeyId.Some?
+              && res.value.CiphertextBlob.Some?
+              && KMS.IsValid_CiphertextType(res.value.CiphertextBlob.value)
+              && var kmsOperationOutput := Seq.Last(kmsClient.History.Encrypt).output;
+              && kmsOperationOutput.Success?
+              && kmsOperationOutput.value == res.value
   {
     var kmsKeyArn := GetKeyId(kmsConfiguration);
     // TODO-HV-2-M4 : Improve error messages for generate random failure
@@ -212,7 +212,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
           AwsCryptographyPrimitives := e
         ));
     assert |crypto.History.GenerateRandomBytes| == old(|crypto.History.GenerateRandomBytes|) + 1;
-    // Impossible to hit but Dafny really struggles with this    
+    // Impossible to hit but Dafny really struggles with this
     :- Need(
       KMS.IsValid_PlaintextType(activePlaintextMaterial),
       Types.KeyStoreException(
@@ -232,7 +232,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     var encrypt? := kmsClient.Encrypt(encryptRequest);
     var encrypt :- encrypt?
     .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
-    
+
     :- Need(
       && encrypt.KeyId.Some?,
       Types.KeyManagementException(
@@ -400,35 +400,35 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures kmsClient.ValidState()
 
     ensures res.Success?
-      ==>
-        && KMS.IsValid_CiphertextType(ciphertext)
-        && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
-        && var kmsKeyArn := GetKeyId(kmsConfiguration);
-        && KMS.DecryptRequest(
-          CiphertextBlob := ciphertext,
-          EncryptionContext := Some(sourceEncryptionContext),
-          GrantTokens := Some(grantTokens),
-          KeyId := Some(kmsKeyArn)
-        )
-        == Seq.Last(kmsClient.History.Decrypt).input
-        && old(kmsClient.History.Decrypt) < kmsClient.History.Decrypt
-        && Seq.Last(kmsClient.History.Decrypt).output.Success?
+            ==>
+              && KMS.IsValid_CiphertextType(ciphertext)
+              && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
+              && var kmsKeyArn := GetKeyId(kmsConfiguration);
+              && KMS.DecryptRequest(
+                   CiphertextBlob := ciphertext,
+                   EncryptionContext := Some(sourceEncryptionContext),
+                   GrantTokens := Some(grantTokens),
+                   KeyId := Some(kmsKeyArn)
+                 )
+                 == Seq.Last(kmsClient.History.Decrypt).input
+              && old(kmsClient.History.Decrypt) < kmsClient.History.Decrypt
+              && Seq.Last(kmsClient.History.Decrypt).output.Success?
     ensures res.Success?
-      ==>
-        && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
-        && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
-        && var kmsKeyArn := GetKeyId(kmsConfiguration);
-        && Seq.Last(kmsClient.History.Decrypt).output.Success?
-        && var kmsDecryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
-        && kmsDecryptResponse.Plaintext.Some?
-        && KMS.EncryptRequest(
-          KeyId := kmsKeyArn,
-          Plaintext := kmsDecryptResponse.Plaintext.value,
-          EncryptionContext := Some(destinationEncryptionContext),
-          GrantTokens := Some(grantTokens)
-        ) == Seq.Last(kmsClient.History.Encrypt).input
-        && Seq.Last(kmsClient.History.Encrypt).output.Success?
-        && Seq.Last(kmsClient.History.Encrypt).output.value == res.value
+            ==>
+              && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
+              && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
+              && var kmsKeyArn := GetKeyId(kmsConfiguration);
+              && Seq.Last(kmsClient.History.Decrypt).output.Success?
+              && var kmsDecryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
+              && kmsDecryptResponse.Plaintext.Some?
+              && KMS.EncryptRequest(
+                   KeyId := kmsKeyArn,
+                   Plaintext := kmsDecryptResponse.Plaintext.value,
+                   EncryptionContext := Some(destinationEncryptionContext),
+                   GrantTokens := Some(grantTokens)
+                 ) == Seq.Last(kmsClient.History.Encrypt).input
+              && Seq.Last(kmsClient.History.Encrypt).output.Success?
+              && Seq.Last(kmsClient.History.Encrypt).output.value == res.value
   {
     :- Need(
       KMS.IsValid_CiphertextType(ciphertext),
@@ -1104,7 +1104,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     var wrappedMaterial :- wrappedMaterial?.MapFailure(e => ConvertKmsErrorToError(e));
     return Success(Structure.ConstructEncryptedHierarchicalKey(branchKeyContext, wrappedMaterial));
   }
-  
+
   function ConvertKmsErrorToError(
     e: KmsError
   ): Types.Error
