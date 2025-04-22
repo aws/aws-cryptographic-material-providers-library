@@ -298,6 +298,7 @@ Resources:
               "Action": [
                 "kms:Decrypt",
                 "kms:Encrypt",
+                "kms:GenerateDataKey",
                 "kms:GenerateDataKeyWithoutPlaintext",
                 "kms:ReEncrypt*",
                 "kms:DescribeKey",
@@ -325,7 +326,8 @@ Resources:
               "Effect": "Allow",
               "Action": [
                 "kms:Decrypt",
-                "kms:Encrypt"
+                "kms:Encrypt",
+                "kms:GenerateDataKey"
               ],
               "Resource": [
                 "arn:aws:kms:*:${AWS::AccountId}:key/${KeyStoreAdminSystemKeyKmsSymEnc}",
