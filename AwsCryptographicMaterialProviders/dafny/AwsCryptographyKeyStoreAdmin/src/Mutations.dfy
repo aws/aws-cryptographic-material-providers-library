@@ -3,7 +3,8 @@
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "MutationStateStructures.dfy"
 include "MutationErrorRefinement.dfy"
-include "KmsUtils.dfy"
+include "../../../dafny/AwsCryptographyKeyStore/src/KmsUtils.dfy"
+include "KeyStoreAdminHelpers.dfy"
 include "KeyStoreAdminErrorMessages.dfy"
 include "CreateKeysHV2.dfy"
 
@@ -25,12 +26,13 @@ module {:options "/functionSyntax:4" } Mutations {
   import GetKeys
   import KeyStoreErrorMessages
   import HVUtils = HierarchicalVersionUtils
+  import KmsUtils 
 
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
   import KeyStoreAdminErrorMessages
   import MutationErrorRefinement
-  import KmsUtils
+  import KeyStoreAdminHelpers
   import CreateKeysHV2
 
   const StringToHierarchyVersion := Structure.StringToHierarchyVersion
@@ -68,7 +70,7 @@ module {:options "/functionSyntax:4" } Mutations {
       :- Need(keyManagerStrategy.kmsSimple?, Types.UnsupportedFeatureException(message:=KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_HV_2));
       var decryptRes := GetKeys.DecryptBranchKeyItem(
         item,
-        KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
+        KeyStoreAdminHelpers.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
         keyManagerStrategy.kmsSimple.grantTokens,
         keyManagerStrategy.kmsSimple.kmsClient
       );
@@ -598,7 +600,7 @@ module {:options "/functionSyntax:4" } Mutations {
       plainTextTuple,
       HVUtils.SelectKmsEncryptionContextForHv2(terminalBKC),
       terminalBKC[Structure.KMS_FIELD],
-      KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(terminalBKC[Structure.KMS_FIELD])),
+      KeyStoreAdminHelpers.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(terminalBKC[Structure.KMS_FIELD])),
       keyManagerStrategy.kmsSimple.grantTokens,
       keyManagerStrategy.kmsSimple.kmsClient
     );
@@ -629,7 +631,7 @@ module {:options "/functionSyntax:4" } Mutations {
               && var hv := item.EncryptionContext[Structure.HIERARCHY_VERSION];
               && GetKeys.ValidateKmsDecryption(
                    item,
-                   KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
+                   KeyStoreAdminHelpers.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
                    keyManagerStrategy.kmsSimple.grantTokens,
                    keyManagerStrategy.kmsSimple.kmsClient,
                    hv)
@@ -643,7 +645,7 @@ module {:options "/functionSyntax:4" } Mutations {
   {
     var decryptRes := GetKeys.DecryptBranchKeyItem(
       item,
-      KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
+      KeyStoreAdminHelpers.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
       keyManagerStrategy.kmsSimple.grantTokens,
       keyManagerStrategy.kmsSimple.kmsClient
     );

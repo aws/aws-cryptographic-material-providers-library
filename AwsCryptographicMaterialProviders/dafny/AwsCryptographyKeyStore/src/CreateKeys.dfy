@@ -291,6 +291,17 @@ module {:options "/functionSyntax:4" } CreateKeys {
       ));
   }
 
+  method CreateBranchAndBeaconKeysVersion2(
+    // nameonly branchKeyIdentifier: string,
+    // nameonly encryptionContext: map<string, string>,
+    // nameonly timestamp: string,
+    // nameonly branchKeyVersion: string,
+    // nameonly logicalKeyStoreName: string,
+    // nameonly kmsConfiguration: Types.KMSConfiguration,
+    // nameonly keyManagerAndStorage: OptUtils.KeyManagerAndStorage,
+    // nameonly hierarchyVersion: Types.HierarchyVersion
+  )
+
   method VersionActiveBranchKey(
     input: Types.VersionKeyInput,
     timestamp: string,

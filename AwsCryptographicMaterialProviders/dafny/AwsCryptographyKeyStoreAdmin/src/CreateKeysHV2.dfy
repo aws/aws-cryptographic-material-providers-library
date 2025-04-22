@@ -3,9 +3,10 @@
 
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
+include "../../AwsCryptographyKeyStore/src/KmsUtils.dfy"
 include "../../../../AwsCryptographyPrimitives/Model/AwsCryptographyPrimitivesTypes.dfy"
 include "BKSAOperationUtils.dfy"
-include "KmsUtils.dfy"
+include "KeyStoreAdminHelpers.dfy"
 
 module {:options "/functionSyntax:4" } CreateKeysHV2 {
   // Standard Library Imports
@@ -29,11 +30,12 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
   import ErrorMessages = KeyStoreErrorMessages
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import KmsArn
+  import KmsUtils
     // (Branch) Key Store Admin Imports
   import HvUtils = HierarchicalVersionUtils
   import Types = AwsCryptographyKeyStoreAdminTypes
   import OptUtils = BKSAOperationUtils
-  import KmsUtils
+  import KeyStoreAdminHelpers
 
   /** Constrains the relationship of the Crypto & KMS client, 
     ensuring they a valid but their histories are separate.

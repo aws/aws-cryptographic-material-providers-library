@@ -1,7 +1,8 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-include "KmsUtils.dfy"
+include "../../../dafny/AwsCryptographyKeyStore/src/KmsUtils.dfy"
+include "KeyStoreAdminHelpers.dfy"
 
 module {:options "/functionSyntax:4" } MutationErrorRefinement {
   import opened Wrappers
@@ -11,6 +12,7 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
   import KMS = Com.Amazonaws.Kms
   import StandardLibrary.String
   import Structure
+  import KeyStoreAdminHelpers
   import KmsUtils
 
   function ParsedErrorContext(

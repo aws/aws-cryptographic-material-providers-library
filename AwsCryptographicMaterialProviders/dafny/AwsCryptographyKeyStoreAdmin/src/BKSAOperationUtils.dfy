@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-include "KmsUtils.dfy"
+include "../../../dafny/AwsCryptographyKeyStore/src/KmsUtils.dfy"
 
 /** Utilities to simplify the logic in AwsCryptographyKeyStoreAdminOperations. */
 module {:options "/functionSyntax:4" } BKSAOperationUtils {

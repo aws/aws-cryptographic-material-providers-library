@@ -4,7 +4,7 @@ include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "Mutations.dfy"
 include "InitializeMutation.dfy"
 include "ApplyMutation.dfy"
-include "KmsUtils.dfy"
+include "KeyStoreAdminHelpers.dfy"
 include "DescribeMutation.dfy"
 include "CreateKeysHV2.dfy"
 include "BKSAOperationUtils.dfy"
@@ -26,12 +26,13 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import Structure
   import KO = KMSKeystoreOperations
   import KmsArn
+  import KmsUtils
     //KeyStoreAdmin
   import Mutations
   import KSAInitializeMutation = InternalInitializeMutation
   import KSAApplyMutation = InternalApplyMutation
   import DM = DescribeMutation
-  import KmsUtils
+  import KeyStoreAdminHelpers
   import CreateKeysHV2
   import OptUtils = BKSAOperationUtils
   import KeyStoreAdminErrorMessages
@@ -183,7 +184,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   method ResolveSystemKey(
     systemKey: SystemKey,
     config: InternalConfig
-  ) returns (output: Result<KmsUtils.InternalSystemKey, Error>)
+  ) returns (output: Result<KeyStoreAdminHelpers.InternalSystemKey, Error>)
     requires ValidInternalConfig?(config)
     // We do not know why these statements cannot be proven,
     // but we do not have the time to address it
@@ -209,11 +210,11 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
               && fresh(output.value.Modifies)
   {
     if (systemKey.trustStorage?) {
-      return Success(KmsUtils.TrustStorage());
+      return Success(KeyStoreAdminHelpers.TrustStorage());
     }
     var kmsSym := systemKey.kmsSymmetricEncryption;
     var tuple :- ResolveKmsInput(kmsSym.AwsKms, config);
-    var internal := KmsUtils.KmsSymEnc(
+    var internal := KeyStoreAdminHelpers.KmsSymEnc(
       Tuple := tuple,
       KeyId := kmsSym.KmsArn);
     assert internal.ValidState();
@@ -260,7 +261,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
                           id := "",
                           ddbTableName := None,
                           logicalKeyStoreName := config.logicalKeyStoreName,
-                          kmsConfiguration := KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(kmsArn),
+                          kmsConfiguration := KeyStoreAdminHelpers.KmsSymmetricKeyArnToKMSConfiguration(kmsArn),
                           grantTokens := kmsTuple.grantTokens,
                           kmsClient := kmsTuple.kmsClient,
                           ddbClient := None,
