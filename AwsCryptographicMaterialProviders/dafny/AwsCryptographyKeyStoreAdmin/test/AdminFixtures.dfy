@@ -274,7 +274,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     nameonly strategy: Types.KeyManagementStrategy,
     nameonly admin?: Option<Types.IKeyStoreAdminClient> := None,
     // nameonly versionCount: nat := 3,
-    nameonly customEC: KeyStoreTypes.EncryptionContext := map[UTF8.EncodeAscii("Robbie") := UTF8.EncodeAscii("Is a dog.")]
+    nameonly customEC: KeyStoreTypes.EncryptionContext := Fixtures.RobbieEC
   )
     requires KMS.Types.IsValid_KeyIdType(kmsId)
     requires 0 < |customEC|
