@@ -201,7 +201,7 @@ module TestConfig {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := Some(branchKeyStoreName),
+      ddbTableName := Some(staticBranchKeyStoreName),
       ddbClient := None,
       kmsClient := None
     );

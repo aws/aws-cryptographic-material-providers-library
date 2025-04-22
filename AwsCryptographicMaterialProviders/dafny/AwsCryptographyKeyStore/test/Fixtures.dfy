@@ -10,6 +10,7 @@ module Fixtures {
   import KMS = Com.Amazonaws.Kms
   import DefaultKeyStorageInterface
   import UTF8
+  import Seq
   import opened Wrappers
   import KeyStore
   import Structure
@@ -58,9 +59,11 @@ module Fixtures {
 
 
   // The following are test resources that exist in tests accounts:
-
   const branchKeyStoreName := "KeyStoreDdbTable"
   const logicalKeyStoreName := branchKeyStoreName
+  // Static Key Store Names (This uses the same logical key store name as in branchKeyStoreName)
+  const staticBranchKeyStoreName := "KeyStoreStaticTable"
+  const staticLogicalKeyStoreName := branchKeyStoreName
   // hierarchy-version-1 branch key
   const branchKeyId := "3f43a9af-08c5-4317-b694-3d3e883dcaef"
   const branchKeyIdActiveVersion := "a4905627-4b7f-4272-a847-f50dae245737"
@@ -120,6 +123,7 @@ module Fixtures {
     49, 55, 52, 50, 50, 97, 56, 57, 51, 56, 102, 52
   ]
   const publicKeyArn := "arn:aws:kms:us-west-2:658956600833:key/b3537ef1-d8dc-4780-9f5a-55776cbb2f7f"
+  const kmsSystemKey := "arn:aws:kms:us-west-2:370957321024:key/6613e250-b2e7-4c4c-a54e-2b241f837242"
 
   // TODO: After ~2024/06/11 launch, add the next two lines to cfn/ESDK-Hierarchy-CI.yaml
   const postalHornKeyArn := "arn:aws:kms:us-west-2:370957321024:key/bc127593-f7da-452c-a1f3-cd34c46f81f8"
@@ -230,6 +234,31 @@ module Fixtures {
     output := Success(underTest);
   }
 
+  method StaticStorage(
+    nameonly physicalName: string := staticBranchKeyStoreName,
+    nameonly logicalName: string := staticLogicalKeyStoreName,
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
+  )
+    returns (output: Result<Types.IKeyStorageInterface, Types.Error>)
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    ensures output.Success? ==> output.value.ValidState()
+    ensures output.Success? ==> fresh(output.value) && fresh(output.value.Modifies)
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    output := DefaultStorage(
+      physicalName := physicalName,
+      logicalName := logicalName,
+      ddbClient? := ddbClient?
+    );
+  }
+
   method DefaultKeyStore(
     nameonly kmsId: string := keyArn,
     nameonly physicalName: string := branchKeyStoreName,
@@ -274,6 +303,36 @@ module Fixtures {
     );
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
     return Success(keyStore);
+  }
+
+  method StaticKeyStore(
+    nameonly kmsId: string := keyArn,
+    nameonly physicalName: string := staticBranchKeyStoreName,
+    nameonly logicalName: string := staticLogicalKeyStoreName,
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
+    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
+  )
+    returns (output: Result<Types.IKeyStoreClient, Types.Error>)
+    requires DDB.Types.IsValid_TableName(physicalName)
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    requires kmsClient?.Some? ==> kmsClient?.value.ValidState()
+    ensures output.Success? ==> output.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+             + (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    output := DefaultKeyStore(
+      kmsId := kmsId,
+      physicalName := physicalName,
+      logicalName := logicalName,
+      ddbClient? := ddbClient?,
+      kmsClient? := kmsClient?
+    );
   }
 
   method KeyStoreFromKMSConfig(
@@ -407,4 +466,147 @@ module Fixtures {
     }
     return Failure("Failed to GetItem. ID: " + id + " type: " + typeStr + " .");
   }
+
+  method CopyBranchKey(
+    nameonly Identifier: string,
+    nameonly sourceTableName: string,
+    nameonly targetTableName: string,
+    nameonly hierarchyVersion: string,
+    nameonly ddbClient: DDB.Types.IDynamoDBClient
+  )
+    returns (output: Result<bool, DDB.Types.Error>)
+    requires
+      && ddbClient.ValidState()
+      && DDB.Types.IsValid_TableName(sourceTableName)
+      && DDB.Types.IsValid_TableName(targetTableName)
+    modifies ddbClient.Modifies
+    ensures ddbClient.ValidState()
+  {
+    // Query to get all items with the specified branch key ID
+    var ExpressionAttributeNames := map[
+      "#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD,
+      "#hv" := Structure.HIERARCHY_VERSION
+    ];
+    var ExpressionAttributeValues := map[
+      ":pk" := DDB.Types.AttributeValue.S(Identifier),
+      ":hv" := DDB.Types.AttributeValue.N(hierarchyVersion)
+    ];
+    var queryReq := DDB.Types.QueryInput(
+      TableName := sourceTableName,
+      KeyConditionExpression := Some("#pk = :pk"),
+      FilterExpression := Some("#hv = :hv"),
+      ExpressionAttributeNames := Some(ExpressionAttributeNames),
+      ExpressionAttributeValues := Some(ExpressionAttributeValues)
+    );
+
+    // Execute the query
+    var queryRes :- ddbClient.Query(queryReq);
+    if (queryRes.Items.None?) {
+      return Success(true);
+    }
+
+    // Create put requests for each item
+    var putItems: seq<DDB.Types.TransactWriteItem> :- Seq.MapWithResult(
+      (item: DDB.Types.AttributeMap)
+      =>
+        :- Need(
+             Structure.TYPE_FIELD in item,
+             DDB.Types.Error.InternalServerError(message := Some("Item missing required type field"))
+           );
+        Success(
+          DDB.Types.TransactWriteItem(
+            Put := Some(
+              DDB.Types.Put(
+                Item := item,
+                TableName := targetTableName
+              )))),
+      queryRes.Items.value);
+
+    if (0 == |putItems|) {
+      return Success(true);
+    }
+
+    // DynamoDB transactions are limited to 100 items
+    var allItemsCopied := true;
+    var remainingItems := putItems;
+
+    while |remainingItems| > 0
+      decreases |remainingItems|
+    {
+      var batchItems := if |remainingItems| > 100
+      then remainingItems[..100]
+      else remainingItems;
+
+      var writeReq := DDB.Types.TransactWriteItemsInput(
+        TransactItems := batchItems
+      );
+      var _ :- ddbClient.TransactWriteItems(writeReq);
+
+      if |remainingItems| > 100 {
+        remainingItems := remainingItems[100..];
+        allItemsCopied := false;
+      } else {
+        remainingItems := [];
+      }
+    }
+
+    return Success(allItemsCopied);
+  }
+
+  method CopyAllStaticBranchKeys(
+    nameonly ddbClient: DDB.Types.IDynamoDBClient
+  )
+    returns (output: Result<bool, DDB.Types.Error>)
+    requires ddbClient.ValidState()
+    modifies ddbClient.Modifies
+    ensures ddbClient.ValidState()
+  {
+    // List of (branchKeyId, hierarchyVersion)
+    var branchKeys := [
+      // HV1 Branch Keys
+      (branchKeyId, "1"),
+      (branchKeyIdWithEC, "1"),
+      (hierarchyV1InvalidKmsArnId, "1"),
+      (EastBranchKey, "1"),
+      (WestBranchKey, "1"),
+      (postalHornBranchKeyId, "1"),
+      ("STATIC-PRE-HV-2-MUTATION-WITH-SYSTEM-KEY", "1"),
+      ("STATIC-PRE-HV-2-MUTATION-WITH-TRUST-STORAGE", "1"),
+
+      // HV2 Branch Keys
+      (hv2BranchKeyId, "2"),
+      (hierarchyV2InvalidKmsArnId, "2"),
+      (hierarchyV2InvalidDigestId, "2"),
+      (hierarchyV2InvalidCiphertextLengthId, "2"),
+      (hierarchyV2MissingPrefixedECId, "2"),
+      (hierarchyV2UnexpectedECId, "2")
+    ];
+
+    var idx := 0;
+    while idx < |branchKeys|
+      decreases |branchKeys| - idx
+    {
+      var (id, hv) := branchKeys[idx];
+      var _ :- CopyBranchKey(
+        Identifier := id,
+        sourceTableName := branchKeyStoreName,
+        targetTableName := staticBranchKeyStoreName,
+        hierarchyVersion := hv,
+        ddbClient := ddbClient
+      );
+
+      idx := idx + 1;
+    }
+
+    return Success(true);
+  }
+  /*
+    // Test to Copy All Static Branch Keys from `KeyStoreDdbTable` to `KeyStoreStaticTable`
+    method {:test} TestCopyAllBranchKeys()
+    {
+      var ddbClient :- expect ProvideDDBClient();
+      var success :- expect CopyAllStaticBranchKeys(ddbClient := ddbClient);
+      expect success, "Failed to copy all branch keys";
+    }
+  */
 }

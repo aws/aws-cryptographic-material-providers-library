@@ -27,16 +27,16 @@ module {:options "/functionSyntax:4" } TestGetKeys {
   method {:test} TestGetKeysHappyCase()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
-    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient));
-    var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
+    var keyStore :- expect StaticKeyStore(kmsId := keyArn, physicalName := staticBranchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient));
+    var storage :- expect StaticStorage(ddbClient? := Some(ddbClient));
     BranchKeyValidators.VerifyGetKeys(branchKeyId, keyStore, storage, versionUtf8Bytes?:=Some(branchKeyIdActiveVersionUtf8Bytes));
   }
 
   method {:test} TestGetKeysHV2HappyCase()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
-    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient));
-    var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
+    var keyStore :- expect StaticKeyStore(kmsId := keyArn, physicalName := staticBranchKeyStoreName, logicalName := logicalKeyStoreName, ddbClient? := Some(ddbClient));
+    var storage :- expect StaticStorage(ddbClient? := Some(ddbClient));
     BranchKeyValidators.VerifyGetKeys(hv2BranchKeyId, keyStore, storage,
                                       versionUtf8Bytes?:=Some(hv2BranchKeyIdActiveVersionUtf8Bytes),
                                       hierarchyVersion := Types.HierarchyVersion.v2);
@@ -49,7 +49,7 @@ module {:options "/functionSyntax:4" } TestGetKeys {
       kmsConfig := KmsMrkConfigWest,
       ddbClient? := Some(ddbClient)
     );
-    var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
+    var storage :- expect StaticStorage(ddbClient? := Some(ddbClient));
     BranchKeyValidators.VerifyGetKeys(WestBranchKey, keyStore, storage,
                                       versionUtf8Bytes?:=Some(WestBranchKeyBranchKeyIdActiveVersionUtf8Bytes),
                                       encryptionContext := KmsMrkEC);
@@ -58,7 +58,7 @@ module {:options "/functionSyntax:4" } TestGetKeys {
   method {:test} TestGetMRKeyReplicatedRegionHappyCase()
   {
     var ddbClient :- expect DDB.DynamoDBClient();
-    var storage :- expect DefaultStorage(ddbClient? := Some(ddbClient));
+    var storage :- expect StaticStorage(ddbClient? := Some(ddbClient));
     var keyStore :- expect KeyStoreFromKMSConfig(
       // Passing in KmsMrkConfigWest causes the KMS Client to be created for us-west-2
       // EastBranchKey's KMS-ARN is replicated to us-west-2
@@ -97,21 +97,21 @@ module {:options "/functionSyntax:4" } TestGetKeys {
   }
 
   method {:test} TestKeyWithIncorrectKmsKeyArn() {
-    var keyStore :- expect DefaultKeyStore(kmsId := postalHornKeyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName);
+    var keyStore :- expect StaticKeyStore(kmsId := postalHornKeyArn, physicalName := staticBranchKeyStoreName, logicalName := logicalKeyStoreName);
     GetActiveKeyWithIncorrectKmsKeyArnHelper(keyStore, branchKeyId);
     GetBeaconKeyWithIncorrectKmsKeyArnHelper(keyStore, branchKeyId);
     GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(keyStore, branchKeyId, branchKeyIdActiveVersion);
   }
 
   method {:test} TestKeyWithIncorrectKmsKeyArnHV2() {
-    var keyStore :- expect DefaultKeyStore(kmsId := postalHornKeyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName);
+    var keyStore :- expect StaticKeyStore(kmsId := postalHornKeyArn, physicalName := staticBranchKeyStoreName, logicalName := logicalKeyStoreName);
     GetActiveKeyWithIncorrectKmsKeyArnHelper(keyStore, hv2BranchKeyId);
     GetBeaconKeyWithIncorrectKmsKeyArnHelper(keyStore, hv2BranchKeyId);
     GetBranchKeyVersionWithIncorrectKmsKeyArnHelper(keyStore, hv2BranchKeyId, hv2BranchKeyVersion);
   }
 
   method {:test} TestGetActiveKeyWrongLogicalKeyStoreName() {
-    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName);
+    var keyStore :- expect StaticKeyStore(kmsId:=keyArn, physicalName := staticBranchKeyStoreName, logicalName := incorrectLogicalName);
     GetActiveKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, Types.HierarchyVersion.v1);
     GetBeaconKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, Types.HierarchyVersion.v1);
     GetVersionKeyWrongLogicalKeyStoreName(keyStore, branchKeyId, branchKeyIdActiveVersion, Types.HierarchyVersion.v1);
@@ -119,7 +119,7 @@ module {:options "/functionSyntax:4" } TestGetKeys {
 
 
   method {:test} TestGetActiveKeyWrongLogicalKeyStoreNameHV2() {
-    var keyStore :- expect DefaultKeyStore(kmsId:=keyArn, physicalName := branchKeyStoreName, logicalName := incorrectLogicalName);
+    var keyStore :- expect StaticKeyStore(kmsId:=keyArn, physicalName := staticBranchKeyStoreName, logicalName := incorrectLogicalName);
     GetActiveKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, Types.HierarchyVersion.v2);
     GetBeaconKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, Types.HierarchyVersion.v2);
     GetVersionKeyWrongLogicalKeyStoreName(keyStore, hv2BranchKeyId, hv2BranchKeyVersion, Types.HierarchyVersion.v2);
@@ -128,7 +128,7 @@ module {:options "/functionSyntax:4" } TestGetKeys {
   // This test does not consider HV b/c it is really testing the storage layer
   method {:test} TestGetKeyDoesNotExistFails()
   {
-    var keyStore :- expect DefaultKeyStore(kmsId := keyArn, physicalName := branchKeyStoreName, logicalName := logicalKeyStoreName);
+    var keyStore :- expect StaticKeyStore(kmsId := keyArn, physicalName := staticBranchKeyStoreName, logicalName := logicalKeyStoreName);
     GetActiveKeyDoesNotExistFailsHelper(keyStore, "Robbie");
     GetBeaconKeyDoesNotExistFailsHelper(keyStore, "Robbie");
     GetBranchKeyVersionDoesNotExistFailsHelper(keyStore, "Robbie", branchKeyIdActiveVersion);
