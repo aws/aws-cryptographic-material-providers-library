@@ -110,8 +110,6 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     // Test mutating HV1 to HV2 and EC
     var uuidForHV2AndECMutationTest :- expect UUID.GenerateUUID();
     var testIdForHV2AndECMutation := happyCaseId + "-" + uuidForHV2AndECMutationTest;
-    var uuid :- expect UUID.GenerateUUID();
-    var testId2 := happyCaseId + "-" + uuid;
     var mutationsRequestChangeHVAndEC := Types.Mutations(
       TerminalEncryptionContext := Some(terminalEC),
       TerminalHierarchyVersion := Some(terminalHV));
