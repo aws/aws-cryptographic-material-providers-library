@@ -601,16 +601,16 @@ module {:options "/functionSyntax:4" } CreateKeys {
   {
     if !HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext) {
       return Failure(Types.KeyStoreException(
-                        message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
-                      ));
+                       message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+                     ));
     }
-    
+
     :- Need(
       && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem.EncryptionContext[Structure.KMS_FIELD])
       && KMSKeystoreOperations.GetKeyId(kmsConfiguration) == oldActiveItem.EncryptionContext[Structure.KMS_FIELD],
       Types.KeyStoreException(
         message := ErrorMessages.VERSION_KEY_KMS_KEY_ARN_DISAGREEMENT)
-    ); 
+    );
     // Get crypto client
     var crypto? := HvUtils.ProvideCryptoClient();
     var crypto :- crypto?.MapFailure(
@@ -618,7 +618,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
           AwsCryptographyPrimitives := e
         )
     );
-    
+
     var newActivePlaintextMaterial? := crypto.GenerateRandomBytes(
       AtomicPrimitives.Types.GenerateRandomBytesInput(length := 32)
     );
@@ -637,7 +637,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       grantTokens,
       kmsClient
     );
-    
+
     var decryptOnlyEncryptionContext := Structure.NewVersionFromActiveBranchKeyEncryptionContext(
       oldActiveItem.EncryptionContext,
       branchKeyVersion,
@@ -664,7 +664,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       kmsConfiguration := kmsConfiguration,
       grantTokens := grantTokens
     );
-    
+
     var overWrite := Types.OverWriteEncryptedHierarchicalKey(
       Item := wrappedActiveBranchKey,
       Old := oldActiveItem
@@ -674,10 +674,10 @@ module {:options "/functionSyntax:4" } CreateKeys {
     var _ :- storage.WriteNewEncryptedBranchKeyVersion(
       Types.WriteNewEncryptedBranchKeyVersionInput(
         Active := overWrite,
-        Version := wrappedDecryptOnlyBranchKey 
+        Version := wrappedDecryptOnlyBranchKey
       )
     );
-    
+
     output := Success(Types.VersionKeyOutput());
   }
 

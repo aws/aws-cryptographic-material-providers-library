@@ -294,7 +294,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
 
     var initialActiveResult :- expect keyStore.GetActiveBranchKey(
       KeyStoreTypes.GetActiveBranchKeyInput(
-        branchKeyIdentifier := bk.Identifier 
+        branchKeyIdentifier := bk.Identifier
       ));
     var initialActiveVersion :- expect UTF8.Decode(initialActiveResult.branchKeyMaterials.branchKeyVersion);
     var initialGetVersionResult :- expect keyStore.GetBranchKeyVersion(
@@ -304,7 +304,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
       ));
 
     expect initialActiveResult.branchKeyMaterials.branchKeyVersion == initialGetVersionResult.branchKeyMaterials.branchKeyVersion;
-    
+
     var versionedBk := underTest.VersionKey(
       Types.VersionKeyInput(
         Identifier := bkid,
@@ -313,15 +313,15 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
         Strategy := Some(versionStrategy)
       )
     );
-    
+
     // Validate an HV-2 BK with a West SRK by calling us-west-2
     BranchKeyValidators.VerifyGetKeys(bkid, keyStore, storage,
                                       encryptionContext := RobbieEC,
                                       hierarchyVersion := KeyStoreTypes.HierarchyVersion.v2);
-    
+
     var versionedActiveResult :- expect keyStore.GetActiveBranchKey(
       KeyStoreTypes.GetActiveBranchKeyInput(
-        branchKeyIdentifier := bk.Identifier 
+        branchKeyIdentifier := bk.Identifier
       ));
     var versionedActiveVersion :- expect UTF8.Decode(versionedActiveResult.branchKeyMaterials.branchKeyVersion);
     var versionedGetVersionResult :- expect keyStore.GetBranchKeyVersion(
@@ -329,7 +329,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
         branchKeyIdentifier := bk.Identifier,
         branchKeyVersion := versionedActiveVersion
       ));
-    
+
     expect versionedActiveResult.branchKeyMaterials.branchKeyVersion == versionedGetVersionResult.branchKeyMaterials.branchKeyVersion;
     expect initialActiveResult.branchKeyMaterials.branchKeyVersion != versionedActiveResult.branchKeyMaterials.branchKeyVersion;
     expect initialGetVersionResult.branchKeyMaterials.branchKeyVersion != versionedGetVersionResult.branchKeyMaterials.branchKeyVersion;
