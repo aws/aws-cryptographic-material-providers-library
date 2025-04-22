@@ -124,7 +124,6 @@ module CleanupItems {
   method DeleteBranchKey(
     nameonly Identifier: string,
     nameonly tableName: string := branchKeyStoreName,
-    nameonly hierarchyVersion: string := Structure.HIERARCHY_VERSION_VALUE,
     nameonly ddbClient: DDB.Types.IDynamoDBClient
   )
     returns (output: Result<bool, DDB.Types.Error>)
@@ -135,17 +134,14 @@ module CleanupItems {
     ensures ddbClient.ValidState()
   {
     var ExpressionAttributeNames := map[
-      "#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD,
-      "#hv" := Structure.HIERARCHY_VERSION
+      "#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD
     ];
     var ExpressionAttributeValues := map[
-      ":pk" := DDB.Types.AttributeValue.S(Identifier),
-      ":hv" := DDB.Types.AttributeValue.N(hierarchyVersion)
+      ":pk" := DDB.Types.AttributeValue.S(Identifier)
     ];
     var queryReq := DDB.Types.QueryInput(
       TableName := tableName,
       KeyConditionExpression := Some("#pk = :pk"),
-      FilterExpression := Some("#hv = :hv"),
       ExpressionAttributeNames := Some(ExpressionAttributeNames),
       ExpressionAttributeValues := Some(ExpressionAttributeValues)
     );

@@ -25,11 +25,6 @@ public class TestMutationSystemKeyTrustStorage {
       branchKeyId,
       Fixtures.KEYSTORE_KMS_ARN
     );
-    DdbHelper.DeleteBranchKey(
-      branchKeyId,
-      Fixtures.TEST_KEYSTORE_NAME,
-      "1",
-      null
-    );
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 }
