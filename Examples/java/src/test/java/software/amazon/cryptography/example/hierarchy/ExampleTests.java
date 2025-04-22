@@ -72,12 +72,7 @@ public class ExampleTests {
       beaconOutput.beaconKeyMaterials().beaconKeyIdentifier()
     );
 
-    DdbHelper.DeleteBranchKey(
-      branchKeyId,
-      Fixtures.TEST_KEYSTORE_NAME,
-      HierarchyVersion.v2.toString(),
-      null
-    );
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 
   @Test
@@ -179,12 +174,7 @@ public class ExampleTests {
     );
     KeyStore keyStoreKS = KeyStoreProvider.keyStore(Fixtures.KEYSTORE_KMS_ARN);
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, keyStoreKS);
-    DdbHelper.DeleteBranchKey(
-      branchKeyId,
-      Fixtures.TEST_KEYSTORE_NAME,
-      "1",
-      null
-    );
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 
   @Test
@@ -288,11 +278,6 @@ public class ExampleTests {
     );
     KeyStore keyStoreKS = KeyStoreProvider.keyStore(Fixtures.KEYSTORE_KMS_ARN);
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, keyStoreKS);
-    DdbHelper.DeleteBranchKey(
-      branchKeyId,
-      Fixtures.TEST_KEYSTORE_NAME,
-      "1",
-      null
-    );
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 }

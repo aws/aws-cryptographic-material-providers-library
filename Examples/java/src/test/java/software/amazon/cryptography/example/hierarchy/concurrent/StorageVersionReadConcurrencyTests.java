@@ -152,12 +152,7 @@ public class StorageVersionReadConcurrencyTests {
 
   @AfterClass
   public void teardown() {
-    DdbHelper.DeleteBranchKey(
-      branchKeyId,
-      Fixtures.TEST_KEYSTORE_NAME,
-      null,
-      null
-    );
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 
   private Storage storageForThread(final String threadIdToIndex) {

@@ -473,7 +473,6 @@ module Fixtures {
     nameonly Identifier: string,
     nameonly sourceTableName: string,
     nameonly targetTableName: string,
-    nameonly hierarchyVersion: string,
     nameonly ddbClient: DDB.Types.IDynamoDBClient
   )
     returns (output: Result<bool, DDB.Types.Error>)
@@ -486,17 +485,14 @@ module Fixtures {
   {
     // Query to get all items with the specified branch key ID
     var ExpressionAttributeNames := map[
-      "#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD,
-      "#hv" := Structure.HIERARCHY_VERSION
+      "#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD
     ];
     var ExpressionAttributeValues := map[
-      ":pk" := DDB.Types.AttributeValue.S(Identifier),
-      ":hv" := DDB.Types.AttributeValue.N(hierarchyVersion)
+      ":pk" := DDB.Types.AttributeValue.S(Identifier)
     ];
     var queryReq := DDB.Types.QueryInput(
       TableName := sourceTableName,
       KeyConditionExpression := Some("#pk = :pk"),
-      FilterExpression := Some("#hv = :hv"),
       ExpressionAttributeNames := Some(ExpressionAttributeNames),
       ExpressionAttributeValues := Some(ExpressionAttributeValues)
     );
@@ -566,34 +562,33 @@ module Fixtures {
     // List of (branchKeyId, hierarchyVersion)
     var branchKeys := [
       // HV1 Branch Keys
-      (branchKeyId, "1"),
-      (branchKeyIdWithEC, "1"),
-      (hierarchyV1InvalidKmsArnId, "1"),
-      (EastBranchKey, "1"),
-      (WestBranchKey, "1"),
-      (postalHornBranchKeyId, "1"),
-      ("STATIC-PRE-HV-2-MUTATION-WITH-SYSTEM-KEY", "1"),
-      ("STATIC-PRE-HV-2-MUTATION-WITH-TRUST-STORAGE", "1"),
+      branchKeyId,
+      branchKeyIdWithEC,
+      hierarchyV1InvalidKmsArnId,
+      EastBranchKey,
+      WestBranchKey,
+      postalHornBranchKeyId,
+      "STATIC-PRE-HV-2-MUTATION-WITH-SYSTEM-KEY",
+      "STATIC-PRE-HV-2-MUTATION-WITH-TRUST-STORAGE",
 
       // HV2 Branch Keys
-      (hv2BranchKeyId, "2"),
-      (hierarchyV2InvalidKmsArnId, "2"),
-      (hierarchyV2InvalidDigestId, "2"),
-      (hierarchyV2InvalidCiphertextLengthId, "2"),
-      (hierarchyV2MissingPrefixedECId, "2"),
-      (hierarchyV2UnexpectedECId, "2")
+      hv2BranchKeyId,
+      hierarchyV2InvalidKmsArnId,
+      hierarchyV2InvalidDigestId,
+      hierarchyV2InvalidCiphertextLengthId,
+      hierarchyV2MissingPrefixedECId,
+      hierarchyV2UnexpectedECId
     ];
 
     var idx := 0;
     while idx < |branchKeys|
       decreases |branchKeys| - idx
     {
-      var (id, hv) := branchKeys[idx];
+      var id := branchKeys[idx];
       var _ :- CopyBranchKey(
         Identifier := id,
         sourceTableName := branchKeyStoreName,
         targetTableName := staticBranchKeyStoreName,
-        hierarchyVersion := hv,
         ddbClient := ddbClient
       );
 

@@ -91,12 +91,7 @@ public class StorageWriteReadConcurrencyTests {
 
   @AfterClass
   public void teardown() {
-    DdbHelper.DeleteBranchKey(
-      branchKeyId,
-      Fixtures.TEST_KEYSTORE_NAME,
-      null,
-      null
-    );
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 
   public static KeyStore createKeyStore() {
