@@ -296,10 +296,11 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
       KeyStoreTypes.GetActiveBranchKeyInput(
         branchKeyIdentifier := bk.Identifier 
       ));
+    var initialActiveVersion :- expect UTF8.Decode(initialActiveResult.branchKeyMaterials.branchKeyVersion);
     var initialGetVersionResult :- expect keyStore.GetBranchKeyVersion(
       KeyStoreTypes.GetBranchKeyVersionInput(
         branchKeyIdentifier := bk.Identifier,
-        branchKeyVersion := branchKeyIdActiveVersion
+        branchKeyVersion := initialActiveVersion
       ));
 
     expect initialActiveResult.branchKeyMaterials.branchKeyVersion == initialGetVersionResult.branchKeyMaterials.branchKeyVersion;
@@ -322,10 +323,11 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
       KeyStoreTypes.GetActiveBranchKeyInput(
         branchKeyIdentifier := bk.Identifier 
       ));
+    var versionedActiveVersion :- expect UTF8.Decode(versionedActiveResult.branchKeyMaterials.branchKeyVersion);
     var versionedGetVersionResult :- expect keyStore.GetBranchKeyVersion(
       KeyStoreTypes.GetBranchKeyVersionInput(
         branchKeyIdentifier := bk.Identifier,
-        branchKeyVersion := branchKeyIdActiveVersion
+        branchKeyVersion := versionedActiveVersion
       ));
     
     expect versionedActiveResult.branchKeyMaterials.branchKeyVersion == versionedGetVersionResult.branchKeyMaterials.branchKeyVersion;
