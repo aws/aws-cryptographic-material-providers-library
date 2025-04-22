@@ -14,6 +14,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   import CleanupItems
   import TestMutationHappyPath
   import opened Fixtures
+  import opened Wrappers
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
 
