@@ -134,7 +134,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     var mutationsRequestChangeHVAndKmsArn := Types.Mutations(
       TerminalKmsArn := Some(terminalKmsId),
       TerminalHierarchyVersion := Some(terminalHV));
-    var keyStoreTerminal :- expect Fixtures.DefaultKeyStore(
+    var keyStoreTerminalForHV2AndKmsArnMutation :- expect Fixtures.DefaultKeyStore(
       kmsId:=terminalKmsId,
       ddbClient?:=Some(ddbClient),
       kmsClient?:=Some(kmsClient));
@@ -143,9 +143,33 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
       storage := storage,
       keyStoreAdminUnderTest := underTest,
       strategy := strategy,
-      keyStoreTerminal := keyStoreTerminal,
-      branchKeyIdentifier := uuidForHV2AndKmsArnMutationTest,
+      keyStoreTerminal := keyStoreTerminalForHV2AndKmsArnMutation,
+      branchKeyIdentifier := testIdForHV2AndKmsArnMutation,
       mutationsRequest := mutationsRequestChangeHVAndKmsArn,
+      versionCount := 1,
+      initialHV := KeyStoreTypes.HierarchyVersion.v1,
+      doNotVersion := true
+    );
+
+    // Test mutating HV1 to HV2, EC and kmsArn
+    var uuidForHV2KmsArnAndECMutationTest :- expect UUID.GenerateUUID();
+    var testIdForHV2KmsArnAndECMutation := happyCaseId + "-" + uuidForHV2KmsArnAndECMutationTest;
+    var mutationsRequestChangeHVKmsArnAndEC := Types.Mutations(
+      TerminalEncryptionContext := Some(terminalEC),
+      TerminalKmsArn := Some(terminalKmsId),
+      TerminalHierarchyVersion := Some(terminalHV));
+    var keyStoreTerminalForHV2KmsArnAndECMutation :- expect Fixtures.DefaultKeyStore(
+      kmsId:=terminalKmsId,
+      ddbClient?:=Some(ddbClient),
+      kmsClient?:=Some(kmsClient));
+    TestMutationHappyPath.MutationRoundTripTest(
+      ddbClient := ddbClient,
+      storage := storage,
+      keyStoreAdminUnderTest := underTest,
+      strategy := strategy,
+      keyStoreTerminal := keyStoreTerminalForHV2KmsArnAndECMutation,
+      branchKeyIdentifier := testIdForHV2KmsArnAndECMutation,
+      mutationsRequest := mutationsRequestChangeHVKmsArnAndEC,
       versionCount := 1,
       initialHV := KeyStoreTypes.HierarchyVersion.v1,
       doNotVersion := true
