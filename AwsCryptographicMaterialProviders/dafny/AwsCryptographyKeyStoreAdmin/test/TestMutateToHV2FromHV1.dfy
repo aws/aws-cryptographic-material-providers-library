@@ -194,11 +194,16 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
 
     expect applyOutput.MutationResult.CompleteMutation?, "Apply Mutation output should not continue!";
 
+    var expectedDecryptOnlyItems := if doNotVersion then
+      versionCount + 1
+    else
+      versionCount + 2;
     verifyMutationResults(
       storage := storage,
       keyStoreTerminal := keyStoreTerminal,
       branchKeyIdentifier := branchKeyIdentifier,
-      mutationsRequest := mutationsRequest
+      mutationsRequest := mutationsRequest,
+      expectedDecryptOnlyItems := expectedDecryptOnlyItems
     );
 
     var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyIdentifier, ddbClient:=ddbClient);
@@ -208,7 +213,8 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     storage: KeyStoreTypes.IKeyStorageInterface,
     keyStoreTerminal: KeyStoreTypes.IKeyStoreClient,
     branchKeyIdentifier: string,
-    mutationsRequest: Types.Mutations
+    mutationsRequest: Types.Mutations,
+    expectedDecryptOnlyItems: int
   )
     requires storage.ValidState()
     requires keyStoreTerminal.ValidState()
@@ -223,8 +229,8 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     var items := queryOut.Items;
     var (expectedKmsArn, expectedEncryptionContext) := getExpectedTerminalValues(mutationsRequest);
     expect
-      |items| == 2,
-      "Test expects there to be 2 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
+      |items| == expectedDecryptOnlyItems,
+      "Test expects there to be " + String.Base10Int2String(expectedDecryptOnlyItems) + " Decrypt Only items! Found: " + String.Base10Int2String(|items|);
 
     var itemIndex := 0;
 
