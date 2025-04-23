@@ -84,7 +84,7 @@ module {:options "/functionSyntax:4" } Mutations {
     }
   }
 
-  method {:isolate_assertions} VerifyEncryptedHierarchicalKeyForHV1(
+  method VerifyEncryptedHierarchicalKeyForHV1(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly localOperation: string,
