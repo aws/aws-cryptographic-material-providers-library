@@ -232,7 +232,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     );
     // TODO-HV-2-M3: Support mutations on HV-2 item (mutation starting with hv-2 item)
 
-    // Start from Here -> 
+    // Start from Here ->
     // :- Need(
     //   readItems.ActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
     //   Types.KeyStoreAdminException(

@@ -115,8 +115,12 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     var queryOut :- expect storage.QueryForVersions(versionQuery);
     var items := queryOut.Items;
     var (expectedKmsArn, expectedHV, expectedEncryptionContext) := getExpectedTerminalValues(mutationsRequest, initialHV);
+
     expect
-      |items| == expectedDecryptOnlyItems,
+      && initialHV.v1? ==> |items| == expectedDecryptOnlyItems
+        // Remove this once we added versioning for HV-2 keys
+                           && initialHV.v2? ==> |items| == 1
+      ,
       "Test expects there to be " + String.Base10Int2String(expectedDecryptOnlyItems) + " Decrypt Only items! Found: " + String.Base10Int2String(|items|);
 
     var itemIndex := 0;

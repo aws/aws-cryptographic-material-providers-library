@@ -207,7 +207,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     var testIdForHV2AndKmsArnMutation := happyCaseId + "-" + uuidForHV2AndKmsArnMutationTest;
     var mutationsRequestChangeHVAndKmsArn := Types.Mutations(
       TerminalKmsArn := Some(terminalKmsId)
-      );
+    );
     var keyStoreTerminalForHV2AndKmsArnMutation :- expect Fixtures.DefaultKeyStore(
       kmsId:=terminalKmsId,
       ddbClient?:=Some(ddbClient),
@@ -231,7 +231,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     var mutationsRequestChangeHVKmsArnAndEC := Types.Mutations(
       TerminalEncryptionContext := Some(terminalEC),
       TerminalKmsArn := Some(terminalKmsId)
-      );
+    );
     var keyStoreTerminalForHV2KmsArnAndECMutation :- expect Fixtures.DefaultKeyStore(
       kmsId:=terminalKmsId,
       ddbClient?:=Some(ddbClient),

@@ -560,7 +560,7 @@ module {:options "/functionSyntax:4" } Mutations {
       keyManagerStrategy.kmsSimple?,
       Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
     );
-    
+
     var terminalBKC := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,
