@@ -188,6 +188,14 @@ module {:options "/functionSyntax:4" } Mutations {
     var decryptKmsClient;
     match keyManagerStrategy {
       // TODO-HV-2-M4: Support other keyManagerStrategy
+      case decryptEncrypt(kmsD, kmsE) =>
+        if localOperation == "ApplyMutation" {
+          decryptGrantTokens := kmsE.grantTokens;
+          decryptKmsClient := kmsE.kmsClient;
+        } else {
+          decryptGrantTokens := kmsD.grantTokens;
+          decryptKmsClient := kmsD.kmsClient;
+        }
       case kmsSimple(kms) =>
         decryptGrantTokens := kms.grantTokens;
         decryptKmsClient := kms.kmsClient;

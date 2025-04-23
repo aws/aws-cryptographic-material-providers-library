@@ -63,7 +63,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     predicate SupportHV2()
     {
       match this
-      case decryptEncrypt(kmD, kmE) => false
+      case decryptEncrypt(kmD, kmE) => true
       case reEncrypt(km) => false
       case kmsSimple(km) => true
     }

@@ -9,10 +9,11 @@ module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
     "Unsupported KeyManagementStrategy."
     + " Only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsDecryptEncrypt"
     + " is allowed when terminal hierarchical version is 1."
-    + " Only KeyManagementStrategy.kmsSimple is allowed when terminal hierarchical version is 2."
+    + " Only KeyManagementStrategy.AwsKmsDecryptEncrypt and KeyManagementStrategy.kmsSimple is"
+    + " allowed when terminal hierarchical version is 2."
 
   const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_HV_2: string :=
-    "Only KeyManagementStrategy.AwsKmsSimple is allowed when mutating to hv-2."
+    "Only KeyManagementStrategy.AwsKmsDecryptEncrypt and KeyManagementStrategy.AwsKmsSimple is allowed when mutating to hv-2."
 
   const UNSUPPORTED_DOWNGRADE_HV: string :=
     "Mutation which Downgrades hierarchical version (example: from v2 to v1) is not supported."
