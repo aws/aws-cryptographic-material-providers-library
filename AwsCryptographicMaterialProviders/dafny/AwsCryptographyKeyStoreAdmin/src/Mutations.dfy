@@ -166,7 +166,7 @@ module {:options "/functionSyntax:4" } Mutations {
     return Success(ActiveVerificationHolder.NotDecrypt());
   }
 
-  method {:isolate_assertions} VerifyEncryptedHierarchicalKeyForHV2(
+  method VerifyEncryptedHierarchicalKeyForHV2(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly localOperation: string,
