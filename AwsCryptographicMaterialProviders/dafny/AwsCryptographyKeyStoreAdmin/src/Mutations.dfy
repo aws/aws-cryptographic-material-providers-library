@@ -637,10 +637,10 @@ module {:options "/functionSyntax:4" } Mutations {
       keyManagerStrategy.kmsSimple?,
       Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
     );
-    var decryptGrantTokens;
-    var decryptKmsClient;
     var encryptGrantTokens;
     var encryptKmsClient;
+    var decryptGrantTokens;
+    var decryptKmsClient;
     match keyManagerStrategy {
       // TODO-HV-2-M4: Support other keyManagerStrategy
       case decryptEncrypt(kmsD, kmsE) =>
