@@ -150,7 +150,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
       SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
-      DoNotVersion := Some(false));
+      DoNotVersion := Some(true));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 

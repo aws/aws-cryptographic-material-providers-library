@@ -272,6 +272,7 @@ module {:options "/functionSyntax:4" } Mutations {
   {
     var wrappedKey?;
     var kmsOperation: string;
+    print input;
     match input.keyManagerStrategy {
       case reEncrypt(kms) =>
         kmsOperation := "ReEncrypt";
@@ -538,6 +539,7 @@ module {:options "/functionSyntax:4" } Mutations {
     return Success(mutatedItem);
   }
 
+  // Some wiring here
   method MutateToHV2(
     item: KeyStoreTypes.EncryptedHierarchicalKey,
     mutationToApply: StateStrucs.MutationToApply,
@@ -559,7 +561,7 @@ module {:options "/functionSyntax:4" } Mutations {
       keyManagerStrategy.kmsSimple?,
       Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
     );
-    // TODO-HV-2-M2: Make ReplaceMutableContext modify hierarchical version.
+    
     var terminalBKC := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,
@@ -573,6 +575,7 @@ module {:options "/functionSyntax:4" } Mutations {
       )
     );
     var crypto? := HVUtils.ProvideCryptoClient();
+    // TODO-HV-2-M2-HV2Only: Match Error type with CreateKeysHV2
     if (crypto?.Failure?) {
       var e := Types.KeyStoreAdminException(
         message := "Failed to create internal AtomicPrimitivesClient:" +
