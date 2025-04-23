@@ -272,7 +272,6 @@ module {:options "/functionSyntax:4" } Mutations {
   {
     var wrappedKey?;
     var kmsOperation: string;
-    print input;
     match input.keyManagerStrategy {
       case reEncrypt(kms) =>
         kmsOperation := "ReEncrypt";

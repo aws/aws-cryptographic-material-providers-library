@@ -58,6 +58,8 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
         strategy := strategy,
         hierarchyVersion := initialHV
       );
+      // WIP Print for debugging
+      print "\nCreated HV2 Successfully: " + branchKeyIdentifier;
     }
 
     var initInput := Types.InitializeMutationInput(
