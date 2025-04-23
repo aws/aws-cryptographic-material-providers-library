@@ -80,7 +80,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   }
 
   // TODO-HV-2-M2-FF: We should log with prefix, so we are aware which case failed while debugging.
-  method {:test} TestHV1toHV2HappyCase()
+  method {:test} TestHV1toHV2HappyCaseMutateOnly()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
@@ -174,7 +174,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     );
   }
 
-  method {:test} TestHV2toHV2HappyCase()
+  method {:test} TestHV2toHV2HappyCaseMutateOnly()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
