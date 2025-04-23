@@ -149,4 +149,30 @@ module {:options "/functionSyntax:4" } KmsUtils {
       case v2 => keyManagerStrategy.SupportHV2()
     }
   }
+
+  function getDecryptKMSTuple(
+    keyManagerStrategy: keyManagerStrat
+  ) : (output: KMSTuple)
+    requires keyManagerStrategy.decryptEncrypt? || keyManagerStrategy.kmsSimple?
+  {
+    match keyManagerStrategy {
+      case decryptEncrypt(kmsD, kmsE) =>
+        KMSTuple(kmsD.kmsClient, kmsD.grantTokens)
+      case kmsSimple(kms) =>
+        KMSTuple(kms.kmsClient, kms.grantTokens)
+    }
+  }
+
+  function getEncryptKMSTuple(
+    keyManagerStrategy: keyManagerStrat
+  ) : (output: KMSTuple)
+    requires keyManagerStrategy.decryptEncrypt? || keyManagerStrategy.kmsSimple?
+  {
+    match keyManagerStrategy {
+      case decryptEncrypt(kmsD, kmsE) =>
+        KMSTuple(kmsE.kmsClient, kmsE.grantTokens)
+      case kmsSimple(kms) =>
+        KMSTuple(kms.kmsClient, kms.grantTokens)
+    }
+  }
 }
