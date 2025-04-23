@@ -108,7 +108,6 @@ module {:options "/functionSyntax:4" } KmsUtils {
     }
   }
 
-
   predicate IsSupportedKeyManagerStrategy(
     terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,
     keyManagerStrategy: keyManagerStrat
@@ -118,5 +117,19 @@ module {:options "/functionSyntax:4" } KmsUtils {
       case v1 => keyManagerStrategy.SupportHV1()
       case v2 => keyManagerStrategy.SupportHV2()
     }
+  }
+
+  datatype KeyManagerAndStorage = KeyManagerAndStorage(
+    storage : KeyStoreTypes.IKeyStorageInterface,
+    keyManagerStrat: keyManagerStrat
+  )
+  {
+    ghost predicate ValidState()
+    {
+      && storage.ValidState()
+      && keyManagerStrat.ValidState()
+      && storage.Modifies !! keyManagerStrat.Modifies
+    }
+    ghost const Modifies := multiset(storage.Modifies) + multiset(keyManagerStrat.Modifies)
   }
 }

@@ -7,7 +7,6 @@ include "ApplyMutation.dfy"
 include "KeyStoreAdminHelpers.dfy"
 include "DescribeMutation.dfy"
 include "CreateKeysHV2.dfy"
-include "BKSAOperationUtils.dfy"
 include "KeyStoreAdminErrorMessages.dfy"
 
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
@@ -25,6 +24,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import ErrorMessages = KeyStoreErrorMessages
   import Structure
   import KO = KMSKeystoreOperations
+  import CreateKeys
   import KmsArn
   import KmsUtils
     //KeyStoreAdmin
@@ -34,7 +34,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import DM = DescribeMutation
   import KeyStoreAdminHelpers
   import CreateKeysHV2
-  import OptUtils = BKSAOperationUtils
   import KeyStoreAdminErrorMessages
 
   datatype Config = Config(
@@ -336,7 +335,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
         assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
-        var keyManagerAndStorage := OptUtils.KeyManagerAndStorage(
+        var keyManagerAndStorage := KmsUtils.KeyManagerAndStorage(
           config.storage, keyManagerStrat
         );
         assert keyManagerAndStorage.ValidState();

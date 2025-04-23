@@ -5,7 +5,6 @@ include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "../../AwsCryptographyKeyStore/Model/AwsCryptographyKeyStoreTypes.dfy"
 include "../../AwsCryptographyKeyStore/src/KmsUtils.dfy"
 include "../../../../AwsCryptographyPrimitives/Model/AwsCryptographyPrimitivesTypes.dfy"
-include "BKSAOperationUtils.dfy"
 include "KeyStoreAdminHelpers.dfy"
 
 module {:options "/functionSyntax:4" } CreateKeysHV2 {
@@ -33,8 +32,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
   import KmsUtils
     // (Branch) Key Store Admin Imports
   import HvUtils = HierarchicalVersionUtils
-  import Types = AwsCryptographyKeyStoreAdminTypes
-  import OptUtils = BKSAOperationUtils
+  import Types = AwsCryptographyKeyStoreAdminTypes 
   import KeyStoreAdminHelpers
 
   /** Constrains the relationship of the Crypto & KMS client, 
@@ -85,7 +83,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     nameonly branchKeyVersion: string,
     nameonly logicalKeyStoreName: string,
     nameonly kmsConfiguration: KeyStoreTypes.KMSConfiguration,
-    nameonly keyManagerAndStorage: OptUtils.KeyManagerAndStorage,
+    nameonly keyManagerAndStorage: KmsUtils.KeyManagerAndStorage,
     nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion
   )
     returns (output: Result<Types.CreateKeyOutput, Types.Error>)

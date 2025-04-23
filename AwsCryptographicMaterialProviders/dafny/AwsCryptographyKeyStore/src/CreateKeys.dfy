@@ -10,6 +10,7 @@ include "GetKeys.dfy"
 include "../../AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 include "KmsArn.dfy"
 include "HierarchicalVersionUtils.dfy"
+include "KmsUtils.dfy"
 
 module {:options "/functionSyntax:4" } CreateKeys {
   import opened StandardLibrary
@@ -29,6 +30,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
   import HvUtils = HierarchicalVersionUtils
   import AwsArnParsing
   import KmsArn
+  import KmsUtils
 
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
   //= type=implication
@@ -292,14 +294,14 @@ module {:options "/functionSyntax:4" } CreateKeys {
   }
 
   method CreateBranchAndBeaconKeysVersion2(
-    // nameonly branchKeyIdentifier: string,
-    // nameonly encryptionContext: map<string, string>,
-    // nameonly timestamp: string,
-    // nameonly branchKeyVersion: string,
-    // nameonly logicalKeyStoreName: string,
-    // nameonly kmsConfiguration: Types.KMSConfiguration,
-    // nameonly keyManagerAndStorage: OptUtils.KeyManagerAndStorage,
-    // nameonly hierarchyVersion: Types.HierarchyVersion
+    nameonly branchKeyIdentifier: string,
+    nameonly encryptionContext: map<string, string>,
+    nameonly timestamp: string,
+    nameonly branchKeyVersion: string,
+    nameonly logicalKeyStoreName: string,
+    nameonly kmsConfiguration: Types.KMSConfiguration,
+    nameonly keyManagerAndStorage: OptUtils.KeyManagerAndStorage,
+    nameonly hierarchyVersion: Types.HierarchyVersion
   )
 
   method VersionActiveBranchKey(
