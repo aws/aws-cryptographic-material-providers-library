@@ -17,6 +17,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
   import Fixtures
   import DefaultKeyStorageInterface
   import Structure
+  import KmsUtils
     // (Branch) Key Store Admin Imports
   import KeyStoreAdmin
   import Types = AwsCryptographyKeyStoreAdminTypes
