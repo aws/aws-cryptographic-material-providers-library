@@ -330,14 +330,23 @@ module {:options "/functionSyntax:4" } CreateKeys {
     var activeBranchKeyContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext);
     var beaconBranchKeyContext := Structure.BeaconKeyEncryptionContext(decryptOnlyBranchKeyContext);
 
+    if !HvUtils.HasUniqueTransformedKeys?(activeBranchKeyContext) {
+      return Failure(Types.BranchKeyCiphertextException(
+                       message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+                     ));
+    }
+    var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(activeBranchKeyContext);
+    
     // get plaintext data key by calling kms::GenerateDataKey
     var branchKey :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
+      branchKeyContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,
       keyManagerAndStorage := keyManagerAndStorage
     );
 
     // get beacon key by calling kms::GenerateDataKey
     var beaconKey :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
+      branchKeyContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,
       keyManagerAndStorage := keyManagerAndStorage
     ); 

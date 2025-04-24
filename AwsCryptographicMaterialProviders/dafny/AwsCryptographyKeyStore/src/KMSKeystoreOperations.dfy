@@ -124,6 +124,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   }
   
   method GetPlaintextDataKeyViaGenerateDataKey(
+    nameonly branchKeyContext: map<string, string>,
     nameonly kmsConfiguration: Types.KMSConfiguration,
     nameonly keyManagerAndStorage: KmsUtils.KeyManagerAndStorage
   )
@@ -144,6 +145,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         && KMS.GenerateDataKeyRequest(
             KeyId := kmsKeyArn,
             NumberOfBytes := Some(32),
+            EncryptionContext := Some(branchKeyContext),
             GrantTokens := Some(keyManagerAndStorage.keyManagerStrat.kmsSimple.grantTokens)
          ) == kmsGenerateDataKeyEvent.input
         && kmsGenerateDataKeyEvent.output.Success?
@@ -157,6 +159,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     var generateDataKeyInput := KMS.GenerateDataKeyRequest(
       KeyId := kmsKeyArn,
       NumberOfBytes := Some(32),
+      EncryptionContext := Some(branchKeyContext),
       GrantTokens := Some(keyManagerAndStorage.keyManagerStrat.kmsSimple.grantTokens)
     );
 
