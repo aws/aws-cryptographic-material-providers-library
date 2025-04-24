@@ -39,7 +39,14 @@ public class MutationsSystemKeyTrustExample {
     @Nonnull final String terminalKmsArn,
     @Nullable final HierarchyVersion terminalHierarchyVersion
   ) {
-    return End2End(identifier, terminalKmsArn, terminalHierarchyVersion, null, null, null);
+    return End2End(
+      identifier,
+      terminalKmsArn,
+      terminalHierarchyVersion,
+      null,
+      null,
+      null
+    );
   }
 
   public static String End2End(
@@ -66,7 +73,10 @@ public class MutationsSystemKeyTrustExample {
         : admin;
     mutations =
       mutations == null
-        ? MutationsProvider.defaultMutation(terminalKmsArn, terminalHierarchyVersion)
+        ? MutationsProvider.defaultMutation(
+          terminalKmsArn,
+          terminalHierarchyVersion
+        )
         : mutations;
     strategy = strategy == null ? AdminProvider.strategy(null) : strategy;
     InitializeMutationInput initInput = InitializeMutationInput

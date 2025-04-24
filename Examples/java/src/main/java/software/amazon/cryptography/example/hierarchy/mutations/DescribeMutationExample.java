@@ -90,7 +90,12 @@ public class DescribeMutationExample {
 
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
-      .Mutations(MutationsProvider.defaultMutation(kmsKeyArnTerminal, terminalHierarchyVersion))
+      .Mutations(
+        MutationsProvider.defaultMutation(
+          kmsKeyArnTerminal,
+          terminalHierarchyVersion
+        )
+      )
       .Identifier(branchKeyId)
       .Strategy(_strategy)
       .SystemKey(_systemKey)

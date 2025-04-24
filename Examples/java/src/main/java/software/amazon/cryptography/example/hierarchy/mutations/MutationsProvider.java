@@ -47,9 +47,9 @@ public class MutationsProvider {
     HashMap<String, String> terminalEC = new HashMap<>(2, 1);
     terminalEC.put("Robbie", "is a dog.");
     Mutations.Builder mutationsBuilder = Mutations
-            .builder()
-            .TerminalEncryptionContext(terminalEC)
-            .TerminalKmsArn(terminalKmsArn);
+      .builder()
+      .TerminalEncryptionContext(terminalEC)
+      .TerminalKmsArn(terminalKmsArn);
     if (terminalHierarchyVersion != null) {
       mutationsBuilder.TerminalHierarchyVersion(terminalHierarchyVersion);
     }

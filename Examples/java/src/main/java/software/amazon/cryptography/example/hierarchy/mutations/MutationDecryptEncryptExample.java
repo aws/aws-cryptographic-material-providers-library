@@ -56,7 +56,10 @@ public class MutationDecryptEncryptExample {
       )
       .build();
 
-    Mutations mutations = MutationsProvider.defaultMutation(terminalKmsArn, terminalHierarchyVersion);
+    Mutations mutations = MutationsProvider.defaultMutation(
+      terminalKmsArn,
+      terminalHierarchyVersion
+    );
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
     InitializeMutationInput initInput = InitializeMutationInput

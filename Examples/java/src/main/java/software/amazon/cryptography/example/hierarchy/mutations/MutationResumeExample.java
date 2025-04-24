@@ -51,7 +51,10 @@ public class MutationResumeExample {
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
-    Mutations mutations = MutationsProvider.defaultMutation(terminalKmsArn, terminalHierarchyVersion);
+    Mutations mutations = MutationsProvider.defaultMutation(
+      terminalKmsArn,
+      terminalHierarchyVersion
+    );
 
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()

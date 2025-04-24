@@ -85,7 +85,10 @@ public class MutationSystemKeyKMSExample {
         : admin;
     mutations =
       mutations == null
-        ? MutationsProvider.defaultMutation(terminalKmsArn, terminalHierarchyVersion)
+        ? MutationsProvider.defaultMutation(
+          terminalKmsArn,
+          terminalHierarchyVersion
+        )
         : mutations;
     strategy = strategy == null ? AdminProvider.strategy(null) : strategy;
     InitializeMutationInput initInput = InitializeMutationInput
