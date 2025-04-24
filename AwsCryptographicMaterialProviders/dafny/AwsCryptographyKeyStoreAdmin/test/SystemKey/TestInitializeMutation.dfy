@@ -57,7 +57,9 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
       SystemKey := systemKey,
-      DoNotVersion := Some(false));
+      // TODO-HV-2-Version
+      // DoNotVersion := Some(false));
+      DoNotVersion := Some(true));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 
@@ -76,7 +78,9 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
       SystemKey := kmsSystemKey,
-      DoNotVersion := Some(false));
+      // TODO-HV-2-Version
+      // DoNotVersion := Some(false));
+      DoNotVersion := Some(true));
 
     var sadOutput := underTest.InitializeMutation(sadInput);
     // TODO Restore this last expectation.
@@ -109,7 +113,9 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
       SystemKey := kmsSystemKey,
-      DoNotVersion := Some(false));
+      // TODO-HV-2-Version
+      // DoNotVersion := Some(false));
+      DoNotVersion := Some(true));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 
@@ -122,7 +128,9 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
       SystemKey := trustSK,
-      DoNotVersion := Some(false));
+      // TODO-HV-2-Version
+      // DoNotVersion := Some(false));
+      DoNotVersion := Some(true));
 
     var sadOutput := underTest.InitializeMutation(sadInput);
     // TODO Restore this last expectation.

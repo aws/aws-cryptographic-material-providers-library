@@ -15,6 +15,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     // StandardLibrary
   import UUID
   import Time
+  import opened StandardLibrary.NeedError
     // Types
   import KMS = Com.Amazonaws.Kms
   import DDB = ComAmazonawsDynamodbTypes
@@ -64,6 +65,19 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   {
     if input.None? then false else input.value
   }
+
+  // TODO-HV-2-Version
+  function method NoVersionOnMutate(
+    input: InitializeMutationInput
+  ): (outcome: Outcome<Error>)
+  {
+    :- NeedOutcome(
+         input.DoNotVersion.Some? && input.DoNotVersion.value == true,
+         () => UnsupportedFeatureException(message:="At this time, Version (Rotate) on Mutation is not supported")
+       );
+    Outcome.Pass
+  }
+
 
   function ModifiesInternalConfig(config: InternalConfig) : set<object>
   {
@@ -451,6 +465,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   method InitializeMutation(config: InternalConfig, input: InitializeMutationInput )
     returns (output: Result<InitializeMutationOutput, Error>)
   {
+    :- NoVersionOnMutate(input);
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     var systemKey :- ResolveSystemKey(input.SystemKey, config);
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543

@@ -69,7 +69,9 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
       Mutations := mutationsRequest,
       Strategy := Some(strategy),
       SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
-      DoNotVersion := Some(false));
+      // TODO-HV-2-Version
+      // DoNotVersion := Some(false));
+      DoNotVersion := Some(true));
     var initializeOutput :- expect underTest.InitializeMutation(initInput);
     var initializeToken := initializeOutput.MutationToken;
 
@@ -92,7 +94,9 @@ module {:options "/functionSyntax:4" } TestKmsArnChanged {
     var queryOut :- expect storage.QueryForVersions(versionQuery);
     var items := queryOut.Items;
     expect
-      |items| == 3,
+      // TODO-HV-2-Version
+      // |items| == 3,
+      |items| == 2,
       "Test expects there to be 3 Decrypt Only items! Found: " + String.Base10Int2String(|items|);
     // print testLogPrefix + " Read the 3 Decrypt Only items! testId: " + testId + "\n";
 
