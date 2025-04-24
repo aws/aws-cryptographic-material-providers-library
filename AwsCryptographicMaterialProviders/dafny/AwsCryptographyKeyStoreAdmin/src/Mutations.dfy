@@ -631,30 +631,11 @@ module {:options "/functionSyntax:4" } Mutations {
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires localOperation == "ApplyMutation" || localOperation == "InitializeMutation"
     requires aes256Key?.Some? ==> |aes256Key?.value| == Structure.AES_256_LENGTH as int
+    requires keyManagerStrategy.SupportHV2()
     requires HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion) == Structure.HIERARCHY_VERSION_VALUE_2
   {
-    :- Need(
-      keyManagerStrategy.kmsSimple?,
-      Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
-    );
-    var encryptGrantTokens;
-    var encryptKmsClient;
-    var decryptGrantTokens;
-    var decryptKmsClient;
-    match keyManagerStrategy {
-      // TODO-HV-2-M4: Support other keyManagerStrategy
-      case decryptEncrypt(kmsD, kmsE) =>
-        encryptGrantTokens := kmsE.grantTokens;
-        encryptKmsClient := kmsE.kmsClient;
-        decryptGrantTokens := kmsD.grantTokens;
-        decryptKmsClient := kmsD.kmsClient;
-      case kmsSimple(kms) =>
-        encryptGrantTokens := kms.grantTokens;
-        decryptGrantTokens := kms.grantTokens;
-        encryptKmsClient := kms.kmsClient;
-        decryptKmsClient := kms.kmsClient;
-    }
-    // TODO-HV-2-M2: Make ReplaceMutableContext modify hierarchical version.
+    var decryptKMSTuple := KmsUtils.getDecryptKMSTuple(keyManagerStrategy);
+    var encryptKMSTuple := KmsUtils.getEncryptKMSTuple(keyManagerStrategy);
     var terminalBKC := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,
@@ -679,7 +660,7 @@ module {:options "/functionSyntax:4" } Mutations {
     if (aes256Key?.Some?) {
       aes256Key := aes256Key?.value;
     } else {
-      aes256Key :- decryptOrBuildMutateException(item, localOperation, decryptGrantTokens, decryptKmsClient);
+      aes256Key :- decryptOrBuildMutateException(item, localOperation, decryptKMSTuple.grantTokens, decryptKMSTuple.kmsClient);
     }
     var bkcDigest? := HVUtils.CreateBKCDigest(
       terminalBKC,
@@ -694,8 +675,8 @@ module {:options "/functionSyntax:4" } Mutations {
       HVUtils.SelectKmsEncryptionContextForHv2(terminalBKC),
       terminalBKC[Structure.KMS_FIELD],
       KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(terminalBKC[Structure.KMS_FIELD])),
-      encryptGrantTokens,
-      encryptKmsClient
+      encryptKMSTuple.grantTokens,
+      encryptKMSTuple.kmsClient
     );
     output := Success(Structure.ConstructEncryptedHierarchicalKey(
                         terminalBKC,

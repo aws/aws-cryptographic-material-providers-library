@@ -18,6 +18,8 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   import opened Wrappers
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
+  import DDB = Com.Amazonaws.Dynamodb
+  import KMS = Com.Amazonaws.Kms
 
   const testMutateForHV2ErrorsForKmsReEncrypt := "dafny-initialize-mutation-hv-2-bad-strategy"
   const happyCaseId := "test-mutate-hv1-to-hv2"
@@ -82,13 +84,33 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     expect initializeOutput.Success?, "Should have succeeded to InitializeMutation HV-2 for HV-2";
   }
 
-  method {:test} TestHV1toHV2HappyCase()
-  {
+  method {:test} TestHV1toHV2HappyCaseKMSSimple() {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(
+      kmsClient?:=Some(kmsClient)
+    );
+    TestHV1toHV2HappyCase(strategy, ddbClient, kmsClient);
+  }
+
+  method {:test} TestHV1toHV2HappyCaseDecryptEncrypt() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.DecryptEncrypKeyManagerStrategy(
+      decryptKmsClient?:=Some(kmsClient),
+      encryptKmsClient?:=Some(kmsClient)
+    );
+    TestHV1toHV2HappyCase(strategy, ddbClient, kmsClient);
+  }
+
+  method TestHV1toHV2HappyCase(strategy: Types.KeyManagementStrategy, ddbClient: DDB.Types.IDynamoDBClient, kmsClient: KMS.Types.IKMSClient)
+    requires ddbClient.ValidState()
+    requires kmsClient.ValidState()
+    modifies ddbClient.Modifies
+    modifies kmsClient.Modifies
+  {
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var keyStoreOriginal :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
 
     // Test mutating HV1 to HV2 only
