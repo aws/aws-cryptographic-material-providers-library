@@ -55,7 +55,6 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
       case v2 => AdminFixtures.CreateHappyCaseId(
         id := branchKeyIdentifier,
         // versionCount := versionCount,
-        strategy := strategy,
         hierarchyVersion := initialHV
       );
       // WIP Print for debugging

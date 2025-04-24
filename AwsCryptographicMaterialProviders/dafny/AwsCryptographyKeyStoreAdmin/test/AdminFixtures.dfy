@@ -271,7 +271,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     nameonly id: string,
     nameonly kmsId: string := Fixtures.keyArn,
     nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1,
-    nameonly strategy: Types.KeyManagementStrategy,
+    nameonly strategy?: Option<Types.KeyManagementStrategy> := None,
     nameonly admin?: Option<Types.IKeyStoreAdminClient> := None,
     // nameonly versionCount: nat := 3,
     nameonly customEC: KeyStoreTypes.EncryptionContext := Fixtures.RobbieEC
@@ -289,6 +289,18 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     } else {
       admin := admin?.value;
     }
+    var strategy;
+    if strategy?.None? {
+      // If no strategy is provided, set default based on hierarchy version
+      if hierarchyVersion.v1? {
+        strategy :- expect DefaultKeyManagerStrategy();
+      } else {
+        strategy :- expect SimpleKeyManagerStrategy();
+      }
+    } else {
+      strategy := strategy?.value;
+    }
+
     assume {:axiom} fresh(admin) && fresh(admin.Modifies);
     var input := Types.CreateKeyInput(
       Identifier := Some(id),
