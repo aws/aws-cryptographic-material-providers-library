@@ -22,6 +22,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     // KMS & MPL Imports
   import KMS = ComAmazonawsKmsTypes
   import AwsKmsUtils
+  import AtomicPrimitives
     // KeyStore Imports
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
   import HvUtils = HierarchicalVersionUtils
@@ -441,7 +442,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   method {:isolate_assertions} CreateNewTerminalDecryptOnlyBranchKey(
     decryptOnlyEncryptionContext: Structure.BranchKeyContext,
     mutationToApply: StateStrucs.MutationToApply,
-    keyManagerStrategy: KmsUtils.keyManagerStrat
+    keyManagerStrategy: KmsUtils.keyManagerStrat,
+    crypto?: Option<AtomicPrimitives.AtomicPrimitivesClient> := None
   )
     returns (res: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires KmsArn.ValidKmsArn?(mutationToApply.Terminal.kmsArn)
@@ -473,6 +475,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         kmsClient := kms.kmsClient;
     }
 
+    // This HERE depends on version-specific Generation ->
+    // We need CryptoClient as well, so we don't end up creating multiple clients
     var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
       encryptionContext := decryptOnlyEncryptionContext,
       kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
@@ -712,7 +716,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       localInput.timestamp,
       localInput.input.logicalKeyStoreName,
       localInput.mutationToApply.Terminal.kmsArn,
-      // localInput.mutationToApply.Terminal.hierarchyVersion,
+      localInput.mutationToApply.Terminal.hierarchyVersion,
       localInput.mutationToApply.Terminal.customEncryptionContext
     );
 

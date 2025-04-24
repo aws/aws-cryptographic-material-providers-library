@@ -358,7 +358,7 @@ module {:options "/functionSyntax:4" } Mutations {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
-    // hierachyVersion: HierarchyVersion,
+    hierarchyVersion: KeyStoreTypes.HierarchyVersion,
     prefixedCustomEncryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
@@ -369,6 +369,7 @@ module {:options "/functionSyntax:4" } Mutations {
     ensures Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[Structure.KMS_FIELD] == kmsKeyArn
     ensures output[Structure.TABLE_FIELD] == logicalKeyStoreName
+    ensures output[Structure.HIERARCHY_VERSION] == HierarchyVersionToString(hierarchyVersion)
     ensures forall k <- prefixedCustomEncryptionContext
               ::
                 && k in output
@@ -380,7 +381,7 @@ module {:options "/functionSyntax:4" } Mutations {
       Structure.KEY_CREATE_TIME := timestamp,
       Structure.TABLE_FIELD := logicalKeyStoreName,
       Structure.KMS_FIELD := kmsKeyArn,
-      Structure.HIERARCHY_VERSION := Structure.HIERARCHY_VERSION_VALUE
+      Structure.HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
     ] + prefixedCustomEncryptionContext
   }
 
@@ -451,6 +452,7 @@ module {:options "/functionSyntax:4" } Mutations {
        )
   }
 
+  // Need Input for Crypto Client
   method MutateItem(
     item: KeyStoreTypes.EncryptedHierarchicalKey,
     mutationToApply: StateStrucs.MutationToApply,
@@ -485,6 +487,10 @@ module {:options "/functionSyntax:4" } Mutations {
         doNotVersion
       );
     } else if (mutationToApply.Terminal.hierarchyVersion.v2?) {
+      print "\nMutateToHV2 item: ";
+      print item;
+      print "\nMutationToApply: ";
+      print mutationToApply;
       mutatedItem :- MutateToHV2(
         item,
         mutationToApply,
@@ -573,8 +579,9 @@ module {:options "/functionSyntax:4" } Mutations {
         message := KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
       )
     );
+    // TODO-HV-2-M2-FF: Refactor crypto client to be able to create only once;
+    // TODO-HV-2-M2-FF: Match Error type with CreateKeysHV2
     var crypto? := HVUtils.ProvideCryptoClient();
-    // TODO-HV-2-M2-HV2Only: Match Error type with CreateKeysHV2
     if (crypto?.Failure?) {
       var e := Types.KeyStoreAdminException(
         message := "Failed to create internal AtomicPrimitivesClient:" +
