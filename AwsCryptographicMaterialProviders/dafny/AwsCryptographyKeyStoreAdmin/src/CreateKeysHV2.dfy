@@ -143,24 +143,21 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
       branchKeyContext := decryptOnlyBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
       material := activePlaintextMaterial,
-      encryptionContext := encryptionContext,
-      hierarchyVersion := hierarchyVersion
+      encryptionContext := encryptionContext
     );
 
     var activeBKItem :- packAndCallKMS(
       branchKeyContext := activeBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
       material := activePlaintextMaterial,
-      encryptionContext := encryptionContext,
-      hierarchyVersion := hierarchyVersion
+      encryptionContext := encryptionContext
     );
 
     var beaconBKItem :- packAndCallKMS(
       branchKeyContext := beaconBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
       material := beaconPlaintextMaterial,
-      encryptionContext := encryptionContext,
-      hierarchyVersion := hierarchyVersion
+      encryptionContext := encryptionContext
     );
 
     // Write ACTIVE, Version & Beacon Items to storage
@@ -195,8 +192,7 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
     nameonly branchKeyContext: map<string, string>,
     nameonly cryptoAndKms: CryptoAndKms,
     nameonly material: seq<uint8>,
-    nameonly encryptionContext: map<string, string>,
-    nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion
+    nameonly encryptionContext: map<string, string>
   )
     returns (output: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires
@@ -206,25 +202,22 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
       && KMSKeystoreOperations.AttemptKmsOperation?(cryptoAndKms.kmsConfig, branchKeyContext[Structure.KMS_FIELD])
       && KMSKeystoreOperations.GetKeyId(cryptoAndKms.kmsConfig) == branchKeyContext[Structure.KMS_FIELD]
          // TODO-HV-2-M? : Support KmsDecryptEncrypt?
-      && hierarchyVersion.v2?
-      && KmsUtils.IsSupportedKeyManagerStrategy(hierarchyVersion, cryptoAndKms.kms)
+      && cryptoAndKms.kms.kmsSimple?
     modifies cryptoAndKms.Modifies
     // Note: even if the method fails, the clients are ValidState
     ensures cryptoAndKms.ValidState()
     ensures
       // TODO-HV-2-GA: Update Specification for HV-2 Branch Key Creation
       && output.Success? ==>
-        && var encryptKmsTuple := KmsUtils.getEncryptKMSTuple(cryptoAndKms.kms);
-        && var encryptKmsClient := encryptKmsTuple.kmsClient;
-        && var encryptGrantTokens := encryptKmsTuple.grantTokens;
-        && |encryptKmsClient.History.Encrypt| == |old(encryptKmsClient.History.Encrypt)| + 1
-        && var kmsEvent :=  Seq.Last(encryptKmsClient.History.Encrypt);
+        && var kms := cryptoAndKms.kms.kmsSimple.kmsClient;
+        && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 1
+        && var kmsEvent :=  Seq.Last(kms.History.Encrypt);
         && kmsEvent.output.Success?
         && var kmsInput := kmsEvent.input;
         && KMSKeystoreOperations.Compatible?(cryptoAndKms.kmsConfig, kmsInput.KeyId)
         && |kmsInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
         && kmsInput.EncryptionContext == Some(encryptionContext)
-        && kmsInput.GrantTokens == Some(encryptGrantTokens)
+        && kmsInput.GrantTokens == Some(cryptoAndKms.kms.kmsSimple.grantTokens)
         && kmsEvent.output.value.CiphertextBlob.Some?
         && var digest := kmsInput.Plaintext[..Structure.BKC_DIGEST_LENGTH];
         && material == kmsInput.Plaintext[Structure.BKC_DIGEST_LENGTH..]
@@ -239,14 +232,13 @@ module {:options "/functionSyntax:4" } CreateKeysHV2 {
       e => Types.AwsCryptographyKeyStore(
           AwsCryptographyKeyStore:= e));
     var plaintextTuple := HvUtils.PackPlainTextTuple(digest, material);
-    var encryptKMSTuple := KmsUtils.getEncryptKMSTuple(cryptoAndKms.kms);
     var wrappedMaterial? := KMSKeystoreOperations.EncryptKey(
       plaintextTuple,
       encryptionContext,
       branchKeyContext[Structure.KMS_FIELD],
       cryptoAndKms.kmsConfig,
-      encryptKMSTuple.grantTokens,
-      encryptKMSTuple.kmsClient
+      cryptoAndKms.kms.kmsSimple.grantTokens,
+      cryptoAndKms.kms.kmsSimple.kmsClient
     );
     var wrappedMaterial :- wrappedMaterial?.MapFailure(e => ConvertKmsErrorToError(e));
     return Success(Structure.ConstructEncryptedHierarchicalKey(branchKeyContext, wrappedMaterial));
