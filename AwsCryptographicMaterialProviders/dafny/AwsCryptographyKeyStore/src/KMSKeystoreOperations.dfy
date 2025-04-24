@@ -16,6 +16,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import DDB = ComAmazonawsDynamodbTypes
   import KMS = ComAmazonawsKmsTypes
   import HvUtils = HierarchicalVersionUtils
+  import AtomicPrimitives
   import UTF8
   import Structure
   import opened AwsArnParsing
@@ -894,6 +895,63 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     && decryptHistory.output.value.Plaintext.Some?
 
     && |decryptHistory.output.value.Plaintext.value| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+  }
+
+  method packAndCallKMS(
+    branchKeyContext: map<string, string>,
+    kmsClient: KMS.IKMSClient,
+    crypto: AtomicPrimitives.AtomicPrimitivesClient,
+    material: seq<uint8>,
+    encryptionContext: map<string, string>,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList
+  )
+    returns (output: Result<Types.EncryptedHierarchicalKey, Types.Error>)
+    requires
+      && crypto.ValidState() && kmsClient.ValidState()
+      && Structure.BranchKeyContext?(branchKeyContext)
+      && |material| == Structure.AES_256_LENGTH as int
+      && HasKeyId(kmsConfiguration)
+      && AttemptKmsOperation?(kmsConfiguration, branchKeyContext[Structure.KMS_FIELD])
+      && GetKeyId(kmsConfiguration) == branchKeyContext[Structure.KMS_FIELD]
+    modifies crypto.Modifies, kmsClient.Modifies
+    // Note: even if the method fails, the clients are ValidState
+    ensures crypto.ValidState() && kmsClient.ValidState()
+    ensures output.Success? ==> Structure.EncryptedHierarchicalKeyFromStorage?(output.value)
+  {
+    var digest :- HvUtils.CreateBKCDigest(branchKeyContext, crypto);
+    var plaintextTuple := HvUtils.PackPlainTextTuple(digest, material);
+    var wrappedMaterial? := EncryptKey(
+      plaintextTuple,
+      encryptionContext,
+      branchKeyContext[Structure.KMS_FIELD],
+      kmsConfiguration,
+      grantTokens,
+      kmsClient
+    );
+    var wrappedMaterial :- wrappedMaterial?.MapFailure(e => ConvertKmsErrorToError(e));
+    return Success(Structure.ConstructEncryptedHierarchicalKey(branchKeyContext, wrappedMaterial));
+  }
+
+  function ConvertKmsErrorToError(
+    e: KmsError
+  ): Types.Error
+  {
+    match e {
+      // KMS errors ->
+      case ComAmazonawsKms(comAmazonawsKms: KMS.Error) =>
+        Types.ComAmazonawsKms(
+          ComAmazonawsKms := comAmazonawsKms
+        )
+      case KeyManagementException(msg) =>
+        Types.KeyManagementException(
+          message := e.message
+        )
+      case BranchKeyCiphertextException(msg) =>
+        Types.BranchKeyCiphertextException(
+          message := e.message
+        )
+    }
   }
 
 }

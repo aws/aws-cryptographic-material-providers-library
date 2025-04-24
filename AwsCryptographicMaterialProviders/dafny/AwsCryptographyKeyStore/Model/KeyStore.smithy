@@ -16,6 +16,8 @@ use com.amazonaws.dynamodb#TableName
 use com.amazonaws.dynamodb#TableArn
 use com.amazonaws.dynamodb#DynamoDB_20120810
 
+use aws.cryptography.primitives#AwsCryptographicPrimitives
+
 use com.amazonaws.kms#TrentService
 
 
@@ -28,10 +30,14 @@ structure KmsClientReference {}
 @reference(service: DynamoDB_20120810)
 structure DdbClientReference {}
 
+@reference(service: AwsCryptographicPrimitives)
+structure PrimitivesReference {}
+
 @localService(
   sdkId: "KeyStore",
   config: KeyStoreConfig,
   dependencies: [
+    AwsCryptographicPrimitives,
     DynamoDB_20120810,
     TrentService
   ] 
