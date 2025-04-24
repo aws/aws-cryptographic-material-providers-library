@@ -121,6 +121,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     :- Need(StateStrucs.ValidMutations?(input.Mutations),
             Types.KeyStoreAdminException(
               message := "Mutations parameter is invalid; If Encryption Context is given, it cannot be empty or have empty values."));
+    // TODO-HV-2-M4: Support TerminalHV1? but don't support downgrading from hv-2 to hv-1.
     :- Need(
          !IsMutationsTerminalHV1?(input.Mutations),
          Types.UnsupportedFeatureException(message := KeyStoreAdminErrorMessages.NO_MUTATE_TO_HV_1));
