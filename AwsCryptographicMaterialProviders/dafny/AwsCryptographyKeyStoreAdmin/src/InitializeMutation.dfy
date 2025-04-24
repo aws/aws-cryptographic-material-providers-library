@@ -219,17 +219,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     }
 
     var activeItem := readItems.ActiveItem;
-    var beaconItem := readItems.BeaconItem;
-    :- Need(
-      activeItem.EncryptionContext[Structure.HIERARCHY_VERSION] != Structure.HIERARCHY_VERSION_VALUE_1
-      && beaconItem.EncryptionContext[Structure.HIERARCHY_VERSION] != Structure.HIERARCHY_VERSION_VALUE_1,
-      Types.UnsupportedFeatureException(
-        message := KeyStoreAdminErrorMessages.UNSUPPORTED_DOWNGRADE_HV
-      ));
+
     :- Need(
       || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
-
            && readItems.ActiveItem.Identifier == input.Identifier
            && Structure.ActiveHierarchicalSymmetricKey?(readItems.ActiveItem)
            && readItems.ActiveItem.EncryptionContext[Structure.TABLE_FIELD] == input.logicalKeyStoreName
@@ -256,10 +249,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     :- Need(
       || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
-           && beaconItem.Identifier == input.Identifier
-           && Structure.ActiveHierarchicalSymmetricBeaconKey?(beaconItem)
-           && beaconItem.EncryptionContext[Structure.TABLE_FIELD] == input.logicalKeyStoreName
-           && KmsArn.ValidKmsArn?(beaconItem.KmsArn)
+           && readItems.BeaconItem.Identifier == input.Identifier
+           && Structure.ActiveHierarchicalSymmetricBeaconKey?(readItems.BeaconItem)
+           && readItems.BeaconItem.EncryptionContext[Structure.TABLE_FIELD] == input.logicalKeyStoreName
+           && KmsArn.ValidKmsArn?(readItems.BeaconItem.KmsArn)
          ),
       Types.KeyStoreAdminException(
         message := "Beacon Branch Key Item read from storage is malformed!")
@@ -370,18 +363,18 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
 
       // -= Assert Beacon Key is in Original
     :- Need(
-      beaconItem.KmsArn == MutationToApply.Original.kmsArn,
+      readItems.BeaconItem.KmsArn == MutationToApply.Original.kmsArn,
       Types.UnexpectedStateException(
         message :=
           "Beacon Item is not encrypted with the same KMS Key as ACTIVE!"
           + " For Initialize Mutation to succeed, the ACTIVE & Beacon Key MUST have the same KMS-ARN and Custom Encryption Context!"
       ));
     :- Need(
-      beaconItem.EncryptionContext
+      readItems.BeaconItem.EncryptionContext
       ==
       Structure.ReplaceMutableContext(
-        beaconItem.EncryptionContext,
-        beaconItem.KmsArn,
+        readItems.BeaconItem.EncryptionContext,
+        readItems.BeaconItem.KmsArn,
         MutationToApply.Original.customEncryptionContext,
         MutationToApply.Original.hierarchyVersion),
       Types.UnexpectedStateException(
@@ -400,7 +393,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     var initializeMutationActiveOutput :- InitializeMutationActive(initializeMutationActiveInput);
 
     // -= Mutate Beacon Key
-    var newBeaconKey :- Mutations.MutateItem(beaconItem, MutationToApply, input.keyManagerStrategy, "InitializeMutation", false);
+    var newBeaconKey :- Mutations.MutateItem(readItems.BeaconItem, MutationToApply, input.keyManagerStrategy, "InitializeMutation", false);
 
     // -= Create Mutation Commitment & Mutation Index
     var MutationCommitment :- StateStrucs.SerializeMutationCommitment(MutationToApply);
@@ -415,7 +408,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       KeyStoreTypes.WriteInitializeMutationInput(
         Active := initializeMutationActiveOutput.writeActive,
         Version := initializeMutationActiveOutput.writeVersion,
-        Beacon := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newBeaconKey, Old:=beaconItem),
+        Beacon := KeyStoreTypes.OverWriteEncryptedHierarchicalKey(Item:=newBeaconKey, Old:=readItems.BeaconItem),
         MutationCommitment :=  SignedMutationCommitment,
         MutationIndex := SignedMutationIndex
       ));
