@@ -1,14 +1,12 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
-include "KMSKeystoreOperations.dfy"
 include "KmsArn.dfy"
 
 module {:options "/functionSyntax:4" } KmsUtils {
   import opened Wrappers
   import KMS = Com.Amazonaws.Kms
-  import KMSKeystoreOperations
-  import KeyStoreTypes = KMSKeystoreOperations.Types
+  import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import KmsArn
 
   datatype KMSTuple = | KMSTuple(
@@ -70,43 +68,6 @@ module {:options "/functionSyntax:4" } KmsUtils {
   }
 
 
-  function ExtractKmsOpaque(
-    error: KMSKeystoreOperations.KmsError
-  ): (opaqueError?: Option<KMS.Types.OpaqueError>)
-    ensures
-      && error.ComAmazonawsKms?
-      && error.ComAmazonawsKms.Opaque?
-      ==> opaqueError?.Some? && opaqueError?.value == error.ComAmazonawsKms
-  {
-    match error {
-      case Opaque(obj) => None
-      case KeyManagementException(s) => None
-      case BranchKeyCiphertextException(s) => None
-      case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
-        match comAmazonawsKms {
-          case Opaque(obj) => Some(comAmazonawsKms)
-          case OpaqueWithText(obj, objMessage) => Some(comAmazonawsKms)
-          case _ => None
-        }
-    }
-  }
-
-  function ExtractMessageFromKmsError(
-    error: KMSKeystoreOperations.KmsError
-  ): (errorMessage?: Option<string>)
-  {
-    match error {
-      case Opaque(obj) => None
-      case KeyManagementException(s) => Some(s)
-      case BranchKeyCiphertextException(s) => Some(s)
-      case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
-        match comAmazonawsKms {
-          case Opaque(obj) => None
-          case OpaqueWithText(obj, objMessage) => Some(objMessage)
-          case _ => comAmazonawsKms.message
-        }
-    }
-  }
 
   predicate IsSupportedKeyManagerStrategy(
     terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,

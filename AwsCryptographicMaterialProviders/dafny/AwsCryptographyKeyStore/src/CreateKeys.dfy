@@ -300,9 +300,105 @@ module {:options "/functionSyntax:4" } CreateKeys {
     nameonly branchKeyVersion: string,
     nameonly logicalKeyStoreName: string,
     nameonly kmsConfiguration: Types.KMSConfiguration,
-    nameonly keyManagerAndStorage: OptUtils.KeyManagerAndStorage,
+    nameonly keyManagerAndStorage: KmsUtils.KeyManagerAndStorage,
     nameonly hierarchyVersion: Types.HierarchyVersion
   )
+    returns (output: Result<Types.CreateKeyOutput, Types.Error>)
+    requires
+      // TODO-HV-2-M? : Support KmsDecryptEncrypt?
+      && keyManagerAndStorage.keyManagerStrat.kmsSimple?
+      && keyManagerAndStorage.ValidState()
+      && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
+      && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+      && hierarchyVersion.v2?
+      && 0 < |branchKeyIdentifier|
+      && 0 < |branchKeyVersion|
+      && forall k <- encryptionContext :: DDB.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + k)
+    modifies keyManagerAndStorage.Modifies
+    ensures keyManagerAndStorage.ValidState()
+  {
+    // Construct Branch Key Contexts for ACTIVE, Version and Beacon items.
+    var decryptOnlyBranchKeyContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
+      branchKeyIdentifier,
+      branchKeyVersion,
+      timestamp,
+      logicalKeyStoreName,
+      KMSKeystoreOperations.GetKeyId(kmsConfiguration),
+      hierarchyVersion,
+      encryptionContext
+    );
+    var activeBranchKeyContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext);
+    var beaconBranchKeyContext := Structure.BeaconKeyEncryptionContext(decryptOnlyBranchKeyContext);
+
+    // Get crypto client
+    var crypto? := HvUtils.ProvideCryptoClient();
+    var crypto :- crypto?.MapFailure(
+      e => Types.AwsCryptographyPrimitives(
+          AwsCryptographyPrimitives := e
+        )
+    );
+
+    // Generate Random Bytes as Plaintext for ACTIVE & Beacon Item's
+    // TODO-HV-2-M4 : Improve error messages for generate random failure
+    var activePlaintextMaterial? := crypto.GenerateRandomBytes(
+      AtomicPrimitives.Types.GenerateRandomBytesInput(length := 32)
+    );
+    var activePlaintextMaterial :- activePlaintextMaterial?.MapFailure(
+      e => Types.AwsCryptographyPrimitives(
+          AwsCryptographyPrimitives := e
+        ));
+
+    var beaconPlaintextMaterial? := crypto.GenerateRandomBytes(
+      AtomicPrimitives.Types.GenerateRandomBytesInput(length := 32)
+    );
+    var beaconPlaintextMaterial :- beaconPlaintextMaterial?.MapFailure(
+      e => Types.AwsCryptographyPrimitives(
+          AwsCryptographyPrimitives := e));
+
+    var CryptoAndKms := KMSKeystoreOperations.CryptoAndKms(kmsConfiguration, keyManagerAndStorage.keyManagerStrat, crypto);
+    var decryptOnlyBKItem :- KMSKeystoreOperations.packAndCallKMS(
+      branchKeyContext := decryptOnlyBranchKeyContext,
+      cryptoAndKms := CryptoAndKms,
+      material := activePlaintextMaterial,
+      encryptionContext := encryptionContext
+    );
+
+    var activeBKItem :- KMSKeystoreOperations.packAndCallKMS(
+      branchKeyContext := activeBranchKeyContext,
+      cryptoAndKms := CryptoAndKms,
+      material := activePlaintextMaterial,
+      encryptionContext := encryptionContext
+    );
+
+    var beaconBKItem :- KMSKeystoreOperations.packAndCallKMS(
+      branchKeyContext := beaconBranchKeyContext,
+      cryptoAndKms := CryptoAndKms,
+      material := beaconPlaintextMaterial,
+      encryptionContext := encryptionContext
+    );
+
+    // Write ACTIVE, Version & Beacon Items to storage
+    var _ :- keyManagerAndStorage.storage.WriteNewEncryptedBranchKey(
+      Types.WriteNewEncryptedBranchKeyInput(
+        Active := activeBKItem,
+        Version := decryptOnlyBKItem,
+        Beacon := beaconBKItem
+      )
+    );
+    // By making this ghost, we avoid the Dafny transpiler emitting in Java etc.
+    ghost var storage := keyManagerAndStorage.storage;
+    assert |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1;
+    ghost var writeEvent := Seq.Last(storage.History.WriteNewEncryptedBranchKey);
+    assert
+      && writeEvent.output.Success?
+      && writeEvent.input.Active == activeBKItem
+      && writeEvent.input.Version == decryptOnlyBKItem
+      && writeEvent.input.Beacon == beaconBKItem;
+    output := Success(
+      Types.CreateKeyOutput(
+        branchKeyIdentifier := branchKeyIdentifier
+      ));
+  }
 
   method VersionActiveBranchKey(
     input: Types.VersionKeyInput,
@@ -658,24 +754,23 @@ module {:options "/functionSyntax:4" } CreateKeys {
     );
     var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
 
+    var keyManagerStrategy := KmsUtils.keyManagerStrat.kmsSimple(
+      kmsSimple := KmsUtils.KMSTuple(kmsClient := kmsClient, grantTokens := grantTokens)
+    );
+
+    var CryptoAndKms := KMSKeystoreOperations.CryptoAndKms(kmsConfiguration, keyManagerStrategy, crypto);
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := decryptOnlyEncryptionContext,
-      kmsClient := kmsClient,
-      crypto := crypto,
+      cryptoAndKms := CryptoAndKms,
       material := oldActiveItemPlaintext,
-      encryptionContext := ecToKMS,
-      kmsConfiguration := kmsConfiguration,
-      grantTokens := grantTokens
+      encryptionContext := ecToKMS
     );
 
     var wrappedActiveBranchKey :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := activeEncryptionContext,
-      kmsClient := kmsClient,
-      crypto := crypto,
+      cryptoAndKms := CryptoAndKms,
       material := newActivePlaintextMaterial,
-      encryptionContext := ecToKMS,
-      kmsConfiguration := kmsConfiguration,
-      grantTokens := grantTokens
+      encryptionContext := ecToKMS
     );
 
     var overWrite := Types.OverWriteEncryptedHierarchicalKey(

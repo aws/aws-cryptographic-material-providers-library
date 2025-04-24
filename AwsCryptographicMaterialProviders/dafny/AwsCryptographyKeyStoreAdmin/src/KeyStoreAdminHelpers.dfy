@@ -10,7 +10,7 @@ module {:options "/functionSyntax:4" } KeyStoreAdminHelpers {
   import KmsArn
   import KmsUtils
   import KMS = Com.Amazonaws.Kms
-  
+
   function KmsSymmetricKeyArnToKMSConfiguration(
     kmsSymmetricArn: Types.KmsSymmetricKeyArn
   ): (output: KeyStoreTypes.KMSConfiguration)
@@ -21,7 +21,7 @@ module {:options "/functionSyntax:4" } KeyStoreAdminHelpers {
     match kmsSymmetricArn
     case KmsKeyArn(kmsKeyArn) => KeyStoreTypes.kmsKeyArn(kmsKeyArn)
   }
-  
+
   datatype InternalSystemKey =
     | TrustStorage()
     | KmsSymEnc(

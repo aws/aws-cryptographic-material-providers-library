@@ -6,7 +6,6 @@ include "InitializeMutation.dfy"
 include "ApplyMutation.dfy"
 include "KeyStoreAdminHelpers.dfy"
 include "DescribeMutation.dfy"
-include "CreateKeysHV2.dfy"
 include "KeyStoreAdminErrorMessages.dfy"
 
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
@@ -33,7 +32,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import KSAApplyMutation = InternalApplyMutation
   import DM = DescribeMutation
   import KeyStoreAdminHelpers
-  import CreateKeysHV2
   import KeyStoreAdminErrorMessages
 
   datatype Config = Config(
@@ -406,7 +404,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
                ,
                 Types.KeyStoreAdminException( message := ErrorMessages.UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR));
 
-        output := CreateKeysHV2.CreateBranchAndBeaconKeys(
+        var output? := CreateKeys.CreateBranchAndBeaconKeysVersion2(
           branchKeyIdentifier := branchKeyIdentifier,
           encryptionContext := map i <- encodedEncryptionContext :: i.0.value := i.1.value,
           timestamp := timestamp,
@@ -416,6 +414,15 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
           keyManagerAndStorage := keyManagerAndStorage,
           hierarchyVersion := hvInput
         );
+
+        var value :- output?
+        .MapFailure(e => Types.AwsCryptographyKeyStore(e));
+
+        output := Success(
+          Types.CreateKeyOutput(
+            Identifier := value.branchKeyIdentifier,
+            HierarchyVersion := hvInput
+          ));
     }
   }
 

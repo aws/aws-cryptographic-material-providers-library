@@ -6,7 +6,6 @@ include "MutationErrorRefinement.dfy"
 include "../../../dafny/AwsCryptographyKeyStore/src/KmsUtils.dfy"
 include "KeyStoreAdminHelpers.dfy"
 include "KeyStoreAdminErrorMessages.dfy"
-include "CreateKeysHV2.dfy"
 
 /** Common Functions/Methods for Mutations. */
 module {:options "/functionSyntax:4" } Mutations {
@@ -26,14 +25,13 @@ module {:options "/functionSyntax:4" } Mutations {
   import GetKeys
   import KeyStoreErrorMessages
   import HVUtils = HierarchicalVersionUtils
-  import KmsUtils 
+  import KmsUtils
 
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
   import KeyStoreAdminErrorMessages
   import MutationErrorRefinement
   import KeyStoreAdminHelpers
-  import CreateKeysHV2
 
   const StringToHierarchyVersion := Structure.StringToHierarchyVersion
   const HierarchyVersionToString := Structure.HierarchyVersionToString
