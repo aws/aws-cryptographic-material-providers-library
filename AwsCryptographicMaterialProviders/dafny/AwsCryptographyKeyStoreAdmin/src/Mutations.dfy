@@ -184,28 +184,18 @@ module {:options "/functionSyntax:4" } Mutations {
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
   {
-    var decryptGrantTokens;
-    var decryptKmsClient;
-    match keyManagerStrategy {
-      // TODO-HV-2-M4: Support other keyManagerStrategy
-      case decryptEncrypt(kmsD, kmsE) =>
-        if localOperation == "ApplyMutation" {
-          decryptGrantTokens := kmsE.grantTokens;
-          decryptKmsClient := kmsE.kmsClient;
-        } else {
-          decryptGrantTokens := kmsD.grantTokens;
-          decryptKmsClient := kmsD.kmsClient;
-        }
-      case kmsSimple(kms) =>
-        decryptGrantTokens := kms.grantTokens;
-        decryptKmsClient := kms.kmsClient;
+    var KMSTuple;
+    if localOperation == "ApplyMutation" {
+      KMSTuple := KmsUtils.getEncryptKMSTuple(keyManagerStrategy);
+    } else {
+      KMSTuple := KmsUtils.getDecryptKMSTuple(keyManagerStrategy);
     }
 
     var decryptRes := GetKeys.DecryptBranchKeyItem(
       item,
       KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
-      decryptGrantTokens,
-      decryptKmsClient
+      KMSTuple.grantTokens,
+      KMSTuple.kmsClient
     );
 
     if decryptRes.Success? {
