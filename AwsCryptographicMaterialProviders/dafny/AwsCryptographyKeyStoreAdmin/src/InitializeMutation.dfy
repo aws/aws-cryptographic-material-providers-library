@@ -475,27 +475,65 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         kmsClient := kms.kmsClient;
     }
 
-    // This HERE depends on version-specific Generation ->
+    // TODO-HV2-M2-HV2Only: This depends on version-specific Generation ->
     // We need CryptoClient as well, so we don't end up creating multiple clients
-    var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
-      encryptionContext := decryptOnlyEncryptionContext,
-      kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
-      grantTokens := grantTokens,
-      kmsClient := kmsClient
-    );
+    var newDecryptOnly : KeyStoreTypes.EncryptedHierarchicalKey;
+    match mutationToApply.Terminal.hierarchyVersion {
+      case v1 =>
+        var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
+          encryptionContext := decryptOnlyEncryptionContext,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
+          grantTokens := grantTokens,
+          kmsClient := kmsClient
+        );
+        if (wrappedDecryptOnlyBranchKey?.Failure?) {
+          var error := MutationErrorRefinement.GenerateNewActiveException(
+            identifier := decryptOnlyEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
+            kmsArn := mutationToApply.Terminal.kmsArn,
+            error := wrappedDecryptOnlyBranchKey?.error);
+          return Failure(error);
+        }
+        newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
+          decryptOnlyEncryptionContext,
+          wrappedDecryptOnlyBranchKey?.value.CiphertextBlob.value
+        );
+      case v2 =>
+        // Get crypto client
+        // TODO: Refactor to have a common Client.
+        var crypto? := HvUtils.ProvideCryptoClient();
+        var crypto :- crypto?.MapFailure(
+          e => Types.AwsCryptographyPrimitives(
+              AwsCryptographyPrimitives := e
+            )
+        );
 
-    if (wrappedDecryptOnlyBranchKey?.Failure?) {
-      var error := MutationErrorRefinement.GenerateNewActiveException(
-        identifier := decryptOnlyEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
-        kmsArn := mutationToApply.Terminal.kmsArn,
-        error := wrappedDecryptOnlyBranchKey?.error);
-      return Failure(error);
+        var newPlaintextMaterial? := crypto.GenerateRandomBytes(
+          AtomicPrimitives.Types.GenerateRandomBytesInput(length := 32)
+        );
+        var newPlaintextMaterial :- newPlaintextMaterial?.MapFailure(
+          e => Types.AwsCryptographyPrimitives(
+              AwsCryptographyPrimitives := e
+            ));
+
+        var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(decryptOnlyEncryptionContext);
+        var newDecryptOnly? := KMSKeystoreOperations.packAndCallKMS(
+          branchKeyContext := decryptOnlyEncryptionContext,
+          kmsClient := kmsClient,
+          crypto := crypto,
+          material := newPlaintextMaterial,
+          encryptionContext := ecToKMS,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
+          grantTokens := grantTokens
+        );
+        if (newDecryptOnly?.Failure?) {
+          var error := MutationErrorRefinement.GenerateNewActiveException(
+            identifier := decryptOnlyEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
+            kmsArn := mutationToApply.Terminal.kmsArn,
+            error := newDecryptOnly?.error);
+          return Failure(error);
+        }
+        newDecryptOnly := newDecryptOnly?.value;
     }
-
-    var newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
-      decryptOnlyEncryptionContext,
-      wrappedDecryptOnlyBranchKey?.value.CiphertextBlob.value
-    );
 
     :- Need(
       Structure.BRANCH_KEY_TYPE_PREFIX < newDecryptOnly.EncryptionContext[Structure.TYPE_FIELD],

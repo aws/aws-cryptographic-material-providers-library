@@ -308,11 +308,31 @@ module {:options "/functionSyntax:4" } Mutations {
           grantTokens := kmsE.grantTokens,
           kmsClient := kmsE.kmsClient
         );
-      case kmsSimple(_) =>
-        // TODO-HV-2-M2: Implement KMS simple
-        return Failure(Types.UnsupportedFeatureException(
-                         message := "kmsSimple here is in TODO."
-                       ));
+      case kmsSimple(kms) =>
+        // TODO-HV-2-M2: For Now, For KMS Simple, we'll only get HV-2 Keys, but we should also support HV-1 keys if possible, here.
+        var decryptedKey :- decryptOrBuildMutateException(input.item, input.keyManagerStrategy, localOperation);
+        kmsOperation := "Encrypt";
+        // Get crypto client
+        var crypto? := HVUtils.ProvideCryptoClient();
+        var crypto :- crypto?.MapFailure(
+          e => Types.AwsCryptographyPrimitives(
+              AwsCryptographyPrimitives := e
+            )
+        );
+        var digest? := HVUtils.CreateBKCDigest(input.terminalEncryptionContext, crypto);
+        var digest :- digest?.MapFailure(
+          e => Types.AwsCryptographyKeyStore(
+          AwsCryptographyKeyStore:= e));
+        var plaintextTuple := HVUtils.PackPlainTextTuple(digest, decryptedKey);
+        var ecToKMS := HVUtils.SelectKmsEncryptionContextForHv2(input.terminalEncryptionContext);
+        wrappedKey? := KMSKeystoreOperations.EncryptKey(
+          plaintext := plaintextTuple,
+          encryptionContext := ecToKMS,
+          kmsArnToStorage := input.terminalEncryptionContext[Structure.KMS_FIELD],
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(input.terminalKmsArn),
+          grantTokens := kms.grantTokens,
+          kmsClient := kms.kmsClient
+        );
     }
     assert kmsOperation == "ReEncrypt" || kmsOperation == "Encrypt";
     // We call this method to create the new Active from the new Decrypt Only
@@ -487,10 +507,6 @@ module {:options "/functionSyntax:4" } Mutations {
         doNotVersion
       );
     } else if (mutationToApply.Terminal.hierarchyVersion.v2?) {
-      print "\nMutateToHV2 item: ";
-      print item;
-      print "\nMutationToApply: ";
-      print mutationToApply;
       mutatedItem :- MutateToHV2(
         item,
         mutationToApply,

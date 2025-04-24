@@ -273,7 +273,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1,
     nameonly strategy: Types.KeyManagementStrategy,
     nameonly admin?: Option<Types.IKeyStoreAdminClient> := None,
-    // nameonly versionCount: nat := 3,
+    nameonly versionCount: nat := 3,
     nameonly customEC: KeyStoreTypes.EncryptionContext := Fixtures.RobbieEC
   )
     requires KMS.Types.IsValid_KeyIdType(kmsId)
@@ -298,6 +298,18 @@ module {:options "/functionSyntax:4" } AdminFixtures {
       HierarchyVersion := Some(hierarchyVersion)
     );
     var branchKeyId :- expect admin.CreateKey(input);
+
+    // If you need a new version
+    var inputV := Types.VersionKeyInput(
+      Identifier:= id ,
+      KmsArn:= Types.KmsSymmetricKeyArn.KmsKeyArn(kmsId),
+      Strategy:= Some(strategy)
+    );
+    var versionIndex := 0;
+    while versionIndex < versionCount {
+      var _ :- expect admin.VersionKey(inputV);
+      versionIndex := versionIndex + 1;
+    }
   }
 }
 

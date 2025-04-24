@@ -18,7 +18,6 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
 
   const testMutateForHV2ErrorsForNotKMSSimple := "dafny-initialize-mutation-hv-2-bad-strategy"
-  const happyCaseId := "test-mutate-hv1-to-hv2"
   const terminalKmsId: string := Fixtures.kmsArnForHV2
   const terminalEC: KeyStoreTypes.EncryptionContextString := Fixtures.KodaECString
   const terminalHV: KeyStoreTypes.HierarchyVersion := KeyStoreTypes.HierarchyVersion.v2
@@ -80,6 +79,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   }
 
   // TODO-HV-2-M2-FF: We should log with prefix, so we are aware which case failed while debugging.
+  const hv1MutateOnly := "test-mutate-hv1-to-hv2-mutate-only"
   method {:test} TestHV1toHV2HappyCaseMutateOnly()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
@@ -91,7 +91,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
 
     // Test mutating HV1 to HV2 only
     var uuidForHV2MutationTest :- expect UUID.GenerateUUID();
-    var testIdForHV2MutationOnly := happyCaseId + "-" + uuidForHV2MutationTest;
+    var testIdForHV2MutationOnly := hv1MutateOnly + "-" + uuidForHV2MutationTest;
     var mutationsRequestChangeHV := Types.Mutations(
       TerminalHierarchyVersion := Some(terminalHV));
     TestMutationHappyPath.MutationRoundTripTest(
@@ -109,7 +109,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
 
     // Test mutating HV1 to HV2 and EC
     var uuidForHV2AndECMutationTest :- expect UUID.GenerateUUID();
-    var testIdForHV2AndECMutation := happyCaseId + "-" + uuidForHV2AndECMutationTest;
+    var testIdForHV2AndECMutation := hv1MutateOnly + "-" + uuidForHV2AndECMutationTest;
     var mutationsRequestChangeHVAndEC := Types.Mutations(
       TerminalEncryptionContext := Some(terminalEC),
       TerminalHierarchyVersion := Some(terminalHV));
@@ -128,7 +128,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
 
     // Test mutating HV1 to HV2 and kmsArn
     var uuidForHV2AndKmsArnMutationTest :- expect UUID.GenerateUUID();
-    var testIdForHV2AndKmsArnMutation := happyCaseId + "-" + uuidForHV2AndKmsArnMutationTest;
+    var testIdForHV2AndKmsArnMutation := hv1MutateOnly + "-" + uuidForHV2AndKmsArnMutationTest;
     var mutationsRequestChangeHVAndKmsArn := Types.Mutations(
       TerminalKmsArn := Some(terminalKmsId),
       TerminalHierarchyVersion := Some(terminalHV));
@@ -151,7 +151,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
 
     // Test mutating HV1 to HV2, EC and kmsArn
     var uuidForHV2KmsArnAndECMutationTest :- expect UUID.GenerateUUID();
-    var testIdForHV2KmsArnAndECMutation := happyCaseId + "-" + uuidForHV2KmsArnAndECMutationTest;
+    var testIdForHV2KmsArnAndECMutation := hv1MutateOnly + "-" + uuidForHV2KmsArnAndECMutationTest;
     var mutationsRequestChangeHVKmsArnAndEC := Types.Mutations(
       TerminalEncryptionContext := Some(terminalEC),
       TerminalKmsArn := Some(terminalKmsId),
@@ -174,6 +174,102 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     );
   }
 
+  const hv1Version := "test-mutate-hv1-to-hv2-new-version"
+  method {:test} TestHV1toHV2HappyCaseVersion()
+  {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var keyStoreOriginal :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+
+    // Test mutating HV1 to HV2 only
+    var uuidForHV2MutationTest :- expect UUID.GenerateUUID();
+    var testIdForHV2MutationOnly := hv1Version + "-" + uuidForHV2MutationTest;
+    var mutationsRequestChangeHV := Types.Mutations(
+      TerminalHierarchyVersion := Some(terminalHV));
+    TestMutationHappyPath.MutationRoundTripTest(
+      ddbClient := ddbClient,
+      storage := storage,
+      keyStoreAdminUnderTest := underTest,
+      strategy := strategy,
+      keyStoreTerminal := keyStoreOriginal,
+      branchKeyIdentifier := testIdForHV2MutationOnly,
+      mutationsRequest := mutationsRequestChangeHV,
+      versionCount := 1,
+      initialHV := KeyStoreTypes.HierarchyVersion.v1,
+      doNotVersion := false
+    );
+
+    // Test mutating HV1 to HV2 and EC
+    var uuidForHV2AndECMutationTest :- expect UUID.GenerateUUID();
+    var testIdForHV2AndECMutation := hv1Version + "-" + uuidForHV2AndECMutationTest;
+    var mutationsRequestChangeHVAndEC := Types.Mutations(
+      TerminalEncryptionContext := Some(terminalEC),
+      TerminalHierarchyVersion := Some(terminalHV));
+    TestMutationHappyPath.MutationRoundTripTest(
+      ddbClient := ddbClient,
+      storage := storage,
+      keyStoreAdminUnderTest := underTest,
+      strategy := strategy,
+      keyStoreTerminal := keyStoreOriginal,
+      branchKeyIdentifier := testIdForHV2AndECMutation,
+      mutationsRequest := mutationsRequestChangeHVAndEC,
+      versionCount := 1,
+      initialHV := KeyStoreTypes.HierarchyVersion.v1,
+      doNotVersion := false
+    );
+
+    // Test mutating HV1 to HV2 and kmsArn
+    var uuidForHV2AndKmsArnMutationTest :- expect UUID.GenerateUUID();
+    var testIdForHV2AndKmsArnMutation := hv1Version + "-" + uuidForHV2AndKmsArnMutationTest;
+    var mutationsRequestChangeHVAndKmsArn := Types.Mutations(
+      TerminalKmsArn := Some(terminalKmsId),
+      TerminalHierarchyVersion := Some(terminalHV));
+    var keyStoreTerminalForHV2AndKmsArnMutation :- expect Fixtures.DefaultKeyStore(
+      kmsId:=terminalKmsId,
+      ddbClient?:=Some(ddbClient),
+      kmsClient?:=Some(kmsClient));
+    TestMutationHappyPath.MutationRoundTripTest(
+      ddbClient := ddbClient,
+      storage := storage,
+      keyStoreAdminUnderTest := underTest,
+      strategy := strategy,
+      keyStoreTerminal := keyStoreTerminalForHV2AndKmsArnMutation,
+      branchKeyIdentifier := testIdForHV2AndKmsArnMutation,
+      mutationsRequest := mutationsRequestChangeHVAndKmsArn,
+      versionCount := 1,
+      initialHV := KeyStoreTypes.HierarchyVersion.v1,
+      doNotVersion := false
+    );
+
+    // Test mutating HV1 to HV2, EC and kmsArn
+    var uuidForHV2KmsArnAndECMutationTest :- expect UUID.GenerateUUID();
+    var testIdForHV2KmsArnAndECMutation := hv1Version + "-" + uuidForHV2KmsArnAndECMutationTest;
+    var mutationsRequestChangeHVKmsArnAndEC := Types.Mutations(
+      TerminalEncryptionContext := Some(terminalEC),
+      TerminalKmsArn := Some(terminalKmsId),
+      TerminalHierarchyVersion := Some(terminalHV));
+    var keyStoreTerminalForHV2KmsArnAndECMutation :- expect Fixtures.DefaultKeyStore(
+      kmsId:=terminalKmsId,
+      ddbClient?:=Some(ddbClient),
+      kmsClient?:=Some(kmsClient));
+    TestMutationHappyPath.MutationRoundTripTest(
+      ddbClient := ddbClient,
+      storage := storage,
+      keyStoreAdminUnderTest := underTest,
+      strategy := strategy,
+      keyStoreTerminal := keyStoreTerminalForHV2KmsArnAndECMutation,
+      branchKeyIdentifier := testIdForHV2KmsArnAndECMutation,
+      mutationsRequest := mutationsRequestChangeHVKmsArnAndEC,
+      versionCount := 1,
+      initialHV := KeyStoreTypes.HierarchyVersion.v1,
+      doNotVersion := false
+    );
+  }
+
+  const hv2MutateOnly := "test-mutate-hv2-to-hv2-mutate-only"
   method {:test} TestHV2toHV2HappyCaseMutateOnly()
   {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
@@ -185,7 +281,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
 
     // Test HV2 mutating for EC only
     var uuidForHV2AndECMutationTest :- expect UUID.GenerateUUID();
-    var testIdForHV2AndECMutation := happyCaseId + "-" + uuidForHV2AndECMutationTest;
+    var testIdForHV2AndECMutation := hv2MutateOnly + "-" + uuidForHV2AndECMutationTest;
     var mutationsRequestChangeHVAndEC := Types.Mutations(
       TerminalEncryptionContext := Some(terminalEC)
     );
@@ -204,7 +300,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
 
     // Test HV2 mutating for kmsArn
     var uuidForHV2AndKmsArnMutationTest :- expect UUID.GenerateUUID();
-    var testIdForHV2AndKmsArnMutation := happyCaseId + "-" + uuidForHV2AndKmsArnMutationTest;
+    var testIdForHV2AndKmsArnMutation := hv2MutateOnly + "-" + uuidForHV2AndKmsArnMutationTest;
     var mutationsRequestChangeHVAndKmsArn := Types.Mutations(
       TerminalKmsArn := Some(terminalKmsId)
     );
@@ -227,7 +323,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
 
     // Test HV2 mutating for EC and kmsArn
     var uuidForHV2KmsArnAndECMutationTest :- expect UUID.GenerateUUID();
-    var testIdForHV2KmsArnAndECMutation := happyCaseId + "-" + uuidForHV2KmsArnAndECMutationTest;
+    var testIdForHV2KmsArnAndECMutation := hv2MutateOnly + "-" + uuidForHV2KmsArnAndECMutationTest;
     var mutationsRequestChangeHVKmsArnAndEC := Types.Mutations(
       TerminalEncryptionContext := Some(terminalEC),
       TerminalKmsArn := Some(terminalKmsId)
@@ -247,6 +343,83 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
       versionCount := 1,
       initialHV := KeyStoreTypes.HierarchyVersion.v2,
       doNotVersion := true
+    );
+  }
+
+  const hv2Version := "test-mutate-hv1-to-hv2-new-version"
+  method {:test} TestHV2toHV2HappyCaseVersion()
+  {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
+    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var keyStoreOriginal :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+
+    // Test HV2 mutating for EC only
+    var uuidForHV2AndECMutationTest :- expect UUID.GenerateUUID();
+    var testIdForHV2AndECMutation := hv2Version + "-" + uuidForHV2AndECMutationTest;
+    var mutationsRequestChangeHVAndEC := Types.Mutations(
+      TerminalEncryptionContext := Some(terminalEC)
+    );
+    TestMutationHappyPath.MutationRoundTripTest(
+      ddbClient := ddbClient,
+      storage := storage,
+      keyStoreAdminUnderTest := underTest,
+      strategy := strategy,
+      keyStoreTerminal := keyStoreOriginal,
+      branchKeyIdentifier := testIdForHV2AndECMutation,
+      mutationsRequest := mutationsRequestChangeHVAndEC,
+      versionCount := 1,
+      initialHV := KeyStoreTypes.HierarchyVersion.v2,
+      doNotVersion := false
+    );
+
+    // Test HV2 mutating for kmsArn
+    var uuidForHV2AndKmsArnMutationTest :- expect UUID.GenerateUUID();
+    var testIdForHV2AndKmsArnMutation := hv2Version + "-" + uuidForHV2AndKmsArnMutationTest;
+    var mutationsRequestChangeHVAndKmsArn := Types.Mutations(
+      TerminalKmsArn := Some(terminalKmsId)
+    );
+    var keyStoreTerminalForHV2AndKmsArnMutation :- expect Fixtures.DefaultKeyStore(
+      kmsId:=terminalKmsId,
+      ddbClient?:=Some(ddbClient),
+      kmsClient?:=Some(kmsClient));
+    TestMutationHappyPath.MutationRoundTripTest(
+      ddbClient := ddbClient,
+      storage := storage,
+      keyStoreAdminUnderTest := underTest,
+      strategy := strategy,
+      keyStoreTerminal := keyStoreTerminalForHV2AndKmsArnMutation,
+      branchKeyIdentifier := testIdForHV2AndKmsArnMutation,
+      mutationsRequest := mutationsRequestChangeHVAndKmsArn,
+      versionCount := 1,
+      initialHV := KeyStoreTypes.HierarchyVersion.v2,
+      doNotVersion := false
+    );
+
+    // Test HV2 mutating for EC and kmsArn
+    var uuidForHV2KmsArnAndECMutationTest :- expect UUID.GenerateUUID();
+    var testIdForHV2KmsArnAndECMutation := hv2Version + "-" + uuidForHV2KmsArnAndECMutationTest;
+    var mutationsRequestChangeHVKmsArnAndEC := Types.Mutations(
+      TerminalEncryptionContext := Some(terminalEC),
+      TerminalKmsArn := Some(terminalKmsId)
+    );
+    var keyStoreTerminalForHV2KmsArnAndECMutation :- expect Fixtures.DefaultKeyStore(
+      kmsId:=terminalKmsId,
+      ddbClient?:=Some(ddbClient),
+      kmsClient?:=Some(kmsClient));
+    TestMutationHappyPath.MutationRoundTripTest(
+      ddbClient := ddbClient,
+      storage := storage,
+      keyStoreAdminUnderTest := underTest,
+      strategy := strategy,
+      keyStoreTerminal := keyStoreTerminalForHV2KmsArnAndECMutation,
+      branchKeyIdentifier := testIdForHV2KmsArnAndECMutation,
+      mutationsRequest := mutationsRequestChangeHVKmsArnAndEC,
+      versionCount := 1,
+      initialHV := KeyStoreTypes.HierarchyVersion.v2,
+      doNotVersion := false
     );
   }
 }
