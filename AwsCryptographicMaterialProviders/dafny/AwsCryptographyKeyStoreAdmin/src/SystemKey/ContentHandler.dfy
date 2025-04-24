@@ -1,10 +1,12 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-include "../KmsUtils.dfy"
+include "../KeyStoreAdminHelpers.dfy"
 include "../../../../dafny/AwsCryptographicMaterialProviders/src/CanonicalEncryptionContext.dfy"
 include "../../../../dafny/AwsCryptographicMaterialProviders/src/Index.dfy"
 include "../../../../dafny/AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsUtils.dfy"
+
+include "../../../../dafny/AwsCryptographyKeyStore/src/KmsUtils.dfy"
 
 /* Internal methods for Signing and Verifying Arbitary Content */
 module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
@@ -12,13 +14,14 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
   import opened StandardLibrary.UInt
   import KMS = Com.Amazonaws.Kms
   import Types = AwsCryptographyKeyStoreAdminTypes
-  import KmsUtils
+  import KeyStoreAdminHelpers
   import AtomicPrimitives
   import CanonicalEncryptionContext
   import MPL = MaterialProviders
   import Base64
   import UTF8
   import AwsKmsUtils
+  import KmsUtils
   import Structure
 
   // TODO: refactor constants to follow pattern in Materials.dfy.
