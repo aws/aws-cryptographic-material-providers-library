@@ -112,7 +112,6 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   {
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var keyStoreOriginal :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
 
     // Test mutating HV1 to HV2 only
@@ -226,11 +225,8 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     modifies ddbClient.Modifies
     modifies kmsClient.Modifies
   {
-    var ddbClient :- expect Fixtures.ProvideDDBClient();
-    var kmsClient :- expect Fixtures.ProvideKMSClient();
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var keyStoreOriginal :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
 
     // Test HV2 mutating for EC only
