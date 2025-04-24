@@ -92,6 +92,7 @@ module {:options "/functionSyntax:4" } Mutations {
   )
     returns (output: Result<ActiveVerificationHolder,Types.Error>)
 
+    requires localOperation == "ApplyMutation" || localOperation == "InitializeMutation"
     requires mutationToApply.ValidState()
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
@@ -131,9 +132,13 @@ module {:options "/functionSyntax:4" } Mutations {
         if localOperation == "ApplyMutation" {
           decryptGrantTokens := kmsE.grantTokens;
           decryptKmsClient := kmsE.kmsClient;
-        } else {
+        } else if localOperation == "InitializeMutation" {
           decryptGrantTokens := kmsD.grantTokens;
           decryptKmsClient := kmsD.kmsClient;
+        } else {
+          return Failure(Types.KeyStoreAdminException(
+                           message := KeyStoreAdminErrorMessages.UnsupportedLocalOperation(localOperation)
+                         ));
         }
 
         var throwAway? := KMSKeystoreOperations.VerifyViaDecryptEncryptKey(
@@ -174,6 +179,7 @@ module {:options "/functionSyntax:4" } Mutations {
   )
     returns (output: Result<ActiveVerificationHolder,Types.Error>)
 
+    requires localOperation == "ApplyMutation" || localOperation == "InitializeMutation"
     requires mutationToApply.ValidState()
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
@@ -187,8 +193,12 @@ module {:options "/functionSyntax:4" } Mutations {
     var KMSTuple;
     if localOperation == "ApplyMutation" {
       KMSTuple := KmsUtils.getEncryptKMSTuple(keyManagerStrategy);
-    } else {
+    } else if localOperation == "InitializeMutation" {
       KMSTuple := KmsUtils.getDecryptKMSTuple(keyManagerStrategy);
+    } else {
+      return Failure(Types.KeyStoreAdminException(
+                       message := KeyStoreAdminErrorMessages.UnsupportedLocalOperation(localOperation)
+                     ));
     }
 
     var decryptRes := GetKeys.DecryptBranchKeyItem(

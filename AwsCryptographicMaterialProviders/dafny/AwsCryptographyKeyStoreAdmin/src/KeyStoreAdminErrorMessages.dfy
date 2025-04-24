@@ -18,6 +18,10 @@ module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
   const UNSUPPORTED_DOWNGRADE_HV: string :=
     "Mutation which Downgrades hierarchical version (example: from v2 to v1) is not supported."
 
+  const INVALID_COMMITMENT_UTF8 := "Mutation Commitment read from storage contains invalid UTF-8."
+  const INVALID_INDEX_UTF8 := "Mutation Index read from storage contains invalid UTF-8."
+  const INVALID_COMMITMENT_UUID := "Mutation Commitment read from storage has an invalid UUID."
+
   function TokenAndMutationCommitmentDisagree(
     mutationTokenIdentifier: string,
     mutationCommitmentUUID: string,
@@ -66,7 +70,9 @@ module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
     + " MUTATION_COMMITMENT Branch Key ID: " + commitmentBKID + ";"
   }
 
-  const INVALID_COMMITMENT_UTF8 := "Mutation Commitment read from storage contains invalid UTF-8."
-  const INVALID_INDEX_UTF8 := "Mutation Index read from storage contains invalid UTF-8."
-  const INVALID_COMMITMENT_UUID := "Mutation Commitment read from storage has an invalid UUID."
+  function UnsupportedLocalOperation (
+    localOperation: string
+  ): string {
+    "Internal Error: " + localOperation + " local operation is not supported"
+  }
 }
