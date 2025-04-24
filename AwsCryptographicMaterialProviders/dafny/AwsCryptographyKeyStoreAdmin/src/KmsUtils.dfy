@@ -63,7 +63,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     predicate SupportHV2()
     {
       match this
-      case decryptEncrypt(kmD, kmE) => false
+      case decryptEncrypt(kmD, kmE) => true
       case reEncrypt(km) => false
       case kmsSimple(km) => true
     }
@@ -147,6 +147,34 @@ module {:options "/functionSyntax:4" } KmsUtils {
     match terminalHierarchyVersion {
       case v1 => keyManagerStrategy.SupportHV1()
       case v2 => keyManagerStrategy.SupportHV2()
+    }
+  }
+
+  function getDecryptKMSTuple(
+    keyManagerStrategy: keyManagerStrat
+  ) : (output: KMSTuple)
+  {
+    match keyManagerStrategy {
+      case reEncrypt(kms) =>
+        KMSTuple(kms.kmsClient, kms.grantTokens)
+      case decryptEncrypt(kmsD, kmsE) =>
+        KMSTuple(kmsD.kmsClient, kmsD.grantTokens)
+      case kmsSimple(kms) =>
+        KMSTuple(kms.kmsClient, kms.grantTokens)
+    }
+  }
+
+  function getEncryptKMSTuple(
+    keyManagerStrategy: keyManagerStrat
+  ) : (output: KMSTuple)
+  {
+    match keyManagerStrategy {
+      case reEncrypt(kms) =>
+        KMSTuple(kms.kmsClient, kms.grantTokens)
+      case decryptEncrypt(kmsD, kmsE) =>
+        KMSTuple(kmsE.kmsClient, kmsE.grantTokens)
+      case kmsSimple(kms) =>
+        KMSTuple(kms.kmsClient, kms.grantTokens)
     }
   }
 }

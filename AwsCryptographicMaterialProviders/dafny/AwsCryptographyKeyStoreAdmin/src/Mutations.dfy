@@ -184,20 +184,18 @@ module {:options "/functionSyntax:4" } Mutations {
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
   {
-    var decryptGrantTokens;
-    var decryptKmsClient;
-    match keyManagerStrategy {
-      // TODO-HV-2-M4: Support other keyManagerStrategy
-      case kmsSimple(kms) =>
-        decryptGrantTokens := kms.grantTokens;
-        decryptKmsClient := kms.kmsClient;
+    var KMSTuple;
+    if localOperation == "ApplyMutation" {
+      KMSTuple := KmsUtils.getEncryptKMSTuple(keyManagerStrategy);
+    } else {
+      KMSTuple := KmsUtils.getDecryptKMSTuple(keyManagerStrategy);
     }
 
     var decryptRes := GetKeys.DecryptBranchKeyItem(
       item,
       KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
-      decryptGrantTokens,
-      decryptKmsClient
+      KMSTuple.grantTokens,
+      KMSTuple.kmsClient
     );
 
     if decryptRes.Success? {
@@ -623,13 +621,11 @@ module {:options "/functionSyntax:4" } Mutations {
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires localOperation == "ApplyMutation" || localOperation == "InitializeMutation"
     requires aes256Key?.Some? ==> |aes256Key?.value| == Structure.AES_256_LENGTH as int
+    requires keyManagerStrategy.SupportHV2()
     requires HierarchyVersionToString(mutationToApply.Terminal.hierarchyVersion) == Structure.HIERARCHY_VERSION_VALUE_2
   {
-    :- Need(
-      keyManagerStrategy.kmsSimple?,
-      Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
-    );
-    // TODO-HV-2-M2: Make ReplaceMutableContext modify hierarchical version.
+    var decryptKMSTuple := KmsUtils.getDecryptKMSTuple(keyManagerStrategy);
+    var encryptKMSTuple := KmsUtils.getEncryptKMSTuple(keyManagerStrategy);
     var terminalBKC := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,
@@ -654,7 +650,7 @@ module {:options "/functionSyntax:4" } Mutations {
     if (aes256Key?.Some?) {
       aes256Key := aes256Key?.value;
     } else {
-      aes256Key :- decryptOrBuildMutateException(item, keyManagerStrategy, localOperation);
+      aes256Key :- decryptOrBuildMutateException(item, localOperation, decryptKMSTuple.grantTokens, decryptKMSTuple.kmsClient);
     }
     var bkcDigest? := HVUtils.CreateBKCDigest(
       terminalBKC,
@@ -669,8 +665,8 @@ module {:options "/functionSyntax:4" } Mutations {
       HVUtils.SelectKmsEncryptionContextForHv2(terminalBKC),
       terminalBKC[Structure.KMS_FIELD],
       KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(terminalBKC[Structure.KMS_FIELD])),
-      keyManagerStrategy.kmsSimple.grantTokens,
-      keyManagerStrategy.kmsSimple.kmsClient
+      encryptKMSTuple.grantTokens,
+      encryptKMSTuple.kmsClient
     );
     output := Success(Structure.ConstructEncryptedHierarchicalKey(
                         terminalBKC,
@@ -680,30 +676,29 @@ module {:options "/functionSyntax:4" } Mutations {
 
   method decryptOrBuildMutateException(
     item: KeyStoreTypes.EncryptedHierarchicalKey,
-    keyManagerStrategy: KmsUtils.keyManagerStrat,
-    localOperation: string
+    localOperation: string,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient
   ) returns (output: Result<KMS.PlaintextType, Types.Error>)
-    requires keyManagerStrategy.ValidState()
-    modifies keyManagerStrategy.ModifiesMultiSet
-    ensures keyManagerStrategy.ValidState()
+    requires kmsClient.ValidState()
+    modifies kmsClient.Modifies
+    ensures kmsClient.ValidState()
 
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires localOperation == "ApplyMutation" || localOperation == "InitializeMutation"
     requires KmsArn.ValidKmsArn?(item.KmsArn)
 
-    requires keyManagerStrategy.kmsSimple?
-
     ensures output.Success?
             ==>
-              && |keyManagerStrategy.kmsSimple.kmsClient.History.Decrypt| == |old(keyManagerStrategy.kmsSimple.kmsClient.History.Decrypt)| + 1
+              && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
               && var hv := item.EncryptionContext[Structure.HIERARCHY_VERSION];
               && GetKeys.ValidateKmsDecryption(
                    item,
                    KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
-                   keyManagerStrategy.kmsSimple.grantTokens,
-                   keyManagerStrategy.kmsSimple.kmsClient,
+                   grantTokens,
+                   kmsClient,
                    hv)
-              && var decryptResponse := Seq.Last(keyManagerStrategy.kmsSimple.kmsClient.History.Decrypt).output.value;
+              && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
               && |output.value| == Structure.AES_256_LENGTH as int
               && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
                    && HVUtils.HasUniqueTransformedKeys?(item.EncryptionContext)
@@ -714,8 +709,8 @@ module {:options "/functionSyntax:4" } Mutations {
     var decryptRes := GetKeys.DecryptBranchKeyItem(
       item,
       KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
-      keyManagerStrategy.kmsSimple.grantTokens,
-      keyManagerStrategy.kmsSimple.kmsClient
+      grantTokens,
+      kmsClient
     );
     if decryptRes.Failure? {
       var err := decryptRes.error;

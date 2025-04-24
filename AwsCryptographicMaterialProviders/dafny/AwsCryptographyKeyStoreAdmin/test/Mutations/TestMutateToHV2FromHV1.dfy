@@ -4,6 +4,7 @@
 include "../../src/Index.dfy"
 include "../../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 include "../../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
+include "../../src/KeyStoreAdminErrorMessages.dfy"
 include "../AdminFixtures.dfy"
 include "TestMutationHappyPath.dfy"
 
@@ -11,22 +12,25 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   import UUID
   import AdminFixtures
   import CleanupItems
+  import KeyStoreAdminErrorMessages
   import TestMutationHappyPath
   import opened Fixtures
   import opened Wrappers
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
+  import DDB = Com.Amazonaws.Dynamodb
+  import KMS = Com.Amazonaws.Kms
 
-  const testMutateForHV2ErrorsForNotKMSSimple := "dafny-initialize-mutation-hv-2-bad-strategy"
+  const testMutateForHV2ErrorsForKmsReEncrypt := "dafny-initialize-mutation-hv-2-bad-strategy"
   const happyCaseId := "test-mutate-hv1-to-hv2"
   const terminalKmsId: string := Fixtures.kmsArnForHV2
   const terminalEC: KeyStoreTypes.EncryptionContextString := Fixtures.KodaECString
   const terminalHV: KeyStoreTypes.HierarchyVersion := KeyStoreTypes.HierarchyVersion.v2
 
-  method {:test} TestMutateForHV2ErrorsForNotKMSSimple()
+  method {:test} TestMutateForHV2ErrorsForKmsReEncrypt()
   {
     var uuid :- expect UUID.GenerateUUID();
-    var testId := testMutateForHV2ErrorsForNotKMSSimple + "-" + uuid;
+    var testId := testMutateForHV2ErrorsForKmsReEncrypt + "-" + uuid;
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
@@ -49,7 +53,8 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.UnsupportedFeatureException?;
     // TODO-HV-2-M4: Support other key strategy as well.
-    expect initializeOutput.error.message == "Unsupported KeyManagementStrategy. Only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsDecryptEncrypt is allowed when terminal hierarchical version is 1. Only KeyManagementStrategy.kmsSimple is allowed when terminal hierarchical version is 2.", "Incorrect error message. Should have had `Only KeyManagementStrategy.AwsKmsSimple is allowed when mutating to hv-2.`";
+    expect initializeOutput.error.message == KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY,
+      "Incorrect error message. Should have had `" + KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY + "`";
   }
 
   const testMutateForHV2SucceedsForKMSSimple := "dafny-initialize-mutation-hv-2-allowed"
@@ -79,13 +84,33 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
     expect initializeOutput.Success?, "Should have succeeded to InitializeMutation HV-2 for HV-2";
   }
 
-  method {:test} TestHV1toHV2HappyCase()
-  {
+  method {:test} TestHV1toHV2HappyCaseKMSSimple() {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(
+      kmsClient?:=Some(kmsClient)
+    );
+    TestHV1toHV2HappyCase(strategy, ddbClient, kmsClient);
+  }
+
+  method {:test} TestHV1toHV2HappyCaseDecryptEncrypt() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.DecryptEncrypKeyManagerStrategy(
+      decryptKmsClient?:=Some(kmsClient),
+      encryptKmsClient?:=Some(kmsClient)
+    );
+    TestHV1toHV2HappyCase(strategy, ddbClient, kmsClient);
+  }
+
+  method TestHV1toHV2HappyCase(strategy: Types.KeyManagementStrategy, ddbClient: DDB.Types.IDynamoDBClient, kmsClient: KMS.Types.IKMSClient)
+    requires ddbClient.ValidState()
+    requires kmsClient.ValidState()
+    modifies ddbClient.Modifies
+    modifies kmsClient.Modifies
+  {
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var keyStoreOriginal :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
 
     // Test mutating HV1 to HV2 only
