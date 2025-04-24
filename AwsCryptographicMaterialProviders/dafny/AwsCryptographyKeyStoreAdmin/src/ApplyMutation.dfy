@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "MutationStateStructures.dfy"
-include "KmsUtils.dfy"
+include "KeyStoreAdminHelpers.dfy"
 include "MutationIndexUtils.dfy"
 include "SystemKey/Handler.dfy"
 include "Mutations.dfy"
@@ -20,11 +20,12 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   import Structure
   import DefaultKeyStorageInterface
   import KmsArn
+  import KmsUtils
     // KeyStoreAdmin Imports
   import Types = AwsCryptographyKeyStoreAdminTypes
   import StateStrucs = MutationStateStructures
   import HvUtils = HierarchicalVersionUtils
-  import KmsUtils
+  import KeyStoreAdminHelpers
   import MutationIndexUtils
   import SystemKeyHandler = SystemKey.Handler
   import Mutations
@@ -55,7 +56,7 @@ module {:options "/functionSyntax:4" } InternalApplyMutation {
   datatype InternalApplyMutationInput = | InternalApplyMutationInput (
     nameonly MutationToken: Types.MutationToken ,
     nameonly PageSize: Option<StandardLibrary.UInt.int32> ,
-    nameonly SystemKey: KmsUtils.InternalSystemKey ,
+    nameonly SystemKey: KeyStoreAdminHelpers.InternalSystemKey ,
     nameonly logicalKeyStoreName: string,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
     nameonly storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface

@@ -23,6 +23,26 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import AwsKmsMrkMatchForDecrypt
   import KmsArn
   import ErrorMessages = KeyStoreErrorMessages
+  import KmsUtils
+
+  /** Constrains the relationship of the Crypto & KMS client, 
+    ensuring they a valid but their histories are separate.
+    Also allows us to make claims about the Grant Tokens and kmsConfig. */
+  datatype CryptoAndKms = CryptoAndKms(
+    kmsConfig: Types.KMSConfiguration,
+    kms: KmsUtils.keyManagerStrat,
+    crypto: AtomicPrimitives.AtomicPrimitivesClient
+  ) {
+    ghost predicate ValidState()
+    {
+      && kms.ValidState()
+      && HasKeyId(kmsConfig)
+      && KmsArn.ValidKmsArn?(GetKeyId(kmsConfig))
+      && kms.Modifies !! crypto.Modifies
+      && crypto.ValidState()
+    }
+    ghost const Modifies := multiset(kms.Modifies) + multiset(crypto.Modifies)
+  }
 
   type KmsError = e: Types.Error | (
         || e.ComAmazonawsKms?
@@ -898,36 +918,53 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   }
 
   method packAndCallKMS(
-    branchKeyContext: map<string, string>,
-    kmsClient: KMS.IKMSClient,
-    crypto: AtomicPrimitives.AtomicPrimitivesClient,
-    material: seq<uint8>,
-    encryptionContext: map<string, string>,
-    kmsConfiguration: Types.KMSConfiguration,
-    grantTokens: KMS.GrantTokenList
+    nameonly branchKeyContext: map<string, string>,
+    nameonly cryptoAndKms: CryptoAndKms,
+    nameonly material: seq<uint8>,
+    nameonly encryptionContext: map<string, string>
   )
     returns (output: Result<Types.EncryptedHierarchicalKey, Types.Error>)
     requires
-      && crypto.ValidState() && kmsClient.ValidState()
+      && cryptoAndKms.ValidState()
       && Structure.BranchKeyContext?(branchKeyContext)
       && |material| == Structure.AES_256_LENGTH as int
-      && HasKeyId(kmsConfiguration)
-      && AttemptKmsOperation?(kmsConfiguration, branchKeyContext[Structure.KMS_FIELD])
-      && GetKeyId(kmsConfiguration) == branchKeyContext[Structure.KMS_FIELD]
-    modifies crypto.Modifies, kmsClient.Modifies
+      && AttemptKmsOperation?(cryptoAndKms.kmsConfig, branchKeyContext[Structure.KMS_FIELD])
+      && GetKeyId(cryptoAndKms.kmsConfig) == branchKeyContext[Structure.KMS_FIELD]
+         // TODO-HV-2-M? : Support KmsDecryptEncrypt?
+      && cryptoAndKms.kms.kmsSimple?
+    modifies cryptoAndKms.Modifies
     // Note: even if the method fails, the clients are ValidState
-    ensures crypto.ValidState() && kmsClient.ValidState()
-    ensures output.Success? ==> Structure.EncryptedHierarchicalKeyFromStorage?(output.value)
+    ensures cryptoAndKms.ValidState()
+    ensures
+      // TODO-HV-2-GA: Update Specification for HV-2 Branch Key Creation
+      && output.Success? ==>
+        && var kms := cryptoAndKms.kms.kmsSimple.kmsClient;
+        && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 1
+        && var kmsEvent :=  Seq.Last(kms.History.Encrypt);
+        && kmsEvent.output.Success?
+        && var kmsInput := kmsEvent.input;
+        && Compatible?(cryptoAndKms.kmsConfig, kmsInput.KeyId)
+        && |kmsInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+        && kmsInput.EncryptionContext == Some(encryptionContext)
+        && kmsInput.GrantTokens == Some(cryptoAndKms.kms.kmsSimple.grantTokens)
+        && kmsEvent.output.value.CiphertextBlob.Some?
+        && var digest := kmsInput.Plaintext[..Structure.BKC_DIGEST_LENGTH];
+        && material == kmsInput.Plaintext[Structure.BKC_DIGEST_LENGTH..]
+        && |cryptoAndKms.crypto.History.Digest| == |old(cryptoAndKms.crypto.History.Digest)| + 1
+        && var digestEvent := Seq.Last(cryptoAndKms.crypto.History.Digest);
+        && digestEvent.output.Success?
+        && digestEvent.output.value == digest
+        && digestEvent.input.digestAlgorithm == AtomicPrimitives.Types.SHA_384
   {
-    var digest :- HvUtils.CreateBKCDigest(branchKeyContext, crypto);
+    var digest :- HvUtils.CreateBKCDigest(branchKeyContext, cryptoAndKms.crypto);
     var plaintextTuple := HvUtils.PackPlainTextTuple(digest, material);
     var wrappedMaterial? := EncryptKey(
       plaintextTuple,
       encryptionContext,
       branchKeyContext[Structure.KMS_FIELD],
-      kmsConfiguration,
-      grantTokens,
-      kmsClient
+      cryptoAndKms.kmsConfig,
+      cryptoAndKms.kms.kmsSimple.grantTokens,
+      cryptoAndKms.kms.kmsSimple.kmsClient
     );
     var wrappedMaterial :- wrappedMaterial?.MapFailure(e => ConvertKmsErrorToError(e));
     return Success(Structure.ConstructEncryptedHierarchicalKey(branchKeyContext, wrappedMaterial));
@@ -951,6 +988,44 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         Types.BranchKeyCiphertextException(
           message := e.message
         )
+    }
+  }
+
+  function ExtractKmsOpaque(
+    error: KmsError
+  ): (opaqueError?: Option<KMS.OpaqueError>)
+    ensures
+      && error.ComAmazonawsKms?
+      && error.ComAmazonawsKms.Opaque?
+      ==> opaqueError?.Some? && opaqueError?.value == error.ComAmazonawsKms
+  {
+    match error {
+      case Opaque(obj) => None
+      case KeyManagementException(s) => None
+      case BranchKeyCiphertextException(s) => None
+      case ComAmazonawsKms(comAmazonawsKms: KMS.Error) =>
+        match comAmazonawsKms {
+          case Opaque(obj) => Some(comAmazonawsKms)
+          case OpaqueWithText(obj, objMessage) => Some(comAmazonawsKms)
+          case _ => None
+        }
+    }
+  }
+
+  function ExtractMessageFromKmsError(
+    error: KmsError
+  ): (errorMessage?: Option<string>)
+  {
+    match error {
+      case Opaque(obj) => None
+      case KeyManagementException(s) => Some(s)
+      case BranchKeyCiphertextException(s) => Some(s)
+      case ComAmazonawsKms(comAmazonawsKms: KMS.Error) =>
+        match comAmazonawsKms {
+          case Opaque(obj) => None
+          case OpaqueWithText(obj, objMessage) => Some(objMessage)
+          case _ => comAmazonawsKms.message
+        }
     }
   }
 

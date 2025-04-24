@@ -3,7 +3,7 @@
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "MutationStateStructures.dfy"
 include "PrefixUtils.dfy"
-include "KmsUtils.dfy"
+include "KeyStoreAdminHelpers.dfy"
 include "MutationIndexUtils.dfy"
 include "SystemKey/Handler.dfy"
 include "Mutations.dfy"
@@ -32,9 +32,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   import KmsArn
   import KMSKeystoreOperations
   import HVUtils = HierarchicalVersionUtils
+  import KmsUtils
     // KeyStoreAdmin Imports
   import Types = AwsCryptographyKeyStoreAdminTypes
-  import KmsUtils
+  import KeyStoreAdminHelpers
   import StateStrucs = MutationStateStructures
   import PrefixUtils
   import MutationIndexUtils
@@ -47,7 +48,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   datatype InternalInitializeMutationInput = | InternalInitializeMutationInput (
     nameonly Identifier: string ,
     nameonly Mutations: Types.Mutations ,
-    nameonly SystemKey: KmsUtils.InternalSystemKey ,
+    nameonly SystemKey: KeyStoreAdminHelpers.InternalSystemKey ,
     nameonly DoNotVersion: bool,
     nameonly logicalKeyStoreName: string,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
@@ -512,7 +513,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     nameonly index: Option<KeyStoreTypes.MutationIndex>,
     nameonly logicalKeyStoreName: string,
     nameonly storage: Types.AwsCryptographyKeyStoreTypes.IKeyStorageInterface,
-    nameonly systemKey: KmsUtils.InternalSystemKey
+    nameonly systemKey: KeyStoreAdminHelpers.InternalSystemKey
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
     requires storage.ValidState() && systemKey.ValidState()

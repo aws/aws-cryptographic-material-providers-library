@@ -1,14 +1,12 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
-include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-include "MutationStateStructures.dfy"
+include "../Model/AwsCryptographyKeyStoreTypes.dfy"
+include "KmsArn.dfy"
 
 module {:options "/functionSyntax:4" } KmsUtils {
   import opened Wrappers
   import KMS = Com.Amazonaws.Kms
-  import KMSKeystoreOperations
-  import KeyStoreTypes = KMSKeystoreOperations.Types
-  import Types = AwsCryptographyKeyStoreAdminTypes
+  import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import KmsArn
 
   datatype KMSTuple = | KMSTuple(
@@ -69,75 +67,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     }
   }
 
-  datatype InternalSystemKey =
-    | TrustStorage()
-    | KmsSymEnc(
-        nameonly Tuple: KMSTuple,
-        nameonly KeyId: KMS.Types.KeyIdType
-      )
-  {
-    ghost predicate ValidState()
-    {
-      match this
-      case TrustStorage() => true
-      case KmsSymEnc(Tuple, KeyId) =>
-        && Tuple.ValidState()
-        && KMS.Types.IsValid_KeyIdType(KeyId)
-        && Tuple.Modifies == Tuple.Modifies
-    }
-    ghost const Modifies := match this
-      case TrustStorage() => {}
-      case KmsSymEnc(Tuple, KeyId) => Tuple.Modifies
-  }
 
-  function ExtractKmsOpaque(
-    error: KMSKeystoreOperations.KmsError
-  ): (opaqueError?: Option<KMS.Types.OpaqueError>)
-    ensures
-      && error.ComAmazonawsKms?
-      && error.ComAmazonawsKms.Opaque?
-      ==> opaqueError?.Some? && opaqueError?.value == error.ComAmazonawsKms
-  {
-    match error {
-      case Opaque(obj) => None
-      case KeyManagementException(s) => None
-      case BranchKeyCiphertextException(s) => None
-      case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
-        match comAmazonawsKms {
-          case Opaque(obj) => Some(comAmazonawsKms)
-          case OpaqueWithText(obj, objMessage) => Some(comAmazonawsKms)
-          case _ => None
-        }
-    }
-  }
-
-  function ExtractMessageFromKmsError(
-    error: KMSKeystoreOperations.KmsError
-  ): (errorMessage?: Option<string>)
-  {
-    match error {
-      case Opaque(obj) => None
-      case KeyManagementException(s) => Some(s)
-      case BranchKeyCiphertextException(s) => Some(s)
-      case ComAmazonawsKms(comAmazonawsKms: KMS.Types.Error) =>
-        match comAmazonawsKms {
-          case Opaque(obj) => None
-          case OpaqueWithText(obj, objMessage) => Some(objMessage)
-          case _ => comAmazonawsKms.message
-        }
-    }
-  }
-
-  function KmsSymmetricKeyArnToKMSConfiguration(
-    kmsSymmetricArn: Types.KmsSymmetricKeyArn
-  ): (output: KeyStoreTypes.KMSConfiguration)
-    requires
-      match kmsSymmetricArn
-      case KmsKeyArn(arn) => KmsArn.ValidKmsArn?(arn)
-  {
-    match kmsSymmetricArn
-    case KmsKeyArn(kmsKeyArn) => KeyStoreTypes.kmsKeyArn(kmsKeyArn)
-  }
 
   predicate IsSupportedKeyManagerStrategy(
     terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,
@@ -200,5 +130,19 @@ module {:options "/functionSyntax:4" } KmsUtils {
       case kmsSimple(kms) =>
         KMSTuple(kms.kmsClient, kms.grantTokens)
     }
+  }
+  
+  datatype KeyManagerAndStorage = KeyManagerAndStorage(
+    storage : KeyStoreTypes.IKeyStorageInterface,
+    keyManagerStrat: keyManagerStrat
+  )
+  {
+    ghost predicate ValidState()
+    {
+      && storage.ValidState()
+      && keyManagerStrat.ValidState()
+      && storage.Modifies !! keyManagerStrat.Modifies
+    }
+    ghost const Modifies := multiset(storage.Modifies) + multiset(keyManagerStrat.Modifies)
   }
 }
