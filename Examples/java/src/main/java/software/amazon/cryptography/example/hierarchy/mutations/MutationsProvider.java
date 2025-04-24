@@ -52,7 +52,9 @@ public class MutationsProvider {
       .TerminalKmsArn(terminalKmsArn);
     if (terminalHierarchyVersion == HierarchyVersion.v1) {
       // TODO-HV-2-M4: Support TerminalHV1? but don't support downgrading from hv-2 to hv-1.
-      throw new IllegalArgumentException("terminal HV with v1 is not yet supported. So, this will fail");
+      throw new IllegalArgumentException(
+        "terminal HV with v1 is not yet supported. So, this will fail"
+      );
     }
     if (terminalHierarchyVersion != null) {
       mutationsBuilder.TerminalHierarchyVersion(terminalHierarchyVersion);
