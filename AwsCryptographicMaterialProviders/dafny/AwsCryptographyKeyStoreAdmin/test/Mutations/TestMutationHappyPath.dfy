@@ -47,16 +47,41 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     modifies keyStoreTerminal.Modifies
   {
     match initialHV {
-      // TODO-HV-2-FF: Both v1 and v2 item could use AdminFixtures to create key
-      case v1 => Fixtures.CreateHappyCaseId(
-        id := branchKeyIdentifier,
-        versionCount := versionCount
-      );
-      case v2 => AdminFixtures.CreateHappyCaseId(
-        id := branchKeyIdentifier,
-        // versionCount := versionCount,
-        hierarchyVersion := initialHV
-      );
+      case v1 =>
+        Fixtures.CreateHappyCaseId(
+          id := branchKeyIdentifier,
+          versionCount := versionCount
+        );
+      case v2 =>
+        // TODO-HV-2-Version: Once, we support version key for HV2 keys.
+        // Uncomment this to directly create HV2 keys with versions.
+        // AdminFixtures.CreateHappyCaseId(
+        //   id := branchKeyIdentifier,
+        //   // versionCount := versionCount,
+        //   hierarchyVersion := initialHV
+        // );
+        Fixtures.CreateHappyCaseId(
+          id := branchKeyIdentifier,
+          versionCount := versionCount
+        );
+        // TODO-HV-2-Version: Below is Temporary Logic to have HV-2 Key with multiple decrypt-only/version items
+        // Add Mutation Logic Here for Mutating from HV-1 to HV-2
+        var initInput := Types.InitializeMutationInput(
+          Identifier := branchKeyIdentifier,
+          Mutations := Types.Mutations(
+            TerminalHierarchyVersion := Some(initialHV)
+          ),
+          Strategy := Some(strategy),
+          SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
+          DoNotVersion := Some(doNotVersion));
+        var initializeOutput :- expect keyStoreAdminUnderTest.InitializeMutation(initInput);
+        var initializeToken := initializeOutput.MutationToken;
+        var testInput := Types.ApplyMutationInput(
+          MutationToken := initializeToken,
+          PageSize := Some(24),
+          Strategy := Some(strategy),
+          SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
+        var applyOutput :- expect keyStoreAdminUnderTest.ApplyMutation(testInput);
     }
 
     var initInput := Types.InitializeMutationInput(
@@ -114,9 +139,7 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     var (expectedKmsArn, expectedHV, expectedEncryptionContext) := getExpectedTerminalValues(mutationsRequest, initialHV);
 
     expect
-      && (initialHV.v1? ==> |items| == expectedDecryptOnlyItems)
-         // TODO-HV-2-Version: Remove this once we added versioning for HV-2 keys
-      && (initialHV.v2? ==> |items| == 1)
+      && (|items| == expectedDecryptOnlyItems)
          ,
          "Test expects there to be " + String.Base10Int2String(expectedDecryptOnlyItems) + " Decrypt Only items! Found: " + String.Base10Int2String(|items|);
 
