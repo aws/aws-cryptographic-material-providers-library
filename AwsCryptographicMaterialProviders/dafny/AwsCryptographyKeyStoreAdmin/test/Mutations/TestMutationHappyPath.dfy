@@ -52,12 +52,16 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
         id := branchKeyIdentifier,
         versionCount := versionCount
       );
+      // WIP Print for debugging
+      print "\nCreated HV-1 Successfully: " + branchKeyIdentifier;
       case v2 => AdminFixtures.CreateHappyCaseId(
         id := branchKeyIdentifier,
-        // versionCount := versionCount,
+        versionCount := versionCount,
         strategy := strategy,
         hierarchyVersion := initialHV
       );
+      // WIP Print for debugging
+      print "\nCreated HV-2 Successfully: " + branchKeyIdentifier;
     }
 
     var initInput := Types.InitializeMutationInput(
@@ -90,6 +94,7 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
       expectedDecryptOnlyItems := expectedDecryptOnlyItems
     );
 
+    // WIP Uncomment while debugging
     var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyIdentifier, ddbClient:=ddbClient);
   }
 
@@ -113,8 +118,10 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     var queryOut :- expect storage.QueryForVersions(versionQuery);
     var items := queryOut.Items;
     var (expectedKmsArn, expectedHV, expectedEncryptionContext) := getExpectedTerminalValues(mutationsRequest, initialHV);
+
     expect
-      |items| == expectedDecryptOnlyItems,
+      && |items| == expectedDecryptOnlyItems
+      ,
       "Test expects there to be " + String.Base10Int2String(expectedDecryptOnlyItems) + " Decrypt Only items! Found: " + String.Base10Int2String(|items|);
 
     var itemIndex := 0;

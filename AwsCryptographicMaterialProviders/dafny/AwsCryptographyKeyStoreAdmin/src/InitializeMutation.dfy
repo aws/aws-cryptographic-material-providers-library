@@ -22,6 +22,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     // KMS & MPL Imports
   import KMS = ComAmazonawsKmsTypes
   import AwsKmsUtils
+  import AtomicPrimitives
     // KeyStore Imports
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
   import HvUtils = HierarchicalVersionUtils
@@ -232,11 +233,13 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         message := "Active Branch Key Item read from storage is malformed!")
     );
     // TODO-HV-2-M3: Support mutations on HV-2 item (mutation starting with hv-2 item)
-    :- Need(
-      readItems.ActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
-      Types.KeyStoreAdminException(
-        message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
-    );
+
+    // Start from Here ->
+    // :- Need(
+    //   readItems.ActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
+    //   Types.KeyStoreAdminException(
+    //     message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
+    // );
     var isTerminalHv2 := input.Mutations.TerminalHierarchyVersion.Some? &&
                          input.Mutations.TerminalHierarchyVersion.value.v2?;
     :- Need(
@@ -440,7 +443,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
   method {:isolate_assertions} CreateNewTerminalDecryptOnlyBranchKey(
     decryptOnlyEncryptionContext: Structure.BranchKeyContext,
     mutationToApply: StateStrucs.MutationToApply,
-    keyManagerStrategy: KmsUtils.keyManagerStrat
+    keyManagerStrategy: KmsUtils.keyManagerStrat,
+    crypto?: Option<AtomicPrimitives.AtomicPrimitivesClient> := None
   )
     returns (res: Result<KeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
     requires KmsArn.ValidKmsArn?(mutationToApply.Terminal.kmsArn)
@@ -472,25 +476,65 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         kmsClient := kms.kmsClient;
     }
 
-    var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
-      encryptionContext := decryptOnlyEncryptionContext,
-      kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
-      grantTokens := grantTokens,
-      kmsClient := kmsClient
-    );
+    // TODO-HV2-M2-HV2Only: This depends on version-specific Generation ->
+    // We need CryptoClient as well, so we don't end up creating multiple clients
+    var newDecryptOnly : KeyStoreTypes.EncryptedHierarchicalKey;
+    match mutationToApply.Terminal.hierarchyVersion {
+      case v1 =>
+        var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
+          encryptionContext := decryptOnlyEncryptionContext,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
+          grantTokens := grantTokens,
+          kmsClient := kmsClient
+        );
+        if (wrappedDecryptOnlyBranchKey?.Failure?) {
+          var error := MutationErrorRefinement.GenerateNewActiveException(
+            identifier := decryptOnlyEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
+            kmsArn := mutationToApply.Terminal.kmsArn,
+            error := wrappedDecryptOnlyBranchKey?.error);
+          return Failure(error);
+        }
+        newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
+          decryptOnlyEncryptionContext,
+          wrappedDecryptOnlyBranchKey?.value.CiphertextBlob.value
+        );
+      case v2 =>
+        // Get crypto client
+        // TODO: Refactor to have a common Client.
+        var crypto? := HvUtils.ProvideCryptoClient();
+        var crypto :- crypto?.MapFailure(
+          e => Types.AwsCryptographyPrimitives(
+              AwsCryptographyPrimitives := e
+            )
+        );
 
-    if (wrappedDecryptOnlyBranchKey?.Failure?) {
-      var error := MutationErrorRefinement.GenerateNewActiveException(
-        identifier := decryptOnlyEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
-        kmsArn := mutationToApply.Terminal.kmsArn,
-        error := wrappedDecryptOnlyBranchKey?.error);
-      return Failure(error);
+        var newPlaintextMaterial? := crypto.GenerateRandomBytes(
+          AtomicPrimitives.Types.GenerateRandomBytesInput(length := 32)
+        );
+        var newPlaintextMaterial :- newPlaintextMaterial?.MapFailure(
+          e => Types.AwsCryptographyPrimitives(
+              AwsCryptographyPrimitives := e
+            ));
+
+        var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(decryptOnlyEncryptionContext);
+        var newDecryptOnly? := KMSKeystoreOperations.packAndCallKMS(
+          branchKeyContext := decryptOnlyEncryptionContext,
+          kmsClient := kmsClient,
+          crypto := crypto,
+          material := newPlaintextMaterial,
+          encryptionContext := ecToKMS,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
+          grantTokens := grantTokens
+        );
+        if (newDecryptOnly?.Failure?) {
+          var error := MutationErrorRefinement.GenerateNewActiveException(
+            identifier := decryptOnlyEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
+            kmsArn := mutationToApply.Terminal.kmsArn,
+            error := newDecryptOnly?.error);
+          return Failure(error);
+        }
+        newDecryptOnly := newDecryptOnly?.value;
     }
-
-    var newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
-      decryptOnlyEncryptionContext,
-      wrappedDecryptOnlyBranchKey?.value.CiphertextBlob.value
-    );
 
     :- Need(
       Structure.BRANCH_KEY_TYPE_PREFIX < newDecryptOnly.EncryptionContext[Structure.TYPE_FIELD],
@@ -711,7 +755,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       localInput.timestamp,
       localInput.input.logicalKeyStoreName,
       localInput.mutationToApply.Terminal.kmsArn,
-      // localInput.mutationToApply.Terminal.hierarchyVersion,
+      localInput.mutationToApply.Terminal.hierarchyVersion,
       localInput.mutationToApply.Terminal.customEncryptionContext
     );
 
@@ -727,6 +771,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     var ActiveEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(newDecryptOnly.EncryptionContext);
 
     var newActive;
+    // Need Some Wiring Here
     if (localInput.input.keyManagerStrategy.decryptEncrypt?) {
       newActive :- Mutations.NewActiveItemForDecryptEncrypt(
         item := newDecryptOnly,

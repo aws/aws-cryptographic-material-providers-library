@@ -308,11 +308,31 @@ module {:options "/functionSyntax:4" } Mutations {
           grantTokens := kmsE.grantTokens,
           kmsClient := kmsE.kmsClient
         );
-      case kmsSimple(_) =>
-        // TODO-HV-2-M2: Implement KMS simple
-        return Failure(Types.UnsupportedFeatureException(
-                         message := "kmsSimple here is in TODO."
-                       ));
+      case kmsSimple(kms) =>
+        // TODO-HV-2-M2: For Now, For KMS Simple, we'll only get HV-2 Keys, but we should also support HV-1 keys if possible, here.
+        var decryptedKey :- decryptOrBuildMutateException(input.item, input.keyManagerStrategy, localOperation);
+        kmsOperation := "Encrypt";
+        // Get crypto client
+        var crypto? := HVUtils.ProvideCryptoClient();
+        var crypto :- crypto?.MapFailure(
+          e => Types.AwsCryptographyPrimitives(
+              AwsCryptographyPrimitives := e
+            )
+        );
+        var digest? := HVUtils.CreateBKCDigest(input.terminalEncryptionContext, crypto);
+        var digest :- digest?.MapFailure(
+          e => Types.AwsCryptographyKeyStore(
+          AwsCryptographyKeyStore:= e));
+        var plaintextTuple := HVUtils.PackPlainTextTuple(digest, decryptedKey);
+        var ecToKMS := HVUtils.SelectKmsEncryptionContextForHv2(input.terminalEncryptionContext);
+        wrappedKey? := KMSKeystoreOperations.EncryptKey(
+          plaintext := plaintextTuple,
+          encryptionContext := ecToKMS,
+          kmsArnToStorage := input.terminalEncryptionContext[Structure.KMS_FIELD],
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(input.terminalKmsArn),
+          grantTokens := kms.grantTokens,
+          kmsClient := kms.kmsClient
+        );
     }
     assert kmsOperation == "ReEncrypt" || kmsOperation == "Encrypt";
     // We call this method to create the new Active from the new Decrypt Only
@@ -358,7 +378,7 @@ module {:options "/functionSyntax:4" } Mutations {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
-    // hierachyVersion: HierarchyVersion,
+    hierarchyVersion: KeyStoreTypes.HierarchyVersion,
     prefixedCustomEncryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
@@ -369,6 +389,7 @@ module {:options "/functionSyntax:4" } Mutations {
     ensures Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[Structure.KMS_FIELD] == kmsKeyArn
     ensures output[Structure.TABLE_FIELD] == logicalKeyStoreName
+    ensures output[Structure.HIERARCHY_VERSION] == HierarchyVersionToString(hierarchyVersion)
     ensures forall k <- prefixedCustomEncryptionContext
               ::
                 && k in output
@@ -380,7 +401,7 @@ module {:options "/functionSyntax:4" } Mutations {
       Structure.KEY_CREATE_TIME := timestamp,
       Structure.TABLE_FIELD := logicalKeyStoreName,
       Structure.KMS_FIELD := kmsKeyArn,
-      Structure.HIERARCHY_VERSION := Structure.HIERARCHY_VERSION_VALUE
+      Structure.HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
     ] + prefixedCustomEncryptionContext
   }
 
@@ -451,6 +472,7 @@ module {:options "/functionSyntax:4" } Mutations {
        )
   }
 
+  // Need Input for Crypto Client
   method MutateItem(
     item: KeyStoreTypes.EncryptedHierarchicalKey,
     mutationToApply: StateStrucs.MutationToApply,
@@ -538,6 +560,7 @@ module {:options "/functionSyntax:4" } Mutations {
     return Success(mutatedItem);
   }
 
+  // Some wiring here
   method MutateToHV2(
     item: KeyStoreTypes.EncryptedHierarchicalKey,
     mutationToApply: StateStrucs.MutationToApply,
@@ -559,7 +582,7 @@ module {:options "/functionSyntax:4" } Mutations {
       keyManagerStrategy.kmsSimple?,
       Types.KeyStoreAdminException(message :="Only KMS Simple is supported at this time for HV-2 to Create Keys")
     );
-    // TODO-HV-2-M2: Make ReplaceMutableContext modify hierarchical version.
+
     var terminalBKC := Structure.ReplaceMutableContext(
       item.EncryptionContext,
       mutationToApply.Terminal.kmsArn,
@@ -572,6 +595,8 @@ module {:options "/functionSyntax:4" } Mutations {
         message := KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
       )
     );
+    // TODO-HV-2-M2-FF: Refactor crypto client to be able to create only once;
+    // TODO-HV-2-M2-FF: Match Error type with CreateKeysHV2
     var crypto? := HVUtils.ProvideCryptoClient();
     if (crypto?.Failure?) {
       var e := Types.KeyStoreAdminException(
