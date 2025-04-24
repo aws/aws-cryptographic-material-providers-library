@@ -41,9 +41,13 @@ module {:options "/functionSyntax:4" } TestHv2KmsExceptions {
 
     expect bk.Failure?, "Expected a Failure when creating a branch key with KMS Arn without Encrypt Permission";
     match bk.error {
-      case ComAmazonawsKms(nestedError) =>
-        expect nestedError.OpaqueWithText?, "Branch Key Creation SHOULD Fail with KMS OpaqueWithText Exception, ";
-      case _ => expect false, "Branch Key Creation SHOULD Fail with KMS Exception.";
+      case AwsCryptographyKeyStore(nestedError) =>
+        match nestedError {
+          case ComAmazonawsKms(kmsNestedError) =>
+            expect kmsNestedError.OpaqueWithText?, "Branch Key Creation SHOULD Fail with KMS OpaqueWithText Exception, ";
+          case _ => expect false, "Branch Key Creation SHOULD fail with KMS nested Exception";
+        }
+      case _ => expect false, "Branch Key Creation SHOULD Fail with AwsCryptographyKeyStore Exception.";
     }
   }
 
