@@ -5,6 +5,7 @@ package software.amazon.cryptography.example.hierarchy.mutations;
 import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.executeInitialize;
 
 import java.util.Objects;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
@@ -74,6 +75,7 @@ public class DescribeMutationExample {
   public static MutationToken InitMutation(
     String branchKeyId,
     String kmsKeyArnTerminal,
+    @Nullable HierarchyVersion terminalHierarchyVersion,
     @Nullable SystemKey systemKey,
     @Nullable KeyManagementStrategy strategy,
     @Nullable KeyStoreAdmin admin
@@ -88,7 +90,7 @@ public class DescribeMutationExample {
 
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
-      .Mutations(MutationsProvider.defaultMutation(kmsKeyArnTerminal))
+      .Mutations(MutationsProvider.defaultMutation(kmsKeyArnTerminal, terminalHierarchyVersion))
       .Identifier(branchKeyId)
       .Strategy(_strategy)
       .SystemKey(_systemKey)
@@ -110,6 +112,7 @@ public class DescribeMutationExample {
   public static void CompleteExample(
     String kmsKeyArnOriginal,
     String kmsKeyArnTerminal,
+    HierarchyVersion terminalHierarchyVersion,
     String branchKeyId,
     @Nullable SystemKey systemKey,
     @Nullable KeyManagementStrategy strategy,
@@ -133,6 +136,7 @@ public class DescribeMutationExample {
     MutationToken fromInit = InitMutation(
       branchKeyId,
       kmsKeyArnTerminal,
+      terminalHierarchyVersion,
       _systemKey,
       _strategy,
       _admin

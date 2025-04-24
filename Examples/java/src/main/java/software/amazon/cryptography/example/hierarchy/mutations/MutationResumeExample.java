@@ -3,8 +3,10 @@
 package software.amazon.cryptography.example.hierarchy.mutations;
 
 import java.util.HashMap;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
 import software.amazon.cryptography.keystoreadmin.model.DescribeMutationOutput;
@@ -33,6 +35,7 @@ public class MutationResumeExample {
   public static String Resume2End(
     String branchKeyId,
     String terminalKmsArn,
+    @Nullable HierarchyVersion terminalHierarchyVersion,
     @Nullable KeyManagementStrategy strategy,
     @Nullable SystemKey systemKey,
     @Nullable KeyStoreAdmin admin
@@ -48,7 +51,7 @@ public class MutationResumeExample {
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
-    Mutations mutations = MutationsProvider.defaultMutation(terminalKmsArn);
+    Mutations mutations = MutationsProvider.defaultMutation(terminalKmsArn, terminalHierarchyVersion);
 
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
