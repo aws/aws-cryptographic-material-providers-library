@@ -106,6 +106,9 @@ pub mod local_cmc_tests {
                         .await;
 
                     match cache_entry_output {
+                        Ok(_) => {
+                            // Cache hit
+                        }
                         Err(Error::EntryDoesNotExist { message: _m }) => {
                             let materials = Materials::BeaconKey(
                                 BeaconKeyMaterials::builder()
