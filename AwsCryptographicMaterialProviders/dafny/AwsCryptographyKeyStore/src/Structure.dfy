@@ -511,10 +511,7 @@ module {:options "/functionSyntax:4" } Structure {
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[KMS_FIELD] == kmsKeyArn
     ensures output[TABLE_FIELD] == logicalKeyStoreName
-    ensures output[HIERARCHY_VERSION] == match hierarchyVersion {
-                                           case v1 => HIERARCHY_VERSION_VALUE_1
-                                           case v2 => HIERARCHY_VERSION_VALUE_2
-                                         }
+    ensures output[HIERARCHY_VERSION] == HierarchyVersionToString(hierarchyVersion)
     ensures forall k <- encryptionContext
               ::
                 && ENCRYPTION_CONTEXT_PREFIX + k in output
@@ -545,10 +542,7 @@ module {:options "/functionSyntax:4" } Structure {
       KEY_CREATE_TIME := timestamp,
       TABLE_FIELD := logicalKeyStoreName,
       KMS_FIELD := kmsKeyArn,
-      HIERARCHY_VERSION := match hierarchyVersion {
-      case v1 => HIERARCHY_VERSION_VALUE_1
-      case v2 => HIERARCHY_VERSION_VALUE_2
-    }
+      HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
     ]
   }
 
