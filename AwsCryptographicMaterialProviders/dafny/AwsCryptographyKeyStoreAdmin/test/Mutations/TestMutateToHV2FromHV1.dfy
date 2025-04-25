@@ -105,10 +105,8 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   }
 
   method TestHV1toHV2HappyCase(strategy: Types.KeyManagementStrategy, ddbClient: DDB.Types.IDynamoDBClient, kmsClient: KMS.Types.IKMSClient)
-    requires ddbClient.ValidState()
-    requires kmsClient.ValidState()
-    modifies ddbClient.Modifies
-    modifies kmsClient.Modifies
+    requires ddbClient.ValidState() && kmsClient.ValidState()
+    modifies ddbClient.Modifies, kmsClient.Modifies
   {
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
@@ -220,10 +218,8 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
 
   const happyCaseIdHV2toHV2 := "test-mutate-hv2-to-hv2"
   method TestHV2toHV2HappyCase(strategy: Types.KeyManagementStrategy, ddbClient: DDB.Types.IDynamoDBClient, kmsClient: KMS.Types.IKMSClient)
-    requires ddbClient.ValidState()
-    requires kmsClient.ValidState()
-    modifies ddbClient.Modifies
-    modifies kmsClient.Modifies
+    requires ddbClient.ValidState() && kmsClient.ValidState()
+    modifies ddbClient.Modifies, kmsClient.Modifies
   {
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));

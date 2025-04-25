@@ -125,10 +125,8 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     mutationsRequest: Types.Mutations,
     expectedDecryptOnlyItems: int
   )
-    requires storage.ValidState()
-    requires keyStoreTerminal.ValidState()
-    modifies storage.Modifies
-    modifies keyStoreTerminal.Modifies
+    requires storage.ValidState() && keyStoreTerminal.ValidState()
+    modifies storage.Modifies, keyStoreTerminal.Modifies
   {
     var versionQuery := KeyStoreTypes.QueryForVersionsInput(
       Identifier := branchKeyIdentifier,
@@ -139,9 +137,8 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     var (expectedKmsArn, expectedHV, expectedEncryptionContext) := getExpectedTerminalValues(mutationsRequest, initialHV);
 
     expect
-      && (|items| == expectedDecryptOnlyItems)
-         ,
-         "Test expects there to be " + String.Base10Int2String(expectedDecryptOnlyItems) + " Decrypt Only items! Found: " + String.Base10Int2String(|items|);
+      |items| == expectedDecryptOnlyItems,
+      "Test expects there to be " + String.Base10Int2String(expectedDecryptOnlyItems) + " Decrypt Only items! Found: " + String.Base10Int2String(|items|);
 
     var itemIndex := 0;
 
