@@ -166,7 +166,7 @@ public class ExampleTests {
    * Note: terminalHVersion is not added in the test because hv1 to hv2 is not supported
    */
   private void end2EndKmsReEncryptTestHelper(
-    @Nullable HierarchyVersion initialHVersion
+    @Nullable final HierarchyVersion initialHVersion
   ) {
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
