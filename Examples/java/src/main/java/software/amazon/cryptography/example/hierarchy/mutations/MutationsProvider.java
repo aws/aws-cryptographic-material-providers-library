@@ -46,20 +46,12 @@ public class MutationsProvider {
   ) {
     HashMap<String, String> terminalEC = new HashMap<>(2, 1);
     terminalEC.put("Robbie", "is a dog.");
-    Mutations.Builder mutationsBuilder = Mutations
+    return Mutations
       .builder()
       .TerminalEncryptionContext(terminalEC)
-      .TerminalKmsArn(terminalKmsArn);
-    if (terminalHierarchyVersion == HierarchyVersion.v1) {
-      // TODO-HV-2-M4: Support TerminalHV1? but don't support downgrading from hv-2 to hv-1.
-      throw new IllegalArgumentException(
-        "terminal HV with v1 is not yet supported. So, this will fail"
-      );
-    }
-    if (terminalHierarchyVersion != null) {
-      mutationsBuilder.TerminalHierarchyVersion(terminalHierarchyVersion);
-    }
-    return mutationsBuilder.build();
+      .TerminalKmsArn(terminalKmsArn)
+      .TerminalHierarchyVersion(terminalHierarchyVersion)
+      .build();
   }
 
   public static SystemKey KmsSystemKey() {
