@@ -13,8 +13,6 @@ public class MutationKmsSimpleExample {
     public static String End2End(
             @Nonnull String branchKeyId,
             @Nonnull String terminalKmsArn,
-            @Nonnull AwsKms originalAwsKms,
-            @Nonnull AwsKms terminalAwsKms,
             @Nullable HierarchyVersion terminalHierarchyVersion,
             @Nonnull SystemKey systemKey,
             @Nullable KeyStoreAdmin admin
