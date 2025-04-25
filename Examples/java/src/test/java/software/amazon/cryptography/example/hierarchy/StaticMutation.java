@@ -4,6 +4,7 @@ import java.util.Collections;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.mutations.DescribeMutationExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 
 public class StaticMutation {
@@ -19,6 +20,7 @@ public class StaticMutation {
     DescribeMutationExample.CompleteExample(
       Fixtures.KEYSTORE_KMS_ARN,
       Fixtures.POSTAL_HORN_KEY_ARN,
+      HierarchyVersion.v1,
       bkid,
       systemKey,
       null,
@@ -33,6 +35,7 @@ public class StaticMutation {
     DescribeMutationExample.CompleteExample(
       Fixtures.KEYSTORE_KMS_ARN,
       Fixtures.POSTAL_HORN_KEY_ARN,
+      HierarchyVersion.v1,
       bkid,
       systemKey,
       null,

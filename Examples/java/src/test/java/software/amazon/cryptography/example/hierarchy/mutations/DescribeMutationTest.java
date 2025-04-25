@@ -29,6 +29,7 @@ public class DescribeMutationTest {
     DescribeMutationExample.CompleteExample(
       Fixtures.KEYSTORE_KMS_ARN,
       Fixtures.POSTAL_HORN_KEY_ARN,
+      null,
       branchKeyId,
       systemKey,
       null,
@@ -54,6 +55,7 @@ public class DescribeMutationTest {
     InitMutation(
       branchKeyId,
       Fixtures.POSTAL_HORN_KEY_ARN,
+      null,
       systemKey,
       null,
       null
@@ -91,6 +93,7 @@ public class DescribeMutationTest {
     InitMutation(
       branchKeyId,
       Fixtures.POSTAL_HORN_KEY_ARN,
+      null,
       systemKey,
       null,
       null

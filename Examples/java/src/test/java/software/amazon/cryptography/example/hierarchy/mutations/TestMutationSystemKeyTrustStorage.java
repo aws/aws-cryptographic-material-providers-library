@@ -23,7 +23,8 @@ public class TestMutationSystemKeyTrustStorage {
     );
     MutationsSystemKeyTrustExample.End2End(
       branchKeyId,
-      Fixtures.KEYSTORE_KMS_ARN
+      Fixtures.KEYSTORE_KMS_ARN,
+      null
     );
     DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }

@@ -139,6 +139,7 @@ public class ExampleTests {
       MutationResumeExample.Resume2End(
         branchKeyId,
         Fixtures.KEYSTORE_KMS_ARN,
+        null,
         AdminProvider.strategy(Fixtures.kmsClientWest2),
         MutationsProvider.TrustStorage(),
         AdminProvider.admin()
@@ -192,6 +193,7 @@ public class ExampleTests {
         Fixtures.POSTAL_HORN_KEY_ARN,
         AwsKms.builder().kmsClient(Fixtures.keyStoreOnlyKmsClient).build(),
         AwsKms.builder().kmsClient(Fixtures.postalHornOnlyKmsClient).build(),
+        null,
         MutationsProvider.KmsSystemKey(),
         AdminProvider.admin()
       );
@@ -243,6 +245,7 @@ public class ExampleTests {
       MutationResumeExample.Resume2End(
         branchKeyId,
         Fixtures.KEYSTORE_KMS_ARN,
+        null,
         AdminProvider.strategy(Fixtures.kmsClientWest2),
         MutationsProvider.TrustStorage(),
         AdminProvider.admin()
