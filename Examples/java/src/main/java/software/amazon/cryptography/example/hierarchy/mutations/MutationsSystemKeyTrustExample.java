@@ -52,7 +52,7 @@ public class MutationsSystemKeyTrustExample {
   public static String End2End(
     @Nonnull final String identifier,
     @Nonnull final String terminalKmsArn,
-    @Nonnull HierarchyVersion terminalHierarchyVersion,
+    @Nonnull final HierarchyVersion terminalHierarchyVersion,
     @Nullable KeyStoreAdmin admin,
     @Nullable Mutations mutations,
     @Nullable KeyManagementStrategy strategy
