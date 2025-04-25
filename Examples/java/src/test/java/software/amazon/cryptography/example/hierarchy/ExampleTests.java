@@ -10,6 +10,7 @@ import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 import software.amazon.cryptography.example.Constants;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
+import software.amazon.cryptography.example.hierarchy.mutations.MutationKmsSimpleExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationDecryptEncryptExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationResumeExample;
@@ -29,7 +30,7 @@ public class ExampleTests {
   static final String hv2CreateTestPrefix = "create-hierarchy-version-2-java-";
 
   @Test
-  public void CreateKeyHv2Test() {
+  public void createKeyHv2Test() {
     String branchKeyId =
       hv2CreateTestPrefix + java.util.UUID.randomUUID().toString();
     // Create Branch Key with `hierarchy-version-2` (HV-2)
@@ -78,19 +79,19 @@ public class ExampleTests {
   }
 
   @Test
-  public void End2EndKmsSimpleTest() {
+  public void end2EndKmsSimpleTest() {
     // Run the test with v1 -> v2 mutation
     end2EndKmsSimpleTestHelper(HierarchyVersion.v1, HierarchyVersion.v2);
   }
 
   @Test
-  public void End2EndKmsReEncryptTest() {
-    // Run the test with v1 -> v2 mutation
+  public void end2EndKmsReEncryptTest() {
+    // Run the test for v1 item mutation
     end2EndKmsReEncryptTestHelper(HierarchyVersion.v1);
   }
 
   @Test
-  public void End2EndDecryptEncryptTest() {
+  public void end2EndDecryptEncryptTest() {
     // Run the test with v1 -> v2 mutation
     end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, null);
   }
