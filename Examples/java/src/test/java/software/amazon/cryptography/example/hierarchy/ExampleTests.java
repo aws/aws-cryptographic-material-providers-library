@@ -277,8 +277,8 @@ public class ExampleTests {
    * terminalHVersion can be null if mutation of HierarchyVersion is not required
    */
   private void end2EndDecryptEncryptTestHelper(
-    @Nonnull HierarchyVersion initialHVersion,
-    @Nullable HierarchyVersion terminalHVersion
+    @Nonnull final HierarchyVersion initialHVersion,
+    @Nullable final HierarchyVersion terminalHVersion
   ) {
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
