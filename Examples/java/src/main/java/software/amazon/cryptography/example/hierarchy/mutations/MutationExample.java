@@ -44,7 +44,7 @@ import software.amazon.cryptography.keystoreadmin.model.SystemKey;
  * the Branch Key, constrained by the Encryption Context of the Branch Key
  * and the KMS Key Policy.
  * Changing (mutating) these attributes of a Branch Key changes these predicates;
- * agents that had access may lose access. <p>make format_java_misc
+ * agents that had access may lose access. <p>
  * Note: <strong>Mutations are asynchronous and should be completed.</strong>
  * See {@link ScanForInFlightMutations#ScanForInFlightMutations} for an example
  * utility to scan for in-complete Mutations.
