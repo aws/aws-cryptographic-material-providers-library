@@ -107,6 +107,7 @@ module {:options "/functionSyntax:4" } TestMutateToHV2FromHV1 {
   method TestHV1toHV2HappyCase(strategy: Types.KeyManagementStrategy, ddbClient: DDB.Types.IDynamoDBClient, kmsClient: KMS.Types.IKMSClient)
     requires ddbClient.ValidState() && kmsClient.ValidState()
     modifies ddbClient.Modifies, kmsClient.Modifies
+    ensures ddbClient.ValidState() && kmsClient.ValidState()
   {
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
