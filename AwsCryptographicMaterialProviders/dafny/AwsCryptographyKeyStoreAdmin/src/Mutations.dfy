@@ -107,7 +107,6 @@ module {:options "/functionSyntax:4" } Mutations {
     var success?: bool := false;
     var throwAwayError;
     var kmsOperation: string;
-
     match keyManagerStrategy {
       case reEncrypt(kms) =>
         kmsOperation := "ReEncrypt";
@@ -437,7 +436,7 @@ module {:options "/functionSyntax:4" } Mutations {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
-    // hierachyVersion: HierarchyVersion,
+    hierarchyVersion: KeyStoreTypes.HierarchyVersion,
     prefixedCustomEncryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
@@ -448,6 +447,7 @@ module {:options "/functionSyntax:4" } Mutations {
     ensures Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[Structure.KMS_FIELD] == kmsKeyArn
     ensures output[Structure.TABLE_FIELD] == logicalKeyStoreName
+    ensures output[Structure.HIERARCHY_VERSION] == HierarchyVersionToString(hierarchyVersion)
     ensures forall k <- prefixedCustomEncryptionContext
               ::
                 && k in output
@@ -459,7 +459,7 @@ module {:options "/functionSyntax:4" } Mutations {
       Structure.KEY_CREATE_TIME := timestamp,
       Structure.TABLE_FIELD := logicalKeyStoreName,
       Structure.KMS_FIELD := kmsKeyArn,
-      Structure.HIERARCHY_VERSION := Structure.HIERARCHY_VERSION_VALUE
+      Structure.HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
     ] + prefixedCustomEncryptionContext
   }
 
