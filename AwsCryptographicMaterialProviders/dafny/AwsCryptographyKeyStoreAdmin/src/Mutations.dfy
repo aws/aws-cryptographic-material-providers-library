@@ -51,6 +51,7 @@ module {:options "/functionSyntax:4" } Mutations {
   )
     returns (output: Result<ActiveVerificationHolder,Types.Error>)
 
+    requires localOperation == "ApplyMutation" || localOperation == "InitializeMutation"
     requires mutationToApply.ValidState()
     requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
     requires KmsArn.ValidKmsArn?(item.KmsArn)
