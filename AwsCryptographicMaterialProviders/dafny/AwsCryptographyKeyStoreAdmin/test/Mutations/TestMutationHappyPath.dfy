@@ -135,7 +135,6 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     var queryOut :- expect storage.QueryForVersions(versionQuery);
     var items := queryOut.Items;
     var (expectedKmsArn, expectedHV, expectedEncryptionContext) := getExpectedTerminalValues(mutationsRequest, initialHV);
-
     expect
       |items| == expectedDecryptOnlyItems,
       "Test expects there to be " + String.Base10Int2String(expectedDecryptOnlyItems) + " Decrypt Only items! Found: " + String.Base10Int2String(|items|);
