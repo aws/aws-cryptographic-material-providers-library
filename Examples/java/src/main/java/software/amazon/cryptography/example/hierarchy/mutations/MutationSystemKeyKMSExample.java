@@ -58,7 +58,7 @@ public class MutationSystemKeyKMSExample {
     @Nonnull final String systemKeyArn,
     @Nonnull final String identifier,
     @Nonnull final String terminalKmsArn,
-    @Nonnull HierarchyVersion terminalHierarchyVersion,
+    @Nonnull final HierarchyVersion terminalHierarchyVersion,
     @Nullable KmsClient systemKeyKmsClient,
     @Nullable List<String> systemKeyGrantTokens,
     @Nullable KeyStoreAdmin admin,
