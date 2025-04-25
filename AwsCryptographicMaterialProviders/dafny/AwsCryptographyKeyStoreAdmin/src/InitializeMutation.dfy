@@ -22,6 +22,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     // KMS & MPL Imports
   import KMS = ComAmazonawsKmsTypes
   import AwsKmsUtils
+  import AtomicPrimitives
     // KeyStore Imports
   import KeyStoreTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
   import HvUtils = HierarchicalVersionUtils
@@ -230,12 +231,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
          ),
       Types.KeyStoreAdminException(
         message := "Active Branch Key Item read from storage is malformed!")
-    );
-    // TODO-HV-2-M3: Support mutations on HV-2 item (mutation starting with hv-2 item)
-    :- Need(
-      readItems.ActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1,
-      Types.KeyStoreAdminException(
-        message := "At this time, Mutations ONLY support HV-1; BK's Active Item is HV-2.")
     );
     var isTerminalHv2 := input.Mutations.TerminalHierarchyVersion.Some? &&
                          input.Mutations.TerminalHierarchyVersion.value.v2?;
@@ -704,14 +699,13 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     .MapFailure(e => Types.KeyStoreAdminException(
                     message := "Could not generate UUID for new Decrypt Only. " + e));
 
-    // TODO-HV-2-M2: Refactor to allow HV-2 for Mutations
     var decryptOnlyEncryptionContext := Mutations.DecryptOnlyBranchKeyEncryptionContextForMutation(
       localInput.input.Identifier,
       newVersion,
       localInput.timestamp,
       localInput.input.logicalKeyStoreName,
       localInput.mutationToApply.Terminal.kmsArn,
-      // localInput.mutationToApply.Terminal.hierarchyVersion,
+      localInput.mutationToApply.Terminal.hierarchyVersion,
       localInput.mutationToApply.Terminal.customEncryptionContext
     );
 
