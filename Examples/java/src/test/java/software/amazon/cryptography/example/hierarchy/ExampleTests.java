@@ -86,14 +86,16 @@ public class ExampleTests {
 
   @Test
   public void end2EndKmsReEncryptTest() {
-    // Run the test for v1 item mutation
+    // Run the test for v1 item mutation without mutating hierarchical version
     end2EndKmsReEncryptTestHelper(HierarchyVersion.v1);
   }
 
   @Test
   public void end2EndDecryptEncryptTest() {
-    // Run the test with v1 -> v2 mutation
+    // Run the test for v1 item mutation without mutating hierarchical version
     end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, null);
+    // Run the test with v1 -> v2 mutation
+    end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, HierarchyVersion.v2);
   }
 
   /**
