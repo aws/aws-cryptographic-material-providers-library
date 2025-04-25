@@ -8,10 +8,7 @@ import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 import software.amazon.cryptography.example.Constants;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
-import software.amazon.cryptography.example.hierarchy.mutations.MutationDecryptEncryptExample;
-import software.amazon.cryptography.example.hierarchy.mutations.MutationExample;
-import software.amazon.cryptography.example.hierarchy.mutations.MutationResumeExample;
-import software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider;
+import software.amazon.cryptography.example.hierarchy.mutations.*;
 import software.amazon.cryptography.keystore.KeyStore;
 import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystore.model.GetActiveBranchKeyInput;
@@ -71,6 +68,59 @@ public class ExampleTests {
     assert branchKeyId.equals(
       beaconOutput.beaconKeyMaterials().beaconKeyIdentifier()
     );
+
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
+  }
+
+  @Test
+  public void End2EndKmsSimpleTest() {
+    String branchKeyId = CreateKeyExample.CreateKey(
+            Fixtures.KEYSTORE_KMS_ARN,
+            null,
+            AdminProvider.admin(),
+            HierarchyVersion.v1
+    );
+    System.out.println("\nCreated Branch Key: " + branchKeyId);
+      branchKeyId =
+              MutationKmsSimpleExample.End2End(
+                      branchKeyId,
+                      Fixtures.POSTAL_HORN_KEY_ARN,
+                      HierarchyVersion.v2,
+                      MutationsProvider.KmsSystemKey(),
+                      AdminProvider.admin()
+              );
+
+    System.out.println(
+            "\nMutated Branch Key: " +
+                    branchKeyId +
+                    " to KMS ARN: " +
+                    Fixtures.POSTAL_HORN_KEY_ARN +
+                    "\n"
+    );
+    GetItemResponse mCommitmentRes = DdbHelper.getKeyStoreDdbItem(
+            branchKeyId,
+            Constants.TYPE_MUTATION_COMMITMENT,
+            Fixtures.TEST_KEYSTORE_NAME,
+            Fixtures.ddbClientWest2
+    );
+    Assert.assertFalse(
+            mCommitmentRes.hasItem(),
+            Constants.TYPE_MUTATION_COMMITMENT + " was not deleted!"
+    );
+    GetItemResponse mIndexRes = DdbHelper.getKeyStoreDdbItem(
+            branchKeyId,
+            Constants.TYPE_MUTATION_INDEX,
+            Fixtures.TEST_KEYSTORE_NAME,
+            Fixtures.ddbClientWest2
+    );
+    Assert.assertFalse(
+            mIndexRes.hasItem(),
+            Constants.TYPE_MUTATION_INDEX + " was not deleted!"
+    );
+    KeyStore postalHornKS = KeyStoreProvider.keyStore(
+            Fixtures.POSTAL_HORN_KEY_ARN
+    );
+    ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, postalHornKS);
 
     DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
