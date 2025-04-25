@@ -63,7 +63,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
     predicate SupportHV2()
     {
       match this
-      case decryptEncrypt(kmD, kmE) => false
+      case decryptEncrypt(kmD, kmE) => true
       case reEncrypt(km) => false
       case kmsSimple(km) => true
     }
@@ -147,6 +147,58 @@ module {:options "/functionSyntax:4" } KmsUtils {
     match terminalHierarchyVersion {
       case v1 => keyManagerStrategy.SupportHV1()
       case v2 => keyManagerStrategy.SupportHV2()
+    }
+  }
+
+  /**
+    * Extracts the KMSTuple (KMS client and grant tokens) from keyManagerStrat.
+    * The KMSTuple might not just be for decryption but can also be used for other operations.
+    * 
+    * The function handles three different key manager strategy patterns:
+    * - reEncrypt: Only has one kms client and grant tokens
+    * - decryptEncrypt: Uses separate KMS clients for decryption and encryption (returns the decrypt client)
+    * - kmsSimple: Only has one kms client and grant tokens
+    * 
+    * @param keyManagerStrategy The strategy pattern that defines which KMS clients to use
+    * @returns A KMSTuple containing KMS client and grant tokens extracted from keyManagerStrat
+    */
+  function getDecryptKMSTuple(
+    keyManagerStrategy: keyManagerStrat
+  ) : (output: KMSTuple)
+  {
+    match keyManagerStrategy {
+      case reEncrypt(kms) =>
+        KMSTuple(kms.kmsClient, kms.grantTokens)
+      case decryptEncrypt(kmsD, kmsE) =>
+        KMSTuple(kmsD.kmsClient, kmsD.grantTokens)
+      case kmsSimple(kms) =>
+        KMSTuple(kms.kmsClient, kms.grantTokens)
+    }
+  }
+
+  /**
+    * Extracts the KMSTuple (KMS client and grant tokens) from keyManagerStrat.
+    * The KMSTuple might not just be for encryption but can also be used for other operations.
+    * 
+    * The function handles three different key manager strategy patterns:
+    * - reEncrypt: Only has one kms client and grant tokens
+    * - decryptEncrypt: Uses separate KMS clients for decryption and encryption (returns the encrypt client)
+    * - kmsSimple: Only has one kms client and grant tokens
+    * 
+    * @param keyManagerStrategy The strategy pattern that defines which KMS clients to used
+    * @returns A KMSTuple containing KMS client and grant tokens extracted from keyManagerStrat
+    */
+  function getEncryptKMSTuple(
+    keyManagerStrategy: keyManagerStrat
+  ) : (output: KMSTuple)
+  {
+    match keyManagerStrategy {
+      case reEncrypt(kms) =>
+        KMSTuple(kms.kmsClient, kms.grantTokens)
+      case decryptEncrypt(kmsD, kmsE) =>
+        KMSTuple(kmsE.kmsClient, kmsE.grantTokens)
+      case kmsSimple(kms) =>
+        KMSTuple(kms.kmsClient, kms.grantTokens)
     }
   }
 }
