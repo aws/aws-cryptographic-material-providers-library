@@ -150,6 +150,18 @@ module {:options "/functionSyntax:4" } KmsUtils {
     }
   }
 
+  /**
+    * Extracts the KMSTuple (KMS client and grant tokens) from keyManagerStrat.
+    * The KMSTuple might not just be for decryption but can also be used for other operations.
+    * 
+    * The function handles three different key manager strategy patterns:
+    * - reEncrypt: Only has one kms client and grant tokens
+    * - decryptEncrypt: Uses separate KMS clients for decryption and encryption (returns the decrypt client)
+    * - kmsSimple: Only has one kms client and grant tokens
+    * 
+    * @param keyManagerStrategy The strategy pattern that defines which KMS clients to use
+    * @returns A KMSTuple containing KMS client and grant tokens extracted from keyManagerStrat
+    */
   function getDecryptKMSTuple(
     keyManagerStrategy: keyManagerStrat
   ) : (output: KMSTuple)
@@ -164,6 +176,18 @@ module {:options "/functionSyntax:4" } KmsUtils {
     }
   }
 
+  /**
+    * Extracts the KMSTuple (KMS client and grant tokens) from keyManagerStrat.
+    * The KMSTuple might not just be for encryption but can also be used for other operations.
+    * 
+    * The function handles three different key manager strategy patterns:
+    * - reEncrypt: Only has one kms client and grant tokens
+    * - decryptEncrypt: Uses separate KMS clients for decryption and encryption (returns the encrypt client)
+    * - kmsSimple: Only has one kms client and grant tokens
+    * 
+    * @param keyManagerStrategy The strategy pattern that defines which KMS clients to used
+    * @returns A KMSTuple containing KMS client and grant tokens extracted from keyManagerStrat
+    */
   function getEncryptKMSTuple(
     keyManagerStrategy: keyManagerStrat
   ) : (output: KMSTuple)
