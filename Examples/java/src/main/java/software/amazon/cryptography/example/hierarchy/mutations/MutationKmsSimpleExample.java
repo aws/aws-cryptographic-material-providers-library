@@ -22,11 +22,10 @@ public class MutationKmsSimpleExample {
       .AwsKmsSimple(AwsKms.builder().build())
       .build();
 
-      Mutations mutations = MutationsProvider.defaultMutation(
-              terminalKmsArn,
-              terminalHierarchyVersion
-      );
-
+    Mutations mutations = MutationsProvider.defaultMutation(
+      terminalKmsArn,
+      terminalHierarchyVersion
+    );
 
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
@@ -36,7 +35,7 @@ public class MutationKmsSimpleExample {
       .Identifier(branchKeyId)
       .Strategy(strategy)
       .SystemKey(systemKey)
-            .DoNotVersion(true)
+      .DoNotVersion(true)
       .build();
 
     InitializeMutationOutput initOutput = _admin.InitializeMutation(initInput);
