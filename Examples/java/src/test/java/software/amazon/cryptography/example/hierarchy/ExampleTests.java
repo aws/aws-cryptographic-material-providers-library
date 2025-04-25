@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
@@ -74,18 +76,45 @@ public class ExampleTests {
 
   @Test
   public void End2EndKmsSimpleTest() {
+    // Run the test with v1 -> v2 mutation
+    end2EndKmsSimpleTestHelper(HierarchyVersion.v1, HierarchyVersion.v2);
+  }
+
+  @Test
+  public void End2EndKmsReEncryptTest() {
+    // Run the test with v1 -> v2 mutation
+    end2EndKmsReEncryptTestHelper(HierarchyVersion.v1);
+  }
+
+  @Test
+  public void End2EndDecryptEncryptTest() {
+    // Run the test with v1 -> v2 mutation
+    end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, null);
+  }
+
+  /**
+   * Parameterized test helper that allows testing different hierarchy version
+   * combinations for KMS Simple strategy
+   * @param initialHVersion The hierarchy version to use when creating the branch key
+   * @param terminalHVersion The hierarchy version to mutate to.
+   * terminalHVersion can be null if mutation of HierarchyVersion is not required
+   */
+  private void end2EndKmsSimpleTestHelper(
+    HierarchyVersion initialHVersion,
+    @Nullable HierarchyVersion terminalHVersion
+  ) {
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      HierarchyVersion.v1
+      initialHVersion
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
       MutationKmsSimpleExample.End2End(
         branchKeyId,
         Fixtures.POSTAL_HORN_KEY_ARN,
-        HierarchyVersion.v2,
+        terminalHVersion,
         MutationsProvider.KmsSystemKey(),
         AdminProvider.admin()
       );
@@ -125,13 +154,21 @@ public class ExampleTests {
     DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 
-  @Test
-  public void End2EndReEncryptTest() {
+  /**
+   * Parameterized test helper that allows testing different hierarchy version
+   * combinations for Kms ReEncrypt strategy
+   * @param initialHVersion The hierarchy version to use when creating the branch key
+   *
+   * Note: terminalHVersion is not added in the test because hv1 to hv2 is not supported
+   */
+  private void end2EndKmsReEncryptTestHelper(
+    @Nullable HierarchyVersion initialHVersion
+  ) {
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      HierarchyVersion.v1
+      initialHVersion
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
@@ -228,13 +265,22 @@ public class ExampleTests {
     DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 
-  @Test
-  public void End2EndDecryptEncryptTest() {
+  /**
+   * Parameterized test helper that allows testing different hierarchy version
+   * combinations for KMS Simple strategy
+   * @param initialHVersion The hierarchy version to use when creating the branch key
+   * @param terminalHVersion The hierarchy version to mutate to.
+   * terminalHVersion can be null if mutation of HierarchyVersion is not required
+   */
+  private void end2EndDecryptEncryptTestHelper(
+    @Nonnull HierarchyVersion initialHVersion,
+    @Nullable HierarchyVersion terminalHVersion
+  ) {
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      HierarchyVersion.v1
+      initialHVersion
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
@@ -243,7 +289,7 @@ public class ExampleTests {
         Fixtures.POSTAL_HORN_KEY_ARN,
         AwsKms.builder().kmsClient(Fixtures.keyStoreOnlyKmsClient).build(),
         AwsKms.builder().kmsClient(Fixtures.postalHornOnlyKmsClient).build(),
-        null,
+        terminalHVersion,
         MutationsProvider.KmsSystemKey(),
         AdminProvider.admin()
       );
