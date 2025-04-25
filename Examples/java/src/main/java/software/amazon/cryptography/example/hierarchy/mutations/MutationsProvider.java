@@ -42,7 +42,7 @@ public class MutationsProvider {
 
   public static Mutations defaultMutation(
     @Nonnull final String terminalKmsArn,
-    @Nullable HierarchyVersion terminalHierarchyVersion
+    @Nullable final HierarchyVersion terminalHierarchyVersion
   ) {
     HashMap<String, String> terminalEC = new HashMap<>(2, 1);
     terminalEC.put("Robbie", "is a dog.");
