@@ -316,6 +316,24 @@ module {:options "/functionSyntax:4" } CreateKeys {
       && forall k <- encryptionContext :: DDB.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + k)
     modifies keyManagerAndStorage.Modifies
     ensures keyManagerAndStorage.ValidState()
+    ensures output.Success?
+            ==>
+            && var decryptBKEC := Structure.DecryptOnlyBranchKeyEncryptionContext(
+                branchKeyIdentifier,
+                branchKeyVersion,
+                timestamp,
+                logicalKeyStoreName,
+                KMSKeystoreOperations.GetKeyId(kmsConfiguration),
+                hierarchyVersion,
+                encryptionContext
+            );
+            && var activeBKEC := Structure.ActiveBranchKeyEncryptionContext(decryptBKEC);
+            && var beaconBKEC := Structure.BeaconKeyEncryptionContext(decryptBKEC);
+            && HvUtils.HasUniqueTransformedKeys?(activeBKEC) == true
+            && var ecToKms := HvUtils.SelectKmsEncryptionContextForHv2(activeBKEC); 
+            && var kms := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
+            && |kms.History.GenerateDataKey| == |old(kms.History.GenerateDataKey)| + 2 // 2 since we call to generate the branch key and the beacon key
+            && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 3 // 3 since we encrypt the active, version, and the beacon key
   {
     // Construct Branch Key Contexts for ACTIVE, Version and Beacon items.
     var decryptOnlyBranchKeyContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
@@ -349,7 +367,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       branchKeyContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,
       keyManagerAndStorage := keyManagerAndStorage
-    ); 
+    );
 
     // Get crypto client
     var crypto? := HvUtils.ProvideCryptoClient();
@@ -389,15 +407,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
         Beacon := beaconBKItem
       )
     );
-    // By making this ghost, we avoid the Dafny transpiler emitting in Java etc.
-    // ghost var storage := keyManagerAndStorage.storage;
-    // assert |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1;
-    // ghost var writeEvent := Seq.Last(storage.History.WriteNewEncryptedBranchKey);
-    // assert
-    //   && writeEvent.output.Success?
-    //   && writeEvent.input.Active == activeBKItem
-    //   && writeEvent.input.Version == decryptOnlyBKItem
-    //   && writeEvent.input.Beacon == beaconBKItem;
+  
     output := Success(
       Types.CreateKeyOutput(
         branchKeyIdentifier := branchKeyIdentifier

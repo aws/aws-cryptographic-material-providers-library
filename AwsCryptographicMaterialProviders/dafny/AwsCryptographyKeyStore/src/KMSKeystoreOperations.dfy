@@ -140,6 +140,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       ==>
         && var kms := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
         && |kms.History.GenerateDataKey| == |old(kms.History.GenerateDataKey)| + 1
+        && old(kms.History.Encrypt) == kms.History.Encrypt
         && var kmsGenerateDataKeyEvent := Seq.Last(kms.History.GenerateDataKey);
         && var kmsKeyArn := GetKeyId(kmsConfiguration);
         && KMS.GenerateDataKeyRequest(
@@ -406,6 +407,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       res.Success?
       ==>
         && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
+        && kmsClient.History.GenerateDataKey == old(kmsClient.History.GenerateDataKey)
         && var kmsKeyArn := GetKeyId(kmsConfiguration);
 
         && var encryptInput := Seq.Last(kmsClient.History.Encrypt).input;
@@ -1005,6 +1007,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && output.Success? ==>
         && var kms := cryptoAndKms.kms.kmsSimple.kmsClient;
         && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 1
+        && kms.History.GenerateDataKey == old(kms.History.GenerateDataKey)
         && var kmsEvent :=  Seq.Last(kms.History.Encrypt);
         && kmsEvent.output.Success?
         && var kmsInput := kmsEvent.input;
