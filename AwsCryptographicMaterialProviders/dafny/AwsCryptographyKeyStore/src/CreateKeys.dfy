@@ -734,6 +734,23 @@ module {:options "/functionSyntax:4" } CreateKeys {
       Types.KeyStoreException(
         message := ErrorMessages.VERSION_KEY_KMS_KEY_ARN_DISAGREEMENT)
     );
+
+    var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(oldActiveItem.EncryptionContext);
+
+    var keyManagerStrategy := KmsUtils.keyManagerStrat.kmsSimple(
+      kmsSimple := KmsUtils.KMSTuple(kmsClient := kmsClient, grantTokens := grantTokens)
+    );
+    var keyManagerAndStorage := KmsUtils.KeyManagerAndStorage(
+      storage := storage,
+      keyManagerStrat := keyManagerStrategy
+    );
+   
+    var newActivePlaintextMaterial :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
+      branchKeyContext := ecToKMS,
+      kmsConfiguration := kmsConfiguration,
+      keyManagerAndStorage := keyManagerAndStorage
+    );
+    
     // Get crypto client
     var crypto? := HvUtils.ProvideCryptoClient();
     var crypto :- crypto?.MapFailure(
@@ -741,16 +758,6 @@ module {:options "/functionSyntax:4" } CreateKeys {
           AwsCryptographyPrimitives := e
         )
     );
-
-    var newActivePlaintextMaterial? := crypto.GenerateRandomBytes(
-      AtomicPrimitives.Types.GenerateRandomBytesInput(length := 32)
-    );
-    var newActivePlaintextMaterial :- newActivePlaintextMaterial?.MapFailure(
-      e => Types.AwsCryptographyPrimitives(
-          AwsCryptographyPrimitives := e
-        ));
-
-    var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(oldActiveItem.EncryptionContext);
 
     // we decrypt the oldActiveItem to get the ciphertext and then
     // we encrypt it to a versioned key
@@ -768,9 +775,6 @@ module {:options "/functionSyntax:4" } CreateKeys {
     );
     var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
 
-    var keyManagerStrategy := KmsUtils.keyManagerStrat.kmsSimple(
-      kmsSimple := KmsUtils.KMSTuple(kmsClient := kmsClient, grantTokens := grantTokens)
-    );
 
     var CryptoAndKms := KMSKeystoreOperations.CryptoAndKms(kmsConfiguration, keyManagerStrategy, crypto);
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.packAndCallKMS(
