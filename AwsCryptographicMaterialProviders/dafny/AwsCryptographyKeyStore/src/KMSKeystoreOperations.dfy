@@ -122,7 +122,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     case kmsKeyArn(arn) => arn
     case kmsMRKeyArn(arn) => arn
   }
-  
+
   method GetPlaintextDataKeyViaGenerateDataKey(
     nameonly branchKeyContext: map<string, string>,
     nameonly kmsConfiguration: Types.KMSConfiguration,
@@ -137,24 +137,24 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     modifies keyManagerAndStorage.Modifies
     ensures keyManagerAndStorage.ValidState()
     ensures output.Success?
-      ==>
-        && var kms := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
-        && |kms.History.GenerateDataKey| == |old(kms.History.GenerateDataKey)| + 1
-        && old(kms.History.Encrypt) == kms.History.Encrypt
-        && var kmsGenerateDataKeyEvent := Seq.Last(kms.History.GenerateDataKey);
-        && var kmsKeyArn := GetKeyId(kmsConfiguration);
-        && KMS.GenerateDataKeyRequest(
-            KeyId := kmsKeyArn,
-            NumberOfBytes := Some(32),
-            EncryptionContext := Some(branchKeyContext),
-            GrantTokens := Some(keyManagerAndStorage.keyManagerStrat.kmsSimple.grantTokens)
-         ) == kmsGenerateDataKeyEvent.input
-        && kmsGenerateDataKeyEvent.output.Success?
-        && kmsGenerateDataKeyEvent.output.value.Plaintext.Some?
-        && |kmsGenerateDataKeyEvent.output.value.Plaintext.value| == 32
-        && kmsGenerateDataKeyEvent.output.value.KeyId.Some?
-        && kmsGenerateDataKeyEvent.output.value.KeyId.value == kmsKeyArn
-        && kmsGenerateDataKeyEvent.output.value.Plaintext.value == output.value
+            ==>
+              && var kms := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
+              && |kms.History.GenerateDataKey| == |old(kms.History.GenerateDataKey)| + 1
+              && old(kms.History.Encrypt) == kms.History.Encrypt
+              && var kmsGenerateDataKeyEvent := Seq.Last(kms.History.GenerateDataKey);
+              && var kmsKeyArn := GetKeyId(kmsConfiguration);
+              && KMS.GenerateDataKeyRequest(
+                   KeyId := kmsKeyArn,
+                   NumberOfBytes := Some(32),
+                   EncryptionContext := Some(branchKeyContext),
+                   GrantTokens := Some(keyManagerAndStorage.keyManagerStrat.kmsSimple.grantTokens)
+                 ) == kmsGenerateDataKeyEvent.input
+              && kmsGenerateDataKeyEvent.output.Success?
+              && kmsGenerateDataKeyEvent.output.value.Plaintext.Some?
+              && |kmsGenerateDataKeyEvent.output.value.Plaintext.value| == 32
+              && kmsGenerateDataKeyEvent.output.value.KeyId.Some?
+              && kmsGenerateDataKeyEvent.output.value.KeyId.value == kmsKeyArn
+              && kmsGenerateDataKeyEvent.output.value.Plaintext.value == output.value
   {
     var kmsKeyArn := GetKeyId(kmsConfiguration);
     var generateDataKeyInput := KMS.GenerateDataKeyRequest(
@@ -167,7 +167,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     var generateDataKeyResponse? := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.GenerateDataKey(
       generateDataKeyInput
     );
-    
+
     var generateDataKeyResponse :- generateDataKeyResponse?
     .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
 
@@ -185,7 +185,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         message := "Invalid response from AWS KMS GenerateDataKey: KMS Key ID of response did not match request."
       )
     );
-    
+
     output := Success(generateDataKeyResponse.Plaintext.value);
   }
 

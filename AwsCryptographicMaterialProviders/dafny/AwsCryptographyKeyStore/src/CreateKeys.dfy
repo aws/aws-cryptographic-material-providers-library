@@ -318,22 +318,23 @@ module {:options "/functionSyntax:4" } CreateKeys {
     ensures keyManagerAndStorage.ValidState()
     ensures output.Success?
             ==>
-            && var decryptBKEC := Structure.DecryptOnlyBranchKeyEncryptionContext(
-                branchKeyIdentifier,
-                branchKeyVersion,
-                timestamp,
-                logicalKeyStoreName,
-                KMSKeystoreOperations.GetKeyId(kmsConfiguration),
-                hierarchyVersion,
-                encryptionContext
-            );
-            && var activeBKEC := Structure.ActiveBranchKeyEncryptionContext(decryptBKEC);
-            && var beaconBKEC := Structure.BeaconKeyEncryptionContext(decryptBKEC);
-            && HvUtils.HasUniqueTransformedKeys?(activeBKEC) == true
-            && var ecToKms := HvUtils.SelectKmsEncryptionContextForHv2(activeBKEC); 
-            && var kms := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
-            && |kms.History.GenerateDataKey| == |old(kms.History.GenerateDataKey)| + 2 // 2 since we call to generate the branch key and the beacon key
-            && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 3 // 3 since we encrypt the active, version, and the beacon key
+              && var decryptBKEC := Structure.DecryptOnlyBranchKeyEncryptionContext(
+                                      branchKeyIdentifier,
+                                      branchKeyVersion,
+                                      timestamp,
+                                      logicalKeyStoreName,
+                                      KMSKeystoreOperations.GetKeyId(kmsConfiguration),
+                                      hierarchyVersion,
+                                      encryptionContext
+                                    );
+              && var activeBKEC := Structure.ActiveBranchKeyEncryptionContext(decryptBKEC);
+              && var beaconBKEC := Structure.BeaconKeyEncryptionContext(decryptBKEC);
+              && HvUtils.HasUniqueTransformedKeys?(activeBKEC) == true
+              && var ecToKms := HvUtils.SelectKmsEncryptionContextForHv2(activeBKEC);
+              && var kms := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
+              && |kms.History.GenerateDataKey| == |old(kms.History.GenerateDataKey)| + 2 // 2 since we call to generate the branch key and the beacon key
+              && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 3 // 3 since we encrypt the active, version, and the beacon key
+    //TODO: add generate data key and encrypt proofs here
   {
     // Construct Branch Key Contexts for ACTIVE, Version and Beacon items.
     var decryptOnlyBranchKeyContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
@@ -354,7 +355,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                      ));
     }
     var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(activeBranchKeyContext);
-    
+
     // get plaintext data key by calling kms::GenerateDataKey
     var branchKey :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
       branchKeyContext := ecToKMS,
@@ -407,7 +408,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
         Beacon := beaconBKItem
       )
     );
-  
+
     output := Success(
       Types.CreateKeyOutput(
         branchKeyIdentifier := branchKeyIdentifier
@@ -721,6 +722,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires kmsClient.ValidState() && storage.ValidState()
     modifies storage.Modifies, kmsClient.Modifies
     ensures storage.ValidState() && kmsClient.ValidState()
+    //TODO: add generate data key and encrypt proofs here
   {
     if !HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext) {
       return Failure(Types.BranchKeyCiphertextException(
@@ -744,13 +746,13 @@ module {:options "/functionSyntax:4" } CreateKeys {
       storage := storage,
       keyManagerStrat := keyManagerStrategy
     );
-   
+
     var newActivePlaintextMaterial :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
       branchKeyContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,
       keyManagerAndStorage := keyManagerAndStorage
     );
-    
+
     // Get crypto client
     var crypto? := HvUtils.ProvideCryptoClient();
     var crypto :- crypto?.MapFailure(
