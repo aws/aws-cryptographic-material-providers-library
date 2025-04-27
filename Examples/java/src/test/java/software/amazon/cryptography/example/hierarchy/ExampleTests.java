@@ -24,6 +24,7 @@ import software.amazon.cryptography.keystore.model.GetBeaconKeyOutput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionOutput;
 import software.amazon.cryptography.keystore.model.HierarchyVersion;
+import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 
 public class ExampleTests {
 
@@ -82,6 +83,8 @@ public class ExampleTests {
   public void end2EndKmsSimpleTest() {
     // Run the test with v1 -> v2 mutation
     end2EndKmsSimpleTestHelper(HierarchyVersion.v1, HierarchyVersion.v2);
+    // Run the test for v2 mutation
+    end2EndKmsSimpleTestHelper(HierarchyVersion.v2, null);
   }
 
   @Test
@@ -93,7 +96,15 @@ public class ExampleTests {
   @Test
   public void end2EndDecryptEncryptTest() {
     // Run the test for v1 item mutation
-    end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, HierarchyVersion.v2, true);
+    end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, null, false);
+    // Run the test with v1 -> v2 mutation
+    end2EndDecryptEncryptTestHelper(
+      HierarchyVersion.v1,
+      HierarchyVersion.v2,
+      true
+    );
+    // Run the test for v2 mutation
+    end2EndDecryptEncryptTestHelper(HierarchyVersion.v2, null, true);
   }
 
   /**
@@ -233,7 +244,8 @@ public class ExampleTests {
         null,
         AdminProvider.strategy(Fixtures.kmsClientWest2),
         MutationsProvider.TrustStorage(),
-        AdminProvider.admin()
+        AdminProvider.admin(),
+        true
       );
     System.out.println(
       "\nMutated Branch Key with Resume: " +
@@ -289,16 +301,16 @@ public class ExampleTests {
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
-            MutationDecryptEncryptExample.End2End(
-                    branchKeyId,
-                    Fixtures.POSTAL_HORN_KEY_ARN,
-                    AwsKms.builder().kmsClient(Fixtures.keyStoreOnlyKmsClient).build(),
-                    AwsKms.builder().kmsClient(Fixtures.postalHornOnlyKmsClient).build(),
-                    terminalHVersion,
-                    MutationsProvider.KmsSystemKey(),
-                    AdminProvider.admin(),
-                    doNotVersion
-            );
+      MutationDecryptEncryptExample.End2End(
+        branchKeyId,
+        Fixtures.POSTAL_HORN_KEY_ARN,
+        AwsKms.builder().kmsClient(Fixtures.keyStoreOnlyKmsClient).build(),
+        AwsKms.builder().kmsClient(Fixtures.postalHornOnlyKmsClient).build(),
+        terminalHVersion,
+        MutationsProvider.KmsSystemKey(),
+        AdminProvider.admin(),
+        doNotVersion
+      );
     System.out.println(
       "\nMutated Branch Key: " +
       branchKeyId +
@@ -331,34 +343,35 @@ public class ExampleTests {
     );
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, postalHornKS);
     if (doNotVersion == false) {
-    branchKeyId =
-      VersionKeyExample.VersionKey(
-        Fixtures.POSTAL_HORN_KEY_ARN,
-        branchKeyId,
-        AdminProvider.admin()
-      );
-    branchKeyId =
-      VersionKeyExample.VersionKey(
-        Fixtures.POSTAL_HORN_KEY_ARN,
-        branchKeyId,
-        AdminProvider.admin()
-      );
+      branchKeyId =
+        VersionKeyExample.VersionKey(
+          Fixtures.POSTAL_HORN_KEY_ARN,
+          branchKeyId,
+          AdminProvider.admin()
+        );
+      branchKeyId =
+        VersionKeyExample.VersionKey(
+          Fixtures.POSTAL_HORN_KEY_ARN,
+          branchKeyId,
+          AdminProvider.admin()
+        );
       System.out.println("\nVersioned Branch Key: " + branchKeyId + "\n");
     }
-    try {
+    KeyManagementStrategy decryptEncryptStrategy =
+      AdminProvider.decryptEncryptStrategy(
+        Fixtures.kmsClientWest2,
+        Fixtures.kmsClientWest2
+      );
     branchKeyId =
       MutationResumeExample.Resume2End(
         branchKeyId,
         Fixtures.KEYSTORE_KMS_ARN,
-        null,
-        AdminProvider.strategy(Fixtures.kmsClientWest2),
+        terminalHVersion,
+        decryptEncryptStrategy,
         MutationsProvider.TrustStorage(),
-        AdminProvider.admin()
+        AdminProvider.admin(),
+        doNotVersion
       );
-    } catch (Exception e) {
-      e.printStackTrace(); // This will print the full stack trace
-      throw e;
-    }
 
     System.out.println(
       "\nMutated Branch Key with Resume: " +
