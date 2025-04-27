@@ -40,7 +40,8 @@ public class MutationDecryptEncryptExample {
     @Nonnull AwsKms terminalAwsKms,
     @Nullable HierarchyVersion terminalHierarchyVersion,
     @Nonnull SystemKey systemKey,
-    @Nullable KeyStoreAdmin admin
+    @Nullable KeyStoreAdmin admin,
+    @Nullable final boolean doNotVersion
   ) {
     final KeyManagementStrategy strategy = KeyManagementStrategy
       .builder()
@@ -68,6 +69,7 @@ public class MutationDecryptEncryptExample {
       .Identifier(branchKeyId)
       .Strategy(strategy)
       .SystemKey(systemKey)
+      .DoNotVersion(doNotVersion)
       .build();
 
     InitializeMutationOutput initOutput = _admin.InitializeMutation(initInput);

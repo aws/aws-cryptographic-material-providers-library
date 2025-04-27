@@ -93,7 +93,7 @@ public class ExampleTests {
   @Test
   public void end2EndDecryptEncryptTest() {
     // Run the test for v1 item mutation
-    end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, null);
+    end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, HierarchyVersion.v2, true);
   }
 
   /**
@@ -278,7 +278,8 @@ public class ExampleTests {
    */
   private void end2EndDecryptEncryptTestHelper(
     @Nonnull final HierarchyVersion initialHVersion,
-    @Nullable final HierarchyVersion terminalHVersion
+    @Nullable final HierarchyVersion terminalHVersion,
+    @Nullable final boolean doNotVersion
   ) {
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
@@ -288,15 +289,16 @@ public class ExampleTests {
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
-      MutationDecryptEncryptExample.End2End(
-        branchKeyId,
-        Fixtures.POSTAL_HORN_KEY_ARN,
-        AwsKms.builder().kmsClient(Fixtures.keyStoreOnlyKmsClient).build(),
-        AwsKms.builder().kmsClient(Fixtures.postalHornOnlyKmsClient).build(),
-        terminalHVersion,
-        MutationsProvider.KmsSystemKey(),
-        AdminProvider.admin()
-      );
+            MutationDecryptEncryptExample.End2End(
+                    branchKeyId,
+                    Fixtures.POSTAL_HORN_KEY_ARN,
+                    AwsKms.builder().kmsClient(Fixtures.keyStoreOnlyKmsClient).build(),
+                    AwsKms.builder().kmsClient(Fixtures.postalHornOnlyKmsClient).build(),
+                    terminalHVersion,
+                    MutationsProvider.KmsSystemKey(),
+                    AdminProvider.admin(),
+                    doNotVersion
+            );
     System.out.println(
       "\nMutated Branch Key: " +
       branchKeyId +
@@ -328,6 +330,7 @@ public class ExampleTests {
       Fixtures.POSTAL_HORN_KEY_ARN
     );
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, postalHornKS);
+    if (doNotVersion == false) {
     branchKeyId =
       VersionKeyExample.VersionKey(
         Fixtures.POSTAL_HORN_KEY_ARN,
@@ -340,7 +343,9 @@ public class ExampleTests {
         branchKeyId,
         AdminProvider.admin()
       );
-    System.out.println("\nVersioned Branch Key: " + branchKeyId + "\n");
+      System.out.println("\nVersioned Branch Key: " + branchKeyId + "\n");
+    }
+    try {
     branchKeyId =
       MutationResumeExample.Resume2End(
         branchKeyId,
@@ -350,6 +355,11 @@ public class ExampleTests {
         MutationsProvider.TrustStorage(),
         AdminProvider.admin()
       );
+    } catch (Exception e) {
+      e.printStackTrace(); // This will print the full stack trace
+      throw e;
+    }
+
     System.out.println(
       "\nMutated Branch Key with Resume: " +
       branchKeyId +
