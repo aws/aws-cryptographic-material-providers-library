@@ -32,10 +32,13 @@ public class DdbHelper {
     @Nonnull String kmsKeyArn,
     @Nonnull String branchKeyId,
     @Nonnull KeyStoreAdmin admin,
-    @Nonnull HierarchyVersion hierarchyVersion
+    @Nonnull HierarchyVersion hierarchyVersion,
+    @Nonnull Integer versionCount
   ) {
     CreateKeyExample.CreateKey(kmsKeyArn, branchKeyId, admin, hierarchyVersion);
-    VersionKeyExample.VersionKey(kmsKeyArn, branchKeyId, admin);
+    for (int i = 0; i < versionCount; i++) {
+      VersionKeyExample.VersionKey(kmsKeyArn, branchKeyId, admin);
+    }
   }
 
   public static boolean deleteKeyStoreDdbItem(

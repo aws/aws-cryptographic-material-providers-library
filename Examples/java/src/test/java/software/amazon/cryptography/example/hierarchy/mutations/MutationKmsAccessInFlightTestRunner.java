@@ -44,7 +44,8 @@ public class MutationKmsAccessInFlightTestRunner {
       kmsKeyArn,
       branchKeyId,
       admin,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      1
     );
     if (hierarchyVersion == HierarchyVersion.v2) {
       Mutations mutations = Mutations
