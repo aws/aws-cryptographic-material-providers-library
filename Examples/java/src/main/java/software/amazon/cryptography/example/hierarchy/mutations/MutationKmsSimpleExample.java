@@ -44,7 +44,7 @@ public class MutationKmsSimpleExample {
       .Identifier(branchKeyId)
       .Strategy(strategy)
       .SystemKey(systemKey)
-      // TODO-HV-2-FF: Versioning in KMS simple is not yet supported.
+      // TODO-HV-2-FF: Versioning while mutating on KMS simple strategy is not yet supported.
       .DoNotVersion(true)
       .build();
     InitializeMutationOutput initOutput = _admin.InitializeMutation(initInput);

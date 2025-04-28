@@ -82,9 +82,9 @@ public class ExampleTests {
   @Test
   public void end2EndKmsSimpleTest() {
     // Run the test with v1 -> v2 mutation
-    end2EndKmsSimpleTestHelper(HierarchyVersion.v1, HierarchyVersion.v2);
+    end2EndKmsSimpleTestHelper(HierarchyVersion.v1, HierarchyVersion.v2, true);
     // Run the test for v2 mutation
-    end2EndKmsSimpleTestHelper(HierarchyVersion.v2, null);
+    end2EndKmsSimpleTestHelper(HierarchyVersion.v2, null, true);
   }
 
   @Test
@@ -116,7 +116,8 @@ public class ExampleTests {
    */
   private void end2EndKmsSimpleTestHelper(
     final HierarchyVersion initialHVersion,
-    @Nullable final HierarchyVersion terminalHVersion
+    @Nullable final HierarchyVersion terminalHVersion,
+    @Nullable final Boolean doNotVersion
   ) {
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
@@ -133,7 +134,6 @@ public class ExampleTests {
         MutationsProvider.KmsSystemKey(),
         AdminProvider.admin()
       );
-
     System.out.println(
       "\nMutated Branch Key: " +
       branchKeyId +
@@ -165,6 +165,51 @@ public class ExampleTests {
       Fixtures.POSTAL_HORN_KEY_ARN
     );
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, postalHornKS);
+    KeyManagementStrategy kmsSimpleStrategy =
+            AdminProvider.kmsSimpleStrategy(
+                    Fixtures.kmsClientWest2
+            );
+    branchKeyId =
+            MutationResumeExample.Resume2End(
+                    branchKeyId,
+                    Fixtures.KEYSTORE_KMS_ARN,
+                    terminalHVersion,
+                    kmsSimpleStrategy,
+                    MutationsProvider.TrustStorage(),
+                    AdminProvider.admin(),
+                    doNotVersion
+            );
+    System.out.println(
+            "\nMutated Branch Key with Resume: " +
+                    branchKeyId +
+                    " to KMS ARN: " +
+                    Fixtures.KEYSTORE_KMS_ARN +
+                    "\n"
+    );
+    mCommitmentRes =
+            DdbHelper.getKeyStoreDdbItem(
+                    branchKeyId,
+                    Constants.TYPE_MUTATION_COMMITMENT,
+                    Fixtures.TEST_KEYSTORE_NAME,
+                    Fixtures.ddbClientWest2
+            );
+    Assert.assertFalse(
+            mCommitmentRes.hasItem(),
+            Constants.TYPE_MUTATION_COMMITMENT + " was not deleted!"
+    );
+    mIndexRes =
+            DdbHelper.getKeyStoreDdbItem(
+                    branchKeyId,
+                    Constants.TYPE_MUTATION_INDEX,
+                    Fixtures.TEST_KEYSTORE_NAME,
+                    Fixtures.ddbClientWest2
+            );
+    Assert.assertFalse(
+            mIndexRes.hasItem(),
+            Constants.TYPE_MUTATION_INDEX + " was not deleted!"
+    );
+    KeyStore keyStoreKS = KeyStoreProvider.keyStore(Fixtures.KEYSTORE_KMS_ARN);
+    ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, keyStoreKS);
 
     DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
