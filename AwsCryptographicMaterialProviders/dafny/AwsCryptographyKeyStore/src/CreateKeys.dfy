@@ -318,7 +318,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     ensures keyManagerAndStorage.ValidState()
     ensures output.Success?
             ==>
-              && var decryptBKEC := Structure.DecryptOnlyBranchKeyEncryptionContext(
+              && var decryptBKC := Structure.DecryptOnlyBranchKeyEncryptionContext(
                                       branchKeyIdentifier,
                                       branchKeyVersion,
                                       timestamp,
@@ -327,10 +327,10 @@ module {:options "/functionSyntax:4" } CreateKeys {
                                       hierarchyVersion,
                                       encryptionContext
                                     );
-              && var activeBKEC := Structure.ActiveBranchKeyEncryptionContext(decryptBKEC);
-              && var beaconBKEC := Structure.BeaconKeyEncryptionContext(decryptBKEC);
-              && HvUtils.HasUniqueTransformedKeys?(activeBKEC) == true
-              && var ecToKms := HvUtils.SelectKmsEncryptionContextForHv2(activeBKEC);
+              && var activeBKC := Structure.ActiveBranchKeyEncryptionContext(decryptBKC);
+              && var beaconBKC := Structure.BeaconKeyEncryptionContext(decryptBKC);
+              && HvUtils.HasUniqueTransformedKeys?(activeBKC) == true
+              && var ecToKms := HvUtils.SelectKmsEncryptionContextForHv2(activeBKC);
               && var kms := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
               && |kms.History.GenerateDataKey| == |old(kms.History.GenerateDataKey)| + 2 // 2 since we call to generate the branch key and the beacon key
               && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 3 // 3 since we encrypt the active, version, and the beacon key
