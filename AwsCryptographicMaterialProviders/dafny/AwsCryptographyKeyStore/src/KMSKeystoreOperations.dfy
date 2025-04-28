@@ -15,7 +15,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
   import KMS = ComAmazonawsKmsTypes
-  import HvUtils = HierarchicalVersionUtils
+  import HVUtils = HierarchicalVersionUtils
   import UTF8
   import Structure
   import opened AwsArnParsing
@@ -102,8 +102,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     case kmsMRKeyArn(arn) => arn
   }
 
-  method GenerateKey(
-    encryptionContext: Structure.BranchKeyContext,
+  method GenerateDataKeyWithoutPlaintext(
+    branchKeyContext: Structure.BranchKeyContext,
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient
@@ -111,7 +111,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     returns (res: Result<KMS.GenerateDataKeyWithoutPlaintextResponse, KmsError>)
     requires kmsClient.ValidState()
     requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
-    requires AttemptKmsOperation?(kmsConfiguration, encryptionContext[Structure.KMS_FIELD])
+    requires AttemptKmsOperation?(kmsConfiguration, branchKeyContext[Structure.KMS_FIELD])
+    requires branchKeyContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
     ensures
@@ -119,7 +120,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && var kmsKeyArn := GetKeyId(kmsConfiguration);
       && KMS.GenerateDataKeyWithoutPlaintextRequest(
            KeyId := kmsKeyArn,
-           EncryptionContext := Some(encryptionContext),
+           EncryptionContext := Some(branchKeyContext),
            KeySpec := None,
            NumberOfBytes := Some(32),
            GrantTokens := Some(grantTokens)
@@ -139,7 +140,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     var kmsKeyArn := GetKeyId(kmsConfiguration);
     var generatorRequest := KMS.GenerateDataKeyWithoutPlaintextRequest(
       KeyId := kmsKeyArn,
-      EncryptionContext := Some(encryptionContext),
+      EncryptionContext := Some(branchKeyContext),
       KeySpec := None,
       NumberOfBytes := Some(32),
       GrantTokens := Some(grantTokens)
@@ -152,14 +153,78 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     :- Need(
       && generateResponse.KeyId.Some?,
       Types.KeyManagementException(
-        message := "Invalid response from AWS KMS GenerateDataKey: Invalid Key Id")
+        message := "Invalid response from AWS KMS GenerateDataKeyWithoutPlaintext: Invalid Key Id")
     );
 
     :- Need(
       && generateResponse.CiphertextBlob.Some?
       && KMS.IsValid_CiphertextType(generateResponse.CiphertextBlob.value),
       Types.KeyManagementException(
-        message := "Invalid response from AWS KMS GenerateDataKey: Invalid ciphertext")
+        message := "Invalid response from AWS KMS GenerateDataKeyWithoutPlaintext: Invalid ciphertext")
+    );
+
+    return Success(generateResponse);
+  }
+
+  method GenerateDataKey(
+    branchKeyContext: Structure.BranchKeyContext,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient
+  )
+    returns (res: Result<KMS.GenerateDataKeyResponse, KmsError>)
+    requires kmsClient.ValidState()
+    requires
+      && HasKeyId(kmsConfiguration)
+      && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
+      && AttemptKmsOperation?(kmsConfiguration, branchKeyContext[Structure.KMS_FIELD])
+      && branchKeyContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2
+      && HVUtils.HasUniqueTransformedKeys?(branchKeyContext)
+    modifies kmsClient.Modifies
+    ensures kmsClient.ValidState()
+    ensures
+      && |kmsClient.History.GenerateDataKey| == |old(kmsClient.History.GenerateDataKey)| + 1
+      && var kmsKeyArn := GetKeyId(kmsConfiguration);
+      && var kmsEvent := Seq.Last(kmsClient.History.GenerateDataKey);
+      && KMS.GenerateDataKeyRequest(
+        KeyId := kmsKeyArn,
+        EncryptionContext := Some(HVUtils.SelectKmsEncryptionContextForHv2(branchKeyContext)),
+        KeySpec := None,
+        NumberOfBytes := Some(32),
+        GrantTokens := Some(grantTokens)
+      )
+         == kmsEvent.input
+
+    ensures res.Success? ==>
+              && res.value.KeyId.Some?
+              && res.value.Plaintext.Some?
+              && KMS.IsValid_PlaintextType(res.value.Plaintext.value)
+              && var kmsOperationOutput := Seq.Last(kmsClient.History.GenerateDataKey).output;
+              && kmsOperationOutput.Success?
+              && kmsOperationOutput.value == res.value
+  {
+    var kmsKeyArn := GetKeyId(kmsConfiguration);
+    var encryptionContext := HVUtils.SelectKmsEncryptionContextForHv2(branchKeyContext);
+    var generatorRequest := KMS.GenerateDataKeyRequest(
+      KeyId := kmsKeyArn,
+      EncryptionContext := Some(encryptionContext),
+      KeySpec := None,
+      NumberOfBytes := Some(32),
+      GrantTokens := Some(grantTokens)
+    );
+    var maybeGenerateResponse := kmsClient.GenerateDataKey(generatorRequest);
+    var generateResponse :- maybeGenerateResponse
+    .MapFailure(e => Types.ComAmazonawsKms(ComAmazonawsKms := e));
+    :- Need(
+      && generateResponse.KeyId.Some?,
+      Types.KeyManagementException(
+        message := "Invalid response from AWS KMS GenerateDataKey: Invalid Key Id.")
+    );
+    :- Need(
+      && generateResponse.Plaintext.Some?
+      && KMS.IsValid_PlaintextType(generateResponse.Plaintext.value),
+      Types.KeyManagementException(
+        message := "Invalid response from AWS KMS GenerateDataKey: Invalid plaintext.")
     );
 
     return Success(generateResponse);

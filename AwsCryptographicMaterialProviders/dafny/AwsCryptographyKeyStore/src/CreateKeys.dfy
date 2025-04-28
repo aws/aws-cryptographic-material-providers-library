@@ -240,7 +240,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     var beaconEncryptionContext := Structure.BeaconKeyEncryptionContext(decryptOnlyEncryptionContext);
 
     assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyEncryptionContext[Structure.KMS_FIELD]);
-    var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKey(
+    var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateDataKeyWithoutPlaintext(
       decryptOnlyEncryptionContext,
       kmsConfiguration,
       grantTokens,
@@ -256,7 +256,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       kmsClient
     );
     assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, beaconEncryptionContext[Structure.KMS_FIELD]);
-    var wrappedBeaconKey :- KMSKeystoreOperations.GenerateKey(
+    var wrappedBeaconKey :- KMSKeystoreOperations.GenerateDataKeyWithoutPlaintext(
       beaconEncryptionContext,
       kmsConfiguration,
       grantTokens,
@@ -356,6 +356,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires Structure.ActiveHierarchicalSymmetricKey?(oldActiveItem)
     requires storage.Modifies !! kmsClient.Modifies
     requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+    requires oldActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1
     requires storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
              ==>
                logicalKeyStoreName == (storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName
@@ -529,7 +530,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyEncryptionContext[Structure.KMS_FIELD]);
 
-    var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateKey(
+    var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.GenerateDataKeyWithoutPlaintext(
       decryptOnlyEncryptionContext,
       kmsConfiguration,
       grantTokens,
