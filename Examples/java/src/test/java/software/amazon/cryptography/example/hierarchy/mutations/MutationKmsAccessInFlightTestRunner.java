@@ -79,85 +79,108 @@ public class MutationKmsAccessInFlightTestRunner {
 
   public static void runMutationTest(
     String branchKeyId,
-    Mutations mutations,
+    String sourceKmsArn,
+    String targetKmsArn,
+    HierarchyVersion initialHierarchyVersion,
+    HierarchyVersion terminalHierarchyVersion,
     KeyManagementStrategy initStrategy,
     KeyManagementStrategy applyStrategy,
     int expectedExceptionCount,
     boolean expectFromException,
     boolean expectToException
   ) {
+    createHappyCaseId(
+      sourceKmsArn,
+      branchKeyId,
+      AdminProvider.admin(),
+      initialHierarchyVersion
+    );
+
     List<Exception> exceptions = new ArrayList<>();
     boolean isFromThrown = false;
     boolean isToThrown = false;
 
-    SystemKey systemKey = SystemKey
-      .builder()
-      .trustStorage(TrustStorage.builder().build())
-      .build();
-    KeyStoreAdmin admin = AdminProvider.admin();
-
-    // Initialize mutation
-    InitializeMutationOutput initOutput = admin.InitializeMutation(
-      InitializeMutationInput
+    try {
+      SystemKey systemKey = SystemKey
         .builder()
-        .Mutations(mutations)
-        .Identifier(branchKeyId)
-        .Strategy(initStrategy)
-        .DoNotVersion(true)
-        .SystemKey(systemKey)
-        .build()
-    );
-    System.out.println(
-      "InitLogs: " +
-      branchKeyId +
-      " items: \n" +
-      MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
-    );
+        .trustStorage(TrustStorage.builder().build())
+        .build();
+      KeyStoreAdmin admin = AdminProvider.admin();
 
-    // Apply mutation
-    MutationToken token = initOutput.MutationToken();
-    boolean done = false;
-    int limitLoop = 5;
-
-    while (!done) {
-      try {
-        limitLoop--;
-        if (limitLoop == 0) done = true;
-
-        ApplyMutationOutput applyOutput = admin.ApplyMutation(
-          ApplyMutationInput
-            .builder()
-            .MutationToken(token)
-            .PageSize(1)
-            .Strategy(applyStrategy)
-            .SystemKey(systemKey)
-            .build()
-        );
-        System.out.println(
-          "\nApplyLogs: " +
-          branchKeyId +
-          " items: \n" +
-          MutationsProvider.mutatedItemsToString(
-            applyOutput.MutatedBranchKeyItems()
-          )
-        );
-        ApplyMutationResult result = applyOutput.MutationResult();
-        if (result.ContinueMutation() != null) {
-          token = result.ContinueMutation();
-        }
-        if (result.CompleteMutation() != null) {
-          done = true;
-        }
-      } catch (Exception e) {
-        if (e instanceof MutationToException) {
-          isToThrown = true;
-        }
-        if (e instanceof MutationFromException) {
-          isFromThrown = true;
-        }
-        handleException(e, branchKeyId);
-        exceptions.add(e);
+      Mutations.Builder mutationsBuilder = Mutations
+        .builder()
+        .TerminalKmsArn(targetKmsArn);
+      if (initialHierarchyVersion != terminalHierarchyVersion) {
+        mutationsBuilder.TerminalHierarchyVersion(terminalHierarchyVersion);
       }
+
+      // Initialize mutation
+      InitializeMutationOutput initOutput = admin.InitializeMutation(
+        InitializeMutationInput
+          .builder()
+          .Mutations(mutationsBuilder.build())
+          .Identifier(branchKeyId)
+          .Strategy(initStrategy)
+          .DoNotVersion(true)
+          .SystemKey(systemKey)
+          .build()
+      );
+      System.out.println(
+        "InitLogs: " +
+        branchKeyId +
+        " items: \n" +
+        MutationsProvider.mutatedItemsToString(
+          initOutput.MutatedBranchKeyItems()
+        )
+      );
+
+      // Apply mutation
+      MutationToken token = initOutput.MutationToken();
+      boolean done = false;
+      int limitLoop = 5;
+
+      while (!done) {
+        try {
+          limitLoop--;
+          if (limitLoop == 0) done = true;
+
+          ApplyMutationOutput applyOutput = admin.ApplyMutation(
+            ApplyMutationInput
+              .builder()
+              .MutationToken(token)
+              .PageSize(1)
+              .Strategy(applyStrategy)
+              .SystemKey(systemKey)
+              .build()
+          );
+          System.out.println(
+            "\nApplyLogs: " +
+            branchKeyId +
+            " items: \n" +
+            MutationsProvider.mutatedItemsToString(
+              applyOutput.MutatedBranchKeyItems()
+            )
+          );
+          ApplyMutationResult result = applyOutput.MutationResult();
+          if (result.ContinueMutation() != null) {
+            token = result.ContinueMutation();
+          }
+          if (result.CompleteMutation() != null) {
+            done = true;
+          }
+        } catch (Exception e) {
+          if (e instanceof MutationToException) {
+            isToThrown = true;
+          }
+          if (e instanceof MutationFromException) {
+            isFromThrown = true;
+          }
+          handleException(e, branchKeyId);
+          exceptions.add(e);
+        }
+      }
+    } finally {
+      DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
     }
 
     // Verify results

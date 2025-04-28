@@ -5,11 +5,9 @@ import static software.amazon.cryptography.example.Fixtures.POSTAL_HORN_KEY_ARN;
 
 import java.util.UUID;
 import org.testng.annotations.Test;
-import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystore.model.HierarchyVersion;
-import software.amazon.cryptography.keystoreadmin.model.Mutations;
 
 public class MutationV1ToV2Test {
 
@@ -19,38 +17,24 @@ public class MutationV1ToV2Test {
       "test-mutation-kms-access-in-flight-original-" +
       UUID.randomUUID().toString();
 
-    MutationKmsAccessInFlightTestRunner.createHappyCaseId(
-      MRK_ARN_WEST,
+    MutationKmsAccessInFlightTestRunner.runMutationTest(
       branchKeyId,
-      AdminProvider.admin(),
-      HierarchyVersion.v1
+      MRK_ARN_WEST,
+      POSTAL_HORN_KEY_ARN,
+      HierarchyVersion.v1,
+      HierarchyVersion.v2,
+      AdminProvider.decryptEncryptStrategy(
+        Fixtures.kmsClientWest2,
+        Fixtures.kmsClientWest2
+      ),
+      AdminProvider.decryptEncryptStrategy(
+        Fixtures.denyMrkKmsClient,
+        Fixtures.denyMrkKmsClient
+      ),
+      1, // expectedExceptionCount
+      true, // expectFromException
+      false // expectToException
     );
-
-    try {
-      Mutations mutations = Mutations
-        .builder()
-        .TerminalKmsArn(POSTAL_HORN_KEY_ARN)
-        .TerminalHierarchyVersion(HierarchyVersion.v2)
-        .build();
-
-      MutationKmsAccessInFlightTestRunner.runMutationTest(
-        branchKeyId,
-        mutations,
-        AdminProvider.decryptEncryptStrategy(
-          Fixtures.kmsClientWest2,
-          Fixtures.kmsClientWest2
-        ),
-        AdminProvider.decryptEncryptStrategy(
-          Fixtures.denyMrkKmsClient,
-          Fixtures.denyMrkKmsClient
-        ),
-        1, // expectedExceptionCount
-        true, // expectFromException
-        false // expectToException
-      );
-    } finally {
-      DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
-    }
   }
 
   @Test
@@ -59,38 +43,24 @@ public class MutationV1ToV2Test {
       "test-mutation-kms-access-in-flight-terminal-" +
       UUID.randomUUID().toString();
 
-    MutationKmsAccessInFlightTestRunner.createHappyCaseId(
-      POSTAL_HORN_KEY_ARN,
+    MutationKmsAccessInFlightTestRunner.runMutationTest(
       branchKeyId,
-      AdminProvider.admin(),
-      HierarchyVersion.v1
+      POSTAL_HORN_KEY_ARN,
+      MRK_ARN_WEST,
+      HierarchyVersion.v1,
+      HierarchyVersion.v2,
+      AdminProvider.decryptEncryptStrategy(
+        Fixtures.kmsClientWest2,
+        Fixtures.kmsClientWest2
+      ),
+      AdminProvider.decryptEncryptStrategy(
+        Fixtures.denyMrkKmsClient,
+        Fixtures.denyMrkKmsClient
+      ),
+      2, // expectedExceptionCount
+      false, // expectFromException
+      true // expectToException
     );
-
-    try {
-      Mutations mutations = Mutations
-        .builder()
-        .TerminalKmsArn(MRK_ARN_WEST)
-        .TerminalHierarchyVersion(HierarchyVersion.v2)
-        .build();
-
-      MutationKmsAccessInFlightTestRunner.runMutationTest(
-        branchKeyId,
-        mutations,
-        AdminProvider.decryptEncryptStrategy(
-          Fixtures.kmsClientWest2,
-          Fixtures.kmsClientWest2
-        ),
-        AdminProvider.decryptEncryptStrategy(
-          Fixtures.denyMrkKmsClient,
-          Fixtures.denyMrkKmsClient
-        ),
-        2, // expectedExceptionCount
-        false, // expectFromException
-        true // expectToException
-      );
-    } finally {
-      DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
-    }
   }
 
   @Test
@@ -99,32 +69,18 @@ public class MutationV1ToV2Test {
       "test-mutation-kms-access-in-flight-original-" +
       UUID.randomUUID().toString();
 
-    MutationKmsAccessInFlightTestRunner.createHappyCaseId(
-      MRK_ARN_WEST,
+    MutationKmsAccessInFlightTestRunner.runMutationTest(
       branchKeyId,
-      AdminProvider.admin(),
-      HierarchyVersion.v1
+      MRK_ARN_WEST,
+      POSTAL_HORN_KEY_ARN,
+      HierarchyVersion.v1,
+      HierarchyVersion.v2,
+      AdminProvider.kmsSimpleStrategy(Fixtures.kmsClientWest2),
+      AdminProvider.kmsSimpleStrategy(Fixtures.denyMrkKmsClient),
+      1, // expectedExceptionCount
+      true, // expectFromException
+      false // expectToException
     );
-
-    try {
-      Mutations mutations = Mutations
-        .builder()
-        .TerminalKmsArn(POSTAL_HORN_KEY_ARN)
-        .TerminalHierarchyVersion(HierarchyVersion.v2)
-        .build();
-
-      MutationKmsAccessInFlightTestRunner.runMutationTest(
-        branchKeyId,
-        mutations,
-        AdminProvider.kmsSimpleStrategy(Fixtures.kmsClientWest2),
-        AdminProvider.kmsSimpleStrategy(Fixtures.denyMrkKmsClient),
-        1, // expectedExceptionCount
-        true, // expectFromException
-        false // expectToException
-      );
-    } finally {
-      DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
-    }
   }
 
   @Test
@@ -133,31 +89,17 @@ public class MutationV1ToV2Test {
       "test-mutation-kms-access-in-flight-terminal-" +
       UUID.randomUUID().toString();
 
-    MutationKmsAccessInFlightTestRunner.createHappyCaseId(
-      POSTAL_HORN_KEY_ARN,
+    MutationKmsAccessInFlightTestRunner.runMutationTest(
       branchKeyId,
-      AdminProvider.admin(),
-      HierarchyVersion.v1
+      POSTAL_HORN_KEY_ARN,
+      MRK_ARN_WEST,
+      HierarchyVersion.v1,
+      HierarchyVersion.v2,
+      AdminProvider.kmsSimpleStrategy(Fixtures.kmsClientWest2),
+      AdminProvider.kmsSimpleStrategy(Fixtures.denyMrkKmsClient),
+      2, // expectedExceptionCount
+      false, // expectFromException
+      true // expectToException
     );
-
-    try {
-      Mutations mutations = Mutations
-        .builder()
-        .TerminalKmsArn(MRK_ARN_WEST)
-        .TerminalHierarchyVersion(HierarchyVersion.v2)
-        .build();
-
-      MutationKmsAccessInFlightTestRunner.runMutationTest(
-        branchKeyId,
-        mutations,
-        AdminProvider.kmsSimpleStrategy(Fixtures.kmsClientWest2),
-        AdminProvider.kmsSimpleStrategy(Fixtures.denyMrkKmsClient),
-        2, // expectedExceptionCount
-        false, // expectFromException
-        true // expectToException
-      );
-    } finally {
-      DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
-    }
   }
 }
