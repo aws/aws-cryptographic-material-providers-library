@@ -45,7 +45,7 @@ public class MutationKmsAccessTerminalInFlightTestDecryptEncrypt {
     KeyStoreAdmin admin = AdminProvider.admin();
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
-    CreateKeyExample.CreateKey(
+    MutationTestRunner.createHappyCaseId(
       POSTAL_HORN_KEY_ARN,
       branchKeyId,
       admin,
@@ -75,6 +75,7 @@ public class MutationKmsAccessTerminalInFlightTestDecryptEncrypt {
       .Mutations(mutations)
       .Identifier(branchKeyId)
       .Strategy(strategyWest2)
+      .DoNotVersion(true)
       .SystemKey(systemKey)
       .build();
 

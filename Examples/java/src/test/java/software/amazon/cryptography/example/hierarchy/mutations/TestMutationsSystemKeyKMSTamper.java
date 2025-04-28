@@ -226,7 +226,7 @@ public class TestMutationsSystemKeyKMSTamper {
       Fixtures.POSTAL_HORN_KEY_ARN,
       null
     );
-    KeyManagementStrategy strategy = AdminProvider.strategy(null);
+    KeyManagementStrategy strategy = AdminProvider.reEncryptStrategy(null);
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
       .Mutations(mutations)

@@ -286,7 +286,7 @@ public class ExampleTests {
         branchKeyId,
         Fixtures.KEYSTORE_KMS_ARN,
         null,
-        AdminProvider.strategy(Fixtures.kmsClientWest2),
+        AdminProvider.reEncryptStrategy(Fixtures.kmsClientWest2),
         MutationsProvider.TrustStorage(),
         AdminProvider.admin(),
         true
@@ -410,6 +410,7 @@ public class ExampleTests {
       MutationResumeExample.Resume2End(
         branchKeyId,
         Fixtures.KEYSTORE_KMS_ARN,
+        AdminProvider.reEncryptStrategy(Fixtures.kmsClientWest2),
         terminalHVersion,
         decryptEncryptStrategy,
         MutationsProvider.TrustStorage(),

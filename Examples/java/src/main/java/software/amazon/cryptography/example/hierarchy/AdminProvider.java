@@ -6,7 +6,6 @@ import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.example.Fixtures;
-import software.amazon.cryptography.keystore.KeyStorageInterface;
 import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystore.model.DynamoDBTable;
 import software.amazon.cryptography.keystore.model.Storage;
@@ -47,7 +46,9 @@ public class AdminProvider {
     );
   }
 
-  public static KeyManagementStrategy strategy(@Nullable KmsClient kmsClient) {
+  public static KeyManagementStrategy reEncryptStrategy(
+    @Nullable KmsClient kmsClient
+  ) {
     return KeyManagementStrategy
       .builder()
       .AwsKmsReEncrypt(AwsKms.builder().kmsClient(kms(kmsClient)).build())

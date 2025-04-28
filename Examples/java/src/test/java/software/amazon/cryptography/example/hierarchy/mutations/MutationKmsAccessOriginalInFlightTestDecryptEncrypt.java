@@ -45,7 +45,7 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
 
-    CreateKeyExample.CreateKey(
+    MutationTestRunner.createHappyCaseId(
       MRK_ARN_WEST,
       branchKeyId,
       admin,
@@ -72,6 +72,7 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
       .Mutations(mutations)
       .Identifier(branchKeyId)
       .Strategy(strategyAll)
+      .DoNotVersion(true)
       .SystemKey(systemKey)
       .build();
 

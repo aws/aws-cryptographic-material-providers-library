@@ -40,7 +40,7 @@ public class DoNotVersionTest {
       "Creation of test BK failed."
     );
     SystemKey systemKey = MutationsProvider.KmsSystemKey();
-    KeyManagementStrategy strategy = AdminProvider.strategy(
+    KeyManagementStrategy strategy = AdminProvider.reEncryptStrategy(
       Fixtures.kmsClientWest2
     );
     InitializeMutationInput initInput = InitializeMutationInput

@@ -30,7 +30,6 @@ import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminException;
-import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 import software.amazon.cryptography.keystoreadmin.model.MutationFromException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
@@ -57,13 +56,13 @@ public class MutationKmsAccessOriginalInFlightTest {
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
 
-    CreateKeyExample.CreateKey(
+    MutationTestRunner.createHappyCaseId(
       MRK_ARN_WEST,
       branchKeyId,
       null,
       HierarchyVersion.v1
     );
-    KeyManagementStrategy strategyAll = AdminProvider.strategy(
+    KeyManagementStrategy strategyAll = AdminProvider.reEncryptStrategy(
       Fixtures.kmsClientWest2
     );
     KmsClient denyMrk = KmsClient
@@ -81,7 +80,9 @@ public class MutationKmsAccessOriginalInFlightTest {
       .httpClient(Fixtures.httpClient)
       .build();
 
-    KeyManagementStrategy strategyDenyMrk = AdminProvider.strategy(denyMrk);
+    KeyManagementStrategy strategyDenyMrk = AdminProvider.reEncryptStrategy(
+      denyMrk
+    );
     KeyStoreAdmin admin = AdminProvider.admin(
       Fixtures.TEST_LOGICAL_KEYSTORE_NAME,
       Fixtures.TEST_KEYSTORE_NAME,
@@ -103,6 +104,7 @@ public class MutationKmsAccessOriginalInFlightTest {
       .Mutations(mutations)
       .Identifier(branchKeyId)
       .Strategy(strategyAll)
+      .DoNotVersion(true)
       .SystemKey(systemKey)
       .build();
 
