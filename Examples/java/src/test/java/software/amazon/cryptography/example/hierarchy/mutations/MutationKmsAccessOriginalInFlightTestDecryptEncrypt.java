@@ -64,7 +64,8 @@ public class MutationKmsAccessOriginalInFlightTestDecryptEncrypt {
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
     Mutations mutations = MutationsProvider.defaultMutation(
-      POSTAL_HORN_KEY_ARN
+      POSTAL_HORN_KEY_ARN,
+      null
     );
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()

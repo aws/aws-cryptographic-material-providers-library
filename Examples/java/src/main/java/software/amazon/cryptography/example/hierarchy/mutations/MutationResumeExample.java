@@ -5,6 +5,7 @@ package software.amazon.cryptography.example.hierarchy.mutations;
 import java.util.HashMap;
 import javax.annotation.Nullable;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
 import software.amazon.cryptography.keystoreadmin.model.DescribeMutationOutput;
@@ -31,11 +32,13 @@ import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 public class MutationResumeExample {
 
   public static String Resume2End(
-    String branchKeyId,
-    String terminalKmsArn,
-    @Nullable KeyManagementStrategy strategy,
-    @Nullable SystemKey systemKey,
-    @Nullable KeyStoreAdmin admin
+    final String branchKeyId,
+    final String terminalKmsArn,
+    @Nullable final HierarchyVersion terminalHierarchyVersion,
+    @Nullable final KeyManagementStrategy strategy,
+    @Nullable final SystemKey systemKey,
+    @Nullable final KeyStoreAdmin admin,
+    @Nullable final Boolean doNotVersion
   ) {
     boolean mutationConflictThrown = false;
 
@@ -48,7 +51,10 @@ public class MutationResumeExample {
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
-    Mutations mutations = MutationsProvider.defaultMutation(terminalKmsArn);
+    Mutations mutations = MutationsProvider.defaultMutation(
+      terminalKmsArn,
+      terminalHierarchyVersion
+    );
 
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
@@ -56,6 +62,7 @@ public class MutationResumeExample {
       .Identifier(branchKeyId)
       .Strategy(_strategy)
       .SystemKey(_systemKey)
+      .DoNotVersion(doNotVersion)
       .build();
 
     MutationToken token = MutationsProvider.executeInitialize(
