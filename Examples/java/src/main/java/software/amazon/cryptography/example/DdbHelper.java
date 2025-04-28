@@ -20,8 +20,23 @@ import software.amazon.awssdk.services.dynamodb.model.ReturnValue;
 import software.amazon.awssdk.services.dynamodb.model.TransactWriteItem;
 import software.amazon.awssdk.services.dynamodb.model.TransactWriteItemsRequest;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
+import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
+import software.amazon.cryptography.example.hierarchy.VersionKeyExample;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
+import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 
 public class DdbHelper {
+
+  // Creates a Branch Key and also create a new version.
+  public static void createHappyCaseId(
+    @Nonnull String kmsKeyArn,
+    @Nonnull String branchKeyId,
+    @Nonnull KeyStoreAdmin admin,
+    @Nonnull HierarchyVersion hierarchyVersion
+  ) {
+    CreateKeyExample.CreateKey(kmsKeyArn, branchKeyId, admin, hierarchyVersion);
+    VersionKeyExample.VersionKey(kmsKeyArn, branchKeyId, admin);
+  }
 
   public static boolean deleteKeyStoreDdbItem(
     final String branchKeyId,

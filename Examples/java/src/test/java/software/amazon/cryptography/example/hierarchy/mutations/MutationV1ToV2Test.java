@@ -19,7 +19,7 @@ public class MutationV1ToV2Test {
       "test-mutation-kms-access-in-flight-original-" +
       UUID.randomUUID().toString();
 
-    MutationTestRunner.createHappyCaseId(
+    MutationKmsAccessInFlightTestRunner.createHappyCaseId(
       MRK_ARN_WEST,
       branchKeyId,
       AdminProvider.admin(),
@@ -33,7 +33,7 @@ public class MutationV1ToV2Test {
         .TerminalHierarchyVersion(HierarchyVersion.v2)
         .build();
 
-      MutationTestRunner.runMutationTest(
+      MutationKmsAccessInFlightTestRunner.runMutationTest(
         branchKeyId,
         mutations,
         AdminProvider.decryptEncryptStrategy(
@@ -59,7 +59,7 @@ public class MutationV1ToV2Test {
       "test-mutation-kms-access-in-flight-terminal-" +
       UUID.randomUUID().toString();
 
-    MutationTestRunner.createHappyCaseId(
+    MutationKmsAccessInFlightTestRunner.createHappyCaseId(
       POSTAL_HORN_KEY_ARN,
       branchKeyId,
       AdminProvider.admin(),
@@ -73,7 +73,7 @@ public class MutationV1ToV2Test {
         .TerminalHierarchyVersion(HierarchyVersion.v2)
         .build();
 
-      MutationTestRunner.runMutationTest(
+      MutationKmsAccessInFlightTestRunner.runMutationTest(
         branchKeyId,
         mutations,
         AdminProvider.decryptEncryptStrategy(
@@ -99,7 +99,7 @@ public class MutationV1ToV2Test {
       "test-mutation-kms-access-in-flight-original-" +
       UUID.randomUUID().toString();
 
-    MutationTestRunner.createHappyCaseId(
+    MutationKmsAccessInFlightTestRunner.createHappyCaseId(
       MRK_ARN_WEST,
       branchKeyId,
       AdminProvider.admin(),
@@ -113,7 +113,7 @@ public class MutationV1ToV2Test {
         .TerminalHierarchyVersion(HierarchyVersion.v2)
         .build();
 
-      MutationTestRunner.runMutationTest(
+      MutationKmsAccessInFlightTestRunner.runMutationTest(
         branchKeyId,
         mutations,
         AdminProvider.kmsSimpleStrategy(Fixtures.kmsClientWest2),
@@ -133,7 +133,7 @@ public class MutationV1ToV2Test {
       "test-mutation-kms-access-in-flight-terminal-" +
       UUID.randomUUID().toString();
 
-    MutationTestRunner.createHappyCaseId(
+    MutationKmsAccessInFlightTestRunner.createHappyCaseId(
       POSTAL_HORN_KEY_ARN,
       branchKeyId,
       AdminProvider.admin(),
@@ -147,7 +147,7 @@ public class MutationV1ToV2Test {
         .TerminalHierarchyVersion(HierarchyVersion.v2)
         .build();
 
-      MutationTestRunner.runMutationTest(
+      MutationKmsAccessInFlightTestRunner.runMutationTest(
         branchKeyId,
         mutations,
         AdminProvider.kmsSimpleStrategy(Fixtures.kmsClientWest2),

@@ -10,35 +10,42 @@ import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
-import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
-import software.amazon.cryptography.example.hierarchy.VersionKeyExample;
 import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
-import software.amazon.cryptography.keystoreadmin.model.*;
+import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
+import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
+import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
+import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
+import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
+import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
+import software.amazon.cryptography.keystoreadmin.model.MutationFromException;
+import software.amazon.cryptography.keystoreadmin.model.MutationToException;
+import software.amazon.cryptography.keystoreadmin.model.MutationToken;
+import software.amazon.cryptography.keystoreadmin.model.Mutations;
+import software.amazon.cryptography.keystoreadmin.model.SystemKey;
+import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
-public class MutationTestRunner {
+public class MutationKmsAccessInFlightTestRunner {
 
   private static final Pattern BRANCH_KEY_TYPE_PATTERN = Pattern.compile(
     "Branch Key Type: ([^;]+)"
   );
 
-  // Creates a Branch Key and also create a new version.
+  // TODO-HV-2-Version: Version is not supported for HV-2 keys yet.
   public static void createHappyCaseId(
     @Nonnull String kmsKeyArn,
     @Nonnull String branchKeyId,
     @Nonnull KeyStoreAdmin admin,
     @Nonnull HierarchyVersion hierarchyVersion
   ) {
-    CreateKeyExample.CreateKey(
+    // TODO-HV-2-Version: Version is not supported for HV-2 keys yet,
+    //  As a work-a-round, Mutate to HV-2 to have Branch Key with at-least two version items for testing
+    DdbHelper.createHappyCaseId(
       kmsKeyArn,
       branchKeyId,
       admin,
       HierarchyVersion.v1
     );
-    VersionKeyExample.VersionKey(kmsKeyArn, branchKeyId, admin);
-
-    // TODO-HV-2-Version: Version is not supported for HV-2 keys yet,
-    //  As a work-a-round, Mutate to HV-2 to have Branch Key with at-least two version items for testing
     if (hierarchyVersion == HierarchyVersion.v2) {
       Mutations mutations = Mutations
         .builder()
@@ -58,7 +65,7 @@ public class MutationTestRunner {
           .SystemKey(systemKey)
           .build()
       );
-      ApplyMutationOutput applyOutput = admin.ApplyMutation(
+      admin.ApplyMutation(
         ApplyMutationInput
           .builder()
           .MutationToken(initOutput.MutationToken())
@@ -82,64 +89,74 @@ public class MutationTestRunner {
     boolean isFromThrown = false;
     boolean isToThrown = false;
 
-    try {
-      SystemKey systemKey = SystemKey
+    SystemKey systemKey = SystemKey
+      .builder()
+      .trustStorage(TrustStorage.builder().build())
+      .build();
+    KeyStoreAdmin admin = AdminProvider.admin();
+
+    // Initialize mutation
+    InitializeMutationOutput initOutput = admin.InitializeMutation(
+      InitializeMutationInput
         .builder()
-        .trustStorage(TrustStorage.builder().build())
-        .build();
-      KeyStoreAdmin admin = AdminProvider.admin();
+        .Mutations(mutations)
+        .Identifier(branchKeyId)
+        .Strategy(initStrategy)
+        .DoNotVersion(true)
+        .SystemKey(systemKey)
+        .build()
+    );
+    System.out.println(
+      "InitLogs: " +
+      branchKeyId +
+      " items: \n" +
+      MutationsProvider.mutatedItemsToString(initOutput.MutatedBranchKeyItems())
+    );
 
-      // Initialize mutation
-      InitializeMutationOutput initOutput = admin.InitializeMutation(
-        InitializeMutationInput
-          .builder()
-          .Mutations(mutations)
-          .Identifier(branchKeyId)
-          .Strategy(initStrategy)
-          .DoNotVersion(true)
-          .SystemKey(systemKey)
-          .build()
-      );
+    // Apply mutation
+    MutationToken token = initOutput.MutationToken();
+    boolean done = false;
+    int limitLoop = 5;
 
-      // Apply mutation
-      MutationToken token = initOutput.MutationToken();
-      boolean done = false;
-      int limitLoop = 5;
+    while (!done) {
+      try {
+        limitLoop--;
+        if (limitLoop == 0) done = true;
 
-      while (!done) {
-        try {
-          limitLoop--;
-          if (limitLoop == 0) done = true;
-
-          ApplyMutationOutput applyOutput = admin.ApplyMutation(
-            ApplyMutationInput
-              .builder()
-              .MutationToken(token)
-              .PageSize(1)
-              .Strategy(applyStrategy)
-              .SystemKey(systemKey)
-              .build()
-          );
-
-          ApplyMutationResult result = applyOutput.MutationResult();
-          if (result.ContinueMutation() != null) {
-            token = result.ContinueMutation();
-          }
-          if (result.CompleteMutation() != null) {
-            done = true;
-          }
-        } catch (Exception e) {
-          handleException(e, exceptions, branchKeyId);
-          if (e instanceof MutationToException) {
-            isToThrown = true;
-          }
-          if (e instanceof MutationFromException) {
-            isFromThrown = true;
-          }
+        ApplyMutationOutput applyOutput = admin.ApplyMutation(
+          ApplyMutationInput
+            .builder()
+            .MutationToken(token)
+            .PageSize(1)
+            .Strategy(applyStrategy)
+            .SystemKey(systemKey)
+            .build()
+        );
+        System.out.println(
+          "\nApplyLogs: " +
+          branchKeyId +
+          " items: \n" +
+          MutationsProvider.mutatedItemsToString(
+            applyOutput.MutatedBranchKeyItems()
+          )
+        );
+        ApplyMutationResult result = applyOutput.MutationResult();
+        if (result.ContinueMutation() != null) {
+          token = result.ContinueMutation();
         }
+        if (result.CompleteMutation() != null) {
+          done = true;
+        }
+      } catch (Exception e) {
+        if (e instanceof MutationToException) {
+          isToThrown = true;
+        }
+        if (e instanceof MutationFromException) {
+          isFromThrown = true;
+        }
+        handleException(e, branchKeyId);
+        exceptions.add(e);
       }
-    } catch (Exception e) {
-      exceptions.add(e);
     }
 
     // Verify results
@@ -164,11 +181,7 @@ public class MutationTestRunner {
     );
   }
 
-  private static void handleException(
-    Exception e,
-    List<Exception> exceptions,
-    String branchKeyId
-  ) {
+  private static void handleException(Exception e, String branchKeyId) {
     if (e instanceof KmsException) {
       boolean kmsIsFrom =
         e.getMessage().contains("ReEncryptFrom") ||
@@ -209,6 +222,5 @@ public class MutationTestRunner {
         );
       }
     }
-    exceptions.add(e);
   }
 }
