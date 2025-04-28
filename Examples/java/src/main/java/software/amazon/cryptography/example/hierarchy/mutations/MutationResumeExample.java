@@ -38,7 +38,7 @@ public class MutationResumeExample {
     @Nullable KeyManagementStrategy strategy,
     @Nullable SystemKey systemKey,
     @Nullable KeyStoreAdmin admin,
-    final boolean doNotVersion
+    @Nullable final boolean doNotVersion
   ) {
     boolean mutationConflictThrown = false;
 
