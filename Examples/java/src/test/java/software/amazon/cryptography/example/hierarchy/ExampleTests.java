@@ -350,8 +350,8 @@ public class ExampleTests {
         Fixtures.POSTAL_HORN_KEY_ARN,
         AwsKms.builder().kmsClient(Fixtures.keyStoreOnlyKmsClient).build(),
         AwsKms.builder().kmsClient(Fixtures.postalHornOnlyKmsClient).build(),
-        terminalHVersion,
         MutationsProvider.KmsSystemKey(),
+        terminalHVersion,
         AdminProvider.admin(),
         doNotVersion
       );

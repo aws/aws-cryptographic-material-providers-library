@@ -38,8 +38,8 @@ public class MutationDecryptEncryptExample {
     @Nonnull String terminalKmsArn,
     @Nonnull AwsKms originalAwsKms,
     @Nonnull AwsKms terminalAwsKms,
-    @Nullable HierarchyVersion terminalHierarchyVersion,
     @Nonnull SystemKey systemKey,
+    @Nullable HierarchyVersion terminalHierarchyVersion,
     @Nullable KeyStoreAdmin admin,
     @Nullable final boolean doNotVersion
   ) {
