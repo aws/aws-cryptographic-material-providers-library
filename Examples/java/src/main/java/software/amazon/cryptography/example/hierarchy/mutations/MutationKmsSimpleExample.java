@@ -33,26 +33,21 @@ public class MutationKmsSimpleExample {
       .builder()
       .AwsKmsSimple(AwsKms.builder().build())
       .build();
-
     Mutations mutations = MutationsProvider.defaultMutation(
       terminalKmsArn,
       terminalHierarchyVersion
     );
-
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
-
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
       .Mutations(mutations)
       .Identifier(branchKeyId)
       .Strategy(strategy)
       .SystemKey(systemKey)
-      // Versioning in KMS simple is not yet supported.
+      // TODO-HV-2-FF: Versioning in KMS simple is not yet supported.
       .DoNotVersion(true)
       .build();
-
     InitializeMutationOutput initOutput = _admin.InitializeMutation(initInput);
-
     MutationToken token = initOutput.MutationToken();
     System.out.println(
       "InitLogs: " +
@@ -68,9 +63,7 @@ public class MutationKmsSimpleExample {
       _admin,
       (short) 10
     );
-
     System.out.println("Done with Mutation: " + branchKeyId);
-
     return branchKeyId;
   }
 }
