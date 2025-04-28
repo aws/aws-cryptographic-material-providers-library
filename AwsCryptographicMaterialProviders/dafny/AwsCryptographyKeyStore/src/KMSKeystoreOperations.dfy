@@ -130,6 +130,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   )
     returns (output: Result<seq<uint8>, Types.Error>)
     requires
+      // TODO-HV2-DecryptEncrypt support Decrypt/Encrypt
       && keyManagerAndStorage.keyManagerStrat.kmsSimple?
       && keyManagerAndStorage.ValidState()
       && HasKeyId(kmsConfiguration)

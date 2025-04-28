@@ -357,14 +357,14 @@ module {:options "/functionSyntax:4" } CreateKeys {
     var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(activeBranchKeyContext);
 
     // get plaintext data key by calling kms::GenerateDataKey
-    var branchKey :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
+    var activePlaintextMaterial :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
       branchKeyContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,
       keyManagerAndStorage := keyManagerAndStorage
     );
 
     // get beacon key by calling kms::GenerateDataKey
-    var beaconKey :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
+    var beaconPlaintextMaterial :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
       branchKeyContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,
       keyManagerAndStorage := keyManagerAndStorage
@@ -382,21 +382,21 @@ module {:options "/functionSyntax:4" } CreateKeys {
     var decryptOnlyBKItem :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := decryptOnlyBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
-      material := branchKey,
+      material := activePlaintextMaterial,
       encryptionContext := encryptionContext
     );
 
     var activeBKItem :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := activeBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
-      material := branchKey,
+      material := activePlaintextMaterial,
       encryptionContext := encryptionContext
     );
 
     var beaconBKItem :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := beaconBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
-      material := beaconKey,
+      material := beaconPlaintextMaterial,
       encryptionContext := encryptionContext
     );
 
