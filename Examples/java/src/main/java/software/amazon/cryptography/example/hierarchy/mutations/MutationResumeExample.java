@@ -32,13 +32,13 @@ import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 public class MutationResumeExample {
 
   public static String Resume2End(
-    String branchKeyId,
-    String terminalKmsArn,
-    @Nullable HierarchyVersion terminalHierarchyVersion,
-    @Nullable KeyManagementStrategy strategy,
-    @Nullable SystemKey systemKey,
-    @Nullable KeyStoreAdmin admin,
-    @Nullable final boolean doNotVersion
+    final String branchKeyId,
+    final String terminalKmsArn,
+    @Nullable final HierarchyVersion terminalHierarchyVersion,
+    @Nullable final KeyManagementStrategy strategy,
+    @Nullable final SystemKey systemKey,
+    @Nullable final KeyStoreAdmin admin,
+    @Nullable final Boolean doNotVersion
   ) {
     boolean mutationConflictThrown = false;
 
