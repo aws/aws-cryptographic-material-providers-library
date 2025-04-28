@@ -319,14 +319,14 @@ module {:options "/functionSyntax:4" } CreateKeys {
     ensures output.Success?
             ==>
               && var decryptBKC := Structure.DecryptOnlyBranchKeyEncryptionContext(
-                                      branchKeyIdentifier,
-                                      branchKeyVersion,
-                                      timestamp,
-                                      logicalKeyStoreName,
-                                      KMSKeystoreOperations.GetKeyId(kmsConfiguration),
-                                      hierarchyVersion,
-                                      encryptionContext
-                                    );
+                                     branchKeyIdentifier,
+                                     branchKeyVersion,
+                                     timestamp,
+                                     logicalKeyStoreName,
+                                     KMSKeystoreOperations.GetKeyId(kmsConfiguration),
+                                     hierarchyVersion,
+                                     encryptionContext
+                                   );
               && var activeBKC := Structure.ActiveBranchKeyEncryptionContext(decryptBKC);
               && var beaconBKC := Structure.BeaconKeyEncryptionContext(decryptBKC);
               && HvUtils.HasUniqueTransformedKeys?(activeBKC) == true
