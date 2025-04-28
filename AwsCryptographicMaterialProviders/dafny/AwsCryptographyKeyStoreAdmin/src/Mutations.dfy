@@ -702,8 +702,8 @@ module {:options "/functionSyntax:4" } Mutations {
       HVUtils.SelectKmsEncryptionContextForHv2(terminalBKC),
       terminalBKC[Structure.KMS_FIELD],
       KeyStoreAdminHelpers.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(terminalBKC[Structure.KMS_FIELD])),
-      keyManagerStrategy.kmsSimple.grantTokens,
-      keyManagerStrategy.kmsSimple.kmsClient
+      encryptKMSTuple.grantTokens,
+      encryptKMSTuple.kmsClient
     );
     output := Success(Structure.ConstructEncryptedHierarchicalKey(
                         terminalBKC,

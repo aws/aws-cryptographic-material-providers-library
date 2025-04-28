@@ -131,7 +131,7 @@ module {:options "/functionSyntax:4" } KmsUtils {
         KMSTuple(kms.kmsClient, kms.grantTokens)
     }
   }
-  
+
   datatype KeyManagerAndStorage = KeyManagerAndStorage(
     storage : KeyStoreTypes.IKeyStorageInterface,
     keyManagerStrat: keyManagerStrat
