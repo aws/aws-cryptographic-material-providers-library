@@ -41,7 +41,7 @@ public class MutationDecryptEncryptExample {
     @Nullable HierarchyVersion terminalHierarchyVersion,
     @Nonnull SystemKey systemKey,
     @Nullable KeyStoreAdmin admin,
-    @Nullable final boolean doNotVersion
+    @Nullable final Boolean doNotVersion
   ) {
     final KeyManagementStrategy strategy = KeyManagementStrategy
       .builder()
