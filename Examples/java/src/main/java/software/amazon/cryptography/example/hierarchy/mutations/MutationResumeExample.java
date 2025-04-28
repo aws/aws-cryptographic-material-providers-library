@@ -37,7 +37,8 @@ public class MutationResumeExample {
     @Nullable HierarchyVersion terminalHierarchyVersion,
     @Nullable KeyManagementStrategy strategy,
     @Nullable SystemKey systemKey,
-    @Nullable KeyStoreAdmin admin
+    @Nullable KeyStoreAdmin admin,
+    final boolean doNotVersion
   ) {
     boolean mutationConflictThrown = false;
 
@@ -61,6 +62,7 @@ public class MutationResumeExample {
       .Identifier(branchKeyId)
       .Strategy(_strategy)
       .SystemKey(_systemKey)
+      .DoNotVersion(doNotVersion)
       .build();
 
     MutationToken token = MutationsProvider.executeInitialize(

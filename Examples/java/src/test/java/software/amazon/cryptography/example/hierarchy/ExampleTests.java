@@ -24,6 +24,7 @@ import software.amazon.cryptography.keystore.model.GetBeaconKeyOutput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionOutput;
 import software.amazon.cryptography.keystore.model.HierarchyVersion;
+import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 
 public class ExampleTests {
 
@@ -82,6 +83,8 @@ public class ExampleTests {
   public void end2EndKmsSimpleTest() {
     // Run the test with v1 -> v2 mutation
     end2EndKmsSimpleTestHelper(HierarchyVersion.v1, HierarchyVersion.v2);
+    // Run the test for v2 mutation
+    end2EndKmsSimpleTestHelper(HierarchyVersion.v2, null);
   }
 
   @Test
@@ -93,7 +96,15 @@ public class ExampleTests {
   @Test
   public void end2EndDecryptEncryptTest() {
     // Run the test for v1 item mutation
-    end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, null);
+    end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, null, false);
+    // Run the test with v1 -> v2 mutation
+    end2EndDecryptEncryptTestHelper(
+      HierarchyVersion.v1,
+      HierarchyVersion.v2,
+      true
+    );
+    // Run the test for v2 mutation
+    end2EndDecryptEncryptTestHelper(HierarchyVersion.v2, null, true);
   }
 
   /**
@@ -233,7 +244,8 @@ public class ExampleTests {
         null,
         AdminProvider.strategy(Fixtures.kmsClientWest2),
         MutationsProvider.TrustStorage(),
-        AdminProvider.admin()
+        AdminProvider.admin(),
+        true
       );
     System.out.println(
       "\nMutated Branch Key with Resume: " +
@@ -278,7 +290,8 @@ public class ExampleTests {
    */
   private void end2EndDecryptEncryptTestHelper(
     @Nonnull final HierarchyVersion initialHVersion,
-    @Nullable final HierarchyVersion terminalHVersion
+    @Nullable final HierarchyVersion terminalHVersion,
+    @Nullable final boolean doNotVersion
   ) {
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
@@ -295,7 +308,8 @@ public class ExampleTests {
         AwsKms.builder().kmsClient(Fixtures.postalHornOnlyKmsClient).build(),
         terminalHVersion,
         MutationsProvider.KmsSystemKey(),
-        AdminProvider.admin()
+        AdminProvider.admin(),
+        doNotVersion
       );
     System.out.println(
       "\nMutated Branch Key: " +
@@ -328,28 +342,37 @@ public class ExampleTests {
       Fixtures.POSTAL_HORN_KEY_ARN
     );
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, postalHornKS);
-    branchKeyId =
-      VersionKeyExample.VersionKey(
-        Fixtures.POSTAL_HORN_KEY_ARN,
-        branchKeyId,
-        AdminProvider.admin()
+    if (doNotVersion == false) {
+      branchKeyId =
+        VersionKeyExample.VersionKey(
+          Fixtures.POSTAL_HORN_KEY_ARN,
+          branchKeyId,
+          AdminProvider.admin()
+        );
+      branchKeyId =
+        VersionKeyExample.VersionKey(
+          Fixtures.POSTAL_HORN_KEY_ARN,
+          branchKeyId,
+          AdminProvider.admin()
+        );
+      System.out.println("\nVersioned Branch Key: " + branchKeyId + "\n");
+    }
+    KeyManagementStrategy decryptEncryptStrategy =
+      AdminProvider.decryptEncryptStrategy(
+        Fixtures.kmsClientWest2,
+        Fixtures.kmsClientWest2
       );
-    branchKeyId =
-      VersionKeyExample.VersionKey(
-        Fixtures.POSTAL_HORN_KEY_ARN,
-        branchKeyId,
-        AdminProvider.admin()
-      );
-    System.out.println("\nVersioned Branch Key: " + branchKeyId + "\n");
     branchKeyId =
       MutationResumeExample.Resume2End(
         branchKeyId,
         Fixtures.KEYSTORE_KMS_ARN,
-        null,
-        AdminProvider.strategy(Fixtures.kmsClientWest2),
+        terminalHVersion,
+        decryptEncryptStrategy,
         MutationsProvider.TrustStorage(),
-        AdminProvider.admin()
+        AdminProvider.admin(),
+        doNotVersion
       );
+
     System.out.println(
       "\nMutated Branch Key with Resume: " +
       branchKeyId +
