@@ -165,48 +165,47 @@ public class ExampleTests {
       Fixtures.POSTAL_HORN_KEY_ARN
     );
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, postalHornKS);
-    KeyManagementStrategy kmsSimpleStrategy =
-            AdminProvider.kmsSimpleStrategy(
-                    Fixtures.kmsClientWest2
-            );
+    KeyManagementStrategy kmsSimpleStrategy = AdminProvider.kmsSimpleStrategy(
+      Fixtures.kmsClientWest2
+    );
     branchKeyId =
-            MutationResumeExample.Resume2End(
-                    branchKeyId,
-                    Fixtures.KEYSTORE_KMS_ARN,
-                    terminalHVersion,
-                    kmsSimpleStrategy,
-                    MutationsProvider.TrustStorage(),
-                    AdminProvider.admin(),
-                    doNotVersion
-            );
+      MutationResumeExample.Resume2End(
+        branchKeyId,
+        Fixtures.KEYSTORE_KMS_ARN,
+        terminalHVersion,
+        kmsSimpleStrategy,
+        MutationsProvider.TrustStorage(),
+        AdminProvider.admin(),
+        doNotVersion
+      );
     System.out.println(
-            "\nMutated Branch Key with Resume: " +
-                    branchKeyId +
-                    " to KMS ARN: " +
-                    Fixtures.KEYSTORE_KMS_ARN +
-                    "\n"
+      "\nMutated Branch Key with Resume: " +
+      branchKeyId +
+      " to KMS ARN: " +
+      Fixtures.KEYSTORE_KMS_ARN +
+      "\n"
     );
     mCommitmentRes =
-            DdbHelper.getKeyStoreDdbItem(
-                    branchKeyId,
-                    Constants.TYPE_MUTATION_COMMITMENT,
-                    Fixtures.TEST_KEYSTORE_NAME,
-                    Fixtures.ddbClientWest2
-            );
+      DdbHelper.getKeyStoreDdbItem(
+        branchKeyId,
+        Constants.TYPE_MUTATION_COMMITMENT,
+        Fixtures.TEST_KEYSTORE_NAME,
+        Fixtures.ddbClientWest2
+      );
     Assert.assertFalse(
-            mCommitmentRes.hasItem(),
-            Constants.TYPE_MUTATION_COMMITMENT + " was not deleted!"
+      mCommitmentRes.hasItem(),
+      Constants.TYPE_MUTATION_COMMITMENT + " was not deleted!"
     );
     mIndexRes =
-            DdbHelper.getKeyStoreDdbItem(
-                    branchKeyId,
-                    Constants.TYPE_MUTATION_INDEX,
-                    Fixtures.TEST_KEYSTORE_NAME,
-                    Fixtures.ddbClientWest2
-            );
+      DdbHelper.getKeyStoreDdbItem(
+        branchKeyId,
+        Constants.TYPE_MUTATION_INDEX,
+        Fixtures.TEST_KEYSTORE_NAME,
+        Fixtures.ddbClientWest2
+      );
     Assert.assertFalse(
-            mIndexRes.hasItem(),
-            Constants.TYPE_MUTATION_INDEX + " was not deleted!"
+      mIndexRes.hasItem(),
+      Constants.TYPE_MUTATION_INDEX + " was not deleted!"
     );
     KeyStore keyStoreKS = KeyStoreProvider.keyStore(Fixtures.KEYSTORE_KMS_ARN);
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, keyStoreKS);
