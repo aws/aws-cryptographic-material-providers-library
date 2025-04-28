@@ -6,6 +6,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystore.model.AwsKms;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.AwsKmsDecryptEncrypt;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
@@ -38,7 +39,9 @@ public class MutationDecryptEncryptExample {
     @Nonnull AwsKms originalAwsKms,
     @Nonnull AwsKms terminalAwsKms,
     @Nonnull SystemKey systemKey,
-    @Nullable KeyStoreAdmin admin
+    @Nullable HierarchyVersion terminalHierarchyVersion,
+    @Nullable KeyStoreAdmin admin,
+    @Nullable final Boolean doNotVersion
   ) {
     final KeyManagementStrategy strategy = KeyManagementStrategy
       .builder()
@@ -54,7 +57,10 @@ public class MutationDecryptEncryptExample {
       )
       .build();
 
-    Mutations mutations = MutationsProvider.defaultMutation(terminalKmsArn);
+    Mutations mutations = MutationsProvider.defaultMutation(
+      terminalKmsArn,
+      terminalHierarchyVersion
+    );
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
     InitializeMutationInput initInput = InitializeMutationInput
@@ -63,6 +69,7 @@ public class MutationDecryptEncryptExample {
       .Identifier(branchKeyId)
       .Strategy(strategy)
       .SystemKey(systemKey)
+      .DoNotVersion(doNotVersion)
       .build();
 
     InitializeMutationOutput initOutput = _admin.InitializeMutation(initInput);

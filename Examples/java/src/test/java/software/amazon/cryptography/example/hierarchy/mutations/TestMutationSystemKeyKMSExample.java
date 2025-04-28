@@ -23,7 +23,8 @@ public class TestMutationSystemKeyKMSExample {
     MutationSystemKeyKMSExample.End2End(
       Fixtures.KSA_SYSTEM_KEY,
       branchKeyId,
-      Fixtures.KEYSTORE_KMS_ARN
+      Fixtures.KEYSTORE_KMS_ARN,
+      null
     );
     DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }

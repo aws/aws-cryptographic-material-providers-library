@@ -46,7 +46,7 @@ public class DoNotVersionTest {
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
       .Mutations(
-        MutationsProvider.defaultMutation(Fixtures.POSTAL_HORN_KEY_ARN)
+        MutationsProvider.defaultMutation(Fixtures.POSTAL_HORN_KEY_ARN, null)
       )
       .Identifier(branchKeyId)
       .DoNotVersion(true)

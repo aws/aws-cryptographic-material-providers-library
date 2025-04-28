@@ -12,6 +12,7 @@ import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystore.model.AwsKms;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
@@ -40,7 +41,8 @@ public class MutationsProvider {
   }
 
   public static Mutations defaultMutation(
-    @Nonnull final String terminalKmsArn
+    @Nonnull final String terminalKmsArn,
+    @Nullable final HierarchyVersion terminalHierarchyVersion
   ) {
     HashMap<String, String> terminalEC = new HashMap<>(2, 1);
     terminalEC.put("Robbie", "is a dog.");
@@ -48,6 +50,7 @@ public class MutationsProvider {
       .builder()
       .TerminalEncryptionContext(terminalEC)
       .TerminalKmsArn(terminalKmsArn)
+      .TerminalHierarchyVersion(terminalHierarchyVersion)
       .build();
   }
 

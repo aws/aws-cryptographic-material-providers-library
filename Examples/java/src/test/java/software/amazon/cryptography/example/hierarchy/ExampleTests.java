@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
@@ -10,6 +12,7 @@ import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationDecryptEncryptExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationExample;
+import software.amazon.cryptography.example.hierarchy.mutations.MutationKmsSimpleExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationResumeExample;
 import software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider;
 import software.amazon.cryptography.keystore.KeyStore;
@@ -21,13 +24,14 @@ import software.amazon.cryptography.keystore.model.GetBeaconKeyOutput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionOutput;
 import software.amazon.cryptography.keystore.model.HierarchyVersion;
+import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 
 public class ExampleTests {
 
   static final String hv2CreateTestPrefix = "create-hierarchy-version-2-java-";
 
   @Test
-  public void CreateKeyHv2Test() {
+  public void createKeyHv2Test() {
     String branchKeyId =
       hv2CreateTestPrefix + java.util.UUID.randomUUID().toString();
     // Create Branch Key with `hierarchy-version-2` (HV-2)
@@ -76,12 +80,154 @@ public class ExampleTests {
   }
 
   @Test
-  public void End2EndReEncryptTest() {
+  public void end2EndKmsSimpleTest() {
+    // Run the test with v1 -> v2 mutation
+    end2EndKmsSimpleTestHelper(HierarchyVersion.v1, HierarchyVersion.v2, true);
+    // Run the test for v2 mutation
+    end2EndKmsSimpleTestHelper(HierarchyVersion.v2, null, true);
+  }
+
+  @Test
+  public void end2EndKmsReEncryptTest() {
+    // Run the test for v1 item mutation
+    end2EndKmsReEncryptTestHelper(HierarchyVersion.v1);
+  }
+
+  @Test
+  public void end2EndDecryptEncryptTest() {
+    // Run the test for v1 item mutation
+    end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, null, false);
+    // Run the test with v1 -> v2 mutation
+    end2EndDecryptEncryptTestHelper(
+      HierarchyVersion.v1,
+      HierarchyVersion.v2,
+      true
+    );
+    // Run the test for v2 mutation
+    end2EndDecryptEncryptTestHelper(HierarchyVersion.v2, null, true);
+  }
+
+  /**
+   * Parameterized test helper that allows testing different hierarchy version
+   * combinations for KMS Simple strategy
+   * @param initialHVersion The hierarchy version to use when creating the branch key
+   * @param terminalHVersion The hierarchy version to mutate to.
+   * terminalHVersion can be null if mutation of HierarchyVersion is not required
+   */
+  private void end2EndKmsSimpleTestHelper(
+    final HierarchyVersion initialHVersion,
+    @Nullable final HierarchyVersion terminalHVersion,
+    @Nullable final Boolean doNotVersion
+  ) {
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      HierarchyVersion.v1
+      initialHVersion
+    );
+    System.out.println("\nCreated Branch Key: " + branchKeyId);
+    branchKeyId =
+      MutationKmsSimpleExample.End2End(
+        branchKeyId,
+        Fixtures.POSTAL_HORN_KEY_ARN,
+        terminalHVersion,
+        MutationsProvider.KmsSystemKey(),
+        AdminProvider.admin()
+      );
+    System.out.println(
+      "\nMutated Branch Key: " +
+      branchKeyId +
+      " to KMS ARN: " +
+      Fixtures.POSTAL_HORN_KEY_ARN +
+      "\n"
+    );
+    GetItemResponse mCommitmentRes = DdbHelper.getKeyStoreDdbItem(
+      branchKeyId,
+      Constants.TYPE_MUTATION_COMMITMENT,
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.ddbClientWest2
+    );
+    Assert.assertFalse(
+      mCommitmentRes.hasItem(),
+      Constants.TYPE_MUTATION_COMMITMENT + " was not deleted!"
+    );
+    GetItemResponse mIndexRes = DdbHelper.getKeyStoreDdbItem(
+      branchKeyId,
+      Constants.TYPE_MUTATION_INDEX,
+      Fixtures.TEST_KEYSTORE_NAME,
+      Fixtures.ddbClientWest2
+    );
+    Assert.assertFalse(
+      mIndexRes.hasItem(),
+      Constants.TYPE_MUTATION_INDEX + " was not deleted!"
+    );
+    KeyStore postalHornKS = KeyStoreProvider.keyStore(
+      Fixtures.POSTAL_HORN_KEY_ARN
+    );
+    ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, postalHornKS);
+    KeyManagementStrategy kmsSimpleStrategy = AdminProvider.kmsSimpleStrategy(
+      Fixtures.kmsClientWest2
+    );
+    branchKeyId =
+      MutationResumeExample.Resume2End(
+        branchKeyId,
+        Fixtures.KEYSTORE_KMS_ARN,
+        terminalHVersion,
+        kmsSimpleStrategy,
+        MutationsProvider.TrustStorage(),
+        AdminProvider.admin(),
+        doNotVersion
+      );
+    System.out.println(
+      "\nMutated Branch Key with Resume: " +
+      branchKeyId +
+      " to KMS ARN: " +
+      Fixtures.KEYSTORE_KMS_ARN +
+      "\n"
+    );
+    mCommitmentRes =
+      DdbHelper.getKeyStoreDdbItem(
+        branchKeyId,
+        Constants.TYPE_MUTATION_COMMITMENT,
+        Fixtures.TEST_KEYSTORE_NAME,
+        Fixtures.ddbClientWest2
+      );
+    Assert.assertFalse(
+      mCommitmentRes.hasItem(),
+      Constants.TYPE_MUTATION_COMMITMENT + " was not deleted!"
+    );
+    mIndexRes =
+      DdbHelper.getKeyStoreDdbItem(
+        branchKeyId,
+        Constants.TYPE_MUTATION_INDEX,
+        Fixtures.TEST_KEYSTORE_NAME,
+        Fixtures.ddbClientWest2
+      );
+    Assert.assertFalse(
+      mIndexRes.hasItem(),
+      Constants.TYPE_MUTATION_INDEX + " was not deleted!"
+    );
+    KeyStore keyStoreKS = KeyStoreProvider.keyStore(Fixtures.KEYSTORE_KMS_ARN);
+    ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, keyStoreKS);
+
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
+  }
+
+  /**
+   * Parameterized test helper that allows testing different hierarchy version
+   * combinations for Kms ReEncrypt strategy
+   * @param initialHVersion The hierarchy version to use when creating the branch key
+   *
+   * Note: terminalHVersion is not added in the test because hv1 to hv2 is not supported
+   */
+  private void end2EndKmsReEncryptTestHelper(
+    @Nullable final HierarchyVersion initialHVersion
+  ) {
+    String branchKeyId = CreateKeyExample.CreateKey(
+      Fixtures.KEYSTORE_KMS_ARN,
+      null,
+      AdminProvider.admin(),
+      initialHVersion
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
@@ -139,9 +285,11 @@ public class ExampleTests {
       MutationResumeExample.Resume2End(
         branchKeyId,
         Fixtures.KEYSTORE_KMS_ARN,
+        null,
         AdminProvider.strategy(Fixtures.kmsClientWest2),
         MutationsProvider.TrustStorage(),
-        AdminProvider.admin()
+        AdminProvider.admin(),
+        true
       );
     System.out.println(
       "\nMutated Branch Key with Resume: " +
@@ -177,13 +325,23 @@ public class ExampleTests {
     DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 
-  @Test
-  public void End2EndDecryptEncryptTest() {
+  /**
+   * Parameterized test helper that allows testing different hierarchy version
+   * combinations for KMS Simple strategy
+   * @param initialHVersion The hierarchy version to use when creating the branch key
+   * @param terminalHVersion The hierarchy version to mutate to.
+   * terminalHVersion can be null if mutation of HierarchyVersion is not required
+   */
+  private void end2EndDecryptEncryptTestHelper(
+    @Nonnull final HierarchyVersion initialHVersion,
+    @Nullable final HierarchyVersion terminalHVersion,
+    @Nullable final boolean doNotVersion
+  ) {
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      HierarchyVersion.v1
+      initialHVersion
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
@@ -193,7 +351,9 @@ public class ExampleTests {
         AwsKms.builder().kmsClient(Fixtures.keyStoreOnlyKmsClient).build(),
         AwsKms.builder().kmsClient(Fixtures.postalHornOnlyKmsClient).build(),
         MutationsProvider.KmsSystemKey(),
-        AdminProvider.admin()
+        terminalHVersion,
+        AdminProvider.admin(),
+        doNotVersion
       );
     System.out.println(
       "\nMutated Branch Key: " +
@@ -226,27 +386,37 @@ public class ExampleTests {
       Fixtures.POSTAL_HORN_KEY_ARN
     );
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, postalHornKS);
-    branchKeyId =
-      VersionKeyExample.VersionKey(
-        Fixtures.POSTAL_HORN_KEY_ARN,
-        branchKeyId,
-        AdminProvider.admin()
+    if (doNotVersion == false) {
+      branchKeyId =
+        VersionKeyExample.VersionKey(
+          Fixtures.POSTAL_HORN_KEY_ARN,
+          branchKeyId,
+          AdminProvider.admin()
+        );
+      branchKeyId =
+        VersionKeyExample.VersionKey(
+          Fixtures.POSTAL_HORN_KEY_ARN,
+          branchKeyId,
+          AdminProvider.admin()
+        );
+      System.out.println("\nVersioned Branch Key: " + branchKeyId + "\n");
+    }
+    KeyManagementStrategy decryptEncryptStrategy =
+      AdminProvider.decryptEncryptStrategy(
+        Fixtures.kmsClientWest2,
+        Fixtures.kmsClientWest2
       );
-    branchKeyId =
-      VersionKeyExample.VersionKey(
-        Fixtures.POSTAL_HORN_KEY_ARN,
-        branchKeyId,
-        AdminProvider.admin()
-      );
-    System.out.println("\nVersioned Branch Key: " + branchKeyId + "\n");
     branchKeyId =
       MutationResumeExample.Resume2End(
         branchKeyId,
         Fixtures.KEYSTORE_KMS_ARN,
-        AdminProvider.strategy(Fixtures.kmsClientWest2),
+        terminalHVersion,
+        decryptEncryptStrategy,
         MutationsProvider.TrustStorage(),
-        AdminProvider.admin()
+        AdminProvider.admin(),
+        doNotVersion
       );
+
     System.out.println(
       "\nMutated Branch Key with Resume: " +
       branchKeyId +

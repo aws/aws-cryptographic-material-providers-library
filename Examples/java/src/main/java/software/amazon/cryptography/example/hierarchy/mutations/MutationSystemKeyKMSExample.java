@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
@@ -37,12 +38,14 @@ public class MutationSystemKeyKMSExample {
   public static String End2End(
     @Nonnull final String systemKeyArn,
     @Nonnull final String identifier,
-    @Nonnull final String terminalKmsArn
+    @Nonnull final String terminalKmsArn,
+    @Nullable final HierarchyVersion terminalHierarchyVersion
   ) {
     return End2End(
       systemKeyArn,
       identifier,
       terminalKmsArn,
+      terminalHierarchyVersion,
       null,
       null,
       null,
@@ -55,6 +58,7 @@ public class MutationSystemKeyKMSExample {
     @Nonnull final String systemKeyArn,
     @Nonnull final String identifier,
     @Nonnull final String terminalKmsArn,
+    @Nonnull final HierarchyVersion terminalHierarchyVersion,
     @Nullable KmsClient systemKeyKmsClient,
     @Nullable List<String> systemKeyGrantTokens,
     @Nullable KeyStoreAdmin admin,
@@ -81,7 +85,10 @@ public class MutationSystemKeyKMSExample {
         : admin;
     mutations =
       mutations == null
-        ? MutationsProvider.defaultMutation(terminalKmsArn)
+        ? MutationsProvider.defaultMutation(
+          terminalKmsArn,
+          terminalHierarchyVersion
+        )
         : mutations;
     strategy = strategy == null ? AdminProvider.strategy(null) : strategy;
     InitializeMutationInput initInput = InitializeMutationInput

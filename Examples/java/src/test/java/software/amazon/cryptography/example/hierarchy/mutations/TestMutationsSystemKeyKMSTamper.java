@@ -223,7 +223,8 @@ public class TestMutationsSystemKeyKMSTamper {
       Fixtures.ddbClientWest2
     );
     Mutations mutations = MutationsProvider.defaultMutation(
-      Fixtures.POSTAL_HORN_KEY_ARN
+      Fixtures.POSTAL_HORN_KEY_ARN,
+      null
     );
     KeyManagementStrategy strategy = AdminProvider.strategy(null);
     InitializeMutationInput initInput = InitializeMutationInput
