@@ -11,7 +11,7 @@ import software.amazon.cryptography.example.hierarchy.AdminProvider;
 import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 
-public class MutationV2ToV2Test {
+public class KmsInFlightMutationV2ToV2Test {
 
   @Test
   public void testDecryptEncryptOriginalException() {
@@ -19,7 +19,7 @@ public class MutationV2ToV2Test {
       "test-mutation-kms-access-in-flight-original-" +
       UUID.randomUUID().toString();
 
-    MutationKmsAccessInFlightTestRunner.createHappyCaseId(
+    KmsInFlightMutationAccessDeniedRunner.createHappyCaseId(
       MRK_ARN_WEST,
       branchKeyId,
       AdminProvider.admin(),
@@ -32,7 +32,7 @@ public class MutationV2ToV2Test {
         .TerminalKmsArn(POSTAL_HORN_KEY_ARN)
         .build();
 
-      MutationKmsAccessInFlightTestRunner.runMutationTest(
+      KmsInFlightMutationAccessDeniedRunner.runMutationTest(
         branchKeyId,
         mutations,
         AdminProvider.decryptEncryptStrategy(
@@ -58,7 +58,7 @@ public class MutationV2ToV2Test {
       "test-mutation-kms-access-in-flight-terminal-" +
       UUID.randomUUID().toString();
 
-    MutationKmsAccessInFlightTestRunner.createHappyCaseId(
+    KmsInFlightMutationAccessDeniedRunner.createHappyCaseId(
       POSTAL_HORN_KEY_ARN,
       branchKeyId,
       AdminProvider.admin(),
@@ -71,7 +71,7 @@ public class MutationV2ToV2Test {
         .TerminalKmsArn(MRK_ARN_WEST)
         .build();
 
-      MutationKmsAccessInFlightTestRunner.runMutationTest(
+      KmsInFlightMutationAccessDeniedRunner.runMutationTest(
         branchKeyId,
         mutations,
         AdminProvider.decryptEncryptStrategy(
@@ -97,7 +97,7 @@ public class MutationV2ToV2Test {
       "test-mutation-kms-access-in-flight-original-" +
       UUID.randomUUID().toString();
 
-    MutationKmsAccessInFlightTestRunner.createHappyCaseId(
+    KmsInFlightMutationAccessDeniedRunner.createHappyCaseId(
       MRK_ARN_WEST,
       branchKeyId,
       AdminProvider.admin(),
@@ -110,7 +110,7 @@ public class MutationV2ToV2Test {
         .TerminalKmsArn(POSTAL_HORN_KEY_ARN)
         .build();
 
-      MutationKmsAccessInFlightTestRunner.runMutationTest(
+      KmsInFlightMutationAccessDeniedRunner.runMutationTest(
         branchKeyId,
         mutations,
         AdminProvider.kmsSimpleStrategy(Fixtures.kmsClientWest2),
@@ -130,7 +130,7 @@ public class MutationV2ToV2Test {
       "test-mutation-kms-access-in-flight-terminal-" +
       UUID.randomUUID().toString();
 
-    MutationKmsAccessInFlightTestRunner.createHappyCaseId(
+    KmsInFlightMutationAccessDeniedRunner.createHappyCaseId(
       POSTAL_HORN_KEY_ARN,
       branchKeyId,
       AdminProvider.admin(),
@@ -143,7 +143,7 @@ public class MutationV2ToV2Test {
         .TerminalKmsArn(MRK_ARN_WEST)
         .build();
 
-      MutationKmsAccessInFlightTestRunner.runMutationTest(
+      KmsInFlightMutationAccessDeniedRunner.runMutationTest(
         branchKeyId,
         mutations,
         AdminProvider.kmsSimpleStrategy(Fixtures.kmsClientWest2),

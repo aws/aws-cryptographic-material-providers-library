@@ -25,7 +25,7 @@ import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
 import software.amazon.cryptography.keystoreadmin.model.TrustStorage;
 
-public class MutationKmsAccessInFlightTestRunner {
+public class KmsInFlightMutationAccessDeniedRunner {
 
   private static final Pattern BRANCH_KEY_TYPE_PATTERN = Pattern.compile(
     "Branch Key Type: ([^;]+)"
@@ -40,7 +40,7 @@ public class MutationKmsAccessInFlightTestRunner {
   ) {
     // TODO-HV-2-Version: Version is not supported for HV-2 keys yet,
     //  As a work-a-round, Mutate to HV-2 to have Branch Key with at-least two version items for testing
-    DdbHelper.createHappyCaseId(
+    AdminProvider.createHappyCaseId(
       kmsKeyArn,
       branchKeyId,
       admin,

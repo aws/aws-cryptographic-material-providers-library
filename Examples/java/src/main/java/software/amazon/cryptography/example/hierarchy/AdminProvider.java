@@ -2,12 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystore.model.DynamoDBTable;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystore.model.Storage;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.AwsKmsDecryptEncrypt;
@@ -91,5 +93,19 @@ public class AdminProvider {
 
   public static KmsClient kms(@Nullable KmsClient kmsClient) {
     return kmsClient == null ? KmsClient.create() : kmsClient;
+  }
+
+  // Creates a Branch Key and also create a new version.
+  public static void createHappyCaseId(
+    @Nonnull String kmsKeyArn,
+    @Nonnull String branchKeyId,
+    @Nonnull KeyStoreAdmin admin,
+    @Nonnull HierarchyVersion hierarchyVersion,
+    @Nonnull Integer versionCount
+  ) {
+    CreateKeyExample.CreateKey(kmsKeyArn, branchKeyId, admin, hierarchyVersion);
+    for (int i = 0; i < versionCount; i++) {
+      VersionKeyExample.VersionKey(kmsKeyArn, branchKeyId, admin);
+    }
   }
 }
