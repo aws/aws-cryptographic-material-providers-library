@@ -54,6 +54,13 @@ public class AdminProvider {
       .build();
   }
 
+  public static KeyManagementStrategy kmsSimpleStrategy(@Nullable KmsClient kmsClient) {
+    return KeyManagementStrategy
+            .builder()
+            .AwsKmsSimple(AwsKms.builder().kmsClient(kms(kmsClient)).build())
+            .build();
+  }
+
   public static KeyManagementStrategy decryptEncryptStrategy(
     @Nullable KmsClient decryptKmsClient,
     @Nullable KmsClient encryptKmsClient
