@@ -21,8 +21,16 @@ module {:options "--function-syntax:4"} MemoryMathTest {
     expect value == 8;
   }
 
+  method UnConstrained2(x : seq<uint8>)
+  {
+    MemoryMath.SequenceIsSafeBecauseItIsInMemory(x);
+    var value := Constrained(x, |x| as uint64, 8);
+    expect value == 8;
+  }
+
   method {:test} BasicTests() {
     UnConstrained([0,1,2,3]);
+    UnConstrained2([4,5,6,7]);
   }
 }
 

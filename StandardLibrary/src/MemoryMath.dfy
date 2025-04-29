@@ -16,6 +16,13 @@ module {:options "--function-syntax:4"} MemoryMath {
   lemma {:axiom} ValueIsSafeBecauseItIsInMemory(value : nat)
     ensures value < UINT64_MAX as nat
 
+  lemma SequenceIsSafeBecauseItIsInMemory<T>(value : seq<T>)
+    ensures |value| < UINT64_MAX as nat
+  {
+    ValueIsSafeBecauseItIsInMemory(|value|);
+  }
+
+
   function {:opaque} Add(x : uint64, y : uint64) : (ret : uint64)
     ensures ret < UINT64_MAX as uint64
     ensures ret as nat == x as nat + y as nat
