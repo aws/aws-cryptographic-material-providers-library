@@ -83,7 +83,7 @@ public class DescribeMutationExample {
       ? MutationsProvider.KmsSystemKey()
       : systemKey;
     final KeyManagementStrategy _strategy = strategy == null
-      ? AdminProvider.strategy(null)
+      ? AdminProvider.reEncryptStrategy(null)
       : strategy;
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
@@ -126,7 +126,7 @@ public class DescribeMutationExample {
       ? MutationsProvider.KmsSystemKey()
       : systemKey;
     final KeyManagementStrategy _strategy = strategy == null
-      ? AdminProvider.strategy(null)
+      ? AdminProvider.reEncryptStrategy(null)
       : strategy;
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 

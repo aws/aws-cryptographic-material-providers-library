@@ -9,7 +9,6 @@ import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
-import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
 import software.amazon.cryptography.keystoreadmin.model.SystemKey;
@@ -71,7 +70,9 @@ public class MutationExample {
       ? MutationsProvider.KmsSystemKey()
       : systemKey;
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
-    final KeyManagementStrategy strategy = AdminProvider.strategy(null);
+    final KeyManagementStrategy strategy = AdminProvider.reEncryptStrategy(
+      null
+    );
 
     System.out.println("BranchKey ID to mutate: " + branchKeyId);
     HashMap<String, String> terminalEC = new HashMap<>();

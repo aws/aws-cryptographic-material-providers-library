@@ -78,7 +78,8 @@ public class MutationsSystemKeyTrustExample {
           terminalHierarchyVersion
         )
         : mutations;
-    strategy = strategy == null ? AdminProvider.strategy(null) : strategy;
+    strategy =
+      strategy == null ? AdminProvider.reEncryptStrategy(null) : strategy;
     InitializeMutationInput initInput = InitializeMutationInput
       .builder()
       .Mutations(mutations)
