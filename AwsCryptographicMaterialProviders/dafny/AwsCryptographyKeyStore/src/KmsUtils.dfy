@@ -132,6 +132,8 @@ module {:options "/functionSyntax:4" } KmsUtils {
     }
   }
 
+  // TODO-HV-2-M4 : BKS Datatype for Crypto, Storage, KMS Tuple
+  // TODO-HV-2-M4: No KMS Strategy leaked to BKS; Strategy is BKSA only
   datatype KeyManagerAndStorage = KeyManagerAndStorage(
     storage : KeyStoreTypes.IKeyStorageInterface,
     keyManagerStrat: keyManagerStrat

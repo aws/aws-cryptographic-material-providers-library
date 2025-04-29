@@ -25,6 +25,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import ErrorMessages = KeyStoreErrorMessages
   import KmsUtils
 
+  // TODO-HV-2-M4 : BKS Datatype for Crypto, Storage, KMS Tuple
+  // TODO-HV-2-M4 : Move to a helper module
   /** Constrains the relationship of the Crypto & KMS client, 
     ensuring they a valid but their histories are separate.
     Also allows us to make claims about the Grant Tokens and kmsConfig. */
@@ -124,7 +126,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   }
 
   method GetPlaintextDataKeyViaGenerateDataKey(
-    nameonly branchKeyContext: map<string, string>,
+    nameonly encryptionContext: map<string, string>,
     nameonly kmsConfiguration: Types.KMSConfiguration,
     nameonly keyManagerAndStorage: KmsUtils.KeyManagerAndStorage
   )
@@ -985,6 +987,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     && |decryptHistory.output.value.Plaintext.value| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
   }
 
+  //TODO-HV-2-M4: Move to HVUtils
   method packAndCallKMS(
     nameonly branchKeyContext: map<string, string>,
     nameonly cryptoAndKms: CryptoAndKms,

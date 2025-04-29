@@ -305,7 +305,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
   )
     returns (output: Result<Types.CreateKeyOutput, Types.Error>)
     requires
-      // TODO-HV-2-M? : Support KmsDecryptEncrypt?
+      // TODO-HV-2-M4 : BKS Datatype for Crypto, Storage, KMS Tuple
+      // TODO-HV-2-M4: No KMS Strategy leaked to BKS; Strategy is BKSA only
       && keyManagerAndStorage.keyManagerStrat.kmsSimple?
       && keyManagerAndStorage.ValidState()
       && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
@@ -334,7 +335,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && var kms := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
               && |kms.History.GenerateDataKey| == |old(kms.History.GenerateDataKey)| + 2 // 2 since we call to generate the branch key and the beacon key
               && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 3 // 3 since we encrypt the active, version, and the beacon key
-    //TODO: add generate data key and encrypt proofs here
+    //TODO-HV-2-M4: add generate data key, encrypt, and write to storage proofs here
   {
     // Construct Branch Key Contexts for ACTIVE, Version and Beacon items.
     var decryptOnlyBranchKeyContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
@@ -722,7 +723,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires kmsClient.ValidState() && storage.ValidState()
     modifies storage.Modifies, kmsClient.Modifies
     ensures storage.ValidState() && kmsClient.ValidState()
-    //TODO: add generate data key and encrypt proofs here
+    //TODO-HV-2-M4: add generate data key, encrypt, and write to storage proofs here
   {
     if !HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext) {
       return Failure(Types.BranchKeyCiphertextException(
