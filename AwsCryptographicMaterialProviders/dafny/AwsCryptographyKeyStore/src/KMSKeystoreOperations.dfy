@@ -128,20 +128,20 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   method GetPlaintextDataKeyViaGenerateDataKey(
     nameonly encryptionContext: map<string, string>,
     nameonly kmsConfiguration: Types.KMSConfiguration,
-    nameonly keyManagerAndStorage: KmsUtils.KeyManagerAndStorage
+    nameonly grantTokens: KMS.GrantTokenList,
+    nameonly kmsClient: KMS.IKMSClient
   )
-    returns (output: Result<seq<uint8>, Types.Error>)
+    returns (output: Result<KMS.GenerateDataKeyResponse, KmsError>)
     requires
       // TODO-HV2-DecryptEncrypt support Decrypt/Encrypt
-      && keyManagerAndStorage.keyManagerStrat.kmsSimple?
-      && keyManagerAndStorage.ValidState()
+      && kmsClient.ValidState()
       && HasKeyId(kmsConfiguration)
       && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
-    modifies keyManagerAndStorage.Modifies
-    ensures keyManagerAndStorage.ValidState()
+    modifies kmsClient.Modifies
+    ensures kmsClient.ValidState()
     ensures output.Success?
             ==>
-              && var kms := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
+              && var kms := kmsClient;
               && |kms.History.GenerateDataKey| == |old(kms.History.GenerateDataKey)| + 1
               && old(kms.History.Encrypt) == kms.History.Encrypt
               && var kmsGenerateDataKeyEvent := Seq.Last(kms.History.GenerateDataKey);
@@ -157,7 +157,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
               && |kmsGenerateDataKeyEvent.output.value.Plaintext.value| == 32
               && kmsGenerateDataKeyEvent.output.value.KeyId.Some?
               && kmsGenerateDataKeyEvent.output.value.KeyId.value == kmsKeyArn
-              && kmsGenerateDataKeyEvent.output.value.Plaintext.value == output.value
+              && kmsGenerateDataKeyEvent.output.value == output.value
   {
     var kmsKeyArn := GetKeyId(kmsConfiguration);
     var generateDataKeyInput := KMS.GenerateDataKeyRequest(
@@ -167,7 +167,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       GrantTokens := Some(keyManagerAndStorage.keyManagerStrat.kmsSimple.grantTokens)
     );
 
-    var generateDataKeyResponse? := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.GenerateDataKey(
+    var generateDataKeyResponse? := kmsClient.GenerateDataKey(
       generateDataKeyInput
     );
 
@@ -189,7 +189,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       )
     );
 
-    output := Success(generateDataKeyResponse.Plaintext.value);
+    output := Success(generateDataKeyResponse);
   }
 
   method GenerateKey(

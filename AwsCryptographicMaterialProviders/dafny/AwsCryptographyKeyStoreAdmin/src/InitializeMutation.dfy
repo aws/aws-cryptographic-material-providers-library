@@ -468,32 +468,95 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         kmsClient := kms.kmsClient;
     }
 
-    var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
-      encryptionContext := decryptOnlyEncryptionContext,
-      kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
-      grantTokens := grantTokens,
-      kmsClient := kmsClient
-    );
+    var newDecryptOnly : KeyStoreTypes.EncryptedHierarchicalKey;
+    match mutationToApply.Terminal.hierarchyVersion {
+      case v1 =>
+        var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.GenerateKey(
+          encryptionContext := decryptOnlyEncryptionContext,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
+          grantTokens := grantTokens,
+          kmsClient := kmsClient
+        );
 
-    if (wrappedDecryptOnlyBranchKey?.Failure?) {
-      var error := MutationErrorRefinement.GenerateNewActiveException(
-        identifier := decryptOnlyEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
-        kmsArn := mutationToApply.Terminal.kmsArn,
-        error := wrappedDecryptOnlyBranchKey?.error);
-      return Failure(error);
+        if (wrappedDecryptOnlyBranchKey?.Failure?) {
+          var error := MutationErrorRefinement.GenerateNewActiveException(
+            identifier := decryptOnlyEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
+            kmsArn := mutationToApply.Terminal.kmsArn,
+            error := wrappedDecryptOnlyBranchKey?.error);
+          return Failure(error);
+        }
+        
+        newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
+          decryptOnlyEncryptionContext,
+          wrappedDecryptOnlyBranchKey?.value.CiphertextBlob.value
+        );
+
+      case v2 =>
+        if !HvUtils.HasUniqueTransformedKeys?(decryptOnlyEncryptionContext) {
+          return Failure(Types.Error.AwsCryptographyKeyStore(
+                            KeyStoreTypes.BranchKeyCiphertextException(
+                          message := KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+                        )));
+        }
+        // var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(decryptOnlyEncryptionContext);
+
+        var plaintextMaterial? := KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
+          branchKeyContext := decryptOnlyEncryptionContext,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
+          grantTokens := grantTokens,
+          kmsClient := kmsClient
+        );
+        
+        if (plaintextMaterial?.Failure?) {
+          var error := MutationErrorRefinement.GenerateNewActiveException(
+            identifier := decryptOnlyEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
+            kmsArn := mutationToApply.Terminal.kmsArn,
+            error := plaintextMaterial?.error);
+          return Failure(error);
+        }
+        
+        // Get crypto client
+        var crypto? := HvUtils.ProvideCryptoClient();
+        var crypto :- crypto?.MapFailure(
+          e => Types.AwsCryptographyPrimitives(
+              AwsCryptographyPrimitives := e
+            )
+        );
+
+        var kmsSimpleStrategy := KmsUtils.keyManagerStrat.kmsSimple(
+          kmsSimple := KmsUtils.KMSTuple(kmsClient := kmsClient, grantTokens := grantTokens
+        ));
+
+        var CryptoAndKms := KMSKeystoreOperations.CryptoAndKms(
+          KeyStoreTypes.kmsKeyArn(mutationToApply.Terminal.kmsArn),
+          kmsSimpleStrategy,
+          crypto
+        );
+        // var wrappedDecryptOnlyBranchKey? := KMSKeystoreOperations.packAndCallKMS(
+        //   branchKeyContext := decryptOnlyEncryptionContext,
+        //   cryptoAndKms := CryptoAndKms,
+        //   material := plaintextMaterial?.value.Plaintext.value,
+        //   encryptionContext := ecToKMS
+        // );
+        
+        // if (wrappedDecryptOnlyBranchKey?.Failure?) {
+        //   var error := MutationErrorRefinement.GenerateNewActiveException(
+        //     identifier := decryptOnlyEncryptionContext[Structure.BRANCH_KEY_IDENTIFIER_FIELD],
+        //     kmsArn := mutationToApply.Terminal.kmsArn,
+        //     error := wrappedDecryptOnlyBranchKey?.error);
+        //   return Failure(error);
+        // }
     }
 
-    var newDecryptOnly := Structure.ConstructEncryptedHierarchicalKey(
-      decryptOnlyEncryptionContext,
-      wrappedDecryptOnlyBranchKey?.value.CiphertextBlob.value
-    );
 
-    :- Need(
-      Structure.BRANCH_KEY_TYPE_PREFIX < newDecryptOnly.EncryptionContext[Structure.TYPE_FIELD],
-      Types.KeyStoreAdminException(message := "Invalid Branch Key prefix.")
-    );
+    // :- Need(
+    //   Structure.BRANCH_KEY_TYPE_PREFIX < newDecryptOnly.EncryptionContext[Structure.TYPE_FIELD],
+    //   Types.KeyStoreAdminException(message := "Invalid Branch Key prefix.")
+    // );
 
-    return Success(newDecryptOnly);
+    // return Success(newDecryptOnly);
+    return Failure(Types.KeyStoreAdminException(
+        message := "Mutation Commitment's Input is not a Valid UTF-8 Byte sequence."));
   }
 
   function CommitmentAndInputMatch(
@@ -672,12 +735,12 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     if (localInput.input.DoNotVersion) {
       output := InitializeMutationActiveMutate(localInput);
     } else {
-      output := InitializeMutationActiveVersion(localInput);
+      output := InitializeMutationRotate(localInput);
     }
     return output;
   }
 
-  method InitializeMutationActiveVersion(
+  method InitializeMutationRotate(
     localInput: InitializeMutationActiveInput
   )
     returns (output: Result<InitializeMutationActiveOutput, Types.Error>)
