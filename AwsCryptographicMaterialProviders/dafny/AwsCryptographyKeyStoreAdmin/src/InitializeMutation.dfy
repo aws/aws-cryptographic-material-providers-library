@@ -123,16 +123,17 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     :- Need(StateStrucs.ValidMutations?(input.Mutations),
             Types.KeyStoreAdminException(
               message := "Mutations parameter is invalid; If Encryption Context is given, it cannot be empty or have empty values."));
-    // TODO-HV-2-M4: Support TerminalHV1? but don't support downgrading from hv-2 to hv-1.
-    :- Need(
-         !IsMutationsTerminalHV1?(input.Mutations),
-         Types.UnsupportedFeatureException(message := KeyStoreAdminErrorMessages.NO_MUTATE_TO_HV_1));
     Success(input)
   }
 
   predicate IsMutationsTerminalHV1?(mutations: Types.Mutations)
   {
     mutations.TerminalHierarchyVersion.Some? && mutations.TerminalHierarchyVersion.value.v1?
+  }
+
+  predicate IsMutationsTerminalHV2?(mutations: Types.Mutations)
+  {
+    mutations.TerminalHierarchyVersion.Some? && mutations.TerminalHierarchyVersion.value.v2?
   }
 
   method {:isolate_assertions} InitializeMutation(
@@ -223,6 +224,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     var activeItem := readItems.ActiveItem;
 
     :- Need(
+      !(IsMutationsTerminalHV1?(input.Mutations) &&
+        activeItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2),
+      Types.UnsupportedFeatureException(message := KeyStoreAdminErrorMessages.NO_MUTATE_TO_HV_1));
+    :- Need(
       || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            && readItems.ActiveItem.Identifier == input.Identifier
@@ -233,8 +238,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       Types.KeyStoreAdminException(
         message := "Active Branch Key Item read from storage is malformed!")
     );
-    var isTerminalHv2 := input.Mutations.TerminalHierarchyVersion.Some? &&
-                         input.Mutations.TerminalHierarchyVersion.value.v2?;
+    var isTerminalHv2 := IsMutationsTerminalHV2?(input.Mutations);
     :- Need(
       !isTerminalHv2 || HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
       Types.KeyStoreAdminException(
