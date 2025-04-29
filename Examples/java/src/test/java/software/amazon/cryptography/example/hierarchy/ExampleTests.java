@@ -286,7 +286,7 @@ public class ExampleTests {
         branchKeyId,
         Fixtures.KEYSTORE_KMS_ARN,
         null,
-        AdminProvider.strategy(Fixtures.kmsClientWest2),
+        AdminProvider.reEncryptStrategy(Fixtures.kmsClientWest2),
         MutationsProvider.TrustStorage(),
         AdminProvider.admin(),
         true

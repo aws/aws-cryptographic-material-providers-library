@@ -11,7 +11,6 @@ import software.amazon.cryptography.keystoreadmin.model.ApplyMutationResult;
 import software.amazon.cryptography.keystoreadmin.model.DescribeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
-import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 import software.amazon.cryptography.keystoreadmin.model.MutationConflictException;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
@@ -43,7 +42,7 @@ public class MutationResumeExample {
     boolean mutationConflictThrown = false;
 
     final KeyManagementStrategy _strategy = strategy == null
-      ? AdminProvider.strategy(null)
+      ? AdminProvider.reEncryptStrategy(null)
       : strategy;
     final SystemKey _systemKey = systemKey == null
       ? MutationsProvider.KmsSystemKey()
