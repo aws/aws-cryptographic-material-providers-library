@@ -361,14 +361,16 @@ module {:options "/functionSyntax:4" } CreateKeys {
     var activePlaintextMaterial :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
       encryptionContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,
-      keyManagerAndStorage := keyManagerAndStorage
+      grantTokens := keyManagerAndStorage.keyManagerStrat.kmsSimple.grantTokens,
+      kmsClient := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient
     );
 
     // get beacon key by calling kms::GenerateDataKey
     var beaconPlaintextMaterial :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
       encryptionContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,
-      keyManagerAndStorage := keyManagerAndStorage
+      grantTokens := keyManagerAndStorage.keyManagerStrat.kmsSimple.grantTokens,
+      kmsClient := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient
     );
 
     // Get crypto client
@@ -383,21 +385,21 @@ module {:options "/functionSyntax:4" } CreateKeys {
     var decryptOnlyBKItem :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := decryptOnlyBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
-      material := activePlaintextMaterial,
+      material := activePlaintextMaterial.Plaintext.value,
       encryptionContext := encryptionContext
     );
 
     var activeBKItem :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := activeBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
-      material := activePlaintextMaterial,
+      material := activePlaintextMaterial.Plaintext.value,
       encryptionContext := encryptionContext
     );
 
     var beaconBKItem :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := beaconBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
-      material := beaconPlaintextMaterial,
+      material := beaconPlaintextMaterial.Plaintext.value,
       encryptionContext := encryptionContext
     );
 
@@ -751,7 +753,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
     var newActivePlaintextMaterial :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
       encryptionContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,
-      keyManagerAndStorage := keyManagerAndStorage
+      grantTokens := keyManagerAndStorage.keyManagerStrat.kmsSimple.grantTokens,
+      kmsClient := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient
     );
 
     // Get crypto client
@@ -790,7 +793,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     var wrappedActiveBranchKey :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := activeEncryptionContext,
       cryptoAndKms := CryptoAndKms,
-      material := newActivePlaintextMaterial,
+      material := newActivePlaintextMaterial.Plaintext.value,
       encryptionContext := ecToKMS
     );
 
