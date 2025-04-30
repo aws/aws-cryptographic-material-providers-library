@@ -309,7 +309,7 @@ module RawAESKeyring {
                   && AESDecryptRequest.iv == GetIvFromProvInfo(edk.keyProviderInfo)
              )
           && AESDecryptRequest.aad == CanonicalEncryptionContext.EncryptionContextToAAD(input.materials.encryptionContext).value
-      // Can not prove this at this timbe because there may be wrapping involved.
+      // Can not prove this at this time because there may be wrapping involved.
       // && output.value.materials.plaintextDataKey.value
       //   == Seq.Last(cryptoPrimitives.History.AESDecrypt).output.value;
 
@@ -386,7 +386,7 @@ module RawAESKeyring {
       //# If no decryption succeeds, the keyring MUST fail and MUST NOT modify
       //# the [decryption materials](structures.md#decryption-materials).
       return Failure(Types.CollectionOfErrors(list := errors,
-                                              message := "Raw AES Keyring was unable to decrypt any encrypted data key. The list of encountered Exceptions is avaible via `list`."));
+                                              message := "Raw AES Keyring was unable to decrypt any encrypted data key. The list of encountered Exceptions is available via `list`."));
     }
 
     function method SerializeProviderInfo(iv: seq<uint8>): seq<uint8>
@@ -453,7 +453,7 @@ module RawAESKeyring {
     ensures DeserializeEDKCiphertext(SerializeEDKCiphertext(encOutput), |encOutput.authTag|) == encOutput
   {}
 
-  lemma EDKDeserializeSerialze(ciphertext: seq<uint8>, tagLen: nat)
+  lemma EDKDeserializeSerialize(ciphertext: seq<uint8>, tagLen: nat)
     requires tagLen <= |ciphertext|
     ensures SerializeEDKCiphertext(DeserializeEDKCiphertext(ciphertext, tagLen)) == ciphertext
   {}

@@ -347,7 +347,7 @@ module Actions {
              Last(attemptsState).output,
              DropLast(attemptsState))
            // Attempts are made until there is a success
-           // so attemps will be amde up of failures
+           // so attempts will be made up of failures
            // with one final Success at the end.
         && forall i
              | 0 <= i < |DropLast(attemptsState)|
