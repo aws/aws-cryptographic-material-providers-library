@@ -50,6 +50,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         || e.ComAmazonawsKms?
         || e.KeyManagementException?
         || e.BranchKeyCiphertextException?
+        || e.KeyStoreException?
       ) witness *
 
   function replaceRegion(arn : KMS.KeyIdType, region : KMS.RegionType) : KMS.KeyIdType
@@ -150,7 +151,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
                    KeyId := kmsKeyArn,
                    NumberOfBytes := Some(32),
                    EncryptionContext := Some(encryptionContext),
-                   GrantTokens := Some(keyManagerAndStorage.keyManagerStrat.kmsSimple.grantTokens)
+                   GrantTokens := Some(grantTokens)
                  ) == kmsGenerateDataKeyEvent.input
               && kmsGenerateDataKeyEvent.output.Success?
               && kmsGenerateDataKeyEvent.output.value.Plaintext.Some?
@@ -164,7 +165,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       KeyId := kmsKeyArn,
       NumberOfBytes := Some(32),
       EncryptionContext := Some(encryptionContext),
-      GrantTokens := Some(keyManagerAndStorage.keyManagerStrat.kmsSimple.grantTokens)
+      GrantTokens := Some(grantTokens)
     );
 
     var generateDataKeyResponse? := kmsClient.GenerateDataKey(
@@ -994,7 +995,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     nameonly material: seq<uint8>,
     nameonly encryptionContext: map<string, string>
   )
-    returns (output: Result<Types.EncryptedHierarchicalKey, Types.Error>)
+    returns (output: Result<Types.EncryptedHierarchicalKey, KmsError>)
     requires
       && cryptoAndKms.ValidState()
       && Structure.BranchKeyContext?(branchKeyContext)
@@ -1027,10 +1028,15 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         && digestEvent.output.Success?
         && digestEvent.output.value == digest
         && digestEvent.input.digestAlgorithm == AtomicPrimitives.Types.SHA_384
+    ensures output.Success? ==>
+              && var kmsKeyArn := GetKeyId(cryptoAndKms.kmsConfig);
+              && Structure.BranchKeyContext?(output.value.EncryptionContext)
+              && Structure.EncryptedHierarchicalKeyFromStorage?(output.value)
+              && output.value.KmsArn == kmsKeyArn
   {
     var digest :- HvUtils.CreateBKCDigest(branchKeyContext, cryptoAndKms.crypto);
     var plaintextTuple := HvUtils.PackPlainTextTuple(digest, material);
-    var wrappedMaterial? := EncryptKey(
+    var wrappedMaterial :- EncryptKey(
       plaintextTuple,
       encryptionContext,
       branchKeyContext[Structure.KMS_FIELD],
@@ -1038,7 +1044,6 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       cryptoAndKms.kms.kmsSimple.grantTokens,
       cryptoAndKms.kms.kmsSimple.kmsClient
     );
-    var wrappedMaterial :- wrappedMaterial?.MapFailure(e => ConvertKmsErrorToError(e));
     return Success(Structure.ConstructEncryptedHierarchicalKey(branchKeyContext, wrappedMaterial));
   }
 
@@ -1060,6 +1065,10 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         Types.BranchKeyCiphertextException(
           message := e.message
         )
+      case KeyStoreException(msg) =>
+        Types.KeyStoreException(
+          message := e.message
+        )
     }
   }
 
@@ -1075,6 +1084,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       case Opaque(obj) => None
       case KeyManagementException(s) => None
       case BranchKeyCiphertextException(s) => None
+      case KeyStoreException(s) => None
       case ComAmazonawsKms(comAmazonawsKms: KMS.Error) =>
         match comAmazonawsKms {
           case Opaque(obj) => Some(comAmazonawsKms)
@@ -1092,6 +1102,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       case Opaque(obj) => None
       case KeyManagementException(s) => Some(s)
       case BranchKeyCiphertextException(s) => Some(s)
+      case KeyStoreException(s) => Some(s)
       case ComAmazonawsKms(comAmazonawsKms: KMS.Error) =>
         match comAmazonawsKms {
           case Opaque(obj) => None
