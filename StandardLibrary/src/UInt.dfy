@@ -59,8 +59,9 @@ module StandardLibrary.UInt {
     x0 + s[1] as uint16
   }
 
-  function method SeqPosToUInt16(s: seq<uint8>, pos : nat): (x: uint16)
-    requires |s| >= pos+2
+  function method SeqPosToUInt16(s: seq<uint8>, pos : uint64): (x: uint16)
+    requires |s| < BoundedInts.UINT64_MAX as nat
+    requires |s| >= pos as nat + 2
     ensures UInt16ToSeq(x) == s[pos..pos+2]
     ensures x >= 0
   {
@@ -68,10 +69,52 @@ module StandardLibrary.UInt {
     x0 + s[pos+1] as uint16
   }
 
-  lemma SeqPosToUInt16Same(s: seq<uint8>, pos : nat)
-    requires |s| >= pos+2
+  function method SeqPosToUInt32(s: seq<uint8>, pos : uint64): (x: uint32)
+    requires |s| < BoundedInts.UINT64_MAX as nat
+    requires |s| >= pos as nat + 4
+    ensures UInt32ToSeq(x) == s[pos..pos+4]
+  {
+    var x0 := s[pos] as uint32 * 0x100_0000;
+    var x1 := x0 + s[pos+1] as uint32 * 0x1_0000;
+    var x2 := x1 + s[pos+2] as uint32 * 0x100;
+    x2 + s[pos+3] as uint32
+  }
+
+  function method SeqPosToUInt64(s: seq<uint8>, pos : uint64): (x: uint64)
+    requires |s| < BoundedInts.UINT64_MAX as nat
+    requires |s| >= pos as nat + 8
+    ensures UInt64ToSeq(x) == s[pos..pos+8]
+  {
+    var x0 := s[pos] as uint64 * 0x100_0000_0000_0000;
+    var x1 := x0 + s[pos+1] as uint64 * 0x1_0000_0000_0000;
+    var x2 := x1 + s[pos+2] as uint64 * 0x100_0000_0000;
+    var x3 := x2 + s[pos+3] as uint64 * 0x1_0000_0000;
+    var x4 := x3 + s[pos+4] as uint64 * 0x100_0000;
+    var x5 := x4 + s[pos+5] as uint64 * 0x1_0000;
+    var x6 := x5 + s[pos+6] as uint64 * 0x100;
+    var x := x6 + s[pos+7] as uint64;
+    x
+  }
+
+  lemma SeqPosToUInt16Same(s: seq<uint8>, pos : uint64)
+    requires |s| < BoundedInts.UINT64_MAX as nat
+    requires |s| >= pos as nat + 2
     ensures UInt16ToSeq(SeqPosToUInt16(s, pos)) == s[pos..pos+2]
     ensures SeqToUInt16(s[pos..pos+2]) == SeqPosToUInt16(s, pos)
+  {}
+
+  lemma SeqPosToUInt32Same(s: seq<uint8>, pos : uint64)
+    requires |s| < BoundedInts.UINT64_MAX as nat
+    requires |s| >= pos as nat + 4
+    ensures UInt32ToSeq(SeqPosToUInt32(s, pos)) == s[pos..pos+4]
+    ensures SeqToUInt32(s[pos..pos+4]) == SeqPosToUInt32(s, pos)
+  {}
+
+  lemma SeqPosToUInt64Same(s: seq<uint8>, pos : uint64)
+    requires |s| < BoundedInts.UINT64_MAX as nat
+    requires |s| >= pos as nat + 8
+    ensures UInt64ToSeq(SeqPosToUInt64(s, pos)) == s[pos..pos+8]
+    ensures SeqToUInt64(s[pos..pos+8]) == SeqPosToUInt64(s, pos)
   {}
 
   lemma UInt16SeqSerializeDeserialize(x: uint16)
