@@ -17,10 +17,11 @@ module {:options "/functionSyntax:4" } AdminFixtures {
   import Fixtures
   import DefaultKeyStorageInterface
   import Structure
+  import KmsUtils
     // (Branch) Key Store Admin Imports
   import KeyStoreAdmin
   import Types = AwsCryptographyKeyStoreAdminTypes
-  import KmsUtils
+  import KeyStoreAdminHelpers
 
   // These are Branch Keys that are in an "in-flight" mutation,
   // but that mutation was started pre-HV-2.

@@ -12,6 +12,9 @@ from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.s
 from aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
 )
+from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.errors import (
+    _smithy_error_to_dafny_error as aws_cryptography_primitives_smithy_error_to_dafny_error,
+)
 from typing import Any, Dict, Generic, List, Literal, TypeVar
 
 
@@ -594,6 +597,10 @@ class VersionRaceException(ApiError[Literal["VersionRaceException"]]):
     message: str
 
 
+class AwsCryptographicPrimitives(ApiError[Literal["AwsCryptographicPrimitives"]]):
+    AwsCryptographicPrimitives: Any
+
+
 class ComAmazonawsDynamodb(ApiError[Literal["ComAmazonawsDynamodb"]]):
     ComAmazonawsDynamodb: Any
 
@@ -842,6 +849,11 @@ def _smithy_error_to_dafny_error(e: ServiceError):
     ):
         return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_VersionRaceException(
             message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(e, AwsCryptographicPrimitives):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_AwsCryptographyPrimitives(
+            aws_cryptography_primitives_smithy_error_to_dafny_error(e.message)
         )
 
     if isinstance(e, ComAmazonawsDynamodb):

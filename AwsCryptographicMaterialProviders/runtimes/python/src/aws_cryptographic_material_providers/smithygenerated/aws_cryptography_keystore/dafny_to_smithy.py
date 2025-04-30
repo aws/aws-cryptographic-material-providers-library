@@ -891,3 +891,11 @@ def aws_cryptography_keystore_KeyStoreConfig(dafny_input):
             else None
         ),
     )
+
+
+def aws_cryptography_keystore_PrimitivesReference(dafny_input):
+    from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.client import (
+        AwsCryptographicPrimitives,
+    )
+
+    return AwsCryptographicPrimitives(config=None, dafny_client=dafny_input)

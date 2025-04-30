@@ -4,10 +4,8 @@ include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "Mutations.dfy"
 include "InitializeMutation.dfy"
 include "ApplyMutation.dfy"
-include "KmsUtils.dfy"
+include "KeyStoreAdminHelpers.dfy"
 include "DescribeMutation.dfy"
-include "CreateKeysHV2.dfy"
-include "BKSAOperationUtils.dfy"
 include "KeyStoreAdminErrorMessages.dfy"
 
 module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKeyStoreAdminOperations {
@@ -25,15 +23,15 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   import ErrorMessages = KeyStoreErrorMessages
   import Structure
   import KO = KMSKeystoreOperations
+  import CreateKeys
   import KmsArn
+  import KmsUtils
     //KeyStoreAdmin
   import Mutations
   import KSAInitializeMutation = InternalInitializeMutation
   import KSAApplyMutation = InternalApplyMutation
   import DM = DescribeMutation
-  import KmsUtils
-  import CreateKeysHV2
-  import OptUtils = BKSAOperationUtils
+  import KeyStoreAdminHelpers
   import KeyStoreAdminErrorMessages
 
   datatype Config = Config(
@@ -183,7 +181,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   method ResolveSystemKey(
     systemKey: SystemKey,
     config: InternalConfig
-  ) returns (output: Result<KmsUtils.InternalSystemKey, Error>)
+  ) returns (output: Result<KeyStoreAdminHelpers.InternalSystemKey, Error>)
     requires ValidInternalConfig?(config)
     // We do not know why these statements cannot be proven,
     // but we do not have the time to address it
@@ -209,11 +207,11 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
               && fresh(output.value.Modifies)
   {
     if (systemKey.trustStorage?) {
-      return Success(KmsUtils.TrustStorage());
+      return Success(KeyStoreAdminHelpers.TrustStorage());
     }
     var kmsSym := systemKey.kmsSymmetricEncryption;
     var tuple :- ResolveKmsInput(kmsSym.AwsKms, config);
-    var internal := KmsUtils.KmsSymEnc(
+    var internal := KeyStoreAdminHelpers.KmsSymEnc(
       Tuple := tuple,
       KeyId := kmsSym.KmsArn);
     assert internal.ValidState();
@@ -260,7 +258,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
                           id := "",
                           ddbTableName := None,
                           logicalKeyStoreName := config.logicalKeyStoreName,
-                          kmsConfiguration := KmsUtils.KmsSymmetricKeyArnToKMSConfiguration(kmsArn),
+                          kmsConfiguration := KeyStoreAdminHelpers.KmsSymmetricKeyArnToKMSConfiguration(kmsArn),
                           grantTokens := kmsTuple.grantTokens,
                           kmsClient := kmsTuple.kmsClient,
                           ddbClient := None,
@@ -335,7 +333,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
         assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
-        var keyManagerAndStorage := OptUtils.KeyManagerAndStorage(
+        var keyManagerAndStorage := KmsUtils.KeyManagerAndStorage(
           config.storage, keyManagerStrat
         );
         assert keyManagerAndStorage.ValidState();
@@ -406,7 +404,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
                ,
                 Types.KeyStoreAdminException( message := ErrorMessages.UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR));
 
-        output := CreateKeysHV2.CreateBranchAndBeaconKeys(
+        var output? := CreateKeys.CreateBranchAndBeaconKeysVersion2(
           branchKeyIdentifier := branchKeyIdentifier,
           encryptionContext := map i <- encodedEncryptionContext :: i.0.value := i.1.value,
           timestamp := timestamp,
@@ -416,6 +414,15 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
           keyManagerAndStorage := keyManagerAndStorage,
           hierarchyVersion := hvInput
         );
+
+        var value :- output?
+        .MapFailure(e => Types.AwsCryptographyKeyStore(e));
+
+        output := Success(
+          Types.CreateKeyOutput(
+            Identifier := value.branchKeyIdentifier,
+            HierarchyVersion := hvInput
+          ));
     }
   }
 
@@ -427,14 +434,29 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
   {
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     :- Need(
-      keyManagerStrat.reEncrypt?,
-      Types.KeyStoreAdminException(message :="Only ReEncrypt is supported at this time.")
+      !keyManagerStrat.decryptEncrypt?,
+      Types.KeyStoreAdminException(
+        message :=
+          "Decrypt Encrypt keyManager strategy is not supported "
+          + "for VersionKey operation.")
     );
-    var legacyConfig :- LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config);
+
+    var legacyConfig :-
+      if keyManagerStrat.reEncrypt? then
+        LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config)
+      else
+        LegacyConfig(keyManagerStrat.kmsSimple, input.KmsArn, config);
+
+
+    // var legacyConfig :- LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config);
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
 
     var output? := KeyStoreOperations.VersionKey(
+      // since we pass in the legacyConfig and not the datatype of keyManagerStrat
+      // we loose that information, but it doesn't matter because both
+      // reEncrypt and kmsSimple use one client. It is up to the customer
+      // to make sure they are passing the right client with the right permissions.
       config := legacyConfig,
       input := KeyStoreOperations.Types.VersionKeyInput(
         branchKeyIdentifier := input.Identifier

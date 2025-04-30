@@ -1,7 +1,7 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-include "KmsUtils.dfy"
+include "KeyStoreAdminHelpers.dfy"
 
 module {:options "/functionSyntax:4" } MutationErrorRefinement {
   import opened Wrappers
@@ -11,7 +11,7 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
   import KMS = Com.Amazonaws.Kms
   import StandardLibrary.String
   import Structure
-  import KmsUtils
+  import KeyStoreAdminHelpers
 
   function ParsedErrorContext(
     nameonly localOperation: string,
@@ -36,8 +36,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     nameonly kmsOperation: string := "GenerateDataKeyWithoutPlaintext"
   ): (output: Types.Error)
   {
-    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
-    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
+    var opaqueKmsError? := KMSKeystoreOperations.ExtractKmsOpaque(error);
+    var kmsErrorMessage? := KMSKeystoreOperations.ExtractMessageFromKmsError(error);
     var errorContext := ParsedErrorContext(
                           localOperation := localOperation,
                           kmsOperation := kmsOperation,
@@ -60,8 +60,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     requires branchKeyItem.Type.ActiveHierarchicalSymmetricVersion?
   {
     //TODO Mutations-FF :: Decrypt/Encrypt Strategy will need to refactor this
-    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
-    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
+    var opaqueKmsError? := KMSKeystoreOperations.ExtractKmsOpaque(error);
+    var kmsErrorMessage? := KMSKeystoreOperations.ExtractMessageFromKmsError(error);
     var errorContext := ParsedErrorContext(
                           localOperation := localOperation,
                           kmsOperation := kmsOperation,
@@ -84,8 +84,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     requires branchKeyItem.Type.ActiveHierarchicalSymmetricVersion?
   {
     //TODO Mutations-FF :: Decrypt/Encrypt Strategy will need to refactor this
-    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
-    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
+    var opaqueKmsError? := KMSKeystoreOperations.ExtractKmsOpaque(error);
+    var kmsErrorMessage? := KMSKeystoreOperations.ExtractMessageFromKmsError(error);
     var errorContext := ParsedErrorContext(
                           localOperation := localOperation,
                           kmsOperation := kmsOperation,
@@ -107,8 +107,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
   ): (output: Types.Error)
     requires branchKeyItem.Type.HierarchicalSymmetricVersion?
   {
-    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
-    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
+    var opaqueKmsError? := KMSKeystoreOperations.ExtractKmsOpaque(error);
+    var kmsErrorMessage? := KMSKeystoreOperations.ExtractMessageFromKmsError(error);
     var errorContext := ParsedErrorContext(
                           localOperation := localOperation,
                           kmsOperation := kmsOperation,
@@ -135,8 +135,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     requires kmsOperation == "ReEncrypt" || kmsOperation == "Encrypt" || kmsOperation == "Decrypt"
     requires localOperation == "ApplyMutation" || localOperation == "InitializeMutation"
   {
-    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
-    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
+    var opaqueKmsError? := KMSKeystoreOperations.ExtractKmsOpaque(error);
+    var kmsErrorMessage? := KMSKeystoreOperations.ExtractMessageFromKmsError(error);
     var itemType := match item.Type {
       case ActiveHierarchicalSymmetricVersion(version) => Structure.BRANCH_KEY_ACTIVE_TYPE
       case ActiveHierarchicalSymmetricBeacon(version) => Structure.BEACON_KEY_TYPE_VALUE

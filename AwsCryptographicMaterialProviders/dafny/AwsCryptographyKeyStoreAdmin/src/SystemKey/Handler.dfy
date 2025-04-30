@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../../../AwsCryptographyKeyStore/src/HierarchicalVersionUtils.dfy"
 include "../../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-include "../KmsUtils.dfy"
+include "../KeyStoreAdminHelpers.dfy"
 include "ContentHandler.dfy"
 include "../../../AwsCryptographyKeyStore/src/Utf8Constants.dfy"
 include "../CommitmentAndIndex.dfy"
@@ -18,7 +18,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
   import MPL = MaterialProviders
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KSTypes = AwsCryptographyKeyStoreAdminTypes.AwsCryptographyKeyStoreTypes
-  import KmsUtils
+  import KeyStoreAdminHelpers
   import ContentHandler // = SystemKey.ContentHandler
   import HVUtils = HierarchicalVersionUtils
   import Structure
@@ -77,7 +77,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
   // TODO: Abstract and consolidate these 4 methods
   method SignCommitment(
     MutationCommitment: KSTypes.MutationCommitment,
-    InternalSystemKey: KmsUtils.InternalSystemKey
+    InternalSystemKey: KeyStoreAdminHelpers.InternalSystemKey
   ) returns (output: Result<KSTypes.MutationCommitment, Types.Error>)
     requires
       && InternalSystemKey.ValidState()
@@ -142,7 +142,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
 
   method SignIndex(
     MutationIndex: KSTypes.MutationIndex,
-    InternalSystemKey: KmsUtils.InternalSystemKey
+    InternalSystemKey: KeyStoreAdminHelpers.InternalSystemKey
   )
     returns (output: Result<KSTypes.MutationIndex, Types.Error>)
     requires
@@ -205,7 +205,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
 
   method VerifyCommitment(
     MutationCommitment: KSTypes.MutationCommitment,
-    InternalSystemKey: KmsUtils.InternalSystemKey
+    InternalSystemKey: KeyStoreAdminHelpers.InternalSystemKey
   ) returns (output: Result<bool, Types.Error>)
     requires
       && InternalSystemKey.ValidState()
@@ -273,7 +273,7 @@ module {:options "/functionSyntax:4" } SystemKey.Handler {
 
   method VerifyIndex(
     MutationIndex: KSTypes.MutationIndex,
-    InternalSystemKey: KmsUtils.InternalSystemKey
+    InternalSystemKey: KeyStoreAdminHelpers.InternalSystemKey
   ) returns (output: Result<bool, Types.Error>)
     requires
       && InternalSystemKey.ValidState()

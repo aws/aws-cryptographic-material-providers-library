@@ -291,6 +291,20 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     BranchKeyValidators.VerifyGetKeys(bkid, keyStore, storage,
                                       encryptionContext := RobbieEC,
                                       hierarchyVersion := KeyStoreTypes.HierarchyVersion.v2);
+
+    var initialActiveResult :- expect keyStore.GetActiveBranchKey(
+      KeyStoreTypes.GetActiveBranchKeyInput(
+        branchKeyIdentifier := bk.Identifier
+      ));
+    var initialActiveVersion :- expect UTF8.Decode(initialActiveResult.branchKeyMaterials.branchKeyVersion);
+    var initialGetVersionResult :- expect keyStore.GetBranchKeyVersion(
+      KeyStoreTypes.GetBranchKeyVersionInput(
+        branchKeyIdentifier := bk.Identifier,
+        branchKeyVersion := initialActiveVersion
+      ));
+
+    expect initialActiveResult.branchKeyMaterials.branchKeyVersion == initialGetVersionResult.branchKeyMaterials.branchKeyVersion;
+
     var versionedBk := underTest.VersionKey(
       Types.VersionKeyInput(
         Identifier := bkid,
@@ -300,9 +314,25 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
       )
     );
 
-    // Expected to fail for now, but the version key code is now
-    // split up to handle any future version.
-    expect versionedBk.Failure?, "Should have failed VersionKey for HV-2";
+    // Validate an HV-2 BK with a West SRK by calling us-west-2
+    BranchKeyValidators.VerifyGetKeys(bkid, keyStore, storage,
+                                      encryptionContext := RobbieEC,
+                                      hierarchyVersion := KeyStoreTypes.HierarchyVersion.v2);
+
+    var versionedActiveResult :- expect keyStore.GetActiveBranchKey(
+      KeyStoreTypes.GetActiveBranchKeyInput(
+        branchKeyIdentifier := bk.Identifier
+      ));
+    var versionedActiveVersion :- expect UTF8.Decode(versionedActiveResult.branchKeyMaterials.branchKeyVersion);
+    var versionedGetVersionResult :- expect keyStore.GetBranchKeyVersion(
+      KeyStoreTypes.GetBranchKeyVersionInput(
+        branchKeyIdentifier := bk.Identifier,
+        branchKeyVersion := versionedActiveVersion
+      ));
+
+    expect versionedActiveResult.branchKeyMaterials.branchKeyVersion == versionedGetVersionResult.branchKeyMaterials.branchKeyVersion;
+    expect initialActiveResult.branchKeyMaterials.branchKeyVersion != versionedActiveResult.branchKeyMaterials.branchKeyVersion;
+    expect initialGetVersionResult.branchKeyMaterials.branchKeyVersion != versionedGetVersionResult.branchKeyMaterials.branchKeyVersion;
 
     var _ := CleanupItems.DeleteBranchKey(Identifier:=bkid, ddbClient:=ddbClient);
 
