@@ -359,14 +359,14 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     // get plaintext data key by calling kms::GenerateDataKey
     var activePlaintextMaterial :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
-      branchKeyContext := ecToKMS,
+      encryptionContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,
       keyManagerAndStorage := keyManagerAndStorage
     );
 
     // get beacon key by calling kms::GenerateDataKey
     var beaconPlaintextMaterial :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
-      branchKeyContext := ecToKMS,
+      encryptionContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,
       keyManagerAndStorage := keyManagerAndStorage
     );
@@ -749,7 +749,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     );
 
     var newActivePlaintextMaterial :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
-      branchKeyContext := ecToKMS,
+      encryptionContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,
       keyManagerAndStorage := keyManagerAndStorage
     );
