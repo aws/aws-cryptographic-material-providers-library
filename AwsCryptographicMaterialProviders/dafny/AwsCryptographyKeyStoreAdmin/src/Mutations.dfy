@@ -697,7 +697,7 @@ module {:options "/functionSyntax:4" } Mutations {
                                                AwsCryptographyKeyStore:= e
                                              ));
     var plainTextTuple := HVUtils.PackPlainTextTuple(bkcDigest, aes256Key);
-    var encryptRes :- expect KMSKeystoreOperations.EncryptKey(
+    var encryptRes := KMSKeystoreOperations.EncryptKey(
       plainTextTuple,
       HVUtils.SelectKmsEncryptionContextForHv2(terminalBKC),
       terminalBKC[Structure.KMS_FIELD],
@@ -705,9 +705,18 @@ module {:options "/functionSyntax:4" } Mutations {
       encryptKMSTuple.grantTokens,
       encryptKMSTuple.kmsClient
     );
+    if (encryptRes.Failure?) {
+      var error := MutationErrorRefinement.MutateExceptionParse(
+        item := item,
+        error := encryptRes.error,
+        terminalKmsArn := mutationToApply.Terminal.kmsArn,
+        localOperation := localOperation,
+        kmsOperation := "Encrypt");
+      return Failure(error);
+    }
     output := Success(Structure.ConstructEncryptedHierarchicalKey(
                         terminalBKC,
-                        encryptRes
+                        encryptRes.value
                       ));
   }
 
