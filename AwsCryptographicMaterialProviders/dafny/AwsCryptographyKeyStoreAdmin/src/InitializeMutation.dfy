@@ -338,7 +338,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       KmsUtils.IsSupportedKeyManagerStrategy(MutationToApply.Terminal.hierarchyVersion, input.keyManagerStrategy),
       Types.UnsupportedFeatureException(
         message :=
-          KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY
+          KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_MUTATIONS
       )
     );
 
