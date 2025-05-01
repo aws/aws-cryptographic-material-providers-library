@@ -103,6 +103,7 @@ module StandardLibrary.UInt {
     var x5 := x4 + s[pos+5] as uint64 * 0x1_0000;
     var x6 := x5 + s[pos+6] as uint64 * 0x100;
     var x := x6 + s[pos+7] as uint64;
+    assert x == SeqToUInt64(s[pos..pos+8]);
     x
   }
 
