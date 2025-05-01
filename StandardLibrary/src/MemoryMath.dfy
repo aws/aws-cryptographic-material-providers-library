@@ -6,8 +6,6 @@
 // To convince Dafny that this is true, we have the following functions
 // with assumptions as needed.
 
-
-include "../../libraries/src/BoundedInts.dfy"
 include "UInt.dfy"
 
 module {:options "--function-syntax:4"} MemoryMath {
@@ -43,40 +41,4 @@ module {:options "--function-syntax:4"} MemoryMath {
     ValueIsSafeBecauseItIsInMemory(w as nat + x as nat + y as nat + z as nat);
     w + x + y + z
   }
-
-  function {:opaque} Concat<T>(x : seq<T>, y : seq<T>) : (ret : seq64<T>)
-    ensures ret == x + y
-  {
-    SequenceIsSafeBecauseItIsInMemory(x + y);
-    x + y
-  }
-
-  function {:opaque} Concat3<T>(x : seq<T>, y : seq<T>, z : seq<T>) : (ret : seq64<T>)
-    ensures ret == x + y + z
-  {
-    SequenceIsSafeBecauseItIsInMemory(x + y + z);
-    x + y + z
-  }
-
-  function {:opaque} Concat4<T>(w : seq<T>, x : seq<T>, y : seq<T>, z : seq<T>) : (ret : seq64<T>)
-    ensures ret == w + x + y + z
-  {
-    SequenceIsSafeBecauseItIsInMemory(w + x + y + z);
-    w + x + y + z
-  }
-
-  function {:opaque} Concat5<T>(v : seq<T>, w : seq<T>, x : seq<T>, y : seq<T>, z : seq<T>) : (ret : seq64<T>)
-    ensures ret == v + w + x + y + z
-  {
-    SequenceIsSafeBecauseItIsInMemory(v + w + x + y + z);
-    v + w + x + y + z
-  }
-
-  function {:opaque} Concat6<T>(u : seq<T>, v : seq<T>, w : seq<T>, x : seq<T>, y : seq<T>, z : seq<T>) : (ret : seq64<T>)
-    ensures ret == u + v + w + x + y + z
-  {
-    SequenceIsSafeBecauseItIsInMemory(u + v + w + x + y + z);
-    u + v + w + x + y + z
-  }
-
 }
