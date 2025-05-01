@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.testng.Assert;
 import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.DdbHelper;
