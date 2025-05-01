@@ -41,6 +41,16 @@ module StandardLibrary.UInt {
   type seq64<T> = s: seq<T> | HasUint64Len(s)
   type Uint8Seq64 = seq64<uint8>
 
+  predicate method HasUint16Size(s: nat) {
+    s < UINT16_LIMIT
+  }
+  predicate method HasUint32Size(s: nat) {
+    s < UINT32_LIMIT
+  }
+  predicate method HasUint64Size(s: nat) {
+    s < UINT64_LIMIT
+  }
+
   function method UInt16ToSeq(x: uint16): (ret: seq<uint8>)
     ensures |ret| == 2
     ensures 0x100 * ret[0] as uint16 + ret[1] as uint16 == x
@@ -60,7 +70,7 @@ module StandardLibrary.UInt {
   }
 
   function method SeqPosToUInt16(s: seq<uint8>, pos : uint64): (x: uint16)
-    requires |s| < BoundedInts.UINT64_MAX as nat
+    requires HasUint64Len(s)
     requires |s| >= pos as nat + 2
     ensures UInt16ToSeq(x) == s[pos..pos+2]
     ensures x >= 0
@@ -70,7 +80,7 @@ module StandardLibrary.UInt {
   }
 
   function method SeqPosToUInt32(s: seq<uint8>, pos : uint64): (x: uint32)
-    requires |s| < BoundedInts.UINT64_MAX as nat
+    requires HasUint64Len(s)
     requires |s| >= pos as nat + 4
     ensures UInt32ToSeq(x) == s[pos..pos+4]
   {
@@ -81,8 +91,8 @@ module StandardLibrary.UInt {
   }
 
   function method SeqPosToUInt64(s: seq<uint8>, pos : uint64): (x: uint64)
-    requires |s| < BoundedInts.UINT64_MAX as nat
-    requires |s| >= pos as nat + 8
+    requires HasUint64Len(s)
+    requires pos as nat + 8 <= |s|
     ensures UInt64ToSeq(x) == s[pos..pos+8]
   {
     var x0 := s[pos] as uint64 * 0x100_0000_0000_0000;
