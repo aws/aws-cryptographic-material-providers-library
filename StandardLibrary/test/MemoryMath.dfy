@@ -5,10 +5,10 @@ include "../src/MemoryMath.dfy"
 
 module {:options "--function-syntax:4"} MemoryMathTest {
   import MemoryMath
-  import opened BoundedInts
+  import opened StandardLibrary.UInt
 
   method Constrained(x : seq<uint8>, y : uint64, z : uint64) returns (ret : uint64)
-    requires |x| < UINT64_MAX as nat
+    requires HasUint64Len(x)
   {
     expect z == MemoryMath.Add(|x| as uint64, y);
     return z;
