@@ -22,8 +22,6 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
   const originalKmsId: string := Fixtures.keyArn
   const originalEC: KeyStoreTypes.EncryptionContextString := Fixtures.RobbieECString
 
-  // TODO-HV-2-FF: MutationRoundTripTest could be used by all mutation happy case test.
-  // This is only being used by happycases with terminal hv as 2
   method MutationRoundTripTest(
     ddbClient: DDB.Types.IDynamoDBClient,
     storage: KeyStoreTypes.IKeyStorageInterface,
@@ -46,43 +44,12 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     modifies keyStoreAdminUnderTest.Modifies
     modifies keyStoreTerminal.Modifies
   {
-    match initialHV {
-      case v1 =>
-        Fixtures.CreateHappyCaseId(
-          id := branchKeyIdentifier,
-          versionCount := versionCount
-        );
-      case v2 =>
-        // TODO-HV-2-Version: Once, we support version key for HV2 keys.
-        // Uncomment this to directly create HV2 keys with versions.
-        // AdminFixtures.CreateHappyCaseId(
-        //   id := branchKeyIdentifier,
-        //   // versionCount := versionCount,
-        //   hierarchyVersion := initialHV
-        // );
-        Fixtures.CreateHappyCaseId(
-          id := branchKeyIdentifier,
-          versionCount := versionCount
-        );
-        // TODO-HV-2-Version: Below is Temporary Logic to have HV-2 Key with multiple decrypt-only/version items
-        // Add Mutation Logic Here for Mutating from HV-1 to HV-2
-        var initInput := Types.InitializeMutationInput(
-          Identifier := branchKeyIdentifier,
-          Mutations := Types.Mutations(
-            TerminalHierarchyVersion := Some(initialHV)
-          ),
-          Strategy := Some(strategy),
-          SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
-          DoNotVersion := Some(doNotVersion));
-        var initializeOutput :- expect keyStoreAdminUnderTest.InitializeMutation(initInput);
-        var initializeToken := initializeOutput.MutationToken;
-        var testInput := Types.ApplyMutationInput(
-          MutationToken := initializeToken,
-          PageSize := Some(24),
-          Strategy := Some(strategy),
-          SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
-        var applyOutput :- expect keyStoreAdminUnderTest.ApplyMutation(testInput);
-    }
+    // Create Branch Key with initial HierarchyVersion
+    AdminFixtures.CreateHappyCaseId(
+      id := branchKeyIdentifier,
+      versionCount := versionCount,
+      hierarchyVersion := initialHV
+    );
 
     var initInput := Types.InitializeMutationInput(
       Identifier := branchKeyIdentifier,

@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.Nonnull;
+
 import org.testng.Assert;
 import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
-import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.ApplyMutationOutput;
@@ -30,52 +29,6 @@ public class KmsInFlightMutationAccessDeniedRunner {
   private static final Pattern BRANCH_KEY_TYPE_PATTERN = Pattern.compile(
     "Branch Key Type: ([^;]+)"
   );
-
-  // TODO-HV-2-Version: Version is not supported for HV-2 keys yet.
-  public static void createHappyCaseId(
-    @Nonnull String kmsKeyArn,
-    @Nonnull String branchKeyId,
-    @Nonnull KeyStoreAdmin admin,
-    @Nonnull HierarchyVersion hierarchyVersion
-  ) {
-    // TODO-HV-2-Version: Version is not supported for HV-2 keys yet,
-    //  As a work-a-round, Mutate to HV-2 to have Branch Key with at-least two version items for testing
-    AdminProvider.createHappyCaseId(
-      kmsKeyArn,
-      branchKeyId,
-      admin,
-      HierarchyVersion.v1,
-      1
-    );
-    if (hierarchyVersion == HierarchyVersion.v2) {
-      Mutations mutations = Mutations
-        .builder()
-        .TerminalHierarchyVersion(hierarchyVersion)
-        .build();
-      SystemKey systemKey = SystemKey
-        .builder()
-        .trustStorage(TrustStorage.builder().build())
-        .build();
-      InitializeMutationOutput initOutput = admin.InitializeMutation(
-        InitializeMutationInput
-          .builder()
-          .Mutations(mutations)
-          .Identifier(branchKeyId)
-          .Strategy(AdminProvider.kmsSimpleStrategy(Fixtures.kmsClientWest2))
-          .DoNotVersion(true)
-          .SystemKey(systemKey)
-          .build()
-      );
-      admin.ApplyMutation(
-        ApplyMutationInput
-          .builder()
-          .MutationToken(initOutput.MutationToken())
-          .Strategy(AdminProvider.kmsSimpleStrategy(Fixtures.kmsClientWest2))
-          .SystemKey(systemKey)
-          .build()
-      );
-    }
-  }
 
   public static void runMutationTest(
     String branchKeyId,
