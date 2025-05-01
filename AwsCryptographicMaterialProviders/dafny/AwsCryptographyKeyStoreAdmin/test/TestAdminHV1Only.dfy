@@ -53,7 +53,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var initializeOutput := underTest.InitializeMutation(initInput);
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation with terminal HV-1.";
-    expect initializeOutput.error == Types.Error.UnsupportedFeatureException(message:=KeyStoreAdminErrorMessages.NO_MUTATE_TO_HV_1);
+    expect initializeOutput.error == Types.Error.UnsupportedFeatureException(message:=KeyStoreAdminErrorMessages.UNSUPPORTED_DOWNGRADE_HV);
   }
 
   // TODO-HV-2-M2 : Probably make this a happy test?

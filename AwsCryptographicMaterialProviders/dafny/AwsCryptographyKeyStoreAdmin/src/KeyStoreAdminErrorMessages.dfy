@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
-  const NO_MUTATE_TO_HV_1: string :=
+  const UNSUPPORTED_DOWNGRADE_HV: string :=
     "At this time, a Mutation cannot downgrade a Branch Key from HV-2 to HV-1. The request attempted to downgrade from HV-2 by setting 'TerminalHierarchyVersion := v1', which is not allowed."
 
   const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY :=
@@ -14,9 +14,6 @@ module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
 
   const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_HV_2: string :=
     "Only KeyManagementStrategy.AwsKmsDecryptEncrypt and KeyManagementStrategy.AwsKmsSimple is allowed when mutating to hv-2."
-
-  const UNSUPPORTED_DOWNGRADE_HV: string :=
-    "Mutation which Downgrades hierarchical version (example: from v2 to v1) is not supported."
 
   const INVALID_COMMITMENT_UTF8 := "Mutation Commitment read from storage contains invalid UTF-8."
   const INVALID_INDEX_UTF8 := "Mutation Index read from storage contains invalid UTF-8."

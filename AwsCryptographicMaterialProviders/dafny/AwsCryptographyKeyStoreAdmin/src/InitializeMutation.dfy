@@ -84,10 +84,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       && input.Mutations.TerminalKmsArn.Some?
       ==>
         && KmsArn.ValidKmsArn?(input.Mutations.TerminalKmsArn.value)
-    ensures
-      && input.Mutations.TerminalHierarchyVersion.Some?
-      && input.Mutations.TerminalHierarchyVersion.value.v1?
-      ==> output.Failure?
   {
     :- Need(|input.Identifier| > 0,
             Types.KeyStoreAdminException(message := "Branch Key Identifier cannot be empty!"));
@@ -224,9 +220,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     var activeItem := readItems.ActiveItem;
 
     :- Need(
-      !(IsMutationsTerminalHV1?(input.Mutations) &&
-        activeItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2),
-      Types.UnsupportedFeatureException(message := KeyStoreAdminErrorMessages.NO_MUTATE_TO_HV_1));
+      !(&& IsMutationsTerminalHV1?(input.Mutations)
+        && Structure.HIERARCHY_VERSION in activeItem.EncryptionContext
+        && activeItem.EncryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2),
+      Types.UnsupportedFeatureException(message := KeyStoreAdminErrorMessages.UNSUPPORTED_DOWNGRADE_HV));
     :- Need(
       || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
