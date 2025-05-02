@@ -19,11 +19,12 @@ public class KmsInFlightMutationV1ToV2Test {
       "test-mutation-kms-access-in-flight-original-" +
       UUID.randomUUID().toString();
 
-    KmsInFlightMutationAccessDeniedRunner.createHappyCaseId(
+    AdminProvider.createHappyCaseId(
       MRK_ARN_WEST,
       branchKeyId,
       AdminProvider.admin(),
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      1
     );
 
     try {
@@ -59,11 +60,12 @@ public class KmsInFlightMutationV1ToV2Test {
       "test-mutation-kms-access-in-flight-terminal-" +
       UUID.randomUUID().toString();
 
-    KmsInFlightMutationAccessDeniedRunner.createHappyCaseId(
+    AdminProvider.createHappyCaseId(
       POSTAL_HORN_KEY_ARN,
       branchKeyId,
       AdminProvider.admin(),
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      1
     );
 
     try {
@@ -99,11 +101,12 @@ public class KmsInFlightMutationV1ToV2Test {
       "test-mutation-kms-access-in-flight-original-" +
       UUID.randomUUID().toString();
 
-    KmsInFlightMutationAccessDeniedRunner.createHappyCaseId(
+    AdminProvider.createHappyCaseId(
       MRK_ARN_WEST,
       branchKeyId,
       AdminProvider.admin(),
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      1
     );
 
     try {
@@ -133,11 +136,12 @@ public class KmsInFlightMutationV1ToV2Test {
       "test-mutation-kms-access-in-flight-terminal-" +
       UUID.randomUUID().toString();
 
-    KmsInFlightMutationAccessDeniedRunner.createHappyCaseId(
+    AdminProvider.createHappyCaseId(
       POSTAL_HORN_KEY_ARN,
       branchKeyId,
       AdminProvider.admin(),
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      1
     );
 
     try {
