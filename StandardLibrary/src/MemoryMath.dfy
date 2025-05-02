@@ -6,25 +6,22 @@
 // To convince Dafny that this is true, we have the following functions
 // with assumptions as needed.
 
-
-include "../../libraries/src/BoundedInts.dfy"
+include "UInt.dfy"
 
 module {:options "--function-syntax:4"} MemoryMath {
-  import opened BoundedInts
+  import opened StandardLibrary.UInt
 
   // This is safe because it is being held in memory
   lemma {:axiom} ValueIsSafeBecauseItIsInMemory(value : nat)
-    ensures value < UINT64_MAX as nat
+    ensures HasUint64Size(value)
 
   lemma SequenceIsSafeBecauseItIsInMemory<T>(value : seq<T>)
-    ensures |value| < UINT64_MAX as nat
+    ensures HasUint64Len(value)
   {
     ValueIsSafeBecauseItIsInMemory(|value|);
   }
 
-
   function {:opaque} Add(x : uint64, y : uint64) : (ret : uint64)
-    ensures ret < UINT64_MAX as uint64
     ensures ret as nat == x as nat + y as nat
   {
     ValueIsSafeBecauseItIsInMemory(x as nat + y as nat);
@@ -32,10 +29,16 @@ module {:options "--function-syntax:4"} MemoryMath {
   }
 
   function {:opaque} Add3(x : uint64, y : uint64, z : uint64) : (ret : uint64)
-    ensures ret < UINT64_MAX as uint64
     ensures ret as nat == x as nat + y as nat + z as nat
   {
     ValueIsSafeBecauseItIsInMemory(x as nat + y as nat + z as nat);
     x + y + z
+  }
+
+  function {:opaque} Add4(w : uint64, x : uint64, y : uint64, z : uint64) : (ret : uint64)
+    ensures ret as nat == w as nat + x as nat + y as nat + z as nat
+  {
+    ValueIsSafeBecauseItIsInMemory(w as nat + x as nat + y as nat + z as nat);
+    w + x + y + z
   }
 }
