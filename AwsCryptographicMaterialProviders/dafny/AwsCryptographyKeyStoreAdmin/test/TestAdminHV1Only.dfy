@@ -34,9 +34,12 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
+    var strategy :- expect AdminFixtures.DecryptEncrypKeyManagerStrategy(
+      decryptKmsClient?:=Some(kmsClient),
+      encryptKmsClient?:=Some(kmsClient)
+    );
     var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
-    Fixtures.CreateHappyCaseId(id:=testId);
+    AdminFixtures.CreateHappyCaseId(id := testId, hierarchyVersion := KeyStoreTypes.HierarchyVersion.v2, admin? := Some(underTest));
     var mutationsRequest := Types.Mutations(
       TerminalKmsArn := Some(Fixtures.postalHornKeyArn),
       TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v1)
@@ -50,7 +53,7 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     var initializeOutput := underTest.InitializeMutation(initInput);
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation with terminal HV-1.";
-    expect initializeOutput.error == Types.Error.UnsupportedFeatureException(message:=KeyStoreAdminErrorMessages.NO_MUTATE_TO_HV_1);
+    expect initializeOutput.error == Types.Error.UnsupportedFeatureException(message:=KeyStoreAdminErrorMessages.UNSUPPORTED_DOWNGRADE_HV);
   }
 
   // TODO-HV-2-M2 : Probably make this a happy test?
