@@ -9,7 +9,7 @@ include "../AdminFixtures.dfy"
 include "TestMutationHappyPath.dfy"
 
 // TODO-HV-2-Mutate-Version: Add Mutation tests for DoNotVersion = false
-module {:options "/functionSyntax:4" } TestMutations {
+module {:options "/functionSyntax:4" } TestMutateHierarchyVersion {
   import UUID
   import AdminFixtures
   import CleanupItems
