@@ -551,13 +551,13 @@ module AwsKmsKeyring {
       .MapFailure(errors => Types.CollectionOfErrors(
                       list := errors,
                       message := "No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."));
-      
+
       assert exists edk | edk in edksToAttempt
-        ::
-          && var maybeWrappedMaterial :=
-            EdkWrapping.GetProviderWrappedMaterial(edk.ciphertext, input.materials.algorithmSuite);
-          && maybeWrappedMaterial.Success?
-          && KMS.IsValid_CiphertextType(maybeWrappedMaterial.value);
+          ::
+            && var maybeWrappedMaterial :=
+              EdkWrapping.GetProviderWrappedMaterial(edk.ciphertext, input.materials.algorithmSuite);
+            && maybeWrappedMaterial.Success?
+            && KMS.IsValid_CiphertextType(maybeWrappedMaterial.value);
 
 
       assert decryptClosure.Ensures(Last(attempts).input, Success(SealedDecryptionMaterials), DropLast(attempts));
