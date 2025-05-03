@@ -2,11 +2,28 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../../libraries/src/Wrappers.dfy"
-include "UInt.dfy"
+include "MemoryMath.dfy"
 
 module StandardLibrary {
   import opened Wrappers
   import opened U = UInt
+    // import opened MemoryMath
+
+  lemma {:axiom}XXXValueIsSafeBecauseItIsInMemory(value : nat)
+    ensures HasUint64Size(value)
+
+  lemma XXXSequenceIsSafeBecauseItIsInMemory<T>(value : seq<T>)
+    ensures HasUint64Len(value)
+  {
+    XXXValueIsSafeBecauseItIsInMemory(|value|);
+  }
+
+  function method {:opaque} XXXAdd(x : uint64, y : uint64) : (ret : uint64)
+    ensures ret as nat == x as nat + y as nat
+  {
+    XXXValueIsSafeBecauseItIsInMemory(x as nat + y as nat);
+    x + y
+  }
 
   lemma SeqTakeAppend<A>(s: seq<A>, i: int)
     requires 0 <= i < |s|
@@ -28,7 +45,7 @@ module StandardLibrary {
     decreases |s|
   {
     var i := FindIndexMatching(s, delim, 0);
-    if i.Some? then [s[..i.value]] + Split(s[(i.value + 1)..], delim) else [s]
+    if i.Some? then [s[..i.value]] + Split(s[XXXAdd(i.value, 1)..], delim) else [s]
   }
 
   // split on first occurrence of delim, which must exist
@@ -39,7 +56,7 @@ module StandardLibrary {
   {
     var i := FindIndexMatching(s, delim, 0);
     assert i.Some?;
-    (s[..i.value], s[(i.value + 1)..])
+    (s[..i.value], s[XXXAdd(i.value, 1)..])
   }
 
   // split on first occurrence of delim, return None if delim not present
@@ -49,7 +66,7 @@ module StandardLibrary {
     ensures res.Some? ==> !(delim in res.value.0)
   {
     var i :- FindIndexMatching(s, delim, 0);
-    Some((s[..i], s[(i + 1)..]))
+    Some((s[..i], s[XXXAdd(i, 1)..]))
   }
 
   lemma {:vcs_split_on_every_assert} WillSplitOnDelim<T>(s: seq<T>, delim: T, prefix: seq<T>)
@@ -62,8 +79,8 @@ module StandardLibrary {
       Split(s, delim);
     ==
       var i := FindIndexMatching(s, delim, 0);
-      if i.Some? then [s[..i.value]] + Split(s[i.value + 1..], delim) else [s];
-    ==  { FindIndexMatchingLocatesElem(s, delim, 0, |prefix|); assert FindIndexMatching(s, delim, 0).Some?; }
+      if i.Some? then [s[..i.value]] + Split(s[XXXAdd(i.value, 1)..], delim) else [s];
+    ==  { FindIndexMatchingLocatesElem(s, delim, 0, |prefix| as uint64); assert FindIndexMatching(s, delim, 0).Some?; }
       [s[..|prefix|]] + Split(s[|prefix| + 1..], delim);
     ==  { assert s[..|prefix|] == prefix; }
       [prefix] + Split(s[|prefix| + 1..], delim);
@@ -74,40 +91,42 @@ module StandardLibrary {
     requires delim !in s
     ensures Split(s, delim) == [s]
   {
+    XXXSequenceIsSafeBecauseItIsInMemory(s);
     calc {
       Split(s, delim);
     ==
       var i := FindIndexMatching(s, delim, 0);
       if i.Some? then [s[..i.value]] + Split(s[i.value+1..], delim) else [s];
-    ==  { FindIndexMatchingLocatesElem(s, delim, 0, |s|); }
+    ==  { FindIndexMatchingLocatesElem(s, delim, 0, |s| as uint64); }
       [s];
     }
   }
 
-  lemma FindIndexMatchingLocatesElem<T>(s: seq<T>, c: T, start: nat, elemIndex: nat)
-    requires start <= elemIndex <= |s|
+  lemma FindIndexMatchingLocatesElem<T>(s: seq<T>, c: T, start: uint64, elemIndex: uint64)
+    requires start as nat <= elemIndex as nat <= |s|
     requires forall i :: start <= i < elemIndex ==> s[i] != c
-    requires elemIndex == |s| || s[elemIndex] == c
-    ensures FindIndexMatching(s, c, start) == if elemIndex == |s| then None else Some(elemIndex)
+    requires elemIndex as nat == |s| || s[elemIndex] == c
+    ensures FindIndexMatching(s, c, start) == if elemIndex as nat == |s| then None else Some(elemIndex)
     decreases elemIndex - start
   {}
 
-  function method FindIndexMatching<T(==)>(s: seq<T>, c: T, i: nat): (index: Option<nat>)
-    requires i <= |s|
-    ensures index.Some? ==>  i <= index.value < |s| && s[index.value] == c && c !in s[i..index.value]
+  function method FindIndexMatching<T(==)>(s: seq<T>, c: T, i: uint64): (index: Option<uint64>)
+    requires i as nat <= |s|
+    ensures index.Some? ==>  i as nat <= index.value as nat < |s| && s[index.value] == c && c !in s[i..index.value]
     ensures index.None? ==> c !in s[i..]
-    decreases |s| - i
+    decreases |s| - i as nat
   {
     FindIndex(s, x => x == c, i)
   }
 
-  function method {:tailrecursion} FindIndex<T>(s: seq<T>, f: T -> bool, i: nat): (index: Option<nat>)
-    requires i <= |s|
-    ensures index.Some? ==> i <= index.value < |s| && f(s[index.value]) && (forall j :: i <= j < index.value ==> !f(s[j]))
-    ensures index.None? ==> forall j :: i <= j < |s| ==> !f(s[j])
-    decreases |s| - i
+  function method {:tailrecursion} FindIndex<T>(s: seq<T>, f: T -> bool, i: uint64): (index: Option<uint64>)
+    requires i as nat <= |s|
+    ensures index.Some? ==> i as nat <= index.value as nat < |s| && f(s[index.value]) && (forall j :: i <= j < index.value ==> !f(s[j]))
+    ensures index.None? ==> forall j :: i as nat <= j < |s| ==> !f(s[j])
+    decreases |s| - i as nat
   {
-    if i == |s| then None
+    XXXSequenceIsSafeBecauseItIsInMemory(s);
+    if i == |s| as uint64 then None
     else if f(s[i]) then Some(i)
     else FindIndex(s, f, i + 1)
   }

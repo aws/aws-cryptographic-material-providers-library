@@ -2,22 +2,25 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "./StandardLibrary.dfy"
+include "./MemoryMath.dfy"
 
 module Streams {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened MemoryMath
 
   class SeqReader<T> {
     ghost var Repr: set<object>
     const data: seq<T>
-    var pos: nat
+    var pos: uint64
 
     predicate Valid()
       reads this, Repr
       ensures Valid() ==> this in Repr
     {
+      SequenceIsSafeBecauseItIsInMemory(data);
       this in Repr &&
-      pos <= |data|
+      pos <= |data| as uint64
     }
 
     constructor (s: seq<T>)
@@ -30,32 +33,33 @@ module Streams {
       Repr := {this};
     }
 
-    method ReadElements(n: nat) returns (elems: seq<T>)
+    method ReadElements(n: uint64) returns (elems: seq<T>)
       requires Valid()
-      requires n + pos <= |data|
+      requires n as nat + pos as nat <= |data|
       modifies `pos
       ensures n == 0 ==> elems == []
       ensures n > 0 ==> elems == data[old(pos)..][..n]
-      ensures pos == old(pos) + n
+      ensures pos == Add(old(pos), n)
       ensures Valid()
     {
       elems := data[pos..][..n];
-      pos := pos + n;
+      pos := Add(pos, n);
       return elems;
     }
 
-    method ReadExact(n: nat) returns (res: Result<seq<T>, string>)
+    method ReadExact(n: uint64) returns (res: Result<seq<T>, string>)
       requires Valid()
       modifies `pos
-      ensures n + old(pos) <= |data| <==> res.Success?
-      ensures res.Success? ==> |res.value| == n
-      ensures res.Success? ==> pos == old(pos) + n
+      ensures n as nat + old(pos) as nat <= |data| <==> res.Success?
+      ensures res.Success? ==> |res.value| == n as nat
+      ensures res.Success? ==> pos == Add(old(pos), n)
       ensures res.Success? ==> res.value == data[old(pos)..old(pos) + n]
-      ensures res.Failure? ==> n > |data| - pos
+      ensures res.Failure? ==> n as nat > |data| - pos as nat
       ensures res.Failure? ==> pos == old(pos)
       ensures Valid()
     {
-      if n > |data| - pos {
+      SequenceIsSafeBecauseItIsInMemory(data);
+      if n > |data| as uint64 - pos {
         return Failure("IO Error: Not enough elements left on stream.");
       } else {
         var elements := ReadElements(n);
@@ -89,10 +93,10 @@ module Streams {
     method ReadByte() returns (res: Result<uint8, string>)
       requires Valid()
       modifies reader`pos
-      ensures res.Failure? ==> |reader.data| - reader.pos < 1
+      ensures res.Failure? ==> |reader.data| - reader.pos as nat < 1
       ensures res.Failure? ==> unchanged(reader)
-      ensures res.Success? ==> reader.pos == old(reader.pos) + 1
-      ensures old(reader.pos) + 1 <= |reader.data| <==> res.Success?
+      ensures res.Success? ==> reader.pos == Add(old(reader.pos), 1)
+      ensures old(reader.pos) as nat + 1 <= |reader.data| <==> res.Success?
       ensures res.Success? ==> res.value == reader.data[old(reader.pos)]
       ensures Valid()
     {
@@ -101,30 +105,31 @@ module Streams {
       return Success(bytes[0]);
     }
 
-    method ReadBytes(n: nat) returns (res: Result<seq<uint8>, string>)
+    method ReadBytes(n: uint64) returns (res: Result<seq<uint8>, string>)
       requires Valid()
       modifies reader`pos
-      ensures res.Failure? ==> |reader.data| - reader.pos < n
+      ensures res.Failure? ==> |reader.data| - reader.pos as nat < n as nat
       ensures res.Failure? ==> unchanged(reader)
-      ensures res.Success? ==> |res.value| == n
+      ensures res.Success? ==> |res.value| == n as nat
       ensures res.Success? && |res.value| == 0 ==> unchanged(reader)
-      ensures res.Success? ==> reader.pos == old(reader.pos) + n
-      ensures old(reader.pos) + n <= |reader.data| <==> res.Success?
+      ensures res.Success? ==> reader.pos == Add(old(reader.pos), n)
+      ensures old(reader.pos) as nat + n as nat <= |reader.data| <==> res.Success?
       ensures res.Success? ==> res.value == reader.data[old(reader.pos)..old(reader.pos) + n]
       ensures Valid()
     {
       var bytes :- reader.ReadExact(n);
-      assert |bytes| == n;
+      SequenceIsSafeBecauseItIsInMemory(bytes);
+      assert |bytes| as uint64 == n;
       return Success(bytes);
     }
 
     method ReadUInt16() returns (res: Result<uint16, string>)
       requires Valid()
       modifies reader`pos
-      ensures res.Failure? ==> |reader.data| - reader.pos < 2
+      ensures res.Failure? ==> |reader.data| - reader.pos as nat < 2
       ensures res.Failure? ==> unchanged(reader)
-      ensures res.Success? ==> reader.pos == old(reader.pos) + 2
-      ensures old(reader.pos) + 2 <= |reader.data| <==> res.Success?
+      ensures res.Success? ==> reader.pos == Add(old(reader.pos), 2)
+      ensures old(reader.pos) as nat + 2 <= |reader.data| <==> res.Success?
       ensures res.Success? ==> res.value == SeqToUInt16(reader.data[old(reader.pos)..old(reader.pos) + 2])
       ensures Valid()
     {
@@ -140,7 +145,7 @@ module Streams {
       ensures Valid()
       ensures res.Failure? ==> unchanged(reader)
       ensures res.Success? ==>
-                && reader.pos == old(reader.pos) + 4
+                && reader.pos == Add(old(reader.pos), 4)
                 && UInt32ToSeq(res.value) == reader.data[old(reader.pos)..reader.pos]
     {
       var bytes :- reader.ReadExact(4);
@@ -153,10 +158,10 @@ module Streams {
     method ReadUInt64() returns (res: Result<uint64, string>)
       requires Valid()
       modifies reader`pos
-      ensures res.Failure? ==> |reader.data| - reader.pos < 8
+      ensures res.Failure? ==> |reader.data| - reader.pos as nat < 8
       ensures res.Failure? ==> unchanged(reader)
-      ensures res.Success? ==> reader.pos == old(reader.pos) + 8
-      ensures old(reader.pos) + 8 <= |reader.data| <==> res.Success?
+      ensures res.Success? ==> reader.pos == Add(old(reader.pos), 8)
+      ensures old(reader.pos) as nat + 8 <= |reader.data| <==> res.Success?
       ensures res.Success? ==> res.value == SeqToUInt64(reader.data[old(reader.pos)..old(reader.pos) + 8])
       ensures Valid()
     {
@@ -168,13 +173,14 @@ module Streams {
 
     method IsDoneReading() returns (b: bool)
       requires Valid()
-      ensures (b && |reader.data| - reader.pos == 0) || (!b && |reader.data| - reader.pos > 0)
+      ensures (b && |reader.data| - reader.pos as nat  == 0) || (!b && |reader.data| - reader.pos as nat > 0)
       ensures Valid()
     {
-      return |reader.data| == reader.pos;
+      SequenceIsSafeBecauseItIsInMemory(reader.data);
+      return |reader.data| as uint64 == reader.pos;
     }
 
-    method GetSizeRead() returns (n: nat)
+    method GetSizeRead() returns (n: uint64)
       requires Valid()
       ensures n == reader.pos
       ensures Valid()
@@ -202,17 +208,18 @@ module Streams {
       Repr := {this};
     }
 
-    method WriteElements(elems: seq<T>) returns (n: nat)
+    method WriteElements(elems: seq<T>) returns (n: uint64)
       requires Valid()
       modifies `data
-      ensures n == |data| - |old(data)| == |elems|
+      ensures n as nat == |data| - |old(data)| == |elems|
       ensures |elems| == 0 ==> data == old(data)
       ensures |elems| > 0 ==> data == old(data) + elems
       ensures elems == data[(|data| - |elems|)..]
       ensures Valid()
     {
+      SequenceIsSafeBecauseItIsInMemory(elems);
       data := data + elems;
-      return |elems|;
+      return |elems| as uint64;
     }
   }
 
@@ -237,7 +244,7 @@ module Streams {
       Repr := {this} + mw.Repr;
     }
 
-    method WriteByte(n: uint8) returns (r: nat)
+    method WriteByte(n: uint8) returns (r: uint64)
       requires Valid()
       modifies writer`data
       ensures writer.data == old(writer.data) + [n]
@@ -247,17 +254,17 @@ module Streams {
       r := writer.WriteElements([n]);
     }
 
-    method WriteBytes(s: seq<uint8>) returns (r: nat)
+    method WriteBytes(s: seq<uint8>) returns (r: uint64)
       requires Valid()
       modifies writer`data
       ensures writer.data == old(writer.data) + s
-      ensures r == |s|
+      ensures r as nat == |s|
       ensures Valid()
     {
       r := writer.WriteElements(s);
     }
 
-    method WriteUInt16(n: uint16) returns (r: nat)
+    method WriteUInt16(n: uint16) returns (r: uint64)
       requires Valid()
       modifies writer`data
       ensures writer.data == old(writer.data) + UInt16ToSeq(n)
@@ -267,7 +274,7 @@ module Streams {
       r := writer.WriteElements(UInt16ToSeq(n));
     }
 
-    method WriteUInt32(n: uint32) returns (r: nat)
+    method WriteUInt32(n: uint32) returns (r: uint64)
       requires Valid()
       modifies writer`data
       ensures writer.data == old(writer.data) + UInt32ToSeq(n)
@@ -286,13 +293,14 @@ module Streams {
       writer.data
     }
 
-    function method GetSizeWritten(): (n: nat)
+    function method GetSizeWritten(): (n: uint64)
       reads Repr
       requires Valid()
-      ensures n == |writer.data|
+      ensures n as nat == |writer.data|
       ensures Valid()
     {
-      |writer.data|
+      SequenceIsSafeBecauseItIsInMemory(writer.data);
+      |writer.data| as uint64
     }
   }
 }
