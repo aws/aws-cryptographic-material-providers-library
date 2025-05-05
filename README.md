@@ -61,6 +61,8 @@ If you are using the AWS Cryptographic Material Providers Library for Python you
 - Java
 - .NET
 - Python
+- Go
+- Rust
 - Dafny
 
 ## FAQ
