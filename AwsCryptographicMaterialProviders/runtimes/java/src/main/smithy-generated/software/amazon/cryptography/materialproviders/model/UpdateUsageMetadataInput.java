@@ -10,7 +10,7 @@ public class UpdateUsageMetadataInput {
 
   private final ByteBuffer identifier;
 
-  private final int bytesUsed;
+  private final long bytesUsed;
 
   protected UpdateUsageMetadataInput(BuilderImpl builder) {
     this.identifier = builder.identifier();
@@ -21,7 +21,7 @@ public class UpdateUsageMetadataInput {
     return this.identifier;
   }
 
-  public int bytesUsed() {
+  public long bytesUsed() {
     return this.bytesUsed;
   }
 
@@ -38,9 +38,9 @@ public class UpdateUsageMetadataInput {
 
     ByteBuffer identifier();
 
-    Builder bytesUsed(int bytesUsed);
+    Builder bytesUsed(long bytesUsed);
 
-    int bytesUsed();
+    long bytesUsed();
 
     UpdateUsageMetadataInput build();
   }
@@ -49,7 +49,7 @@ public class UpdateUsageMetadataInput {
 
     protected ByteBuffer identifier;
 
-    protected int bytesUsed;
+    protected long bytesUsed;
 
     private boolean _bytesUsedSet = false;
 
@@ -70,13 +70,13 @@ public class UpdateUsageMetadataInput {
       return this.identifier;
     }
 
-    public Builder bytesUsed(int bytesUsed) {
+    public Builder bytesUsed(long bytesUsed) {
       this.bytesUsed = bytesUsed;
       this._bytesUsedSet = true;
       return this;
     }
 
-    public int bytesUsed() {
+    public long bytesUsed() {
       return this.bytesUsed;
     }
 
