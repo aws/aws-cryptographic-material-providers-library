@@ -3,11 +3,14 @@
 
 include "../../libraries/src/Wrappers.dfy"
 include "../../libraries/src/Collections/Sequences/Seq.dfy"
+include "MemoryMath.dfy"
 
 module Actions {
 
   import opened Wrappers
   import opened Seq
+  import opened StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
 
   datatype ActionInvoke<A, R> = ActionInvoke(input: A, output: R)
   /*
@@ -118,7 +121,8 @@ module Actions {
           action.Ensures(s[i], res[i])
   {
     var rs := [];
-    for i := 0 to |s|
+    SequenceIsSafeBecauseItIsInMemory(s);
+    for i : uint64 := 0 to |s| as uint64
       invariant |s[..i]| == |rs|
       invariant forall j ::
           && 0 <= j < i
@@ -152,7 +156,8 @@ module Actions {
              action.Ensures(s[i], Success(res.value[i])))
   {
     var rs := [];
-    for i := 0 to |s|
+    SequenceIsSafeBecauseItIsInMemory(s);
+    for i : uint64 := 0 to |s| as uint64
       invariant |s[..i]| == |rs|
       invariant forall j ::
           && 0 <= j < i
@@ -185,7 +190,8 @@ module Actions {
   {
     ghost var parts := [];
     var rs := [];
-    for i := 0 to |s|
+    SequenceIsSafeBecauseItIsInMemory(s);
+    for i : uint64 := 0 to |s| as uint64
       invariant |s[..i]| == |parts|
       invariant forall j ::
           && 0 <= j < i
@@ -225,7 +231,8 @@ module Actions {
   {
     parts := [];
     var rs := [];
-    for i := 0 to |s|
+    SequenceIsSafeBecauseItIsInMemory(s);
+    for i : uint64 := 0 to |s| as uint64
       invariant |s[..i]| == |parts|
       invariant forall j ::
           && 0 <= j < i
@@ -261,7 +268,8 @@ module Actions {
           && action.Ensures(j, true)
   {
     var rs := [];
-    for i := 0 to |s|
+    SequenceIsSafeBecauseItIsInMemory(s);
+    for i : uint64 := 0 to |s| as uint64
       invariant |s[..i]| >= |rs|
       invariant forall j ::
           j in rs
@@ -296,7 +304,8 @@ module Actions {
                && action.Ensures(j, Success(true))
   {
     var rs := [];
-    for i := 0 to |s|
+    SequenceIsSafeBecauseItIsInMemory(s);
+    for i : uint64 := 0 to |s| as uint64
       invariant |s[..i]| >= |rs|
       invariant forall j ::
           j in rs
@@ -360,7 +369,8 @@ module Actions {
   {
     var attemptedResults := [];
     attemptsState := [];
-    for i := 0 to |s|
+    SequenceIsSafeBecauseItIsInMemory(s);
+    for i : uint64 := 0 to |s| as uint64
       invariant |s[..i]| == |attemptsState| == |attemptedResults|
       invariant forall j
           | 0 <= j < |attemptsState|

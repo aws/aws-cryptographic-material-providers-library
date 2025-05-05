@@ -8,15 +8,7 @@ module StandardLibrary.Sequence {
   // export provides SequenceEqual, StandardLibrary
   import opened UInt
   import opened Wrappers
-
-  lemma {:axiom} YYYValueIsSafeBecauseItIsInMemory(value : nat)
-    ensures HasUint64Size(value)
-
-  lemma YYYSequenceIsSafeBecauseItIsInMemory<T>(value : seq<T>)
-    ensures HasUint64Len(value)
-  {
-    YYYValueIsSafeBecauseItIsInMemory(|value|);
-  }
+  import opened MemoryMath
 
   // Just like Seq::MapWithResult, but not O(n^2)
   function method {:opaque} {:tailrecursion} MapWithResult<T, R, E>(f: (T ~> Result<R, E>), xs: seq<T>, pos : uint64 := 0, acc : seq<R> := [])
@@ -36,7 +28,7 @@ module StandardLibrary.Sequence {
     reads set i, o | 0 <= i < |xs| && o in f.reads(xs[i]) :: o
     decreases |xs| - pos as nat
   {
-    YYYSequenceIsSafeBecauseItIsInMemory(xs);
+    SequenceIsSafeBecauseItIsInMemory(xs);
     if |xs| as uint64 == pos then
       Success(acc)
     else
@@ -51,7 +43,7 @@ module StandardLibrary.Sequence {
     requires pos as nat <= |xs|
     decreases |xs| - pos as nat
   {
-    YYYSequenceIsSafeBecauseItIsInMemory(xs);
+    SequenceIsSafeBecauseItIsInMemory(xs);
     if |xs| as uint64 == pos then
       acc
     else
@@ -63,8 +55,8 @@ module StandardLibrary.Sequence {
     requires start2 + size <= |seq2|
     ensures ret ==> seq1[start1..start1 + size] == seq2[start2..start2 + size]
   {
-    YYYSequenceIsSafeBecauseItIsInMemory(seq1);
-    YYYSequenceIsSafeBecauseItIsInMemory(seq2);
+    SequenceIsSafeBecauseItIsInMemory(seq1);
+    SequenceIsSafeBecauseItIsInMemory(seq2);
     SequenceEqual(seq1, seq2, start1 as uint64, start2 as uint64, size as uint64)
   }
 
@@ -75,8 +67,8 @@ module StandardLibrary.Sequence {
   {
     seq1[start1..start1 + size] == seq2[start2..start2 + size]
   } by method {
-    var j := start2 as uint64;
-    for i := start1 as uint64 to (start1 + size) as uint64
+    var j : uint64 := start2;
+    for i : uint64 := start1 to start1 + size
       invariant j == i - start1 + start2
       invariant forall k : uint64 | start1 <= k < i :: seq1[k] == seq2[k - start1 + start2]
     {

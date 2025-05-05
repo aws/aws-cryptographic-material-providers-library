@@ -7,7 +7,7 @@ include "./MemoryMath.dfy"
 module Streams {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
-  import opened MemoryMath
+  import opened StandardLibrary.MemoryMath
 
   class SeqReader<T> {
     ghost var Repr: set<object>

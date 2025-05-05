@@ -8,8 +8,8 @@
 
 include "UInt.dfy"
 
-module {:options "--function-syntax:4"} MemoryMath {
-  import opened StandardLibrary.UInt
+module {:options "--function-syntax:4"} StandardLibrary.MemoryMath {
+  import opened UInt
 
   // This is safe because it is being held in memory
   lemma {:axiom} ValueIsSafeBecauseItIsInMemory(value : nat)
@@ -19,6 +19,18 @@ module {:options "--function-syntax:4"} MemoryMath {
     ensures HasUint64Len(value)
   {
     ValueIsSafeBecauseItIsInMemory(|value|);
+  }
+
+  lemma MapIsSafeBecauseItIsInMemory<K, V>(value : map<K, V>)
+    ensures HasUint64Size(|value|)
+  {
+    ValueIsSafeBecauseItIsInMemory(|value|);
+  }
+
+  lemma ArrayIsSafeBecauseItIsInMemory<T>(value : array<T>)
+    ensures HasUint64Size(value.Length)
+  {
+    ValueIsSafeBecauseItIsInMemory(value.Length);
   }
 
   function {:opaque} Add(x : uint64, y : uint64) : (ret : uint64)
