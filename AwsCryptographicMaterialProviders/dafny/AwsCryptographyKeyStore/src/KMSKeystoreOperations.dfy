@@ -24,6 +24,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import KmsArn
   import ErrorMessages = KeyStoreErrorMessages
   import KmsUtils
+  import CanonicalEncryptionContext
 
   // TODO-HV-2-M4 : BKS Datatype for Crypto, Storage, KMS Tuple
   // TODO-HV-2-M4 : Move to a helper module
@@ -143,8 +144,9 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures output.Success?
             ==>
               && var kms := kmsClient;
-              && |kms.History.GenerateDataKey| == |old(kms.History.GenerateDataKey)| + 1
               && old(kms.History.Encrypt) == kms.History.Encrypt
+              && |kms.History.GenerateDataKey| == |old(kms.History.GenerateDataKey)| + 1
+              && old(kms.History.GenerateDataKey) < kms.History.GenerateDataKey
               && var kmsGenerateDataKeyEvent := Seq.Last(kms.History.GenerateDataKey);
               && var kmsKeyArn := GetKeyId(kmsConfiguration);
               && KMS.GenerateDataKeyRequest(
@@ -430,6 +432,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         && encryptResponse.value.KeyId.value == kmsKeyArn // kmsKeyArn
         && KMS.IsValid_CiphertextType(encryptResponse.value.CiphertextBlob.value)
         && encryptResponse.value.CiphertextBlob.value == res.value
+        && kmsClient.History.Encrypt == old(kmsClient.History.Encrypt) + [Seq.Last(kmsClient.History.Encrypt)]
+        && Seq.Last(kmsClient.History.Encrypt) == kmsClient.History.Encrypt[|kmsClient.History.Encrypt| -1]
   {
     var kmsKeyArn := GetKeyId(kmsConfiguration);
     var kmsEncryptRequest := KMS.EncryptRequest(
@@ -1010,24 +1014,50 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures
       // TODO-HV-2-GA: Update Specification for HV-2 Branch Key Creation
       && output.Success? ==>
+        && var crypto := cryptoAndKms.crypto;
+        && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
+        && old(crypto.History.Digest) < crypto.History.Digest
+        && var digestEvent := Seq.Last(crypto.History.Digest);
+        && HvUtils.EncodeEncryptionContext(branchKeyContext).Success?
+        && var utf8BKContext := HvUtils.EncodeEncryptionContext(branchKeyContext).value;
+        && CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).Success?
+        && var canonicalEC := CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).value;
+        && AtomicPrimitives.Types.DigestInput(
+             digestAlgorithm := AtomicPrimitives.Types.SHA_384,
+             message := canonicalEC
+           ) == digestEvent.input
+        && digestEvent.output.Success?
+        && var digest := digestEvent.output.value;
+
+        && var packedPlaintext := digest + material;
+        && |packedPlaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+
         && var kms := cryptoAndKms.kms.kmsSimple.kmsClient;
         && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 1
+        && old(kms.History.Encrypt) < kms.History.Encrypt
+        && kms.History.Encrypt == old(kms.History.Encrypt) + [Seq.Last(kms.History.Encrypt)]
+        && Seq.Last(kms.History.Encrypt) == kms.History.Encrypt[-1]
         && kms.History.GenerateDataKey == old(kms.History.GenerateDataKey)
-        && var kmsEvent :=  Seq.Last(kms.History.Encrypt);
-        && kmsEvent.output.Success?
-        && var kmsInput := kmsEvent.input;
-        && Compatible?(cryptoAndKms.kmsConfig, kmsInput.KeyId)
-        && |kmsInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
-        && kmsInput.EncryptionContext == Some(encryptionContext)
-        && kmsInput.GrantTokens == Some(cryptoAndKms.kms.kmsSimple.grantTokens)
-        && kmsEvent.output.value.CiphertextBlob.Some?
-        && var digest := kmsInput.Plaintext[..Structure.BKC_DIGEST_LENGTH];
-        && material == kmsInput.Plaintext[Structure.BKC_DIGEST_LENGTH..]
-        && |cryptoAndKms.crypto.History.Digest| == |old(cryptoAndKms.crypto.History.Digest)| + 1
-        && var digestEvent := Seq.Last(cryptoAndKms.crypto.History.Digest);
-        && digestEvent.output.Success?
-        && digestEvent.output.value == digest
-        && digestEvent.input.digestAlgorithm == AtomicPrimitives.Types.SHA_384
+        && var kmsEncryptEvent :=  Seq.Last(kms.History.Encrypt);
+        && var kmsEncryptInput := kmsEncryptEvent.input;
+        && Compatible?(cryptoAndKms.kmsConfig, kmsEncryptInput.KeyId)
+        && var kmsKeyArn := GetKeyId(cryptoAndKms.kmsConfig);
+        && KMS.EncryptRequest(
+             KeyId := kmsKeyArn,
+             Plaintext := packedPlaintext,
+             EncryptionContext := Some(encryptionContext),
+             GrantTokens := Some(cryptoAndKms.kms.kmsSimple.grantTokens)
+           ) == kmsEncryptInput
+        && |kmsEncryptInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+        && kmsEncryptInput.Plaintext == digest + material
+        && material == kmsEncryptInput.Plaintext[Structure.BKC_DIGEST_LENGTH..]
+        && kmsEncryptEvent.output.Success?
+        && kmsEncryptEvent.output.value.CiphertextBlob.Some?
+        && kmsEncryptEvent.output.value.KeyId.Some?
+        && kmsEncryptEvent.output.value.KeyId.value == kmsKeyArn // kmsKeyArn
+        && KMS.IsValid_CiphertextType(kmsEncryptEvent.output.value.CiphertextBlob.value)
+        && var wrappedMaterial := kmsEncryptEvent.output.value.CiphertextBlob.value;
+        && Structure.ConstructEncryptedHierarchicalKey(branchKeyContext, wrappedMaterial) == output.value
     ensures output.Success? ==>
               && var kmsKeyArn := GetKeyId(cryptoAndKms.kmsConfig);
               && Structure.BranchKeyContext?(output.value.EncryptionContext)
