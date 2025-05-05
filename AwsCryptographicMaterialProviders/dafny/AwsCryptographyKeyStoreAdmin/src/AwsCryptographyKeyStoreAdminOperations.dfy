@@ -300,7 +300,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
       case v1 =>
         :- Need(
           keyManagerStrat.reEncrypt? || keyManagerStrat.kmsSimple?,
-          Types.KeyStoreAdminException(message := KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY)
+          Types.KeyStoreAdminException(message := ErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_CREATE)
         );
 
         var legacyConfig :- LegacyConfig(KmsUtils.getEncryptKMSTuple(keyManagerStrat), input.KmsArn, config);
@@ -326,7 +326,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
         // TODO-HV-2-FOLLOW : Refactor BKS & BKSA CreateKey to remove duplicate code
         :- Need(
           keyManagerStrat.kmsSimple?,
-          Types.KeyStoreAdminException(message := KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_HV_2)
+          Types.KeyStoreAdminException(message := ErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_CREATE_HV_2)
         );
 
         var legacyConfig :- LegacyConfig(KmsUtils.getEncryptKMSTuple(keyManagerStrat), input.KmsArn, config);
@@ -435,7 +435,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     var keyManagerStrat :- ResolveStrategy(input.Strategy, config);
     :- Need(
       !keyManagerStrat.decryptEncrypt?,
-      Types.KeyStoreAdminException( message := KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION)
+      Types.KeyStoreAdminException( message := KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_DECRYPT_ENCRYPT_VERSION)
     );
 
     var legacyConfig :-
@@ -448,16 +448,17 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     // var legacyConfig :- LegacyConfig(keyManagerStrat.reEncrypt, input.KmsArn, config);
     // See Smithy-Dafny : https://github.com/smithy-lang/smithy-dafny/pull/543
     assume {:axiom} legacyConfig.kmsClient.Modifies < MutationLie();
-
-    var output? := KeyStoreOperations.VersionKey(
-      // since we pass in the legacyConfig and not the datatype of keyManagerStrat
-      // we loose that information, but it doesn't matter because both
-      // reEncrypt and kmsSimple use one client. It is up to the customer
-      // to make sure they are passing the right client with the right permissions.
-      config := legacyConfig,
-      input := KeyStoreOperations.Types.VersionKeyInput(
+    var keyManagerAndStorage := KmsUtils.KeyManagerAndStorage(
+      storage := legacyConfig.storage,
+      keyManagerStrat := keyManagerStrat
+    );
+    var output? := CreateKeys.VersionActiveBranchKey(
+      KeyStoreTypes.VersionKeyInput(
         branchKeyIdentifier := input.Identifier
-      )
+      ),
+      legacyConfig.logicalKeyStoreName,
+      legacyConfig.kmsConfiguration,
+      keyManagerAndStorage
     );
     var value :- output?
     .MapFailure(e => Types.AwsCryptographyKeyStore(e));

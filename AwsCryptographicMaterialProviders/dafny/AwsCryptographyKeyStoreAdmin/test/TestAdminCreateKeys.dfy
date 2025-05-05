@@ -17,6 +17,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
   import DefaultKeyStorageInterface
+  import KeyStoreErrorMessages
   import opened Wrappers
   import opened Fixtures
   import UUID
@@ -363,7 +364,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     expect
       && hv1DecryptOutput.Failure?
       && hv1DecryptOutput.error.KeyStoreAdminException?
-      && (hv1DecryptOutput.error.message == KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY),
+      && (hv1DecryptOutput.error.message == KeyStoreErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_CREATE),
          "Branch Key Creation should have failed while creating with Unsupported KeyManagementStrategy";
 
     // Create HV-2 BK with DecryptEncrypt Strategy (expects Failure)
@@ -376,7 +377,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     expect
       && hv2DecryptOutput.Failure?
       && hv2DecryptOutput.error.KeyStoreAdminException?
-      && (hv2DecryptOutput.error.message == KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_HV_2),
+      && (hv2DecryptOutput.error.message == KeyStoreErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_CREATE_HV_2),
          "Branch Key Creation should have failed while creating with Unsupported KeyManagementStrategy";
 
     // Create HV-2 BK with ReEncrypt Strategy (expects Failure)
@@ -389,7 +390,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     expect
       && hv2ReEncryptOutput.Failure?
       && hv2ReEncryptOutput.error.KeyStoreAdminException?
-      && (hv2ReEncryptOutput.error.message == KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_HV_2),
+      && (hv2ReEncryptOutput.error.message == KeyStoreErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_CREATE_HV_2),
          "Branch Key Creation should have failed while creating with Unsupported KeyManagementStrategy";
 
     // Happy Cases
@@ -464,7 +465,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     expect
       && hv1DecryptOutput.Failure?
       && hv1DecryptOutput.error.KeyStoreAdminException?
-      && (hv1DecryptOutput.error.message == KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION),
+      && (hv1DecryptOutput.error.message == KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_DECRYPT_ENCRYPT_VERSION),
          "Branch Key Version should have failed while versioning with Unsupported KeyManagementStrategy";
 
     // Version HV-2 BK with DecryptEncrypt Strategy (expects Failure)
@@ -478,7 +479,22 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     expect
       && hv2DecryptOutput.Failure?
       && hv2DecryptOutput.error.KeyStoreAdminException?
-      && (hv2DecryptOutput.error.message == KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION),
+      && (hv2DecryptOutput.error.message == KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_DECRYPT_ENCRYPT_VERSION),
+         "Branch Key Version should have failed while versioning with Unsupported KeyManagementStrategy";
+
+    // Version HV-2 BK with ReEncrypt Strategy (expects Failure)
+    var hv2ReEncryptOutput := underTest.VersionKey(
+      Types.VersionKeyInput(
+        Identifier := bkidHV2,
+        KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
+        Strategy := Some(reEncryptStrategy)
+      )
+    );
+    expect hv2ReEncryptOutput.Success?;
+    expect
+      && hv2ReEncryptOutput.Failure?
+      && hv2ReEncryptOutput.error.KeyStoreAdminException?
+      && (hv2ReEncryptOutput.error.message == KeyStoreErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION_HV_2),
          "Branch Key Version should have failed while versioning with Unsupported KeyManagementStrategy";
 
     // Happy Cases
@@ -500,15 +516,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     );
     expect hv1KmsSimpleOutput.Success?;
 
-    // Version HV-2 BK with ReEncrypt & KmsSimple strategies (expects Success)
-    var hv2ReEncryptOutput := underTest.VersionKey(
-      Types.VersionKeyInput(
-        Identifier := bkidHV2,
-        KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
-        Strategy := Some(reEncryptStrategy)
-      )
-    );
-    expect hv2ReEncryptOutput.Success?;
+    // Version HV-2 BK with KmsSimple strategies (expects Success)
     var hv2KmsSimpleOutput := underTest.VersionKey(
       Types.VersionKeyInput(
         Identifier := bkidHV2,

@@ -5,21 +5,12 @@ module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
   const UNSUPPORTED_DOWNGRADE_HV: string :=
     "At this time, a Mutation cannot change a Branch Key from `hiearchy-version-2` to `hiearchy-version-1`. The request attempted to change from `hiearchy-version-2` to `hiearchy-version-1` by setting 'TerminalHierarchyVersion := v1' when the Branch Key is already at `hiearchy-version-2`."
 
-  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY :=
-    "Unsupported KeyManagementStrategy."
-    + " For creating 'hierarchy-version-1' (HV-1) branch keys,"
-    + " only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsSimple are supported."
-
-  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_HV_2 :=
-    "Unsupported KeyManagementStrategy."
-    + " For creating 'hierarchy-version-2' (HV-2) branch keys,"
-    + " only KeyManagementStrategy.AwsKmsSimple is supported."
-
-  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION :=
+  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_DECRYPT_ENCRYPT_VERSION :=
     "Unsupported KeyManagementStrategy."
     + " For versioning branch keys,"
-    + " only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsSimple are supported."
+    + " KeyManagementStrategy.AwsKmsDecryptEncrypt is not supported"
 
+  // TODO-HV-2-Strategy :: Support KmsSimple for HV-1 Mutations
   const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_MUTATIONS :=
     "Unsupported KeyManagementStrategy."
     + " Only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsDecryptEncrypt"
