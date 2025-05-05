@@ -2,6 +2,26 @@
 // SPDX-License-Identifier: Apache-2.0
 
 module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
+  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_CREATE :=
+    "Unsupported KeyManagementStrategy."
+    + " For creating 'hierarchy-version-1' (HV-1) branch keys,"
+    + " only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsSimple are supported."
+
+  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_CREATE_HV_2 :=
+    "Unsupported KeyManagementStrategy."
+    + " For creating 'hierarchy-version-2' (HV-2) branch keys,"
+    + " only KeyManagementStrategy.AwsKmsSimple is supported."
+
+  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION :=
+    "Unsupported KeyManagementStrategy."
+    + " For versioning 'hierarchy-version-1' (HV-1) branch keys,"
+    + " only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsSimple are supported."
+
+  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION_HV_2 :=
+    "Unsupported KeyManagementStrategy."
+    + " For versioning 'hierarchy-version-2' (HV-2) branch keys,"
+    + " only KeyManagementStrategy.AwsKmsSimple is supported."
+
   const KMS_CONFIG_KMS_ARN_INVALID :=
     "Key Store's KMS Key ARN is invalid."
 

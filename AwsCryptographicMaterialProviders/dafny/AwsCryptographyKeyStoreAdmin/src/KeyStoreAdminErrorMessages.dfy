@@ -5,14 +5,20 @@ module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
   const UNSUPPORTED_DOWNGRADE_HV: string :=
     "At this time, a Mutation cannot change a Branch Key from `hiearchy-version-2` to `hiearchy-version-1`. The request attempted to change from `hiearchy-version-2` to `hiearchy-version-1` by setting 'TerminalHierarchyVersion := v1' when the Branch Key is already at `hiearchy-version-2`."
 
-  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY :=
+  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_DECRYPT_ENCRYPT_VERSION :=
+    "Unsupported KeyManagementStrategy."
+    + " For versioning branch keys,"
+    + " KeyManagementStrategy.AwsKmsDecryptEncrypt is not supported"
+
+  // TODO-HV-2-Strategy :: Support KmsSimple for HV-1 Mutations
+  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_MUTATIONS :=
     "Unsupported KeyManagementStrategy."
     + " Only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsDecryptEncrypt"
     + " is allowed when terminal hierarchical version is 1."
     + " Only KeyManagementStrategy.AwsKmsDecryptEncrypt and KeyManagementStrategy.kmsSimple is"
     + " allowed when terminal hierarchical version is 2."
 
-  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_HV_2: string :=
+  const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_MUTATIONS_HV_2: string :=
     "Only KeyManagementStrategy.AwsKmsDecryptEncrypt and KeyManagementStrategy.AwsKmsSimple is allowed when mutating to hv-2."
 
   const INVALID_COMMITMENT_UTF8 := "Mutation Commitment read from storage contains invalid UTF-8."

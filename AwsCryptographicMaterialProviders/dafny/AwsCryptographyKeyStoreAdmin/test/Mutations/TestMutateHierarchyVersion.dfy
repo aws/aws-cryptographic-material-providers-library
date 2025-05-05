@@ -55,8 +55,8 @@ module {:options "/functionSyntax:4" } TestMutateHierarchyVersion {
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.UnsupportedFeatureException?;
     // TODO-HV-2-M4: Support other key strategy as well.
-    expect initializeOutput.error.message == KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY,
-      "Incorrect error message. Should have had `" + KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY + "`";
+    expect initializeOutput.error.message == KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_MUTATIONS,
+      "Incorrect error message. Should have had `" + KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_MUTATIONS + "`";
   }
 
   method {:test} TestHV1toHV1HappyCaseReEncrypt() {

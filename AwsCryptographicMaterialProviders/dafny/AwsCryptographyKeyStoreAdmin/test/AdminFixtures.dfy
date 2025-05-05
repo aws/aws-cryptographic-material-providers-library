@@ -267,7 +267,6 @@ module {:options "/functionSyntax:4" } AdminFixtures {
                         TableName := physicalName))));
   }
 
-  // TODO-HV-2-Strategy: Support KmsSimple for creating both HV-1 & HV-2 BK's.
   method CreateHappyCaseId(
     nameonly id: string,
     nameonly kmsId: string := Fixtures.keyArn,
@@ -292,12 +291,7 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     }
     var strategy;
     if strategy?.None? {
-      // If no strategy is provided, set default based on hierarchy version
-      if hierarchyVersion.v1? {
-        strategy :- expect DefaultKeyManagerStrategy();
-      } else {
-        strategy :- expect SimpleKeyManagerStrategy();
-      }
+      strategy :- expect SimpleKeyManagerStrategy();
     } else {
       strategy := strategy?.value;
     }

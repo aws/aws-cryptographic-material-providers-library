@@ -9,6 +9,7 @@ include "CreateKeys.dfy"
 include "Structure.dfy"
 include "KeyStoreErrorMessages.dfy"
 include "KmsArn.dfy"
+include "KmsUtils.dfy"
 include "DefaultKeyStorageInterface.dfy"
 
 module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStoreOperations {
@@ -25,6 +26,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   import Time
   import Structure
   import ErrorMessages = KeyStoreErrorMessages
+  import KmsUtils
   import KmsArn
   import DefaultKeyStorageInterface
 
@@ -269,11 +271,12 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       && !KO.HasKeyId(config.kmsConfiguration)
       ==> output.Failure?
   {
-    :- Need(
-      KO.HasKeyId(config.kmsConfiguration),
-      Types.KeyStoreException(
-        message := ErrorMessages.DISCOVERY_VERSION_KEY_NOT_SUPPORTED
-      )
+    var keyManagerStrategy := KmsUtils.keyManagerStrat.kmsSimple(
+      kmsSimple := KmsUtils.KMSTuple(kmsClient := config.kmsClient, grantTokens := config.grantTokens)
+    );
+    var keyManagerAndStorage := KmsUtils.KeyManagerAndStorage(
+      storage := config.storage,
+      keyManagerStrat := keyManagerStrategy
     );
 
     SequenceIsSafeBecauseItIsInMemory(input.branchKeyIdentifier);
@@ -289,13 +292,9 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
 
     output := CreateKeys.VersionActiveBranchKey(
       input,
-      timestamp,
-      branchKeyVersion,
       config.logicalKeyStoreName,
       config.kmsConfiguration,
-      config.grantTokens,
-      config.kmsClient,
-      config.storage
+      keyManagerAndStorage
     );
   }
 
