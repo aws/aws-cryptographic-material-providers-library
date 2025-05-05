@@ -788,6 +788,11 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     var ActiveEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(newDecryptOnly.EncryptionContext);
 
     var newActive;
+    // TODO-HV-2-Mutate-Version: At present, Rotate when terminal hierarchy version is 2 is not yet fully supported.
+    :- Need(
+      localInput.mutationToApply.Terminal.hierarchyVersion.v1?,
+      Types.KeyStoreAdminException(message := "Rotation when terminal hierarchy version is 2 is not yet supported.")
+    );
     if (localInput.input.keyManagerStrategy.decryptEncrypt?) {
       newActive :- Mutations.NewActiveItemForDecryptEncrypt(
         item := newDecryptOnly,

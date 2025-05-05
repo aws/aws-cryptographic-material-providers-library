@@ -299,6 +299,8 @@ module {:options "/functionSyntax:4" } Mutations {
     }
   }
 
+  // TODO-HV-2-Mutate-Version: Can be removed in favor of Mutations.ReEncryptHierarchicalKey()
+  // or refactor Mutations.ReEncryptHierarchicalKey to use this Method.
   method {:isolate_asserations} NewActiveItemForDecryptEncrypt(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly terminalKmsArn: string,
@@ -375,6 +377,8 @@ module {:options "/functionSyntax:4" } Mutations {
     }
   }
 
+  // Re-encrypts branch key items when Terminal Hierarchy Version is 1.
+  // Does not support Terminal Hierarchy Version 2 operations.
   method {:isolate_assertions} ReEncryptHierarchicalKey(
     nameonly input: ReEncryptHierarchicalKeyInput,
     nameonly localOperation: string := "ApplyMutation",
