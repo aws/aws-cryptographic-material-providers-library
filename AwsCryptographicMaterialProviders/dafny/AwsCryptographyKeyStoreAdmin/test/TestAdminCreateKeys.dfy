@@ -492,7 +492,9 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     expect
       && hv2ReEncryptOutput.Failure?
       && hv2ReEncryptOutput.error.AwsCryptographyKeyStore?
-      && (hv2ReEncryptOutput.error.AwsCryptographyKeyStore.message == KeyStoreErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION_HV_2),
+      && hv2ReEncryptOutput.error.AwsCryptographyKeyStore
+         == KeyStoreTypes.Error.KeyStoreException(message
+                                                  := KeyStoreErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION_HV_2),
          "Branch Key Version should have failed while versioning with Unsupported KeyManagementStrategy";
 
     // Happy Cases
