@@ -3,7 +3,9 @@
 package software.amazon.cryptography.example.hierarchy;
 
 import javax.annotation.Nullable;
+import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
+import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 import software.amazon.cryptography.keystoreadmin.model.VersionKeyInput;
 
@@ -49,7 +51,14 @@ public class VersionKeyExample {
     // 1. Configure your Key Store Admin resource.
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
 
-    // 2. Version the Branch Key
+    // 2. Configure Key Management Strategy.
+    // KMS Simple is supported for both HV-1 and HV-2
+    final KeyManagementStrategy strategy = KeyManagementStrategy
+      .builder()
+      .AwsKmsSimple(AwsKms.builder().build())
+      .build();
+
+    // 3. Version the Branch Key
     _admin.VersionKey(
       VersionKeyInput
         .builder()
@@ -59,6 +68,7 @@ public class VersionKeyExample {
         .KmsArn(KmsSymmetricKeyArn.builder().KmsKeyArn(kmsKeyArn).build())
         // This the Identifier for the Branch Key that is being rotated/versioned.
         .Identifier(branchKeyId)
+        .Strategy(strategy)
         .build()
     );
 
