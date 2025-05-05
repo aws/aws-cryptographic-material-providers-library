@@ -275,7 +275,6 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
     var storage :- expect Fixtures.DefaultStorage(ddbClient?:=Some(ddbClient));
     var keyStore :- expect Fixtures.DefaultKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
     var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-    var versionStrategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
     var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
     var uuid :- expect UUID.GenerateUUID();
     var bkid := happyCaseIdHV2 + "-west-srk-" + uuid;
@@ -313,7 +312,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
         Identifier := bkid,
         KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(keyArn),
         // us-west-2 b/c CI region is us-west-2 and KMS Client is created
-        Strategy := Some(versionStrategy)
+        Strategy := Some(strategy)
       )
     );
 
@@ -490,11 +489,10 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
         Strategy := Some(reEncryptStrategy)
       )
     );
-    expect hv2ReEncryptOutput.Success?;
     expect
       && hv2ReEncryptOutput.Failure?
-      && hv2ReEncryptOutput.error.KeyStoreAdminException?
-      && (hv2ReEncryptOutput.error.message == KeyStoreErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION_HV_2),
+      && hv2ReEncryptOutput.error.AwsCryptographyKeyStore?
+      && (hv2ReEncryptOutput.error.AwsCryptographyKeyStore.message == KeyStoreErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION_HV_2),
          "Branch Key Version should have failed while versioning with Unsupported KeyManagementStrategy";
 
     // Happy Cases
