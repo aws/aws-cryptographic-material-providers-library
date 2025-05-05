@@ -34,7 +34,7 @@ module {:options "/functionSyntax:4" } TestHv2KmsExceptions {
 
     var bk := underTest.CreateKey(
       Types.CreateKeyInput(
-        KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(Fixtures.kmsKeyForHV1),
+        KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(Fixtures.kmsArnForHV1),
         Strategy := Some(strategy),
         HierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2)
       ));
@@ -65,7 +65,7 @@ module {:options "/functionSyntax:4" } TestHv2KmsExceptions {
     AdminFixtures.CreateHappyCaseId(id := testId, hierarchyVersion := KeyStoreTypes.HierarchyVersion.v2, strategy? := Some(strategy), admin? := Some(underTest));
 
     // Mutating HV2 Branch Key with a Kms Key with ReEncyrpt Only KMS Permissions
-    var mutationsRequest := Types.Mutations(TerminalKmsArn := Some(Fixtures.kmsKeyForHV1));
+    var mutationsRequest := Types.Mutations(TerminalKmsArn := Some(Fixtures.kmsArnForHV1));
 
     var initInput := Types.InitializeMutationInput(
       Identifier := testId,
