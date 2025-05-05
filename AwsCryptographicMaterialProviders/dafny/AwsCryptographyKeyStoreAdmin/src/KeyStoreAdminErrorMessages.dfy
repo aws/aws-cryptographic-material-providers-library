@@ -8,17 +8,17 @@ module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
   const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY :=
     "Unsupported KeyManagementStrategy."
     + " For creating 'hierarchy-version-1' (HV-1) branch keys,"
-    + " only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsSimple strategies are supported."
+    + " only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsSimple are supported."
 
   const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_HV_2 :=
     "Unsupported KeyManagementStrategy."
     + " For creating 'hierarchy-version-2' (HV-2) branch keys,"
-    + " only KeyManagementStrategy.AwsKmsSimple strategy is supported."
+    + " only KeyManagementStrategy.AwsKmsSimple is supported."
 
   const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION :=
     "Unsupported KeyManagementStrategy."
     + " For versioning branch keys,"
-    + " only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsSimple strategies are supported."
+    + " only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsSimple are supported."
 
   const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_MUTATIONS :=
     "Unsupported KeyManagementStrategy."
