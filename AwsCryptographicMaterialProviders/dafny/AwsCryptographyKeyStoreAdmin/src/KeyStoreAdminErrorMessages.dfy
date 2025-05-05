@@ -3,7 +3,7 @@
 
 module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
   const UNSUPPORTED_DOWNGRADE_HV: string :=
-    "At this time, a Mutation cannot change a Branch Key from HV-2 to HV-1. The request attempted to change from HV-2 to HV-1 by setting 'TerminalHierarchyVersion := v1' when the Branch Key is already at HV-1."
+    "At this time, a Mutation cannot change a Branch Key from `hiearchy-version-2` to `hiearchy-version-1`. The request attempted to change from `hiearchy-version-2` to `hiearchy-version-1` by setting 'TerminalHierarchyVersion := v1' when the Branch Key is already at `hiearchy-version-2`."
 
   const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY :=
     "Unsupported KeyManagementStrategy."
