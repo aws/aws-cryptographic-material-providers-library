@@ -56,34 +56,6 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
     expect initializeOutput.error == Types.Error.UnsupportedFeatureException(message:=KeyStoreAdminErrorMessages.UNSUPPORTED_DOWNGRADE_HV);
   }
 
-  // TODO-HV-2-M2 : Probably make this a happy test?
-  const testMutateForHV1WithAwsKmsSimpleFailsCaseId := "dafny-initialize-mutation-hv-1-simpleKms-rejection"
-  method {:test} TestMutateForHV1WithAwsKmsSimpleFails()
-  {
-    var uuid :- expect UUID.GenerateUUID();
-    var testId := testMutateForHV1WithAwsKmsSimpleFailsCaseId + "-" + uuid;
-    var ddbClient :- expect Fixtures.ProvideDDBClient();
-    var kmsClient :- expect Fixtures.ProvideKMSClient();
-    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-    var simpleStrategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-    var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
-    Fixtures.CreateHappyCaseId(id:=testId);
-
-    var mutationsRequest := Types.Mutations(
-      TerminalKmsArn := Some(Fixtures.postalHornKeyArn),
-      TerminalHierarchyVersion := Some(KeyStoreTypes.v1)
-    );
-    var initInput := Types.InitializeMutationInput(
-      Identifier := testId,
-      Mutations := mutationsRequest,
-      Strategy := Some(simpleStrategy),
-      SystemKey := systemKey,
-      DoNotVersion := Some(true));
-    var initializeOutput := underTest.InitializeMutation(initInput);
-    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
-    expect initializeOutput.Failure?, "Should have failed to InitializeMutation for HV-1 with Simple.";
-  }
-
   // TODO-HV-2-M3 : Probably make this a happy test?
   const testMutateInitEncountersHV2FailsCaseId := "dafny-initialize-mutation-encounters-hv-2-rejection"
   const logPrefix := "\n" + testMutateInitEncountersHV2FailsCaseId + " :: "

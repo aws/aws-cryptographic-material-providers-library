@@ -150,7 +150,22 @@ module {:options "/functionSyntax:4" } Mutations {
         } else {
           throwAwayError := throwAway?.error;
         }
+      case kmsSimple(kms) =>
+        kmsOperation := "ReEncrypt";
+        var throwAway? := KMSKeystoreOperations.ReEncryptKey(
+          ciphertext := item.CiphertextBlob,
+          sourceEncryptionContext := item.EncryptionContext,
+          destinationEncryptionContext := item.EncryptionContext,
+          kmsConfiguration := KeyStoreTypes.kmsKeyArn(item.KmsArn),
+          grantTokens := kms.grantTokens,
+          kmsClient := kms.kmsClient
+        );
 
+        if throwAway?.Success? {
+          success? := true;
+        } else {
+          throwAwayError := throwAway?.error;
+        }
       case decryptEncrypt(kmsD, kmsE) =>
         kmsOperation := "Decrypt/Encrypt";
         var decryptKmsClient;
@@ -388,6 +403,17 @@ module {:options "/functionSyntax:4" } Mutations {
           grantTokens := kms.grantTokens,
           kmsClient := kms.kmsClient
         );
+      case kmsSimple(kms) =>
+        kmsOperation := "ReEncrypt";
+        wrappedKey? := KMSKeystoreOperations.MutateViaReEncrypt(
+          ciphertext := input.item.CiphertextBlob,
+          sourceEncryptionContext := input.item.EncryptionContext,
+          destinationEncryptionContext := input.terminalEncryptionContext,
+          sourceKmsArn := input.originalKmsArn,
+          destinationKmsArn := input.terminalKmsArn,
+          grantTokens := kms.grantTokens,
+          kmsClient := kms.kmsClient
+        );
       case decryptEncrypt(kmsD, kmsE) =>
         var decryptedKey? := KMSKeystoreOperations.DecryptKeyForHv1(
           encryptedKey := input.item,
@@ -412,11 +438,6 @@ module {:options "/functionSyntax:4" } Mutations {
           grantTokens := kmsE.grantTokens,
           kmsClient := kmsE.kmsClient
         );
-      case kmsSimple(_) =>
-        // TODO-HV-2-M2: Implement KMS simple
-        return Failure(Types.UnsupportedFeatureException(
-                         message := "kmsSimple here is in TODO."
-                       ));
     }
     assert kmsOperation == "ReEncrypt" || kmsOperation == "Encrypt";
     // We call this method to create the new Active from the new Decrypt Only

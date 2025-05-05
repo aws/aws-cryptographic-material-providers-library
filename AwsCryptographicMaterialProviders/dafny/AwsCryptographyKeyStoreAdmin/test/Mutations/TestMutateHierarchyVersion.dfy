@@ -68,6 +68,15 @@ module {:options "/functionSyntax:4" } TestMutateHierarchyVersion {
     TestHV1toHV1HappyCase(strategy, ddbClient, kmsClient);
   }
 
+  method {:test} TestHV1toHV1HappyCaseKmsSimple() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(
+      kmsClient?:=Some(kmsClient)
+    );
+    TestHV1toHV1HappyCase(strategy, ddbClient, kmsClient);
+  }
+
   method {:test} TestHV1toHV1HappyCaseDecryptEncrypt() {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
