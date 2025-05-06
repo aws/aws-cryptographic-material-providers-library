@@ -344,7 +344,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     );
     // TODO-HV-2-Mutate-Version: At present, Rotate when terminal hierarchy version is 2 is not yet fully supported.
     :- Need(
-      MutationToApply.Terminal.hierarchyVersion.v1?,
+      (!input.DoNotVersion) ==> MutationToApply.Terminal.hierarchyVersion.v1?,
       Types.KeyStoreAdminException(message := "Rotation when terminal hierarchy version is 2 is not yet supported.")
     );
     assert MutationToApply.Original.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
