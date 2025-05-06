@@ -19,12 +19,12 @@ module {:options "-functionSyntax:4"} {:extern "HMAC"} HMAC {
     ghost function {:extern} GetDigest(): Types.DigestAlgorithm reads this
     ghost function {:extern} GetInputSoFar(): seq<uint8> reads this
 
-    // A build method is used insted of a constructor
+    // A build method is used instead of a constructor
     // because in Java creating a `Mac` object
     // can throw because the Java function takes a string.
     // Dafny constructors MUST succeed so this mismatch
     // make a static Build method required.
-    static method {:extern} Build(digest: Types.DigestAlgorithm)
+    static method {:extern} {:axiom} Build(digest: Types.DigestAlgorithm)
       returns (output: Result<HMac, Types.Error>)
       ensures output.Success?
               ==>
@@ -32,14 +32,14 @@ module {:options "-functionSyntax:4"} {:extern "HMAC"} HMAC {
                 && output.value.GetInputSoFar() == []
                 && fresh(output.value)
 
-    method {:extern "Init"} Init(key: seq<uint8>)
+    method {:extern "Init"} {:axiom} Init(key: seq<uint8>)
       requires 0 < |key|
       modifies this
       ensures this.GetKey() == key
       ensures this.GetDigest() == old(this.GetDigest())
       ensures this.GetInputSoFar() == []
 
-    method {:extern "BlockUpdate"} Update(input: seq<uint8>)
+    method {:extern "BlockUpdate"} {:axiom} Update(input: seq<uint8>)
       requires |this.GetKey()| > 0
       requires |input| < INT32_MAX_LIMIT
       modifies this
@@ -47,10 +47,10 @@ module {:options "-functionSyntax:4"} {:extern "HMAC"} HMAC {
       ensures this.GetDigest() == old(this.GetDigest())
       ensures this.GetKey() == old(this.GetKey())
 
-    method {:extern "GetResult"} GetResult() returns (s: seq<uint8>)
+    method {:extern "GetResult"} {:axiom} GetResult() returns (s: seq<uint8>)
       requires |this.GetKey()| > 0
       modifies this
-      ensures |s| == HashDigest.Length(this.GetDigest())
+      ensures |s| == HashDigest.Length(this.GetDigest()) as nat
       ensures this.GetInputSoFar() == []
       ensures this.GetDigest() == old(this.GetDigest())
       ensures this.GetKey() == old(this.GetKey())
@@ -67,10 +67,10 @@ module {:options "-functionSyntax:4"} {:extern "HMAC"} HMAC {
   }
 
   // HMAC Digest is safe to make a Dafny function
-  // because HMAC MUST return exactly the same otupt for the same input
-  function {:extern "Digest"} Digest(input: Types.HMacInput)
+  // because HMAC MUST return exactly the same output for the same input
+  function {:extern "Digest"} {:axiom} Digest(input: Types.HMacInput)
     : ( output: Result<seq<uint8>, Types.Error> )
-    ensures output.Success? ==> |output.value| == HashDigest.Length(input.digestAlgorithm)
+    ensures output.Success? ==> |output.value| == HashDigest.Length(input.digestAlgorithm) as nat
 
   // The following functions are for the benefit of the extern implementation to call,
   // avoiding direct references to generic datatype constructors

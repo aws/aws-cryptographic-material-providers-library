@@ -66,7 +66,7 @@ module TestAwsCryptographyPrimitivesDigest {
     );
 
     var output :- expect client.Digest(input);
-    expect |output| == Digest.Length(digestAlgorithm);
+    expect |output| == Digest.Length(digestAlgorithm) as nat;
     expect output == expectedDigest;
   }
 }

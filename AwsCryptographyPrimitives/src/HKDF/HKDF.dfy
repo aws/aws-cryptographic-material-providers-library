@@ -12,6 +12,7 @@ module HKDF {
   import opened HMAC
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import Types = AwsCryptographyPrimitivesTypes
   import Digest
 
@@ -46,7 +47,7 @@ module HKDF {
     requires |salt| != 0
     requires |ikm| < INT32_MAX_LIMIT
     modifies hmac
-    ensures Digest.Length(hmac.GetDigest()) == |prk|
+    ensures Digest.Length(hmac.GetDigest()) as nat == |prk|
     ensures hmac.GetKey() == salt
     ensures hmac.GetDigest() == digest
   {
@@ -77,7 +78,7 @@ module HKDF {
 
   //  (where the constant concatenated to the end of each T(n) is a
   //  single octet.)
-  predicate T(hmac: HMac, info: seq<uint8>, n: nat, res: seq<uint8>)
+  predicate T(hmac: HMac, info: seq<uint8>, n: uint64, res: seq<uint8>)
     requires 0 <= n < 256
     decreases n
   {
@@ -88,18 +89,18 @@ module HKDF {
       exists prev1, prev2 :: T(hmac, info, nMinusOne, prev1) && Ti(hmac, info, n, prev2) && prev1 + prev2 == res
   }
 
-  predicate Ti(hmac: HMac, info: seq<uint8>, n: nat, res: seq<uint8>)
+  predicate Ti(hmac: HMac, info: seq<uint8>, n: uint64, res: seq<uint8>)
     requires 0 <= n < 256
     decreases n, 1
   {
     if n == 0 then
       res == []
     else
-      exists prev :: PreTi(hmac, info, n, prev) &&  hmac.HashSignature(prev, res)
+      exists prev :: PreTi(hmac, info, n, prev) && hmac.HashSignature(prev, res)
   }
 
   // return T (i)
-  predicate PreTi(hmac: HMac, info: seq<uint8>, n: nat, res: seq<uint8>)
+  predicate PreTi(hmac: HMac, info: seq<uint8>, n: uint64, res: seq<uint8>)
     requires 1 <= n < 256
     decreases n, 0
   {
@@ -129,24 +130,24 @@ module HKDF {
     hmac: HMac,
     prk: seq<uint8>,
     info: seq<uint8>,
-    expectedLength: int,
+    expectedLength: uint64,
     digest: Types.DigestAlgorithm
   ) returns (
       okm: seq<uint8>,
       ghost okmUnabridged: seq<uint8>
     )
     requires hmac.GetDigest() == digest
-    requires 1 <= expectedLength <= 255 * Digest.Length(hmac.GetDigest())
+    requires 1 <= expectedLength as uint64 <= 255 * Digest.Length(hmac.GetDigest())
     requires |info| < INT32_MAX_LIMIT
-    requires Digest.Length(hmac.GetDigest()) == |prk|
+    requires Digest.Length(hmac.GetDigest()) as nat == |prk|
     modifies hmac
-    ensures |okm| == expectedLength
+    ensures |okm| == expectedLength as nat
     ensures hmac.GetKey() == prk
     ensures hmac.GetDigest() == digest
     ensures var n := (Digest.Length(digest) + expectedLength - 1) / Digest.Length(digest);
             && T(hmac, info, n, okmUnabridged)
-            && (|okmUnabridged| <= expectedLength ==> okm == okmUnabridged)
-            && (expectedLength < |okmUnabridged| ==> okm == okmUnabridged[..expectedLength])
+            && (|okmUnabridged| <= expectedLength as nat ==> okm == okmUnabridged)
+            && (expectedLength as nat < |okmUnabridged| ==> okm == okmUnabridged[..expectedLength])
   {
     // N = ceil(L / Hash Length)
     var hashLength := Digest.Length(digest);
@@ -165,9 +166,9 @@ module HKDF {
     var i := 1;
     while i <= n
       invariant 1 <= i <= n + 1
-      invariant |t_prev| == if i == 1 then 0 else hashLength
-      invariant hashLength == |prk|
-      invariant |t_n| == (i - 1) * hashLength
+      invariant |t_prev| == if i == 1 then 0 else hashLength as nat
+      invariant hashLength as nat == |prk|
+      invariant |t_n| == (i - 1) as nat * hashLength as nat
       invariant hmac.GetKey() == prk
       invariant hmac.GetDigest() == digest
       invariant hmac.GetInputSoFar() == []
@@ -195,7 +196,8 @@ module HKDF {
     okmUnabridged := okm;
     assert T(hmac, info, n, okmUnabridged);
 
-    if expectedLength < |okm| {
+    SequenceIsSafeBecauseItIsInMemory(okm);
+    if expectedLength < |okm| as uint64 {
       okm := okm[..expectedLength];
     }
   }
@@ -208,13 +210,13 @@ module HKDF {
     salt: Option<seq<uint8>>,
     ikm: seq<uint8>,
     info: seq<uint8>,
-    L: int
+    L: uint64
   ) returns (okm: seq<uint8>)
-    requires 0 <= L <= 255 * Digest.Length(digest)
+    requires 0 <= L as nat <= 255 * Digest.Length(digest) as nat
     requires salt.None? || |salt.value| != 0
     requires |info| < INT32_MAX_LIMIT
     requires |ikm| < INT32_MAX_LIMIT
-    ensures |okm| == L
+    ensures |okm| == L as nat
   {
     if L == 0 {
       return [];

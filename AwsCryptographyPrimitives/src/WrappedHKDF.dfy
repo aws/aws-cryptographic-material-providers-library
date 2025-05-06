@@ -12,6 +12,7 @@ include "../Model/AwsCryptographyPrimitivesTypes.dfy"
 module WrappedHKDF {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import StandardLibrary
   import Types = AwsCryptographyPrimitivesTypes
   import HMAC
@@ -21,10 +22,11 @@ module WrappedHKDF {
   method Extract(input: Types.HkdfExtractInput)
     returns (output: Result<seq<uint8>, Types.Error>)
   {
-
+    SequenceIsSafeBecauseItIsInMemory(input.ikm);
+    OptionalSequenceIsSafeBecauseItIsInMemory(input.salt);
     :- Need(
-      && (input.salt.None? || |input.salt.value| != 0)
-      && |input.ikm| < INT32_MAX_LIMIT,
+      && (input.salt.None? || |input.salt.value| as uint64 != 0)
+      && |input.ikm| as uint64 < INT32_MAX_LIMIT as uint64,
       Types.AwsCryptographicPrimitivesError(message := "HKDF Extract needs a salt and reasonable ikm.")
     );
 
@@ -45,11 +47,12 @@ module WrappedHKDF {
     returns (output: Result<seq<uint8>, Types.Error>)
     ensures output.Success? ==> |output.value| == input.expectedLength as nat
   {
-
+    SequenceIsSafeBecauseItIsInMemory(input.info);
+    SequenceIsSafeBecauseItIsInMemory(input.prk);
     :- Need(
-      && 1 <= input.expectedLength as int <= 255 * Digest.Length(input.digestAlgorithm)
-      && |input.info| < INT32_MAX_LIMIT
-      && Digest.Length(input.digestAlgorithm) == |input.prk|,
+      && 1 <= input.expectedLength as uint64 <= 255 * Digest.Length(input.digestAlgorithm) as uint64
+      && |input.info| as uint64 < INT32_MAX_LIMIT as uint64
+      && Digest.Length(input.digestAlgorithm) as uint64 == |input.prk| as uint64,
       Types.AwsCryptographicPrimitivesError(message := "HKDF Expand needs valid input.")
     );
     var HkdfExpandInput(digestAlgorithm, prk, info, expectedLength) := input;
@@ -59,7 +62,7 @@ module WrappedHKDF {
       hmac,
       prk,
       info,
-      expectedLength as int,
+      expectedLength as uint64,
       digestAlgorithm
     );
 
@@ -73,12 +76,14 @@ module WrappedHKDF {
     returns (output: Result<seq<uint8>, Types.Error>)
     ensures output.Success? ==> |output.value| == input.expectedLength as nat
   {
-
+    SequenceIsSafeBecauseItIsInMemory(input.ikm);
+    SequenceIsSafeBecauseItIsInMemory(input.info);
+    OptionalSequenceIsSafeBecauseItIsInMemory(input.salt);
     :- Need(
-      && 1 <= input.expectedLength as int <= 255 * Digest.Length(input.digestAlgorithm)
-      && (input.salt.None? || |input.salt.value| != 0)
-      && |input.info| < INT32_MAX_LIMIT
-      && |input.ikm| < INT32_MAX_LIMIT,
+      && 1 <= input.expectedLength as uint64 <= 255 * Digest.Length(input.digestAlgorithm) as uint64
+      && (input.salt.None? || |input.salt.value| as uint64 != 0)
+      && |input.info| as uint64 < INT32_MAX_LIMIT as uint64
+      && |input.ikm| as uint64 < INT32_MAX_LIMIT as uint64,
       Types.AwsCryptographicPrimitivesError(message := "Wrapped Hkdf input is invalid.")
     );
     var HkdfInput(digest, salt, ikm, info, expectedLength) := input;
@@ -88,7 +93,7 @@ module WrappedHKDF {
       salt,
       ikm,
       info,
-      expectedLength as int
+      expectedLength as uint64
     );
 
     return Success(okm);

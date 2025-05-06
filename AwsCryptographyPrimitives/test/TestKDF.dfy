@@ -23,8 +23,8 @@ module TestKDF {
       && |ikm| >= 32
       && L > 0
       && 4 + |info| < INT32_MAX_LIMIT
-      && L as int + Digest.Length(AtomicPrimitives.Types.DigestAlgorithm.SHA_256) < INT32_MAX_LIMIT - 1
-      && L as int + Digest.Length(AtomicPrimitives.Types.DigestAlgorithm.SHA_384) < INT32_MAX_LIMIT - 1
+      && L as int + Digest.Length(AtomicPrimitives.Types.DigestAlgorithm.SHA_256) as nat < INT32_MAX_LIMIT - 1
+      && L as int + Digest.Length(AtomicPrimitives.Types.DigestAlgorithm.SHA_384) as nat < INT32_MAX_LIMIT - 1
       && (digestAlgorithm == AtomicPrimitives.Types.DigestAlgorithm.SHA_256
           || digestAlgorithm == AtomicPrimitives.Types.DigestAlgorithm.SHA_384)
   {

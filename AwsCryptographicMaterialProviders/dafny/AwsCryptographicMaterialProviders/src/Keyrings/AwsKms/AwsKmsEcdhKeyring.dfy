@@ -19,6 +19,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened AwsArnParsing
   import opened AwsKmsUtils
   import opened Seq
@@ -354,7 +355,8 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       //# For the encrypted data key to match:
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      if (0 == |edksToAttempt|) {
+      SequenceIsSafeBecauseItIsInMemory(edksToAttempt);
+      if (0 == |edksToAttempt| as uint64) {
         var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(E(errorMessage));
       }
@@ -555,13 +557,14 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
 
       var providerWrappedMaterial :- EdkWrapping.GetProviderWrappedMaterial(ciphertext, suite);
 
+      SequenceIsSafeBecauseItIsInMemory(providerInfo);
       :- Need(
-        && |providerInfo| <= ECDH_PROVIDER_INFO_521_LEN as int
+        && |providerInfo| as uint64 <= ECDH_PROVIDER_INFO_521_LEN as uint64
         && RawECDHKeyring.ValidProviderInfoLength(providerInfo),
         E("EDK ProviderInfo longer than expected")
       );
 
-      var keyringVersion := providerInfo[0];
+      var keyringVersion := providerInfo[0 as uint32];
       :- Need(
         [keyringVersion] == AWS_KMS_ECDH_KEYRING_VERSION,
         E("Incorrect Keyring version found in provider info.")
@@ -569,11 +572,12 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-ecdh-keyring.md#ondecrypt
       //# - The [ciphertext](#ciphertext) and [key provider information](#key-provider-information) MUST be successfully deserialized.
-      var recipientPublicKeyLength := SeqToUInt32(providerInfo[ECDH_PROVIDER_INFO_RPL_INDEX..ECDH_PROVIDER_INFO_RPK_INDEX]) as int;
-      var recipientPublicKeyLengthIndex := ECDH_PROVIDER_INFO_RPK_INDEX as int + recipientPublicKeyLength;
-      var senderPublicKeyIndex := recipientPublicKeyLengthIndex + ECDH_PROVIDER_INFO_PUBLIC_KEY_LEN as int;
+      var recipientPublicKeyLength := SeqToUInt32(providerInfo[ECDH_PROVIDER_INFO_RPL_INDEX..ECDH_PROVIDER_INFO_RPK_INDEX]);
+      var recipientPublicKeyLengthIndex := ECDH_PROVIDER_INFO_RPK_INDEX as uint64 + recipientPublicKeyLength as uint64;
+      var senderPublicKeyIndex := recipientPublicKeyLengthIndex + ECDH_PROVIDER_INFO_PUBLIC_KEY_LEN;
+      SequenceIsSafeBecauseItIsInMemory(providerInfo);
       :- Need(
-        recipientPublicKeyLengthIndex + 4 < |providerInfo|,
+        recipientPublicKeyLengthIndex + 4 < |providerInfo| as uint64,
         E("Key Provider Info Serialization Error. Serialized length less than expected.")
       );
       var providerInfoRecipientPublicKey := providerInfo[ECDH_PROVIDER_INFO_RPK_INDEX..recipientPublicKeyLengthIndex];
@@ -701,24 +705,24 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       if ((providerId != RAW_ECDH_PROVIDER_ID) && (providerId != KMS_ECDH_PROVIDER_ID)) {
         return Success(false);
       }
-
+      SequenceIsSafeBecauseItIsInMemory(providerInfo);
       :- Need(
-        && |providerInfo| <= ECDH_PROVIDER_INFO_521_LEN as int
+        && |providerInfo| as uint64 <= ECDH_PROVIDER_INFO_521_LEN as uint64
         && RawECDHKeyring.ValidProviderInfoLength(providerInfo),
         E("EDK ProviderInfo longer than expected")
       );
 
-      var keyringVersion := providerInfo[0];
+      var keyringVersion := providerInfo[0 as uint32];
       :- Need(
         [keyringVersion] == AWS_KMS_ECDH_KEYRING_VERSION,
         E("Incorrect Keyring version found in provider info.")
       );
 
-      var recipientPublicKeyLength := SeqToUInt32(providerInfo[ECDH_PROVIDER_INFO_RPL_INDEX..ECDH_PROVIDER_INFO_RPK_INDEX]) as int;
-      var recipientPublicKeyLengthIndex := ECDH_PROVIDER_INFO_RPK_INDEX as int + recipientPublicKeyLength;
-      var senderPublicKeyIndex := recipientPublicKeyLengthIndex + ECDH_PROVIDER_INFO_PUBLIC_KEY_LEN as int;
+      var recipientPublicKeyLength := SeqToUInt32(providerInfo[ECDH_PROVIDER_INFO_RPL_INDEX..ECDH_PROVIDER_INFO_RPK_INDEX]);
+      var recipientPublicKeyLengthIndex := ECDH_PROVIDER_INFO_RPK_INDEX as uint64 + recipientPublicKeyLength as uint64;
+      var senderPublicKeyIndex := recipientPublicKeyLengthIndex + ECDH_PROVIDER_INFO_PUBLIC_KEY_LEN;
       :- Need(
-        recipientPublicKeyLengthIndex + 4 < |providerInfo|,
+        recipientPublicKeyLengthIndex + 4 < |providerInfo| as uint64,
         E("Key Provider Info Serialization Error. Serialized length less than expected.")
       );
       var providerInfoRecipientPublicKey := providerInfo[ECDH_PROVIDER_INFO_RPK_INDEX..recipientPublicKeyLengthIndex];
