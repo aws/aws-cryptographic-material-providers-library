@@ -342,7 +342,11 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
           KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_MUTATIONS
       )
     );
-
+    // TODO-HV-2-Mutate-Version: At present, Rotate when terminal hierarchy version is 2 is not yet fully supported.
+    :- Need(
+      MutationToApply.Terminal.hierarchyVersion.v1?,
+      Types.KeyStoreAdminException(message := "Rotation when terminal hierarchy version is 2 is not yet supported.")
+    );
     assert MutationToApply.Original.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     assert MutationToApply.Terminal.customEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES;
     assert MutationToApply.ValidState();
@@ -788,11 +792,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     var ActiveEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(newDecryptOnly.EncryptionContext);
 
     var newActive;
-    // TODO-HV-2-Mutate-Version: At present, Rotate when terminal hierarchy version is 2 is not yet fully supported.
-    :- Need(
-      localInput.mutationToApply.Terminal.hierarchyVersion.v1?,
-      Types.KeyStoreAdminException(message := "Rotation when terminal hierarchy version is 2 is not yet supported.")
-    );
     if (localInput.input.keyManagerStrategy.decryptEncrypt?) {
       newActive :- Mutations.NewActiveItemForDecryptEncrypt(
         item := newDecryptOnly,
