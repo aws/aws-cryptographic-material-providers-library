@@ -325,7 +325,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && var kmsClient := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
               && var storage := keyManagerAndStorage.storage;
               && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
-              // The second call is for the beacon key, the first is the decrypt only.
+                 // The second call is for the beacon key, the first is the decrypt only.
               && |kmsClient.History.GenerateDataKey| == |old(kmsClient.History.GenerateDataKey)| + 2
                  // Three calls are made. The decryptOnly, the active, and the beacon key.
               && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
