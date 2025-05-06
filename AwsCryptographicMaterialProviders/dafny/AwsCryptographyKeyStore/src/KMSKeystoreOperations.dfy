@@ -532,6 +532,8 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     return Success(decryptResponse);
   }
 
+  // TODO-HV-2-Mutate-Version: Can be removed in favor of Mutations.ReEncryptHierarchicalKey()
+  // or refactor Mutations.ReEncryptHierarchicalKey to use this Method.
   method MutateViaDecryptEncryptOnInitializeMutation(
     ciphertext: seq<uint8>,
     sourceEncryptionContext: Structure.BranchKeyContext,

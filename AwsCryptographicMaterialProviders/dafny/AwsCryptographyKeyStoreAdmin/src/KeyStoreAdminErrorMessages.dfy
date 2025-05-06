@@ -10,12 +10,11 @@ module {:options "/functionSyntax:4" } KeyStoreAdminErrorMessages {
     + " For versioning branch keys,"
     + " KeyManagementStrategy.AwsKmsDecryptEncrypt is not supported"
 
-  // TODO-HV-2-Strategy :: Support KmsSimple for HV-1 Mutations
   const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_MUTATIONS :=
     "Unsupported KeyManagementStrategy."
-    + " Only KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsDecryptEncrypt"
-    + " is allowed when terminal hierarchical version is 1."
-    + " Only KeyManagementStrategy.AwsKmsDecryptEncrypt and KeyManagementStrategy.kmsSimple is"
+    + " KeyManagementStrategy.AwsKmsSimple, KeyManagementStrategy.AwsKmsReEncrypt and KeyManagementStrategy.AwsKmsDecryptEncrypt"
+    + " are allowed when terminal hierarchical version is 1."
+    + " Only KeyManagementStrategy.AwsKmsDecryptEncrypt and KeyManagementStrategy.AwsKmsSimple is"
     + " allowed when terminal hierarchical version is 2."
 
   const UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_MUTATIONS_HV_2: string :=

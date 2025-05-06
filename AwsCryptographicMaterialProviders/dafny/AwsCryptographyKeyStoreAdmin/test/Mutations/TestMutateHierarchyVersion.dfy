@@ -59,27 +59,70 @@ module {:options "/functionSyntax:4" } TestMutateHierarchyVersion {
       "Incorrect error message. Should have had `" + KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_MUTATIONS + "`";
   }
 
-  method {:test} TestHV1toHV1HappyCaseReEncrypt() {
+  method {:test} TestHV1toHV1HappyCaseReEncryptMutate() {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(
       kmsClient?:=Some(kmsClient)
     );
-    TestHV1toHV1HappyCase(strategy, ddbClient, kmsClient);
+    var doNotVersionOnMutate := true;
+    TestHV1toHV1HappyCase(strategy, ddbClient, kmsClient, doNotVersionOnMutate);
   }
 
-  method {:test} TestHV1toHV1HappyCaseDecryptEncrypt() {
+  method {:test} TestHV1toHV1HappyCaseKmsSimpleMutate() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(
+      kmsClient?:=Some(kmsClient)
+    );
+    var doNotVersionOnMutate := true;
+    TestHV1toHV1HappyCase(strategy, ddbClient, kmsClient, doNotVersionOnMutate);
+  }
+
+  method {:test} TestHV1toHV1HappyCaseDecryptEncryptMutate() {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
     var strategy :- expect AdminFixtures.DecryptEncrypKeyManagerStrategy(
       decryptKmsClient?:=Some(kmsClient),
       encryptKmsClient?:=Some(kmsClient)
     );
-    TestHV1toHV1HappyCase(strategy, ddbClient, kmsClient);
+    var doNotVersionOnMutate := true;
+    TestHV1toHV1HappyCase(strategy, ddbClient, kmsClient, doNotVersionOnMutate);
+  }
+
+  method {:test} TestHV1toHV1HappyCaseReEncryptRotate() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(
+      kmsClient?:=Some(kmsClient)
+    );
+    var doNotVersionOnMutate := false;
+    TestHV1toHV1HappyCase(strategy, ddbClient, kmsClient, doNotVersionOnMutate);
+  }
+
+  method {:test} TestHV1toHV1HappyCaseKmsSimpleRotate() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy(
+      kmsClient?:=Some(kmsClient)
+    );
+    var doNotVersionOnMutate := false;
+    TestHV1toHV1HappyCase(strategy, ddbClient, kmsClient, doNotVersionOnMutate);
+  }
+
+  method {:test} TestHV1toHV1HappyCaseDecryptEncryptRotate() {
+    var ddbClient :- expect Fixtures.ProvideDDBClient();
+    var kmsClient :- expect Fixtures.ProvideKMSClient();
+    var strategy :- expect AdminFixtures.DecryptEncrypKeyManagerStrategy(
+      decryptKmsClient?:=Some(kmsClient),
+      encryptKmsClient?:=Some(kmsClient)
+    );
+    var doNotVersionOnMutate := false;
+    TestHV1toHV1HappyCase(strategy, ddbClient, kmsClient, doNotVersionOnMutate);
   }
 
   const happyCaseIdHV1toHV1 := "test-mutate-hv1-to-hv1"
-  method TestHV1toHV1HappyCase(strategy: Types.KeyManagementStrategy, ddbClient: DDB.Types.IDynamoDBClient, kmsClient: KMS.Types.IKMSClient)
+  method TestHV1toHV1HappyCase(strategy: Types.KeyManagementStrategy, ddbClient: DDB.Types.IDynamoDBClient, kmsClient: KMS.Types.IKMSClient, doNotVersionOnMutate : bool)
     requires ddbClient.ValidState() && kmsClient.ValidState()
     modifies ddbClient.Modifies, kmsClient.Modifies
   {
@@ -103,7 +146,7 @@ module {:options "/functionSyntax:4" } TestMutateHierarchyVersion {
       mutationsRequest := mutationsRequestChangeHVAndEC,
       versionCount := 1,
       initialHV := KeyStoreTypes.HierarchyVersion.v1,
-      doNotVersion := true
+      doNotVersion := doNotVersionOnMutate
     );
 
     // Test HV2 mutating for kmsArn
@@ -126,7 +169,7 @@ module {:options "/functionSyntax:4" } TestMutateHierarchyVersion {
       mutationsRequest := mutationsRequestChangeHVAndKmsArn,
       versionCount := 1,
       initialHV := KeyStoreTypes.HierarchyVersion.v1,
-      doNotVersion := true
+      doNotVersion := doNotVersionOnMutate
     );
 
     // Test HV2 mutating for EC and kmsArn
@@ -150,7 +193,7 @@ module {:options "/functionSyntax:4" } TestMutateHierarchyVersion {
       mutationsRequest := mutationsRequestChangeHVKmsArnAndEC,
       versionCount := 1,
       initialHV := KeyStoreTypes.HierarchyVersion.v1,
-      doNotVersion := true
+      doNotVersion := doNotVersionOnMutate
     );
   }
 
