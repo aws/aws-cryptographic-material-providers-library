@@ -84,6 +84,87 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyIdentifier, ddbClient:=ddbClient);
   }
 
+  method MutationRecoveryTest(
+    ddbClient: DDB.Types.IDynamoDBClient,
+    storage: KeyStoreTypes.IKeyStorageInterface,
+    keyStoreAdminUnderTest: Types.IKeyStoreAdminClient,
+    strategy: Types.KeyManagementStrategy,
+    keyStoreTerminal: KeyStoreTypes.IKeyStoreClient,
+    branchKeyIdentifier: string,
+    mutationsRequest: Types.Mutations,
+    versionCount: int,
+    initialHV: KeyStoreTypes.HierarchyVersion,
+    doNotVersion: bool
+  )
+    requires ddbClient.ValidState()
+    requires storage.ValidState()
+    requires keyStoreAdminUnderTest.ValidState()
+    requires keyStoreTerminal.ValidState()
+    requires 0 <= versionCount <= 5
+    modifies ddbClient.Modifies
+    modifies storage.Modifies
+    modifies keyStoreAdminUnderTest.Modifies
+    modifies keyStoreTerminal.Modifies
+  {
+    // Create Branch Key with initial HierarchyVersion
+    AdminFixtures.CreateHappyCaseId(
+      id := branchKeyIdentifier,
+      versionCount := versionCount,
+      hierarchyVersion := initialHV
+    );
+
+    // Step 1: Initialize Mutation
+    var initInput := Types.InitializeMutationInput(
+      Identifier := branchKeyIdentifier,
+      Mutations := mutationsRequest,
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
+      DoNotVersion := Some(doNotVersion));
+    var initializeOutput :- expect keyStoreAdminUnderTest.InitializeMutation(initInput);
+
+    // Step 2: Apply first mutation with small page size
+    var applyInput := Types.ApplyMutationInput(
+      MutationToken := initializeOutput.MutationToken,
+      PageSize := Some(1),
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
+    var applyOutput? := keyStoreAdminUnderTest.ApplyMutation(applyInput);
+    expect applyOutput?.Success?, "First Apply Mutation FAILED";
+
+    // Step 3: Delete Mutation Index to simulate halted mutation
+    var cleanedVersion? :- expect CleanupItems.DeleteTypeWithFailure(branchKeyIdentifier, Structure.MUTATION_INDEX_TYPE, ddbClient);
+
+    // Step 4: Resume Without Index
+    var resumedOutput :- expect keyStoreAdminUnderTest.InitializeMutation(initInput);
+    expect resumedOutput.InitializeMutationFlag == Types.InitializeMutationFlag.ResumedWithoutIndex;
+
+    // Step 5: Complete remaining mutations
+    var finalApplyInput := Types.ApplyMutationInput(
+      MutationToken := resumedOutput.MutationToken,
+      PageSize := Some(24),
+      Strategy := Some(strategy),
+      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()));
+    var finalApplyOutput :- expect keyStoreAdminUnderTest.ApplyMutation(finalApplyInput);
+
+    expect finalApplyOutput.MutationResult.CompleteMutation?, "Final Apply Mutation should complete!";
+
+    // Verify results
+    var expectedDecryptOnlyItems := if doNotVersion then
+      versionCount + 1
+    else
+      versionCount + 2;
+    verifyMutationResults(
+      storage := storage,
+      initialHV := initialHV,
+      keyStoreTerminal := keyStoreTerminal,
+      branchKeyIdentifier := branchKeyIdentifier,
+      mutationsRequest := mutationsRequest,
+      expectedDecryptOnlyItems := expectedDecryptOnlyItems
+    );
+
+    var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyIdentifier, ddbClient:=ddbClient);
+  }
+
   method verifyMutationResults(
     storage: KeyStoreTypes.IKeyStorageInterface,
     initialHV: KeyStoreTypes.HierarchyVersion,
