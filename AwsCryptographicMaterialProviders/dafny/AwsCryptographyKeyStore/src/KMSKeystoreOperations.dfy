@@ -993,7 +993,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   }
 
   //TODO-HV-2-M4: Move to HVUtils
-  method packAndCallKMS(
+  method {:vcs_split_on_every_assert} packAndCallKMS(
     nameonly branchKeyContext: map<string, string>,
     nameonly cryptoAndKms: CryptoAndKms,
     nameonly material: seq<uint8>,
@@ -1036,7 +1036,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 1
         && old(kms.History.Encrypt) < kms.History.Encrypt
         && kms.History.Encrypt == old(kms.History.Encrypt) + [Seq.Last(kms.History.Encrypt)]
-        && Seq.Last(kms.History.Encrypt) == kms.History.Encrypt[-1]
+        && Seq.Last(kms.History.Encrypt) == kms.History.Encrypt[|kms.History.Encrypt| -1]
         && kms.History.GenerateDataKey == old(kms.History.GenerateDataKey)
         && var kmsEncryptEvent :=  Seq.Last(kms.History.Encrypt);
         && var kmsEncryptInput := kmsEncryptEvent.input;
