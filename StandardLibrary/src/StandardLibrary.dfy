@@ -184,7 +184,7 @@ module StandardLibrary {
     if a < b then a else b
   }
 
-  function method Fill<T>(value: T, n: uint64): seq<T>
+  function method Fill<T>(value: T, n: nat): seq<T>
     ensures |Fill(value, n)| == n as nat
     ensures forall i :: 0 <= i < n ==> Fill(value, n)[i] == value
   {

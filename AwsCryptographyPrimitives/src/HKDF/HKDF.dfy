@@ -227,7 +227,7 @@ module HKDF {
     var nonEmptySalt: seq<uint8>;
     match salt {
       case None =>
-        nonEmptySalt := StandardLibrary.Fill(0, hashLength);
+        nonEmptySalt := StandardLibrary.Fill(0, hashLength as nat);
       case Some(s) =>
         nonEmptySalt := s;
     }

@@ -35,7 +35,7 @@ module WrappedHKDF {
     var hmac :- HMAC.HMac.Build(digestAlgorithm);
     var prk := HKDF.Extract(
       hmac,
-      salt.UnwrapOr(StandardLibrary.Fill(0, Digest.Length(digestAlgorithm))),
+      salt.UnwrapOr(StandardLibrary.Fill(0, Digest.Length(digestAlgorithm) as nat)),
       ikm,
       digestAlgorithm
     );
