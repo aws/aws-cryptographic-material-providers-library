@@ -18,8 +18,8 @@ public class VersionKeyInput {
   private final KmsSymmetricKeyArn KmsArn;
 
   /**
-   * For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported (for now).
-   *   For 'hierarchy-version-2' (HV-2), only AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
+   * For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported.
+   *   For 'hierarchy-version-2' (HV-2), only AwsKmsSimple is supported.
    */
   private final KeyManagementStrategy Strategy;
 
@@ -44,8 +44,8 @@ public class VersionKeyInput {
   }
 
   /**
-   * @return For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported (for now).
-   *   For 'hierarchy-version-2' (HV-2), only AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
+   * @return For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported.
+   *   For 'hierarchy-version-2' (HV-2), only AwsKmsSimple is supported.
    */
   public KeyManagementStrategy Strategy() {
     return this.Strategy;
@@ -81,14 +81,14 @@ public class VersionKeyInput {
     KmsSymmetricKeyArn KmsArn();
 
     /**
-     * @param Strategy For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported (for now).
-     *   For 'hierarchy-version-2' (HV-2), only AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
+     * @param Strategy For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported.
+     *   For 'hierarchy-version-2' (HV-2), only AwsKmsSimple is supported.
      */
     Builder Strategy(KeyManagementStrategy Strategy);
 
     /**
-     * @return For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported (for now).
-     *   For 'hierarchy-version-2' (HV-2), only AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
+     * @return For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported.
+     *   For 'hierarchy-version-2' (HV-2), only AwsKmsSimple is supported.
      */
     KeyManagementStrategy Strategy();
 

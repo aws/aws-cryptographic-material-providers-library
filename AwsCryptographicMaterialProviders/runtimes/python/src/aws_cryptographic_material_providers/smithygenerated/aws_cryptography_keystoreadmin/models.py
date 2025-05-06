@@ -153,9 +153,16 @@ class KeyManagementStrategyAwsKmsReEncrypt:
     """Branch Key Store Items are authenticated and re-wrapped via KMS
     ReEncrypt,
 
-    executed with the provided Grant Tokens and KMS Client.   This is
-    one request to Key Management, as compared to two.   But only one
-    set of credentials can be used.
+    executed with the provided Grant Tokens and KMS Client.
+      This is one request to
+    Key Management, as compared to two.
+      But only one set of credentials can be
+    used.
+      At this time, this strategy can only be used with hierarchy-version-1
+    (HV-1) branch keys for:
+      - Creating new HV-1 branch keys
+      - Versioning
+    existing HV-1 branch keys
     """
 
     def __init__(self, value: AwsKms):
@@ -227,13 +234,13 @@ class KeyManagementStrategyAwsKmsSimple:
     list) and supports both hierarchy-versions.
 
     For HV-1, kms:GenerateDataKeyWithoutPlaintext followed by
-    kms:ReEncrypt is used to create branch keys.   For HV-2, plain-text
-    data keys (PDKs) are created locally via the hosts random number
-    generator;   The branch key context (BKC) and the PDK are protected
-    by kms:Encrypt.   For HV-1, to validate a branch key item,
-    kms:ReEncrypt is used.   For HV-2, to validate a branch key item,
-    kms:Decrypt un-wraps the BKC-PDK tuple,   and the client verifies
-    the read BKC against the protected BKC.
+    kms:ReEncrypt is used to create branch keys.   For HV-2,
+    kms:GenerateDataKey followed by kms:Encrypt is used to create branch
+    keys.   For HV-1, to validate a branch key item, kms:ReEncrypt is
+    used.   For HV-2, to validate a branch key item, kms:Decrypt un-
+    wraps the branch key context and data key tuple,   and the client
+    verifies the read branch key context against the protected branch
+    key context.
     """
 
     def __init__(self, value: AwsKms):
@@ -951,9 +958,9 @@ class CreateKeyInput:
           Required if
         branchKeyIdentifier is set.
         :param strategy: For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or
-        AwsKmsSimple are supported (for now).
+        AwsKmsSimple are supported.
           For 'hierarchy-version-2' (HV-2), only
-        AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
+        AwsKmsSimple is supported.
         :param hierarchy_version: The hierarchy-version of a Branch Key;
           all items of
         the same Branch Key SHOULD
@@ -1839,9 +1846,9 @@ class VersionKeyInput:
         :param kms_arn: Multi-Region or Single Region AWS KMS Key ARN used to protect
         the Branch Key, but not aliases!
         :param strategy: For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or
-        AwsKmsSimple are supported (for now).
+        AwsKmsSimple are supported.
           For 'hierarchy-version-2' (HV-2), only
-        AwsKmsDecryptEncrypt or AwsKmsSimple are supported.
+        AwsKmsSimple is supported.
         """
         self.identifier = identifier
         self.kms_arn = kms_arn

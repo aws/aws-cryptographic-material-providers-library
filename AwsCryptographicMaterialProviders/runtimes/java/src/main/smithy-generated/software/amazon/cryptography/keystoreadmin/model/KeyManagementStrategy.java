@@ -17,6 +17,9 @@ public class KeyManagementStrategy {
    *   executed with the provided Grant Tokens and KMS Client.
    *   This is one request to Key Management, as compared to two.
    *   But only one set of credentials can be used.
+   *   At this time, this strategy can only be used with hierarchy-version-1 (HV-1) branch keys for:
+   *   - Creating new HV-1 branch keys
+   *   - Versioning existing HV-1 branch keys
    */
   private final AwsKms AwsKmsReEncrypt;
 
@@ -42,11 +45,10 @@ public class KeyManagementStrategy {
   /**
    * This is the simple option, that uses one KMS Client (and Grant Token list) and supports both hierarchy-versions.
    *   For HV-1, kms:GenerateDataKeyWithoutPlaintext followed by kms:ReEncrypt is used to create branch keys.
-   *   For HV-2, plain-text data keys (PDKs) are created locally via the hosts random number generator;
-   *   The branch key context (BKC) and the PDK are protected by kms:Encrypt.
+   *   For HV-2, kms:GenerateDataKey followed by kms:Encrypt is used to create branch keys.
    *   For HV-1, to validate a branch key item, kms:ReEncrypt is used.
-   *   For HV-2, to validate a branch key item, kms:Decrypt un-wraps the BKC-PDK tuple,
-   *   and the client verifies the read BKC against the protected BKC.
+   *   For HV-2, to validate a branch key item, kms:Decrypt un-wraps the branch key context and data key tuple,
+   *   and the client verifies the read branch key context against the protected branch key context.
    */
   private final AwsKms AwsKmsSimple;
 
@@ -61,6 +63,9 @@ public class KeyManagementStrategy {
    *   executed with the provided Grant Tokens and KMS Client.
    *   This is one request to Key Management, as compared to two.
    *   But only one set of credentials can be used.
+   *   At this time, this strategy can only be used with hierarchy-version-1 (HV-1) branch keys for:
+   *   - Creating new HV-1 branch keys
+   *   - Versioning existing HV-1 branch keys
    */
   public AwsKms AwsKmsReEncrypt() {
     return this.AwsKmsReEncrypt;
@@ -90,11 +95,10 @@ public class KeyManagementStrategy {
   /**
    * @return This is the simple option, that uses one KMS Client (and Grant Token list) and supports both hierarchy-versions.
    *   For HV-1, kms:GenerateDataKeyWithoutPlaintext followed by kms:ReEncrypt is used to create branch keys.
-   *   For HV-2, plain-text data keys (PDKs) are created locally via the hosts random number generator;
-   *   The branch key context (BKC) and the PDK are protected by kms:Encrypt.
+   *   For HV-2, kms:GenerateDataKey followed by kms:Encrypt is used to create branch keys.
    *   For HV-1, to validate a branch key item, kms:ReEncrypt is used.
-   *   For HV-2, to validate a branch key item, kms:Decrypt un-wraps the BKC-PDK tuple,
-   *   and the client verifies the read BKC against the protected BKC.
+   *   For HV-2, to validate a branch key item, kms:Decrypt un-wraps the branch key context and data key tuple,
+   *   and the client verifies the read branch key context against the protected branch key context.
    */
   public AwsKms AwsKmsSimple() {
     return this.AwsKmsSimple;
@@ -114,6 +118,9 @@ public class KeyManagementStrategy {
      *   executed with the provided Grant Tokens and KMS Client.
      *   This is one request to Key Management, as compared to two.
      *   But only one set of credentials can be used.
+     *   At this time, this strategy can only be used with hierarchy-version-1 (HV-1) branch keys for:
+     *   - Creating new HV-1 branch keys
+     *   - Versioning existing HV-1 branch keys
      */
     Builder AwsKmsReEncrypt(AwsKms AwsKmsReEncrypt);
 
@@ -122,6 +129,9 @@ public class KeyManagementStrategy {
      *   executed with the provided Grant Tokens and KMS Client.
      *   This is one request to Key Management, as compared to two.
      *   But only one set of credentials can be used.
+     *   At this time, this strategy can only be used with hierarchy-version-1 (HV-1) branch keys for:
+     *   - Creating new HV-1 branch keys
+     *   - Versioning existing HV-1 branch keys
      */
     AwsKms AwsKmsReEncrypt();
 
@@ -166,22 +176,20 @@ public class KeyManagementStrategy {
     /**
      * @param AwsKmsSimple This is the simple option, that uses one KMS Client (and Grant Token list) and supports both hierarchy-versions.
      *   For HV-1, kms:GenerateDataKeyWithoutPlaintext followed by kms:ReEncrypt is used to create branch keys.
-     *   For HV-2, plain-text data keys (PDKs) are created locally via the hosts random number generator;
-     *   The branch key context (BKC) and the PDK are protected by kms:Encrypt.
+     *   For HV-2, kms:GenerateDataKey followed by kms:Encrypt is used to create branch keys.
      *   For HV-1, to validate a branch key item, kms:ReEncrypt is used.
-     *   For HV-2, to validate a branch key item, kms:Decrypt un-wraps the BKC-PDK tuple,
-     *   and the client verifies the read BKC against the protected BKC.
+     *   For HV-2, to validate a branch key item, kms:Decrypt un-wraps the branch key context and data key tuple,
+     *   and the client verifies the read branch key context against the protected branch key context.
      */
     Builder AwsKmsSimple(AwsKms AwsKmsSimple);
 
     /**
      * @return This is the simple option, that uses one KMS Client (and Grant Token list) and supports both hierarchy-versions.
      *   For HV-1, kms:GenerateDataKeyWithoutPlaintext followed by kms:ReEncrypt is used to create branch keys.
-     *   For HV-2, plain-text data keys (PDKs) are created locally via the hosts random number generator;
-     *   The branch key context (BKC) and the PDK are protected by kms:Encrypt.
+     *   For HV-2, kms:GenerateDataKey followed by kms:Encrypt is used to create branch keys.
      *   For HV-1, to validate a branch key item, kms:ReEncrypt is used.
-     *   For HV-2, to validate a branch key item, kms:Decrypt un-wraps the BKC-PDK tuple,
-     *   and the client verifies the read BKC against the protected BKC.
+     *   For HV-2, to validate a branch key item, kms:Decrypt un-wraps the branch key context and data key tuple,
+     *   and the client verifies the read branch key context against the protected branch key context.
      */
     AwsKms AwsKmsSimple();
 

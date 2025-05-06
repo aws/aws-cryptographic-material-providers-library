@@ -50,7 +50,12 @@ module {:options "/functionSyntax:4" } KmsUtils {
       case reEncrypt(km) => multiset(km.kmsClient.Modifies)
       case kmsSimple(km) => multiset(km.kmsClient.Modifies)
 
-    // TODO-HV-2-M2 :: work out complete support
+    // TODO-HV-2-Strategy :: Support KmsSimple for HV-1 Mutations
+    // Determines if this key manager strategy supports Mutations for HV1 branch keys
+    // For HV1 Mutations:
+    // - Supports reEncrypt
+    // - Supports decryptEncrypt
+    // - Does not support kmsSimple
     predicate SupportHV1()
     {
       match this
@@ -58,6 +63,11 @@ module {:options "/functionSyntax:4" } KmsUtils {
       case reEncrypt(km) => true
       case kmsSimple(km) => false
     }
+    // Determines if this key manager strategy supports Mutations for HV2 branch keys
+    // For HV2 Mutations:
+    // - Supports decryptEncrypt
+    // - Supports kmsSimple
+    // - Does not support reEncrypt
     predicate SupportHV2()
     {
       match this
@@ -67,8 +77,8 @@ module {:options "/functionSyntax:4" } KmsUtils {
     }
   }
 
-
-
+  // Determines if the given key manager strategy is supported for Mutations
+  // based on the terminal hierarchy version
   predicate IsSupportedKeyManagerStrategy(
     terminalHierarchyVersion: KeyStoreTypes.HierarchyVersion,
     keyManagerStrategy: keyManagerStrat

@@ -31,6 +31,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
   import AwsArnParsing
   import KmsArn
   import KmsUtils
+  import Time
+  import UUID
 
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
   //= type=implication
@@ -487,52 +489,76 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
   method VersionActiveBranchKey(
     input: Types.VersionKeyInput,
-    timestamp: string,
-    branchKeyVersion: string,
     logicalKeyStoreName: string,
     kmsConfiguration: Types.KMSConfiguration,
-    grantTokens: KMS.GrantTokenList,
-    kmsClient: KMS.IKMSClient,
-    storage: Types.IKeyStorageInterface
+    keyManagerAndStorage: KmsUtils.KeyManagerAndStorage
   )
     returns (output: Result<Types.VersionKeyOutput, Types.Error>)
-    requires 0 < |input.branchKeyIdentifier| && 0 < |branchKeyVersion|
-    requires storage.Modifies !! kmsClient.Modifies
-    requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
-    requires storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+    requires keyManagerAndStorage.ValidState()
+    requires keyManagerAndStorage.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
              ==>
-               logicalKeyStoreName == (storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName
+               logicalKeyStoreName == (keyManagerAndStorage.storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName
 
-    requires kmsClient.ValidState() && storage.ValidState()
-    modifies storage.Modifies, kmsClient.Modifies
-    ensures storage.ValidState() && kmsClient.ValidState()
+    modifies keyManagerAndStorage.Modifies
+    ensures keyManagerAndStorage.ValidState()
+    ensures
+      && !KMSKeystoreOperations.HasKeyId(kmsConfiguration)
+      ==> output.Failure?
 
   {
-    var oldActiveItem :- fetchActiveItem(input.branchKeyIdentifier, storage, logicalKeyStoreName);
+    :- Need(
+      && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
+      && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration)),
+      Types.KeyStoreException(
+        message := ErrorMessages.DISCOVERY_VERSION_KEY_NOT_SUPPORTED
+      )
+    );
+
+    :- Need(0 < |input.branchKeyIdentifier|, Types.KeyStoreException(message := ErrorMessages.BRANCH_KEY_ID_NEEDED));
+
+    var timestamp? := Time.GetCurrentTimeStamp();
+    var timestamp :- timestamp?
+    .MapFailure(e => Types.KeyStoreException(message := e));
+
+    var maybeBranchKeyVersion := UUID.GenerateUUID();
+    var branchKeyVersion :- maybeBranchKeyVersion
+    .MapFailure(e => Types.KeyStoreException(message := e));
+
+    var oldActiveItem :- fetchActiveItem(input.branchKeyIdentifier, keyManagerAndStorage.storage, logicalKeyStoreName);
     var hierarchyVersion := oldActiveItem.EncryptionContext[Structure.HIERARCHY_VERSION];
 
     match hierarchyVersion {
       case "1" =>
+        :- Need(
+          keyManagerAndStorage.keyManagerStrat.reEncrypt? || keyManagerAndStorage.keyManagerStrat.kmsSimple?,
+          Types.KeyStoreException(message := ErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION)
+        );
+        var kmsTuple := KmsUtils.getEncryptKMSTuple(keyManagerAndStorage.keyManagerStrat);
         output := VersionActiveBranchKeyVersion1(
           oldActiveItem,
           timestamp,
           branchKeyVersion,
           logicalKeyStoreName,
           kmsConfiguration,
-          grantTokens,
-          kmsClient,
-          storage
+          kmsTuple.grantTokens,
+          kmsTuple.kmsClient,
+          keyManagerAndStorage.storage
         );
       case "2" =>
+        :- Need(
+          keyManagerAndStorage.keyManagerStrat.kmsSimple?,
+          Types.KeyStoreException(message := ErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION_HV_2)
+        );
+        var kmsTuple := KmsUtils.getEncryptKMSTuple(keyManagerAndStorage.keyManagerStrat);
         output := VersionActiveBranchKeyVersion2(
           oldActiveItem,
           timestamp,
           branchKeyVersion,
           logicalKeyStoreName,
           kmsConfiguration,
-          grantTokens,
-          kmsClient,
-          storage
+          kmsTuple.grantTokens,
+          kmsTuple.kmsClient,
+          keyManagerAndStorage.storage
         );
       case _ =>
         output := Failure(Types.KeyStoreException(
