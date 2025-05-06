@@ -119,7 +119,7 @@ module Fixtures {
   const KmsSrkConfigWest : Types.KMSConfiguration := Types.KMSConfiguration.kmsKeyArn(MrkArnWest)
   const KmsMrkConfigAP : Types.KMSConfiguration := Types.KMSConfiguration.kmsMRKeyArn(MrkArnAP)
   const KmsMrkEC : Types.EncryptionContext := map[abc := x123]
-  const RobbieEC : Types.EncryptionContext := map[Robbie := IsADog]    
+  const RobbieEC : Types.EncryptionContext := map[Robbie := IsADog]
   const RobbieECString : Types.EncryptionContextString := map["Robbie" := "Is a dog."]
   const KodaECString : Types.EncryptionContextString := map["Koda" := "Is a dog."]
   const EastBranchKey : string := "MyEastBranch2"

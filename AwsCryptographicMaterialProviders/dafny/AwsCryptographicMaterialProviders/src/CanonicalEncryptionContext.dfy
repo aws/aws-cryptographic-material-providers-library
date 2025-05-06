@@ -119,6 +119,7 @@ module CanonicalEncryptionContext {
         && var content? := EncryptionContextToAAD(encryptionContext);
         && content?.Success?
         && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
+        && old(crypto.History.Digest) < crypto.History.Digest
         && var digestEvent := Seq.Last(crypto.History.Digest);
         && digestEvent.input.digestAlgorithm == AtomicPrimitives.Types.SHA_384
         && digestEvent.input.message == content?.value
