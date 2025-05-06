@@ -184,6 +184,7 @@ module StandardLibrary {
     if a < b then a else b
   }
 
+  // If we make this `n: uint64` then Dafny produces bad code for Dotnet
   function method Fill<T>(value: T, n: nat): seq<T>
     ensures |Fill(value, n)| == n as nat
     ensures forall i :: 0 <= i < n ==> Fill(value, n)[i] == value
@@ -370,7 +371,7 @@ module StandardLibrary {
    * It is ghost. ComputeSetToOrderedSequence2 should be used instead.
    */
 
-  function SetToOrderedSequence<T(!new,==)>(s: set<seq<T>>, less: (T, T) -> bool): (q: seq<seq<T>>)
+  function SetToOrderedSequence<T(!new)>(s: set<seq<T>>, less: (T, T) -> bool): (q: seq<seq<T>>)
     requires Trichotomous(less) && Transitive(less)
     ensures |s| == |q|
     ensures forall i :: 0 <= i < |q| ==> q[i] in s
