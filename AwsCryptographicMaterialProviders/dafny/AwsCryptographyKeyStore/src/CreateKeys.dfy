@@ -323,6 +323,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
     ensures output.Success?
             ==>
               && var kmsClient := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
+              && var storage := keyManagerAndStorage.storage;
+              && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
               // The second call is for the beacon key, the first is the decrypt only.
               && |kmsClient.History.GenerateDataKey| == |old(kmsClient.History.GenerateDataKey)| + 2
                  // Three calls are made. The decryptOnly, the active, and the beacon key.
@@ -379,18 +381,15 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && beaconEncryptHistory.output.Success?
               && beaconEncryptHistory.output.value.CiphertextBlob.Some?
 
-              && var storage := keyManagerAndStorage.storage;
-              && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
-
               && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Active
                  == Structure.ConstructEncryptedHierarchicalKey(
                       activeBKC,
-                      kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 3].output.value.CiphertextBlob.value
+                      kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 2].output.value.CiphertextBlob.value
                     )
               && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Version
                  == Structure.ConstructEncryptedHierarchicalKey(
                       decryptBKC,
-                      kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 2].output.value.CiphertextBlob.value
+                      kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 3].output.value.CiphertextBlob.value
                     )
 
               && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Beacon
