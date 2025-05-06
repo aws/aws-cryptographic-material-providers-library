@@ -165,6 +165,8 @@ module StrictMultiKeyring {
 
           // Order is important
           children := children + [keyring];
+          assert |awsKmsKeys.value[..index+1]| == |children|;
+          assert fresh(MultiKeyring.GatherModifies(generatorKeyring, children) - clientSupplier.Modifies);
         }
       case None() =>
         children := [];
@@ -183,5 +185,4 @@ module StrictMultiKeyring {
 
     return Success(keyring);
   }
-
 }
