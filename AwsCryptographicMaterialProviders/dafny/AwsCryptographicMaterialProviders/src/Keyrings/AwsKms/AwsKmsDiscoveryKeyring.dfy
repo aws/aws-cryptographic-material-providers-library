@@ -243,7 +243,7 @@ module AwsKmsDiscoveryKeyring {
       var edkFilter : AwsKmsEncryptedDataKeyFilter := new AwsKmsEncryptedDataKeyFilter(discoveryFilter);
       var matchingEdks :- Actions.FilterWithResult(edkFilter, encryptedDataKeys);
 
-      // Next we convert the input Types.EncrypteDataKeys into Constant.AwsKmsEdkHelpers,
+      // Next we convert the input Types.EncryptDataKeys into Constant.AwsKmsEdkHelpers,
       // which makes them slightly easier to work with.
       var edkTransform : AwsKmsEncryptedDataKeyTransformer := new AwsKmsEncryptedDataKeyTransformer();
       var edksToAttempt, parts :- Actions.DeterministicFlatMapWithResult(edkTransform, matchingEdks);

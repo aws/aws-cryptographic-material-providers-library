@@ -336,7 +336,7 @@ module AwsKmsRsaKeyring {
     // This is not safe to do for 1024 keys,
     // but AWS KMS does not support these keys.
     // Further we use SHA_384 to save a little on size
-    // and avoid even the possiblity of length extenstion.
+    // and avoid even the possibility of length extension.
     // Though length extension does not matter in this situation,
     // because a decryptor already has access to the key.
     return Success(digest);
@@ -704,7 +704,7 @@ module AwsKmsRsaKeyring {
       var decryptRequest := KMS.DecryptRequest(
         KeyId := Some(awsKmsKey),
         CiphertextBlob := input.wrappedMaterial,
-        // Asymetric keys do not support Encryption Context.
+        // Asymmetric keys do not support Encryption Context.
         // This is checked by verifying the encryption context digest.
         EncryptionContext := None,
         GrantTokens := Some(grantTokens),
