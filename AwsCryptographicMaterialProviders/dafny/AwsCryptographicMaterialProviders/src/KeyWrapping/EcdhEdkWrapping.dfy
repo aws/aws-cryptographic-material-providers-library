@@ -113,9 +113,10 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
 
       var KeyLength := AlgorithmSuites.GetEncryptKeyLength(suite);
 
+        // Can't cast |wrappedMaterial| as uint64 because Rust explodes
       :- Need (
-        |wrappedMaterial| as uint64 > ECDH_WRAPPED_KEY_MATERIAL_INDEX + KeyLength as uint64,
-        Types.AwsCryptographicMaterialProvidersException(message := "Received EDK Ciphertext of incorrect length.")
+        |wrappedMaterial| > ECDH_WRAPPED_KEY_MATERIAL_INDEX as nat + KeyLength as nat,
+        Types.AwsCryptographicMaterialProvidersException(message := "Received EDK Ciphertext of incorrect length3.")
       );
 
       var kdfNonce := wrappedMaterial[..ECDH_COMMITMENT_KEY_INDEX];
