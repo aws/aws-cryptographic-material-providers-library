@@ -55,7 +55,8 @@ public class PublicKeyUtils {
     final BigInteger compressedY = y.mod(TWO).equals(ZERO) ? TWO : THREE;
 
     // The Dafny Source FieldSize methods includes the compressed Y-Byte.
-    final int xFieldSize = (int) _ExternBase___default.FieldSize(dtor_signatureAlgorithm) - 1;
+    final int xFieldSize =
+      (int) _ExternBase___default.FieldSize(dtor_signatureAlgorithm) - 1;
     final byte[] xBytes = encodeAndCompressPublicKeyX(x, xFieldSize);
 
     final byte[] compressedKey = new byte[xBytes.length + 1];
