@@ -237,13 +237,9 @@ module Fixtures {
   }
 
   method StaticStorage(
-    nameonly physicalName: string := staticBranchKeyStoreName,
-    nameonly logicalName: string := staticLogicalKeyStoreName,
     nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
   )
     returns (output: Result<Types.IKeyStorageInterface, Types.Error>)
-    requires DDB.Types.IsValid_TableName(physicalName)
-    requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)
     requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
     ensures output.Success? ==> output.value.ValidState()
     ensures output.Success? ==> fresh(output.value) && fresh(output.value.Modifies)
@@ -255,8 +251,8 @@ module Fixtures {
               && fresh(output.value.Modifies)
   {
     output := DefaultStorage(
-      physicalName := physicalName,
-      logicalName := logicalName,
+      physicalName := staticBranchKeyStoreName,
+      logicalName := staticLogicalKeyStoreName,
       ddbClient? := ddbClient?
     );
   }

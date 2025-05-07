@@ -163,6 +163,14 @@ module TestLyingBranchKey {
     modifies keyStore.Modifies
     ensures keyStore.ValidState()
   {
+    var versionKeyOutput? := keyStore.VersionKey(
+      Types.VersionKeyInput(
+        branchKeyIdentifier := id
+      )
+    );
+    expect versionKeyOutput?.Failure?;
+    VerifyKMSError(actual:= versionKeyOutput?.error, expected := expectedError);
+
     var activeOutput? := keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := id
@@ -170,13 +178,13 @@ module TestLyingBranchKey {
     expect activeOutput?.Failure?;
     VerifyKMSError(actual:= activeOutput?.error, expected := expectedError);
 
-    var versionOutput? := keyStore.GetBranchKeyVersion(
+    var decryptOnlyOutput? := keyStore.GetBranchKeyVersion(
       Types.GetBranchKeyVersionInput(
         branchKeyIdentifier := id,
         branchKeyVersion := version
       ));
-    expect versionOutput?.Failure?;
-    VerifyKMSError(actual:= versionOutput?.error, expected := expectedError);
+    expect decryptOnlyOutput?.Failure?;
+    VerifyKMSError(actual:= decryptOnlyOutput?.error, expected := expectedError);
 
     var beaconOutput? := keyStore.GetBeaconKey(
       Types.GetBeaconKeyInput(
