@@ -415,6 +415,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       ==>
         && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
         && kmsClient.History.GenerateDataKey == old(kmsClient.History.GenerateDataKey)
+        && kmsClient.History.Decrypt == old(kmsClient.History.Decrypt)
         && var kmsKeyArn := GetKeyId(kmsConfiguration);
 
         && var encryptInput := Seq.Last(kmsClient.History.Encrypt).input;
