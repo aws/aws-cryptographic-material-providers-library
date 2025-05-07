@@ -144,8 +144,8 @@ module Fixtures {
   const hierarchyV2InvalidDigestId := "DO-NOT-DELETE-test-hv2-get-key-wrong-digest"
   const hierarchyV2InvalidDigestVersion := "755404a1-a295-4ec9-ba13-c540e16515d5"
 
-  const hierarchyV2InvalidCiphertextLengthId := "DO-NOT-DELETE-test-hv2-get-key-wrong-ciphertext"
-  const hierarchyV2InvalidCiphertextLengthVersion := "94a3bb88-bbaa-4830-99d4-7a949a02f4a1"
+  const hierarchyV2InvalidCiphertextLengthId := "DO-NOT-DELETE-test-hv2-get-key-wrong-ciphertext-length"
+  const hierarchyV2InvalidCiphertextLengthVersion := "04b459a3-0731-4ba8-b9ac-4e29eb6db485"
 
   const hierarchyV2MissingPrefixedECId := "DO-NOT-DELETE-test-hv2-get-key-missing-prefixed-ec"
   const hierarchyV2MissingPrefixedECVersion := "d3e7b039-71fb-41af-8549-2564a170935c"

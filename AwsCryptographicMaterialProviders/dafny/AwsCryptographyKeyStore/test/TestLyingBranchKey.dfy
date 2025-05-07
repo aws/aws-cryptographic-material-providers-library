@@ -102,7 +102,7 @@ module TestLyingBranchKey {
   // Test Case: Invalid Ciphertext Length
   // The Branch Key's Item contains ciphertext with incorrect length compared to the actual encrypted data.
   // Thus, all Keystore Operations related to the Branch Key MUST fail with KMS.InvalidCiphertextException.
-  // Expected Error: KMS InvalidCiphertextException
+  // Expected Error: BranchKeyCiphertextException due to wrong plaintext length after decrypt
   method {:test} TestHv2GetKeysForLyingBranchKeyWrongCiphertextLength() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
@@ -111,7 +111,7 @@ module TestLyingBranchKey {
     TestBranchKeyOperationsExpectsException(
       id := hierarchyV2InvalidCiphertextLengthId,
       version := hierarchyV2InvalidCiphertextLengthVersion,
-      expectedError := Types.Error.ComAmazonawsKms(ComAmazonawsKmsTypes.Error.InvalidCiphertextException),
+      expectedError := Types.Error.BranchKeyCiphertextException(message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV2),
       keyStore := keyStore
     );
   }
