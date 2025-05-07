@@ -18,8 +18,7 @@ module {:options "/functionSyntax:4" } TestMutateLyingBranchKey {
   import CleanupItems
   import TestLyingBranchKey
 
-  /*
-  // Below Tests fail to run in Python run-time due to a bug in dafny
+  // TODO-HV-2-FF-Python: Below Tests fail to run in Python run-time due to a bug in dafny
   // Python runtime tests fails to unwrap optional string with
   // AttributeError: 'Seq' object has no attribute 'UnwrapOr' in MutationErrorRefinement.ParsedErrorContext
 
@@ -71,5 +70,4 @@ module {:options "/functionSyntax:4" } TestMutateLyingBranchKey {
     expect initializeOutput.Failure?;
     expect initializeOutput.error.MutationFromException?;
   }
-  */
 }
