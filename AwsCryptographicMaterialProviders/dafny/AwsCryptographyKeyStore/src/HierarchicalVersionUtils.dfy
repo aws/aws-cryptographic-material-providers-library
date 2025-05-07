@@ -58,11 +58,19 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
         // Note there is no proof that the input to the digest
         // is utf8BKContext; dafny could not handle that
         && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
+        && old(crypto.History.Digest) < crypto.History.Digest
         && var digestEvent := Seq.Last(crypto.History.Digest);
-        && digestEvent.input.digestAlgorithm == AtomicPrimitives.Types.SHA_384
         && digestEvent.output.Success?
         && digestEvent.output.value == output.value
         && |output.value| == Structure.BKC_DIGEST_LENGTH as int
+        && EncodeEncryptionContext(branchKeyContext).Success?
+        && var utf8BKContext := EncodeEncryptionContext(branchKeyContext).value;
+        && CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).Success?
+        && var canonicalEC := CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).value;
+        && AtomicPrimitives.Types.DigestInput(
+          digestAlgorithm := AtomicPrimitives.Types.SHA_384,
+          message := canonicalEC
+        ) == digestEvent.input
   {
     var utf8BKContext :- EncodeEncryptionContext(branchKeyContext).MapFailure(WrapStringToError);
     var digestResult := CanonicalEncryptionContext.EncryptionContextDigest(crypto, utf8BKContext);
