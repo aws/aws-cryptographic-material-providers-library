@@ -4,6 +4,7 @@
 include "../src/Index.dfy"
 include "../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "AdminFixtures.dfy"
+include "../src/MutationStateStructures.dfy"
 
 /** Tests the logic in Mutation State Structures */
 module {:options "/functionSyntax:4" } TestMutationStateStructures {
@@ -16,6 +17,8 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
   import CleanupItems
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
+
+  import MutationStateStructures
 
   // Helper method to validate MutationDetails equality
   method ValidateMutationDetails(actual: Types.MutationDetails, expected: Types.MutationDetails)
@@ -109,6 +112,16 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
       response2.value.MutationInFlight.Yes.MutationDetails,
       expectedDetails2
     );
+  }
+
+  method {:test} TestJSON()
+  {
+    var ec := map["aws-crypto-ec:\n\n\u0007" := "Is a dog."];
+    var json := MutationStateStructures.EncryptionContextStringToJSON(ec);
+    print(json);
+    var backFromJSON := MutationStateStructures.JSONToEncryptionContextString(json);
+    print(backFromJSON);
+    expect ec == backFromJSON;
   }
 
   /*
