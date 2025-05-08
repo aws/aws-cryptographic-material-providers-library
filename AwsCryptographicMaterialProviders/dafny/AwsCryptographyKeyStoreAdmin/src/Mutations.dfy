@@ -493,25 +493,46 @@ module {:options "/functionSyntax:4" } Mutations {
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
     requires prefixedCustomEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
-    ensures Structure.BranchKeyContext?(output)
-    ensures Structure.BRANCH_KEY_TYPE_PREFIX < output[Structure.TYPE_FIELD]
-    ensures Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
-    ensures output[Structure.KMS_FIELD] == kmsKeyArn
-    ensures output[Structure.TABLE_FIELD] == logicalKeyStoreName
-    ensures output[Structure.HIERARCHY_VERSION] == HierarchyVersionToString(hierarchyVersion)
-    ensures forall k <- prefixedCustomEncryptionContext
+    ensures hierarchyVersion.v1? ==>
+      && Structure.BranchKeyContext?(output)
+      && Structure.BRANCH_KEY_TYPE_PREFIX < output[Structure.TYPE_FIELD]
+      && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
+      && output[Structure.KMS_FIELD] == kmsKeyArn
+      && output[Structure.TABLE_FIELD] == logicalKeyStoreName
+      && output[Structure.HIERARCHY_VERSION] == HierarchyVersionToString(hierarchyVersion)
+      && (forall k <- prefixedCustomEncryptionContext
               ::
                 && k in output
-                && output[k] == prefixedCustomEncryptionContext[k]
+                && output[k] == prefixedCustomEncryptionContext[k])
+    ensures hierarchyVersion.v2? ==>
+      && (forall k <- Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+              :: k !in output)
   {
-    map[
-      Structure.BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
-      Structure.TYPE_FIELD := Structure.BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
-      Structure.KEY_CREATE_TIME := timestamp,
-      Structure.TABLE_FIELD := logicalKeyStoreName,
-      Structure.KMS_FIELD := kmsKeyArn,
-      Structure.HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
-    ] + prefixedCustomEncryptionContext
+    match hierarchyVersion {
+      case v1 =>
+        map[
+          Structure.BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
+          Structure.TYPE_FIELD := Structure.BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
+          Structure.KEY_CREATE_TIME := timestamp,
+          Structure.TABLE_FIELD := logicalKeyStoreName,
+          Structure.KMS_FIELD := kmsKeyArn,
+          Structure.HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
+        ] + prefixedCustomEncryptionContext
+      case v2 =>
+        // These are the fields that we find on the record.
+        // For v2 the prefixedCustomEncryptionContext is filtered to remove the "aws-crypto-ec:" prefix.
+        //See HvUtils.SelectKmsEncryptionContextForHv2 for details.
+        var branchKeyContext := map[
+          Structure.BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
+          Structure.TYPE_FIELD := Structure.BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
+          Structure.KEY_CREATE_TIME := timestamp,
+          Structure.TABLE_FIELD := logicalKeyStoreName,
+          Structure.KMS_FIELD := kmsKeyArn,
+          Structure.HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
+        ] + prefixedCustomEncryptionContext;
+
+        HVUtils.SelectKmsEncryptionContextForHv2(branchKeyContext)
+    }
   }
 
   datatype CheckedItem =

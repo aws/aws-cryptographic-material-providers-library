@@ -125,7 +125,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   // the Branch Key's Encryption Context can be divided into two groups
   // 1. those created by MPL consumers via the library, which are prefixed with aws-crypto-ec:
   // 2. those created by MPL consumers OUTSIDE of the library, which are not prefixed
-  function SelectKmsEncryptionContextForHv2(
+  function {:vcs_split_on_every_assert} SelectKmsEncryptionContextForHv2(
     branchKeyContext: Types.EncryptionContextString
   ): (output: Types.EncryptionContextString)
     requires Structure.BranchKeyContext?(branchKeyContext)
