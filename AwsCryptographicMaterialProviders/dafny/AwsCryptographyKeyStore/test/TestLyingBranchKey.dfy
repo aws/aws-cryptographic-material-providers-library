@@ -42,13 +42,16 @@ module TestLyingBranchKey {
   // illegal Branch Key is always correctly handled.
   // Creation of this particular illegal Branch Key `hierarchyV1InvalidKmsArnId` is detailed here:
   // `git rev-parse --show-toplevel`/cfn/lyingBranchKeyCreation.md
-  // Test Case: KMS ARN Mismatch
-  // The Branch Key's Item says it is protected by KMS-ARN Fixtures.dfy#postalHornKeyArn,
-  // but the KMS requests were actually executed against KMS-ARN Fixtures.dfy#keyArn.
-  // Thus, all Keystore Operations related to the Branch Key MUST fail with exceptions from KMS.
-  // The branch key claims to be protected by KMS Arn (postalHornKeyArn)
-  // but was actually encrypted using a different KMS key (keyArn)
-  // Expected Error: KMS IncorrectKeyException
+  //
+  // Test Case: HV1 KMS ARN Mismatch
+  // Branch Key Creation Properties:
+  //   - Hierarchy Version: 1
+  //   - Encrypted with: keyArn
+  // Tampered Properties:
+  //   - DDB record modified to claim protection by postalHornKeyArn
+  // Expected Error: KMS.IncorrectKeyException
+  //   - KMS detects key mismatch during decryption attempt
+  //   - Thus, all Keystore Operations related to the Branch Key MUST fail with exceptions from KMS.
   method {:test} TestHv1GetKeysForLyingBranchKey() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
@@ -62,13 +65,15 @@ module TestLyingBranchKey {
     );
   }
 
-  // Test Case: KMS ARN Mismatch
-  // The Branch Key's Item says it is protected by KMS-ARN Fixtures.dfy#postalHornKeyArn,
-  // but the KMS requests were actually executed against KMS-ARN Fixtures.dfy#keyArn.
-  // Thus, all Keystore Operations related to the Branch Key MUST fail with exceptions from KMS.
-  // DDB Item KMS ARN:      Fixtures.dfy#postalHornKeyArn
-  // Actual KMS ARN used:   Fixtures.dfy#keyArn
+  // Test Case: HV2 KMS ARN Mismatch
+  // Branch Key Creation Properties:
+  //   - Hierarchy Version: 2
+  //   - Encrypted with: keyArn
+  // Tampered Properties:
+  //   - DDB record modified to claim protection by postalHornKeyArn
   // Expected Error: KMS.IncorrectKeyException
+  //   - KMS detects key mismatch during decryption attempt
+  //   - Thus, all Keystore Operations related to the Branch Key MUST fail with exceptions from KMS.
   method {:test} TestHv2GetKeysForLyingBranchKeyWrongKmsArn() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
@@ -82,10 +87,18 @@ module TestLyingBranchKey {
     );
   }
 
-  // Test Case: Create Time Tampering
-  // The Branch Key's creation time in DDB: "1970-01-01T00:00:00.000000Z"
-  // Actual creation time when Branch Key was created: "2025-04-17T19:11:28.000676Z"
-  // Expected: BranchKeyCiphertextException due to wrong BKC digest
+
+  // Test Case: HV2 Creation Time Tampering
+  // Branch Key Creation Properties:
+  //   - Hierarchy Version: 2
+  //   - Original creation time: "2025-04-17T19:11:28.000676Z"
+  //   - Digest calculated using original creation time
+  // Tampered Properties:
+  //   - Creation timestamp in DDB changed to "1970-01-01T00:00:00.000000Z"
+  // Expected Error: BranchKeyCiphertextException (MD_DIGEST_SHA_NOT_MATCHED)
+  //   - KeyStore able to decrypt the ciphertext however
+  //   - Digest validation fails due to wrong BKC digest because creation time is part of the authenticated data
+  //   - Thus, all Keystore Operations related to the Branch Key MUST fail with BKS.BranchKeyCiphertextException.
   method {:test} TestHv2GetKeysForLyingBranchKeyWrongDigest() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
@@ -99,27 +112,61 @@ module TestLyingBranchKey {
     );
   }
 
-  // Test Case: Invalid Ciphertext Length
-  // The Branch Key's Item contains ciphertext with incorrect length compared to the actual encrypted data.
-  // Thus, all Keystore Operations related to the Branch Key MUST fail with KMS.InvalidCiphertextException.
-  // Expected Error: BranchKeyCiphertextException due to wrong plaintext length after decrypt
+  // Test Case: HV2 Invalid Ciphertext
+  // Branch Key Creation Properties:
+  //   - Hierarchy Version: 2
+  //   - Valid KMS ciphertext
+  // Tampered Properties:
+  //   - Ciphertext in DDB is truncated to wrong length
+  // Expected Error: KMS.InvalidCiphertextException
+  //   - KMS fails to decrypt the ciphertext with incorrect length compared to the actual encrypted data.
+  //   - Thus, all Keystore Operations related to the Branch Key MUST fail with KMS.InvalidCiphertextException.
   method {:test} TestHv2GetKeysForLyingBranchKeyWrongCiphertextLength() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
     var keyStore :- expect StaticKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
 
     TestBranchKeyOperationsExpectsException(
-      id := hierarchyV2InvalidCiphertextLengthId,
-      version := hierarchyV2InvalidCiphertextLengthVersion,
+      id := hierarchyV2InvalidCiphertextId,
+      version := hierarchyV2InvalidCiphertextVersion,
+      expectedError := Types.Error.ComAmazonawsKms(ComAmazonawsKmsTypes.Error.InvalidCiphertextException),
+      keyStore := keyStore
+    );
+  }
+
+  // Test Case: HV2 Invalid Plaintext Length
+  // Branch Key Creation Properties:
+  //   - Hierarchy Version: 2
+  //   - Plaintext Tuple of valid length: 80 bytes
+  //   - Encrypted with KMS and stored in DDB
+  // Tampered Properties:
+  //   - ReEcnrypts the Protected Data Key (PDK) with incorrect length (not 80 bytes) before calling KMS Encrypt Request and stores the new ciphertext in DDB
+  // Expected Error: BranchKeyCiphertextException (KMS_DECRYPT_INVALID_KEY_LENGTH_HV2)
+  //   - KeyStore able to decrypt the ciphertext stored in DDB however
+  //   - KeyStore fails to validate decrypted plaintext length after KMS decryption with the expected plaintext length(80 bytes) for a HV-2 branch key
+  //   - Thus, all Keystore Operations related to the Branch Key MUST fail with BKS.BranchKeyCiphertextException.
+  method {:test} TestHv2GetKeysForLyingBranchKeyWrongPlaintextLength() {
+    var ddbClient :- expect ProvideDDBClient();
+    var kmsClient :- expect ProvideKMSClient();
+    var keyStore :- expect StaticKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+
+    TestBranchKeyOperationsExpectsException(
+      id := hierarchyV2InvalidPlaintextLengthId,
+      version := hierarchyV2InvalidPlaintextLengthVersion,
       expectedError := Types.Error.BranchKeyCiphertextException(message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV2),
       keyStore := keyStore
     );
   }
 
-  // Test Case: Missing Encryption Context
-  // The Branch Key's encryption context in DDB: "TamperedKey:TamperedValue"
-  // Actual encryption context used with KMS Requests: "ExampleContextKey:ExampleContextValue"
-  // Expected Error: KMS.InvalidCiphertextException due to encryption context mismatch
+  // Test Case: HV2 Missing Encryption Context
+  // Branch Key Creation Properties:
+  //   - Hierarchy Version: 2
+  //   - Encrypted with context: "ExampleContextKey:ExampleContextValue"
+  // Tampered Properties:
+  //   - Encryption context in DDB changed to "TamperedKey:TamperedValue"
+  // Expected Error: KMS.InvalidCiphertextException
+  //   - KMS fails to decrypt due to encryption context mismatch
+  //   - Thus, all Keystore Operations related to the Branch Key MUST fail with KMS.InvalidCiphertextException.
   method {:test} TestHv2GetKeysForLyingBranchKeyMissingPrefixedEC() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();
@@ -133,9 +180,15 @@ module TestLyingBranchKey {
     );
   }
 
-  // Test Case: Unexpected Encryption Context
-  // The Branch Key's encryption context in DDB includes additional unmodeled EC: "unexpected-key:unexpected-value"
-  // Expected Error: KMS.InvalidCiphertextException due to unexpected encryption context
+  // Test Case: HV2 Unexpected Encryption Context
+  // Branch Key Creation Properties:
+  //   - Hierarchy Version: 2
+  //   - Encrypted with specific encryption context key-value pairs
+  // Tampered Properties:
+  //   - Additional pair "unexpected-key:unexpected-value" added to DDB record
+  // Expected Error: KMS.InvalidCiphertextException
+  //   - KMS fails to decrypt due to encryption context mismatch
+  //   - Thus, all Keystore Operations related to the Branch Key MUST fail with KMS.InvalidCiphertextException.
   method {:test} TestHv2GetKeysForLyingBranchKeyUnexpectedEC() {
     var ddbClient :- expect ProvideDDBClient();
     var kmsClient :- expect ProvideKMSClient();

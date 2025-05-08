@@ -144,8 +144,11 @@ module Fixtures {
   const hierarchyV2InvalidDigestId := "DO-NOT-DELETE-test-hv2-get-key-wrong-digest"
   const hierarchyV2InvalidDigestVersion := "755404a1-a295-4ec9-ba13-c540e16515d5"
 
-  const hierarchyV2InvalidCiphertextLengthId := "DO-NOT-DELETE-test-hv2-get-key-wrong-ciphertext-length"
-  const hierarchyV2InvalidCiphertextLengthVersion := "04b459a3-0731-4ba8-b9ac-4e29eb6db485"
+  const hierarchyV2InvalidCiphertextId := "DO-NOT-DELETE-test-hv2-get-key-wrong-ciphertext"
+  const hierarchyV2InvalidCiphertextVersion := "94a3bb88-bbaa-4830-99d4-7a949a02f4a1"
+
+  const hierarchyV2InvalidPlaintextLengthId := "DO-NOT-DELETE-test-hv2-get-key-wrong-ciphertext-length"
+  const hierarchyV2InvalidPlaintextLengthVersion := "04b459a3-0731-4ba8-b9ac-4e29eb6db485"
 
   const hierarchyV2MissingPrefixedECId := "DO-NOT-DELETE-test-hv2-get-key-missing-prefixed-ec"
   const hierarchyV2MissingPrefixedECVersion := "d3e7b039-71fb-41af-8549-2564a170935c"
@@ -571,7 +574,8 @@ module Fixtures {
       hv2BranchKeyId,
       hierarchyV2InvalidKmsArnId,
       hierarchyV2InvalidDigestId,
-      hierarchyV2InvalidCiphertextLengthId,
+      hierarchyV2InvalidCiphertextId,
+      hierarchyV2InvalidPlaintextLengthId,
       hierarchyV2MissingPrefixedECId,
       hierarchyV2UnexpectedECId
     ];
@@ -595,6 +599,16 @@ module Fixtures {
   }
   /*
     // Test to Copy All Static Branch Keys from `KeyStoreDdbTable` to `KeyStoreStaticTable`
+    //
+    // IMPORTANT:
+    // The CI role does not have write access to `KeyStoreStaticTable` by default.
+    // To copy static branch keys to the static key store table, you must:
+    //   1. Assume the Admin role for the CI account
+    //   2. Run this test with the proper IAM permissions
+    //   3. Verify all keys were copied successfully
+    //
+    // This test should be performed carefully and only when necessary,
+    // such as when setting up test environments or refreshing static test data.
     method {:test} TestCopyAllBranchKeys()
     {
       var ddbClient :- expect ProvideDDBClient();
