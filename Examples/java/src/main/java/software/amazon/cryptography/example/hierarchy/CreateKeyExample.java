@@ -4,6 +4,7 @@ package software.amazon.cryptography.example.hierarchy;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.HashMap;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.utils.StringUtils;
@@ -64,10 +65,15 @@ public class CreateKeyExample {
     // prefixed by the library with `aws-crypto-ec:`.
     // For more information see:
     // blogs.aws.amazon.com/security/post/Tx2LZ6WBJJANTNW/How-to-Protect-the-Integrity-of-Your-Encrypted-Data-by-Using-AWS-Key-Management
-    final Map<String, String> encryptionContext = Collections.singletonMap(
-      "ExampleContextKey",
-      "ExampleContextValue"
-    );
+//    final Map<String, String> encryptionContext = Collections.singletonMap(
+//      "ExampleContextKey",
+//      "ExampleContextValue"
+//    );
+    HashMap<String, String> encryptionContext = new HashMap<>(2, 1);
+    encryptionContext.put("\\n" + //
+            "\\n" + //
+            "\\u0007", "VAPTTEST");
+    encryptionContext.put("beerArn", "arn:aws:beer:us-west-2:111122223333:ipa/50a8ec44-db00-4623-9c3f-daac62d61e28");
 
     // 5. Create a new branch key and beacon key in our KeyStore.
     //    Both the branch key and the beacon key will share an Id.
