@@ -551,6 +551,8 @@ module GetKeys {
 
     ensures result.Success?
             ==>
+              && old(kmsClient.History.Encrypt) == kmsClient.History.Encrypt
+              && old(kmsClient.History.GenerateDataKey) == kmsClient.History.GenerateDataKey
               && var ciphertextBlob := branchKeyItemFromStorage.CiphertextBlob;
 
               && var kmsArnFromStorage := branchKeyItemFromStorage.KmsArn;
@@ -560,7 +562,9 @@ module GetKeys {
               && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.KmsArn)
 
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
-
+              && old(kmsClient.History.Decrypt) < kmsClient.History.Decrypt
+              && var kmsKeyArn := KMSKeystoreOperations.GetArn(kmsConfiguration, kmsArnFromStorage);
+              && KMS.IsValid_CiphertextType(ciphertextBlob)
               && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
                    ciphertextBlob,
                    ecToKMS,
