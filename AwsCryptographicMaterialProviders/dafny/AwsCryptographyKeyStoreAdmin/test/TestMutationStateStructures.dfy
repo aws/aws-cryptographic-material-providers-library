@@ -17,6 +17,7 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
   import CleanupItems
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
+  import JSON = JSON.API
 
   import MutationStateStructures
 
@@ -121,10 +122,19 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
       "aws-crypto-ec:beerArn" := "arn:aws:beer:us-west-2:111122223333:ipa/50a8ec44-db00-4623-9c3f-daac62d61e28"
     ];
     var json := MutationStateStructures.EncryptionContextStringToJSON(ec);
+    print("\nJSON value:\n");
     print(json);
     var backFromJSON := MutationStateStructures.JSONToEncryptionContextString(json);
     print(backFromJSON);
     expect ec == backFromJSON;
+
+    var originalBytes :- expect JSON.Serialize(json);
+    print("\nSerialized bytes:\n");
+    print(originalBytes);
+    var jsonFromDeserialize :- expect JSON.Deserialize(originalBytes);
+    print("\nDeserialized bytes:\n");
+    print(jsonFromDeserialize);
+    expect jsonFromDeserialize == json;
   }
 
   /*
