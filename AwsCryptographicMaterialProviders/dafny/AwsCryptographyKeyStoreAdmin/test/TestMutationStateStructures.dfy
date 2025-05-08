@@ -116,7 +116,10 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
 
   method {:test} TestJSON()
   {
-    var ec := map["aws-crypto-ec:\n\n\u0007" := "Is a dog."];
+    var ec := map[
+      "aws-crypto-ec:\n\n\u0007" := "VAPTTEST",
+      "aws-crypto-ec:beerArn" := "arn:aws:beer:us-west-2:111122223333:ipa/50a8ec44-db00-4623-9c3f-daac62d61e28"
+    ];
     var json := MutationStateStructures.EncryptionContextStringToJSON(ec);
     print(json);
     var backFromJSON := MutationStateStructures.JSONToEncryptionContextString(json);
