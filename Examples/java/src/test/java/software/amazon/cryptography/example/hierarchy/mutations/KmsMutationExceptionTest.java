@@ -72,6 +72,8 @@ public class KmsMutationExceptionTest {
 
   @Test
   public void testOriginalKeyDisabledException() {
+    // Test case: Original KMS key (used for decryption) is disabled
+    // Creates a DisabledException with the original keystore KMS ARN
     DisabledException exception = DisabledException
       .builder()
       .message(
@@ -79,38 +81,56 @@ public class KmsMutationExceptionTest {
       )
       .build();
 
+    // Mock KMS client to throw DisabledException during decrypt and reEncrypt operations
+    // This simulates the original key being disabled
     KmsClient mockKmsClient = mock(KmsClient.class);
     when(mockKmsClient.reEncrypt(any(ReEncryptRequest.class)))
       .thenThrow(exception);
     when(mockKmsClient.decrypt(any(DecryptRequest.class))).thenThrow(exception);
 
-    // DecryptEncrypt Strategy with Mocked KmsClient only for Encrypt Client
+    // Create DecryptEncrypt strategy where:
+    // - Decrypt use the mocked client (simulating disabled original key)
+    // - Encrypt use a regular client
     KeyManagementStrategy decryptEncrypt = AdminProvider.decryptEncryptStrategy(
       mockKmsClient,
       KmsClient.create()
     );
 
-    // Expect exception for HV1 Branch Keys
-    Assert.expectThrows(
-      MutationFromException.class,
+    // Initializing mutation with disabled original key throws MutationFromException
+    // for both hierarchy version branch keys
+    MutationFromException hv1Exception = Assert.expectThrows(
+      MutationFromException.class, // Exception expected when original (FROM) key fails
       () ->
         admin.InitializeMutation(
           createMutationInput(hv1BranchKeyId, decryptEncrypt)
         )
     );
+    Assert.assertTrue(
+      hv1Exception
+        .getMessage()
+        .contains("Key '" + Fixtures.KEYSTORE_KMS_ARN + "' is disabled"),
+      "Exception message should contain the disabled key information"
+    );
 
-    // Expect exception for HV2 Branch Keys
-    Assert.expectThrows(
+    MutationFromException hv2Exception = Assert.expectThrows(
       MutationFromException.class,
       () ->
         admin.InitializeMutation(
           createMutationInput(hv2BranchKeyId, decryptEncrypt)
         )
     );
+    Assert.assertTrue(
+      hv2Exception
+        .getMessage()
+        .contains("Key '" + Fixtures.KEYSTORE_KMS_ARN + "' is disabled"),
+      "Exception message should contain the disabled key information"
+    );
   }
 
   @Test
   public void testTerminalKeyDisabledException() {
+    // Test case: Terminal KMS key (used for encryption) is disabled
+    // Creates a DisabledException with the terminal (destination) KMS ARN
     DisabledException exception = DisabledException
       .builder()
       .message(
@@ -118,38 +138,56 @@ public class KmsMutationExceptionTest {
       )
       .build();
 
+    // Mock KMS client to throw DisabledException during encrypt and reEncrypt operations
+    // This simulates the terminal key being disabled
     KmsClient mockKmsClient = mock(KmsClient.class);
     when(mockKmsClient.reEncrypt(any(ReEncryptRequest.class)))
       .thenThrow(exception);
     when(mockKmsClient.encrypt(any(EncryptRequest.class))).thenThrow(exception);
 
-    // Decrypt/Encrypt Strategy
+    // Create DecryptEncrypt strategy where:
+    // - Decrypt use regular client
+    // - Encrypt use the mocked client (simulating disabled terminal key)
     KeyManagementStrategy decryptEncrypt = AdminProvider.decryptEncryptStrategy(
       KmsClient.create(),
       mockKmsClient
     );
 
-    // Expect exception for HV1 Branch Keys
-    Assert.expectThrows(
-      MutationToException.class,
+    // Initializing mutation with disabled terminal key throws MutationToException
+    // for both hierarchy version branch keys
+    MutationToException hv1Exception = Assert.expectThrows(
+      MutationToException.class, // Exception expected when terminal (TO) key fails
       () ->
         admin.InitializeMutation(
           createMutationInput(hv1BranchKeyId, decryptEncrypt)
         )
     );
+    Assert.assertTrue(
+      hv1Exception
+        .getMessage()
+        .contains("Key '" + Fixtures.POSTAL_HORN_KEY_ARN + "' is disabled"),
+      "Exception message should contain the disabled key information"
+    );
 
-    // Expect exception for HV2 Branch Keys
-    Assert.expectThrows(
+    MutationToException hv2Exception = Assert.expectThrows(
       MutationToException.class,
       () ->
         admin.InitializeMutation(
           createMutationInput(hv2BranchKeyId, decryptEncrypt)
         )
     );
+    Assert.assertTrue(
+      hv2Exception
+        .getMessage()
+        .contains("Key '" + Fixtures.POSTAL_HORN_KEY_ARN + "' is disabled"),
+      "Exception message should contain the disabled key information"
+    );
   }
 
   @Test
   public void testOriginalKeyPendingDeletionException() {
+    // Test case: Original KMS key (used for decryption) is pending deletion
+    // Creates a KmsInvalidStateException with the original keystore KMS ARN
     KmsInvalidStateException exception = KmsInvalidStateException
       .builder()
       .message(
@@ -160,38 +198,60 @@ public class KmsMutationExceptionTest {
       )
       .build();
 
+    // Mock KMS client to throw KmsInvalidStateException during decrypt and reEncrypt operations
+    // This simulates the original key being in pending deletion state
     KmsClient mockKmsClient = mock(KmsClient.class);
     when(mockKmsClient.reEncrypt(any(ReEncryptRequest.class)))
       .thenThrow(exception);
     when(mockKmsClient.decrypt(any(DecryptRequest.class))).thenThrow(exception);
 
-    // Decrypt/Encrypt Strategy
+    // Create DecryptEncrypt strategy where:
+    // - Decrypt use the mocked client (simulating original key pending deletion)
+    // - Encrypt use a regular client
     KeyManagementStrategy decryptEncrypt = AdminProvider.decryptEncryptStrategy(
       mockKmsClient,
       KmsClient.create()
     );
 
-    // Expect exception for HV1 Branch Keys
-    Assert.expectThrows(
-      MutationFromException.class,
+    // Initializing mutation with original key pending deletion throws MutationFromException
+    // for both hierarchy version branch keys
+    MutationFromException hv1Exception = Assert.expectThrows(
+      MutationFromException.class, // Exception expected when original (FROM) key fails
       () ->
         admin.InitializeMutation(
           createMutationInput(hv1BranchKeyId, decryptEncrypt)
         )
     );
+    Assert.assertTrue(
+      hv1Exception
+        .getMessage()
+        .contains(
+          "Key '" + Fixtures.KEYSTORE_KMS_ARN + "' is pending deletion"
+        ),
+      "Exception message should contain the pending deletion key information"
+    );
 
-    // Expect exception for HV2 Branch Keys
-    Assert.expectThrows(
+    MutationFromException hv2Exception = Assert.expectThrows(
       MutationFromException.class,
       () ->
         admin.InitializeMutation(
           createMutationInput(hv2BranchKeyId, decryptEncrypt)
         )
     );
+    Assert.assertTrue(
+      hv2Exception
+        .getMessage()
+        .contains(
+          "Key '" + Fixtures.KEYSTORE_KMS_ARN + "' is pending deletion"
+        ),
+      "Exception message should contain the pending deletion key information"
+    );
   }
 
   @Test
   public void testTerminalKeyPendingDeletionException() {
+    // Test case: Terminal KMS key (used for encryption) is pending deletion
+    // Creates a KmsInvalidStateException with the terminal (destination) KMS ARN
     KmsInvalidStateException exception = KmsInvalidStateException
       .builder()
       .message(
@@ -202,32 +262,53 @@ public class KmsMutationExceptionTest {
       )
       .build();
 
+    // Mock KMS client to throw KmsInvalidStateException during encrypt and reEncrypt operations
+    // This simulates the terminal key being in pending deletion state
     KmsClient mockKmsClient = mock(KmsClient.class);
     when(mockKmsClient.reEncrypt(any(ReEncryptRequest.class)))
       .thenThrow(exception);
     when(mockKmsClient.encrypt(any(EncryptRequest.class))).thenThrow(exception);
 
+    // Create DecryptEncrypt strategy where:
+    // - Decrypt use regular client
+    // - Encrypt use the mocked client (simulating terminal key pending deletion)
     KeyManagementStrategy decryptEncrypt = AdminProvider.decryptEncryptStrategy(
       KmsClient.create(),
       mockKmsClient
     );
 
-    // Expect exception for HV1 Branch Keys
-    Assert.expectThrows(
-      MutationToException.class,
+    // Initializing mutation with terminal key pending deletion throws MutationToException
+    // for both hierarchy version branch keys
+    MutationToException hv1Exception = Assert.expectThrows(
+      MutationToException.class, // Exception expected when terminal (TO) key fails
       () ->
         admin.InitializeMutation(
           createMutationInput(hv1BranchKeyId, decryptEncrypt)
         )
     );
+    Assert.assertTrue(
+      hv1Exception
+        .getMessage()
+        .contains(
+          "Key '" + Fixtures.POSTAL_HORN_KEY_ARN + "' is pending deletion"
+        ),
+      "Exception message should contain the pending deletion key information"
+    );
 
-    // Expect exception for HV2 Branch Keys
-    Assert.expectThrows(
+    MutationToException hv2Exception = Assert.expectThrows(
       MutationToException.class,
       () ->
         admin.InitializeMutation(
           createMutationInput(hv2BranchKeyId, decryptEncrypt)
         )
+    );
+    Assert.assertTrue(
+      hv2Exception
+        .getMessage()
+        .contains(
+          "Key '" + Fixtures.POSTAL_HORN_KEY_ARN + "' is pending deletion"
+        ),
+      "Exception message should contain the pending deletion key information"
     );
   }
 
