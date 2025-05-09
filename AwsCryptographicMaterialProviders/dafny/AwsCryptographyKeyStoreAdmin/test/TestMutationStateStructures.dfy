@@ -4,6 +4,7 @@
 include "../src/Index.dfy"
 include "../../AwsCryptographyKeyStore/test/CleanupItems.dfy"
 include "AdminFixtures.dfy"
+include "../src/MutationStateStructures.dfy"
 
 /** Tests the logic in Mutation State Structures */
 module {:options "/functionSyntax:4" } TestMutationStateStructures {
@@ -16,6 +17,9 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
   import CleanupItems
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
+  import JSON = JSON.API
+
+  import MutationStateStructures
 
   // Helper method to validate MutationDetails equality
   method ValidateMutationDetails(actual: Types.MutationDetails, expected: Types.MutationDetails)
@@ -109,6 +113,44 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
       response2.value.MutationInFlight.Yes.MutationDetails,
       expectedDetails2
     );
+  }
+
+  method {:test} TestEncryptionContextStringToJSON()
+  {
+    var ec := map[
+      "aws-crypto-ec:\n\n\u0007" := "VAPTTEST",
+      "aws-crypto-ec:beerArn" := "arn:aws:beer:us-west-2:111122223333:ipa/50a8ec44-db00-4623-9c3f-daac62d61e28"
+    ];
+    var json := MutationStateStructures.EncryptionContextStringToJSON(ec);
+    expect |set p <- json.obj :: p.0| == |json.obj|;
+    var ecConvertedFromJSON := MutationStateStructures.JSONToEncryptionContextString(json);
+    expect ec == ecConvertedFromJSON;
+  }
+
+  method {:test} TestJSON()
+  {
+    var ec := map[
+      "aws-crypto-ec:\n\n\u0007" := "VAPTTEST",
+      "aws-crypto-ec:beerArn" := "arn:aws:beer:us-west-2:111122223333:ipa/50a8ec44-db00-4623-9c3f-daac62d61e28"
+    ];
+    var json := MutationStateStructures.EncryptionContextStringToJSON(ec);
+
+    var originalBytesForMap :- expect JSON.Serialize(json);
+    print("\nSerialized bytes:\n");
+    print(originalBytesForMap);
+    var jsonFromDeserializeForMap :- expect JSON.Deserialize(originalBytesForMap);
+    print("\nDeserialized bytes:\n");
+    print(jsonFromDeserializeForMap);
+    expect jsonFromDeserializeForMap == json;
+
+    var stringJSONObj := JSON.Values.String("aws-crypto-ec:\n\n\u0007");
+    var originalBytesForStrObj :- expect JSON.Serialize(stringJSONObj);
+    print("\nSerialized bytes:\n");
+    print(originalBytesForStrObj);
+    var jsonFromDeserializeForStrObj :- expect JSON.Deserialize(originalBytesForStrObj);
+    print("\nDeserialized bytes:\n");
+    print(jsonFromDeserializeForStrObj);
+    expect jsonFromDeserializeForStrObj == stringJSONObj;
   }
 
   /*
