@@ -145,6 +145,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
             ==>
               && var kms := kmsClient;
               && old(kms.History.Encrypt) == kms.History.Encrypt
+              && old(kms.History.Decrypt) == kms.History.Decrypt
               && |kms.History.GenerateDataKey| == |old(kms.History.GenerateDataKey)| + 1
               && old(kms.History.GenerateDataKey) < kms.History.GenerateDataKey
               && var kmsGenerateDataKeyEvent := Seq.Last(kms.History.GenerateDataKey);
@@ -414,6 +415,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       ==>
         && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
         && kmsClient.History.GenerateDataKey == old(kmsClient.History.GenerateDataKey)
+        && kmsClient.History.Decrypt == old(kmsClient.History.Decrypt)
         && var kmsKeyArn := GetKeyId(kmsConfiguration);
 
         && var encryptInput := Seq.Last(kmsClient.History.Encrypt).input;
@@ -824,7 +826,11 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
     ensures output.Success?
             ==>
+              && old(kmsClient.History.Encrypt) == kmsClient.History.Encrypt
+              && old(kmsClient.History.GenerateDataKey) == kmsClient.History.GenerateDataKey
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
+              && old(kmsClient.History.Decrypt) < kmsClient.History.Decrypt
+              && KMS.IsValid_CiphertextType(ciphertextBlob)
               && AwsKmsBranchKeyDecryptionForHV2?(
                    ciphertextBlob,
                    encryptionContextToKms,
@@ -1040,6 +1046,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
         && kms.History.Encrypt == old(kms.History.Encrypt) + [Seq.Last(kms.History.Encrypt)]
         && Seq.Last(kms.History.Encrypt) == kms.History.Encrypt[|kms.History.Encrypt| -1]
         && kms.History.GenerateDataKey == old(kms.History.GenerateDataKey)
+        && kms.History.Decrypt == old(kms.History.Decrypt)
         && var kmsEncryptEvent :=  Seq.Last(kms.History.Encrypt);
         && var kmsEncryptInput := kmsEncryptEvent.input;
         && Compatible?(cryptoAndKms.kmsConfig, kmsEncryptInput.KeyId)
@@ -1050,7 +1057,6 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
              EncryptionContext := Some(encryptionContext),
              GrantTokens := Some(cryptoAndKms.kms.kmsSimple.grantTokens)
            ) == kmsEncryptInput
-        && |kmsEncryptInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
         && kmsEncryptInput.Plaintext == digest + material
         && material == kmsEncryptInput.Plaintext[Structure.BKC_DIGEST_LENGTH..]
         && kmsEncryptEvent.output.Success?

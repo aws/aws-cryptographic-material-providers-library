@@ -817,7 +817,87 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires kmsClient.ValidState() && storage.ValidState()
     modifies storage.Modifies, kmsClient.Modifies
     ensures storage.ValidState() && kmsClient.ValidState()
-    //TODO-HV-2-M4: add generate data key, encrypt, and write to storage proofs here
+    ensures output.Success?
+            ==>
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem.EncryptionContext[Structure.KMS_FIELD])
+              && KMSKeystoreOperations.Compatible?(kmsConfiguration, oldActiveItem.KmsArn)
+
+              && |kmsClient.History.GenerateDataKey| == |old(kmsClient.History.GenerateDataKey)| + 1 // for the new active
+              && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1 // for decrypting the current active
+              && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 2 // for encrypting the new active and encrypting the old active into the version
+
+              && old(kmsClient.History.GenerateDataKey) < kmsClient.History.GenerateDataKey
+              && old(kmsClient.History.Decrypt) < kmsClient.History.Decrypt
+              && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
+
+              && var kmsKeyArn := KMSKeystoreOperations.GetKeyId(kmsConfiguration);
+              && HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext) == true
+              && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(oldActiveItem.EncryptionContext);
+              && var gdkEvent := Seq.Last(kmsClient.History.GenerateDataKey);
+              && var gdkInput := gdkEvent.input;
+              && var gdkOutput := gdkEvent.output;
+              && KMS.GenerateDataKeyRequest(
+                   KeyId := kmsKeyArn,
+                   NumberOfBytes := Some(32),
+                   EncryptionContext := Some(ecToKMS),
+                   GrantTokens := Some(grantTokens)
+                 ) == gdkInput
+              && gdkOutput.Success?
+              && gdkOutput.value.Plaintext.Some?
+              && var newActiveMaterial := gdkOutput.value.Plaintext.value;
+
+              && KMS.IsValid_CiphertextType(oldActiveItem.CiphertextBlob)
+              && var kmsArnFromStorage := oldActiveItem.KmsArn;
+              && var decryptOutput := Seq.Last(kmsClient.History.Decrypt).output;
+              && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
+                   oldActiveItem.CiphertextBlob,
+                   ecToKMS,
+                   kmsArnFromStorage,
+                   kmsConfiguration,
+                   grantTokens,
+                   kmsClient,
+                   Seq.Last(kmsClient.History.Decrypt)
+                 )
+              && decryptOutput.Success?
+              && var oldActiveMaterial := decryptOutput.value.Plaintext.value[Structure.BKC_DIGEST_LENGTH..];
+
+              && WrappedBranchKeyVersionV2?(
+                   kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1],
+                   kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 2],
+                   newActiveMaterial,
+                   oldActiveMaterial,
+                   kmsClient,
+                   kmsConfiguration,
+                   grantTokens,
+                   ecToKMS
+                 )
+
+              && var decryptOnlyEncryptionContext := Structure.NewVersionFromActiveBranchKeyEncryptionContext(
+                                                       oldActiveItem.EncryptionContext,
+                                                       branchKeyVersion,
+                                                       timestamp
+                                                     );
+              && var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
+              && |storage.History.WriteNewEncryptedBranchKeyVersion| == |old(storage.History.WriteNewEncryptedBranchKeyVersion)| + 1
+
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Active.Item
+                 == Structure.ConstructEncryptedHierarchicalKey(
+                      activeEncryptionContext,
+                      kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1].output.value.CiphertextBlob.value
+                    )
+
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Version
+                 == Structure.ConstructEncryptedHierarchicalKey(
+                      decryptOnlyEncryptionContext,
+                      kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 2].output.value.CiphertextBlob.value
+                    )
+
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Active.Item.KmsArn == oldActiveItem.KmsArn
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Version.KmsArn == oldActiveItem.KmsArn
+
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).output.Success?
+
+              && output == Success(Types.VersionKeyOutput)
   {
     if !HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext) {
       return Failure(Types.BranchKeyCiphertextException(
@@ -1053,6 +1133,44 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     && decryptOnlyEncryptHistory.output.Success?
     && decryptOnlyEncryptHistory.output.value.CiphertextBlob.Some?
+
+    && activeOnlyEncryptHistory.output.Success?
+    && activeOnlyEncryptHistory.output.value.CiphertextBlob.Some?
+  }
+
+  twostate predicate WrappedBranchKeyVersionV2?(
+    new activeOnlyEncryptHistory: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
+    new versionedEncryptHistory: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
+    newActiveMaterial: seq<uint8>,
+    oldActiveMaterial: seq<uint8>,
+    kmsClient: KMS.IKMSClient,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    customEncryptionContext: map<string, string>
+  )
+    reads kmsClient.History
+    requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+
+    requires old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
+
+    requires
+      && activeOnlyEncryptHistory in kmsClient.History.Encrypt[|old(kmsClient.History.Encrypt)|..]
+      && versionedEncryptHistory in kmsClient.History.Encrypt[|old(kmsClient.History.Encrypt)|..]
+  {
+    && var versionedInput := versionedEncryptHistory.input;
+    && |versionedInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+    && versionedInput.Plaintext[Structure.BKC_DIGEST_LENGTH..] == oldActiveMaterial
+    && versionedInput.EncryptionContext == Some(customEncryptionContext)
+    && versionedInput.GrantTokens == Some(grantTokens)
+
+    && var activeInput := activeOnlyEncryptHistory.input;
+    && |activeInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+    && activeInput.Plaintext[Structure.BKC_DIGEST_LENGTH..] == newActiveMaterial
+    && activeInput.EncryptionContext == Some(customEncryptionContext)
+    && activeInput.GrantTokens == Some(grantTokens)
+
+    && versionedEncryptHistory.output.Success?
+    && versionedEncryptHistory.output.value.CiphertextBlob.Some?
 
     && activeOnlyEncryptHistory.output.Success?
     && activeOnlyEncryptHistory.output.value.CiphertextBlob.Some?
