@@ -1112,25 +1112,19 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     }
   }
 
-  function ExtractKmsOpaque(
+  function ExtractKmsError(
     error: KmsError
-  ): (opaqueError?: Option<KMS.OpaqueError>)
+  ): (kmsError?: Option<KMS.Error>)
     ensures
       && error.ComAmazonawsKms?
-      && error.ComAmazonawsKms.Opaque?
-      ==> opaqueError?.Some? && opaqueError?.value == error.ComAmazonawsKms
+      ==> kmsError?.Some? && kmsError?.value == error.ComAmazonawsKms
   {
     match error {
       case Opaque(obj) => None
       case KeyManagementException(s) => None
       case BranchKeyCiphertextException(s) => None
       case KeyStoreException(s) => None
-      case ComAmazonawsKms(comAmazonawsKms: KMS.Error) =>
-        match comAmazonawsKms {
-          case Opaque(obj) => Some(comAmazonawsKms)
-          case OpaqueWithText(obj, objMessage) => Some(comAmazonawsKms)
-          case _ => None
-        }
+      case ComAmazonawsKms(comAmazonawsKms: KMS.Error) => Some(comAmazonawsKms)
     }
   }
 
