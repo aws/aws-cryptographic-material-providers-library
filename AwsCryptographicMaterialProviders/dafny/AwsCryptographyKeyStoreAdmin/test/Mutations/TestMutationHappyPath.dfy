@@ -23,13 +23,13 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
   const originalEC: KeyStoreTypes.EncryptionContextString := Fixtures.RobbieECString
 
   /**
-   * This helper method tests the end-to-end mutation.
-   * 
-   * This helper method asserts:
-   * 1. That a mutation can be successfully initialized
-   * 2. That the mutation can be successfully applied
-   * 3. That all branch key items after mutation are correctly updated with the terminal properties.
-   */
+    * This helper method tests the end-to-end mutation.
+    * 
+    * This helper method asserts:
+    * 1. That a mutation can be successfully initialized
+    * 2. That the mutation can be successfully applied
+    * 3. That all branch key items after mutation are correctly updated with the terminal properties.
+    */
   method MutationRoundTripTest(
     ddbClient: DDB.Types.IDynamoDBClient,
     storage: KeyStoreTypes.IKeyStorageInterface,
@@ -97,14 +97,14 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
   }
 
   /**
-   * This helper method tests to recover from an in-flight mutation 
-   * that was interrupted by the deletion of the Mutation Index.
-   * 
-   * This helper method asserts:
-   * 1. That the Mutation Index can be deleted and recreated successfully via InitializeMutation
-   * 2. That the mutation token can be retrieved via InitializeMutation after index deletion
-   * 3. That the mutation process can be resumed and completed after recovery
-   */
+    * This helper method tests to recover from an in-flight mutation 
+    * that was interrupted by the deletion of the Mutation Index.
+    * 
+    * This helper method asserts:
+    * 1. That the Mutation Index can be deleted and recreated successfully via InitializeMutation
+    * 2. That the mutation token can be retrieved via InitializeMutation after index deletion
+    * 3. That the mutation process can be resumed and completed after recovery
+    */
   method MutationRecoveryTest(
     ddbClient: DDB.Types.IDynamoDBClient,
     storage: KeyStoreTypes.IKeyStorageInterface,
