@@ -86,7 +86,7 @@ module TestAwsCryptographyPrimitivesHKDF {
     var client :- expect AtomicPrimitives.AtomicPrimitives();
 
     var output :- expect client.HkdfExtract(input);
-    expect |output| == Digest.Length(input.digestAlgorithm);
+    expect |output| == Digest.Length(input.digestAlgorithm) as nat;
     expect output == expectedPRK;
   }
 

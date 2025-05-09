@@ -10,6 +10,7 @@ include "KmsArn.dfy"
 module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import Seq
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
@@ -290,9 +291,10 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     );
     var decryptResponse :- maybeDecryptResponse.MapFailure(e => Types.ComAmazonawsKms(e));
 
+    OptionalSequenceIsSafeBecauseItIsInMemory(decryptResponse.Plaintext);
     :- Need(
       && decryptResponse.Plaintext.Some?
-      && 32 == |decryptResponse.Plaintext.value|,
+      && 32 == |decryptResponse.Plaintext.value| as uint64,
       Types.KeyStoreException(
         message := "Invalid response from AWS KMS Decrypt: Key is not 32 bytes.")
     );

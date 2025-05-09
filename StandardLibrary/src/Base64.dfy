@@ -10,6 +10,7 @@ include "UInt.dfy"
 module Base64 {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
 
   // The maximum index for Base64 is less than 64 (0x40)
   newtype index = x | 0 <= x < 0x40
@@ -23,9 +24,23 @@ module Base64 {
     c == '+' || c == '/' || '0' <= c <= '9' || 'A' <= c <= 'Z' || 'a' <= c <= 'z'
   }
 
-  predicate method IsUnpaddedBase64String(s: string) {
+  predicate IsUnpaddedBase64String(s: string) {
     // A Base64 encoded string will use 4 ASCII characters for every 3 bytes of data ==> length is divisible by 4
     |s| % 4 == 0 && forall k :: k in s ==> IsBase64Char(k)
+  } by method {
+    SequenceIsSafeBecauseItIsInMemory(s);
+    var size := |s| as uint64;
+    if size % 4 != 0 {
+      return false;
+    }
+    for i : uint64 := 0 to size
+      invariant |s| % 4 == 0 && forall k :: k in s[..i] ==> IsBase64Char(k)
+    {
+      if !IsBase64Char(s[i]) {
+        return false;
+      }
+    }
+    return true;
   }
 
   function method IndexToChar(i: index): (c: char)
@@ -39,9 +54,9 @@ module Base64 {
     // 0 - 9
     else if 52 <= i <= 61 then (i - 4) as char
     // a - z
-    else if 26 <= i <= 51 then i as char + 71 as char
+    else if 26 <= i <= 51 then (i as uint8 + 71) as char
     // A - Z
-    else i as char + 65 as char
+    else (i as uint8 + 65) as char
   }
 
   function method CharToIndex(c: char): (i: index)
@@ -51,9 +66,9 @@ module Base64 {
     // Perform the inverse operations of IndexToChar
     if c == '/' then 63
     else if c == '+' then 62
-    else if '0' <= c <= '9' then (c + 4 as char) as index
-    else if 'a' <= c <= 'z' then (c - 71 as char) as index
-    else (c - 65 as char) as index
+    else if '0' <= c <= '9' then (c as uint8 + 4) as index
+    else if 'a' <= c <= 'z' then (c as uint8 - 71) as index
+    else (c as uint8 - 65) as index
   }
 
   lemma CharToIndexToChar(x: char)
@@ -81,7 +96,15 @@ module Base64 {
     requires |s| == 3
     ensures UInt24ToSeq(x) == s
   {
-    s[0] as uint24 * 0x1_0000 + s[1] as uint24 * 0x100 + s[2] as uint24
+    s[0 as uint32] as uint24 * 0x1_0000 + s[1 as uint32] as uint24 * 0x100 + s[2 as uint32] as uint24
+  }
+
+  function method SeqPosToUInt24(s: seq<uint8>, pos : uint64): (x: uint24)
+    requires |s| >= pos as nat + 3
+    ensures UInt24ToSeq(x) == s[pos..pos as nat+3]
+  {
+    SequenceIsSafeBecauseItIsInMemory(s);
+    s[pos] as uint24 * 0x1_0000 + s[pos+1] as uint24 * 0x100 + s[pos+2] as uint24
   }
 
   lemma UInt24ToSeqToUInt24(x: uint24)
@@ -115,7 +138,15 @@ module Base64 {
     requires |s| == 4
     ensures UInt24ToIndexSeq(x) == s
   {
-    s[0] as uint24 * 0x4_0000 + s[1] as uint24 * 0x1000 + s[2] as uint24 * 0x40 + s[3] as uint24
+    s[0 as uint32] as uint24 * 0x4_0000 + s[1 as uint32] as uint24 * 0x1000 + s[2 as uint32] as uint24 * 0x40 + s[3 as uint32] as uint24
+  }
+
+  function method {:vcs_split_on_every_assert} IndexSeqPosToUInt24(s: seq<index>, pos : uint64): (x: uint24)
+    requires |s| >= pos as nat + 4
+    ensures UInt24ToIndexSeq(x) == s[pos..pos as nat+4]
+  {
+    SequenceIsSafeBecauseItIsInMemory(s);
+    s[pos] as uint24 * 0x4_0000 + s[pos+1] as uint24 * 0x1000 + s[pos+2] as uint24 * 0x40 + s[pos+3] as uint24
   }
 
   lemma UInt24ToIndexSeqToUInt24(x: uint24)
@@ -135,6 +166,15 @@ module Base64 {
     UInt24ToSeq(IndexSeqToUInt24(s))
   }
 
+  function method DecodeBlockPos(s: seq<index>, pos : uint64): (ret: seq<uint8>)
+    requires |s| >= pos as nat + 4
+    ensures |ret| == 3
+    ensures UInt24ToIndexSeq(SeqToUInt24(ret)) == s[pos..pos as nat + 4]
+  {
+    UInt24ToSeq(IndexSeqPosToUInt24(s, pos))
+  }
+
+
   function method EncodeBlock(s: seq<uint8>): (ret: seq<index>)
     requires |s| == 3
     ensures |ret| == 4
@@ -142,6 +182,15 @@ module Base64 {
     ensures DecodeBlock(ret) == s
   {
     UInt24ToIndexSeq(SeqToUInt24(s))
+  }
+
+  function method EncodeBlockPos(s: seq<uint8>, pos : uint64): (ret: seq<index>)
+    requires |s| >= pos as nat + 3
+    ensures |ret| == 4
+    ensures UInt24ToSeq(IndexSeqToUInt24(ret)) == s[pos..pos as nat + 3]
+    ensures DecodeBlock(ret) == s[pos..pos as nat + 3]
+  {
+    UInt24ToIndexSeq(SeqPosToUInt24(s, pos))
   }
 
   lemma EncodeDecodeBlock(s: seq<uint8>)
@@ -154,7 +203,7 @@ module Base64 {
     ensures EncodeBlock(DecodeBlock(s)) == s
   {}
 
-  function method DecodeRecursively(s: seq<index>): (b: seq<uint8>)
+  function DecodeRecursively(s: seq<index>): (b: seq<uint8>)
     requires |s| % 4 == 0
     ensures |b| == |s| / 4 * 3
     ensures |b| % 3 == 0
@@ -164,9 +213,23 @@ module Base64 {
   {
     if |s| == 0 then []
     else DecodeBlock(s[..4]) + DecodeRecursively(s[4..])
+  } by method {
+    assert (|s| == 0) || (4 <= |s|);
+    SequenceIsSafeBecauseItIsInMemory(s);
+    var i : uint64 := |s| as uint64;
+    var result : seq<uint8> := [];
+    while i > 0
+      decreases i
+      invariant (|s| - i as nat) % 4 == 0
+      invariant result == DecodeRecursively(s[i..])
+    {
+      result := DecodeBlockPos(s, i-4) + result;
+      i := i - 4;
+    }
+    return result;
   }
 
-  function method EncodeRecursively(b: seq<uint8>): (s: seq<index>)
+  function EncodeRecursively(b: seq<uint8>): (s: seq<index>)
     requires |b| % 3 == 0
     ensures |s| == |b| / 3 * 4
     ensures |s| % 4 == 0
@@ -174,6 +237,20 @@ module Base64 {
   {
     if |b| == 0 then []
     else EncodeBlock(b[..3]) + EncodeRecursively(b[3..])
+  } by method {
+    assert (|b| == 0) || (3 <= |b|);
+    SequenceIsSafeBecauseItIsInMemory(b);
+    var i : uint64 := |b| as uint64;
+    var result : seq<index> := [];
+    while i > 0
+      decreases i
+      invariant (|b| - i as nat) % 3 == 0
+      invariant result == EncodeRecursively(b[i..])
+    {
+      result := EncodeBlockPos(b, i-3) + result;
+      i := i - 3;
+    }
+    return result;
   }
 
   lemma DecodeEncodeRecursively(s: seq<index>)
@@ -186,21 +263,40 @@ module Base64 {
     ensures DecodeRecursively(EncodeRecursively(b)) == b
   {}
 
-  function method FromCharsToIndices(s: seq<char>): (b: seq<index>)
+  function FromCharsToIndices(s: seq<char>): (b: seq<index>)
     requires forall k :: k in s ==> IsBase64Char(k)
     ensures |b| == |s|
     ensures forall k :: 0 <= k < |b| ==> IndexToChar(b[k]) == s[k]
   {
     seq(|s|, i requires 0 <= i < |s| => CharToIndex(s[i]))
+  } by method {
+    var result : seq<index> := [];
+    SequenceIsSafeBecauseItIsInMemory(s);
+    for i : uint64 := 0 to |s| as uint64
+      invariant result == FromCharsToIndices(s[..i])
+    {
+      result := result + [CharToIndex(s[i])];
+    }
+    return result;
   }
 
-  function method FromIndicesToChars(b: seq<index>): (s: seq<char>)
+
+  function FromIndicesToChars(b: seq<index>): (s: seq<char>)
     ensures forall k :: k in s ==> IsBase64Char(k)
     ensures |s| == |b|
     ensures forall k :: 0 <= k < |s| ==> CharToIndex(s[k]) == b[k]
     ensures FromCharsToIndices(s) == b
   {
     seq(|b|, i requires 0 <= i < |b| => IndexToChar(b[i]))
+  } by method {
+    var result : seq<char> := [];
+    SequenceIsSafeBecauseItIsInMemory(b);
+    for i : uint64 := 0 to |b| as uint64
+      invariant result == FromIndicesToChars(b[..i])
+    {
+      result := result + [IndexToChar(b[i])];
+    }
+    return result;
   }
 
   lemma FromCharsToIndicesToChars(s: seq<char>)
@@ -261,13 +357,14 @@ module Base64 {
   }
 
   predicate method Is1Padding(s: seq<char>) {
-    |s| == 4 &&
-    IsBase64Char(s[0]) &&
-    IsBase64Char(s[1]) &&
-    IsBase64Char(s[2]) &&
+    SequenceIsSafeBecauseItIsInMemory(s);
+    |s| as uint64 == 4 &&
+    IsBase64Char(s[0 as uint32]) &&
+    IsBase64Char(s[1 as uint32]) &&
+    IsBase64Char(s[2 as uint32]) &&
     // This is a result of the padded 0's in the sextet in the final element before the =
-    CharToIndex(s[2]) % 0x4 == 0 &&
-    s[3] == '='
+    CharToIndex(s[2 as uint32]) % 0x4 == 0 &&
+    s[3 as uint32] == '='
   }
 
   function method Decode1Padding(s: seq<char>): (b: seq<uint8>)
@@ -275,8 +372,8 @@ module Base64 {
     // Padding with 1 = implies the sequence represents 2 bytes
     ensures |b| == 2
   {
-    var d := DecodeBlock([CharToIndex(s[0]), CharToIndex(s[1]), CharToIndex(s[2]), 0]);
-    [d[0], d[1]]
+    var d := DecodeBlock([CharToIndex(s[0 as uint32]), CharToIndex(s[1 as uint32]), CharToIndex(s[2 as uint32]), 0]);
+    [d[0 as uint32], d[1 as uint32]]
   }
 
   function method {:vcs_split_on_every_assert} Encode1Padding(b: seq<uint8>): (s: seq<char>)
@@ -286,8 +383,8 @@ module Base64 {
     ensures |s| % 4 == 0
   {
     // 0 is used to ensure that the final element doesn't affect the EncodeBlock conversion for b
-    var e := EncodeBlock([b[0], b[1], 0]);
-    [IndexToChar(e[0]), IndexToChar(e[1]), IndexToChar(e[2]), '=']
+    var e := EncodeBlock([b[0 as uint32], b[1 as uint32], 0]);
+    [IndexToChar(e[0 as uint32]), IndexToChar(e[1 as uint32]), IndexToChar(e[2 as uint32]), '=']
   }
 
   lemma DecodeEncode1Padding(s: seq<char>)
@@ -301,13 +398,14 @@ module Base64 {
   {}
 
   predicate method Is2Padding(s: seq<char>) {
-    |s| == 4 &&
-    IsBase64Char(s[0]) &&
-    IsBase64Char(s[1]) &&
+    SequenceIsSafeBecauseItIsInMemory(s);
+    |s| as uint64 == 4 &&
+    IsBase64Char(s[0 as uint32]) &&
+    IsBase64Char(s[1 as uint32]) &&
     // This is a result of the padded 0's in the sextet in the final element before the two =
-    CharToIndex(s[1]) % 0x10 == 0 &&
-    s[2] == '=' &&
-    s[3] == '='
+    CharToIndex(s[1 as uint32]) % 0x10 == 0 &&
+    s[2 as uint32] == '=' &&
+    s[3 as uint32] == '='
   }
 
   function method Decode2Padding(s: seq<char>): (b: seq<uint8>)
@@ -315,8 +413,8 @@ module Base64 {
     // Padding with 2 = implies the sequence represents 1 byte
     ensures |b| == 1
   {
-    var d := DecodeBlock([CharToIndex(s[0]), CharToIndex(s[1]), 0, 0]);
-    [d[0]]
+    var d := DecodeBlock([CharToIndex(s[0 as uint32]), CharToIndex(s[1 as uint32]), 0, 0]);
+    [d[0 as uint32]]
   }
 
   function method Encode2Padding(b: seq<uint8>): (s: seq<char>)
@@ -327,8 +425,8 @@ module Base64 {
     ensures |s| % 4 == 0
   {
     // 0 is used to ensure that the final two elements don't affect the EncodeBlock conversion for b
-    var e := EncodeBlock([b[0], 0, 0]);
-    [IndexToChar(e[0]), IndexToChar(e[1]), '=', '=']
+    var e := EncodeBlock([b[0 as uint32], 0, 0]);
+    [IndexToChar(e[0 as uint32]), IndexToChar(e[1 as uint32]), '=', '=']
   }
 
   lemma DecodeEncode2Padding(s: seq<char>)
@@ -343,17 +441,20 @@ module Base64 {
 
   predicate method IsBase64String(s: string) {
     // All Base64 strings are unpadded until the final block of 4 elements, where a padded seq could exist
-    var finalBlockStart := |s| - 4;
-    (|s| % 4 == 0) &&
+    SequenceIsSafeBecauseItIsInMemory(s);
+    var size := |s| as uint64;
+    (size % 4 == 0) &&
     (IsUnpaddedBase64String(s) ||
-     (IsUnpaddedBase64String(s[..finalBlockStart]) && (Is1Padding(s[finalBlockStart..]) || Is2Padding(s[finalBlockStart..]))))
+     (IsUnpaddedBase64String(s[..size-4]) && (Is1Padding(s[size-4..]) || Is2Padding(s[size-4..]))))
   }
 
   function method DecodeValid(s: seq<char>): (b: seq<uint8>)
     requires IsBase64String(s)
   {
-    if s == [] then [] else
-    var finalBlockStart := |s| - 4;
+    SequenceIsSafeBecauseItIsInMemory(s);
+    var size := |s| as uint64;
+    if size == 0 then [] else
+    var finalBlockStart := size - 4;
     var prefix, suffix := s[..finalBlockStart], s[finalBlockStart..];
     if Is1Padding(suffix) then
       DecodeUnpadded(prefix) + Decode1Padding(suffix)
@@ -424,13 +525,16 @@ module Base64 {
     ensures IsBase64String(s)
     // Rather than ensure Decode(s) == Success(b) directly, lemmas are used to verify this property
   {
-    if |b| % 3 == 0 then
+    SequenceIsSafeBecauseItIsInMemory(b);
+    var size := |b| as uint64;
+    var mod := size % 3;
+    if mod == 0 then
       var s := EncodeUnpadded(b);
       assert |s| % 4 == 0;
       s
-    else if |b| % 3 == 1 then
+    else if mod == 1 then
       assert |b| >= 1;
-      var s1, s2 := EncodeUnpadded(b[..(|b| - 1)]), Encode2Padding(b[(|b| - 1)..]);
+      var s1, s2 := EncodeUnpadded(b[..(size - 1)]), Encode2Padding(b[(size - 1)..]);
       ConcatMod4Sequences(s1, s2);
       var s := s1 + s2;
       assert |s| % 4 == 0;
@@ -438,7 +542,7 @@ module Base64 {
     else
       assert |b| % 3 == 2;
       assert |b| >= 2;
-      var s1, s2 := EncodeUnpadded(b[..(|b| - 2)]), Encode1Padding(b[(|b| - 2)..]);
+      var s1, s2 := EncodeUnpadded(b[..(size - 2)]), Encode1Padding(b[(size - 2)..]);
       ConcatMod4Sequences(s1, s2);
       var s := s1 + s2;
       assert |s| % 4 == 0;

@@ -65,8 +65,8 @@ module StandardLibrary.UInt {
     ensures UInt16ToSeq(x) == s
     ensures x >= 0
   {
-    var x0 := s[0] as uint16 * 0x100;
-    x0 + s[1] as uint16
+    var x0 := s[0 as uint32] as uint16 * 0x100;
+    x0 + s[1 as uint32] as uint16
   }
 
   function method SeqPosToUInt16(s: seq<uint8>, pos : uint64): (x: uint16)
@@ -156,10 +156,10 @@ module StandardLibrary.UInt {
     requires |s| == 4
     ensures UInt32ToSeq(x) == s
   {
-    var x0 := s[0] as uint32 * 0x100_0000;
-    var x1 := x0 + s[1] as uint32 * 0x1_0000;
-    var x2 := x1 + s[2] as uint32 * 0x100;
-    x2 + s[3] as uint32
+    var x0 := s[0 as uint32] as uint32 * 0x100_0000;
+    var x1 := x0 + s[1 as uint32] as uint32 * 0x1_0000;
+    var x2 := x1 + s[2 as uint32] as uint32 * 0x100;
+    x2 + s[3 as uint32] as uint32
   }
 
   lemma UInt32SeqSerializeDeserialize(x: uint32)
@@ -204,14 +204,14 @@ module StandardLibrary.UInt {
     requires |s| == 8
     ensures UInt64ToSeq(x) == s
   {
-    var x0 := s[0] as uint64 * 0x100_0000_0000_0000;
-    var x1 := x0 + s[1] as uint64 * 0x1_0000_0000_0000;
-    var x2 := x1 + s[2] as uint64 * 0x100_0000_0000;
-    var x3 := x2 + s[3] as uint64 * 0x1_0000_0000;
-    var x4 := x3 + s[4] as uint64 * 0x100_0000;
-    var x5 := x4 + s[5] as uint64 * 0x1_0000;
-    var x6 := x5 + s[6] as uint64 * 0x100;
-    var x := x6 + s[7] as uint64;
+    var x0 := s[0 as uint32] as uint64 * 0x100_0000_0000_0000;
+    var x1 := x0 + s[1 as uint32] as uint64 * 0x1_0000_0000_0000;
+    var x2 := x1 + s[2 as uint32] as uint64 * 0x100_0000_0000;
+    var x3 := x2 + s[3 as uint32] as uint64 * 0x1_0000_0000;
+    var x4 := x3 + s[4 as uint32] as uint64 * 0x100_0000;
+    var x5 := x4 + s[5 as uint32] as uint64 * 0x1_0000;
+    var x6 := x5 + s[6 as uint32] as uint64 * 0x100;
+    var x := x6 + s[7 as uint32] as uint64;
     UInt64SeqSerialize(x, s);
     x
   }

@@ -104,6 +104,7 @@ module {:extern "UTF8"} UTF8 {
     }
   }
 
+  // These four really ought to be ghost, but we use them in tests.
   predicate method Uses1Byte(s: seq<uint8>)
     requires |s| >= 1
   {

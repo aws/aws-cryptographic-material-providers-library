@@ -7,6 +7,7 @@ include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 module {:options "/functionSyntax:4" } Structure {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
   import KMS = ComAmazonawsKmsTypes
@@ -72,11 +73,11 @@ module {:options "/functionSyntax:4" } Structure {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
     //= type=implication
     //# - The `branch-key-id` field MUST not be an empty string
-    && 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD]|
+    && (SequenceIsSafeBecauseItIsInMemory(m[BRANCH_KEY_IDENTIFIER_FIELD]); 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD]| as uint64)
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
        //= type=implication
        //# - The `type` field MUST not be an empty string
-    && 0 < |m[TYPE_FIELD]|
+    && (SequenceIsSafeBecauseItIsInMemory(m[TYPE_FIELD]); 0 < |m[TYPE_FIELD]| as uint64)
 
     && (forall k <- m.Keys :: DDB.IsValid_AttributeName(k))
 
@@ -224,7 +225,7 @@ module {:options "/functionSyntax:4" } Structure {
                                 encryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
                               else
                                 encryptionContext[TYPE_FIELD];
-    var branchKeyVersion := versionInformation[|BRANCH_KEY_TYPE_PREFIX|..];
+    var branchKeyVersion := versionInformation[|BRANCH_KEY_TYPE_PREFIX| as uint32..];
     var branchKeyVersionUtf8 :- UTF8.Encode(branchKeyVersion)
                                 .MapFailure(e => Types.KeyStoreException( message := e ));
 
@@ -290,7 +291,7 @@ module {:options "/functionSyntax:4" } Structure {
       := set k <- encryptionContext
              | ENCRYPTION_CONTEXT_PREFIX < k
            ::
-             (UTF8.Encode(k[|ENCRYPTION_CONTEXT_PREFIX|..]), UTF8.Encode(encryptionContext[k]));
+             (UTF8.Encode(k[|ENCRYPTION_CONTEXT_PREFIX| as uint32..]), UTF8.Encode(encryptionContext[k]));
 
     // This SHOULD be impossible
     // A Dafny string SHOULD all be encodable
@@ -415,8 +416,8 @@ module {:options "/functionSyntax:4" } Structure {
     && KMS_FIELD in m && m[KMS_FIELD].S? && KMS.IsValid_KeyIdType(m[KMS_FIELD].S)
     && BRANCH_KEY_FIELD in m && m[BRANCH_KEY_FIELD].B?
 
-    && 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD].S|
-    && 0 < |m[TYPE_FIELD].S|
+    && (SequenceIsSafeBecauseItIsInMemory(m[BRANCH_KEY_IDENTIFIER_FIELD].S); 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD].S| as uint64)
+    && (SequenceIsSafeBecauseItIsInMemory(m[TYPE_FIELD].S); 0 < |m[TYPE_FIELD].S| as uint64)
 
     && (forall k <- m.Keys - {BRANCH_KEY_FIELD, HIERARCHY_VERSION} :: m[k].S?)
 
