@@ -11,6 +11,7 @@ GRADLEW := ./runtimes/java/gradlew
 
 include $(SMITHY_DAFNY_ROOT)/SmithyDafnyMakefile.mk
 
+# TODO-HV-2-BLOCKER :: remove `--allow-warnings` from `verify*` once KMS Keyring proof is fixed
 verify:DAFNY_OPTIONS=--allow-deprecation --allow-external-contracts --allow-warnings
 verify_single:DAFNY_OPTIONS=--allow-deprecation --allow-external-contracts --allow-warnings
 verify_service:DAFNY_OPTIONS=--allow-deprecation --allow-external-contracts --allow-warnings
