@@ -115,27 +115,42 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
     );
   }
 
+  method {:test} TestEncryptionContextStringToJSON()
+  {
+    var ec := map[
+      "aws-crypto-ec:\n\n\u0007" := "VAPTTEST",
+      "aws-crypto-ec:beerArn" := "arn:aws:beer:us-west-2:111122223333:ipa/50a8ec44-db00-4623-9c3f-daac62d61e28"
+    ];
+    var json := MutationStateStructures.EncryptionContextStringToJSON(ec);
+    expect |set p <- json.obj :: p.0| == |json.obj|
+    var ecConvertedFromJSON := MutationStateStructures.JSONToEncryptionContextString(json);
+    expect ec == ecConvertedFromJSON;
+  }
+
   method {:test} TestJSON()
   {
-    // var ec := map[
-    //   "aws-crypto-ec:\n\n\u0007" := "VAPTTEST",
-    //   "aws-crypto-ec:beerArn" := "arn:aws:beer:us-west-2:111122223333:ipa/50a8ec44-db00-4623-9c3f-daac62d61e28"
-    // ];
-    // var json := MutationStateStructures.EncryptionContextStringToJSON(ec);
-    // print("\nJSON value:\n");
-    // print(json);
-    // var backFromJSON := MutationStateStructures.JSONToEncryptionContextString(json);
-    // print(backFromJSON);
-    // expect ec == backFromJSON;
-    var a := JSON.Values.String("aws-crypto-ec:\n\n\u0007");
+    var ec := map[
+      "aws-crypto-ec:\n\n\u0007" := "VAPTTEST",
+      "aws-crypto-ec:beerArn" := "arn:aws:beer:us-west-2:111122223333:ipa/50a8ec44-db00-4623-9c3f-daac62d61e28"
+    ];
+    var json := MutationStateStructures.EncryptionContextStringToJSON(ec);
 
-    var originalBytes :- expect JSON.Serialize(a);
+    var originalBytesForMap :- expect JSON.Serialize(json);
     print("\nSerialized bytes:\n");
-    print(originalBytes);
-    var jsonFromDeserialize :- expect JSON.Deserialize(originalBytes);
+    print(originalBytesForMap);
+    var jsonFromDeserializeForMap :- expect JSON.Deserialize(originalBytesForMap);
     print("\nDeserialized bytes:\n");
-    print(jsonFromDeserialize);
-    expect jsonFromDeserialize == a;
+    print(jsonFromDeserializeForMap);
+    expect jsonFromDeserializeForMap == json;
+
+    var stringJSONObj := JSON.Values.String("aws-crypto-ec:\n\n\u0007");
+    var originalBytesForStrObj :- expect JSON.Serialize(stringJSONObj);
+    print("\nSerialized bytes:\n");
+    print(originalBytesForStrObj);
+    var jsonFromDeserializeForStrObj :- expect JSON.Deserialize(originalBytesForStrObj);
+    print("\nDeserialized bytes:\n");
+    print(jsonFromDeserializeForStrObj);
+    expect jsonFromDeserializeForStrObj == stringJSONObj;
   }
 
   /*
