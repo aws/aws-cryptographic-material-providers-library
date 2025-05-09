@@ -40,9 +40,7 @@ public class ExampleTests {
       branchKeyId,
       AdminProvider.admin(),
       HierarchyVersion.v2
-      );
-    System.out.println("createKeyHv2Test BKID:");
-    System.out.println(actualBranchKeyId);
+    );
     final KeyStore keyStore = KeyStoreProvider.keyStore(
       Fixtures.KEYSTORE_KMS_ARN
     );
@@ -78,7 +76,7 @@ public class ExampleTests {
       beaconOutput.beaconKeyMaterials().beaconKeyIdentifier()
     );
 
-    // DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
+    DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
 
   @Test
