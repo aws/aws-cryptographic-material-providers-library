@@ -295,7 +295,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       ));
   }
 
-  @IsolateAssertions method CreateBranchAndBeaconKeysVersion2(
+  method {:isolate_assertions} CreateBranchAndBeaconKeysVersion2(
     nameonly branchKeyIdentifier: string,
     nameonly encryptionContext: map<string, string>,
     nameonly timestamp: string,
