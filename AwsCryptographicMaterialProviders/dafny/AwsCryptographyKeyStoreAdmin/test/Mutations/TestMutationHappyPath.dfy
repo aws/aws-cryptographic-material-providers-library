@@ -22,6 +22,14 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
   const originalKmsId: string := Fixtures.keyArn
   const originalEC: KeyStoreTypes.EncryptionContextString := Fixtures.RobbieECString
 
+  /**
+   * This helper method tests the end-to-end mutation.
+   * 
+   * This helper method asserts:
+   * 1. That a mutation can be successfully initialized
+   * 2. That the mutation can be successfully applied
+   * 3. That all branch key items after mutation are correctly updated with the terminal properties.
+   */
   method MutationRoundTripTest(
     ddbClient: DDB.Types.IDynamoDBClient,
     storage: KeyStoreTypes.IKeyStorageInterface,
@@ -43,6 +51,10 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     modifies storage.Modifies
     modifies keyStoreAdminUnderTest.Modifies
     modifies keyStoreTerminal.Modifies
+    ensures ddbClient.ValidState()
+    ensures storage.ValidState()
+    ensures keyStoreAdminUnderTest.ValidState()
+    ensures keyStoreTerminal.ValidState()
   {
     // Create Branch Key with initial HierarchyVersion
     AdminFixtures.CreateHappyCaseId(
@@ -84,6 +96,15 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     var _ := CleanupItems.DeleteBranchKey(Identifier:=branchKeyIdentifier, ddbClient:=ddbClient);
   }
 
+  /**
+   * This helper method tests to recover from an in-flight mutation 
+   * that was interrupted by the deletion of the Mutation Index.
+   * 
+   * This helper method asserts:
+   * 1. That the Mutation Index can be deleted and recreated successfully via InitializeMutation
+   * 2. That the mutation token can be retrieved via InitializeMutation after index deletion
+   * 3. That the mutation process can be resumed and completed after recovery
+   */
   method MutationRecoveryTest(
     ddbClient: DDB.Types.IDynamoDBClient,
     storage: KeyStoreTypes.IKeyStorageInterface,
@@ -105,6 +126,10 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     modifies storage.Modifies
     modifies keyStoreAdminUnderTest.Modifies
     modifies keyStoreTerminal.Modifies
+    ensures ddbClient.ValidState()
+    ensures storage.ValidState()
+    ensures keyStoreAdminUnderTest.ValidState()
+    ensures keyStoreTerminal.ValidState()
   {
     // Create Branch Key with initial HierarchyVersion
     AdminFixtures.CreateHappyCaseId(
@@ -131,10 +156,10 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     var applyOutput? := keyStoreAdminUnderTest.ApplyMutation(applyInput);
     expect applyOutput?.Success?, "First Apply Mutation FAILED";
 
-    // Step 3: Delete Mutation Index to simulate halted mutation
+    // Step 3: Delete Mutation Index to restart the mutation from the beginning
     var cleanedVersion? :- expect CleanupItems.DeleteTypeWithFailure(branchKeyIdentifier, Structure.MUTATION_INDEX_TYPE, ddbClient);
 
-    // Step 4: Resume Without Index
+    // Step 4: Resume mutation without Index
     var resumedOutput :- expect keyStoreAdminUnderTest.InitializeMutation(initInput);
     expect resumedOutput.InitializeMutationFlag == Types.InitializeMutationFlag.ResumedWithoutIndex;
 
