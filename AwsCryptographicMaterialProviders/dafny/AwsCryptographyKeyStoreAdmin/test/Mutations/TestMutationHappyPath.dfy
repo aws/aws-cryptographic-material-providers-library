@@ -97,13 +97,13 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
   }
 
   /**
-    * This helper method tests to recover from an in-flight mutation 
-    * that was interrupted by the deletion of the Mutation Index.
+    * This helper method tests restarting an in-flight mutation 
+    * by the deletion of the Mutation Index.
     * 
     * This helper method asserts:
     * 1. That the Mutation Index can be deleted and recreated successfully via InitializeMutation
     * 2. That the mutation token can be retrieved via InitializeMutation after index deletion
-    * 3. That the mutation process can be resumed and completed after recovery
+    * 3. That the mutation process can be resumed and completed after restart
     */
   method MutationRecoveryTest(
     ddbClient: DDB.Types.IDynamoDBClient,
