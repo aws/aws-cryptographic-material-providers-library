@@ -782,7 +782,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     output := Success(Types.VersionKeyOutput());
   }
 
-  @IsolateAssertions method VersionActiveBranchKeyVersion2(
+  method {:isolate_assertions} VersionActiveBranchKeyVersion2(
     oldActiveItem: Types.EncryptedHierarchicalKey,
     timestamp: string,
     branchKeyVersion: string,
