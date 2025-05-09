@@ -43,6 +43,8 @@ dependencies {
     implementation("org.slf4j:jcl-over-slf4j:${slf4jVersion}")
     // https://mvnrepository.com/artifact/org.testng/testng
     testImplementation("org.testng:testng:7.5")
+    // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    testImplementation("org.mockito:mockito-core:2.1.0")
 }
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(8))
