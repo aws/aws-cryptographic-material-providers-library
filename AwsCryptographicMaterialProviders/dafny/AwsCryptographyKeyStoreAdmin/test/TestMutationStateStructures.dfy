@@ -122,7 +122,7 @@ module {:options "/functionSyntax:4" } TestMutationStateStructures {
       "aws-crypto-ec:beerArn" := "arn:aws:beer:us-west-2:111122223333:ipa/50a8ec44-db00-4623-9c3f-daac62d61e28"
     ];
     var json := MutationStateStructures.EncryptionContextStringToJSON(ec);
-    expect |set p <- json.obj :: p.0| == |json.obj|
+    expect |set p <- json.obj :: p.0| == |json.obj|;
     var ecConvertedFromJSON := MutationStateStructures.JSONToEncryptionContextString(json);
     expect ec == ecConvertedFromJSON;
   }
