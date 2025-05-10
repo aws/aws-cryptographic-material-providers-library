@@ -13,6 +13,7 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
   import Structure
   import KeyStoreAdminHelpers
 
+  // TODO-HV-2-FF-Python: Python runtime fails to unwrap errorMessage?.
   function ParsedErrorContext(
     nameonly localOperation: string,
     nameonly kmsOperation: string,

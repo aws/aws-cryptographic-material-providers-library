@@ -16,6 +16,8 @@ public class Fixtures {
   public static final String TEST_KEYSTORE_NAME = "KeyStoreDdbTable";
   public static final String TEST_LOGICAL_KEYSTORE_NAME = "KeyStoreDdbTable";
 
+  public static final String STATIC_KEYSTORE_NAME = "KeyStoreStaticTable";
+  public static final String STATIC_LOGICAL_KEYSTORE_NAME = TEST_KEYSTORE_NAME;
   // KMS Keys
   // HierarchicalGitHubKMSKeyIDTwo
   public static final String POSTAL_HORN_KEY_ARN =

@@ -450,4 +450,12 @@ public class ExampleTests {
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, keyStoreKS);
     DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
   }
+  /*
+    // Testcase to copy a branch key from "KeyStoreDdbTable" to "KeyStoreStaticTable"
+    @Test
+    public void copyBranchKeyTest() {
+      String branchKeyId = "DO-NOT-DELETE-test-hv2-get-key-wrong-ciphertext-length";
+      DdbHelper.CopyBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, Fixtures.STATIC_KEYSTORE_NAME, null);
+    }
+  */
 }
