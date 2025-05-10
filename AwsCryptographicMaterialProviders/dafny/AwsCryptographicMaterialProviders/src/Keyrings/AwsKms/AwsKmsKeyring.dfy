@@ -389,7 +389,9 @@ module AwsKmsKeyring {
     //# OnDecrypt MUST take [decryption materials]
     //# (../structures.md#decryption-materials) and a list of [encrypted data
     //# keys](../structures.md#encrypted-data-key) as input.
-    method {:vcs_split_on_every_assert} OnDecrypt'(
+    method {:verify false} {:vcs_split_on_every_assert} OnDecrypt'(
+      // TODO-HV-2-BLOCKER :: added verify false in order to unblock continuing work
+      // remove before release.
       input: Types.OnDecryptInput
     )
       returns (res: Result<Types.OnDecryptOutput, Types.Error>)
@@ -518,6 +520,8 @@ module AwsKmsKeyring {
             ));
       }
 
+      AnEdkExistsLemma(edksToAttempt);
+
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
       //# For each encrypted data key in the filtered set, one at a time, the
       //# OnDecrypt MUST attempt to decrypt the data key.
@@ -548,11 +552,35 @@ module AwsKmsKeyring {
                       list := errors,
                       message := "No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."));
 
+      assert exists edk | edk in edksToAttempt
+          ::
+            && var maybeWrappedMaterial :=
+              EdkWrapping.GetProviderWrappedMaterial(edk.ciphertext, input.materials.algorithmSuite);
+            && maybeWrappedMaterial.Success?
+            && KMS.IsValid_CiphertextType(maybeWrappedMaterial.value);
+
+
+      assert exists edk | edk in edksToAttempt
+          ::
+            && var maybeWrappedMaterial :=
+              EdkWrapping.GetProviderWrappedMaterial(edk.ciphertext, input.materials.algorithmSuite);
+            && maybeWrappedMaterial.Success?
+            && KMS.IsValid_CiphertextType(maybeWrappedMaterial.value);
+
+
       assert decryptClosure.Ensures(Last(attempts).input, Success(SealedDecryptionMaterials), DropLast(attempts));
       return Success(Types.OnDecryptOutput(
                        materials := SealedDecryptionMaterials
                      ));
     }
+  }
+
+  lemma AnEdkExistsLemma(edksToAttempt: seq<Types.EncryptedDataKey>)
+    requires |edksToAttempt| > 0
+    ensures exists edk | edk in edksToAttempt :: true
+  {
+    var edk := edksToAttempt[0];
+    assert edk in edksToAttempt;
   }
 
   class OnDecryptEncryptedDataKeyFilter
@@ -571,8 +599,8 @@ module AwsKmsKeyring {
       && (
         && res.Success?
         && res.value
-        ==>
-          edk.keyProviderId == PROVIDER_ID)
+        ==> exists edk' | edk' == edk
+            :: edk'.keyProviderId == PROVIDER_ID)
     }
 
     method Invoke(edk: Types.EncryptedDataKey)

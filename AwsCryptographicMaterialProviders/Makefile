@@ -170,6 +170,3 @@ PYTHON_DEPENDENCY_MODULE_NAMES := \
 	--dependency-library-name=aws.cryptography.materialProviders=aws_cryptographic_material_providers \
 	--dependency-library-name=aws.cryptography.keyStore=aws_cryptographic_material_providers \
 	--dependency-library-name=aws.cryptography.keyStoreAdmin=aws_cryptographic_material_providers \
-
-test_example_java:
-	$(GRADLEW) -p runtimes/java cleanTestExamples testExamples

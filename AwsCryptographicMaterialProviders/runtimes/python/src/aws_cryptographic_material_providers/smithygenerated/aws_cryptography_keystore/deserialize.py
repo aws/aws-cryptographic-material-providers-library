@@ -9,6 +9,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     Error,
     Error_AlreadyExistsConditionFailed,
     Error_BranchKeyCiphertextException,
+    Error_HierarchyVersionException,
     Error_KeyManagementException,
     Error_KeyStorageException,
     Error_KeyStoreException,
@@ -29,10 +30,12 @@ from typing import Any
 from .dafny_protocol import DafnyResponse
 from .errors import (
     AlreadyExistsConditionFailed,
+    AwsCryptographicPrimitives,
     BranchKeyCiphertextException,
     CollectionOfErrors,
     ComAmazonawsDynamodb,
     ComAmazonawsKms,
+    HierarchyVersionException,
     KeyManagementException,
     KeyStorageException,
     KeyStoreException,
@@ -48,6 +51,9 @@ from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.s
 )
 from aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
+)
+from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.deserialize import (
+    _deserialize_error as aws_cryptography_primitives_deserialize_error,
 )
 
 from .config import Config
@@ -130,6 +136,8 @@ def _deserialize_error(error: Error) -> ServiceError:
         return AlreadyExistsConditionFailed(message=_dafny.string_of(error.message))
     elif error.is_BranchKeyCiphertextException:
         return BranchKeyCiphertextException(message=_dafny.string_of(error.message))
+    elif error.is_HierarchyVersionException:
+        return HierarchyVersionException(message=_dafny.string_of(error.message))
     elif error.is_KeyManagementException:
         return KeyManagementException(message=_dafny.string_of(error.message))
     elif error.is_KeyStorageException:
@@ -146,6 +154,12 @@ def _deserialize_error(error: Error) -> ServiceError:
         return OldEncConditionFailed(message=_dafny.string_of(error.message))
     elif error.is_VersionRaceException:
         return VersionRaceException(message=_dafny.string_of(error.message))
+    elif error.is_AwsCryptographyPrimitives:
+        return AwsCryptographicPrimitives(
+            aws_cryptography_primitives_deserialize_error(
+                error.AwsCryptographyPrimitives
+            )
+        )
     elif error.is_ComAmazonawsKms:
         return ComAmazonawsKms(message=_dafny.string_of(error.ComAmazonawsKms.message))
     elif error.is_ComAmazonawsDynamodb:

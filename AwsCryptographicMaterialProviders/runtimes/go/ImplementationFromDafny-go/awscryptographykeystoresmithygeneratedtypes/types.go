@@ -1106,6 +1106,14 @@ func (input KeyStoreConfig) Aws_cryptography_keyStore_KeyStoreConfig_storage_Val
 	return nil
 }
 
+type PrimitivesReference struct {
+}
+
+func (input PrimitivesReference) Validate() error {
+
+	return nil
+}
+
 // HierarchicalKeyTypeMemberActiveHierarchicalSymmetricBeacon
 // HierarchicalKeyTypeMemberActiveHierarchicalSymmetricVersion
 // HierarchicalKeyTypeMemberHierarchicalSymmetricVersion
