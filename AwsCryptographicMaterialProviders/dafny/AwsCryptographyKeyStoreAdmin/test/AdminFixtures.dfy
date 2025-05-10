@@ -64,6 +64,26 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     return Success(underTest);
   }
 
+  method StaticAdmin(
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
+  )
+    returns (output: Result<Types.IKeyStoreAdminClient, Types.Error>)
+    ensures output.Success? ==> output.value.ValidState()
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    output := DefaultAdmin(
+      physicalName := Fixtures.staticBranchKeyStoreName,
+      logicalName := Fixtures.staticLogicalKeyStoreName,
+      ddbClient? := ddbClient?
+    );
+  }
+
   method DefaultKeyManagerStrategy(
     nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
   )
