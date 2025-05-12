@@ -110,7 +110,7 @@ module {:options "/functionSyntax:4" } Mutations {
       // TODO-HV-2-M4: Support other key manager strategy
       :- Need(keyManagerStrategy.kmsSimple? || keyManagerStrategy.decryptEncrypt?, Types.UnsupportedFeatureException(message:=KeyStoreAdminErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_MUTATIONS_HV_2));
       kmsTupleToDecrypt := getDecryptKMSTuple(keyManagerStrategy);
-      decryptRes := GetKeys.DecryptBranchKeyItem(
+      var decryptRes := GetKeys.DecryptBranchKeyItem(
         item,
         KeyStoreAdminHelpers.KmsSymmetricKeyArnToKMSConfiguration(Types.KmsSymmetricKeyArn.KmsKeyArn(item.KmsArn)),
         kmsTupleToDecrypt.grantTokens,
