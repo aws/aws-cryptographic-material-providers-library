@@ -86,8 +86,6 @@ module Fixtures {
     56, 45, 52, 50, 98, 99, 45, 56, 98, 55, 53, 45,
     54, 56, 97, 48, 48, 52, 56, 53, 49, 56, 48, 51
   ]
-  const branchKeyIdWithEC := "4bb57643-07c1-419e-92ad-0df0df149d7c"
-
   // THESE ARE TESTING RESOURCES DO NOT USE IN A PRODUCTION ENVIRONMENT
   const keyArn := "arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126"
   const kmsArnForHV1 := "arn:aws:kms:us-west-2:370957321024:key/85cee5a8-fecb-41e9-affd-a1f7bb036884"
