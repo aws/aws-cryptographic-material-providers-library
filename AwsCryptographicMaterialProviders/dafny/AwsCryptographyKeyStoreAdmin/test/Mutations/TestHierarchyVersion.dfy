@@ -12,6 +12,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import KeyStoreErrorMessages
+  import KeyStoreAdminErrorMessages
   import AdminFixtures
   import Fixtures
   import CleanupItems
