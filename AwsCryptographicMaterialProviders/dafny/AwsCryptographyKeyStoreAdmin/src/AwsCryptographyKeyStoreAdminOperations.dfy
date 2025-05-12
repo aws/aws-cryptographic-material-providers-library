@@ -404,7 +404,7 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
 
         var output? := CreateKeys.CreateBranchAndBeaconKeysVersion2(
           branchKeyIdentifier := branchKeyIdentifier,
-          customEncryptionContext := map i <- encodedEncryptionContext :: i.0.value := i.1.value,
+          encryptionContext := map i <- encodedEncryptionContext :: i.0.value := i.1.value,
           timestamp := timestamp,
           branchKeyVersion := branchKeyVersion,
           logicalKeyStoreName := config.logicalKeyStoreName,

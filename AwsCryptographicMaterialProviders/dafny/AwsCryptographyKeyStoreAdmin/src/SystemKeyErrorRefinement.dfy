@@ -39,7 +39,7 @@ module {:options "/functionSyntax:4" } SystemKeyErrorRefinement {
   //   requires branchKeyItem.Type.ActiveHierarchicalSymmetricVersion?
   // {
   //   //TODO-Mutations-GA :: Better error message
-  //   var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
+  //   var kmsError? := KmsUtils.ExtractKmsError(error);
   //   var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
   //   var errorContext := ParsedErrorContext(
   //                         localOperation := localOperation,
