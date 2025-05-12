@@ -7,6 +7,7 @@ include "../../../../../libraries/src/MutableMap/MutableMap.dfy"
 module {:options "/functionSyntax:4" } LocalCMC {
   import opened Wrappers
   import opened StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened DafnyLibraries
   import Time
   import Types = AwsCryptographyMaterialProvidersTypes
@@ -351,7 +352,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
          // with the tail MUST be in the cache
       && (forall c <- queue.Items :: c.identifier in cache.Keys() && cache.Select(c.identifier) == c)
 
-      && cache.Size() <= entryCapacity
+      && (ValueIsSafeBecauseItIsInMemory(cache.Size()); cache.Size() as uint64 <= entryCapacity)
     }
 
     var queue: DoublyLinkedCacheEntryList
@@ -360,14 +361,14 @@ module {:options "/functionSyntax:4" } LocalCMC {
     //= type=implication
     //# The local CMC MUST accept entry capacity values between zero
     //# and an implementation-defined maximum, inclusive.
-    const entryCapacity: nat
+    const entryCapacity: uint64
     //= aws-encryption-sdk-specification/framework/local-cryptographic-materials-cache.md#entry-pruning-tail-size
     //= type=implication
     //# The _entry pruning tail size_
     //# is the number of least recently used entries that the local CMC
     //# MUST check during [pruning](#pruning)
     //# for TTL-expired entries to evict.
-    const entryPruningTailSize: nat
+    const entryPruningTailSize: uint64
 
     //= aws-encryption-sdk-specification/framework/local-cryptographic-materials-cache.md#initialization
     //= type=implication
@@ -379,8 +380,8 @@ module {:options "/functionSyntax:4" } LocalCMC {
     //#
     //# - [Entry Pruning Tail Size](#entry-pruning-tail-size)
     constructor(
-      entryCapacity': nat,
-      entryPruningTailSize': nat := 1
+      entryCapacity': uint64,
+      entryPruningTailSize': uint64 := 1
     )
       requires entryPruningTailSize' >= 1
       ensures
@@ -506,7 +507,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
       //= aws-encryption-sdk-specification/framework/local-cryptographic-materials-cache.md#entry-capacity
       //# The local CMC MUST NOT store more entries than this value,
       //# except temporarily while performing a Put Cache Entry operation.
-      if entryCapacity == cache.Size() {
+      if entryCapacity == cache.Size() as uint64 {
         assert 0 < |multiset(cache.Values())|;
         assert queue.tail.deref.identifier in cache.Keys();
         var _ :- DeleteCacheEntry'(Types.DeleteCacheEntryInput(
@@ -596,7 +597,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
           LemmaMutableMapContainsPreservesInjectivity(old@CAN_REMOVE(cache), cache);
         }
         assert |cache.Keys()| == |old@CAN_REMOVE(cache.Keys())| - 1;
-        assert cache.Size() <= old@CAN_REMOVE(cache.Size()) <= entryCapacity;
+        assert cache.Size() as uint64 <= old@CAN_REMOVE(cache.Size()) as uint64 <= entryCapacity;
         queue.remove(cell);
         assert multiset(cache.Values()) == multiset(queue.Items) by {
           var cacheMultiset := multiset(cache.Values());

@@ -13,6 +13,7 @@ include "../ErrorMessages.dfy"
 module RawRSAKeyring {
   import opened StandardLibrary
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened String = StandardLibrary.String
   import opened Actions
   import opened Wrappers
@@ -128,7 +129,8 @@ module RawRSAKeyring {
       var localPrivateKeyMaterial := None;
       if privateKey.Some? {
         var extract := privateKey.Extract();
-        if |extract| > 0 {
+        SequenceIsSafeBecauseItIsInMemory(extract);
+        if |extract| as uint64 > 0 {
           var unwrap := new RsaUnwrapKeyMaterial(
             extract,
             paddingScheme,
@@ -141,7 +143,8 @@ module RawRSAKeyring {
       var localPublicKeyMaterial := None;
       if publicKey.Some? {
         var extract := publicKey.Extract();
-        if |extract| > 0 {
+        SequenceIsSafeBecauseItIsInMemory(extract);
+        if |extract| as uint64 > 0 {
           var wrap := new RsaWrapKeyMaterial(
             extract,
             paddingScheme,
@@ -383,8 +386,9 @@ module RawRSAKeyring {
       //= aws-encryption-sdk-specification/framework/raw-rsa-keyring.md#ondecrypt
       //# The keyring MUST attempt to decrypt the input encrypted data keys, in
       //# list order, until it successfully decrypts one.
-      for i := 0 to |input.encryptedDataKeys|
-        invariant |errors| == i
+      SequenceIsSafeBecauseItIsInMemory(input.encryptedDataKeys);
+      for i : uint64 := 0 to |input.encryptedDataKeys| as uint64
+        invariant |errors| == i as nat
       {
         if ShouldDecryptEDK(input.encryptedDataKeys[i]) {
           var edk := input.encryptedDataKeys[i];
@@ -416,7 +420,7 @@ module RawRSAKeyring {
           var extractedKeyProviderId :- UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := e ));
           errors := errors + [
             Types.AwsCryptographicMaterialProvidersException(
-              message := ErrorMessages.IncorrectRawDataKeys(Base10Int2String(i),
+              message := ErrorMessages.IncorrectRawDataKeys(Base10Int2String(i as nat),
                                                             "RSAKeyring",
                                                             extractedKeyProviderId
               ))
@@ -455,10 +459,11 @@ module RawRSAKeyring {
         ==>
           true
     {
+      SequenceIsSafeBecauseItIsInMemory(edk.ciphertext);
       && UTF8.ValidUTF8Seq(edk.keyProviderInfo)
       && edk.keyProviderInfo == this.keyName
       && edk.keyProviderId == this.keyNamespace
-      && |edk.ciphertext| > 0
+      && |edk.ciphertext| as uint64 > 0
     }
   }
 
@@ -733,9 +738,9 @@ module RawRSAKeyring {
 
       var decryptResult :-  maybeDecryptResult
       .MapFailure(e => Types.AwsCryptographyPrimitives( AwsCryptographyPrimitives := e ));
-
+      SequenceIsSafeBecauseItIsInMemory(decryptResult);
       :- Need(
-        |decryptResult| == AlgorithmSuites.GetEncryptKeyLength(suite) as nat,
+        |decryptResult| as uint64 == AlgorithmSuites.GetEncryptKeyLength(suite) as uint64,
         Types.AwsCryptographicMaterialProvidersException(
           message := "Invalid plaintext length.")
       );

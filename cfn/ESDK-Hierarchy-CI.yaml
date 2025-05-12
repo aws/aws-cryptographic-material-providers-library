@@ -14,6 +14,10 @@ Parameters:
     Type: String
     Description: Key Store DynamoDB Table Name
     Default: KeyStoreDdbTable
+  KeyStoreStaticTable:
+    Type: String
+    Description: Key Store Static Table Name
+    Default: KeyStoreStaticTable
   ProjectName:
     Type: String
     Description: A prefix that will be applied to any names
@@ -102,6 +106,42 @@ Resources:
               KeyType: "RANGE"
           Projection:
             ProjectionType: "ALL"
+
+  # Static Key Store table for storing static branch keys
+  KeyStoreTestStaticTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "branch-key-id"
+          AttributeType: "S"
+        - AttributeName: "type"
+          AttributeType: "S"
+      BillingMode: PAY_PER_REQUEST
+      KeySchema:
+        - AttributeName: "branch-key-id"
+          KeyType: "HASH"
+        - AttributeName: "type"
+          KeyType: "RANGE"
+      TableName: !Ref KeyStoreStaticTable
+
+  StaticKeyStoreTableReadOnly:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      Description: "Allow Read-Only access to Static Key Store Table"
+      ManagedPolicyName: !Sub "${ProjectName}-DDB-${KeyStoreStaticTable}-ReadOnly-${AWS::Region}"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:DescribeTable
+              - dynamodb:GetItem
+              - dynamodb:Query
+              - dynamodb:BatchGetItem
+              - dynamodb:Scan
+            Resource:
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreStaticTable}"
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreStaticTable}/index/*"
 
   # This policy SHOULD be given to:
   #  - aws/private-aws-encryption-sdk-dafny-staging
@@ -258,6 +298,7 @@ Resources:
               "Action": [
                 "kms:Decrypt",
                 "kms:Encrypt",
+                "kms:GenerateDataKey",
                 "kms:GenerateDataKeyWithoutPlaintext",
                 "kms:ReEncrypt*",
                 "kms:DescribeKey",
@@ -285,7 +326,8 @@ Resources:
               "Effect": "Allow",
               "Action": [
                 "kms:Decrypt",
-                "kms:Encrypt"
+                "kms:Encrypt",
+                "kms:GenerateDataKey"
               ],
               "Resource": [
                 "arn:aws:kms:*:${AWS::AccountId}:key/${KeyStoreAdminSystemKeyKmsSymEnc}",
@@ -371,6 +413,7 @@ Resources:
         - !Ref RSAKMSUsage
         - "arn:aws:iam::370957321024:policy/PolymorphTestModels-DDB-ReadWriteDelete-us-west-2"
         - !Ref HierarchicalKeyringTestTableUsage
+        - !Ref StaticKeyStoreTableReadOnly
       AssumeRolePolicyDocument: !Sub |
         {
           "Version": "2012-10-17",   

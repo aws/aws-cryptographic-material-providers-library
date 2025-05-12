@@ -93,7 +93,6 @@ pub mod local_cmc_tests {
                 let test = test.clone();
 
                 async move {
-                    println!("-----------TestLotsofAdd-----------");
                     let random = rng().random_range(0..id_size);
                     let beacon_key_identifier: &str = identifiers[random];
 
@@ -108,10 +107,7 @@ pub mod local_cmc_tests {
 
                     match cache_entry_output {
                         Ok(_) => {
-                            println!(
-                                "Cache hit for beacon key identifier: {}",
-                                beacon_key_identifier
-                            );
+                            // Cache hit
                         }
                         Err(Error::EntryDoesNotExist { message: _m }) => {
                             let materials = Materials::BeaconKey(
@@ -141,10 +137,6 @@ pub mod local_cmc_tests {
                                 .send()
                                 .await?;
 
-                            println!(
-                                "Cache miss for beacon key identifier: {}",
-                                beacon_key_identifier
-                            );
                         }
                         Err(e) => {
                             panic!("Unexpected error while accessing cache: {}", e);

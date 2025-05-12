@@ -17,6 +17,7 @@ module AwsKmsKeyring {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened AwsArnParsing
   import opened AwsKmsUtils
   import opened Seq
@@ -82,7 +83,7 @@ module AwsKmsKeyring {
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#initialization
       //= type=implication
       //# The AWS KMS key identifier MUST NOT be null or empty.
-      requires 0 < |awsKmsKey| <= MAX_AWS_KMS_IDENTIFIER_LENGTH
+      requires 0 < |awsKmsKey| <= MAX_AWS_KMS_IDENTIFIER_LENGTH as nat
       requires client.ValidState()
       ensures
         && this.client      == client
@@ -353,7 +354,8 @@ module AwsKmsKeyring {
           None;
 
       var providerInfo :- UTF8.Encode(kmsKeyArn).MapFailure(WrapStringToError);
-      :- Need(|providerInfo| < UINT16_LIMIT,
+      SequenceIsSafeBecauseItIsInMemory(providerInfo);
+      :- Need(|providerInfo| as uint64 < UINT16_LIMIT as uint64,
               Types.AwsCryptographicMaterialProvidersException(
                 message := "Invalid response from AWS KMS GenerateDataKey: Key ID too long."));
 
@@ -535,8 +537,10 @@ module AwsKmsKeyring {
       //#  keyring’s configuration.
       var filter := new OnDecryptEncryptedDataKeyFilter(awsKmsKey);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
+      assert forall j <- edksToAttempt :: filter.Ensures(j, Success(true));
 
-      if (0 == |edksToAttempt|) {
+      SequenceIsSafeBecauseItIsInMemory(edksToAttempt);
+      if (0 == |edksToAttempt| as uint64) {
         var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(
             Types.AwsCryptographicMaterialProvidersException(
@@ -573,6 +577,10 @@ module AwsKmsKeyring {
       .MapFailure(errors => Types.CollectionOfErrors(
                       list := errors,
                       message := "No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."));
+
+      ghost var LastDecrypt := Last(client.History.Decrypt);
+      assert LastDecrypt.output.Success?;
+      assert LastDecrypt.output.value.KeyId == Some(awsKmsKey);
 
       assert decryptClosure.Ensures(Last(attempts).input, Success(SealedDecryptionMaterials), DropLast(attempts));
       return Success(Types.OnDecryptOutput(
@@ -839,11 +847,12 @@ module AwsKmsKeyring {
       var decryptResponse :- maybeDecryptResponse
       .MapFailure(e => Types.ComAmazonawsKms( ComAmazonawsKms := e ));
 
+      OptionalSequenceIsSafeBecauseItIsInMemory(decryptResponse.Plaintext);
       :- Need(
         && decryptResponse.KeyId.Some?
         && decryptResponse.KeyId.value == awsKmsKey
         && decryptResponse.Plaintext.Some?
-        && AlgorithmSuites.GetEncryptKeyLength(input.algorithmSuite) as nat == |decryptResponse.Plaintext.value|
+        && AlgorithmSuites.GetEncryptKeyLength(input.algorithmSuite) as uint64 == |decryptResponse.Plaintext.value| as uint64
       , Types.AwsCryptographicMaterialProvidersException(
           message := "Invalid response from KMS Decrypt"));
 
@@ -970,9 +979,10 @@ module AwsKmsKeyring {
         Types.AwsCryptographicMaterialProvidersException(
           message := "Invalid response from KMS GenerateDataKey:: Invalid Key Id")
       );
+      OptionalSequenceIsSafeBecauseItIsInMemory(generateResponse.Plaintext);
       :- Need(
         && generateResponse.Plaintext.Some?
-        && AlgorithmSuites.GetEncryptKeyLength(suite) as nat == |generateResponse.Plaintext.value|,
+        && AlgorithmSuites.GetEncryptKeyLength(suite) as uint64 == |generateResponse.Plaintext.value| as uint64,
         Types.AwsCryptographicMaterialProvidersException(
           message := "Invalid response from AWS KMS GenerateDataKey: Invalid data key")
       );

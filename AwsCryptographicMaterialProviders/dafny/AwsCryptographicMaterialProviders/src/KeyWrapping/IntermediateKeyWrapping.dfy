@@ -9,6 +9,7 @@ include "../CanonicalEncryptionContext.dfy"
 module IntermediateKeyWrapping {
   import opened StandardLibrary
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened Actions
   import opened Wrappers
   import opened MaterialWrapping
@@ -52,6 +53,18 @@ module IntermediateKeyWrapping {
     nameonly wrapInfo: T,
     nameonly ghost intermediateMaterial: seq<uint8>
   )
+
+  function method GetIvLengthZeros(len: int32)
+    : (output: seq<uint8>)
+    requires len >= 0
+    ensures |output| == len as nat
+    ensures forall x <- output :: x == 0
+  {
+    if len == 12 then
+      [0,0,0,0,0,0,0,0,0,0,0,0]
+    else
+      seq(len, _ => 0)
+  }
 
   method IntermediateUnwrap<T>(
     unwrap: UnwrapMaterial<T>,
@@ -111,8 +124,8 @@ module IntermediateKeyWrapping {
     var PdkEncryptionAndSymmetricSigningKeys(pdkEncryptionKey, symmetricSigningKey) := derivedKeys;
 
     // Decrypt the plaintext data key with the pdkEncryptionKey
-    var iv: seq<uint8> := seq(AlgorithmSuites.GetEncryptIvLength(algorithmSuite) as nat, _ => 0); // IV is zero
-    var tagIndex := |encryptedPdk| - AlgorithmSuites.GetEncryptTagLength(algorithmSuite) as nat;
+    var iv: seq<uint8> := GetIvLengthZeros(AlgorithmSuites.GetEncryptIvLength(algorithmSuite)); // IV is zero
+    var tagIndex : uint64 := |encryptedPdk| as uint64 - AlgorithmSuites.GetEncryptTagLength(algorithmSuite) as uint64;
     var aad :- serializedEC;
 
     var decInput := Crypto.AESDecryptInput(
@@ -176,8 +189,8 @@ module IntermediateKeyWrapping {
         //= aws-encryption-sdk-specification/framework/algorithm-suites.md#wrapped-plaintext-data-key
         //= type=implication
         //# This value MUST be equal to the algorithm suite's encryption key length + 16.
-        && |maybeIntermediateWrappedMat.value.encryptedPdk| ==
-           (AlgorithmSuites.GetEncryptKeyLength(algorithmSuite) + AlgorithmSuites.GetEncryptTagLength(algorithmSuite)) as nat
+        && |maybeIntermediateWrappedMat.value.encryptedPdk| as uint64 ==
+           (AlgorithmSuites.GetEncryptKeyLength(algorithmSuite) + AlgorithmSuites.GetEncryptTagLength(algorithmSuite)) as uint64
   {
     var maybeCrypto := AtomicPrimitives.AtomicPrimitives();
     var cryptoPrimitivesX : Crypto.IAwsCryptographicPrimitivesClient :- maybeCrypto
@@ -214,7 +227,7 @@ module IntermediateKeyWrapping {
     //  - AAD: The [encryption context](./structures.md#encryption-context) in the related encryption or decryption materials,
     //    [serialized according to it's specification](structures.md#serialization).
     //  - IV: The IV is 0.
-    var iv: seq<uint8> := seq(AlgorithmSuites.GetEncryptIvLength(algorithmSuite) as nat, _ => 0);
+    var iv: seq<uint8> := GetIvLengthZeros(AlgorithmSuites.GetEncryptIvLength(algorithmSuite));
     var aad :- CanonicalEncryptionContext.EncryptionContextToAAD(encryptionContext);
     var encInput := Crypto.AESEncryptInput(
       encAlg := algorithmSuite.encrypt.AES_GCM,
@@ -297,7 +310,8 @@ module IntermediateKeyWrapping {
   function method DeserializeIntermediateWrappedMaterial(material: seq<uint8>, algSuite: Types.AlgorithmSuiteInfo)
     : (ret: Result<DeserializedIntermediateWrappedMaterial, Types.Error>)
   {
-    :- Need(|material| >= (AlgorithmSuites.GetEncryptKeyLength(algSuite) + AlgorithmSuites.GetEncryptTagLength(algSuite)) as nat,
+    SequenceIsSafeBecauseItIsInMemory(material);
+    :- Need(|material| as uint64 >= (AlgorithmSuites.GetEncryptKeyLength(algSuite) + AlgorithmSuites.GetEncryptTagLength(algSuite)) as uint64,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Unable to deserialize Intermediate Key Wrapped material: too short."));
     var encryptedPdkLen := AlgorithmSuites.GetEncryptKeyLength(algSuite) + AlgorithmSuites.GetEncryptTagLength(algSuite);

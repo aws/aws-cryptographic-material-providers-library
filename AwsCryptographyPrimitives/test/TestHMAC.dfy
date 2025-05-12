@@ -96,7 +96,7 @@ module TestAwsCryptographyPrimitivesHMacDigest {
 
     var output :- client.HMac(input);
 
-    :- Need(|output| == Digest.Length(input.digestAlgorithm), Types.AwsCryptographicPrimitivesError( message := "Error"));
+    :- Need(|output| == Digest.Length(input.digestAlgorithm) as nat, Types.AwsCryptographicPrimitivesError( message := "Error"));
     :- Need(output == expectedDigest, Types.AwsCryptographicPrimitivesError( message := "Error"));
 
     Success(())

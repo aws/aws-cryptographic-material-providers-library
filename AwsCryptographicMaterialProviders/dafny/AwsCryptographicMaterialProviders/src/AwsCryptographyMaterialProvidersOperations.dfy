@@ -39,6 +39,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import opened D = DiscoveryMultiKeyring
   import opened MD = MrkAwareDiscoveryMultiKeyring
   import opened M = MrkAwareStrictMultiKeyring
+  import opened StandardLibrary.MemoryMath
   import AwsKmsKeyring
   import AwsKmsHierarchicalKeyring
   import AwsKmsMrkKeyring
@@ -493,7 +494,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   method CreateMultiKeyring ( config: InternalConfig,  input: CreateMultiKeyringInput )
     returns (output: Result<IKeyring, Error>)
   {
-    :- Need(input.generator.Some? || |input.childKeyrings| > 0,
+    SequenceIsSafeBecauseItIsInMemory(input.childKeyrings);
+    :- Need(input.generator.Some? || |input.childKeyrings| as uint64 > 0,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Must include a generator keyring and/or at least one child keyring"));
 
@@ -539,10 +541,12 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     var namespaceAndName :- ParseKeyNamespaceAndName(input.keyNamespace, input.keyName);
     var (namespace, name) := namespaceAndName;
 
-    :- Need(|input.wrappingKey| == 16 || |input.wrappingKey| == 24 || |input.wrappingKey| == 32,
+    SequenceIsSafeBecauseItIsInMemory(input.wrappingKey);
+    var wrapping_key_size := |input.wrappingKey| as uint64;
+    :- Need(wrapping_key_size == 16 || wrapping_key_size == 24 || wrapping_key_size == 32,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Invalid wrapping key length"));
-    :- Need(|input.wrappingKey| == wrappingAlg.keyLength as int,
+    :- Need(wrapping_key_size == wrappingAlg.keyLength as uint64,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Wrapping key length does not match specified wrapping algorithm"));
 
@@ -783,7 +787,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   {
     :- Need(input.underlyingCMM.Some? && input.keyring.None?, CmpError("CreateRequiredEncryptionContextCMM currently only supports cmm."));
     var keySet : set<UTF8.ValidUTF8Bytes> := set k <- input.requiredEncryptionContextKeys;
-    :- Need(0 < |keySet|, CmpError("RequiredEncryptionContextCMM needs at least one requiredEncryptionContextKey."));
+    SetIsSafeBecauseItIsInMemory(keySet);
+    :- Need(0 < |keySet| as uint64, CmpError("RequiredEncryptionContextCMM needs at least one requiredEncryptionContextKey."));
     var cmm := new RequiredEncryptionContextCMM.RequiredEncryptionContextCMM(
       input.underlyingCMM.value,
       keySet);
@@ -809,14 +814,14 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
         return Success(cmc);
       case SingleThreaded(c) =>
         var cmc := new LocalCMC.LocalCMC(
-          c.entryCapacity as nat,
-          OptionalCountingNumber(c.entryPruningTailSize).UnwrapOr(1) as nat
+          c.entryCapacity as uint64,
+          OptionalCountingNumber(c.entryPruningTailSize).UnwrapOr(1) as uint64
         );
         return Success(cmc);
       case MultiThreaded(c) =>
         var cmc := new LocalCMC.LocalCMC(
-          c.entryCapacity as nat,
-          OptionalCountingNumber(c.entryPruningTailSize).UnwrapOr(1) as nat
+          c.entryCapacity as uint64,
+          OptionalCountingNumber(c.entryPruningTailSize).UnwrapOr(1) as uint64
         );
         var synCmc := new SynchronizedLocalCMC.SynchronizedLocalCMC(cmc);
         return Success(synCmc);

@@ -11,7 +11,7 @@ module StandardLibrary.String {
 
   const Base10: seq<char> := ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
-  function method Int2Digits(n: int, base: int): (digits: seq<int>)
+  function method {:tailrecursion} Int2Digits(n: int, base: int): (digits: seq<int>)
     requires base > 1
     requires n >= 0
     decreases n
@@ -27,7 +27,7 @@ module StandardLibrary.String {
       Int2Digits(n / base, base) + [n % base]
   }
 
-  function method Digits2String(digits: seq<int>, chars: seq<char>) : string
+  function method {:tailrecursion} Digits2String(digits: seq<int>, chars: seq<char>) : string
     requires forall d | d in digits :: 0 <= d < |chars|
   {
     if digits == [] then ""

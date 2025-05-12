@@ -16,6 +16,7 @@ module AwsKmsMrkDiscoveryKeyring {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened AwsArnParsing
   import opened Actions
   import opened Constants
@@ -297,7 +298,8 @@ module AwsKmsMrkDiscoveryKeyring {
         assert helper in Seq.Flatten(parts);
       }
 
-      if (0 == |edksToAttempt|) {
+      SequenceIsSafeBecauseItIsInMemory(edksToAttempt);
+      if (0 == |edksToAttempt| as uint64) {
         var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(
             Types.AwsCryptographicMaterialProvidersException(

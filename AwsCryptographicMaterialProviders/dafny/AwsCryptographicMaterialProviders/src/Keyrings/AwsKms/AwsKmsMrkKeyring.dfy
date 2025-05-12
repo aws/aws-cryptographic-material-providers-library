@@ -17,6 +17,7 @@ module AwsKmsMrkKeyring {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened AwsArnParsing
   import opened AwsKmsUtils
   import opened AwsKmsKeyring
@@ -70,7 +71,7 @@ module AwsKmsMrkKeyring {
       //# valid-aws-kms-identifier).
       requires ParseAwsKmsIdentifier(awsKmsKey).Success?
       requires UTF8.IsASCIIString(awsKmsKey)
-      requires 0 < |awsKmsKey| <= MAX_AWS_KMS_IDENTIFIER_LENGTH
+      requires 0 < |awsKmsKey| <= MAX_AWS_KMS_IDENTIFIER_LENGTH as nat
       requires client.ValidState()
       ensures
         && this.client      == client
@@ -370,7 +371,8 @@ module AwsKmsMrkKeyring {
           None;
 
       var providerInfo :- UTF8.Encode(kmsKeyArn).MapFailure(WrapStringToError);
-      :- Need(|providerInfo| < UINT16_LIMIT,
+      SequenceIsSafeBecauseItIsInMemory(providerInfo);
+      :- Need(|providerInfo| as uint64 < UINT16_LIMIT as uint64,
               Types.AwsCryptographicMaterialProvidersException(
                 message := "Invalid response from AWS KMS GenerateDataKey: Key ID too long."));
 
@@ -518,7 +520,8 @@ module AwsKmsMrkKeyring {
       var filter := new AwsKmsUtils.OnDecryptMrkAwareEncryptedDataKeyFilter(awsKmsArn, PROVIDER_ID);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      if (0 == |edksToAttempt|) {
+      SequenceIsSafeBecauseItIsInMemory(edksToAttempt);
+      if (0 == |edksToAttempt| as uint64) {
         var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(
             Types.AwsCryptographicMaterialProvidersException(
