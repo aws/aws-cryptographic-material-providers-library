@@ -77,7 +77,7 @@ module {:options "/functionSyntax:4" } TestHv2KmsExceptions {
 
     expect initializeOutput.Failure?, "Expected a Failure when mutating a branch key with KMS Arn without Encrypt Permission";
     expect initializeOutput.error.MutationToException?,
-    "Expected a MutationTo Exception when mutating a branch key with KMS Arn without Encrypt Permission for HV2 Branch Keys";
+      "Expected a MutationTo Exception when mutating a branch key with KMS Arn without Encrypt Permission for HV2 Branch Keys";
 
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
   }
