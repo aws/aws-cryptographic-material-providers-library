@@ -5729,7 +5729,9 @@ public class ToDafny {
     // Which would allow Dafny developers to treat the two differently.
     return Error.create_OpaqueWithText(
       nativeValue,
-      dafny.DafnySequence.asString(nativeValue.getMessage())
+      dafny.DafnySequence.asString(
+        nativeValue.getClass().getSimpleName() + ": " + nativeValue.getMessage()
+      )
     );
   }
 
