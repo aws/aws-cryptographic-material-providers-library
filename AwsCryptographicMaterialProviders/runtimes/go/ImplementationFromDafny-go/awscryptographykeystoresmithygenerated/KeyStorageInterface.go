@@ -88,3 +88,107 @@ func (this *KeyStorageInterface) GetKeyStorageInfo(params awscryptographykeystor
 	return &native_response, nil
 
 }
+
+func (this *KeyStorageInterface) GetItemsForInitializeMutation(params awscryptographykeystoresmithygeneratedtypes.GetItemsForInitializeMutationInput) (*awscryptographykeystoresmithygeneratedtypes.GetItemsForInitializeMutationOutput, error) {
+	var dafny_request AwsCryptographyKeyStoreTypes.GetItemsForInitializeMutationInput = GetItemsForInitializeMutationInput_ToDafny(params)
+	var dafny_response = this.Impl.GetItemsForInitializeMutation(dafny_request)
+
+	if dafny_response.Is_Failure() {
+		err := dafny_response.Dtor_error().(AwsCryptographyKeyStoreTypes.Error)
+		return nil, Error_FromDafny(err)
+	}
+	var native_response = GetItemsForInitializeMutationOutput_FromDafny(dafny_response.Dtor_value().(AwsCryptographyKeyStoreTypes.GetItemsForInitializeMutationOutput))
+	return &native_response, nil
+
+}
+
+func (this *KeyStorageInterface) WriteInitializeMutation(params awscryptographykeystoresmithygeneratedtypes.WriteInitializeMutationInput) (*awscryptographykeystoresmithygeneratedtypes.WriteInitializeMutationOutput, error) {
+	var dafny_request AwsCryptographyKeyStoreTypes.WriteInitializeMutationInput = WriteInitializeMutationInput_ToDafny(params)
+	var dafny_response = this.Impl.WriteInitializeMutation(dafny_request)
+
+	if dafny_response.Is_Failure() {
+		err := dafny_response.Dtor_error().(AwsCryptographyKeyStoreTypes.Error)
+		return nil, Error_FromDafny(err)
+	}
+	var native_response = WriteInitializeMutationOutput_FromDafny(dafny_response.Dtor_value().(AwsCryptographyKeyStoreTypes.WriteInitializeMutationOutput))
+	return &native_response, nil
+
+}
+
+func (this *KeyStorageInterface) WriteAtomicMutation(params awscryptographykeystoresmithygeneratedtypes.WriteAtomicMutationInput) (*awscryptographykeystoresmithygeneratedtypes.WriteAtomicMutationOutput, error) {
+	var dafny_request AwsCryptographyKeyStoreTypes.WriteAtomicMutationInput = WriteAtomicMutationInput_ToDafny(params)
+	var dafny_response = this.Impl.WriteAtomicMutation(dafny_request)
+
+	if dafny_response.Is_Failure() {
+		err := dafny_response.Dtor_error().(AwsCryptographyKeyStoreTypes.Error)
+		return nil, Error_FromDafny(err)
+	}
+	var native_response = WriteAtomicMutationOutput_FromDafny(dafny_response.Dtor_value().(AwsCryptographyKeyStoreTypes.WriteAtomicMutationOutput))
+	return &native_response, nil
+
+}
+
+func (this *KeyStorageInterface) QueryForVersions(params awscryptographykeystoresmithygeneratedtypes.QueryForVersionsInput) (*awscryptographykeystoresmithygeneratedtypes.QueryForVersionsOutput, error) {
+	var dafny_request AwsCryptographyKeyStoreTypes.QueryForVersionsInput = QueryForVersionsInput_ToDafny(params)
+	var dafny_response = this.Impl.QueryForVersions(dafny_request)
+
+	if dafny_response.Is_Failure() {
+		err := dafny_response.Dtor_error().(AwsCryptographyKeyStoreTypes.Error)
+		return nil, Error_FromDafny(err)
+	}
+	var native_response = QueryForVersionsOutput_FromDafny(dafny_response.Dtor_value().(AwsCryptographyKeyStoreTypes.QueryForVersionsOutput))
+	return &native_response, nil
+
+}
+
+func (this *KeyStorageInterface) WriteMutatedVersions(params awscryptographykeystoresmithygeneratedtypes.WriteMutatedVersionsInput) (*awscryptographykeystoresmithygeneratedtypes.WriteMutatedVersionsOutput, error) {
+	var dafny_request AwsCryptographyKeyStoreTypes.WriteMutatedVersionsInput = WriteMutatedVersionsInput_ToDafny(params)
+	var dafny_response = this.Impl.WriteMutatedVersions(dafny_request)
+
+	if dafny_response.Is_Failure() {
+		err := dafny_response.Dtor_error().(AwsCryptographyKeyStoreTypes.Error)
+		return nil, Error_FromDafny(err)
+	}
+	var native_response = WriteMutatedVersionsOutput_FromDafny(dafny_response.Dtor_value().(AwsCryptographyKeyStoreTypes.WriteMutatedVersionsOutput))
+	return &native_response, nil
+
+}
+
+func (this *KeyStorageInterface) GetMutation(params awscryptographykeystoresmithygeneratedtypes.GetMutationInput) (*awscryptographykeystoresmithygeneratedtypes.GetMutationOutput, error) {
+	var dafny_request AwsCryptographyKeyStoreTypes.GetMutationInput = GetMutationInput_ToDafny(params)
+	var dafny_response = this.Impl.GetMutation(dafny_request)
+
+	if dafny_response.Is_Failure() {
+		err := dafny_response.Dtor_error().(AwsCryptographyKeyStoreTypes.Error)
+		return nil, Error_FromDafny(err)
+	}
+	var native_response = GetMutationOutput_FromDafny(dafny_response.Dtor_value().(AwsCryptographyKeyStoreTypes.GetMutationOutput))
+	return &native_response, nil
+
+}
+
+func (this *KeyStorageInterface) DeleteMutation(params awscryptographykeystoresmithygeneratedtypes.DeleteMutationInput) (*awscryptographykeystoresmithygeneratedtypes.DeleteMutationOutput, error) {
+	var dafny_request AwsCryptographyKeyStoreTypes.DeleteMutationInput = DeleteMutationInput_ToDafny(params)
+	var dafny_response = this.Impl.DeleteMutation(dafny_request)
+
+	if dafny_response.Is_Failure() {
+		err := dafny_response.Dtor_error().(AwsCryptographyKeyStoreTypes.Error)
+		return nil, Error_FromDafny(err)
+	}
+	var native_response = DeleteMutationOutput_FromDafny(dafny_response.Dtor_value().(AwsCryptographyKeyStoreTypes.DeleteMutationOutput))
+	return &native_response, nil
+
+}
+
+func (this *KeyStorageInterface) WriteMutationIndex(params awscryptographykeystoresmithygeneratedtypes.WriteMutationIndexInput) (*awscryptographykeystoresmithygeneratedtypes.WriteMutationIndexOutput, error) {
+	var dafny_request AwsCryptographyKeyStoreTypes.WriteMutationIndexInput = WriteMutationIndexInput_ToDafny(params)
+	var dafny_response = this.Impl.WriteMutationIndex(dafny_request)
+
+	if dafny_response.Is_Failure() {
+		err := dafny_response.Dtor_error().(AwsCryptographyKeyStoreTypes.Error)
+		return nil, Error_FromDafny(err)
+	}
+	var native_response = WriteMutationIndexOutput_FromDafny(dafny_response.Dtor_value().(AwsCryptographyKeyStoreTypes.WriteMutationIndexOutput))
+	return &native_response, nil
+
+}
