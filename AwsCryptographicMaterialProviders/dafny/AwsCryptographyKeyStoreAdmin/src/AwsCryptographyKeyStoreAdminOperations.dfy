@@ -235,8 +235,6 @@ module AwsCryptographyKeyStoreAdminOperations refines AbstractAwsCryptographyKey
     return Success(hierarchyVersion?.value);
   }
 
-  // TODO-HV-2-M2?: LegacyConfig can be only called for a single KmsTuple (ReEncrypt & KmsSimple)
-  // Resolve for DecryptEncrypt Strategy (Encrypt: KmsTuple, Decrypt: KmsTuple)
   function method LegacyConfig(
     kmsTuple: KmsUtils.KMSTuple,
     kmsArn: Types.KmsSymmetricKeyArn,
