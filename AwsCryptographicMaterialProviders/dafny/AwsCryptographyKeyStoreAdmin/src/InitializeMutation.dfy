@@ -770,53 +770,46 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     .MapFailure(e => Types.KeyStoreAdminException(
                     message := "Could not generate UUID for new Decrypt Only. " + e));
     var newActive;
-    var newDecryptOnly;
+    var decryptOnlyEncryptionContext := Mutations.DecryptOnlyBranchKeyEncryptionContextForMutation(
+      localInput.input.Identifier,
+      newVersion,
+      localInput.timestamp,
+      localInput.input.logicalKeyStoreName,
+      localInput.mutationToApply.Terminal.kmsArn,
+      localInput.mutationToApply.Terminal.hierarchyVersion,
+      localInput.mutationToApply.Terminal.customEncryptionContext
+    );
+    // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
+    // it indicates that the MPL Consumer does not have access to
+    // GenerateDataKeyWithoutPlaintext on the terminal key.
+    var newDecryptOnly :- CreateNewTerminalDecryptOnlyBranchKey(
+      decryptOnlyEncryptionContext,
+      localInput.mutationToApply,
+      localInput.input.keyManagerStrategy
+    );
+    var ActiveEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(newDecryptOnly.EncryptionContext);
 
-    match localInput.activeItem.Type.ActiveHierarchicalSymmetricVersion.Version {
-      case "1" =>
-        var decryptOnlyEncryptionContext := Mutations.DecryptOnlyBranchKeyEncryptionContextForMutation(
-          localInput.input.Identifier,
-          newVersion,
-          localInput.timestamp,
-          localInput.input.logicalKeyStoreName,
-          localInput.mutationToApply.Terminal.kmsArn,
-          localInput.mutationToApply.Terminal.hierarchyVersion,
-          localInput.mutationToApply.Terminal.customEncryptionContext
-        );
-
-        // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
-        // it indicates that the MPL Consumer does not have access to
-        // GenerateDataKeyWithoutPlaintext on the terminal key.
-        newDecryptOnly :- CreateNewTerminalDecryptOnlyBranchKey(
-          decryptOnlyEncryptionContext,
-          localInput.mutationToApply,
-          localInput.input.keyManagerStrategy
-        );
-        var ActiveEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(newDecryptOnly.EncryptionContext);
-
-        if (localInput.input.keyManagerStrategy.decryptEncrypt?) {
-          newActive :- Mutations.NewActiveItemForDecryptEncrypt(
-            item := newDecryptOnly,
-            terminalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
-            terminalEncryptionContext := ActiveEncryptionContext,
-            keyManagerStrategy := localInput.input.keyManagerStrategy,
-            localOperation := "InitializeMutation"
-          );
-        } else {
-          var input := Mutations.ReEncryptHierarchicalKeyInput(
-            item := newDecryptOnly,
-            originalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
-            terminalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
-            terminalEncryptionContext := ActiveEncryptionContext,
-            keyManagerStrategy := localInput.input.keyManagerStrategy
-          );
-          newActive :- Mutations.ReEncryptHierarchicalKey(
-            input := input,
-            localOperation := "InitializeMutation",
-            createNewActive := true);
-        }
-      case "2" => return Failure(Types.KeyStoreAdminException(message := "version 2 not supported yet."));
-      case _ => return Failure(Types.KeyStoreAdminException(message := "Unknown hierarchy version found."));
+    if (localInput.input.keyManagerStrategy.decryptEncrypt?) {
+      newActive :- Mutations.NewActiveItemForDecryptEncrypt(
+        item := newDecryptOnly,
+        terminalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
+        terminalEncryptionContext := ActiveEncryptionContext,
+        keyManagerStrategy := localInput.input.keyManagerStrategy,
+        hierarchyVersion := localInput.mutationToApply.Terminal.hierarchyVersion,
+        localOperation := "InitializeMutation"
+      );
+    } else {
+      var input := Mutations.ReEncryptHierarchicalKeyInput(
+        item := newDecryptOnly,
+        originalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
+        terminalKmsArn := localInput.mutationToApply.Terminal.kmsArn,
+        terminalEncryptionContext := ActiveEncryptionContext,
+        keyManagerStrategy := localInput.input.keyManagerStrategy
+      );
+      newActive :- Mutations.ReEncryptHierarchicalKey(
+        input := input,
+        localOperation := "InitializeMutation",
+        createNewActive := true);
     }
 
     return Success(

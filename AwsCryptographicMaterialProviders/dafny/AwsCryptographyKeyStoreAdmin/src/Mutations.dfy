@@ -301,11 +301,12 @@ module {:options "/functionSyntax:4" } Mutations {
 
   // TODO-HV-2-Mutate-Version: Can be removed in favor of Mutations.ReEncryptHierarchicalKey()
   // or refactor Mutations.ReEncryptHierarchicalKey to use this Method.
-  method {:isolate_asserations} NewActiveItemForDecryptEncrypt(
+  method {:vcs_split_on_every_assert} NewActiveItemForDecryptEncrypt(
     nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
     nameonly terminalKmsArn: string,
     nameonly terminalEncryptionContext: Structure.BranchKeyContext,
     nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
+    nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion,
     nameonly localOperation: string := "InitializeMutation"
   )
     returns (output: Result<Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
@@ -327,30 +328,126 @@ module {:options "/functionSyntax:4" } Mutations {
     // If we want to reencrypt it for the new active we must do so with only the encrypt client. This means
     // that the encrypt client will perform both the decrypt and encrypt operations. Otherwise we assume that
     // the decrypt client has permissions to decrypt the kms key that we are moving to. This is a wrong assumption.
-    wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncryptOnInitializeMutation(
-      ciphertext := item.CiphertextBlob,
-      sourceEncryptionContext := item.EncryptionContext,
-      destinationEncryptionContext := terminalEncryptionContext,
-      sourceKmsArn := terminalKmsArn,
-      destinationKmsArn := terminalKmsArn,
-      grantTokens := keyManagerStrategy.encrypt.grantTokens,
-      kmsClient := keyManagerStrategy.encrypt.kmsClient
+    match hierarchyVersion {
+      case v1 =>
+        // We call this method to create the new Active from the new Decrypt Only
+        wrappedKey? := KMSKeystoreOperations.MutateViaDecryptEncryptOnInitializeMutation(
+          ciphertext := item.CiphertextBlob,
+          sourceEncryptionContext := item.EncryptionContext,
+          destinationEncryptionContext := terminalEncryptionContext,
+          sourceKmsArn := terminalKmsArn,
+          destinationKmsArn := terminalKmsArn,
+          grantTokens := keyManagerStrategy.encrypt.grantTokens,
+          kmsClient := keyManagerStrategy.encrypt.kmsClient
+        );
+        
+        if (wrappedKey?.Failure?) {
+          var error := MutationErrorRefinement.CreateActiveException(
+            branchKeyItem := Structure.ConstructEncryptedHierarchicalKey(
+              terminalEncryptionContext,
+              item.CiphertextBlob),
+            error := wrappedKey?.error,
+            localOperation := localOperation,
+            kmsOperation := "Decrypt/Encrypt");
+          return Failure(error);
+        }
+        output := Success(Structure.ConstructEncryptedHierarchicalKey(
+                            terminalEncryptionContext,
+                            wrappedKey?.value
+                          ));
+      case v2 =>
+        if !HVUtils.HasUniqueTransformedKeys?(terminalEncryptionContext) || !HVUtils.HasUniqueTransformedKeys?(item.EncryptionContext) {
+          return Failure(Types.Error.AwsCryptographyKeyStore(
+                            KeyStoreTypes.BranchKeyCiphertextException(
+                              message := KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+                            )));
+        }
+        var v2WrappedKey? := NewActiveItemForDecryptEncryptV2SubRoutine(
+          item := item,
+          terminalKmsArn := terminalKmsArn,
+          terminalEncryptionContext := terminalEncryptionContext,
+          keyManagerStrategy := keyManagerStrategy,
+          localOperation := "InitializeMutation"
+        );
+        
+        output := Success(v2WrappedKey?.value);
+    }
+    
+  }
+
+  method {:vcs_split_on_every_assert} NewActiveItemForDecryptEncryptV2SubRoutine(
+    nameonly item: Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey,
+    nameonly terminalKmsArn: string,
+    nameonly terminalEncryptionContext: Structure.BranchKeyContext,
+    nameonly keyManagerStrategy: KmsUtils.keyManagerStrat,
+    nameonly localOperation: string := "InitializeMutation"
+  )
+    returns (output: Result<Types.AwsCryptographyKeyStoreTypes.EncryptedHierarchicalKey, Types.Error>)
+    requires Structure.EncryptedHierarchicalKeyFromStorage?(item)
+    requires KMS.IsValid_KeyIdType(terminalKmsArn)
+    requires KMSKeystoreOperations.AttemptReEncrypt?(item.EncryptionContext, terminalEncryptionContext)
+    requires KmsArn.ValidKmsArn?(terminalKmsArn)
+    requires item.KmsArn == terminalKmsArn
+    requires keyManagerStrategy.ValidState()
+    requires keyManagerStrategy.decryptEncrypt?
+    requires item.Type.HierarchicalSymmetricVersion? // the input is a Version
+    requires Structure.ActiveHierarchicalSymmetricVersionEncryptionContext?(terminalEncryptionContext)
+    requires HVUtils.HasUniqueTransformedKeys?(item.EncryptionContext)
+    requires HVUtils.HasUniqueTransformedKeys?(terminalEncryptionContext)
+    modifies keyManagerStrategy.Modifies
+    ensures keyManagerStrategy.ValidState()
+    ensures output.Success? ==> output.value.Type.ActiveHierarchicalSymmetricVersion? // the output is an ACTIVE
+  {
+    var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(kmsKeyArn := terminalKmsArn); 
+    var decryptedKey? := GetKeys.DecryptAndValidateKeyForHV2(
+      item,
+      kmsConfig,
+      keyManagerStrategy.encrypt.grantTokens,
+      keyManagerStrategy.encrypt.kmsClient
     );
-    // We call this method to create the new Active from the new Decrypt Only
-    if (wrappedKey?.Failure?) {
+    if (decryptedKey?.Failure?) {
       var error := MutationErrorRefinement.CreateActiveException(
         branchKeyItem := Structure.ConstructEncryptedHierarchicalKey(
           terminalEncryptionContext,
           item.CiphertextBlob),
-        error := wrappedKey?.error,
+        error := decryptedKey?.error,
         localOperation := localOperation,
         kmsOperation := "Decrypt/Encrypt");
       return Failure(error);
     }
-    output := Success(Structure.ConstructEncryptedHierarchicalKey(
-                        terminalEncryptionContext,
-                        wrappedKey?.value
-                      ));
+
+    var ecToKMS := HVUtils.SelectKmsEncryptionContextForHv2(terminalEncryptionContext);
+    // Get crypto client
+    var crypto? := HVUtils.ProvideCryptoClient();
+    var crypto :- crypto?.MapFailure(
+      e => Types.AwsCryptographyPrimitives(
+          AwsCryptographyPrimitives := e
+        )
+    );
+    var keyManagerStrat := KmsUtils.keyManagerStrat.kmsSimple(
+      kmsSimple := KmsUtils.KMSTuple(kmsClient := keyManagerStrategy.encrypt.kmsClient, grantTokens := keyManagerStrategy.encrypt.grantTokens)
+    );
+    var CryptoAndKms := KMSKeystoreOperations.CryptoAndKms(kmsConfig, keyManagerStrat, crypto);
+
+    var v2WrappedKey? := KMSKeystoreOperations.packAndCallKMS(
+      branchKeyContext := terminalEncryptionContext,
+      cryptoAndKms := CryptoAndKms,
+      material := decryptedKey?.value,
+      encryptionContext := ecToKMS
+    );
+    
+    if (v2WrappedKey?.Failure?) {
+      var error := MutationErrorRefinement.CreateActiveException(
+        branchKeyItem := Structure.ConstructEncryptedHierarchicalKey(
+          terminalEncryptionContext,
+          item.CiphertextBlob),
+        error := v2WrappedKey?.error,
+        localOperation := localOperation,
+        kmsOperation := "Decrypt/Encrypt");
+      return Failure(error);
+    }
+
+    return Success(v2WrappedKey?.value);
   }
 
   // TODO: decide if I want to do this or leave the params
@@ -478,9 +575,12 @@ module {:options "/functionSyntax:4" } Mutations {
     reveal Seq.Filter();
   }
 
-  // TODO-HV-2-M2: Refactor to allow HV-2 for Mutations
   /** This function is largely identical to Structure.DecryptOnlyBranchKeyEncryptionContext, **/
   /** except the "custom Encryption Context" has already been prefixed. **/
+  /** This function should not do additional filtering based on the hierarchy version, it makes
+      the caller have to ensure certain things before calling the function which can make 
+      the proofs tricky. Instead use this function as an all encompassing utility and perform
+      additional filtering afterwards. */
   function DecryptOnlyBranchKeyEncryptionContextForMutation(
     branchKeyId: string,
     branchKeyVersion: string,
@@ -504,35 +604,15 @@ module {:options "/functionSyntax:4" } Mutations {
               ::
                 && k in output
                 && output[k] == prefixedCustomEncryptionContext[k])
-    ensures hierarchyVersion.v2? ==>
-      && (forall k <- Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
-              :: k !in output)
   {
-    match hierarchyVersion {
-      case v1 =>
-        map[
-          Structure.BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
-          Structure.TYPE_FIELD := Structure.BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
-          Structure.KEY_CREATE_TIME := timestamp,
-          Structure.TABLE_FIELD := logicalKeyStoreName,
-          Structure.KMS_FIELD := kmsKeyArn,
-          Structure.HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
-        ] + prefixedCustomEncryptionContext
-      case v2 =>
-        // These are the fields that we find on the record.
-        // For v2 the prefixedCustomEncryptionContext is filtered to remove the "aws-crypto-ec:" prefix.
-        //See HvUtils.SelectKmsEncryptionContextForHv2 for details.
-        var branchKeyContext := map[
-          Structure.BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
-          Structure.TYPE_FIELD := Structure.BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
-          Structure.KEY_CREATE_TIME := timestamp,
-          Structure.TABLE_FIELD := logicalKeyStoreName,
-          Structure.KMS_FIELD := kmsKeyArn,
-          Structure.HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
-        ] + prefixedCustomEncryptionContext;
-
-        HVUtils.SelectKmsEncryptionContextForHv2(branchKeyContext)
-    }
+    map[
+      Structure.BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
+      Structure.TYPE_FIELD := Structure.BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
+      Structure.KEY_CREATE_TIME := timestamp,
+      Structure.TABLE_FIELD := logicalKeyStoreName,
+      Structure.KMS_FIELD := kmsKeyArn,
+      Structure.HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
+    ] + prefixedCustomEncryptionContext
   }
 
   datatype CheckedItem =
