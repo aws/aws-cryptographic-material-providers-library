@@ -546,7 +546,7 @@ structure MutableBranchKeyContext {
   @required  
   @documentation("The Encryption Context authenticated with this Branch Key.")
   EncryptionContext: aws.cryptography.keyStore#EncryptionContextString // EC non Empty MUST be validated in Dafny
-  @required // TODO-HV-2-BLOCKER : This Shape is only emmitted, so we should be able to add required fields
+  @required
   @documentation("The 'hierarchy-version' of the Branch Key.")
   HierarchyVersion: HierarchyVersion
 }

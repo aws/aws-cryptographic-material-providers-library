@@ -57,36 +57,6 @@ module {:options "/functionSyntax:4" } TestAdminHV1Only {
   }
 
   // TODO-HV-2-M3 : Probably make this a happy test?
-  const testMutateInitEncountersHV2FailsCaseId := "dafny-initialize-mutation-encounters-hv-2-rejection"
-  const logPrefix := "\n" + testMutateInitEncountersHV2FailsCaseId + " :: "
-  method {:test} TestMutateInitEncountersHV2FailsCaseId()
-  {
-    var uuid :- expect UUID.GenerateUUID();
-    var testId := testMutateInitEncountersHV2FailsCaseId + "-" + uuid;
-    var ddbClient :- expect Fixtures.ProvideDDBClient();
-    var kmsClient :- expect Fixtures.ProvideKMSClient();
-    var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
-    var strategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-    var systemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage());
-    Fixtures.CreateHappyCaseId(id:=testId);
-    var _ :- expect AdminFixtures.AddAttributeWithoutLibrary(
-      id:=testId,
-      keyValue:=AdminFixtures.KeyValue(key:=Structure.HIERARCHY_VERSION, value:=Structure.HIERARCHY_VERSION_VALUE_2),
-      alsoViolateBeacon? := true, ddbClient? := Some(ddbClient),
-      kmsClient?:=Some(kmsClient), violateReservedAttribute:=true);
-    var mutationsRequest := Types.Mutations(TerminalKmsArn := Some(Fixtures.postalHornKeyArn));
-    var initInput := Types.InitializeMutationInput(
-      Identifier := testId,
-      Mutations := mutationsRequest,
-      Strategy := Some(strategy),
-      SystemKey := systemKey,
-      DoNotVersion := Some(true));
-    var initializeOutput := underTest.InitializeMutation(initInput);
-    var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
-    expect initializeOutput.Failure?, "Should have failed InitializeMutation when HV-2 encountered by InitMutation.";
-  }
-
-  // TODO-HV-2-M3 : Probably make this a happy test?
   const testVersionKeyEncountersHV2FailsCaseId := "dafny-version-key-encounters-hv-2-rejection"
   const logPrefixVersion := "\n" + testVersionKeyEncountersHV2FailsCaseId + " :: "
   method {:test} TestVersionKeyEncountersHV2Fails()

@@ -12,6 +12,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
   import Types = AwsCryptographyKeyStoreAdminTypes
   import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import KeyStoreErrorMessages
+  import KeyStoreAdminErrorMessages
   import AdminFixtures
   import Fixtures
   import CleanupItems
@@ -100,6 +101,6 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
 
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.KeyStoreAdminException?, "Should have KeyStoreAdminException";
-    expect initializeOutput.error.message == KeyStoreErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE, "Incorrect error message. Should have had `KeyStoreErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE`";
+    expect initializeOutput.error.message == KeyStoreAdminErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE, "Incorrect error message. Should have had `KeyStoreAdminErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE`";
   }
 }
