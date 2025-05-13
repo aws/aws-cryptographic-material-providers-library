@@ -307,7 +307,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       :- Need(
         && (!isTerminalHv2 || HvUtils.HasUniqueTransformedKeys?(terminalEC)),
         Types.KeyStoreAdminException(
-          message := KeyStoreErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE
+          message := KeyStoreAdminErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE
         )
       );
     }
