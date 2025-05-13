@@ -68,7 +68,7 @@ jobs:
         with:
           dafny-version: ${{ inputs.dafny }}
           
-      - name: Regenerate code using smithy-dafny if necessary
+      - name: Install Smithy-Dafny codegen dependencies
         if: ${{ inputs.regenerate-code }}
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
   
