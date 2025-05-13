@@ -58,7 +58,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
 
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.KeyStoreAdminException?, "Should have KeyStoreAdminException";
-    expect initializeOutput.error.message == KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS, "Incorrect error message. Should have had `KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS`";
+    expect initializeOutput.error.message == KeyStoreErrorMessages.FOUND_EC_WITHOUT_PREFIX, "Incorrect error message. Should have had `KeyStoreErrorMessages.FOUND_EC_WITHOUT_PREFIX`";
   }
 
   method {:test} TestNonUniqueTerminalAndInferredECKeys() {

@@ -669,9 +669,9 @@ module {:options "/functionSyntax:4" } Mutations {
       mutationToApply.Terminal.hierarchyVersion
     );
     :- Need(
-      HVUtils.HasUniqueTransformedKeys?(terminalBKC),
+      Structure.PrefixedEncryptionContext?(terminalBKC - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES),
       Types.KeyStoreAdminException(
-        message := KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+        message := KeyStoreErrorMessages.FOUND_EC_WITHOUT_PREFIX
       )
     );
     var crypto? := HVUtils.ProvideCryptoClient();

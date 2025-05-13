@@ -755,7 +755,7 @@ module GetKeys {
               && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
               && |result.value| == Structure.AES_256_LENGTH as int
               && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
-                   && HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
+                   && Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
                    && result.value == decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
                  else
                    && result.value == decryptResponse.Plaintext.value
@@ -773,9 +773,9 @@ module GetKeys {
       plainTextKey := kmsRes.Plaintext.value;
       return Success(plainTextKey);
     } else if hierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_2 {
-      if !HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext) {
+      if !Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES) {
         return Failure(Types.BranchKeyCiphertextException(
-                         message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+                         message := ErrorMessages.FOUND_EC_WITHOUT_PREFIX
                        ));
       }
 

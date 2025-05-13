@@ -89,6 +89,6 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
   const MD_DIGEST_SHA_NOT_MATCHED :=
     "This branch key item has failed the authentication check. Either it has been tampered with or the wrong 'Logical Key Store Name' has been provided."
 
-  const NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS :=
-    "Duplicate attribute name found in branch key item after removing prefix 'aws-crypto-ec'."
+  const FOUND_EC_WITHOUT_PREFIX :=
+    "EC send to KMS is not prefixed with 'aws-crypto-ec' in the storage."
 }
