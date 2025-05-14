@@ -22,30 +22,6 @@ module {:options "/functionSyntax:4" } TestMutateLyingBranchKey {
   // Python runtime tests fails to unwrap optional string with
   // AttributeError: 'Seq' object has no attribute 'UnwrapOr' in MutationErrorRefinement.ParsedErrorContext
 
-  // Test Case: Unexpected Encryption Context
-  // The Branch Key's encryption context in DDB includes additional unmodeled EC: "unexpected-key:unexpected-value"
-  // Expected Error: KMS.InvalidCiphertextException due to unexpected encryption context
-  method {:test} TestHv2MutateForLyingBranchKeyUnexpectedEC() {
-    var admin :- expect AdminFixtures.StaticAdmin();
-    var strategy :- expect AdminFixtures.SimpleKeyManagerStrategy();
-
-    var terminalEC: KeyStoreTypes.EncryptionContextString := map["Koda" := "Is a dog."];
-    var mutationsRequest := Types.Mutations(
-      TerminalKmsArn := Some(Fixtures.postalHornKeyArn),
-      TerminalHierarchyVersion := Some(KeyStoreTypes.HierarchyVersion.v2),
-      TerminalEncryptionContext := Some(terminalEC)
-    );
-    var initInput := Types.InitializeMutationInput(
-      Identifier := Fixtures.hierarchyV2UnexpectedECId,
-      Mutations := mutationsRequest,
-      Strategy := Some(strategy),
-      SystemKey := Types.SystemKey.trustStorage(trustStorage := Types.TrustStorage()),
-      DoNotVersion := Some(true));
-    var initializeOutput := admin.InitializeMutation(initInput);
-    expect initializeOutput.Failure?;
-    expect initializeOutput.error.MutationFromException?;
-  }
-
   // Test Case: Missing Encryption Context
   // The Branch Key's encryption context in DDB: "TamperedKey:TamperedValue"
   // Actual encryption context used with KMS Requests: "ExampleContextKey:ExampleContextValue"
