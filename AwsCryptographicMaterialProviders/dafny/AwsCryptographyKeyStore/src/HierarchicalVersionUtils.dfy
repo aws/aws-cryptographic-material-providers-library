@@ -147,13 +147,6 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     map entry <- transformedContext :: entry.0 := entry.1
   }
 
-  // checks if all keys have prefix `Structure.ENCRYPTION_CONTEXT_PREFIX`
-  predicate AllKeysHavePrefix?(
-    branchKeyContext: Types.EncryptionContextString
-  ) {
-    forall k :: k in branchKeyContext.Keys ==> HasPrefix(k)
-  }
-
   // checks that when we transform keys in the encryption context by removing the aws-crypto-ec: prefix (if present),
   // we don't end up with duplicate keys.
   predicate HasUniqueTransformedKeys?(branchKeyContext: Types.EncryptionContextString)

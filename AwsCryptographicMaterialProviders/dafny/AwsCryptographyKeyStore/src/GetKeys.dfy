@@ -790,7 +790,6 @@ module GetKeys {
           message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
         )
       );
-      assert HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext);
       var decryptResult :- DecryptAndValidateKeyForHV2(
         branchKeyItemFromStorage,
         kmsConfiguration,
