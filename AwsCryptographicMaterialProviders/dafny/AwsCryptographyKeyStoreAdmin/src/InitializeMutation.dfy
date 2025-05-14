@@ -244,6 +244,13 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       )
     );
     :- Need(
+      !isTerminalHv2 || HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
+      Types.KeyStoreAdminException(
+        message :=
+          KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+      )
+    );
+    :- Need(
       || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            && readItems.BeaconItem.Identifier == input.Identifier
@@ -495,12 +502,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         assert newDecryptOnly.KmsArn == mutationToApply.Terminal.kmsArn;
 
       case v2 =>
-        if !Structure.PrefixedEncryptionContext?(decryptOnlyEncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES) {
-          return Failure(Types.Error.AwsCryptographyKeyStore(
-                           KeyStoreTypes.BranchKeyCiphertextException(
-                             message := KeyStoreErrorMessages.FOUND_EC_WITHOUT_PREFIX
-                           )));
-        }
         var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(decryptOnlyEncryptionContext);
 
         var plaintextMaterial? := KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
@@ -723,7 +724,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     returns (output: Result<InitializeMutationActiveOutput, Types.Error>)
     requires localInput.ValidState()
     requires if localInput.mutationToApply.Terminal.hierarchyVersion.v2? then
-               Structure.PrefixedEncryptionContext?(localInput.mutationToApply.Terminal.customEncryptionContext)
+               && Structure.PrefixedEncryptionContext?(localInput.mutationToApply.Terminal.customEncryptionContext)
+               && HvUtils.HasUniqueTransformedKeys?(localInput.mutationToApply.Terminal.customEncryptionContext)
              else
                true
     modifies localInput.Modifies
@@ -759,7 +761,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     requires !localInput.input.DoNotVersion
     requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply.Terminal.hierarchyVersion, localInput.input.keyManagerStrategy)
     requires if localInput.mutationToApply.Terminal.hierarchyVersion.v2? then
-               Structure.PrefixedEncryptionContext?(localInput.mutationToApply.Terminal.customEncryptionContext)
+               && Structure.PrefixedEncryptionContext?(localInput.mutationToApply.Terminal.customEncryptionContext)
+               && HvUtils.HasUniqueTransformedKeys?(localInput.mutationToApply.Terminal.customEncryptionContext)
              else
                true
     ensures
