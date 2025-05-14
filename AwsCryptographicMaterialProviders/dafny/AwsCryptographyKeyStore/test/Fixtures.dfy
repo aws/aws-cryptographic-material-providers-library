@@ -153,9 +153,6 @@ module Fixtures {
   const hierarchyV2MissingPrefixedECId := "DO-NOT-DELETE-test-hv2-get-key-missing-prefixed-ec"
   const hierarchyV2MissingPrefixedECVersion := "d3e7b039-71fb-41af-8549-2564a170935c"
 
-  const hierarchyV2UnexpectedECId := "DO-NOT-DELETE-test-hv2-get-key-unexpected-ec"
-  const hierarchyV2UnexpectedECVersion := "a01eec17-9b1c-4f4a-9b66-2c84816854ac"
-
   // This function is the lie we will tell ourselves
   // about what the mutation scope is.
   // You MUST NOT reveal this value.
