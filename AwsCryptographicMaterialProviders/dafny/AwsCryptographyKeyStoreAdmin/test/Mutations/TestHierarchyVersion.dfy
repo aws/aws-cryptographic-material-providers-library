@@ -20,9 +20,9 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
   import Time
   import Structure
 
-  method {:test} TestInitializeMutationFailsWithNonUniqueBranchKeyContext() {
+  method {:test} TestInitializeMutationFailsForECWithoutPrefix() {
 
-    var testId := "DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check";
+    var testId := "DO-NOT-EDIT-Branch-Key-For-FoundECWithoutPrefix-Check";
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
 
