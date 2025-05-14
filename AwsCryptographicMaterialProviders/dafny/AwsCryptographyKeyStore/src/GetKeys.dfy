@@ -173,12 +173,6 @@ module GetKeys {
       )
     );
     :- Need(
-      Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES),
-      Types.KeyStoreException(
-        message := ErrorMessages.FOUND_EC_WITHOUT_PREFIX
-      )
-    );
-    :- Need(
       KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.EncryptionContext[Structure.KMS_FIELD]),
       Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
@@ -361,12 +355,6 @@ module GetKeys {
         message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
       )
     );
-    :- Need(
-      Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES),
-      Types.KeyStoreException(
-        message := ErrorMessages.FOUND_EC_WITHOUT_PREFIX
-      )
-    );
 
     var plainTextKey :- DecryptBranchKeyItem(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient);
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
@@ -530,12 +518,7 @@ module GetKeys {
         message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
       )
     );
-    :- Need(
-      Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES),
-      Types.KeyStoreException(
-        message := ErrorMessages.FOUND_EC_WITHOUT_PREFIX
-      )
-    );
+
     var plainTextKey :- DecryptBranchKeyItem(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient);
     var branchKeyMaterials :- Structure.ToBeaconKeyMaterials(
       branchKeyItemFromStorage,
@@ -558,6 +541,8 @@ module GetKeys {
     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
 
     requires Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+
+    requires HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
 
     requires KmsArn.ValidKmsArn?(branchKeyItemFromStorage.KmsArn)
 
@@ -658,6 +643,7 @@ module GetKeys {
     && ((hv == Structure.HIERARCHY_VERSION_VALUE_1) || (hv == Structure.HIERARCHY_VERSION_VALUE_2))
 
     && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
+         && HvUtils.HasUniqueTransformedKeys?(item.EncryptionContext)
 
          && Structure.PrefixedEncryptionContext?(item.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
 
@@ -762,7 +748,6 @@ module GetKeys {
 
     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
     requires Structure.EncryptedHierarchicalKeyFromStorage?(branchKeyItemFromStorage)
-    requires Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
     requires KmsArn.ValidKmsArn?(branchKeyItemFromStorage.KmsArn)
     requires KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, branchKeyItemFromStorage.KmsArn)
 
@@ -774,6 +759,7 @@ module GetKeys {
               && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
               && |result.value| == Structure.AES_256_LENGTH as int
               && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
+                   && HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
                    && Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
                    && result.value == decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
                  else
@@ -792,6 +778,19 @@ module GetKeys {
       plainTextKey := kmsRes.Plaintext.value;
       return Success(plainTextKey);
     } else if hierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_2 {
+      :- Need(
+        Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES),
+        Types.BranchKeyCiphertextException(
+          message := ErrorMessages.FOUND_EC_WITHOUT_PREFIX
+        )
+      );
+      :- Need(
+        HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
+        Types.BranchKeyCiphertextException(
+          message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+        )
+      );
+      assert HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext);
       var decryptResult :- DecryptAndValidateKeyForHV2(
         branchKeyItemFromStorage,
         kmsConfiguration,
