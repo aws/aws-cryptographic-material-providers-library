@@ -128,7 +128,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     branchKeyContext: Types.EncryptionContextString
   ): (output: Types.EncryptionContextString)
     requires Structure.BranchKeyContext?(branchKeyContext)
-    requires HasUniqueTransformedKeys?(branchKeyContext)
+    requires Structure.PrefixedEncryptionContext?(branchKeyContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
     ensures forall k <- output ::
               exists originalKey ::
                 && originalKey in branchKeyContext
