@@ -90,5 +90,5 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
     "This branch key item has failed the authentication check. Either it has been tampered with or the wrong 'Logical Key Store Name' has been provided."
 
   const FOUND_EC_WITHOUT_PREFIX :=
-    "EC send to KMS is not prefixed with 'aws-crypto-ec' in the storage."
+    "Encryption context stored in the storage is not prefixed with 'aws-crypto-ec'."
 }
