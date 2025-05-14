@@ -70,6 +70,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     // Commented code creates a branch key and adds {"Koda": "Is a dog."}
     // to the branch key item outside of the library's operations.
     // Adding {"Koda": "Is a dog."} will NOT create a non unique branch key context
+    // and the EC will not be prefixed since its done outside our library
 
     // Fixtures.CreateHappyCaseId(
     //   id:=testId,
@@ -101,6 +102,6 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
 
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.KeyStoreAdminException?, "Should have KeyStoreAdminException";
-    expect initializeOutput.error.message == KeyStoreAdminErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE, "Incorrect error message. Should have had `KeyStoreAdminErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE`";
+    expect initializeOutput.error.message == KeyStoreAdminErrorMessages.FOUND_EC_WITHOUT_PREFIX, "Incorrect error message. Should have had `KeyStoreAdminErrorMessages.FOUND_EC_WITHOUT_PREFIX`";
   }
 }
