@@ -573,8 +573,7 @@ module Fixtures {
       hierarchyV2InvalidDigestId,
       hierarchyV2InvalidCiphertextId,
       hierarchyV2InvalidPlaintextLengthId,
-      hierarchyV2MissingPrefixedECId,
-      hierarchyV2UnexpectedECId
+      hierarchyV2MissingPrefixedECId
     ];
 
     var idx := 0;
