@@ -310,6 +310,8 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     if (expectedHV == "2") {
       expect HvUtils.HasUniqueTransformedKeys?(actualEC),
         "Actual EC does not have unique transformed keys.";
+      expect Structure.PrefixedEncryptionContext?(actualEC - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES),
+        "Actual EC excluding the `Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES` is not prefixed with 'aws-crypto-ec'";
       expect HvUtils.SelectKmsEncryptionContextForHv2(actualEC) == expectedCustomEC,
         "Actual customer send EC and expected customer send EC did not match.";
     }
