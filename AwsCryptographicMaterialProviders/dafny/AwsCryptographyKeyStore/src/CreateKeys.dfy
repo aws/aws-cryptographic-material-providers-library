@@ -820,6 +820,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
               && var kmsKeyArn := KMSKeystoreOperations.GetKeyId(kmsConfiguration);
               && Structure.PrefixedEncryptionContext?(oldActiveItem.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES) == true
+              && HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext)
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(oldActiveItem.EncryptionContext);
               && var gdkEvent := Seq.Last(kmsClient.History.GenerateDataKey);
               && var gdkInput := gdkEvent.input;
@@ -887,12 +888,18 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
               && output == Success(Types.VersionKeyOutput)
   {
-    if !Structure.PrefixedEncryptionContext?(oldActiveItem.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES) {
-      return Failure(Types.BranchKeyCiphertextException(
-                       message := ErrorMessages.FOUND_EC_WITHOUT_PREFIX
-                     ));
-    }
-
+    :- Need(
+      HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext),
+      Types.BranchKeyCiphertextException(
+        message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+      )
+    );
+    :- Need(
+      Structure.PrefixedEncryptionContext?(oldActiveItem.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES),
+      Types.BranchKeyCiphertextException(
+        message := ErrorMessages.FOUND_EC_WITHOUT_PREFIX
+      )
+    );
     :- Need(
       && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem.EncryptionContext[Structure.KMS_FIELD])
       && KMSKeystoreOperations.GetKeyId(kmsConfiguration) == oldActiveItem.EncryptionContext[Structure.KMS_FIELD],
