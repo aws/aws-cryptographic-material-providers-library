@@ -453,7 +453,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply.Terminal.hierarchyVersion, keyManagerStrategy)
     requires Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
     requires if mutationToApply.Terminal.hierarchyVersion.v2? then
-               Structure.PrefixedEncryptionContext?(decryptOnlyEncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+               && HvUtils.HasUniqueTransformedKeys?(decryptOnlyEncryptionContext)
+               && Structure.PrefixedEncryptionContext?(decryptOnlyEncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
              else
                true
     modifies keyManagerStrategy.Modifies
