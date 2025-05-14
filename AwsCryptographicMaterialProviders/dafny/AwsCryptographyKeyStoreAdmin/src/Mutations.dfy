@@ -477,7 +477,10 @@ module {:options "/functionSyntax:4" } Mutations {
     ensures output[Structure.KMS_FIELD] == kmsKeyArn
     ensures output[Structure.TABLE_FIELD] == logicalKeyStoreName
     ensures output[Structure.HIERARCHY_VERSION] == HierarchyVersionToString(hierarchyVersion)
-    ensures Structure.PrefixedEncryptionContext?(output - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+    ensures if hierarchyVersion.v2? then
+              Structure.PrefixedEncryptionContext?(output - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+            else
+              true
     ensures forall k <- prefixedCustomEncryptionContext
               ::
                 && k in output

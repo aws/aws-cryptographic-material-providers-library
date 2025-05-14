@@ -539,7 +539,7 @@ module GetKeys {
 
     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
 
-    requires HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
+    requires Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext)
 
     requires KmsArn.ValidKmsArn?(branchKeyItemFromStorage.KmsArn)
 

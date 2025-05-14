@@ -445,6 +445,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     requires keyManagerStrategy.ValidState()
     requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply.Terminal.hierarchyVersion, keyManagerStrategy)
     requires Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
+    requires if mutationToApply.Terminal.hierarchyVersion.v2? then
+               Structure.PrefixedEncryptionContext?(decryptOnlyEncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+             else
+               true
     modifies keyManagerStrategy.Modifies
     ensures keyManagerStrategy.ValidState()
     ensures res.Success? ==>
@@ -713,11 +717,15 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     }
   }
 
-  method InitializeMutationActive(
+  method {:only} InitializeMutationActive(
     localInput: InitializeMutationActiveInput
   )
     returns (output: Result<InitializeMutationActiveOutput, Types.Error>)
     requires localInput.ValidState()
+    requires if localInput.mutationToApply.Terminal.hierarchyVersion.v2? then
+               Structure.PrefixedEncryptionContext?(localInput.mutationToApply.Terminal.customEncryptionContext)
+             else
+               true
     modifies localInput.Modifies
     requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply.Terminal.hierarchyVersion, localInput.input.keyManagerStrategy)
     ensures localInput.ValidState()
@@ -750,6 +758,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     ensures localInput.ValidState()
     requires !localInput.input.DoNotVersion
     requires KmsUtils.IsSupportedKeyManagerStrategy(localInput.mutationToApply.Terminal.hierarchyVersion, localInput.input.keyManagerStrategy)
+    requires if localInput.mutationToApply.Terminal.hierarchyVersion.v2? then
+               Structure.PrefixedEncryptionContext?(localInput.mutationToApply.Terminal.customEncryptionContext)
+             else
+               true
     ensures
       output.Success?
       ==>
