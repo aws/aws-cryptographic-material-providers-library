@@ -132,7 +132,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     mutations.TerminalHierarchyVersion.Some? && mutations.TerminalHierarchyVersion.value.v2?
   }
 
-  method {:only} {:isolate_assertions} InitializeMutation(
+  method {:isolate_assertions} InitializeMutation(
     input: InternalInitializeMutationInput
   )
     returns (output: Result<Types.InitializeMutationOutput, Types.Error>)
