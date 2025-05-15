@@ -459,8 +459,8 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     requires KmsUtils.IsSupportedKeyManagerStrategy(mutationToApply.Terminal.hierarchyVersion, keyManagerStrategy)
     requires Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in decryptOnlyEncryptionContext
     requires if mutationToApply.Terminal.hierarchyVersion.v2? then
-               && HvUtils.HasUniqueTransformedKeys?(decryptOnlyEncryptionContext)
                && Structure.PrefixedEncryptionContext?(decryptOnlyEncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+               && HvUtils.HasUniqueTransformedKeys?(decryptOnlyEncryptionContext)
              else
                true
     modifies keyManagerStrategy.Modifies
@@ -795,7 +795,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       localInput.mutationToApply.Terminal.hierarchyVersion,
       localInput.mutationToApply.Terminal.customEncryptionContext
     );
-
     // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
     // it indicates that the MPL Consumer does not have access to
     // GenerateDataKeyWithoutPlaintext on the terminal key.

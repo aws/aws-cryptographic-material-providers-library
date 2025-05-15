@@ -468,7 +468,8 @@ module {:options "/functionSyntax:4" } Mutations {
     requires 0 < |branchKeyVersion|
     requires prefixedCustomEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
     requires if hierarchyVersion.v2? then
-               Structure.PrefixedEncryptionContext?(prefixedCustomEncryptionContext)
+               && Structure.PrefixedEncryptionContext?(prefixedCustomEncryptionContext)
+               && HVUtils.HasUniqueTransformedKeys?(prefixedCustomEncryptionContext)
              else
                true
     ensures Structure.BranchKeyContext?(output)
@@ -478,7 +479,8 @@ module {:options "/functionSyntax:4" } Mutations {
     ensures output[Structure.TABLE_FIELD] == logicalKeyStoreName
     ensures output[Structure.HIERARCHY_VERSION] == HierarchyVersionToString(hierarchyVersion)
     ensures if hierarchyVersion.v2? then
-              Structure.PrefixedEncryptionContext?(output - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+              && Structure.PrefixedEncryptionContext?(output - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+              && HVUtils.HasUniqueTransformedKeys?(output)
             else
               true
     ensures forall k <- prefixedCustomEncryptionContext
