@@ -146,6 +146,10 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     map entry <- transformedContext :: entry.0 := entry.1
   }
 
+  // Logically, HasUniqueTransformedKeys?(branchKeyContext) could be removed but verification does not understand that when
+  // Structure.PrefixedEncryptionContext?(branchKeyContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES) is true,
+  // HasUniqueTransformedKeys?(branchKeyContext) should be true and verification fails on SelectKmsEncryptionContextForHv2 function
+  // with "key expressions might be referring to the same value" on `map entry <- transformedContext :: entry.0 := entry.1`
   predicate IsValidHV2EC?(branchKeyContext: Types.EncryptionContextString) {
     && Structure.PrefixedEncryptionContext?(branchKeyContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
     && HasUniqueTransformedKeys?(branchKeyContext)
