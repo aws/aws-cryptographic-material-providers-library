@@ -889,15 +889,9 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && output == Success(Types.VersionKeyOutput)
   {
     :- Need(
-      HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext),
+      HvUtils.IsValidHV2EC?(oldActiveItem.EncryptionContext),
       Types.BranchKeyCiphertextException(
-        message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
-      )
-    );
-    :- Need(
-      Structure.PrefixedEncryptionContext?(oldActiveItem.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES),
-      Types.BranchKeyCiphertextException(
-        message := ErrorMessages.FOUND_EC_WITHOUT_PREFIX
+        message := ErrorMessages.INVALID_EC_FOUND
       )
     );
     :- Need(

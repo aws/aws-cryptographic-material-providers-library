@@ -58,7 +58,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
 
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.KeyStoreAdminException?, "Should have KeyStoreAdminException";
-    expect initializeOutput.error.message == KeyStoreErrorMessages.FOUND_EC_WITHOUT_PREFIX, "Incorrect error message. Should have had `KeyStoreErrorMessages.FOUND_EC_WITHOUT_PREFIX`";
+    expect initializeOutput.error.message == KeyStoreErrorMessages.INVALID_EC_FOUND, "Incorrect error message. Should have had `KeyStoreErrorMessages.INVALID_EC_FOUND`";
   }
 
   method {:test} TestNonUniqueTerminalAndInferredECKeys() {
@@ -102,6 +102,6 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
 
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.KeyStoreAdminException?, "Should have KeyStoreAdminException";
-    expect initializeOutput.error.message == KeyStoreErrorMessages.FOUND_EC_WITHOUT_PREFIX, "Incorrect error message. Should have had `KeyStoreAdminErrorMessages.FOUND_EC_WITHOUT_PREFIX`";
+    expect initializeOutput.error.message == KeyStoreErrorMessages.INVALID_EC_FOUND, "Incorrect error message. Should have had `KeyStoreAdminErrorMessages.INVALID_EC_FOUND`";
   }
 }

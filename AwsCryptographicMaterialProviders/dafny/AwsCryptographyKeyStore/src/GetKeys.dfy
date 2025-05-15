@@ -779,15 +779,9 @@ module GetKeys {
       return Success(plainTextKey);
     } else if hierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_2 {
       :- Need(
-        Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES),
+        Structure.IsValidHV2EC?(branchKeyItemFromStorage.EncryptionContext),
         Types.BranchKeyCiphertextException(
-          message := ErrorMessages.FOUND_EC_WITHOUT_PREFIX
-        )
-      );
-      :- Need(
-        HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext),
-        Types.BranchKeyCiphertextException(
-          message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+          message := ErrorMessages.INVALID_EC_FOUND
         )
       );
       var decryptResult :- DecryptAndValidateKeyForHV2(

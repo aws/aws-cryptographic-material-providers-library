@@ -671,7 +671,7 @@ module {:options "/functionSyntax:4" } Mutations {
     :- Need(
       HVUtils.IsValidHV2EC?(terminalBKC),
       Types.KeyStoreAdminException(
-        message := KeyStoreErrorMessages.FOUND_EC_WITHOUT_PREFIX
+        message := KeyStoreErrorMessages.INVALID_EC_FOUND
       )
     );
     var crypto? := HVUtils.ProvideCryptoClient();
