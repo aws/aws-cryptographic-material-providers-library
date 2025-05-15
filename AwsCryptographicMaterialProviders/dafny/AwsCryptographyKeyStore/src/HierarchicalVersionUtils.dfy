@@ -147,6 +147,11 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     map entry <- transformedContext :: entry.0 := entry.1
   }
 
+  predicate IsValidHV2EC?(branchKeyContext: Types.EncryptionContextString) {
+    && Structure.PrefixedEncryptionContext?(branchKeyContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+    && HasUniqueTransformedKeys?(branchKeyContext)
+  }
+
   // checks that when we transform keys in the encryption context by removing the aws-crypto-ec: prefix (if present),
   // we don't end up with duplicate keys.
   predicate HasUniqueTransformedKeys?(branchKeyContext: Types.EncryptionContextString)

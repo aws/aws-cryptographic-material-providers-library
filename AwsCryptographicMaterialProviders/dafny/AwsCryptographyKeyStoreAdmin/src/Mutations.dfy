@@ -467,22 +467,12 @@ module {:options "/functionSyntax:4" } Mutations {
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
     requires prefixedCustomEncryptionContext.Keys !! Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
-    requires if hierarchyVersion.v2? then
-               && Structure.PrefixedEncryptionContext?(prefixedCustomEncryptionContext)
-               && HVUtils.HasUniqueTransformedKeys?(prefixedCustomEncryptionContext)
-             else
-               true
     ensures Structure.BranchKeyContext?(output)
     ensures Structure.BRANCH_KEY_TYPE_PREFIX < output[Structure.TYPE_FIELD]
     ensures Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[Structure.KMS_FIELD] == kmsKeyArn
     ensures output[Structure.TABLE_FIELD] == logicalKeyStoreName
     ensures output[Structure.HIERARCHY_VERSION] == HierarchyVersionToString(hierarchyVersion)
-    ensures if hierarchyVersion.v2? then
-              && Structure.PrefixedEncryptionContext?(output - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
-              && HVUtils.HasUniqueTransformedKeys?(output)
-            else
-              true
     ensures forall k <- prefixedCustomEncryptionContext
               ::
                 && k in output
@@ -679,7 +669,7 @@ module {:options "/functionSyntax:4" } Mutations {
       mutationToApply.Terminal.hierarchyVersion
     );
     :- Need(
-      Structure.PrefixedEncryptionContext?(terminalBKC - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES),
+      HVUtils.IsValidHV2EC?(terminalBKC),
       Types.KeyStoreAdminException(
         message := KeyStoreErrorMessages.FOUND_EC_WITHOUT_PREFIX
       )

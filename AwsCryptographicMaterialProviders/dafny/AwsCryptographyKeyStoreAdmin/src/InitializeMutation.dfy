@@ -502,7 +502,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         assert newDecryptOnly.KmsArn == mutationToApply.Terminal.kmsArn;
 
       case v2 =>
-        if !HvUtils.HasUniqueTransformedKeys?(decryptOnlyEncryptionContext) {
+        if !HvUtils.IsValidHV2EC?(decryptOnlyEncryptionContext) {
           return Failure(Types.Error.AwsCryptographyKeyStore(
                            KeyStoreTypes.BranchKeyCiphertextException(
                              message := KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
