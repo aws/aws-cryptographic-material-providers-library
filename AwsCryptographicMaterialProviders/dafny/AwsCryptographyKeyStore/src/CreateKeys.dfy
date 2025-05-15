@@ -819,8 +819,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
 
               && var kmsKeyArn := KMSKeystoreOperations.GetKeyId(kmsConfiguration);
-              && Structure.PrefixedEncryptionContext?(oldActiveItem.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
-              && HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext)
+              && HvUtils.IsValidHV2EC?(oldActiveItem.EncryptionContext)
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(oldActiveItem.EncryptionContext);
               && var gdkEvent := Seq.Last(kmsClient.History.GenerateDataKey);
               && var gdkInput := gdkEvent.input;

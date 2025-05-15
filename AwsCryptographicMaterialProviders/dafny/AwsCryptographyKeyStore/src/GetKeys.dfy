@@ -540,9 +540,7 @@ module GetKeys {
 
     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
 
-    requires Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
-
-    requires HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
+    requires HvUtils.IsValidHV2EC?(branchKeyItemFromStorage.EncryptionContext)
 
     requires KmsArn.ValidKmsArn?(branchKeyItemFromStorage.KmsArn)
 
@@ -643,9 +641,8 @@ module GetKeys {
     && ((hv == Structure.HIERARCHY_VERSION_VALUE_1) || (hv == Structure.HIERARCHY_VERSION_VALUE_2))
 
     && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
-         && HvUtils.HasUniqueTransformedKeys?(item.EncryptionContext)
 
-         && Structure.PrefixedEncryptionContext?(item.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+         && HvUtils.IsValidHV2EC?(item.EncryptionContext)
 
          && var ciphertextBlob := item.CiphertextBlob;
 
@@ -759,8 +756,7 @@ module GetKeys {
               && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
               && |result.value| == Structure.AES_256_LENGTH as int
               && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
-                   && HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
-                   && Structure.PrefixedEncryptionContext?(branchKeyItemFromStorage.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+                   && HvUtils.IsValidHV2EC?(branchKeyItemFromStorage.EncryptionContext)
                    && result.value == decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
                  else
                    && result.value == decryptResponse.Plaintext.value

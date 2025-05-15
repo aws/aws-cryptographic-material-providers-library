@@ -308,10 +308,8 @@ module {:options "/functionSyntax:4" } TestMutationHappyPath {
     expect Structure.BranchKeyContext?(actualEC),
       "Actual EC is not a branch key context. It might not contain restricted keys.";
     if (expectedHV == "2") {
-      expect HvUtils.HasUniqueTransformedKeys?(actualEC),
-        "Actual EC does not have unique transformed keys.";
-      expect Structure.PrefixedEncryptionContext?(actualEC - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES),
-        "Actual EC excluding the `Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES` is not prefixed with 'aws-crypto-ec'";
+      expect HvUtils.IsValidHV2EC?(actualEC),
+        "Actual EC is invalid and is prefixed with 'aws-crypto-ec'";
       expect HvUtils.SelectKmsEncryptionContextForHv2(actualEC) == expectedCustomEC,
         "Actual customer send EC and expected customer send EC did not match.";
     }
