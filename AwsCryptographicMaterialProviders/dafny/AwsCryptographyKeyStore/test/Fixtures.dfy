@@ -576,7 +576,8 @@ module Fixtures {
       hierarchyV2InvalidDigestId,
       hierarchyV2InvalidCiphertextId,
       hierarchyV2InvalidPlaintextLengthId,
-      hierarchyV2MissingPrefixedECId
+      hierarchyV2MissingPrefixedECId,
+      hierarchyV2UnexpectedECId
     ];
 
     var idx := 0;

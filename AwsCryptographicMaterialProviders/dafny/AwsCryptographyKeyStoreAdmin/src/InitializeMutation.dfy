@@ -498,7 +498,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         if !HvUtils.IsValidHV2EC?(decryptOnlyEncryptionContext) {
           return Failure(Types.Error.AwsCryptographyKeyStore(
                            KeyStoreTypes.BranchKeyCiphertextException(
-                             message := KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+                             message := KeyStoreErrorMessages.INVALID_EC_FOUND
                            )));
         }
         var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(decryptOnlyEncryptionContext);
