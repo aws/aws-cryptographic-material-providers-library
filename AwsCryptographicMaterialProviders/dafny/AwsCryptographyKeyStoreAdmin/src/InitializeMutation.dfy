@@ -495,6 +495,7 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         assert newDecryptOnly.KmsArn == mutationToApply.Terminal.kmsArn;
 
       case v2 =>
+        // TODO-hv-2-FF: This should be a pre condition but the verification is to fragile and hard to make it pass.
         if !HvUtils.IsValidHV2EC?(decryptOnlyEncryptionContext) {
           return Failure(Types.Error.AwsCryptographyKeyStore(
                            KeyStoreTypes.BranchKeyCiphertextException(
