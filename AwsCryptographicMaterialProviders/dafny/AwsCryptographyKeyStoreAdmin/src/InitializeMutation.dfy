@@ -237,6 +237,20 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     );
     var isTerminalHv2 := IsMutationsTerminalHV2?(input.Mutations);
     :- Need(
+      !isTerminalHv2 || Structure.PrefixedEncryptionContext?(readItems.ActiveItem.EncryptionContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES),
+      Types.KeyStoreAdminException(
+        message :=
+          KeyStoreErrorMessages.FOUND_EC_WITHOUT_PREFIX
+      )
+    );
+    :- Need(
+      !isTerminalHv2 || HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
+      Types.KeyStoreAdminException(
+        message :=
+          KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+      )
+    );
+    :- Need(
       || input.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
       || (
            && readItems.BeaconItem.Identifier == input.Identifier
