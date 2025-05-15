@@ -297,11 +297,17 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
 
     var terminalEC?: Option<KeyStoreTypes.EncryptionContextString> := None;
     if (input.Mutations.TerminalEncryptionContext.Some?) {
-
       var terminalEC := PrefixUtils.AddingPrefixToKeysOfMapDoesNotCreateCollisions(
         prefix := Structure.ENCRYPTION_CONTEXT_PREFIX,
         aMap := input.Mutations.TerminalEncryptionContext.value
       ) + unexpectedEC;
+      :- Need(
+        !isTerminalHv2 || Structure.PrefixedEncryptionContext?(terminalEC),
+        Types.KeyStoreAdminException(
+          message :=
+            KeyStoreAdminErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE
+        )
+      );
       // ValidateInitializeMutationInput SHOULD take care of this Need, but Dafny is struggling
       // TODO-Mutations-FF : Replace runtime check with Lemma.
       // See https://github.com/aws/aws-cryptographic-material-providers-library/pull/750#discussion_r1777654751
