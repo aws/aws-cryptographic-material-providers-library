@@ -230,6 +230,35 @@ Resources:
             Action: "kms:*"
             Resource: "*"
 
+  KmsKeyForRobbieOnly:
+    Type: "AWS::KMS::Key"
+    Properties:
+      Description: KMS Key allows HV2 Only if Robbie is an EC Key
+      Enabled: true
+      KeyPolicy:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action: "kms:*"
+            Resource: "*"
+          - Effect: Allow
+            Principal:
+              AWS: 
+                - !GetAtt GitHubCIRole.Arn
+                - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
+            Action:
+              - kms:GenerateDataKey
+              - kms:Encrypt
+              - kms:Decrypt
+            Resource: "*"
+            Condition: !Sub |
+              {
+                "StringEquals": {"kms:EncryptionContext:Robbie": "Is a Dog."},
+                "ForAllValues:StringEquals": {"kms:EncryptionContextKeys": ["Robbie"]} 
+              }
+
   KeyStoreAdminSystemKeyKmsSymEnc:
     Type: "AWS::KMS::Key"
     Properties:
