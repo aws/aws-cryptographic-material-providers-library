@@ -779,7 +779,7 @@ module GetKeys {
       return Success(plainTextKey);
     } else if hierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_2 {
       :- Need(
-        Structure.IsValidHV2EC?(branchKeyItemFromStorage.EncryptionContext),
+        HvUtils.IsValidHV2EC?(branchKeyItemFromStorage.EncryptionContext),
         Types.BranchKeyCiphertextException(
           message := ErrorMessages.INVALID_EC_FOUND
         )
