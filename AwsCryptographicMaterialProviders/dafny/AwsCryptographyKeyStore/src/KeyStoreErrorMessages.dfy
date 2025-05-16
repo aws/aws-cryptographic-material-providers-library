@@ -89,6 +89,12 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
   const MD_DIGEST_SHA_NOT_MATCHED :=
     "This branch key item has failed the authentication check. Either it has been tampered with or the wrong 'Logical Key Store Name' has been provided."
 
-  const NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS :=
-    "Duplicate attribute name found in branch key item after removing prefix 'aws-crypto-ec'."
+  const INVALID_EC_FOUND :=
+    "Invalid encryption context found."
+    + " This Branch Key has been modified outside of the library"
+    + " to include an attribute pair that is not prefixed with 'aws-crypto-ec'."
+    + " This modification, done without using an AWS Crypto Tools library,"
+    + " prevents the Branch Key from being used with 'hierarchy-version-2'."
+    + " Remove this modification while maintaining the Branch Key's cryptographic integrity,"
+    + " and it should be possible to use this Branch Key."
 }

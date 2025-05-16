@@ -20,9 +20,9 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
   import Time
   import Structure
 
-  method {:test} TestInitializeMutationFailsWithNonUniqueBranchKeyContext() {
+  method {:test} TestInitializeMutationFailsForECWithoutPrefix() {
 
-    var testId := "DO-NOT-EDIT-Branch-Key-For-HasUniqueTransformedKeys-Check";
+    var testId := "DO-NOT-EDIT-Branch-Key-For-FoundECWithoutPrefix-Check";
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var kmsClient :- expect Fixtures.ProvideKMSClient();
 
@@ -58,7 +58,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
 
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.KeyStoreAdminException?, "Should have KeyStoreAdminException";
-    expect initializeOutput.error.message == KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS, "Incorrect error message. Should have had `KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS`";
+    expect initializeOutput.error.message == KeyStoreErrorMessages.INVALID_EC_FOUND, "Incorrect error message. Should have had `KeyStoreErrorMessages.INVALID_EC_FOUND`";
   }
 
   method {:test} TestNonUniqueTerminalAndInferredECKeys() {
@@ -70,6 +70,7 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
     // Commented code creates a branch key and adds {"Koda": "Is a dog."}
     // to the branch key item outside of the library's operations.
     // Adding {"Koda": "Is a dog."} will NOT create a non unique branch key context
+    // and the EC will not be prefixed since its done outside our library
 
     // Fixtures.CreateHappyCaseId(
     //   id:=testId,
@@ -101,6 +102,6 @@ module {:options "/functionSyntax:4" } TestHierarchyVersion {
 
     expect initializeOutput.Failure?, "Should have failed to InitializeMutation HV-2.";
     expect initializeOutput.error.KeyStoreAdminException?, "Should have KeyStoreAdminException";
-    expect initializeOutput.error.message == KeyStoreAdminErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE, "Incorrect error message. Should have had `KeyStoreAdminErrorMessages.NOT_UNIQUE_TERMINAL_EC_AND_EXISTING_ATTRIBUTE`";
+    expect initializeOutput.error.message == KeyStoreErrorMessages.INVALID_EC_FOUND, "Incorrect error message. Should have had `KeyStoreAdminErrorMessages.INVALID_EC_FOUND`";
   }
 }

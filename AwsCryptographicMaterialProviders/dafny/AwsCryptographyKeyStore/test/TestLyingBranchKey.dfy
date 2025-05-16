@@ -163,7 +163,7 @@ module TestLyingBranchKey {
   //   - Hierarchy Version: 2
   //   - Encrypted with context: "ExampleContextKey:ExampleContextValue"
   // Tampered Properties:
-  //   - Encryption context in DDB changed to "TamperedKey:TamperedValue"
+  //   - Encryption context in DDB changed to "aws-crypto-ec:TamperedKey" : "TamperedValue"
   // Expected Error: KMS.InvalidCiphertextException
   //   - KMS fails to decrypt due to encryption context mismatch
   //   - Thus, all Keystore Operations related to the Branch Key MUST fail with KMS.InvalidCiphertextException.
@@ -175,28 +175,6 @@ module TestLyingBranchKey {
     TestBranchKeyOperationsExpectsException(
       id := hierarchyV2MissingPrefixedECId,
       version := hierarchyV2MissingPrefixedECVersion,
-      expectedError := Types.Error.ComAmazonawsKms(ComAmazonawsKmsTypes.Error.InvalidCiphertextException),
-      keyStore := keyStore
-    );
-  }
-
-  // Test Case: HV2 Unexpected Encryption Context
-  // Branch Key Creation Properties:
-  //   - Hierarchy Version: 2
-  //   - Encrypted with specific encryption context key-value pairs
-  // Tampered Properties:
-  //   - Additional pair "unexpected-key:unexpected-value" added to DDB record
-  // Expected Error: KMS.InvalidCiphertextException
-  //   - KMS fails to decrypt due to encryption context mismatch
-  //   - Thus, all Keystore Operations related to the Branch Key MUST fail with KMS.InvalidCiphertextException.
-  method {:test} TestHv2GetKeysForLyingBranchKeyUnexpectedEC() {
-    var ddbClient :- expect ProvideDDBClient();
-    var kmsClient :- expect ProvideKMSClient();
-    var keyStore :- expect StaticKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
-
-    TestBranchKeyOperationsExpectsException(
-      id := hierarchyV2UnexpectedECId,
-      version := hierarchyV2UnexpectedECVersion,
       expectedError := Types.Error.ComAmazonawsKms(ComAmazonawsKmsTypes.Error.InvalidCiphertextException),
       keyStore := keyStore
     );

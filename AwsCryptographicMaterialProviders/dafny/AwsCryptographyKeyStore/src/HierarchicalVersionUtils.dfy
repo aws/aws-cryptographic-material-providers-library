@@ -128,7 +128,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     branchKeyContext: Types.EncryptionContextString
   ): (output: Types.EncryptionContextString)
     requires Structure.BranchKeyContext?(branchKeyContext)
-    requires HasUniqueTransformedKeys?(branchKeyContext)
+    requires IsValidHV2EC?(branchKeyContext)
     ensures forall k <- output ::
               exists originalKey ::
                 && originalKey in branchKeyContext
@@ -146,6 +146,17 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     map entry <- transformedContext :: entry.0 := entry.1
   }
 
+  // Logically, HasUniqueTransformedKeys?(branchKeyContext) could be removed but verification does not understand that when
+  // Structure.PrefixedEncryptionContext?(branchKeyContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES) is true,
+  // HasUniqueTransformedKeys?(branchKeyContext) should be true and verification fails on SelectKmsEncryptionContextForHv2 function
+  // with "key expressions might be referring to the same value" on `map entry <- transformedContext :: entry.0 := entry.1`
+  predicate IsValidHV2EC?(branchKeyContext: Types.EncryptionContextString) {
+    && Structure.PrefixedEncryptionContext?(branchKeyContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+    && HasUniqueTransformedKeys?(branchKeyContext)
+  }
+
+  // checks that when we transform keys in the encryption context by removing the aws-crypto-ec: prefix (if present),
+  // we don't end up with duplicate keys.
   predicate HasUniqueTransformedKeys?(branchKeyContext: Types.EncryptionContextString)
   {
     forall k1, k2 :: k1 in branchKeyContext && k2 in branchKeyContext ==>

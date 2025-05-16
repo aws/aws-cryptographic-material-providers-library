@@ -326,4 +326,70 @@ module {:options "/functionSyntax:4" } TestGetKeys {
     expect beaconKeyResult.error.ComAmazonawsKms?;
     expect beaconKeyResult.error.ComAmazonawsKms.OpaqueWithText?;
   }
+
+  // Test Case: HV2 Unexpected Non-Prefix Encryption Context
+  // Branch Key Creation Properties:
+  //   - Hierarchy Version: 2
+  //   - Encrypted with specific encryption context key-value pairs
+  // Tampered Properties:
+  //   - Additional pair "unexpected-key:unexpected-value" added to DDB record without our library
+  // Expected Error: KMS.BranchKeyCiphertextException
+  //   - Fails because EC is not prefixed in the DDB record
+  method {:test} TestHv2GetKeysForUnexpectedNonPrefixEC() {
+    var ddbClient :- expect ProvideDDBClient();
+    var kmsClient :- expect ProvideKMSClient();
+    var keyStore :- expect StaticKeyStore(ddbClient?:=Some(ddbClient), kmsClient?:=Some(kmsClient));
+
+    TestBranchKeyOperationsExpectsException(
+      id := hierarchyV2UnexpectedECId,
+      version := hierarchyV2UnexpectedECVersion,
+      expectedError := Types.Error.BranchKeyCiphertextException(message := ErrorMessages.INVALID_EC_FOUND),
+      keyStore := keyStore
+    );
+  }
+
+  // The Branch Key's operations (GetActiveBranchKey, GetBranchKeyVersion, GetBeaconKey)
+  // MUST fail with the expected error when the branch key is malformed or incorrectly configured.
+  // This helper method verifies that each operation returns the appropriate error
+  // for invalid branch key configurations.
+  method TestBranchKeyOperationsExpectsException(
+    id: string,
+    version : string,
+    expectedError : Types.Error,
+    keyStore: Types.IKeyStoreClient
+  )
+    requires keyStore.ValidState()
+    modifies keyStore.Modifies
+    ensures keyStore.ValidState()
+  {
+    var versionKeyOutput? := keyStore.VersionKey(
+      Types.VersionKeyInput(
+        branchKeyIdentifier := id
+      )
+    );
+    expect versionKeyOutput?.Failure?;
+    expect versionKeyOutput?.error == expectedError;
+
+    var activeOutput? := keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := id
+      ));
+    expect activeOutput?.Failure?;
+    expect activeOutput?.error == expectedError;
+
+    var decryptOnlyOutput? := keyStore.GetBranchKeyVersion(
+      Types.GetBranchKeyVersionInput(
+        branchKeyIdentifier := id,
+        branchKeyVersion := version
+      ));
+    expect decryptOnlyOutput?.Failure?;
+    expect decryptOnlyOutput?.error == expectedError;
+
+    var beaconOutput? := keyStore.GetBeaconKey(
+      Types.GetBeaconKeyInput(
+        branchKeyIdentifier := id
+      ));
+    expect beaconOutput?.Failure?;
+    expect beaconOutput?.error == expectedError;
+  }
 }
