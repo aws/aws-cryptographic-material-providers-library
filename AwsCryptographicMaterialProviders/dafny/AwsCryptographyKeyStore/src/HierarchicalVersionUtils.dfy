@@ -171,7 +171,7 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   }
 
   function HasPrefix(key: string): bool {
-    |key| > |Structure.ENCRYPTION_CONTEXT_PREFIX| &&
+    |key| >= |Structure.ENCRYPTION_CONTEXT_PREFIX| &&
     key[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX
   }
 
