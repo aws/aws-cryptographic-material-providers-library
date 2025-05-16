@@ -237,10 +237,10 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
     );
     var isTerminalHv2 := IsMutationsTerminalHV2?(input.Mutations);
     :- Need(
-      !isTerminalHv2 || HvUtils.HasUniqueTransformedKeys?(readItems.ActiveItem.EncryptionContext),
+      !isTerminalHv2 || HvUtils.IsValidHV2EC?(readItems.ActiveItem.EncryptionContext),
       Types.KeyStoreAdminException(
         message :=
-          KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+          KeyStoreErrorMessages.INVALID_EC_FOUND
       )
     );
     :- Need(
@@ -290,7 +290,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
 
     var terminalEC?: Option<KeyStoreTypes.EncryptionContextString> := None;
     if (input.Mutations.TerminalEncryptionContext.Some?) {
-
       var terminalEC := PrefixUtils.AddingPrefixToKeysOfMapDoesNotCreateCollisions(
         prefix := Structure.ENCRYPTION_CONTEXT_PREFIX,
         aMap := input.Mutations.TerminalEncryptionContext.value
@@ -383,7 +382,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
           "Beacon Item is not in the Original State!"
           + " For Initialize Mutation to succeed, the ACTIVE & Beacon Key MUST be in the original state."
       ));
-
 
     var initializeMutationActiveInput := InitializeMutationActiveInput(
       input := input,
@@ -497,10 +495,11 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
         assert newDecryptOnly.KmsArn == mutationToApply.Terminal.kmsArn;
 
       case v2 =>
-        if !HvUtils.HasUniqueTransformedKeys?(decryptOnlyEncryptionContext) {
+        // TODO-hv-2-FF: This should be a pre condition but the verification is to fragile and hard to make it pass.
+        if !HvUtils.IsValidHV2EC?(decryptOnlyEncryptionContext) {
           return Failure(Types.Error.AwsCryptographyKeyStore(
                            KeyStoreTypes.BranchKeyCiphertextException(
-                             message := KeyStoreErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
+                             message := KeyStoreErrorMessages.INVALID_EC_FOUND
                            )));
         }
         var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(decryptOnlyEncryptionContext);
@@ -779,7 +778,6 @@ module {:options "/functionSyntax:4" } InternalInitializeMutation {
       localInput.mutationToApply.Terminal.hierarchyVersion,
       localInput.mutationToApply.Terminal.customEncryptionContext
     );
-
     // TODO-Mutations-GA? :: If the KMS Call fails with access denied,
     // it indicates that the MPL Consumer does not have access to
     // GenerateDataKeyWithoutPlaintext on the terminal key.

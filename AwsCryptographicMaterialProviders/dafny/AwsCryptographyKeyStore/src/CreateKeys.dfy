@@ -819,7 +819,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
 
               && var kmsKeyArn := KMSKeystoreOperations.GetKeyId(kmsConfiguration);
-              && HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext) == true
+              && HvUtils.IsValidHV2EC?(oldActiveItem.EncryptionContext)
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(oldActiveItem.EncryptionContext);
               && var gdkEvent := Seq.Last(kmsClient.History.GenerateDataKey);
               && var gdkInput := gdkEvent.input;
@@ -887,12 +887,12 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
               && output == Success(Types.VersionKeyOutput)
   {
-    if !HvUtils.HasUniqueTransformedKeys?(oldActiveItem.EncryptionContext) {
-      return Failure(Types.BranchKeyCiphertextException(
-                       message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
-                     ));
-    }
-
+    :- Need(
+      HvUtils.IsValidHV2EC?(oldActiveItem.EncryptionContext),
+      Types.BranchKeyCiphertextException(
+        message := ErrorMessages.INVALID_EC_FOUND
+      )
+    );
     :- Need(
       && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem.EncryptionContext[Structure.KMS_FIELD])
       && KMSKeystoreOperations.GetKeyId(kmsConfiguration) == oldActiveItem.EncryptionContext[Structure.KMS_FIELD],
