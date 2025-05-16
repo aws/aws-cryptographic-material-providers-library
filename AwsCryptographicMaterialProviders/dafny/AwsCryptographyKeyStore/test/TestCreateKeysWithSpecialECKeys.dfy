@@ -6,7 +6,7 @@ include "./Fixtures.dfy"
 include "../src/Structure.dfy"
 include "./CleanupItems.dfy"
 
-module TestCreateKeysWithSpecialEncryptionContextKeys {
+module TestCreateKeysWithSpecialECKeys {
   import Types = AwsCryptographyKeyStoreTypes
   import ComAmazonawsKmsTypes
   import KMS = Com.Amazonaws.Kms
