@@ -179,7 +179,9 @@ module TestCreateKeysEmptyString {
                                                               "\r" := "carriage-return",
                                                               " " := "space",
                                                               "   " := "multiple-spaces",
-                                                              "NormalKey" := "Value with\nspecial\rchars\t"
+                                                              "NormalKey" := "Value with\nspecial\rchars\t",
+                                                              "\u0007" := "bell-unicode",
+                                                              "\u0001" := "unicode"
                                                             ]);
 
     var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(

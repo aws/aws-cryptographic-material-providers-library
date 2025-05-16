@@ -279,17 +279,17 @@ module {:options "/functionSyntax:4" } Structure {
                //# for the constructed key.
             && encryptionContext[ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value] == UTF8.Decode(output.value[k]).value
   {
+    // Get all keys that start with the prefix
+    var prefixKeys := set k <- encryptionContext.Keys | ENCRYPTION_CONTEXT_PREFIX <= k;
 
     // Dafny needs some help.
     // Adding a fixed string
     // will not make any of the keys collide.
-    assert forall k <- encryptionContext.Keys | ENCRYPTION_CONTEXT_PREFIX < k
-        ::
-          k == ENCRYPTION_CONTEXT_PREFIX + k[|ENCRYPTION_CONTEXT_PREFIX|..];
+    assert forall k <- prefixKeys ::
+        k == ENCRYPTION_CONTEXT_PREFIX + k[|ENCRYPTION_CONTEXT_PREFIX|..];
 
     var encodedEncryptionContext
-      := set k <- encryptionContext
-             | ENCRYPTION_CONTEXT_PREFIX < k
+      := set k <- prefixKeys
            ::
              (UTF8.Encode(k[|ENCRYPTION_CONTEXT_PREFIX| as uint32..]), UTF8.Encode(encryptionContext[k]));
 
