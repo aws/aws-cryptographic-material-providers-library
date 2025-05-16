@@ -28,7 +28,7 @@ class MutableMap(smithy_dafny_standard_library.internaldafny.generated.DafnyLibr
         pass
 
     def content(self):
-        return self.map
+        return _dafny.Map(self.map)
         
     def __init__(self) -> None:
         self.map = dict()
