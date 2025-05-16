@@ -279,7 +279,7 @@ module {:options "/functionSyntax:4" } Structure {
                //# for the constructed key.
             && encryptionContext[ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value] == UTF8.Decode(output.value[k]).value
   {
-    // Get all keys that start with the prefix
+    // Get all keys that start with the prefix OR are the prefix
     var prefixKeys := set k <- encryptionContext.Keys | ENCRYPTION_CONTEXT_PREFIX <= k;
 
     // Dafny needs some help.
