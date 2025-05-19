@@ -36,13 +36,13 @@ public class ExampleTests {
       hv2CreateTestPrefix + java.util.UUID.randomUUID().toString();
     // Create Branch Key with `hierarchy-version-2` (HV-2)
     final String actualBranchKeyId = CreateKeyExample.CreateKey(
-      Fixtures.KEYSTORE_KMS_ARN,
+      Fixtures.KMS_KEY_FOR_HV2_ONLY,
       branchKeyId,
       AdminProvider.admin(),
       HierarchyVersion.v2
-    );
+      );
     final KeyStore keyStore = KeyStoreProvider.keyStore(
-      Fixtures.KEYSTORE_KMS_ARN
+      Fixtures.KMS_KEY_FOR_HV2_ONLY
     );
     // Get Branch Key Items
     GetActiveBranchKeyOutput activeOutput = keyStore.GetActiveBranchKey(

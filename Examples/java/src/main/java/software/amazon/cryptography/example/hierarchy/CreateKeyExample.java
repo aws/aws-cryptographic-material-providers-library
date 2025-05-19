@@ -65,8 +65,8 @@ public class CreateKeyExample {
     // For more information see:
     // blogs.aws.amazon.com/security/post/Tx2LZ6WBJJANTNW/How-to-Protect-the-Integrity-of-Your-Encrypted-Data-by-Using-AWS-Key-Management
     final Map<String, String> encryptionContext = Collections.singletonMap(
-      "ExampleContextKey",
-      "ExampleContextValue"
+      "Robbie",
+      "Is a Dog."
     );
 
     // 5. Create a new branch key and beacon key in our KeyStore.
