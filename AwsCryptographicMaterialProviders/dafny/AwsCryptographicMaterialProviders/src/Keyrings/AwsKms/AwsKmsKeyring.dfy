@@ -389,7 +389,7 @@ module AwsKmsKeyring {
     //# OnDecrypt MUST take [decryption materials]
     //# (../structures.md#decryption-materials) and a list of [encrypted data
     //# keys](../structures.md#encrypted-data-key) as input.
-    method {:verify false} {:vcs_split_on_every_assert} OnDecrypt'(
+    method {:vcs_split_on_every_assert} OnDecrypt'(
       // TODO-HV-2-BLOCKER :: added verify false in order to unblock continuing work
       // remove before release.
       input: Types.OnDecryptInput
@@ -558,15 +558,6 @@ module AwsKmsKeyring {
               EdkWrapping.GetProviderWrappedMaterial(edk.ciphertext, input.materials.algorithmSuite);
             && maybeWrappedMaterial.Success?
             && KMS.IsValid_CiphertextType(maybeWrappedMaterial.value);
-
-
-      assert exists edk | edk in edksToAttempt
-          ::
-            && var maybeWrappedMaterial :=
-              EdkWrapping.GetProviderWrappedMaterial(edk.ciphertext, input.materials.algorithmSuite);
-            && maybeWrappedMaterial.Success?
-            && KMS.IsValid_CiphertextType(maybeWrappedMaterial.value);
-
 
       assert decryptClosure.Ensures(Last(attempts).input, Success(SealedDecryptionMaterials), DropLast(attempts));
       return Success(Types.OnDecryptOutput(
