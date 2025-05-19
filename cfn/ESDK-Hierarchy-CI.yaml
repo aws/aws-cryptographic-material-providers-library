@@ -248,6 +248,7 @@ Resources:
               AWS:
                 - !GetAtt GitHubCIRole.Arn
                 - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
+                - "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2"
             Action:
               - kms:GenerateDataKey
               - kms:Encrypt
