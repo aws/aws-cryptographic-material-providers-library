@@ -245,7 +245,7 @@ Resources:
             Resource: "*"
           - Effect: Allow
             Principal:
-              AWS: 
+              AWS:
                 - !GetAtt GitHubCIRole.Arn
                 - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
             Action:
@@ -257,7 +257,7 @@ Resources:
               StringEquals:
                 "kms:EncryptionContext:Robbie": "Is a Dog."
               ForAllValues:StringEquals:
-                "kms:EncryptionContextKeys": 
+                "kms:EncryptionContextKeys":
                   - "Robbie"
 
   KeyStoreAdminSystemKeyKmsSymEnc:
