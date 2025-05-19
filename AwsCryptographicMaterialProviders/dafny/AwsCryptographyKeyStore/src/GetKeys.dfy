@@ -518,6 +518,7 @@ module GetKeys {
         message := ErrorMessages.INVALID_BRANCH_KEY_CONTEXT
       )
     );
+
     var plainTextKey :- DecryptBranchKeyItem(branchKeyItemFromStorage, kmsConfiguration, grantTokens, kmsClient);
     var branchKeyMaterials :- Structure.ToBeaconKeyMaterials(
       branchKeyItemFromStorage,
@@ -539,7 +540,7 @@ module GetKeys {
 
     requires Structure.BranchKeyContext?(branchKeyItemFromStorage.EncryptionContext)
 
-    requires HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
+    requires HvUtils.IsValidHV2EC?(branchKeyItemFromStorage.EncryptionContext)
 
     requires KmsArn.ValidKmsArn?(branchKeyItemFromStorage.KmsArn)
 
@@ -641,7 +642,7 @@ module GetKeys {
 
     && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
 
-         && HvUtils.HasUniqueTransformedKeys?(item.EncryptionContext)
+         && HvUtils.IsValidHV2EC?(item.EncryptionContext)
 
          && var ciphertextBlob := item.CiphertextBlob;
 
@@ -755,7 +756,7 @@ module GetKeys {
               && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
               && |result.value| == Structure.AES_256_LENGTH as int
               && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
-                   && HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext)
+                   && HvUtils.IsValidHV2EC?(branchKeyItemFromStorage.EncryptionContext)
                    && result.value == decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
                  else
                    && result.value == decryptResponse.Plaintext.value
@@ -773,12 +774,12 @@ module GetKeys {
       plainTextKey := kmsRes.Plaintext.value;
       return Success(plainTextKey);
     } else if hierarchyVersion == Structure.HIERARCHY_VERSION_VALUE_2 {
-      if !HvUtils.HasUniqueTransformedKeys?(branchKeyItemFromStorage.EncryptionContext) {
-        return Failure(Types.BranchKeyCiphertextException(
-                         message := ErrorMessages.NOT_UNIQUE_BRANCH_KEY_CONTEXT_KEYS
-                       ));
-      }
-
+      :- Need(
+        HvUtils.IsValidHV2EC?(branchKeyItemFromStorage.EncryptionContext),
+        Types.BranchKeyCiphertextException(
+          message := ErrorMessages.INVALID_EC_FOUND
+        )
+      );
       var decryptResult :- DecryptAndValidateKeyForHV2(
         branchKeyItemFromStorage,
         kmsConfiguration,
