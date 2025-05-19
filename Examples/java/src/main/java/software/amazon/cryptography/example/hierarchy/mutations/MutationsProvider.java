@@ -45,7 +45,7 @@ public class MutationsProvider {
     @Nullable final HierarchyVersion terminalHierarchyVersion
   ) {
     HashMap<String, String> terminalEC = new HashMap<>(2, 1);
-    terminalEC.put("Robbie", "is a dog.");
+    terminalEC.put("Robbie", "Is a Dog.");
     return Mutations
       .builder()
       .TerminalEncryptionContext(terminalEC)

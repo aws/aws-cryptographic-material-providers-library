@@ -95,7 +95,7 @@ public class CreateKeyExample {
       )
       .Identifier();
     assert actualBranchKeyId.equals(branchKeyId);
-    if (kmsKeyArn != Fixtures.KMS_KEY_FOR_HV2_ONLY) {
+    if (hierarchyVersion == HierarchyVersion.v1 || kmsKeyArn != Fixtures.KMS_KEY_FOR_HV2_ONLY) {
       return branchKeyId;
     }
     // HV2 sends the encryption context without any transformation.
