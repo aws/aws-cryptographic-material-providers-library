@@ -102,8 +102,8 @@ public class CreateKeyExample {
     // We have a kms key `Fixtures.KMS_KEY_FOR_HV2_ONLY`, that requires EC to be exactly {"Robbie": "Is a Dog."} in its key policy.
     // For demostration, we will create a key with a different EC then the one that is expected and see it fail.
     final Map<String, String> encryptionContextFailingCase = Collections.singletonMap(
-      "Koda",
-      "Is a Dog."
+      "I",
+      "am not a Dog."
     );
     boolean exceptionThrown = false;
     try {
