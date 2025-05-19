@@ -82,9 +82,19 @@ public class ExampleTests {
   @Test
   public void end2EndKmsSimpleTest() {
     // Run the test with v1 -> v2 mutation
-    end2EndKmsSimpleTestHelper(HierarchyVersion.v1, HierarchyVersion.v2, true);
+    end2EndKmsSimpleTestHelper(
+      HierarchyVersion.v1, 
+      Fixtures.KMS_KEY_FOR_HV2_ONLY, 
+      HierarchyVersion.v2, 
+      true
+    );
     // Run the test for v2 mutation
-    end2EndKmsSimpleTestHelper(HierarchyVersion.v2, null, true);
+    end2EndKmsSimpleTestHelper(
+      HierarchyVersion.v2, 
+      Fixtures.KMS_KEY_FOR_HV2_ONLY, 
+      null, 
+      true
+    );
   }
 
   @Test
@@ -96,15 +106,26 @@ public class ExampleTests {
   @Test
   public void end2EndDecryptEncryptTest() {
     // Run the test for v1 item mutation
-    end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, null, false);
+    end2EndDecryptEncryptTestHelper(
+      HierarchyVersion.v1,
+      Fixtures.KMS_KEY_FOR_HV2_ONLY,
+      null, 
+      false
+    );
     // Run the test with v1 -> v2 mutation
     end2EndDecryptEncryptTestHelper(
       HierarchyVersion.v1,
+      Fixtures.KMS_KEY_FOR_HV2_ONLY,
       HierarchyVersion.v2,
       true
     );
     // Run the test for v2 mutation
-    end2EndDecryptEncryptTestHelper(HierarchyVersion.v2, null, true);
+    end2EndDecryptEncryptTestHelper(
+      HierarchyVersion.v2, 
+      Fixtures.KMS_KEY_FOR_HV2_ONLY, 
+      null, 
+      true
+    );
   }
 
   /**
@@ -116,6 +137,7 @@ public class ExampleTests {
    */
   private void end2EndKmsSimpleTestHelper(
     final HierarchyVersion initialHVersion,
+    final String terminalKmsKeyArn,
     @Nullable final HierarchyVersion terminalHVersion,
     @Nullable final Boolean doNotVersion
   ) {
@@ -129,7 +151,7 @@ public class ExampleTests {
     branchKeyId =
       MutationKmsSimpleExample.End2End(
         branchKeyId,
-        Fixtures.POSTAL_HORN_KEY_ARN,
+        terminalKmsKeyArn,
         terminalHVersion,
         MutationsProvider.KmsSystemKey(),
         AdminProvider.admin()
@@ -138,7 +160,7 @@ public class ExampleTests {
       "\nMutated Branch Key: " +
       branchKeyId +
       " to KMS ARN: " +
-      Fixtures.POSTAL_HORN_KEY_ARN +
+      terminalKmsKeyArn +
       "\n"
     );
     GetItemResponse mCommitmentRes = DdbHelper.getKeyStoreDdbItem(
@@ -162,7 +184,7 @@ public class ExampleTests {
       Constants.TYPE_MUTATION_INDEX + " was not deleted!"
     );
     KeyStore postalHornKS = KeyStoreProvider.keyStore(
-      Fixtures.POSTAL_HORN_KEY_ARN
+      terminalKmsKeyArn
     );
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, postalHornKS);
     KeyManagementStrategy kmsSimpleStrategy = AdminProvider.kmsSimpleStrategy(
@@ -334,6 +356,7 @@ public class ExampleTests {
    */
   private void end2EndDecryptEncryptTestHelper(
     @Nonnull final HierarchyVersion initialHVersion,
+    @Nonnull String terminalKmsArn,
     @Nullable final HierarchyVersion terminalHVersion,
     @Nullable final boolean doNotVersion
   ) {
