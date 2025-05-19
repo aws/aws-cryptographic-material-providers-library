@@ -19,7 +19,8 @@ service AwsCryptographicMetrics {
   errors: [
     MetricsPutError,
     MetricsPublishError,
-    MetricsChainError
+    MetricsChainError,
+    MetricsServiceError
   ]
 }
 
@@ -39,6 +40,12 @@ structure MetricsChainError {
 
 @error("client")
 structure MetricsPublishError {
+  @required
+  message: String
+}
+
+@error("client")
+structure MetricsServiceError {
   @required
   message: String
 }

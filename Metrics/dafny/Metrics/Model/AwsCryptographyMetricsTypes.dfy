@@ -197,6 +197,9 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } Aws
     | MetricsPutError (
         nameonly message: string
       )
+    | MetricsServiceError (
+        nameonly message: string
+      )
       // Any dependent models are listed here
 
       // The Collection error is used to collect several errors together

@@ -30,9 +30,9 @@ module AwsCryptographyMetricsOperations refines AbstractAwsCryptographyMetricsOp
       var fileName? := UUID.GenerateUUID();
       fileName :- fileName?
       // TODO create a generic error here for failing to create a text logger.
-      .MapFailure(e => Types.MetricsPutError(message := e));
+      .MapFailure(e => Types.MetricsServiceError(message := e));
     }
     // TODO call the create class to get us a TextLogger
-    return Failure(Error.MetricsPutError(message := "E"));
+    return Failure(Error.MetricsServiceError(message := "E"));
   }
 }
