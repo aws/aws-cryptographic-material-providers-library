@@ -253,11 +253,12 @@ Resources:
               - kms:Encrypt
               - kms:Decrypt
             Resource: "*"
-            Condition: !Sub |
-              {
-                "StringEquals": {"kms:EncryptionContext:Robbie": "Is a Dog."},
-                "ForAllValues:StringEquals": {"kms:EncryptionContextKeys": ["Robbie"]} 
-              }
+            Condition:
+              StringEquals:
+                "kms:EncryptionContext:Robbie": "Is a Dog."
+              ForAllValues:StringEquals:
+                "kms:EncryptionContextKeys": 
+                  - "Robbie"
 
   KeyStoreAdminSystemKeyKmsSymEnc:
     Type: "AWS::KMS::Key"
