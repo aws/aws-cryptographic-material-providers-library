@@ -5,9 +5,6 @@ use aws.polymorph#reference
 use aws.polymorph#positional
 use aws.polymorph#extendable
 
-@range(min: 1)
-integer CountingNumber
-
 @aws.polymorph#localService(
   sdkId: "MetricsLogger",
   config: MetricsLoggerConfig
@@ -26,60 +23,7 @@ service AwsCryptographicMetrics {
   ]
 }
 
-union PublishingCriteria {
-  TimeLimit: SecondLimitInput,
-  MessageLimit: MessageLimitInput,
-  OperationLimit: OperationLimitInput,
-}
-
-structure MetricsLoggerConfig {
-  Logger: MetricsLoggerReference,
-  PublishingCriteria: PublishingCriteria 
-}
-
-structure SecondLimitInput {
-  @required
-  interval: CountingNumber,
-  @required
-  timeUnits: TimeUnits
-}
-
-structure MessageLimitInput {
-  @required
-  @range(min: 1, max: 100)
-  numberOfMessages: Integer
-}
-
-structure OperationLimitInput {
-  @required
-  endOfOperation: Boolean
-}
-
-structure Metrics {
-  @required
-  logger: MetricsLoggerReference,
-  @required
-  transactionId: String
-}
-
-operation Chain {
-  input: ChainInput,
-  output: ChainOutput,
-  errors: [MetricsChainError]
-}
-
-structure ChainInput {
-  @required
-  chainedLogger: Metrics,
-
-  @required
-  newLogger: Metrics,
-}
-
-structure ChainOutput {
-  @required
-  newChainedLogger: Metrics
-}
+structure MetricsLoggerConfig {}
 
 @error("client")
 structure MetricsPutError {
@@ -98,15 +42,3 @@ structure MetricsPublishError {
   @required
   message: String
 }
-
-@enum([
-  {
-    name: "Seconds",
-    value: "Seconds",
-  },
-  {
-    name: "Milliseconds",
-    value: "Milliseconds",
-  },
-])
-string TimeUnits

@@ -8,7 +8,8 @@ use aws.polymorph#extendable
 resource Logger {
   operations: [
     Put,
-    Publish
+    Publish,
+    // Chain?
   ]
 }
 
@@ -27,9 +28,6 @@ operation Put {
 }
 
 structure PutInput {
-  @required
-  logger: Metrics,
-
   @required
   message: String
 }

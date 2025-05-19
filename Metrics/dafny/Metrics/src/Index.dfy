@@ -9,18 +9,7 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny" } Metrics r
 
   function method DefaultMetricsLoggerConfig(): MetricsLoggerConfig 
   {
-    MetricsLoggerConfig(
-      // TODO as a default use the text logger
-      // TODO write the text logger implementation
-      Logger := Option.None(),
-      PublishingCriteria := Option.Some(
-        PublishingCriteria.OperationLimit(
-          OperationLimit := OperationLimitInput(
-            endOfOperation := true
-          )
-        )
-      )
-    )
+    MetricsLoggerConfig()
   }
 
   method MetricsLogger(config: MetricsLoggerConfig)

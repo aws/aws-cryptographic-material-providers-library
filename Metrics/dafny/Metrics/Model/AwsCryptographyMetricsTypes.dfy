@@ -7,7 +7,7 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } Aws
   import opened Wrappers
   import opened StandardLibrary.UInt
   import opened UTF8
-  // Generic helpers for verification of mock/unit tests.
+    // Generic helpers for verification of mock/unit tests.
   datatype DafnyCallEvent<I, O> = DafnyCallEvent(input: I, output: O)
 
   // Begin Generated Types
@@ -67,34 +67,15 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } Aws
       ensures History.CreateTextLogger == old(History.CreateTextLogger) + [DafnyCallEvent(input, output)]
 
   }
-  datatype ChainInput = | ChainInput (
-    nameonly chainedLogger: Metrics ,
-    nameonly newLogger: Metrics
-  )
-  datatype ChainOutput = | ChainOutput (
-    nameonly newChainedLogger: Metrics
-  )
-  type CountingNumber = x: int32 | IsValid_CountingNumber(x) witness *
-  predicate method IsValid_CountingNumber(x: int32) {
-    ( 1 <= x  )
-  }
   datatype CreateLoggerOutput = | CreateLoggerOutput (
     nameonly logger: ILogger
   )
   datatype CreateTextLoggerInput = | CreateTextLoggerInput (
     nameonly fileName: Option<string> := Option.None
   )
-  datatype MessageLimitInput = | MessageLimitInput (
-    nameonly numberOfMessages: int32
-  )
-  datatype Metrics = | Metrics (
-    nameonly logger: ILogger ,
-    nameonly transactionId: string
-  )
   datatype MetricsLoggerConfig = | MetricsLoggerConfig (
-    nameonly Logger: Option<ILogger> := Option.None ,
-    nameonly PublishingCriteria: Option<PublishingCriteria> := Option.None
-  )
+
+                                 )
   class ILoggerCallHistory {
     ghost constructor() {
       Put := [];
@@ -193,13 +174,6 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } Aws
       ensures unchanged(History)
 
   }
-  datatype OperationLimitInput = | OperationLimitInput (
-    nameonly endOfOperation: bool
-  )
-  datatype PublishingCriteria =
-    | TimeLimit(TimeLimit: SecondLimitInput)
-    | MessageLimit(MessageLimit: MessageLimitInput)
-    | OperationLimit(OperationLimit: OperationLimitInput)
   datatype PublishInput = | PublishInput (
 
                           )
@@ -207,19 +181,11 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } Aws
 
                            )
   datatype PutInput = | PutInput (
-    nameonly logger: Metrics ,
     nameonly message: string
   )
   datatype PutOutput = | PutOutput (
 
                        )
-  datatype SecondLimitInput = | SecondLimitInput (
-    nameonly interval: CountingNumber ,
-    nameonly timeUnits: TimeUnits
-  )
-  datatype TimeUnits =
-    | Seconds
-    | Milliseconds
   datatype Error =
       // Local Error structures are listed here
     | MetricsChainError (
@@ -280,22 +246,11 @@ abstract module AbstractAwsCryptographyMetricsService
   function method DefaultMetricsLoggerConfig(): MetricsLoggerConfig
   method MetricsLogger(config: MetricsLoggerConfig := DefaultMetricsLoggerConfig())
     returns (res: Result<MetricsLoggerClient, Error>)
-    requires config.Logger.Some? ==>
-               config.Logger.value.ValidState()
-    modifies if config.Logger.Some? then
-               config.Logger.value.Modifies
-             else {}
     ensures res.Success? ==>
               && fresh(res.value)
-              && fresh(res.value.Modifies
-                       - ( if config.Logger.Some? then
-                             config.Logger.value.Modifies
-                           else {}
-                       ) )
+              && fresh(res.value.Modifies)
               && fresh(res.value.History)
               && res.value.ValidState()
-    ensures config.Logger.Some? ==>
-              config.Logger.value.ValidState()
 
   // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
   function method CreateSuccessOfClient(client: IAwsCryptographicMetricsClient): Result<IAwsCryptographicMetricsClient, Error> {
