@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import software.amazon.awssdk.utils.StringUtils;
 import software.amazon.awssdk.services.kms.model.KmsException;
+import software.amazon.awssdk.utils.StringUtils;
 import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystore.model.HierarchyVersion;
@@ -95,38 +95,39 @@ public class CreateKeyExample {
       )
       .Identifier();
     assert actualBranchKeyId.equals(branchKeyId);
-    if (hierarchyVersion == HierarchyVersion.v1 || kmsKeyArn != Fixtures.KMS_KEY_FOR_HV2_ONLY) {
+    if (
+      hierarchyVersion == HierarchyVersion.v1 ||
+      kmsKeyArn != Fixtures.KMS_KEY_FOR_HV2_ONLY
+    ) {
       return branchKeyId;
     }
     // HV2 sends the encryption context without any transformation.
     // We have a kms key `Fixtures.KMS_KEY_FOR_HV2_ONLY`, that requires EC to be exactly {"Robbie": "Is a Dog."} in its key policy.
     // For demostration, we will create a key with a different EC then the one that is expected and see it fail.
-    final Map<String, String> encryptionContextFailingCase = Collections.singletonMap(
-      "I",
-      "am not a Dog."
-    );
+    final Map<String, String> encryptionContextFailingCase =
+      Collections.singletonMap("I", "am not a Dog.");
     boolean exceptionThrown = false;
     try {
       _admin
-      .CreateKey(
-        CreateKeyInput
-          .builder()
-          // This is the KMS ARN that will be used to protect the Branch Key.
-          // It is a required argument.
-          .KmsArn(KmsSymmetricKeyArn.builder().KmsKeyArn(kmsKeyArn).build())
-          // If you need to specify the Identifier for a Branch Key, you may.
-          // This is an optional argument.
-          .Identifier(branchKeyId)
-          // If a branch key Identifier is provided,
-          // custom encryption context MUST be provided as well.
-          .EncryptionContext(encryptionContextFailingCase)
-          // The Branch Key Store Admin can create HV-1 or HV-2 Branch Keys
-          .HierarchyVersion(_hierarchyVersion)
-          // But the Strategy MUST support the Hierarchy Version
-          .Strategy(strategy)
-          .build()
-      )
-      .Identifier();
+        .CreateKey(
+          CreateKeyInput
+            .builder()
+            // This is the KMS ARN that will be used to protect the Branch Key.
+            // It is a required argument.
+            .KmsArn(KmsSymmetricKeyArn.builder().KmsKeyArn(kmsKeyArn).build())
+            // If you need to specify the Identifier for a Branch Key, you may.
+            // This is an optional argument.
+            .Identifier(branchKeyId)
+            // If a branch key Identifier is provided,
+            // custom encryption context MUST be provided as well.
+            .EncryptionContext(encryptionContextFailingCase)
+            // The Branch Key Store Admin can create HV-1 or HV-2 Branch Keys
+            .HierarchyVersion(_hierarchyVersion)
+            // But the Strategy MUST support the Hierarchy Version
+            .Strategy(strategy)
+            .build()
+        )
+        .Identifier();
     } catch (KmsException e) {
       // System.out.println("Exception message: " + e.getMessage());
       exceptionThrown = true;

@@ -40,7 +40,7 @@ public class ExampleTests {
       branchKeyId,
       AdminProvider.admin(),
       HierarchyVersion.v2
-      );
+    );
     final KeyStore keyStore = KeyStoreProvider.keyStore(
       Fixtures.KMS_KEY_FOR_HV2_ONLY
     );
@@ -83,16 +83,16 @@ public class ExampleTests {
   public void end2EndKmsSimpleTest() {
     // Run the test with v1 -> v2 mutation
     end2EndKmsSimpleTestHelper(
-      HierarchyVersion.v1, 
-      Fixtures.KMS_KEY_FOR_HV2_ONLY, 
-      HierarchyVersion.v2, 
+      HierarchyVersion.v1,
+      Fixtures.KMS_KEY_FOR_HV2_ONLY,
+      HierarchyVersion.v2,
       true
     );
     // Run the test for v2 mutation
     end2EndKmsSimpleTestHelper(
-      HierarchyVersion.v2, 
-      Fixtures.KMS_KEY_FOR_HV2_ONLY, 
-      null, 
+      HierarchyVersion.v2,
+      Fixtures.KMS_KEY_FOR_HV2_ONLY,
+      null,
       true
     );
   }
@@ -109,7 +109,7 @@ public class ExampleTests {
     end2EndDecryptEncryptTestHelper(
       HierarchyVersion.v1,
       Fixtures.KMS_KEY_FOR_HV2_ONLY,
-      null, 
+      null,
       false
     );
     // Run the test with v1 -> v2 mutation
@@ -121,9 +121,9 @@ public class ExampleTests {
     );
     // Run the test for v2 mutation
     end2EndDecryptEncryptTestHelper(
-      HierarchyVersion.v2, 
-      Fixtures.KMS_KEY_FOR_HV2_ONLY, 
-      null, 
+      HierarchyVersion.v2,
+      Fixtures.KMS_KEY_FOR_HV2_ONLY,
+      null,
       true
     );
   }
@@ -183,9 +183,7 @@ public class ExampleTests {
       mIndexRes.hasItem(),
       Constants.TYPE_MUTATION_INDEX + " was not deleted!"
     );
-    KeyStore postalHornKS = KeyStoreProvider.keyStore(
-      terminalKmsKeyArn
-    );
+    KeyStore postalHornKS = KeyStoreProvider.keyStore(terminalKmsKeyArn);
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, postalHornKS);
     KeyManagementStrategy kmsSimpleStrategy = AdminProvider.kmsSimpleStrategy(
       Fixtures.kmsClientWest2
