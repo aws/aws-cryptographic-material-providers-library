@@ -25,6 +25,8 @@ public class Fixtures {
   // HierarchicalGitHubKMSKeyID
   public static final String KEYSTORE_KMS_ARN =
     "arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126";
+  public static final String KMS_KEY_FOR_HV2_ONLY =
+    "arn:aws:kms:us-west-2:370957321024:key/ab11cc09-38d8-416a-a80f-a51454bd950b";
   public static final String MRK_ARN_EAST =
     "arn:aws:kms:us-east-1:658956600833:key/mrk-80bd8ecdcd4342aebd84b7dc9da498a7";
   public static final String MRK_ARN_WEST =
