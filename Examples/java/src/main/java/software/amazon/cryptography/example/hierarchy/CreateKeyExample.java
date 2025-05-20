@@ -90,12 +90,6 @@ public class CreateKeyExample {
       )
       .Identifier();
     assert actualBranchKeyId.equals(branchKeyId);
-    if (
-      hierarchyVersion == HierarchyVersion.v1 ||
-      kmsKeyArn != Fixtures.KMS_KEY_FOR_HV2_ONLY
-    ) {
-      return branchKeyId;
-    }
 
     return branchKeyId;
   }
