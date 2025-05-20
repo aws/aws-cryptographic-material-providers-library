@@ -129,7 +129,6 @@ public class CreateKeyExample {
         )
         .Identifier();
     } catch (KmsException e) {
-      // System.out.println("Exception message: " + e.getMessage());
       exceptionThrown = true;
     }
     assert exceptionThrown;
