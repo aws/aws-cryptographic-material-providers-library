@@ -2,11 +2,14 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy;
 
+import java.util.Collections;
+import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
+import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.Constants;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
@@ -34,15 +37,46 @@ public class ExampleTests {
   public void createKeyHv2Test() {
     String branchKeyId =
       hv2CreateTestPrefix + java.util.UUID.randomUUID().toString();
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
     // Create Branch Key with `hierarchy-version-2` (HV-2)
     final String actualBranchKeyId = CreateKeyExample.CreateKey(
-      Fixtures.KEYSTORE_KMS_ARN,
+      Fixtures.KMS_KEY_FOR_HV2_ONLY,
       branchKeyId,
       AdminProvider.admin(),
-      HierarchyVersion.v2
+      HierarchyVersion.v2,
+      encryptionContext
     );
+    // HV2 sends the encryption context without any transformation.
+    // We have a kms key `Fixtures.KMS_KEY_FOR_HV2_ONLY`, that requires EC to be exactly {"Robbie": "Is a Dog."} in its key policy.
+    // We will create a key with a different EC then the one that is expected and see it fail.
+    final Map<String, String> encryptionContextFailingCase =
+      Collections.singletonMap("I", "am not a Dog.");
+    boolean exceptionThrown = false;
+    try {
+      CreateKeyExample.CreateKey(
+        Fixtures.KMS_KEY_FOR_HV2_ONLY,
+        branchKeyId,
+        AdminProvider.admin(),
+        HierarchyVersion.v2,
+        encryptionContextFailingCase
+      );
+    } catch (KmsException e) {
+      // String matchings are not great but I need "not authorized to perform" KmsException and not any other.
+      if (
+        e
+          .getMessage()
+          .contains("is not authorized to perform: kms:GenerateDataKey on")
+      ) {
+        exceptionThrown = true;
+      }
+    }
+    assert exceptionThrown;
+    // This is the KeyStore from which Get operations will be performed for assertion
     final KeyStore keyStore = KeyStoreProvider.keyStore(
-      Fixtures.KEYSTORE_KMS_ARN
+      Fixtures.KMS_KEY_FOR_HV2_ONLY
     );
     // Get Branch Key Items
     GetActiveBranchKeyOutput activeOutput = keyStore.GetActiveBranchKey(
@@ -82,9 +116,19 @@ public class ExampleTests {
   @Test
   public void end2EndKmsSimpleTest() {
     // Run the test with v1 -> v2 mutation
-    end2EndKmsSimpleTestHelper(HierarchyVersion.v1, HierarchyVersion.v2, true);
+    end2EndKmsSimpleTestHelper(
+      HierarchyVersion.v1,
+      Fixtures.KMS_KEY_FOR_HV2_ONLY,
+      HierarchyVersion.v2,
+      true
+    );
     // Run the test for v2 mutation
-    end2EndKmsSimpleTestHelper(HierarchyVersion.v2, null, true);
+    end2EndKmsSimpleTestHelper(
+      HierarchyVersion.v2,
+      Fixtures.KMS_KEY_FOR_HV2_ONLY,
+      null,
+      true
+    );
   }
 
   @Test
@@ -96,15 +140,26 @@ public class ExampleTests {
   @Test
   public void end2EndDecryptEncryptTest() {
     // Run the test for v1 item mutation
-    end2EndDecryptEncryptTestHelper(HierarchyVersion.v1, null, false);
+    end2EndDecryptEncryptTestHelper(
+      HierarchyVersion.v1,
+      Fixtures.KMS_KEY_FOR_HV2_ONLY,
+      null,
+      false
+    );
     // Run the test with v1 -> v2 mutation
     end2EndDecryptEncryptTestHelper(
       HierarchyVersion.v1,
+      Fixtures.KMS_KEY_FOR_HV2_ONLY,
       HierarchyVersion.v2,
       true
     );
     // Run the test for v2 mutation
-    end2EndDecryptEncryptTestHelper(HierarchyVersion.v2, null, true);
+    end2EndDecryptEncryptTestHelper(
+      HierarchyVersion.v2,
+      Fixtures.KMS_KEY_FOR_HV2_ONLY,
+      null,
+      true
+    );
   }
 
   /**
@@ -116,20 +171,26 @@ public class ExampleTests {
    */
   private void end2EndKmsSimpleTestHelper(
     final HierarchyVersion initialHVersion,
+    final String terminalKmsKeyArn,
     @Nullable final HierarchyVersion terminalHVersion,
     @Nullable final Boolean doNotVersion
   ) {
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      initialHVersion
+      initialHVersion,
+      encryptionContext
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
       MutationKmsSimpleExample.End2End(
         branchKeyId,
-        Fixtures.POSTAL_HORN_KEY_ARN,
+        terminalKmsKeyArn,
         terminalHVersion,
         MutationsProvider.KmsSystemKey(),
         AdminProvider.admin()
@@ -138,7 +199,7 @@ public class ExampleTests {
       "\nMutated Branch Key: " +
       branchKeyId +
       " to KMS ARN: " +
-      Fixtures.POSTAL_HORN_KEY_ARN +
+      terminalKmsKeyArn +
       "\n"
     );
     GetItemResponse mCommitmentRes = DdbHelper.getKeyStoreDdbItem(
@@ -161,9 +222,7 @@ public class ExampleTests {
       mIndexRes.hasItem(),
       Constants.TYPE_MUTATION_INDEX + " was not deleted!"
     );
-    KeyStore postalHornKS = KeyStoreProvider.keyStore(
-      Fixtures.POSTAL_HORN_KEY_ARN
-    );
+    KeyStore postalHornKS = KeyStoreProvider.keyStore(terminalKmsKeyArn);
     ValidateKeyStoreItem.ValidateBranchKey(branchKeyId, postalHornKS);
     KeyManagementStrategy kmsSimpleStrategy = AdminProvider.kmsSimpleStrategy(
       Fixtures.kmsClientWest2
@@ -223,11 +282,16 @@ public class ExampleTests {
   private void end2EndKmsReEncryptTestHelper(
     @Nullable final HierarchyVersion initialHVersion
   ) {
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      initialHVersion
+      initialHVersion,
+      encryptionContext
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
@@ -334,14 +398,20 @@ public class ExampleTests {
    */
   private void end2EndDecryptEncryptTestHelper(
     @Nonnull final HierarchyVersion initialHVersion,
+    @Nonnull String terminalKmsArn,
     @Nullable final HierarchyVersion terminalHVersion,
     @Nullable final boolean doNotVersion
   ) {
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      initialHVersion
+      initialHVersion,
+      encryptionContext
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =

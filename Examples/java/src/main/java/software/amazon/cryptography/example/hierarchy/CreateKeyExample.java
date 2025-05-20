@@ -6,7 +6,9 @@ import java.util.Collections;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.awssdk.utils.StringUtils;
+import software.amazon.cryptography.example.Fixtures;
 import software.amazon.cryptography.keystore.model.AwsKms;
 import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.KeyStoreAdmin;
@@ -32,7 +34,8 @@ public class CreateKeyExample {
     @Nonnull String kmsKeyArn,
     @Nullable String branchKeyId,
     @Nullable KeyStoreAdmin admin,
-    @Nullable HierarchyVersion hierarchyVersion
+    @Nullable HierarchyVersion hierarchyVersion,
+    @Nullable Map<String, String> encryptionContext
   ) {
     // 1. Configure your Key Store Admin resource.
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
@@ -57,19 +60,7 @@ public class CreateKeyExample {
         ? "mpl-java-example-" + java.util.UUID.randomUUID().toString()
         : branchKeyId;
 
-    // 4. Create a custom encryption context for the Branch Key.
-    // Most encrypted data should have an associated encryption context
-    // to protect integrity. This sample uses placeholder values.
-    // Note that the custom encryption context for a Branch Key is
-    // prefixed by the library with `aws-crypto-ec:`.
-    // For more information see:
-    // blogs.aws.amazon.com/security/post/Tx2LZ6WBJJANTNW/How-to-Protect-the-Integrity-of-Your-Encrypted-Data-by-Using-AWS-Key-Management
-    final Map<String, String> encryptionContext = Collections.singletonMap(
-      "ExampleContextKey",
-      "ExampleContextValue"
-    );
-
-    // 5. Create a new branch key and beacon key in our KeyStore.
+    // 4. Create a new branch key and beacon key in our KeyStore.
     //    Both the branch key and the beacon key will share an Id.
     //    This creation is eventually consistent.
     final String actualBranchKeyId = _admin
@@ -84,6 +75,12 @@ public class CreateKeyExample {
           .Identifier(branchKeyId)
           // If a branch key Identifier is provided,
           // custom encryption context MUST be provided as well.
+          // Most encrypted data should have an associated encryption context
+          // to protect integrity. This sample uses placeholder values.
+          // Note that the custom encryption context for a Branch Key is
+          // prefixed by the library with `aws-crypto-ec:` when using hierarchical keyring v1 only.
+          // For more information see:
+          // blogs.aws.amazon.com/security/post/Tx2LZ6WBJJANTNW/How-to-Protect-the-Integrity-of-Your-Encrypted-Data-by-Using-AWS-Key-Management
           .EncryptionContext(encryptionContext)
           // The Branch Key Store Admin can create HV-1 or HV-2 Branch Keys
           .HierarchyVersion(_hierarchyVersion)
@@ -92,8 +89,8 @@ public class CreateKeyExample {
           .build()
       )
       .Identifier();
-
     assert actualBranchKeyId.equals(branchKeyId);
+
     return branchKeyId;
   }
 
@@ -111,6 +108,10 @@ public class CreateKeyExample {
       logicalKeyStoreName,
       null
     );
-    CreateKey(kmsKeyArn, null, admin, HierarchyVersion.v1);
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
+    CreateKey(kmsKeyArn, null, admin, HierarchyVersion.v1, encryptionContext);
   }
 }

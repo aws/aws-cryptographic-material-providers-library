@@ -204,12 +204,17 @@ public class TestMutationsSystemKeyKMSTamper {
   ) {
     final String identifier =
       testPrefix + java.util.UUID.randomUUID().toString();
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
 
     CreateKeyExample.CreateKey(
       Fixtures.MRK_ARN_WEST,
       identifier,
       null,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      encryptionContext
     );
     //noinspection unchecked
     SystemKey systemKey = MutationsProvider.KmsSystemKey(

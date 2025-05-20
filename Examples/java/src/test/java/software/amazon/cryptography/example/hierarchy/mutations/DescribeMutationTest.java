@@ -4,6 +4,7 @@ import static software.amazon.cryptography.example.hierarchy.mutations.DescribeM
 import static software.amazon.cryptography.example.hierarchy.mutations.DescribeMutationExample.InitMutation;
 
 import java.util.Collections;
+import java.util.Map;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import software.amazon.cryptography.example.DdbHelper;
@@ -46,11 +47,16 @@ public class DescribeMutationTest {
       .build();
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
     CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       branchKeyId,
       null,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      encryptionContext
     );
     InitMutation(
       branchKeyId,
@@ -84,11 +90,16 @@ public class DescribeMutationTest {
     );
     final String branchKeyId =
       testPrefix + java.util.UUID.randomUUID().toString();
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
     CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       branchKeyId,
       null,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      encryptionContext
     );
     InitMutation(
       branchKeyId,

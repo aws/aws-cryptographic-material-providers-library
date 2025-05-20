@@ -4,6 +4,8 @@ package software.amazon.cryptography.example.hierarchy.mutations;
 
 import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.executeInitialize;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 import javax.annotation.Nullable;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
@@ -129,12 +131,17 @@ public class DescribeMutationExample {
       ? AdminProvider.reEncryptStrategy(null)
       : strategy;
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
 
     CreateKeyExample.CreateKey(
       kmsKeyArnOriginal,
       branchKeyId,
       _admin,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      encryptionContext
     );
 
     MutationToken fromInit = InitMutation(
