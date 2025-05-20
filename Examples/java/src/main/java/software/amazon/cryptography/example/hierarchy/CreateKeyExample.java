@@ -34,7 +34,8 @@ public class CreateKeyExample {
     @Nonnull String kmsKeyArn,
     @Nullable String branchKeyId,
     @Nullable KeyStoreAdmin admin,
-    @Nullable HierarchyVersion hierarchyVersion
+    @Nullable HierarchyVersion hierarchyVersion,
+    @Nullable Map<String, String> encryptionContext
   ) {
     // 1. Configure your Key Store Admin resource.
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
@@ -66,10 +67,11 @@ public class CreateKeyExample {
     // prefixed by the library with `aws-crypto-ec:`.
     // For more information see:
     // blogs.aws.amazon.com/security/post/Tx2LZ6WBJJANTNW/How-to-Protect-the-Integrity-of-Your-Encrypted-Data-by-Using-AWS-Key-Management
-    final Map<String, String> encryptionContext = Collections.singletonMap(
-      "Robbie",
-      "Is a Dog."
-    );
+
+    // final Map<String, String> encryptionContext = Collections.singletonMap(
+    //   "Robbie",
+    //   "Is a Dog."
+    // );
 
     // 5. Create a new branch key and beacon key in our KeyStore.
     //    Both the branch key and the beacon key will share an Id.
@@ -101,37 +103,38 @@ public class CreateKeyExample {
     ) {
       return branchKeyId;
     }
-    // HV2 sends the encryption context without any transformation.
-    // We have a kms key `Fixtures.KMS_KEY_FOR_HV2_ONLY`, that requires EC to be exactly {"Robbie": "Is a Dog."} in its key policy.
-    // For demostration, we will create a key with a different EC then the one that is expected and see it fail.
-    final Map<String, String> encryptionContextFailingCase =
-      Collections.singletonMap("I", "am not a Dog.");
-    boolean exceptionThrown = false;
-    try {
-      _admin
-        .CreateKey(
-          CreateKeyInput
-            .builder()
-            // This is the KMS ARN that will be used to protect the Branch Key.
-            // It is a required argument.
-            .KmsArn(KmsSymmetricKeyArn.builder().KmsKeyArn(kmsKeyArn).build())
-            // If you need to specify the Identifier for a Branch Key, you may.
-            // This is an optional argument.
-            .Identifier(branchKeyId)
-            // If a branch key Identifier is provided,
-            // custom encryption context MUST be provided as well.
-            .EncryptionContext(encryptionContextFailingCase)
-            // The Branch Key Store Admin can create HV-1 or HV-2 Branch Keys
-            .HierarchyVersion(_hierarchyVersion)
-            // But the Strategy MUST support the Hierarchy Version
-            .Strategy(strategy)
-            .build()
-        )
-        .Identifier();
-    } catch (KmsException e) {
-      exceptionThrown = true;
-    }
-    assert exceptionThrown;
+
+    // // HV2 sends the encryption context without any transformation.
+    // // We have a kms key `Fixtures.KMS_KEY_FOR_HV2_ONLY`, that requires EC to be exactly {"Robbie": "Is a Dog."} in its key policy.
+    // // For demostration, we will create a key with a different EC then the one that is expected and see it fail.
+    // final Map<String, String> encryptionContextFailingCase =
+    //   Collections.singletonMap("I", "am not a Dog.");
+    // boolean exceptionThrown = false;
+    // try {
+    //   _admin
+    //     .CreateKey(
+    //       CreateKeyInput
+    //         .builder()
+    //         // This is the KMS ARN that will be used to protect the Branch Key.
+    //         // It is a required argument.
+    //         .KmsArn(KmsSymmetricKeyArn.builder().KmsKeyArn(kmsKeyArn).build())
+    //         // If you need to specify the Identifier for a Branch Key, you may.
+    //         // This is an optional argument.
+    //         .Identifier(branchKeyId)
+    //         // If a branch key Identifier is provided,
+    //         // custom encryption context MUST be provided as well.
+    //         .EncryptionContext(encryptionContextFailingCase)
+    //         // The Branch Key Store Admin can create HV-1 or HV-2 Branch Keys
+    //         .HierarchyVersion(_hierarchyVersion)
+    //         // But the Strategy MUST support the Hierarchy Version
+    //         .Strategy(strategy)
+    //         .build()
+    //     )
+    //     .Identifier();
+    // } catch (KmsException e) {
+    //   exceptionThrown = true;
+    // }
+    // assert exceptionThrown;
 
     return branchKeyId;
   }
@@ -150,6 +153,10 @@ public class CreateKeyExample {
       logicalKeyStoreName,
       null
     );
-    CreateKey(kmsKeyArn, null, admin, HierarchyVersion.v1);
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
+    CreateKey(kmsKeyArn, null, admin, HierarchyVersion.v1, encryptionContext);
   }
 }

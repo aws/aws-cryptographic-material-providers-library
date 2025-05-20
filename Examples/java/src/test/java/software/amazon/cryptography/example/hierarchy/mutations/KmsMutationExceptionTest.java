@@ -4,6 +4,8 @@ package software.amazon.cryptography.example.hierarchy.mutations;
 
 import static org.mockito.ArgumentMatchers.any;
 
+import java.util.Collections;
+import java.util.Map;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -180,19 +182,27 @@ public class KmsMutationExceptionTest {
 
     // Key Store Admin
     final KeyStoreAdmin admin = AdminProvider.admin();
+    
+    // Encryption context
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
 
     // Create Branch Keys
     CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       hv1BranchKeyId,
       admin,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      encryptionContext
     );
     CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       hv2BranchKeyId,
       admin,
-      HierarchyVersion.v2
+      HierarchyVersion.v2,
+      encryptionContext
     );
 
     // Mutation Request
@@ -301,18 +311,26 @@ public class KmsMutationExceptionTest {
     // Key Store Admin
     final KeyStoreAdmin admin = AdminProvider.admin();
 
+    // Encryption context
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
+
     // Create Branch Keys
     CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       hv1BranchKeyId,
       admin,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      encryptionContext
     );
     CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       hv2BranchKeyId,
       admin,
-      HierarchyVersion.v2
+      HierarchyVersion.v2,
+      encryptionContext
     );
 
     // Mutation Request

@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy;
 
+import java.util.Collections;
+import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
@@ -103,7 +105,12 @@ public class AdminProvider {
     @Nonnull HierarchyVersion hierarchyVersion,
     @Nonnull Integer versionCount
   ) {
-    CreateKeyExample.CreateKey(kmsKeyArn, branchKeyId, admin, hierarchyVersion);
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
+
+    CreateKeyExample.CreateKey(kmsKeyArn, branchKeyId, admin, hierarchyVersion, encryptionContext);
     for (int i = 0; i < versionCount; i++) {
       VersionKeyExample.VersionKey(kmsKeyArn, branchKeyId, admin);
     }

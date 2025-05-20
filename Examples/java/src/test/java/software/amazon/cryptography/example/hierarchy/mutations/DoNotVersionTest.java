@@ -2,6 +2,8 @@ package software.amazon.cryptography.example.hierarchy.mutations;
 
 import static software.amazon.cryptography.example.hierarchy.mutations.MutationsProvider.executeInitialize;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.List;
 import java.util.Map;
 import org.testng.Assert;
@@ -29,13 +31,18 @@ public class DoNotVersionTest {
   public void DoNotVersion() {
     final KeyStoreAdmin admin = AdminProvider.admin();
     String branchKeyId = testPrefix + java.util.UUID.randomUUID().toString();
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
     Assert.assertEquals(
       branchKeyId,
       CreateKeyExample.CreateKey(
         Fixtures.KEYSTORE_KMS_ARN,
         branchKeyId,
         admin,
-        HierarchyVersion.v1
+        HierarchyVersion.v1,
+        encryptionContext
       ),
       "Creation of test BK failed."
     );

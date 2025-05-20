@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy;
 
+import java.util.Collections;
+import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.testng.Assert;
@@ -34,12 +36,17 @@ public class ExampleTests {
   public void createKeyHv2Test() {
     String branchKeyId =
       hv2CreateTestPrefix + java.util.UUID.randomUUID().toString();
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
     // Create Branch Key with `hierarchy-version-2` (HV-2)
     final String actualBranchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KMS_KEY_FOR_HV2_ONLY,
       branchKeyId,
       AdminProvider.admin(),
-      HierarchyVersion.v2
+      HierarchyVersion.v2,
+      encryptionContext
     );
     final KeyStore keyStore = KeyStoreProvider.keyStore(
       Fixtures.KMS_KEY_FOR_HV2_ONLY
@@ -141,11 +148,16 @@ public class ExampleTests {
     @Nullable final HierarchyVersion terminalHVersion,
     @Nullable final Boolean doNotVersion
   ) {
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      initialHVersion
+      initialHVersion,
+      encryptionContext
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
@@ -243,11 +255,16 @@ public class ExampleTests {
   private void end2EndKmsReEncryptTestHelper(
     @Nullable final HierarchyVersion initialHVersion
   ) {
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      initialHVersion
+      initialHVersion,
+      encryptionContext
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
@@ -358,11 +375,16 @@ public class ExampleTests {
     @Nullable final HierarchyVersion terminalHVersion,
     @Nullable final boolean doNotVersion
   ) {
+    final Map<String, String> encryptionContext = Collections.singletonMap(
+      "Robbie",
+      "Is a Dog."
+    );
     String branchKeyId = CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      initialHVersion
+      initialHVersion,
+      encryptionContext
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
