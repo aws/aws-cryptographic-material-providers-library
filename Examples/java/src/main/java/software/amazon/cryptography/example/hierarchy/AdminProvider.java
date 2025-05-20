@@ -110,7 +110,13 @@ public class AdminProvider {
       "Is a Dog."
     );
 
-    CreateKeyExample.CreateKey(kmsKeyArn, branchKeyId, admin, hierarchyVersion, encryptionContext);
+    CreateKeyExample.CreateKey(
+      kmsKeyArn,
+      branchKeyId,
+      admin,
+      hierarchyVersion,
+      encryptionContext
+    );
     for (int i = 0; i < versionCount; i++) {
       VersionKeyExample.VersionKey(kmsKeyArn, branchKeyId, admin);
     }

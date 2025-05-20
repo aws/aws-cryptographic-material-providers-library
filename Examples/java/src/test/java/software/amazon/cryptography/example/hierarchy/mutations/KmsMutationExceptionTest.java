@@ -182,7 +182,7 @@ public class KmsMutationExceptionTest {
 
     // Key Store Admin
     final KeyStoreAdmin admin = AdminProvider.admin();
-    
+
     // Encryption context
     final Map<String, String> encryptionContext = Collections.singletonMap(
       "Robbie",

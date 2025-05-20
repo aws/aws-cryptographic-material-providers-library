@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
+import software.amazon.awssdk.services.kms.model.KmsException;
 import software.amazon.cryptography.example.Constants;
 import software.amazon.cryptography.example.DdbHelper;
 import software.amazon.cryptography.example.Fixtures;
@@ -48,6 +49,32 @@ public class ExampleTests {
       HierarchyVersion.v2,
       encryptionContext
     );
+    // HV2 sends the encryption context without any transformation.
+    // We have a kms key `Fixtures.KMS_KEY_FOR_HV2_ONLY`, that requires EC to be exactly {"Robbie": "Is a Dog."} in its key policy.
+    // We will create a key with a different EC then the one that is expected and see it fail.
+    final Map<String, String> encryptionContextFailingCase =
+      Collections.singletonMap("I", "am not a Dog.");
+    boolean exceptionThrown = false;
+    try {
+      CreateKeyExample.CreateKey(
+        Fixtures.KMS_KEY_FOR_HV2_ONLY,
+        branchKeyId,
+        AdminProvider.admin(),
+        HierarchyVersion.v2,
+        encryptionContextFailingCase
+      );
+    } catch (KmsException e) {
+      // String matchings are not great but I need "not authorized to perform" KmsException and not any other.
+      if (
+        e
+          .getMessage()
+          .contains("is not authorized to perform: kms:GenerateDataKey on")
+      ) {
+        exceptionThrown = true;
+      }
+    }
+    assert exceptionThrown;
+    // This is the KeyStore from which Get operations will be performed for assertion
     final KeyStore keyStore = KeyStoreProvider.keyStore(
       Fixtures.KMS_KEY_FOR_HV2_ONLY
     );
