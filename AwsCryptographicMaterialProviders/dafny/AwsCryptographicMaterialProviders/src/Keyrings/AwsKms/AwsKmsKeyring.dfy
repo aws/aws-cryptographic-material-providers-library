@@ -548,6 +548,8 @@ module AwsKmsKeyring {
             ));
       }
 
+      AnEdkExistsLemma(edksToAttempt);
+
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
       //# For each encrypted data key in the filtered set, one at a time, the
       //# OnDecrypt MUST attempt to decrypt the data key.
@@ -574,19 +576,37 @@ module AwsKmsKeyring {
       //# If OnDecrypt fails to successfully decrypt any [encrypted data key]
       //# (../structures.md#encrypted-data-key), then it MUST yield an error
       //# that includes all the collected errors.
-      .MapFailure(errors => Types.CollectionOfErrors(
-                      list := errors,
-                      message := "No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."));
+      .MapFailure(
+        errors
+        =>
+          Types.CollectionOfErrors(
+            list := errors,
+            message := "No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."
+          ));
 
       ghost var LastDecrypt := Last(client.History.Decrypt);
       assert LastDecrypt.output.Success?;
       assert LastDecrypt.output.value.KeyId == Some(awsKmsKey);
+      assert exists edk | edk in edksToAttempt
+          ::
+            && var maybeWrappedMaterial :=
+              EdkWrapping.GetProviderWrappedMaterial(edk.ciphertext, input.materials.algorithmSuite);
+            && maybeWrappedMaterial.Success?
+            && KMS.IsValid_CiphertextType(maybeWrappedMaterial.value);
 
       assert decryptClosure.Ensures(Last(attempts).input, Success(SealedDecryptionMaterials), DropLast(attempts));
       return Success(Types.OnDecryptOutput(
                        materials := SealedDecryptionMaterials
                      ));
     }
+  }
+
+  lemma AnEdkExistsLemma(edksToAttempt: seq<Types.EncryptedDataKey>)
+    requires |edksToAttempt| > 0
+    ensures exists edk | edk in edksToAttempt :: true
+  {
+    var edk := edksToAttempt[0];
+    assert edk in edksToAttempt;
   }
 
   class OnDecryptEncryptedDataKeyFilter
@@ -605,8 +625,8 @@ module AwsKmsKeyring {
       && (
         && res.Success?
         && res.value
-        ==>
-          edk.keyProviderId == PROVIDER_ID)
+        ==> exists edk' | edk' == edk
+            :: edk'.keyProviderId == PROVIDER_ID)
     }
 
     method Invoke(edk: Types.EncryptedDataKey)

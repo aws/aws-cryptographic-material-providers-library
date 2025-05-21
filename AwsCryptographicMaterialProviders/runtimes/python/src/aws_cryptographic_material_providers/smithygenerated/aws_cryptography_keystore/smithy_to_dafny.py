@@ -41,6 +41,8 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     HierarchicalKeyType_ActiveHierarchicalSymmetricVersion,
     HierarchicalKeyType_HierarchicalSymmetricVersion,
     HierarchicalSymmetric_HierarchicalSymmetric as DafnyHierarchicalSymmetric,
+    HierarchyVersion_v1,
+    HierarchyVersion_v2,
     KMSConfiguration_discovery,
     KMSConfiguration_kmsKeyArn,
     KMSConfiguration_kmsMRKeyArn,
@@ -1182,6 +1184,17 @@ def aws_cryptography_keystore_DynamoDBTable(native_input):
     )
 
 
+def aws_cryptography_keystore_HierarchyVersion(native_input):
+    if native_input == "1":
+        return HierarchyVersion_v1()
+
+    elif native_input == "2":
+        return HierarchyVersion_v2()
+
+    else:
+        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
+
+
 def aws_cryptography_keystore_KeyManagement(native_input):
     if isinstance(
         native_input,
@@ -1379,3 +1392,7 @@ def aws_cryptography_keystore_KeyStoreConfig(native_input):
             else (Option_None())
         ),
     )
+
+
+def aws_cryptography_keystore_PrimitivesReference(native_input):
+    return native_input._config.dafnyImplInterface.impl

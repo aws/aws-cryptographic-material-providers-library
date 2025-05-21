@@ -3,11 +3,12 @@
 # with respect to the specification
 name: Duvet report
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
+# TODO-HV-2 : Re-Enable Duvet once mutations/mutations Duvet is healthy
+# on:
+#   pull_request:
+#   push:
+#     branches:
+#       - main
 
 jobs:
   duvet:

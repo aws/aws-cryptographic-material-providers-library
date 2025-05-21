@@ -35,6 +35,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.EncryptedHierar
 import software.amazon.cryptography.keystore.internaldafny.types.Error;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_AlreadyExistsConditionFailed;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_BranchKeyCiphertextException;
+import software.amazon.cryptography.keystore.internaldafny.types.Error_HierarchyVersionException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyManagementException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStorageException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException;
@@ -63,6 +64,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.GetMutationInpu
 import software.amazon.cryptography.keystore.internaldafny.types.GetMutationOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.HierarchicalKeyType;
 import software.amazon.cryptography.keystore.internaldafny.types.HierarchicalSymmetric;
+import software.amazon.cryptography.keystore.internaldafny.types.HierarchyVersion;
 import software.amazon.cryptography.keystore.internaldafny.types.IKeyStoreClient;
 import software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguration;
 import software.amazon.cryptography.keystore.internaldafny.types.KeyManagement;
@@ -93,6 +95,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.WriteNewEncrypt
 import software.amazon.cryptography.keystore.model.AlreadyExistsConditionFailed;
 import software.amazon.cryptography.keystore.model.BranchKeyCiphertextException;
 import software.amazon.cryptography.keystore.model.CollectionOfErrors;
+import software.amazon.cryptography.keystore.model.HierarchyVersionException;
 import software.amazon.cryptography.keystore.model.KeyManagementException;
 import software.amazon.cryptography.keystore.model.KeyStorageException;
 import software.amazon.cryptography.keystore.model.KeyStoreException;
@@ -113,6 +116,9 @@ public class ToDafny {
     }
     if (nativeValue instanceof BranchKeyCiphertextException) {
       return ToDafny.Error((BranchKeyCiphertextException) nativeValue);
+    }
+    if (nativeValue instanceof HierarchyVersionException) {
+      return ToDafny.Error((HierarchyVersionException) nativeValue);
     }
     if (nativeValue instanceof KeyManagementException) {
       return ToDafny.Error((KeyManagementException) nativeValue);
@@ -1143,6 +1149,15 @@ public class ToDafny {
     return new Error_BranchKeyCiphertextException(message);
   }
 
+  public static Error Error(HierarchyVersionException nativeValue) {
+    DafnySequence<? extends Character> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.message()
+      );
+    return new Error_HierarchyVersionException(message);
+  }
+
   public static Error Error(KeyManagementException nativeValue) {
     DafnySequence<? extends Character> message;
     message =
@@ -1204,6 +1219,29 @@ public class ToDafny {
         nativeValue.message()
       );
     return new Error_VersionRaceException(message);
+  }
+
+  public static HierarchyVersion HierarchyVersion(
+    software.amazon.cryptography.keystore.model.HierarchyVersion nativeValue
+  ) {
+    switch (nativeValue) {
+      case v1:
+        {
+          return HierarchyVersion.create_v1();
+        }
+      case v2:
+        {
+          return HierarchyVersion.create_v2();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.keystore.internaldafny.types.HierarchyVersion."
+          );
+        }
+    }
   }
 
   public static HierarchicalKeyType HierarchicalKeyType(

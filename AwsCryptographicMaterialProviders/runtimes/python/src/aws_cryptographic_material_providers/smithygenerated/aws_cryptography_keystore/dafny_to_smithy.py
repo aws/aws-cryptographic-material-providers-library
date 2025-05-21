@@ -6,6 +6,8 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     HierarchicalKeyType_ActiveHierarchicalSymmetricBeacon,
     HierarchicalKeyType_ActiveHierarchicalSymmetricVersion,
     HierarchicalKeyType_HierarchicalSymmetricVersion,
+    HierarchyVersion_v1,
+    HierarchyVersion_v2,
     KMSConfiguration_discovery,
     KMSConfiguration_kmsKeyArn,
     KMSConfiguration_kmsMRKeyArn,
@@ -16,6 +18,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     WriteInitializeMutationVersion_mutate,
     WriteInitializeMutationVersion_rotate,
 )
+import aws_cryptographic_material_providers.internaldafny.generated.module_
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models
 
@@ -753,6 +756,17 @@ def aws_cryptography_keystore_DynamoDBTable(dafny_input):
     )
 
 
+def aws_cryptography_keystore_HierarchyVersion(dafny_input):
+    if isinstance(dafny_input, HierarchyVersion_v1):
+        return "1"
+
+    elif isinstance(dafny_input, HierarchyVersion_v2):
+        return "2"
+
+    else:
+        raise ValueError(f"No recognized enum value in enum type: {dafny_input=}")
+
+
 def aws_cryptography_keystore_KeyManagement(dafny_input):
     # Convert KeyManagement
     if isinstance(dafny_input, KeyManagement_kms):
@@ -877,3 +891,11 @@ def aws_cryptography_keystore_KeyStoreConfig(dafny_input):
             else None
         ),
     )
+
+
+def aws_cryptography_keystore_PrimitivesReference(dafny_input):
+    from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.client import (
+        AwsCryptographicPrimitives,
+    )
+
+    return AwsCryptographicPrimitives(config=None, dafny_client=dafny_input)

@@ -10,12 +10,12 @@ public class MutationDetails {
   /**
    * The original properties of the Branch Key.
    */
-  private final MutableBranchKeyProperties Original;
+  private final MutableBranchKeyContext Original;
 
   /**
    * The terminal properties of the Branch Key.
    */
-  private final MutableBranchKeyProperties Terminal;
+  private final MutableBranchKeyContext Terminal;
 
   /**
    * The input for this mutation.
@@ -49,14 +49,14 @@ public class MutationDetails {
   /**
    * @return The original properties of the Branch Key.
    */
-  public MutableBranchKeyProperties Original() {
+  public MutableBranchKeyContext Original() {
     return this.Original;
   }
 
   /**
    * @return The terminal properties of the Branch Key.
    */
-  public MutableBranchKeyProperties Terminal() {
+  public MutableBranchKeyContext Terminal() {
     return this.Terminal;
   }
 
@@ -100,22 +100,22 @@ public class MutationDetails {
     /**
      * @param Original The original properties of the Branch Key.
      */
-    Builder Original(MutableBranchKeyProperties Original);
+    Builder Original(MutableBranchKeyContext Original);
 
     /**
      * @return The original properties of the Branch Key.
      */
-    MutableBranchKeyProperties Original();
+    MutableBranchKeyContext Original();
 
     /**
      * @param Terminal The terminal properties of the Branch Key.
      */
-    Builder Terminal(MutableBranchKeyProperties Terminal);
+    Builder Terminal(MutableBranchKeyContext Terminal);
 
     /**
      * @return The terminal properties of the Branch Key.
      */
-    MutableBranchKeyProperties Terminal();
+    MutableBranchKeyContext Terminal();
 
     /**
      * @param Input The input for this mutation.
@@ -162,9 +162,9 @@ public class MutationDetails {
 
   static class BuilderImpl implements Builder {
 
-    protected MutableBranchKeyProperties Original;
+    protected MutableBranchKeyContext Original;
 
-    protected MutableBranchKeyProperties Terminal;
+    protected MutableBranchKeyContext Terminal;
 
     protected Mutations Input;
 
@@ -185,21 +185,21 @@ public class MutationDetails {
       this.UUID = model.UUID();
     }
 
-    public Builder Original(MutableBranchKeyProperties Original) {
+    public Builder Original(MutableBranchKeyContext Original) {
       this.Original = Original;
       return this;
     }
 
-    public MutableBranchKeyProperties Original() {
+    public MutableBranchKeyContext Original() {
       return this.Original;
     }
 
-    public Builder Terminal(MutableBranchKeyProperties Terminal) {
+    public Builder Terminal(MutableBranchKeyContext Terminal) {
       this.Terminal = Terminal;
       return this;
     }
 
-    public MutableBranchKeyProperties Terminal() {
+    public MutableBranchKeyContext Terminal() {
       return this.Terminal;
     }
 

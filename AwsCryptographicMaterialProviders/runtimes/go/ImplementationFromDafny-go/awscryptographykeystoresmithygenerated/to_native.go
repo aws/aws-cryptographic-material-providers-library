@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/comamazonawskmssmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographykeystoresmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/awscryptographyprimitivessmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UTF8"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
@@ -325,6 +326,11 @@ func BranchKeyCiphertextException_FromDafny(dafnyOutput AwsCryptographyKeyStoreT
 
 }
 
+func HierarchyVersionException_FromDafny(dafnyOutput AwsCryptographyKeyStoreTypes.Error) awscryptographykeystoresmithygeneratedtypes.HierarchyVersionException {
+	return awscryptographykeystoresmithygeneratedtypes.HierarchyVersionException{Message: Aws_cryptography_keyStore_HierarchyVersionException_message_FromDafny(dafnyOutput.Dtor_message())}
+
+}
+
 func KeyManagementException_FromDafny(dafnyOutput AwsCryptographyKeyStoreTypes.Error) awscryptographykeystoresmithygeneratedtypes.KeyManagementException {
 	return awscryptographykeystoresmithygeneratedtypes.KeyManagementException{Message: Aws_cryptography_keyStore_KeyManagementException_message_FromDafny(dafnyOutput.Dtor_message())}
 
@@ -396,6 +402,10 @@ func Error_FromDafny(err AwsCryptographyKeyStoreTypes.Error) error {
 		return BranchKeyCiphertextException_FromDafny(err)
 	}
 
+	if err.Is_HierarchyVersionException() {
+		return HierarchyVersionException_FromDafny(err)
+	}
+
 	if err.Is_KeyManagementException() {
 		return KeyManagementException_FromDafny(err)
 	}
@@ -425,6 +435,10 @@ func Error_FromDafny(err AwsCryptographyKeyStoreTypes.Error) error {
 	}
 
 	//DependentErrors
+	if err.Is_AwsCryptographyPrimitives() {
+		return awscryptographyprimitivessmithygenerated.Error_FromDafny(err.Dtor_AwsCryptographyPrimitives())
+	}
+
 	if err.Is_ComAmazonawsDynamodb() {
 		return comamazonawsdynamodbsmithygenerated.Error_FromDafny(err.Dtor_ComAmazonawsDynamodb())
 	}
@@ -540,6 +554,26 @@ func MutationIndex_FromDafny(input interface{}) awscryptographykeystoresmithygen
 		PageIndex:      Aws_cryptography_keyStore_MutationIndex_PageIndex_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_PageIndex()),
 		CiphertextBlob: Aws_cryptography_keyStore_MutationIndex_CiphertextBlob_FromDafny(input.(AwsCryptographyKeyStoreTypes.MutationIndex).Dtor_CiphertextBlob()),
 	}
+
+}
+
+func HierarchyVersion_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+	return func() awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+		var u awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+		inputEnum := input.(AwsCryptographyKeyStoreTypes.HierarchyVersion)
+		index := -1
+		for allEnums := dafny.Iterate(AwsCryptographyKeyStoreTypes.CompanionStruct_HierarchyVersion_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(AwsCryptographyKeyStoreTypes.HierarchyVersion).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+
+		return u.Values()[index]
+	}()
 
 }
 
@@ -1712,6 +1746,15 @@ func Aws_cryptography_keyStore_AlreadyExistsConditionFailed_message_FromDafny(in
 	}()
 }
 func Aws_cryptography_keyStore_BranchKeyCiphertextException_message_FromDafny(input interface{}) string {
+	return func() string {
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
+	}()
+}
+func Aws_cryptography_keyStore_HierarchyVersionException_message_FromDafny(input interface{}) string {
 	return func() string {
 
 		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()

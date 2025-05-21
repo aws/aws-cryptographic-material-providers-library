@@ -7,16 +7,18 @@ import java.util.Objects;
 
 /**
  *
- * The cipher-text or additional authenticated data incorporated into the cipher-text,
+ * The cipher-text or branch key context incorporated into the cipher-text,
  * such as the encryption context, is corrupted, missing, or otherwise invalid.
- * For Branch Keys,
- * the Encryption Context is a combination of:
- * - the custom encryption context
+ * For branch keys,
+ * the branch key context (BKC) is a combination of:
+ * - the encryption context
  * - storage identifiers (partition key, sort key, logical name)
  * - metadata that binds the Branch Key to encrypted data (version)
+ * - create-time
+ * - hierarchy-version
  *
  * If any of the above are modified without calling KMS,
- * the Branch Key's cipher-text becomes invalid.
+ * the branch key's cipher-text becomes invalid.
  */
 public class BranchKeyCiphertextException extends RuntimeException {
 

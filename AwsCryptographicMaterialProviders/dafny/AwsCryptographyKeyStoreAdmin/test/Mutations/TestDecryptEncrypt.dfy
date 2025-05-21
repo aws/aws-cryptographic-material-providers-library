@@ -82,6 +82,7 @@ module {:options "/functionSyntax:4" } TestDecryptEncryptStrat {
 
     var timestamp :- expect Time.GetCurrentTimeStamp();
     var newCustomEC: KeyStoreTypes.EncryptionContextString := map["Koda" := timestamp];
+    // TODO-HV-2-M2: We should Mutate with Mrk Key as well
     var mutationsRequest := Types.Mutations(TerminalEncryptionContext := Some(newCustomEC));
     var initInput := Types.InitializeMutationInput(
       Identifier := testId,

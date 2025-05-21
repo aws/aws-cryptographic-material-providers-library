@@ -15,7 +15,7 @@ module {:options "/functionSyntax:4"} TestGetItemsForInitializeMutation {
   import KMS = Com.Amazonaws.Kms
   import KeyStore
 
-  const physicalName: DDB.Types.TableName := Fixtures.branchKeyStoreName
+  const physicalName: DDB.Types.TableName := Fixtures.staticBranchKeyStoreName
   const logicalName := Fixtures.logicalKeyStoreName
   // The Key Store will consider this mutation lock invalid
   // The Storage layer will not.
@@ -23,7 +23,7 @@ module {:options "/functionSyntax:4"} TestGetItemsForInitializeMutation {
 
   method {:test} TestHappyCase()
   {
-    var underTest :- expect Fixtures.DefaultStorage();
+    var underTest :- expect Fixtures.StaticStorage();
     var input := Types.GetItemsForInitializeMutationInput(
       Identifier := Fixtures.branchKeyId
     );

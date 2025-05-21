@@ -7,13 +7,13 @@ namespace AWS.Cryptography.KeyStoreAdmin
 {
   public class MutationDetails
   {
-    private AWS.Cryptography.KeyStoreAdmin.MutableBranchKeyProperties _original;
-    private AWS.Cryptography.KeyStoreAdmin.MutableBranchKeyProperties _terminal;
+    private AWS.Cryptography.KeyStoreAdmin.MutableBranchKeyContext _original;
+    private AWS.Cryptography.KeyStoreAdmin.MutableBranchKeyContext _terminal;
     private AWS.Cryptography.KeyStoreAdmin.Mutations _input;
     private string _systemKey;
     private string _createTime;
     private string _uUID;
-    public AWS.Cryptography.KeyStoreAdmin.MutableBranchKeyProperties Original
+    public AWS.Cryptography.KeyStoreAdmin.MutableBranchKeyContext Original
     {
       get { return this._original; }
       set { this._original = value; }
@@ -22,7 +22,7 @@ namespace AWS.Cryptography.KeyStoreAdmin
     {
       return this._original != null;
     }
-    public AWS.Cryptography.KeyStoreAdmin.MutableBranchKeyProperties Terminal
+    public AWS.Cryptography.KeyStoreAdmin.MutableBranchKeyContext Terminal
     {
       get { return this._terminal; }
       set { this._terminal = value; }
