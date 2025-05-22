@@ -9,6 +9,7 @@ include "CreateKeys.dfy"
 include "Structure.dfy"
 include "ErrorMessages.dfy"
 include "KmsArn.dfy"
+include "DefaultKeyStorageInterface.dfy"
 
 module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStoreOperations {
   import opened AwsKmsUtils
@@ -25,32 +26,46 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   import Structure
   import ErrorMessages = KeyStoreErrorMessages
   import KmsArn
+  import DefaultKeyStorageInterface
 
   datatype Config = Config(
     nameonly id: string,
-    nameonly ddbTableName: DDB.TableName,
+    nameonly ddbTableName: Option<DDB.TableName>,
     nameonly logicalKeyStoreName: string,
     nameonly kmsConfiguration: KMSConfiguration,
     nameonly grantTokens: KMS.GrantTokenList,
     nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient,
-    nameonly ddbClient: ComAmazonawsDynamodbTypes.IDynamoDBClient
+    nameonly ddbClient: Option<ComAmazonawsDynamodbTypes.IDynamoDBClient>,
+    nameonly storage: Types.IKeyStorageInterface,
+    nameonly ghost kmsConstructedRegion: Option<string>,
+    nameonly ghost ddbConstructedRegion: Option<string>
   )
 
   type InternalConfig = Config
 
   predicate ValidInternalConfig?(config: InternalConfig)
   {
-    && DDB.IsValid_TableName(config.ddbTableName)
     && (config.kmsConfiguration.kmsKeyArn? ==> KmsArn.ValidKmsArn?(config.kmsConfiguration.kmsKeyArn))
     && (config.kmsConfiguration.kmsMRKeyArn? ==> KmsArn.ValidKmsArn?(config.kmsConfiguration.kmsMRKeyArn))
     && config.kmsClient.ValidState()
-    && config.ddbClient.ValidState()
-    && config.ddbClient.Modifies !! config.kmsClient.Modifies
+    && config.storage.ValidState()
+    && config.storage.Modifies !! config.kmsClient.Modifies
+    && (config.ddbTableName.Some? ==>
+          && DDB.IsValid_TableName(config.ddbTableName.value)
+          && config.ddbClient.Some?
+          && config.ddbClient.value.ValidState()
+          && config.ddbClient.value.Modifies !! config.kmsClient.Modifies
+          && config.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+          && (config.storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).ddbClient == config.ddbClient.value
+       )
+    && (config.storage is DefaultKeyStorageInterface.DynamoDBKeyStorageInterface
+        ==>
+          config.logicalKeyStoreName == (config.storage as DefaultKeyStorageInterface.DynamoDBKeyStorageInterface).logicalKeyStoreName)
   }
 
   function ModifiesInternalConfig(config: InternalConfig) : set<object>
   {
-    config.kmsClient.Modifies + config.ddbClient.Modifies
+    config.kmsClient.Modifies + config.storage.Modifies
   }
 
   predicate GetKeyStoreInfoEnsuresPublicly(output: Result<GetKeyStoreInfoOutput, Error>)
@@ -65,16 +80,37 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getkeystoreinfo
               //= type=implication
               //# This MUST include:
+              //#
+              //# - [keystore id](#keystore-id)
+              //# - [keystore name](#table-name)
+              //# - [logical Keystore name](#logical-keystore-name)
+              //# - [AWS KMS Grant Tokens](#aws-kms-grant-tokens)
+              //# - [AWS KMS Configuration](#aws-kms-configuration)
               && output.value.keyStoreId == config.id
-              && output.value.keyStoreName == config.ddbTableName
               && output.value.logicalKeyStoreName == config.logicalKeyStoreName
               && output.value.grantTokens == config.grantTokens
               && output.value.kmsConfiguration == config.kmsConfiguration
+    // See the following below:
+    // && output.value.keyStoreName == UTF8.Decode(Seq.Last(config.storage.History.GetKeyStorageInfo).output.value.Name).value
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getkeystoreinfo
+    //= type=implication
+    //# The [keystore name](#table-name) MUST be obtained
+    //# from the configured [KeyStorage](./key-store/key-storage.md#interface)
+    //# by calling [GetKeyStorageInfo](./key-store/key-storage.md#getkeystorageinfo).
+    ensures output.Success? ==>
+              && |config.storage.History.GetKeyStorageInfo| == |old(config.storage.History.GetKeyStorageInfo)| + 1
+              && Seq.Last(config.storage.History.GetKeyStorageInfo).output.Success?
+              && UTF8.Decode(Seq.Last(config.storage.History.GetKeyStorageInfo).output.value.Name).Success?
+              && output.value.keyStoreName == UTF8.Decode(Seq.Last(config.storage.History.GetKeyStorageInfo).output.value.Name).value
   {
+    var nameOutput :- config.storage.GetKeyStorageInfo(Types.GetKeyStorageInfoInput);
+    var keyStoreName :- UTF8.Decode(nameOutput.Name)
+    .MapFailure(e => Types.KeyStoreException(message := e));
     output := Success(
       Types.GetKeyStoreInfoOutput(
         keyStoreId := config.id,
-        keyStoreName := config.ddbTableName,
+        keyStoreName := keyStoreName,
         logicalKeyStoreName := config.logicalKeyStoreName,
         grantTokens := config.grantTokens,
         kmsConfiguration := config.kmsConfiguration
@@ -87,15 +123,29 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
 
   method CreateKeyStore ( config: InternalConfig, input: CreateKeyStoreInput )
     returns (output: Result<CreateKeyStoreOutput, Error>)
+
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkeystore
+    //= type=implication
+    //# If a [table Name](#table-name) was not configured then CreateKeyStore MUST fail.
+    ensures config.ddbTableName.None? ==> output.Failure?
+
     ensures output.Success? ==>
+              && config.ddbTableName.Some?
               && AwsArnParsing.ParseAmazonDynamodbTableName(output.value.tableArn).Success?
-              && AwsArnParsing.ParseAmazonDynamodbTableName(output.value.tableArn).value == config.ddbTableName
+              && AwsArnParsing.ParseAmazonDynamodbTableName(output.value.tableArn).value == config.ddbTableName.value
   {
-    var ddbTableArn :- CreateKeyStoreTable.CreateKeyStoreTable(config.ddbTableName, config.ddbClient);
+
+    :- Need(config.ddbTableName.Some?
+           , Types.KeyStoreException(
+              message := ErrorMessages.CREATE_KEY_STORE_DEPRECATED
+            )
+    );
+
+    var ddbTableArn :- CreateKeyStoreTable.CreateKeyStoreTable(config.ddbTableName.value, config.ddbClient.value);
     var tableName := AwsArnParsing.ParseAmazonDynamodbTableName(ddbTableArn);
     :- Need(
       && tableName.Success?
-      && tableName.value == config.ddbTableName,
+      && tableName.value == config.ddbTableName.value,
       Types.KeyStoreException(message := "Configured DDB Table Name does not match parsed Table Name from DDB Table Arn.")
     );
 
@@ -196,12 +246,11 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       map i <- encodedEncryptionContext :: i.0.value := i.1.value,
       timestamp,
       branchKeyVersion,
-      config.ddbTableName,
       config.logicalKeyStoreName,
       config.kmsConfiguration,
       config.grantTokens,
       config.kmsClient,
-      config.ddbClient
+      config.storage
     );
   }
 
@@ -241,12 +290,11 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       input,
       timestamp,
       branchKeyVersion,
-      config.ddbTableName,
       config.logicalKeyStoreName,
       config.kmsConfiguration,
       config.grantTokens,
       config.kmsClient,
-      config.ddbClient
+      config.storage
     );
   }
 
@@ -258,12 +306,11 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   {
     output := GetKeys.GetActiveKeyAndUnwrap(
       input,
-      config.ddbTableName,
       config.logicalKeyStoreName,
       config.kmsConfiguration,
       config.grantTokens,
       config.kmsClient,
-      config.ddbClient
+      config.storage
     );
   }
 
@@ -275,12 +322,11 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   {
     output := GetKeys.GetBranchKeyVersion(
       input,
-      config.ddbTableName,
       config.logicalKeyStoreName,
       config.kmsConfiguration,
       config.grantTokens,
       config.kmsClient,
-      config.ddbClient
+      config.storage
     );
   }
 
@@ -292,12 +338,13 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
   {
     output := GetKeys.GetBeaconKeyAndUnwrap(
       input,
-      config.ddbTableName,
+      // config.ddbTableName,
       config.logicalKeyStoreName,
       config.kmsConfiguration,
       config.grantTokens,
       config.kmsClient,
-      config.ddbClient
+      config.storage
+      // config.ddbClient
     );
   }
 }

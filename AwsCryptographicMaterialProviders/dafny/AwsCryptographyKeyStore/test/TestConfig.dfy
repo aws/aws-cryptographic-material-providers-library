@@ -24,10 +24,17 @@ module TestConfig {
       id := None,
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
     );
 
     var keyStore := KeyStore.KeyStore(keyStoreConfig);
@@ -52,10 +59,17 @@ module TestConfig {
       id := None,
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
     );
 
     var keyStore := KeyStore.KeyStore(keyStoreConfig);
@@ -78,10 +92,17 @@ module TestConfig {
       id := None,
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
-      grantTokens := None,
-      ddbTableName := branchKeyStoreName,
-      ddbClient := Some(ddbClient),
-      kmsClient := Some(kmsClient)
+      storage := Some(
+        Types.ddb(
+          Types.DynamoDBTable(
+            ddbTableName := branchKeyStoreName,
+            ddbClient := Some(ddbClient)
+          ))),
+      keyManagement := Some(
+        Types.kms(
+          Types.AwsKms(
+            kmsClient := Some(kmsClient)
+          )))
     );
 
     var keyStore := KeyStore.KeyStore(keyStoreConfig);
@@ -108,12 +129,6 @@ module TestConfig {
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
 
     // Test with no kms client supplied
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#kms-client
-    //= type=TODO
-    //# If the AWS KMS Configuration is KMS Key ARN or KMS MRKey ARN,
-    //# and no KMS Client is provided,
-    //# a new KMS Client MUST be created
-    //# with the region of the supplied KMS ARN.
 
     // create and use us-east-2 Keystore and Branch Key
     // Assert call to get Branch Key ID succeeds.
@@ -126,7 +141,7 @@ module TestConfig {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := Some(ddbClient),
       kmsClient := None
     );
@@ -136,11 +151,6 @@ module TestConfig {
     // Test with no ddb client supplied
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#dynamodb-client
-    //= type=TODO
-    //# If the AWS KMS Configuration is KMS Key ARN or KMS MRKey ARN,
-    //# and no DynamoDb Client is provided,
-    //# a new DynamoDb Client MUST be created
-    //# with the region of the supplied KMS ARN.
 
     // create and use us-east-2 Keystore and Branch Key
     // Assert call to get Branch Key ID succeeds.
@@ -152,7 +162,7 @@ module TestConfig {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := None,
       kmsClient := Some(kmsClient)
     );
@@ -160,20 +170,6 @@ module TestConfig {
     expect keyStore.Success?;
 
     // Test with no clients supplied
-
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#dynamodb-client
-    //= type=TODO
-    //# If the AWS KMS Configuration is Discovery,
-    //# and no DynamoDb Client is provided,
-    //# a new DynamoDb Client MUST be created
-    //# with the default configuration.
-
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#kms-client
-    //= type=TODO
-    //# If the AWS KMS Configuration is Discovery,
-    //# and no KMS Client is provided,
-    //# a new KMS Client MUST be created
-    //# with the default configuration.
 
     // create and use us-east-2 Keystore and Branch Key
     // Assert call to get Branch Key ID FAILS.
@@ -185,7 +181,7 @@ module TestConfig {
       kmsConfiguration := kmsConfig,
       logicalKeyStoreName := logicalKeyStoreName,
       grantTokens := None,
-      ddbTableName := branchKeyStoreName,
+      ddbTableName := Some(branchKeyStoreName),
       ddbClient := None,
       kmsClient := None
     );

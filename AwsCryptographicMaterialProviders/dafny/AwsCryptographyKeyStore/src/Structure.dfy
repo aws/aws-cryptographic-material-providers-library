@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
-include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
 
 module {:options "/functionSyntax:4" } Structure {
   import opened Wrappers
@@ -10,10 +9,7 @@ module {:options "/functionSyntax:4" } Structure {
   import opened StandardLibrary.MemoryMath
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
-  import KMS = ComAmazonawsKmsTypes
   import UTF8
-  import AwsArnParsing
-  import KmsArn
 
   const BRANCH_KEY_IDENTIFIER_FIELD := "branch-key-id"
   const TYPE_FIELD := "type"
@@ -60,10 +56,7 @@ module {:options "/functionSyntax:4" } Structure {
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
        //= type=implication
        //# - MUST have a `kms-arn` attribute
-    && (KMS_FIELD in m) && KMS.IsValid_KeyIdType(m[KMS_FIELD])
-
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
-    //# The key `enc` MUST NOT exist in the constructed [encryption context](#encryption-context).
+    && (KMS_FIELD in m)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
     //= type=implication
@@ -78,8 +71,6 @@ module {:options "/functionSyntax:4" } Structure {
        //= type=implication
        //# - The `type` field MUST not be an empty string
     && (SequenceIsSafeBecauseItIsInMemory(m[TYPE_FIELD]); 0 < |m[TYPE_FIELD]| as uint64)
-
-    && (forall k <- m.Keys :: DDB.IsValid_AttributeName(k))
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#active-encryption-context
     //= type=implication
@@ -113,63 +104,113 @@ module {:options "/functionSyntax:4" } Structure {
         || BRANCH_KEY_TYPE_PREFIX < m[TYPE_FIELD])
   }
 
-  function ToAttributeMap(
-    encryptionContext: BranchKeyContext,
-    encryptedKey: seq<uint8>
-  ): (output: DDB.AttributeMap)
-    requires KMS.IsValid_CiphertextType(encryptedKey)
-    requires KMS.IsValid_KeyIdType(encryptionContext[KMS_FIELD])
-    requires KmsArn.ValidKmsArn?(encryptionContext[KMS_FIELD])
-    ensures BranchKeyItem?(output)
-    ensures ToBranchKeyContext(output, encryptionContext[TABLE_FIELD]) == encryptionContext
-  {
-    map k <- encryptionContext.Keys + {BRANCH_KEY_FIELD} - {TABLE_FIELD}
-             // Working around https://github.com/dafny-lang/dafny/issues/4214
-             //  that will make the following fail to compile
-             // ::  match k
-             // case HIERARCHY_VERSION => DDB.AttributeValue.N(encryptionContext[HIERARCHY_VERSION])
-             // case BRANCH_KEY_FIELD => DDB.AttributeValue.B(encryptedKey)
-             // case _ => DDB.AttributeValue.S(encryptionContext[k])
-      :: k := if k == HIERARCHY_VERSION then
-        DDB.AttributeValue.N(encryptionContext[HIERARCHY_VERSION])
-      else if k == BRANCH_KEY_FIELD then
-        DDB.AttributeValue.B(encryptedKey)
-      else
-        DDB.AttributeValue.S(encryptionContext[k])
+  predicate EncryptedHierarchicalKey?(key: Types.EncryptedHierarchicalKey) {
+    && BranchKeyContext?(key.EncryptionContext)
+    && key.Identifier == key.EncryptionContext[BRANCH_KEY_IDENTIFIER_FIELD]
+    && key.CreateTime == key.EncryptionContext[KEY_CREATE_TIME]
+    && key.KmsArn == key.EncryptionContext[KMS_FIELD]
+
+    && (match key.Type
+        case ActiveHierarchicalSymmetricVersion(active) =>
+          && BRANCH_KEY_ACTIVE_VERSION_FIELD in key.EncryptionContext
+          && key.EncryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE
+          && key.EncryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD] == BRANCH_KEY_TYPE_PREFIX + active.Version
+        case HierarchicalSymmetricVersion(decryptOnly) =>
+          && BRANCH_KEY_ACTIVE_VERSION_FIELD !in key.EncryptionContext
+          && key.EncryptionContext[TYPE_FIELD] == BRANCH_KEY_TYPE_PREFIX + decryptOnly.Version
+        case ActiveHierarchicalSymmetricBeacon(_) =>
+          && BRANCH_KEY_ACTIVE_VERSION_FIELD !in key.EncryptionContext
+          && key.EncryptionContext[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE
+       )
   }
 
-  function ToBranchKeyContext(
+  function ToAttributeMap(
+    key: Types.EncryptedHierarchicalKey
+  ): (output: DDB.AttributeMap)
+    requires (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
+    ensures EncryptedHierarchicalKey?(key) ==>
+              && BranchKeyItem?(output)
+              && ToEncryptedHierarchicalKey(output, key.EncryptionContext[TABLE_FIELD]) == key
+  {
+    map k <- key.EncryptionContext.Keys + {BRANCH_KEY_FIELD} - {TABLE_FIELD}
+             // Working around https://github.com/dafny-lang/dafny/issues/5776
+             //  that will make the following fail to compile
+             // ::  k := match k
+             // case HIERARCHY_VERSION => DDB.AttributeValue.N(key.EncryptionContext[HIERARCHY_VERSION])
+             // case BRANCH_KEY_FIELD => DDB.AttributeValue.B(key.CiphertextBlob)
+             // case _ => DDB.AttributeValue.S(key.EncryptionContext[k]);
+      :: k := if k == HIERARCHY_VERSION then
+        DDB.AttributeValue.N(key.EncryptionContext[HIERARCHY_VERSION])
+      else if k == BRANCH_KEY_FIELD then
+        DDB.AttributeValue.B(key.CiphertextBlob)
+      else
+        DDB.AttributeValue.S(key.EncryptionContext[k])
+  }
+
+  function ToEncryptedHierarchicalKey(
     item: DDB.AttributeMap,
     logicalKeyStoreName: string
-  ): (output: BranchKeyContext)
+  ): (output: Types.EncryptedHierarchicalKey)
     requires BranchKeyItem?(item)
+    ensures EncryptedHierarchicalKey?(output)
   {
-    map k <- item.Keys - {BRANCH_KEY_FIELD} + {TABLE_FIELD}
-             // Working around https://github.com/dafny-lang/dafny/issues/4214
-             //  that will make the following fail to compile
-             // match k
-             // case HIERARCHY_VERSION => item[k].N
-             // case TABLE_FIELD => logicalKeyStoreName
-             // case _ => item[k].S
-      :: k := if k == HIERARCHY_VERSION then
-        item[k].N
-      else if k == TABLE_FIELD then
-        logicalKeyStoreName
-      else
-        item[k].S
+    var EncryptionContext := map k <- item.Keys - {BRANCH_KEY_FIELD} + {TABLE_FIELD}
+                                      // Working around https://github.com/dafny-lang/dafny/issues/5776
+                                      //  that will make the following fail to compile
+                                      // match k
+                                      // case HIERARCHY_VERSION => item[k].N
+                                      // case TABLE_FIELD => logicalKeyStoreName
+                                      // case _ => item[k].S
+                               :: k := if k == HIERARCHY_VERSION then
+                                 item[k].N
+                               else if k == TABLE_FIELD then
+                                 logicalKeyStoreName
+                               else
+                                 item[k].S;
+
+    ConstructEncryptedHierarchicalKey(EncryptionContext, item[BRANCH_KEY_FIELD].B)
+  }
+
+  function ConstructEncryptedHierarchicalKey(
+    EncryptionContext: map<string, string>,
+    CiphertextBlob: seq<uint8>
+  ): (output: Types.EncryptedHierarchicalKey)
+    requires BranchKeyContext?(EncryptionContext)
+    ensures EncryptedHierarchicalKey?(output)
+  {
+    var Type
+      := if EncryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE then
+           Types.ActiveHierarchicalSymmetricVersion(
+             Types.ActiveHierarchicalSymmetric(
+               Version := EncryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]
+             ))
+         else if EncryptionContext[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE then
+           Types.HierarchicalKeyType.ActiveHierarchicalSymmetricBeacon(Types.ActiveHierarchicalSymmetricBeacon.ActiveHierarchicalSymmetricBeacon)
+         else
+           Types.HierarchicalSymmetricVersion(
+             Types.HierarchicalSymmetric(
+               Version := EncryptionContext[TYPE_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]
+             ));
+
+    Types.EncryptedHierarchicalKey(
+      Identifier := EncryptionContext[BRANCH_KEY_IDENTIFIER_FIELD],
+      Type := Type,
+      CreateTime := EncryptionContext[KEY_CREATE_TIME],
+      KmsArn := EncryptionContext[KMS_FIELD],
+      EncryptionContext := EncryptionContext,
+      CiphertextBlob := CiphertextBlob
+    )
   }
 
   function ToBranchKeyMaterials(
-    encryptionContext: BranchKeyContext,
+    key: Types.EncryptedHierarchicalKey,
     plaintextKey: seq<uint8>
   ): (output: Result<Types.BranchKeyMaterials, Types.Error>)
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
-    //= type=implication
-    //# The `type` attribute MUST either be equal to `"branch:ACTIVE"` or start with `"branch:version:"`.
+    requires EncryptedHierarchicalKey?(key)
     requires
-      || encryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE
-      || BRANCH_KEY_TYPE_PREFIX < encryptionContext[TYPE_FIELD]
+      || key.Type.ActiveHierarchicalSymmetricVersion?
+      || key.Type.HierarchicalSymmetricVersion?
 
     ensures output.Success?
             ==>
@@ -180,21 +221,21 @@ module {:options "/functionSyntax:4" } Structure {
                  //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
                  //= type=implication
                  //# - [Branch Key Id](./structures.md#branch-key-id) MUST be the `branch-key-id`
-              && output.value.branchKeyIdentifier == encryptionContext[BRANCH_KEY_IDENTIFIER_FIELD]
+              && output.value.branchKeyIdentifier == key.Identifier
 
               && var versionInformation
-                   := if BRANCH_KEY_ACTIVE_VERSION_FIELD in encryptionContext then
+                   := if BRANCH_KEY_ACTIVE_VERSION_FIELD in key.EncryptionContext then
                         //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
                         //= type=implication
                         //# If the `type` attribute is equal to `"branch:ACTIVE"`
                         //# then the authenticated encryption context MUST have a `version` attribute
                         //# and the version string is this value.
-                        encryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
+                        key.EncryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
                       else
                         //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
                         //= type=implication
                         //# If the `type` attribute start with `"branch:version:"` then the version string MUST be equal to this value.
-                        encryptionContext[TYPE_FIELD];
+                        key.EncryptionContext[TYPE_FIELD];
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
               //= type=implication
               //# - [Branch Key Version](./structures.md#branch-key-version)
@@ -205,34 +246,45 @@ module {:options "/functionSyntax:4" } Structure {
                  //= type=implication
                  //# The remaining string encoded as UTF8 bytes MUST be the Branch Key version.
               && output.value.branchKeyVersion == UTF8.Encode(versionInformation[|BRANCH_KEY_TYPE_PREFIX|..]).value
+              && output.value.branchKeyVersion == UTF8.Encode(
+                                                    match key.Type
+                                                    case ActiveHierarchicalSymmetricVersion(active) => active.Version
+                                                    case HierarchicalSymmetricVersion(decrypt) => decrypt.Version
+                                                  ).value
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
               //= type=implication
               //# - [Encryption Context](./structures.md#encryption-context-3) MUST be constructed by
               //# [Custom Encryption Context From Authenticated Encryption Context](#custom-encryption-context-from-authenticated-encryption-context)
-              && ExtractCustomEncryptionContext(encryptionContext).Success?
-              && output.value.encryptionContext == ExtractCustomEncryptionContext(encryptionContext).value
+              && ExtractCustomEncryptionContext(key.EncryptionContext).Success?
+              && output.value.encryptionContext == ExtractCustomEncryptionContext(key.EncryptionContext).value
 
               && (forall k <- output.value.encryptionContext
                     ::
                       && UTF8.Decode(k).Success?
                       && UTF8.Decode(output.value.encryptionContext[k]).Success?
-                      && (ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value in encryptionContext)
-                      && encryptionContext[ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value] == UTF8.Decode(output.value.encryptionContext[k]).value)
+                      && (ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value in key.EncryptionContext)
+                      && key.EncryptionContext[ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value] == UTF8.Decode(output.value.encryptionContext[k]).value)
 
   {
-    var versionInformation := if BRANCH_KEY_ACTIVE_VERSION_FIELD in encryptionContext then
-                                encryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
-                              else
-                                encryptionContext[TYPE_FIELD];
-    var branchKeyVersion := versionInformation[|BRANCH_KEY_TYPE_PREFIX| as uint32..];
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
+    //= type=implication
+    //# The `type` attribute MUST either be equal to `"branch:ACTIVE"` or start with `"branch:version:"`.
+    assert
+      || key.EncryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE
+      || BRANCH_KEY_TYPE_PREFIX < key.EncryptionContext[TYPE_FIELD];
+
+    var branchKeyVersion := match key.Type
+      case ActiveHierarchicalSymmetricVersion(active) => active.Version
+      case HierarchicalSymmetricVersion(decrypt) => decrypt.Version;
+
     var branchKeyVersionUtf8 :- UTF8.Encode(branchKeyVersion)
                                 .MapFailure(e => Types.KeyStoreException( message := e ));
 
-    var customEncryptionContext :- ExtractCustomEncryptionContext(encryptionContext);
+    var customEncryptionContext :- ExtractCustomEncryptionContext(key.EncryptionContext);
 
     Success(Types.BranchKeyMaterials(
-              branchKeyIdentifier := encryptionContext[BRANCH_KEY_IDENTIFIER_FIELD],
+              branchKeyIdentifier := key.Identifier,
               branchKeyVersion := branchKeyVersionUtf8,
               branchKey := plaintextKey,
               encryptionContext := customEncryptionContext
@@ -240,15 +292,16 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   function ToBeaconKeyMaterials(
-    encryptionContext: BranchKeyContext,
+    key: Types.EncryptedHierarchicalKey,
     plaintextKey: seq<uint8>
   ): (output: Result<Types.BeaconKeyMaterials, Types.Error>)
-    requires encryptionContext[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE
+    requires ActiveHierarchicalSymmetricBeaconKey?(key)
   {
-    var customEncryptionContext :- ExtractCustomEncryptionContext(encryptionContext);
+    assert key.EncryptionContext[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE;
+    var customEncryptionContext :- ExtractCustomEncryptionContext(key.EncryptionContext);
 
     Success(Types.BeaconKeyMaterials(
-              beaconKeyIdentifier := encryptionContext[BRANCH_KEY_IDENTIFIER_FIELD],
+              beaconKeyIdentifier := key.Identifier,
               beaconKey := Some(plaintextKey),
               hmacKeys := None,
               encryptionContext := customEncryptionContext
@@ -312,10 +365,6 @@ module {:options "/functionSyntax:4" } Structure {
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
-    requires forall k <- customEncryptionContext :: DDB.IsValid_AttributeName(ENCRYPTION_CONTEXT_PREFIX + k)
-    requires KMS.IsValid_KeyIdType(kmsKeyArn)
-    requires AwsArnParsing.ParseAwsKmsArn(kmsKeyArn).Success?
-    requires KmsArn.ValidKmsArn?(kmsKeyArn)
     ensures BranchKeyContext?(output)
     ensures BRANCH_KEY_TYPE_PREFIX < output[TYPE_FIELD]
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
@@ -398,13 +447,11 @@ module {:options "/functionSyntax:4" } Structure {
     - {BRANCH_KEY_ACTIVE_VERSION_FIELD}
   }
 
-
-  type BranchKeyItem = m: DDB.AttributeMap | BranchKeyItem?(m) witness *
-  //= aws-encryption-sdk-specification/framework/branch-key-store.md#record-format
+  //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#record-format
   //= type=implication
-  //# A branch key record MAY include [custom encryption context](#custom-encryption-context) key-value pairs.
+  //# A branch key record MAY include [custom encryption context](../branch-key-store.md#custom-encryption-context) key-value pairs.
 
-  //= aws-encryption-sdk-specification/framework/branch-key-store.md#record-format
+  //= aws-encryption-sdk-specification/framework/key-store/dynamodb-key-storage.md#record-format
   //= type=implication
   //# A branch key record MUST include the following key-value pairs:
   predicate BranchKeyItem?(m: DDB.AttributeMap) {
@@ -413,7 +460,7 @@ module {:options "/functionSyntax:4" } Structure {
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N?
     && TABLE_FIELD !in m
-    && KMS_FIELD in m && m[KMS_FIELD].S? && KMS.IsValid_KeyIdType(m[KMS_FIELD].S)
+    && KMS_FIELD in m && m[KMS_FIELD].S?
     && BRANCH_KEY_FIELD in m && m[BRANCH_KEY_FIELD].B?
 
     && (SequenceIsSafeBecauseItIsInMemory(m[BRANCH_KEY_IDENTIFIER_FIELD].S); 0 < |m[BRANCH_KEY_IDENTIFIER_FIELD].S| as uint64)
@@ -429,99 +476,77 @@ module {:options "/functionSyntax:4" } Structure {
     && (BRANCH_KEY_ACTIVE_VERSION_FIELD !in m <==>
         || m[TYPE_FIELD].S == BEACON_KEY_TYPE_VALUE
         || BRANCH_KEY_TYPE_PREFIX < m[TYPE_FIELD].S)
-
-    && KMS.IsValid_CiphertextType(m[BRANCH_KEY_FIELD].B)
   }
 
-  type ActiveBranchKeyItem = m: DDB.AttributeMap | ActiveBranchKeyItem?(m) witness *
-  predicate ActiveBranchKeyItem?(m: DDB.AttributeMap) {
-    && BranchKeyItem?(m)
-    && m[TYPE_FIELD].S == BRANCH_KEY_ACTIVE_TYPE
-    && BRANCH_KEY_ACTIVE_VERSION_FIELD in m && m[BRANCH_KEY_ACTIVE_VERSION_FIELD].S?
-    && BRANCH_KEY_TYPE_PREFIX < m[BRANCH_KEY_ACTIVE_VERSION_FIELD].S
+  predicate ActiveHierarchicalSymmetricKey?(key: Types.EncryptedHierarchicalKey) {
+    && EncryptedHierarchicalKey?(key)
+    && key.Type.ActiveHierarchicalSymmetricVersion?
   }
 
-  type VersionBranchKeyItem = m: DDB.AttributeMap | VersionBranchKeyItem?(m) witness *
-  predicate VersionBranchKeyItem?(m: DDB.AttributeMap) {
-    && BranchKeyItem?(m)
-    && BRANCH_KEY_ACTIVE_VERSION_FIELD !in m
-    && BRANCH_KEY_TYPE_PREFIX < m[TYPE_FIELD].S
+  predicate DecryptOnlyHierarchicalSymmetricKey?(key: Types.EncryptedHierarchicalKey) {
+    && EncryptedHierarchicalKey?(key)
+    && key.Type.HierarchicalSymmetricVersion?
   }
 
-  type BeaconKeyItem = m: DDB.AttributeMap | BeaconKeyItem?(m) witness *
-  predicate BeaconKeyItem?(m: DDB.AttributeMap) {
-    && BranchKeyItem?(m)
-    && BRANCH_KEY_ACTIVE_VERSION_FIELD !in m
-    && m[TYPE_FIELD].S == BEACON_KEY_TYPE_VALUE
+  predicate ActiveHierarchicalSymmetricBeaconKey?(key: Types.EncryptedHierarchicalKey) {
+    && EncryptedHierarchicalKey?(key)
+    && key.Type.ActiveHierarchicalSymmetricBeacon?
   }
 
-  lemma BranchKeyItemsDoNotCollide(a: ActiveBranchKeyItem, b: VersionBranchKeyItem, c: BeaconKeyItem)
-    requires a[BRANCH_KEY_IDENTIFIER_FIELD] == b[BRANCH_KEY_IDENTIFIER_FIELD] == c[BRANCH_KEY_IDENTIFIER_FIELD]
-    ensures a[TYPE_FIELD] != b[TYPE_FIELD]
-    ensures a[TYPE_FIELD] != c[TYPE_FIELD]
-    ensures c[TYPE_FIELD] != b[TYPE_FIELD]
+  lemma BranchKeyItemsDoNotCollide(
+    a: Types.EncryptedHierarchicalKey,
+    b: Types.EncryptedHierarchicalKey,
+    c: Types.EncryptedHierarchicalKey
+  )
+    requires
+      && ActiveHierarchicalSymmetricKey?(a)
+      && DecryptOnlyHierarchicalSymmetricKey?(b)
+      && ActiveHierarchicalSymmetricBeaconKey?(c)
+    requires a.Identifier == b.Identifier == c.Identifier
+    ensures a.Type != b.Type
+    ensures a.Type != c.Type
+    ensures c.Type != b.Type
   {}
 
   lemma ToAttributeMapIsCorrect(
-    encryptionContext: BranchKeyContext,
-    encryptedKey: seq<uint8>,
+    key: Types.EncryptedHierarchicalKey,
     item: DDB.AttributeMap
   )
-    requires KMS.IsValid_CiphertextType(encryptedKey)
-    requires KMS.IsValid_KeyIdType(encryptionContext[KMS_FIELD])
-    requires KmsArn.ValidKmsArn?(encryptionContext[KMS_FIELD])
-    requires item == ToAttributeMap(encryptionContext, encryptedKey)
+    requires EncryptedHierarchicalKey?(key)
+    requires (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
+    requires item == ToAttributeMap(key)
 
-    ensures item.Keys == encryptionContext.Keys + {BRANCH_KEY_FIELD} - {TABLE_FIELD}
-    ensures item[BRANCH_KEY_FIELD].B == encryptedKey
+    ensures item.Keys == key.EncryptionContext.Keys + {BRANCH_KEY_FIELD} - {TABLE_FIELD}
+    ensures item[BRANCH_KEY_FIELD].B == key.CiphertextBlob
     ensures
       && (forall k <- item.Keys - {BRANCH_KEY_FIELD, HIERARCHY_VERSION}
             ::
               && item[k].S?
-              && encryptionContext[k] == item[k].S
+              && key.EncryptionContext[k] == item[k].S
          )
-      && encryptionContext[HIERARCHY_VERSION] == item[HIERARCHY_VERSION].N
+      && key.EncryptionContext[HIERARCHY_VERSION] == item[HIERARCHY_VERSION].N
+      && key.CiphertextBlob == item[BRANCH_KEY_FIELD].B
   {}
 
-  lemma ToBranchKeyContextIsCorrect(
-    encryptionContext: map<string, string>,
+  lemma ToEncryptedHierarchicalKeyIsCorrect(
+    key: Types.EncryptedHierarchicalKey,
     logicalKeyStoreName: string,
     item: DDB.AttributeMap
   )
     requires BranchKeyItem?(item)
-    requires encryptionContext == ToBranchKeyContext(item, logicalKeyStoreName)
+    requires key == ToEncryptedHierarchicalKey(item, logicalKeyStoreName)
 
-    ensures encryptionContext.Keys == item.Keys - {BRANCH_KEY_FIELD} + {TABLE_FIELD}
-    ensures encryptionContext[TABLE_FIELD] == logicalKeyStoreName
+    ensures key.EncryptionContext.Keys == item.Keys - {BRANCH_KEY_FIELD} + {TABLE_FIELD}
+    ensures key.EncryptionContext[TABLE_FIELD] == logicalKeyStoreName
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
-    //= type=implication
-    //# Every key in the constructed [encryption context](#encryption-context)
-    //# except `tableName`
-    //# MUST exist as a string attribute in the AWS DDB response item.
     ensures
-      forall k <- encryptionContext.Keys - {BRANCH_KEY_FIELD, TABLE_FIELD}
+      forall k <- key.EncryptionContext.Keys - {BRANCH_KEY_FIELD, TABLE_FIELD}
         ::
-          //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
-          //= type=implication
-          //# Every value in the constructed [encryption context](#encryption-context)
-          //# except the logical table name
-          //# MUST equal the value with the same key in the AWS DDB response item.
+          match k
+          case HIERARCHY_VERSION => key.EncryptionContext[k] == item[k].N
+          case _ => key.EncryptionContext[k] == item[k].S
 
-          // Working around https://github.com/dafny-lang/dafny/issues/4214
-          //  that will make the following fail to compile
-          // match k
-          // case HIERARCHY_VERSION => encryptionContext[k] == item[k].N
-          // case _ => encryptionContext[k] == item[k].S
-          if k == HIERARCHY_VERSION then
-            encryptionContext[k] == item[k].N
-          else
-            encryptionContext[k] == item[k].S
-
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
-    //= type=implication
-    //# The key `enc` MUST NOT exist in the constructed [encryption context](#encryption-context).
-    ensures BRANCH_KEY_FIELD !in encryptionContext
+    ensures BRANCH_KEY_FIELD !in key.EncryptionContext
   {}
 
   lemma EncryptionContextConstructorsAreCorrect(
@@ -534,9 +559,6 @@ module {:options "/functionSyntax:4" } Structure {
   )
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
-    requires forall k <- encryptionContext :: DDB.IsValid_AttributeName(ENCRYPTION_CONTEXT_PREFIX + k)
-    requires KMS.IsValid_KeyIdType(kmsKeyArn) && AwsArnParsing.ParseAwsKmsArn(kmsKeyArn).Success?
-    requires KmsArn.ValidKmsArn?(kmsKeyArn)
     ensures
       var decryptOnly := DecryptOnlyBranchKeyEncryptionContext(
                            branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName, kmsKeyArn, encryptionContext);
@@ -573,20 +595,17 @@ module {:options "/functionSyntax:4" } Structure {
     reveal DecryptOnlyBranchKeyEncryptionContext();
   }
 
-  lemma ToAttributeMapAndToBranchKeyContextAreInverse(
-    encryptionContext: map<string, string>,
+  lemma ToAttributeMapAndToEncryptedHierarchicalKeyAreInverse(
+    key: Types.EncryptedHierarchicalKey,
     item: DDB.AttributeMap
   )
-    requires BranchKeyItem?(item) && BranchKeyContext?(encryptionContext)
-    requires KmsArn.ValidKmsArn?(encryptionContext[KMS_FIELD])
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
-    //= type=implication
-    //# Any additionally attributes on the DynamoDB item
-    //# MUST be added to the encryption context.
+    requires BranchKeyItem?(item) && EncryptedHierarchicalKey?(key)
+
     ensures
-      item == ToAttributeMap(encryptionContext, item[BRANCH_KEY_FIELD].B)
-      <==>
-      ToBranchKeyContext(item, encryptionContext[TABLE_FIELD]) == encryptionContext
+      && (forall k <- key.EncryptionContext.Keys :: DDB.IsValid_AttributeName(k))
+      && item == ToAttributeMap(key)
+         <==>
+         ToEncryptedHierarchicalKey(item, key.EncryptionContext[TABLE_FIELD]) == key
   {}
 
 }
