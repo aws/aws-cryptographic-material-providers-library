@@ -295,8 +295,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
       ));
   }
 
-  @IsolateAssertions
-    method {:timeLimit 200} CreateBranchAndBeaconKeysVersion2(
+  // If this does not work, I will have to refactor the BKS in a pretty major way...
+  // my problem is that I cannot recreate the GitHub CI Verification failure.
+  // When I verify this with the `text` logger, all the asserts have a reasonable cost.
+  // But GitHub says that WrappedBranchKeyCreationV2? is too expensive.
+  method {:timeLimit 200} {:resource_limit 90_999_999} {:isolate_assertions} CreateBranchAndBeaconKeysVersion2(
     nameonly branchKeyIdentifier: string,
     nameonly encryptionContext: map<string, string>,
     nameonly timestamp: string,
