@@ -38,9 +38,9 @@ runs:
         java-version: "17"
     
     - name: Install Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ matrix.go-version }}
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ matrix.go-version }}
 
     - name: Install Go imports
       run: |
