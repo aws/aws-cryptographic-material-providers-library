@@ -295,7 +295,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
       ));
   }
 
-  method {:isolate_assertions} CreateBranchAndBeaconKeysVersion2(
+  @IsolateAssertions
+    method {:timeLimit 200} CreateBranchAndBeaconKeysVersion2(
     nameonly branchKeyIdentifier: string,
     nameonly encryptionContext: map<string, string>,
     nameonly timestamp: string,
