@@ -559,3 +559,95 @@ Resources:
                 - !GetAtt GitHubCIRole.Arn
                 - "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2"
             Action: "sts:AssumeRole"
+
+  KMSHV1WithPrefixedRobbie:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "KMS-HV1-With-Prefixed-Robbie"
+      Description: "Restrict to Encryption Context that contains Robbie Is a Dog."
+      Policies:
+        - PolicyName: Prefix-Robbie-Must-Exist
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "kms:Decrypt"
+                  - "kms:Encrypt"
+                  - "kms:GenerateDataKeyWithoutPlaintext"
+                  - "kms:ReEncrypt*"
+                Resource: "*"
+                Condition:
+                  StringEquals:
+                    "kms:EncryptionContext:aws-crypto-ec:Robbie": "Is a Dog."
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub "arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com"
+            Action: "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: "sts.amazonaws.com"
+              StringLike:
+                token.actions.githubusercontent.com:sub:
+                  - "repo:aws/private-aws-encryption-sdk-dafny-staging:*"
+                  - "repo:aws/aws-encryption-sdk-dafny:*"
+                  - "repo:aws/aws-cryptographic-material-providers-library:*"
+                  - "repo:aws/private-aws-cryptographic-material-providers-library-dafny-staging:*"
+          - Effect: Allow
+            Principal:
+              AWS:
+                - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
+                - "arn:aws:iam::648638458147:role/AVP-14101"
+                - !GetAtt GitHubCIRole.Arn
+                - "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2"
+            Action: "sts:AssumeRole"
+
+  KMSHV2OnlyRobbie:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "KMS-HV2-Robbie-Only"
+      Description: "Restrict to only Encryption Context that IS Robbie Is a Dog."
+      Policies:
+        - PolicyName: Only-Robbie
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "kms:Decrypt"
+                  - "kms:Encrypt"
+                  - "kms:GenerateDataKey"
+                Resource: "*"
+                Condition:
+                  StringEquals:
+                    "kms:EncryptionContext:Robbie": "Is a Dog."
+                  ForAllValues:StringEquals:
+                    "kms:EncryptionContextKeys":
+                      - "Robbie"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub "arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com"
+            Action: "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: "sts.amazonaws.com"
+              StringLike:
+                token.actions.githubusercontent.com:sub:
+                  - "repo:aws/private-aws-encryption-sdk-dafny-staging:*"
+                  - "repo:aws/aws-encryption-sdk-dafny:*"
+                  - "repo:aws/aws-cryptographic-material-providers-library:*"
+                  - "repo:aws/private-aws-cryptographic-material-providers-library-dafny-staging:*"
+          - Effect: Allow
+            Principal:
+              AWS:
+                - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
+                - "arn:aws:iam::648638458147:role/AVP-14101"
+                - !GetAtt GitHubCIRole.Arn
+                - "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2"
+            Action: "sts:AssumeRole"
