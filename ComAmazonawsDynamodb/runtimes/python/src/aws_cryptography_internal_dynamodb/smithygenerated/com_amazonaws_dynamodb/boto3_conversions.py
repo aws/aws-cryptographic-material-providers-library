@@ -3,6 +3,7 @@
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
 import aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter
+from copy import deepcopy
 
 
 class InternalBoto3DynamoDBFormatConverter:
@@ -19,7 +20,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def BatchExecuteStatementOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_BatchExecuteStatementOutput(
@@ -35,7 +36,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def BatchGetItemOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_BatchGetItemOutput(
@@ -51,7 +52,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def BatchWriteItemOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_BatchWriteItemOutput(
@@ -67,7 +68,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def CreateBackupOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_CreateBackupOutput(
@@ -83,7 +84,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def CreateGlobalTableOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_CreateGlobalTableOutput(
@@ -99,7 +100,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def CreateTableOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_CreateTableOutput(
@@ -115,7 +116,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DeleteBackupOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DeleteBackupOutput(
@@ -131,7 +132,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DeleteItemOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DeleteItemOutput(
@@ -147,7 +148,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DeleteResourcePolicyOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DeleteResourcePolicyOutput(
@@ -163,7 +164,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DeleteTableOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DeleteTableOutput(
@@ -179,7 +180,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeBackupOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeBackupOutput(
@@ -195,7 +196,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeContinuousBackupsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeContinuousBackupsOutput(
@@ -211,7 +212,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeContributorInsightsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeContributorInsightsOutput(
@@ -227,7 +228,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeEndpointsResponse(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeEndpointsResponse(
@@ -243,7 +244,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeExportOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeExportOutput(
@@ -259,7 +260,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeGlobalTableOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeGlobalTableOutput(
@@ -275,7 +276,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeGlobalTableSettingsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeGlobalTableSettingsOutput(
@@ -291,7 +292,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeImportOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeImportOutput(
@@ -307,7 +308,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeKinesisStreamingDestinationOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeKinesisStreamingDestinationOutput(
@@ -323,7 +324,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeLimitsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeLimitsOutput(
@@ -339,7 +340,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeTableOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeTableOutput(
@@ -355,7 +356,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeTableReplicaAutoScalingOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeTableReplicaAutoScalingOutput(
@@ -371,7 +372,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DescribeTimeToLiveOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DescribeTimeToLiveOutput(
@@ -387,7 +388,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def DisableKinesisStreamingDestinationOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_DisableKinesisStreamingDestinationOutput(
@@ -403,7 +404,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def EnableKinesisStreamingDestinationOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_EnableKinesisStreamingDestinationOutput(
@@ -419,7 +420,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def ExecuteStatementOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ExecuteStatementOutput(
@@ -435,7 +436,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def ExecuteTransactionOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ExecuteTransactionOutput(
@@ -451,7 +452,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def ExportTableToPointInTimeOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ExportTableToPointInTimeOutput(
@@ -467,7 +468,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def GetItemOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_GetItemOutput(
@@ -483,7 +484,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def GetResourcePolicyOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_GetResourcePolicyOutput(
@@ -499,7 +500,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def ImportTableOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ImportTableOutput(
@@ -515,7 +516,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def ListBackupsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ListBackupsOutput(
@@ -531,7 +532,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def ListContributorInsightsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ListContributorInsightsOutput(
@@ -547,7 +548,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def ListExportsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ListExportsOutput(
@@ -563,7 +564,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def ListGlobalTablesOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ListGlobalTablesOutput(
@@ -579,7 +580,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def ListImportsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ListImportsOutput(
@@ -595,7 +596,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def ListTablesOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ListTablesOutput(
@@ -611,7 +612,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def ListTagsOfResourceOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ListTagsOfResourceOutput(
@@ -627,7 +628,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def PutItemOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_PutItemOutput(
@@ -643,7 +644,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def PutResourcePolicyOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_PutResourcePolicyOutput(
@@ -659,7 +660,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def QueryOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_QueryOutput(
@@ -675,7 +676,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def RestoreTableFromBackupOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_RestoreTableFromBackupOutput(
@@ -691,7 +692,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def RestoreTableToPointInTimeOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_RestoreTableToPointInTimeOutput(
@@ -707,7 +708,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def ScanOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_ScanOutput(
@@ -723,7 +724,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def Unit(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return None
@@ -737,7 +738,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def TransactGetItemsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_TransactGetItemsOutput(
@@ -753,7 +754,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def TransactWriteItemsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_TransactWriteItemsOutput(
@@ -769,7 +770,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def Unit(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return None
@@ -783,7 +784,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def UpdateContinuousBackupsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_UpdateContinuousBackupsOutput(
@@ -799,7 +800,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def UpdateContributorInsightsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_UpdateContributorInsightsOutput(
@@ -815,7 +816,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def UpdateGlobalTableOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_UpdateGlobalTableOutput(
@@ -831,7 +832,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def UpdateGlobalTableSettingsOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_UpdateGlobalTableSettingsOutput(
@@ -847,7 +848,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def UpdateItemOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_UpdateItemOutput(
@@ -863,7 +864,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def UpdateKinesisStreamingDestinationOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_UpdateKinesisStreamingDestinationOutput(
@@ -879,7 +880,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def UpdateTableOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_UpdateTableOutput(
@@ -895,7 +896,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def UpdateTableReplicaAutoScalingOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_UpdateTableReplicaAutoScalingOutput(
@@ -911,7 +912,7 @@ class InternalBoto3DynamoDBFormatConverter:
         )
 
     def UpdateTimeToLiveOutput(self, boto3_input) -> dict:
-        original_request = boto3_input
+        original_request = deepcopy(boto3_input)
         item_handler = self._item_handler
         condition_handler = self._condition_handler
         return aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.aws_sdk_format_converter.com_amazonaws_dynamodb_UpdateTimeToLiveOutput(
