@@ -8,6 +8,12 @@ description: "Install Java package dependencies required to run Smithy-Dafny cod
 runs:
   using: "composite"
   steps:
+    - name: Setup Java 17 for codegen
+      uses: actions/setup-java@v3
+      with:
+        distribution: "corretto"
+        java-version: "17"
+    
     - name: Install smithy-dafny-codegen Rust dependencies locally
       uses: gradle/gradle-build-action@v2
       with:
@@ -31,12 +37,6 @@ runs:
         python -m pip install --upgrade black
         python -m pip install --upgrade docformatter
 
-    - name: Setup Java 17 for codegen
-      uses: actions/setup-java@v3
-      with:
-        distribution: "corretto"
-        java-version: "17"
-    
     - name: Install Go
       uses: actions/setup-go@v5
       with:
