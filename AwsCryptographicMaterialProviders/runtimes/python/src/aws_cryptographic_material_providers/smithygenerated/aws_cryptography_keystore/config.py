@@ -55,7 +55,7 @@ Plugin: TypeAlias = Callable[[Config], None]
 
 
 class KeyStoreConfig(Config):
-    ddb_table_name: dict[str, Any]
+    ddb_table_name: str
     kms_configuration: KMSConfiguration
     logical_key_store_name: str
     id: Optional[str]
@@ -66,7 +66,7 @@ class KeyStoreConfig(Config):
     def __init__(
         self,
         *,
-        ddb_table_name: dict[str, Any],
+        ddb_table_name: str,
         kms_configuration: KMSConfiguration,
         logical_key_store_name: str,
         id: Optional[str] = None,

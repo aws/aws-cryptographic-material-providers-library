@@ -280,12 +280,12 @@ class CreateKeyStoreInput:
 
 
 class CreateKeyStoreOutput:
-    table_arn: dict[str, Any]
+    table_arn: str
 
     def __init__(
         self,
         *,
-        table_arn: dict[str, Any],
+        table_arn: str,
     ):
         """Outputs for Key Store DynamoDB table creation.
 
@@ -640,12 +640,12 @@ class GetBranchKeyVersionOutput:
 
 
 class MRDiscovery:
-    region: dict[str, Any]
+    region: str
 
     def __init__(
         self,
         *,
-        region: dict[str, Any],
+        region: str,
     ):
         """
         :param region: Any MRK ARN discovered will have its region replaced with this.
@@ -881,7 +881,7 @@ def _kms_configuration_from_dict(d: Dict[str, Any]) -> KMSConfiguration:
 
 class GetKeyStoreInfoOutput:
     key_store_id: str
-    key_store_name: dict[str, Any]
+    key_store_name: str
     logical_key_store_name: str
     grant_tokens: list[str]
     kms_configuration: KMSConfiguration
@@ -890,7 +890,7 @@ class GetKeyStoreInfoOutput:
         self,
         *,
         key_store_id: str,
-        key_store_name: dict[str, Any],
+        key_store_name: str,
         logical_key_store_name: str,
         grant_tokens: list[str],
         kms_configuration: KMSConfiguration,
