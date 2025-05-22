@@ -699,7 +699,7 @@ class KMSConfigurationKmsKeyArn:
     MUST strictly equal this value to be considered valid.
     """
 
-    def __init__(self, value: "dict[str, Any]"):
+    def __init__(self, value: str):
         if (value is not None) and (len(value) < 1):
             raise ValueError("The size of value must be greater than or equal to 1")
 
@@ -736,7 +736,7 @@ class KMSConfigurationKmsMRKeyArn:
     as kmsKeyArn.
     """
 
-    def __init__(self, value: "dict[str, Any]"):
+    def __init__(self, value: str):
         if (value is not None) and (len(value) < 1):
             raise ValueError("The size of value must be greater than or equal to 1")
 
