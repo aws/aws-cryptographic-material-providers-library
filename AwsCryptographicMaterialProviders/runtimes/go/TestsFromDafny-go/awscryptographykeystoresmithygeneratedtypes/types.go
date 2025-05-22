@@ -350,6 +350,47 @@ func (input DdbClientReference) Validate() error {
 	return nil
 }
 
+type MutationCommitment struct {
+	CiphertextBlob []byte
+
+	CreateTime string
+
+	Identifier string
+
+	Input []byte
+
+	Original []byte
+
+	Terminal []byte
+
+	UUID string
+}
+
+func (input MutationCommitment) Validate() error {
+
+	return nil
+}
+
+type DeleteMutationInput struct {
+	MutationCommitment MutationCommitment
+}
+
+func (input DeleteMutationInput) Validate() error {
+	if input.MutationCommitment.Validate() != nil {
+		return input.MutationCommitment.Validate()
+	}
+
+	return nil
+}
+
+type DeleteMutationOutput struct {
+}
+
+func (input DeleteMutationOutput) Validate() error {
+
+	return nil
+}
+
 type DynamoDBTable struct {
 	DdbTableName string
 
@@ -494,6 +535,65 @@ func (input GetEncryptedBranchKeyVersionOutput) Validate() error {
 	return nil
 }
 
+type GetItemsForInitializeMutationInput struct {
+	Identifier string
+}
+
+func (input GetItemsForInitializeMutationInput) Validate() error {
+
+	return nil
+}
+
+type MutationIndex struct {
+	CiphertextBlob []byte
+
+	CreateTime string
+
+	Identifier string
+
+	PageIndex []byte
+
+	UUID string
+}
+
+func (input MutationIndex) Validate() error {
+
+	return nil
+}
+
+type GetItemsForInitializeMutationOutput struct {
+	ActiveItem EncryptedHierarchicalKey
+
+	BeaconItem EncryptedHierarchicalKey
+
+	MutationCommitment *MutationCommitment
+
+	MutationIndex *MutationIndex
+}
+
+func (input GetItemsForInitializeMutationOutput) Validate() error {
+	if input.ActiveItem.Validate() != nil {
+		return input.ActiveItem.Validate()
+	}
+	if input.BeaconItem.Validate() != nil {
+		return input.BeaconItem.Validate()
+	}
+	if input.MutationCommitment != nil {
+		if input.MutationCommitment.Validate() != nil {
+			return input.MutationCommitment.Validate()
+		}
+
+	}
+	if input.MutationIndex != nil {
+		if input.MutationIndex.Validate() != nil {
+			return input.MutationIndex.Validate()
+		}
+
+	}
+
+	return nil
+}
+
 type GetKeyStorageInfoInput struct {
 }
 
@@ -515,6 +615,317 @@ func (input GetKeyStorageInfoOutput) Validate() error {
 	if !utf8.ValidString(input.Name) {
 		return fmt.Errorf("Invalid UTF bytes %s ", input.Name)
 	}
+
+	return nil
+}
+
+type GetMutationInput struct {
+	Identifier string
+}
+
+func (input GetMutationInput) Validate() error {
+
+	return nil
+}
+
+type GetMutationOutput struct {
+	MutationCommitment *MutationCommitment
+
+	MutationIndex *MutationIndex
+}
+
+func (input GetMutationOutput) Validate() error {
+	if input.MutationCommitment != nil {
+		if input.MutationCommitment.Validate() != nil {
+			return input.MutationCommitment.Validate()
+		}
+
+	}
+	if input.MutationIndex != nil {
+		if input.MutationIndex.Validate() != nil {
+			return input.MutationIndex.Validate()
+		}
+
+	}
+
+	return nil
+}
+
+type QueryForVersionsInput struct {
+	Identifier string
+
+	PageSize int32
+
+	ExclusiveStartKey []byte
+}
+
+func (input QueryForVersionsInput) Validate() error {
+
+	return nil
+}
+
+type QueryForVersionsOutput struct {
+	ExclusiveStartKey []byte
+
+	Items []EncryptedHierarchicalKey
+}
+
+func (input QueryForVersionsOutput) Validate() error {
+	if input.Items == nil {
+		return fmt.Errorf("input.Items is required but has a nil value.")
+	}
+	if input.Aws_cryptography_keyStore_QueryForVersionsOutput_Items_Validate() != nil {
+		return input.Aws_cryptography_keyStore_QueryForVersionsOutput_Items_Validate()
+	}
+
+	return nil
+}
+
+func (input QueryForVersionsOutput) Aws_cryptography_keyStore_QueryForVersionsOutput_Items_Validate() error {
+	for _, item := range input.Items {
+		if item.Validate() != nil {
+			return item.Validate()
+		}
+	}
+
+	return nil
+}
+
+type OverWriteEncryptedHierarchicalKey struct {
+	Item EncryptedHierarchicalKey
+
+	Old EncryptedHierarchicalKey
+}
+
+func (input OverWriteEncryptedHierarchicalKey) Validate() error {
+	if input.Item.Validate() != nil {
+		return input.Item.Validate()
+	}
+	if input.Old.Validate() != nil {
+		return input.Old.Validate()
+	}
+
+	return nil
+}
+
+type WriteAtomicMutationInput struct {
+	Active OverWriteEncryptedHierarchicalKey
+
+	Beacon OverWriteEncryptedHierarchicalKey
+
+	Items []OverWriteEncryptedHierarchicalKey
+
+	Version WriteInitializeMutationVersion
+}
+
+func (input WriteAtomicMutationInput) Validate() error {
+	if input.Active.Validate() != nil {
+		return input.Active.Validate()
+	}
+	if input.Beacon.Validate() != nil {
+		return input.Beacon.Validate()
+	}
+	if input.Items == nil {
+		return fmt.Errorf("input.Items is required but has a nil value.")
+	}
+	if input.Aws_cryptography_keyStore_WriteAtomicMutationInput_Items_Validate() != nil {
+		return input.Aws_cryptography_keyStore_WriteAtomicMutationInput_Items_Validate()
+	}
+	if input.Version == nil {
+		return fmt.Errorf("input.Version is required but has a nil value.")
+	}
+	if input.Aws_cryptography_keyStore_WriteAtomicMutationInput_Version_Validate() != nil {
+		return input.Aws_cryptography_keyStore_WriteAtomicMutationInput_Version_Validate()
+	}
+
+	return nil
+}
+
+func (input WriteAtomicMutationInput) Aws_cryptography_keyStore_WriteAtomicMutationInput_Items_Validate() error {
+	for _, item := range input.Items {
+		if item.Validate() != nil {
+			return item.Validate()
+		}
+	}
+
+	return nil
+}
+func (input WriteAtomicMutationInput) Aws_cryptography_keyStore_WriteAtomicMutationInput_Version_Validate() error {
+	if input.Version == nil {
+		return nil
+	}
+	switch unionType := input.Version.(type) {
+	case *WriteInitializeMutationVersionMemberrotate:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *WriteInitializeMutationVersionMembermutate:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+
+type WriteAtomicMutationOutput struct {
+}
+
+func (input WriteAtomicMutationOutput) Validate() error {
+
+	return nil
+}
+
+type WriteInitializeMutationInput struct {
+	Active OverWriteEncryptedHierarchicalKey
+
+	Beacon OverWriteEncryptedHierarchicalKey
+
+	MutationCommitment MutationCommitment
+
+	MutationIndex MutationIndex
+
+	Version WriteInitializeMutationVersion
+}
+
+func (input WriteInitializeMutationInput) Validate() error {
+	if input.Active.Validate() != nil {
+		return input.Active.Validate()
+	}
+	if input.Beacon.Validate() != nil {
+		return input.Beacon.Validate()
+	}
+	if input.MutationCommitment.Validate() != nil {
+		return input.MutationCommitment.Validate()
+	}
+	if input.MutationIndex.Validate() != nil {
+		return input.MutationIndex.Validate()
+	}
+	if input.Version == nil {
+		return fmt.Errorf("input.Version is required but has a nil value.")
+	}
+	if input.Aws_cryptography_keyStore_WriteInitializeMutationInput_Version_Validate() != nil {
+		return input.Aws_cryptography_keyStore_WriteInitializeMutationInput_Version_Validate()
+	}
+
+	return nil
+}
+
+func (input WriteInitializeMutationInput) Aws_cryptography_keyStore_WriteInitializeMutationInput_Version_Validate() error {
+	if input.Version == nil {
+		return nil
+	}
+	switch unionType := input.Version.(type) {
+	case *WriteInitializeMutationVersionMemberrotate:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	case *WriteInitializeMutationVersionMembermutate:
+		if unionType.Value.Validate() != nil {
+			return unionType.Value.Validate()
+		}
+	// Default case should not be reached.
+	default:
+		panic(fmt.Sprintf("Unhandled union type: %T ", unionType))
+	}
+
+	return nil
+}
+
+type WriteInitializeMutationOutput struct {
+}
+
+func (input WriteInitializeMutationOutput) Validate() error {
+
+	return nil
+}
+
+type OverWriteMutationIndex struct {
+	Index MutationIndex
+
+	Old MutationIndex
+}
+
+func (input OverWriteMutationIndex) Validate() error {
+	if input.Index.Validate() != nil {
+		return input.Index.Validate()
+	}
+	if input.Old.Validate() != nil {
+		return input.Old.Validate()
+	}
+
+	return nil
+}
+
+type WriteMutatedVersionsInput struct {
+	EndMutation bool
+
+	Items []OverWriteEncryptedHierarchicalKey
+
+	MutationCommitment MutationCommitment
+
+	MutationIndex OverWriteMutationIndex
+}
+
+func (input WriteMutatedVersionsInput) Validate() error {
+	if input.Items == nil {
+		return fmt.Errorf("input.Items is required but has a nil value.")
+	}
+	if input.Aws_cryptography_keyStore_WriteMutatedVersionsInput_Items_Validate() != nil {
+		return input.Aws_cryptography_keyStore_WriteMutatedVersionsInput_Items_Validate()
+	}
+	if input.MutationCommitment.Validate() != nil {
+		return input.MutationCommitment.Validate()
+	}
+	if input.MutationIndex.Validate() != nil {
+		return input.MutationIndex.Validate()
+	}
+
+	return nil
+}
+
+func (input WriteMutatedVersionsInput) Aws_cryptography_keyStore_WriteMutatedVersionsInput_Items_Validate() error {
+	for _, item := range input.Items {
+		if item.Validate() != nil {
+			return item.Validate()
+		}
+	}
+
+	return nil
+}
+
+type WriteMutatedVersionsOutput struct {
+}
+
+func (input WriteMutatedVersionsOutput) Validate() error {
+
+	return nil
+}
+
+type WriteMutationIndexInput struct {
+	MutationCommitment MutationCommitment
+
+	MutationIndex MutationIndex
+}
+
+func (input WriteMutationIndexInput) Validate() error {
+	if input.MutationCommitment.Validate() != nil {
+		return input.MutationCommitment.Validate()
+	}
+	if input.MutationIndex.Validate() != nil {
+		return input.MutationIndex.Validate()
+	}
+
+	return nil
+}
+
+type WriteMutationIndexOutput struct {
+}
+
+func (input WriteMutationIndexOutput) Validate() error {
 
 	return nil
 }
@@ -550,9 +961,7 @@ func (input WriteNewEncryptedBranchKeyOutput) Validate() error {
 }
 
 type WriteNewEncryptedBranchKeyVersionInput struct {
-	Active EncryptedHierarchicalKey
-
-	OldActive EncryptedHierarchicalKey
+	Active OverWriteEncryptedHierarchicalKey
 
 	Version EncryptedHierarchicalKey
 }
@@ -560,9 +969,6 @@ type WriteNewEncryptedBranchKeyVersionInput struct {
 func (input WriteNewEncryptedBranchKeyVersionInput) Validate() error {
 	if input.Active.Validate() != nil {
 		return input.Active.Validate()
-	}
-	if input.OldActive.Validate() != nil {
-		return input.OldActive.Validate()
 	}
 	if input.Version.Validate() != nil {
 		return input.Version.Validate()
@@ -786,6 +1192,24 @@ type StorageMemberddb struct {
 
 func (*StorageMemberddb) isStorage() {}
 
+// WriteInitializeMutationVersionMembermutate
+// WriteInitializeMutationVersionMemberrotate
+type WriteInitializeMutationVersion interface {
+	isWriteInitializeMutationVersion()
+}
+
+type WriteInitializeMutationVersionMembermutate struct {
+	Value OverWriteEncryptedHierarchicalKey
+}
+
+func (*WriteInitializeMutationVersionMembermutate) isWriteInitializeMutationVersion() {}
+
+type WriteInitializeMutationVersionMemberrotate struct {
+	Value EncryptedHierarchicalKey
+}
+
+func (*WriteInitializeMutationVersionMemberrotate) isWriteInitializeMutationVersion() {}
+
 type KeyStoreBaseException interface {
 	// This is a dummy method to allow type assertion since Go empty interfaces
 	// aren't useful for type assertion checks. No concrete class is expected to implement
@@ -805,4 +1229,20 @@ type IKeyStorageInterface interface {
 	GetEncryptedBeaconKey(GetEncryptedBeaconKeyInput) (*GetEncryptedBeaconKeyOutput, error)
 
 	GetKeyStorageInfo(GetKeyStorageInfoInput) (*GetKeyStorageInfoOutput, error)
+
+	GetItemsForInitializeMutation(GetItemsForInitializeMutationInput) (*GetItemsForInitializeMutationOutput, error)
+
+	WriteInitializeMutation(WriteInitializeMutationInput) (*WriteInitializeMutationOutput, error)
+
+	WriteAtomicMutation(WriteAtomicMutationInput) (*WriteAtomicMutationOutput, error)
+
+	QueryForVersions(QueryForVersionsInput) (*QueryForVersionsOutput, error)
+
+	WriteMutatedVersions(WriteMutatedVersionsInput) (*WriteMutatedVersionsOutput, error)
+
+	GetMutation(GetMutationInput) (*GetMutationOutput, error)
+
+	DeleteMutation(DeleteMutationInput) (*DeleteMutationOutput, error)
+
+	WriteMutationIndex(WriteMutationIndexInput) (*WriteMutationIndexOutput, error)
 }
