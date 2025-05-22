@@ -107,10 +107,8 @@ import aws_cryptography_internal_kms.internaldafny.generated.ComAmazonawsKmsType
 
 
 def _sdk_error_to_dafny_error(e: ClientError):
-    """
-    Converts the provided native Smithy-modelled error
-    into the corresponding Dafny error.
-    """
+    """Converts the provided native Smithy-modelled error into the
+    corresponding Dafny error."""
     if e.response["Error"]["Code"] == "AlreadyExistsException":
         return aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.aws_sdk_to_dafny.com_amazonaws_kms_AlreadyExistsException(
             e.response
