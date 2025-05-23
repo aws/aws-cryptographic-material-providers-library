@@ -109,15 +109,14 @@ jobs:
         with:
           dafny-version: ${{ inputs.dafny }}
 
-      - name: Regenerate code using smithy-dafny if necessary
-        if: ${{ inputs.regenerate-code }}
+      - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
       - name: Regenerate code using smithy-dafny if necessary
         if: ${{ inputs.regenerate-code }}
         uses: ./.github/actions/polymorph_codegen
         with:
-          dafny: ${{ inputs.dafny }}
+          dafny: ${{ env.DAFNY_VERSION }}
           library: ${{ matrix.library }}
           diff-generated-code: false
 
@@ -148,10 +147,6 @@ jobs:
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_python
-
-      - name: Install Smithy-Dafny codegen dependencies
-        if: matrix.language == 'rust'
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
       # We do not check in Rust polymorph code
       - name: Run make polymorph_rust
@@ -303,14 +298,13 @@ jobs:
           dafny-version: ${{ inputs.dafny }}
 
       - name: Install Smithy-Dafny codegen dependencies
-        if: ${{ inputs.regenerate-code }}
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
       - name: Regenerate code using smithy-dafny if necessary
         if: ${{ inputs.regenerate-code }}
         uses: ./.github/actions/polymorph_codegen
         with:
-          dafny: ${{ inputs.dafny }}
+          dafny: ${{ env.DAFNY_VERSION }}
           library: ${{ matrix.library }}
           diff-generated-code: false
 
@@ -341,10 +335,6 @@ jobs:
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_python
-
-      - name: Install Smithy-Dafny codegen dependencies
-        if: matrix.decrypting_language == 'rust'
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
       # TODO: Remove this after checking in Rust polymorph code
       - name: Run make polymorph_rust
