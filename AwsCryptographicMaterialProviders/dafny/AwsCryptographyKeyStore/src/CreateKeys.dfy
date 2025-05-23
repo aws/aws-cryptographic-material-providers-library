@@ -295,7 +295,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
       ));
   }
 
-  method {:isolate_assertions} CreateBranchAndBeaconKeysVersion2(
+  // If this does not work, I will have to refactor the BKS in a pretty major way...
+  // my problem is that I cannot recreate the GitHub CI Verification failure.
+  // When I verify this with the `text` logger, all the asserts have a reasonable cost.
+  // But GitHub says that WrappedBranchKeyCreationV2? is too expensive.
+  method {:isolate_assertions} /* {:timeLimit 100} {:resource_limit 12_000_000} {:only} */ CreateBranchAndBeaconKeysVersion2(
     nameonly branchKeyIdentifier: string,
     nameonly encryptionContext: map<string, string>,
     nameonly timestamp: string,
@@ -325,11 +329,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && var storage := keyManagerAndStorage.storage;
               && |storage.History.WriteNewEncryptedBranchKey| == |old(storage.History.WriteNewEncryptedBranchKey)| + 1
                  // The second call is for the beacon key, the first is the decrypt only.
-              && |kmsClient.History.GenerateDataKey| == |old(kmsClient.History.GenerateDataKey)| + 2
+              && |keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.GenerateDataKey| == |old(keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.GenerateDataKey)| + 2
                  // Three calls are made. The decryptOnly, the active, and the beacon key.
-              && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
-              && old(kmsClient.History.GenerateDataKey) < kmsClient.History.GenerateDataKey
-              && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
+              && |keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt| == |old(keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt)| + 3
+              && old(keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.GenerateDataKey) < keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.GenerateDataKey
+              && old(keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt) < keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt
               && var decryptBKC := Structure.DecryptOnlyBranchKeyEncryptionContext(
                                      branchKeyIdentifier,
                                      branchKeyVersion,
@@ -347,16 +351,17 @@ module {:options "/functionSyntax:4" } CreateKeys {
                       && Structure.ENCRYPTION_CONTEXT_PREFIX + k in decryptBKC
                       && decryptBKC[Structure.ENCRYPTION_CONTEXT_PREFIX + k] == encryptionContext[k])
               && WrappedBranchKeyCreationV2?(
-                   Seq.Last(Seq.DropLast(kmsClient.History.GenerateDataKey)),
-                   kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 2],
-                   kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 3],
-                   kmsClient,
+                   // Seq.Last(Seq.DropLast(keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.GenerateDataKey)), // Fails to verify
+                   keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.GenerateDataKey[|keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.GenerateDataKey| - 2],
+                   keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt[|keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt| - 2],
+                   keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt[|keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt| - 3],
+                   keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient,
                    kmsConfiguration,
                    keyManagerAndStorage.keyManagerStrat.kmsSimple.grantTokens,
                    encryptionContext
                  )
 
-              && var beaconKmsRequest := Seq.Last(kmsClient.History.GenerateDataKey);
+              && var beaconKmsRequest := Seq.Last(keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.GenerateDataKey);
               && var beaconKmsInput := beaconKmsRequest.input;
               && beaconKmsInput.NumberOfBytes == Some(32)
               && beaconKmsInput.EncryptionContext == Some(encryptionContext)
@@ -366,7 +371,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && beaconKmsRequest.output.value.Plaintext.Some?
               && var beaconKeyMaterial := beaconKmsRequest.output.value.Plaintext.value;
 
-              && var beaconEncryptHistory := kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1];
+              && var beaconEncryptHistory := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt[|keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt| - 1];
               && var beaconInput := beaconEncryptHistory.input;
               && |beaconInput.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
               && beaconInput.Plaintext[Structure.BKC_DIGEST_LENGTH..] == beaconKeyMaterial
@@ -379,18 +384,20 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Active
                  == Structure.ConstructEncryptedHierarchicalKey(
                       activeBKC,
-                      kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 2].output.value.CiphertextBlob.value
+                      keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt[|keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt| - 2].output.value.CiphertextBlob.value // Fails to verify
                     )
               && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Version
                  == Structure.ConstructEncryptedHierarchicalKey(
                       decryptBKC,
-                      kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 3].output.value.CiphertextBlob.value
+                      keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt[|keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt| - 3].output.value.CiphertextBlob.value // 332K RU
+                      //kmsEncryptRequestForDecryptOnlyBKI.output.value.CiphertextBlob.value // 2.18M RU
                     )
 
               && Seq.Last(storage.History.WriteNewEncryptedBranchKey).input.Beacon
                  == Structure.ConstructEncryptedHierarchicalKey(
                       beaconBKC,
-                      kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1].output.value.CiphertextBlob.value
+                      keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt[|keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt| - 1].output.value.CiphertextBlob.value  // 4.57M RU
+                      //beaconEncryptHistory.output.value.CiphertextBlob.value // Also 4.57M RU
                     )
 
               && Seq.Last(storage.History.WriteNewEncryptedBranchKey).output.Success?
