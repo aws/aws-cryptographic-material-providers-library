@@ -26,6 +26,9 @@ class Lock:
 class MutableMap(smithy_dafny_standard_library.internaldafny.generated.DafnyLibraries.MutableMapTrait):
     def ctor__(self):
         pass
+
+    def content(self):
+        return _dafny.Map(self.map)
         
     def __init__(self) -> None:
         self.map = dict()
