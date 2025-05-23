@@ -13,7 +13,7 @@ runs:
       with:
         distribution: "corretto"
         java-version: "17"
-    
+
     - name: Install smithy-dafny-codegen dependencies locally
       shell: bash
       run: |
@@ -40,7 +40,8 @@ runs:
       run: |
         go install golang.org/x/tools/cmd/goimports@latest
 
-    - name: Force Gradle download?
+    # Without this the if-dafny-at-least command includes "Downloading ..." output
+    - name: Arbitrary makefile target to force downloading Gradle
       shell: bash
       run: |
         make -C StandardLibrary setup_net
