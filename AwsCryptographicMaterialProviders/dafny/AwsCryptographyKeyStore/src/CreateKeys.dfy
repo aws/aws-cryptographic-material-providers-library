@@ -519,7 +519,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     nameonly hierarchyVersion: Types.HierarchyVersion
   )
     returns (output: Result<Types.CreateKeyOutput, Types.Error>)
-    requires 0 < |branchKeyIdentifier|
+
     requires
       // TODO-HV-2-M4 : BKS Datatype for Crypto, Storage, KMS Tuple
       && keyManagerAndStorage.keyManagerStrat.kmsSimple?
