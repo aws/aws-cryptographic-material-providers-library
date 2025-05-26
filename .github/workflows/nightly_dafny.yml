@@ -63,10 +63,12 @@ jobs:
       contents: read
     needs:
       [
-        dafny-nightly-format,
         dafny-nightly-verification,
         dafny-nightly-java,
         dafny-nightly-net,
+        dafny-nightly-rust,
+        dafny-nightly-python,
+        dafny-nightly-go,
       ]
     if: ${{ always() && contains(needs.*.result, 'failure') }}
     steps:
