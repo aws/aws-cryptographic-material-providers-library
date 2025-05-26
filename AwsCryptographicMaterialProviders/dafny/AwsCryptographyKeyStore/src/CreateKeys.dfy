@@ -508,7 +508,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     && writeEvent.output.Success?
   }
 
-  method {:isolate_assertions} /* {:timeLimit 50} {:resource_limit 80_000_000} {:only} */ CreateBranchAndBeaconKeysVersion2(
+  method {:isolate_assertions} CreateBranchAndBeaconKeysVersion2(
     nameonly branchKeyIdentifier: string,
     nameonly encryptionContext: map<string, string>,
     nameonly timestamp: string,
@@ -617,6 +617,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                   kmsConfiguration := kmsConfiguration,
                   keyManagerAndStorage := keyManagerAndStorage
                 );
+        // KMS Encrypt is correct
         && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
         && HV2EncryptBeaconKMS(
              beaconKMSEnc := kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1],
