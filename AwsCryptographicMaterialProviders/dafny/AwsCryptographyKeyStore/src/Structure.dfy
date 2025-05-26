@@ -263,32 +263,32 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   function ConstructEncryptedHierarchicalKey(
-    EncryptionContext: map<string, string>,
+    branchKeyContext: map<string, string>,
     CiphertextBlob: seq<uint8>
   ): (output: Types.EncryptedHierarchicalKey)
-    requires BranchKeyContext?(EncryptionContext)
+    requires BranchKeyContext?(branchKeyContext)
     ensures EncryptedHierarchicalKeyFromStorage?(output)
   {
     var Type
-      := if EncryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE then
+      := if branchKeyContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE then
            Types.ActiveHierarchicalSymmetricVersion(
              Types.ActiveHierarchicalSymmetric(
-               Version := EncryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]
+               Version := branchKeyContext[BRANCH_KEY_ACTIVE_VERSION_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]
              ))
-         else if EncryptionContext[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE then
+         else if branchKeyContext[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE then
            Types.HierarchicalKeyType.ActiveHierarchicalSymmetricBeacon(Types.ActiveHierarchicalSymmetricBeacon.ActiveHierarchicalSymmetricBeacon)
          else
            Types.HierarchicalSymmetricVersion(
              Types.HierarchicalSymmetric(
-               Version := EncryptionContext[TYPE_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]
+               Version := branchKeyContext[TYPE_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]
              ));
 
     Types.EncryptedHierarchicalKey(
-      Identifier := EncryptionContext[BRANCH_KEY_IDENTIFIER_FIELD],
+      Identifier := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
       Type := Type,
-      CreateTime := EncryptionContext[KEY_CREATE_TIME],
-      KmsArn := EncryptionContext[KMS_FIELD],
-      EncryptionContext := EncryptionContext,
+      CreateTime := branchKeyContext[KEY_CREATE_TIME],
+      KmsArn := branchKeyContext[KMS_FIELD],
+      EncryptionContext := branchKeyContext,
       CiphertextBlob := CiphertextBlob
     )
   }
