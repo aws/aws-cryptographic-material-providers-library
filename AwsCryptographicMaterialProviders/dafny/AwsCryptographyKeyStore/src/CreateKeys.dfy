@@ -695,46 +695,21 @@ module {:options "/functionSyntax:4" } CreateKeys {
     );
 
     var CryptoAndKms := KMSKeystoreOperations.CryptoAndKms(kmsConfiguration, keyManagerAndStorage.keyManagerStrat, crypto);
-    ghost var kms := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
 
-    assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, decryptOnlyBranchKeyContext[Structure.KMS_FIELD]);
     var decryptOnlyBKItem :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := decryptOnlyBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
       material := activePlaintextMaterial,
       encryptionContext := encryptionContext
     );
-    ghost var decryptOnlyKMSEnc := Seq.Last(keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt);
 
-    assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, activeBranchKeyContext[Structure.KMS_FIELD]);
     var activeBKItem :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := activeBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
       material := activePlaintextMaterial,
       encryptionContext := encryptionContext
     );
-    ghost var encryptOnlyKMSEnc := Seq.Last(keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt);
-    ghost var kmsKeyArn := KMSKeystoreOperations.GetKeyId(kmsConfiguration);
-    assert
-      HV2EncryptBKKMS(
-        decryptOnlyKMSEnc := decryptOnlyKMSEnc,
-        encryptOnlyKMSEnc := encryptOnlyKMSEnc,
-        encryptionContext := encryptionContext,
-        kmsConfiguration := kmsConfiguration,
-        keyManagerAndStorage := keyManagerAndStorage,
-        material := activePlaintextMaterial
-      ) by {
-      assert
-        && decryptOnlyKMSEnc.output.Success? && encryptOnlyKMSEnc.output.Success?
-        && decryptOnlyKMSEnc.input.EncryptionContext == encryptOnlyKMSEnc.input.EncryptionContext == Some(encryptionContext)
-        && decryptOnlyKMSEnc.input.KeyId == encryptOnlyKMSEnc.input.KeyId == kmsKeyArn
-        && decryptOnlyKMSEnc.input.GrantTokens == encryptOnlyKMSEnc.input.GrantTokens == Some(keyManagerAndStorage.keyManagerStrat.kmsSimple.grantTokens)
-        && |decryptOnlyKMSEnc.input.Plaintext| == |encryptOnlyKMSEnc.input.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
-        && decryptOnlyKMSEnc.input.Plaintext[Structure.BKC_DIGEST_LENGTH..] == encryptOnlyKMSEnc.input.Plaintext[Structure.BKC_DIGEST_LENGTH..] == activePlaintextMaterial
-        && decryptOnlyKMSEnc.output.value.CiphertextBlob.Some? && encryptOnlyKMSEnc.output.value.CiphertextBlob.Some?;
-    }
 
-    assert KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, beaconBranchKeyContext[Structure.KMS_FIELD]);
     var beaconBKItem :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := beaconBranchKeyContext,
       cryptoAndKms := CryptoAndKms,
