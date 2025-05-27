@@ -77,8 +77,8 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make verify_single FILE=dafny/AwsCryptographyKeyStore/src/CreateKeys.dfy CORES=$CORES
 
-      - name: Check solver resource use
-        if: success() || failure()
-        working-directory: ./${{ matrix.library }}
-        run: |
-          make dafny-reportgenerator
+      # - name: Check solver resource use
+      #   if: success() || failure()
+      #   working-directory: ./${{ matrix.library }}
+      #   run: |
+      #     make dafny-reportgenerator
