@@ -34,6 +34,28 @@ module {:options "/functionSyntax:4" } CreateKeys {
   import Time
   import UUID
 
+  /* Helper data classes. */
+  type material = m: seq<uint8> | |m| == 32 witness *
+  datatype BKMaterialPair = | BKMaterialPair(
+    nameonly bk: material,
+    nameonly beacon: material
+  )
+  datatype BKCiphertextPair = | BKCiphertextPair(
+    nameonly decryptOnly: seq<uint8>,
+    nameonly encryptOnly: seq<uint8>
+  )
+
+  /* Common KMS Requirements for VersionKey and CreateKey operations. */
+  predicate HV2CreateKMSCommon(
+    nameonly kmsConfiguration: Types.KMSConfiguration,
+    nameonly keyManagerAndStorage: KmsUtils.KeyManagerAndStorage
+  )
+  {
+    && keyManagerAndStorage.keyManagerStrat.kmsSimple?
+    && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
+    && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+  }
+
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
   //= type=implication
   //# To create a branch key, this operation MUST take the following:
@@ -295,13 +317,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       ));
   }
 
-  type material = m: seq<uint8> | |m| == 32 witness *
-  datatype BKMaterialPair = | BKMaterialPair(
-    nameonly bk: material,
-    nameonly beacon: material
-  )
-
-  twostate predicate GenerateBranchAndBeaconMaterial2KMS(
+  twostate predicate HV2GenerationOfBeaconAndBranchKeyAreCorrect(
     nameonly new bkGDK: KMS.DafnyCallEvent<KMS.GenerateDataKeyRequest, Result<KMS.GenerateDataKeyResponse, KMS.Error>>,
     nameonly new beaconGDK: KMS.DafnyCallEvent<KMS.GenerateDataKeyRequest, Result<KMS.GenerateDataKeyResponse, KMS.Error>>,
     nameonly encryptionContext: map<string, string>,
@@ -310,9 +326,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
   )
     reads keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History
     requires
-      && keyManagerAndStorage.keyManagerStrat.kmsSimple?
-      && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
-      && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+      && keyManagerAndStorage.ValidState()
+      && HV2CreateKMSCommon(
+           kmsConfiguration := kmsConfiguration,
+           keyManagerAndStorage := keyManagerAndStorage
+         )
       && bkGDK in keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.GenerateDataKey
       && beaconGDK in keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.GenerateDataKey
   {
@@ -326,7 +344,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     && |beaconGDK.output.value.Plaintext.value| == |bkGDK.output.value.Plaintext.value| == 32
   }
 
-  twostate function GenerateBranchAndBeaconMaterial2(
+  twostate function HV2AssignmentOfGeneratedMaterial(
     nameonly new bkGDK: KMS.DafnyCallEvent<KMS.GenerateDataKeyRequest, Result<KMS.GenerateDataKeyResponse, KMS.Error>>,
     nameonly new beaconGDK: KMS.DafnyCallEvent<KMS.GenerateDataKeyRequest, Result<KMS.GenerateDataKeyResponse, KMS.Error>>,
     nameonly encryptionContext: map<string, string>,
@@ -335,12 +353,14 @@ module {:options "/functionSyntax:4" } CreateKeys {
   ): BKMaterialPair
     reads keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History
     requires
-      && keyManagerAndStorage.keyManagerStrat.kmsSimple?
-      && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
-      && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+      && keyManagerAndStorage.ValidState()
+      && HV2CreateKMSCommon(
+           kmsConfiguration := kmsConfiguration,
+           keyManagerAndStorage := keyManagerAndStorage
+         )
       && bkGDK in keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.GenerateDataKey
       && beaconGDK in keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.GenerateDataKey
-      && GenerateBranchAndBeaconMaterial2KMS(
+      && HV2GenerationOfBeaconAndBranchKeyAreCorrect(
            bkGDK := bkGDK,
            beaconGDK := beaconGDK,
            encryptionContext := encryptionContext,
@@ -354,7 +374,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     )
   }
 
-  twostate predicate HV2EncryptBKKMS(
+  twostate predicate HV2EncryptionOfBranchKeyAreCorrect(
     nameonly new decryptOnlyKMSEnc: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
     nameonly new encryptOnlyKMSEnc: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
     nameonly encryptionContext: map<string, string>,
@@ -364,9 +384,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
   )
     reads keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History
     requires
-      && keyManagerAndStorage.keyManagerStrat.kmsSimple?
-      && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
-      && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+      && keyManagerAndStorage.ValidState()
+      && HV2CreateKMSCommon(
+           kmsConfiguration := kmsConfiguration,
+           keyManagerAndStorage := keyManagerAndStorage
+         )
       && decryptOnlyKMSEnc in keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt
       && encryptOnlyKMSEnc in keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt
   {
@@ -380,12 +402,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     && decryptOnlyKMSEnc.output.value.CiphertextBlob.Some? && encryptOnlyKMSEnc.output.value.CiphertextBlob.Some?
   }
 
-  datatype BKCiphertextPair = | BKCiphertextPair(
-    nameonly decryptOnly: seq<uint8>,
-    nameonly encryptOnly: seq<uint8>
-  )
-
-  twostate function HV2EncryptBK(
+  twostate function HV2AssignmentOfEncryptedBranchKey(
     nameonly new decryptOnlyKMSEnc: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
     nameonly new encryptOnlyKMSEnc: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
     nameonly encryptionContext: map<string, string>,
@@ -395,12 +412,14 @@ module {:options "/functionSyntax:4" } CreateKeys {
   ): BKCiphertextPair
     reads keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History
     requires
-      && keyManagerAndStorage.keyManagerStrat.kmsSimple?
-      && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
-      && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+      && keyManagerAndStorage.ValidState()
+      && HV2CreateKMSCommon(
+           kmsConfiguration := kmsConfiguration,
+           keyManagerAndStorage := keyManagerAndStorage
+         )
       && decryptOnlyKMSEnc in keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt
       && encryptOnlyKMSEnc in keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt
-      && HV2EncryptBKKMS(
+      && HV2EncryptionOfBranchKeyAreCorrect(
            decryptOnlyKMSEnc := decryptOnlyKMSEnc,
            encryptOnlyKMSEnc := encryptOnlyKMSEnc,
            encryptionContext := encryptionContext,
@@ -441,7 +460,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     && writeEvent.output.Success?
   }
 
-  twostate predicate HV2EncryptBeaconKMS(
+  twostate predicate HV2EncryptionOfBeaconIsCorrect(
     nameonly new beaconKMSEnc: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
     nameonly encryptionContext: map<string, string>,
     nameonly kmsConfiguration: Types.KMSConfiguration,
@@ -450,9 +469,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
   )
     reads keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History
     requires
-      && keyManagerAndStorage.keyManagerStrat.kmsSimple?
-      && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
-      && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+      && keyManagerAndStorage.ValidState()
+      && HV2CreateKMSCommon(
+           kmsConfiguration := kmsConfiguration,
+           keyManagerAndStorage := keyManagerAndStorage
+         )
       && beaconKMSEnc in keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt
   {
     && var kmsKeyArn := KMSKeystoreOperations.GetKeyId(kmsConfiguration);
@@ -465,7 +486,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     && beaconKMSEnc.output.value.CiphertextBlob.Some?
   }
 
-  twostate function HV2EncryptBeacon(
+  twostate function HV2AssignmentOfEncryptedBeacon(
     nameonly new beaconKMSEnc: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
     nameonly encryptionContext: map<string, string>,
     nameonly kmsConfiguration: Types.KMSConfiguration,
@@ -474,11 +495,13 @@ module {:options "/functionSyntax:4" } CreateKeys {
   ): seq<uint8>
     reads keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History
     requires
-      && keyManagerAndStorage.keyManagerStrat.kmsSimple?
-      && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
-      && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+      && keyManagerAndStorage.ValidState()
+      && HV2CreateKMSCommon(
+           kmsConfiguration := kmsConfiguration,
+           keyManagerAndStorage := keyManagerAndStorage
+         )
       && beaconKMSEnc in keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt
-      && HV2EncryptBeaconKMS(
+      && HV2EncryptionOfBeaconIsCorrect(
            beaconKMSEnc := beaconKMSEnc,
            encryptionContext := encryptionContext,
            kmsConfiguration := kmsConfiguration,
@@ -537,10 +560,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
     ensures
       output.Success?
       ==>
+        && keyManagerAndStorage.ValidState()
         && var kmsClient := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
         && |kmsClient.History.GenerateDataKey| == |old(kmsClient.History.GenerateDataKey)| + 2
            // Generate Data Key Requests are correct
-        && GenerateBranchAndBeaconMaterial2KMS(
+        && HV2GenerationOfBeaconAndBranchKeyAreCorrect(
              bkGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| -2],
              beaconGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| - 1],
              encryptionContext := encryptionContext,
@@ -548,7 +572,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
              keyManagerAndStorage := keyManagerAndStorage
            )
         && var materialPair
-             := GenerateBranchAndBeaconMaterial2(
+             := HV2AssignmentOfGeneratedMaterial(
                   bkGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| -2],
                   beaconGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| - 1],
                   encryptionContext := encryptionContext,
@@ -557,7 +581,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                 );
         && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
            // BK Encrypts are correct
-        && HV2EncryptBKKMS(
+        && HV2EncryptionOfBranchKeyAreCorrect(
              decryptOnlyKMSEnc := kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 3],
              encryptOnlyKMSEnc := kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 2],
              encryptionContext := encryptionContext,
@@ -566,7 +590,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
              material := materialPair.bk
            )
         && var bkCiphertext
-             := HV2EncryptBK(
+             := HV2AssignmentOfEncryptedBranchKey(
                   decryptOnlyKMSEnc := kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 3],
                   encryptOnlyKMSEnc := kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 2],
                   encryptionContext := encryptionContext,
@@ -602,7 +626,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
         && var kmsClient := keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient;
         && |kmsClient.History.GenerateDataKey| == |old(kmsClient.History.GenerateDataKey)| + 2
            // Generate Data Key Requests are correct
-        && GenerateBranchAndBeaconMaterial2KMS(
+        && HV2GenerationOfBeaconAndBranchKeyAreCorrect(
              bkGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| -2],
              beaconGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| - 1],
              encryptionContext := encryptionContext,
@@ -610,7 +634,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
              keyManagerAndStorage := keyManagerAndStorage
            )
         && var materialPair
-             := GenerateBranchAndBeaconMaterial2(
+             := HV2AssignmentOfGeneratedMaterial(
                   bkGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| -2],
                   beaconGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| - 1],
                   encryptionContext := encryptionContext,
@@ -619,7 +643,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                 );
         // KMS Encrypt is correct
         && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
-        && HV2EncryptBeaconKMS(
+        && HV2EncryptionOfBeaconIsCorrect(
              beaconKMSEnc := kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1],
              encryptionContext := encryptionContext,
              kmsConfiguration := kmsConfiguration,
@@ -627,7 +651,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
              material := materialPair.beacon
            )
         && var beaconCiphertext :=
-             HV2EncryptBeacon(
+             HV2AssignmentOfEncryptedBeacon(
                beaconKMSEnc := kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1],
                encryptionContext := encryptionContext,
                kmsConfiguration := kmsConfiguration,
