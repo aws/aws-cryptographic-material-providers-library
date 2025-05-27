@@ -396,7 +396,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       && decryptOnlyKMSEnc in keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt
       && encryptOnlyKMSEnc in keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt
   {
-    && var kmsKeyArn := KMSKeystoreOperations.GetKeyId(kmsConfiguration);
+    var kmsKeyArn := KMSKeystoreOperations.GetKeyId(kmsConfiguration);
     && decryptOnlyKMSEnc.output.Success? && encryptOnlyKMSEnc.output.Success?
     && decryptOnlyKMSEnc.input.EncryptionContext == encryptOnlyKMSEnc.input.EncryptionContext == Some(encryptionContext)
     && decryptOnlyKMSEnc.input.KeyId == encryptOnlyKMSEnc.input.KeyId == kmsKeyArn
@@ -730,6 +730,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       material := activePlaintextMaterial,
       encryptionContext := encryptionContext
     );
+    ghost var decryptOnlyKMSEnc := Seq.Last(keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt);
 
     var activeBKItem :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := activeBranchKeyContext,
@@ -737,6 +738,16 @@ module {:options "/functionSyntax:4" } CreateKeys {
       material := activePlaintextMaterial,
       encryptionContext := encryptionContext
     );
+    ghost var encryptOnlyKMSEnc := Seq.Last(keyManagerAndStorage.keyManagerStrat.kmsSimple.kmsClient.History.Encrypt);
+    assert
+      HV2EncryptionOfBranchKeyAreCorrect(
+        decryptOnlyKMSEnc := decryptOnlyKMSEnc,
+        encryptOnlyKMSEnc := encryptOnlyKMSEnc,
+        encryptionContext := encryptionContext,
+        kmsConfiguration := kmsConfiguration,
+        keyManagerAndStorage := keyManagerAndStorage,
+        material := activePlaintextMaterial
+      );
 
     var beaconBKItem :- KMSKeystoreOperations.packAndCallKMS(
       branchKeyContext := beaconBranchKeyContext,

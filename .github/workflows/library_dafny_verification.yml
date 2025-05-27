@@ -66,10 +66,19 @@ jobs:
 
       - name: Verify ${{ matrix.library }} Dafny code
         working-directory: ./${{ matrix.library }}
+        if: ${{ matrix.library }} != AwsCryptographicMaterialProviders
         run: |
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make verify CORES=$CORES
+
+      - name: Verify ${{ matrix.library }} Dafny code
+        working-directory: ./${{ matrix.library }}
+        if: ${{ matrix.library }} == AwsCryptographicMaterialProviders
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make verify_single FILE=dafny/AwsCryptographyKeyStore/src/CreateKeys.dfy CORES=$CORES
 
       - name: Check solver resource use
         if: success() || failure()
