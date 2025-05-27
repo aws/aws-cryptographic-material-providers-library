@@ -49,7 +49,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
   predicate HV2CreateKMSCommon(
     nameonly kmsConfiguration: Types.KMSConfiguration,
     nameonly keyManagerAndStorage: KmsUtils.KeyManagerAndStorage
-  )
+  ): (output: bool)
+    ensures output ==>
+              && keyManagerAndStorage.keyManagerStrat.kmsSimple?
+              && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
+              && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
   {
     && keyManagerAndStorage.keyManagerStrat.kmsSimple?
     && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
