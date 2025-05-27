@@ -19,13 +19,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        library: [
-            # TestVectorsAwsCryptographicMaterialProviders,
-            # AwsCryptographyPrimitives,
-            # ComAmazonawsKms,
-            # ComAmazonawsDynamodb,
+        library:
+          [
+            TestVectorsAwsCryptographicMaterialProviders,
+            AwsCryptographyPrimitives,
+            ComAmazonawsKms,
+            ComAmazonawsDynamodb,
             AwsCryptographicMaterialProviders,
-            # StandardLibrary,
+            StandardLibrary,
           ]
         os: [macos-latest-large]
     runs-on: ${{ matrix.os }}
