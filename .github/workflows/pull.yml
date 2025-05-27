@@ -39,6 +39,12 @@ jobs:
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+  pr-interop-test:
+    needs: getVersion
+    uses: ./.github/workflows/library_interop_tests.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
+    secrets: inherit
   # TODO-HV-2-Rust: Removing Rust until we rebase or need it
   # pr-ci-rust:
   #   needs: getVersion
@@ -57,30 +63,24 @@ jobs:
   #   uses: ./.github/workflows/library_go_tests.yml
   #   with:
   #     dafny: ${{needs.getVersion.outputs.version}}
-  pr-interop-test:
-    needs: getVersion
-    uses: ./.github/workflows/library_interop_tests.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
-    secrets: inherit
   pr-ci-all-required:
     if: always()
     needs:
       - getVersion
       - getVerifyVersion
+      - pr-ci-verification
       - pr-ci-format
       - pr-ci-codegen
-      - pr-ci-verification
       - pr-ci-java
       - pr-ci-net
+      - pr-interop-test
+      - pr-ci-examples
       # TODO-HV-2-Python: Removing Python until we fix bugs in Dafny/Python transpilation
       # - pr-ci-python
       # TODO-HV-2-Go: Removing Go CI until we rebase or need it
       # - pr-ci-go
       # TODO-HV-2-Rust: Removing Rust until we rebase or need it
       # - pr-ci-rust
-      - pr-interop-test
-      - pr-ci-examples
     runs-on: ubuntu-22.04
     steps:
       - name: Verify all required jobs passed
