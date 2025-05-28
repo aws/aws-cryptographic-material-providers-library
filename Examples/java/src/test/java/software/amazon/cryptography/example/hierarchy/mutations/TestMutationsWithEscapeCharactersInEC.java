@@ -67,7 +67,7 @@ public class TestMutationsWithEscapeCharactersInEC {
       branchKeyId,
       Fixtures.POSTAL_HORN_KEY_ARN,
       HierarchyVersion.v2,
-      null,
+      encryptionContext,
       MutationsProvider.KmsSystemKey(),
       AdminProvider.admin()
     );
