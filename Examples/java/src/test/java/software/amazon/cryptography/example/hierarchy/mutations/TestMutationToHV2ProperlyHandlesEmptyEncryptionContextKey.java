@@ -78,6 +78,7 @@ public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
       branchKeyId,
       Fixtures.POSTAL_HORN_KEY_ARN,
       HierarchyVersion.v2,
+      null,
       MutationsProvider.TrustStorage(),
       AdminProvider.admin()
     );

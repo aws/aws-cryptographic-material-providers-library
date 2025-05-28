@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy.mutations;
 
+import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import software.amazon.cryptography.example.hierarchy.AdminProvider;
@@ -28,6 +29,7 @@ public class MutationKmsSimpleExample {
     @Nonnull final String branchKeyId,
     @Nonnull final String terminalKmsArn,
     @Nullable final HierarchyVersion terminalHierarchyVersion,
+    @Nullable Map<String, String> terminalEncryptionContext,
     @Nonnull final SystemKey systemKey,
     @Nullable final KeyStoreAdmin admin
   ) {
@@ -37,7 +39,8 @@ public class MutationKmsSimpleExample {
       .build();
     Mutations mutations = MutationsProvider.defaultMutation(
       terminalKmsArn,
-      terminalHierarchyVersion
+      terminalHierarchyVersion,
+      terminalEncryptionContext
     );
     final KeyStoreAdmin _admin = admin == null ? AdminProvider.admin() : admin;
     InitializeMutationInput initInput = InitializeMutationInput

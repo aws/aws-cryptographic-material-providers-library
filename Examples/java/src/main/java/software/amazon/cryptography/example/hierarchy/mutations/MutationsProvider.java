@@ -2,12 +2,16 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy.mutations;
 
+import static software.amazon.cryptography.example.Constants.DEFAULT_ENCRYPTION_CONTEXT;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import org.apache.commons.collections4.MapUtils;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.example.DdbHelper;
@@ -23,7 +27,6 @@ import software.amazon.cryptography.keystoreadmin.model.InitializeMutationInput;
 import software.amazon.cryptography.keystoreadmin.model.InitializeMutationOutput;
 import software.amazon.cryptography.keystoreadmin.model.KeyManagementStrategy;
 import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricEncryption;
-import software.amazon.cryptography.keystoreadmin.model.KmsSymmetricKeyArn;
 import software.amazon.cryptography.keystoreadmin.model.MutatedBranchKeyItem;
 import software.amazon.cryptography.keystoreadmin.model.MutationToken;
 import software.amazon.cryptography.keystoreadmin.model.Mutations;
@@ -46,8 +49,19 @@ public class MutationsProvider {
     @Nonnull final String terminalKmsArn,
     @Nullable final HierarchyVersion terminalHierarchyVersion
   ) {
-    HashMap<String, String> terminalEC = new HashMap<>(2, 1);
-    terminalEC.put("Robbie", "is a dog.");
+    return defaultMutation(terminalKmsArn, terminalHierarchyVersion, null);
+  }
+
+  public static Mutations defaultMutation(
+    @Nonnull final String terminalKmsArn,
+    @Nullable final HierarchyVersion terminalHierarchyVersion,
+    @Nullable Map<String, String> terminalEncryptionContext
+  ) {
+    final Map<String, String> terminalEC =
+      // prettier-ignore
+      MapUtils.isEmpty(terminalEncryptionContext)
+        ? DEFAULT_ENCRYPTION_CONTEXT
+        : terminalEncryptionContext;
     return Mutations
       .builder()
       .TerminalEncryptionContext(terminalEC)
