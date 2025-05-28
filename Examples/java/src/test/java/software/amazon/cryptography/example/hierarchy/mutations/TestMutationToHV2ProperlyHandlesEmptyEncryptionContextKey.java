@@ -99,11 +99,12 @@ public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
       Objects.nonNull(caughtException),
       "Exception was expected"
     );
+    //noinspection SpellCheckingInspection
     Assert.assertTrue(
       caughtException
         .getMessage()
         .contains(
-          "The branch key's encryption context contains keys that cannot be used in `hierarchy-version-2`; without the prefix from `hierarchy-version-1`, KMS will reject them."
+          "Emptyish Keys: one or more Keys in the Encryption Context are emptyish"
         )
     );
   }
