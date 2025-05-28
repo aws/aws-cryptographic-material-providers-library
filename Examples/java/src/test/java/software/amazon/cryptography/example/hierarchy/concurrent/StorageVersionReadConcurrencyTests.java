@@ -1,3 +1,5 @@
+// Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy.concurrent;
 
 import static software.amazon.cryptography.example.hierarchy.concurrent.StorageWriteReadConcurrencyTests.createKeyStore;

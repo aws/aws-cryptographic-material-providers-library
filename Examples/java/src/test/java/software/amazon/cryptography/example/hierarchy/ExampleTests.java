@@ -133,6 +133,7 @@ public class ExampleTests {
         branchKeyId,
         Fixtures.POSTAL_HORN_KEY_ARN,
         terminalHVersion,
+        null,
         MutationsProvider.KmsSystemKey(),
         AdminProvider.admin()
       );

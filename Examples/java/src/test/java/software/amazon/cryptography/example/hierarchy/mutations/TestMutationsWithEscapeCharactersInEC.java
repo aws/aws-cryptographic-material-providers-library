@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example.hierarchy.mutations;
 
+import static software.amazon.cryptography.example.Constants.DEFAULT_ENCRYPTION_CONTEXT;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -18,34 +19,22 @@ import software.amazon.cryptography.keystore.KeyStore;
 import software.amazon.cryptography.keystore.model.GetActiveBranchKeyInput;
 import software.amazon.cryptography.keystore.model.GetActiveBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.HierarchyVersion;
-import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminException;
-import software.amazon.cryptography.keystoreadmin.model.MutationToException;
 
-public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
+public class TestMutationsWithEscapeCharactersInEC {
 
   static final String testPrefix =
-    "mutation-to-hv-2-properly-handles-empty-encryption-context-key-java-test-";
+    "mutations-with-escape-characters-in-ec-java-test-";
   private static final Map<String, String> encryptionContext;
 
-  private static final String expectedErrorMsgContains =
-    "KMS Message: Invalid EncryptionContext";
-
   static {
-    // Initial Capacity of 8 b/c we have 8 key-pairs
-    // LoadFactor greater than 1 should ensure that we never re-size the hash map
-    Map<String, String> _encryptionContext = new HashMap<>(8, 2);
-    _encryptionContext.put("\n", "newline");
-    _encryptionContext.put("\t", "tab");
-    _encryptionContext.put("\r", "carriage-return");
-    _encryptionContext.put(" ", "space");
-    _encryptionContext.put("", "empty");
-    _encryptionContext.put("NormalKey", "Value with\nspecial\rchars\t");
-    _encryptionContext.put("\u0007", "bell-unicode");
-    _encryptionContext.put("\u0001", "unicode");
+    Map<String, String> _encryptionContext = new HashMap<>(
+      DEFAULT_ENCRYPTION_CONTEXT
+    );
+    _encryptionContext.put("\n\n\u0007", "escape-characters-plus-bell");
     encryptionContext = Collections.unmodifiableMap(_encryptionContext);
   }
 
-  protected String createHV1WithAnEmptyEncryptionContextKey() {
+  protected String createHV1WithEscapeCharactersInEC() {
     final String testBranchKeyId = testPrefix + UUID.randomUUID().toString();
     CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
@@ -69,7 +58,7 @@ public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
     Assert.assertEquals(
       getActiveBranchKeyOutput.branchKeyMaterials().encryptionContext(),
       encryptionContext,
-      "Test HV-1 Branch Key does not have expected encryption context."
+      "Test Branch Key does not have expected encryption context."
     );
   }
 
@@ -78,41 +67,24 @@ public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
       branchKeyId,
       Fixtures.POSTAL_HORN_KEY_ARN,
       HierarchyVersion.v2,
-      null,
-      MutationsProvider.TrustStorage(),
+      encryptionContext,
+      MutationsProvider.KmsSystemKey(),
       AdminProvider.admin()
     );
   }
 
   @Test
-  public void testHV2ProperlyHandlesEmptyEncryptionContextKey()
+  public void testMutationsWithEscapeCharactersInEC()
     throws InterruptedException {
-    Throwable caughtException = null;
-    final String branchKeyId = createHV1WithAnEmptyEncryptionContextKey();
+    final String branchKeyId = createHV1WithEscapeCharactersInEC();
     Thread.sleep(5000); // DDB eventual consistency
     try {
       checkBranchKey(branchKeyId);
-      try {
-        mutateToHV2(branchKeyId);
-      } catch (MutationToException e) {
-        caughtException = e;
-      }
+      mutateToHV2(branchKeyId);
       Thread.sleep(5000); // DDB eventual consistency
       checkBranchKey(branchKeyId);
     } finally {
       DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
     }
-    Assert.assertTrue(
-      Objects.nonNull(caughtException),
-      "Exception was expected"
-    );
-    // TODO-HV-2-FOLLOW : Maybe add a check in MutationToException handler that details prefix/defix/emtpyish
-    Assert.assertTrue(
-      caughtException.getMessage().contains(expectedErrorMsgContains),
-      "Error Message did not contain expected content. Expected message to contain: " +
-      expectedErrorMsgContains +
-      "\n but the message was: " +
-      caughtException.getMessage()
-    );
   }
 }
