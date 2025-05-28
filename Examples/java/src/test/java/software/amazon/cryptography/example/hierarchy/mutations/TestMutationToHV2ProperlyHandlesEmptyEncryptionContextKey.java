@@ -24,6 +24,10 @@ public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
     "mutation-to-hv-2-properly-handles-empty-encryption-context-key-java-test-";
   private static final Map<String, String> encryptionContext;
 
+  @SuppressWarnings("SpellCheckingInspection")
+  private static final String expectedErrorMsgContains =
+    "Emptyish Keys: one or more Keys in the Encryption Context are emptyish";
+
   static {
     // Initial Capacity of 8 b/c we have 8 key-pairs
     // LoadFactor greater than 1 should ensure that we never re-size the hash map
@@ -99,13 +103,12 @@ public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
       Objects.nonNull(caughtException),
       "Exception was expected"
     );
-    //noinspection SpellCheckingInspection
     Assert.assertTrue(
-      caughtException
-        .getMessage()
-        .contains(
-          "Emptyish Keys: one or more Keys in the Encryption Context are emptyish"
-        )
+      caughtException.getMessage().contains(expectedErrorMsgContains),
+      "Error Message did not contain expected content. Expected message to contain: " +
+      expectedErrorMsgContains +
+      "\n but the message was: " +
+      caughtException.getMessage()
     );
   }
 }
