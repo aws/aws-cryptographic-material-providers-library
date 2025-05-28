@@ -90,8 +90,9 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
     "This branch key item has failed the authentication check. Either it has been tampered with or the wrong 'Logical Key Store Name' has been provided."
 
   const INVALID_EC_FOUND :=
-    "Invalid encryption context found."
-    + " This Branch Key has been modified outside of the library"
+    "Invalid encryption context found. There are two possible reasons: Emptyish Keys or out-of-library modification."
+    + " Emptyish Keys: one or more Keys in the Encryption Context are emptyish; KMS will reject them, and this library cannot process them for \"hierarchy-version-2\"."
+    + " out-of-library modification: This Branch Key has been modified outside of the library"
     + " to include an attribute pair that is not prefixed with 'aws-crypto-ec'."
     + " This modification, done without using an AWS Crypto Tools library,"
     + " prevents the Branch Key from being used with 'hierarchy-version-2'."
