@@ -17,6 +17,7 @@ import software.amazon.cryptography.keystore.model.GetActiveBranchKeyInput;
 import software.amazon.cryptography.keystore.model.GetActiveBranchKeyOutput;
 import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminException;
+import software.amazon.cryptography.keystoreadmin.model.MutationToException;
 
 public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
 
@@ -24,9 +25,8 @@ public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
     "mutation-to-hv-2-properly-handles-empty-encryption-context-key-java-test-";
   private static final Map<String, String> encryptionContext;
 
-  @SuppressWarnings("SpellCheckingInspection")
   private static final String expectedErrorMsgContains =
-    "Emptyish Keys: one or more Keys in the Encryption Context are emptyish";
+    "KMS Message: Invalid EncryptionContext";
 
   static {
     // Initial Capacity of 8 b/c we have 8 key-pairs
@@ -91,7 +91,7 @@ public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
       checkBranchKey(branchKeyId);
       try {
         mutateToHV2(branchKeyId);
-      } catch (KeyStoreAdminException e) {
+      } catch (MutationToException e) {
         caughtException = e;
       }
       Thread.sleep(5000); // DDB eventual consistency
@@ -103,7 +103,7 @@ public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
       Objects.nonNull(caughtException),
       "Exception was expected"
     );
-    // TODO-HV-2-FOLLOW : Create unique errors for Emptyish vs Out of Bound Modification
+    // TODO-HV-2-FOLLOW : Maybe add a check in MutationToException handler that details prefix/defix/emtpyish
     Assert.assertTrue(
       caughtException.getMessage().contains(expectedErrorMsgContains),
       "Error Message did not contain expected content. Expected message to contain: " +
