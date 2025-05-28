@@ -1,17 +1,29 @@
 package software.amazon.cryptography.example.hierarchy.mutations;
 
-import org.testng.annotations.BeforeSuite;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import software.amazon.cryptography.example.DdbHelper;
+import software.amazon.cryptography.example.Fixtures;
+import software.amazon.cryptography.example.hierarchy.AdminProvider;
+import software.amazon.cryptography.example.hierarchy.CreateKeyExample;
+import software.amazon.cryptography.example.hierarchy.KeyStoreProvider;
+import software.amazon.cryptography.keystore.KeyStore;
+import software.amazon.cryptography.keystore.model.GetActiveBranchKeyInput;
+import software.amazon.cryptography.keystore.model.GetActiveBranchKeyOutput;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
+import software.amazon.cryptography.keystoreadmin.model.KeyStoreAdminException;
 
 public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
 
-  static final String testPrefix = "mutation-to-hv-2-properly-handles-empty-encryption-context-key-java-test-";
-  private String testBranchKeyId;
+  static final String testPrefix =
+    "mutation-to-hv-2-properly-handles-empty-encryption-context-key-java-test-";
   private static final Map<String, String> encryptionContext;
+
   static {
     // Initial Capacity of 8 b/c we have 8 key-pairs
     // LoadFactor greater than 1 should ensure that we never re-size the hash map
@@ -27,10 +39,72 @@ public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
     encryptionContext = Collections.unmodifiableMap(_encryptionContext);
   }
 
-  @BeforeSuite
-  public void createHV1WithAnEmptyEncryptionContextKey() {
-    testBranchKeyId = testPrefix + UUID.randomUUID().toString();
-
+  protected String createHV1WithAnEmptyEncryptionContextKey() {
+    final String testBranchKeyId = testPrefix + UUID.randomUUID().toString();
+    CreateKeyExample.CreateKey(
+      Fixtures.KEYSTORE_KMS_ARN,
+      testBranchKeyId,
+      AdminProvider.admin(),
+      HierarchyVersion.v1,
+      encryptionContext
+    );
+    return testBranchKeyId;
   }
 
+  protected void checkBranchKey(final String branchKeyId) {
+    KeyStore discoveryKeyStore = KeyStoreProvider.keyStore(null);
+    GetActiveBranchKeyOutput getActiveBranchKeyOutput =
+      discoveryKeyStore.GetActiveBranchKey(
+        GetActiveBranchKeyInput
+          .builder()
+          .branchKeyIdentifier(branchKeyId)
+          .build()
+      );
+    Assert.assertEquals(
+      getActiveBranchKeyOutput.branchKeyMaterials().encryptionContext(),
+      encryptionContext,
+      "Test HV-1 Branch Key does not have expected encryption context."
+    );
+  }
+
+  protected void mutateToHV2(final String branchKeyId) {
+    MutationKmsSimpleExample.End2End(
+      branchKeyId,
+      Fixtures.POSTAL_HORN_KEY_ARN,
+      HierarchyVersion.v2,
+      MutationsProvider.TrustStorage(),
+      AdminProvider.admin()
+    );
+  }
+
+  @Test
+  public void testHV2ProperlyHandlesEmptyEncryptionContextKey()
+    throws InterruptedException {
+    Throwable caughtException = null;
+    final String branchKeyId = createHV1WithAnEmptyEncryptionContextKey();
+    Thread.sleep(5000); // DDB eventual consistency
+    try {
+      checkBranchKey(branchKeyId);
+      try {
+        mutateToHV2(branchKeyId);
+      } catch (KeyStoreAdminException e) {
+        caughtException = e;
+      }
+      Thread.sleep(5000); // DDB eventual consistency
+      checkBranchKey(branchKeyId);
+    } finally {
+      DdbHelper.DeleteBranchKey(branchKeyId, Fixtures.TEST_KEYSTORE_NAME, null);
+    }
+    Assert.assertTrue(
+      Objects.nonNull(caughtException),
+      "Exception was expected"
+    );
+    Assert.assertTrue(
+      caughtException
+        .getMessage()
+        .contains(
+          "The branch key's encryption context contains keys that cannot be used in `hierarchy-version-2`; without the prefix from `hierarchy-version-1`, KMS will reject them."
+        )
+    );
+  }
 }
