@@ -134,7 +134,8 @@ public class DescribeMutationExample {
       kmsKeyArnOriginal,
       branchKeyId,
       _admin,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      null
     );
 
     MutationToken fromInit = InitMutation(

@@ -1,5 +1,8 @@
 package software.amazon.cryptography.example;
 
+import java.util.Map;
+import software.amazon.awssdk.utils.ImmutableMap;
+
 public class Constants {
 
   public static final String BRANCH_KEY_ID = "branch-key-id";
@@ -11,4 +14,6 @@ public class Constants {
   public static final String TYPE_ACTIVE = "branch:ACTIVE";
   public static final String TYPE_VERSION = "branch:version:";
   public static final String TYPE_BEACON = "beacon:ACTIVE";
+  public static final Map<String, String> DEFAULT_ENCRYPTION_CONTEXT =
+    ImmutableMap.<String, String>builder().put("Robbie", "Is a Dog.").build();
 }

@@ -76,7 +76,7 @@ module {:options "/functionSyntax:4" } Structure {
   type PrefixedEncryptionContext = m: map<string, string> | PrefixedEncryptionContext?(m) witness *
   predicate PrefixedEncryptionContext?(m: map<string, string>) {
     && m.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES
-    && forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX < k
+    && forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX <= k
   }
 
   predicate StringIsValidHierarchyVersion?(version: string)

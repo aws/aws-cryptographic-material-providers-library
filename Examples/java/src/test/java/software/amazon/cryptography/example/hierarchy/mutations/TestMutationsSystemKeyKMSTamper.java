@@ -209,7 +209,8 @@ public class TestMutationsSystemKeyKMSTamper {
       Fixtures.MRK_ARN_WEST,
       identifier,
       null,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      null
     );
     //noinspection unchecked
     SystemKey systemKey = MutationsProvider.KmsSystemKey(

@@ -103,7 +103,13 @@ public class AdminProvider {
     @Nonnull HierarchyVersion hierarchyVersion,
     @Nonnull Integer versionCount
   ) {
-    CreateKeyExample.CreateKey(kmsKeyArn, branchKeyId, admin, hierarchyVersion);
+    CreateKeyExample.CreateKey(
+      kmsKeyArn,
+      branchKeyId,
+      admin,
+      hierarchyVersion,
+      null
+    );
     for (int i = 0; i < versionCount; i++) {
       VersionKeyExample.VersionKey(kmsKeyArn, branchKeyId, admin);
     }

@@ -18,7 +18,8 @@ public class TestMutationSystemKeyKMSExample {
       Fixtures.MRK_ARN_WEST,
       branchKeyId,
       null,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      null
     );
     MutationSystemKeyKMSExample.End2End(
       Fixtures.KSA_SYSTEM_KEY,

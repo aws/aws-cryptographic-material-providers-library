@@ -186,13 +186,15 @@ public class KmsMutationExceptionTest {
       Fixtures.KEYSTORE_KMS_ARN,
       hv1BranchKeyId,
       admin,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      null
     );
     CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       hv2BranchKeyId,
       admin,
-      HierarchyVersion.v2
+      HierarchyVersion.v2,
+      null
     );
 
     // Mutation Request
@@ -306,13 +308,15 @@ public class KmsMutationExceptionTest {
       Fixtures.KEYSTORE_KMS_ARN,
       hv1BranchKeyId,
       admin,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      null
     );
     CreateKeyExample.CreateKey(
       Fixtures.KEYSTORE_KMS_ARN,
       hv2BranchKeyId,
       admin,
-      HierarchyVersion.v2
+      HierarchyVersion.v2,
+      null
     );
 
     // Mutation Request

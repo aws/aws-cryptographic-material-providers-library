@@ -19,7 +19,8 @@ public class TestMutationSystemKeyTrustStorage {
       Fixtures.MRK_ARN_WEST,
       branchKeyId,
       null,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      null
     );
     MutationsSystemKeyTrustExample.End2End(
       branchKeyId,
