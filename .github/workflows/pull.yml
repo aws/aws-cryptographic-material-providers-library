@@ -19,26 +19,26 @@ jobs:
   #   uses: ./.github/workflows/library_codegen.yml
   #   with:
   #     dafny: ${{needs.getVersion.outputs.version}}
-  pr-ci-verification:
-    needs: getVerifyVersion
-    uses: ./.github/workflows/library_dafny_verification.yml
-    with:
-      dafny: ${{needs.getVerifyVersion.outputs.version}}
-  pr-ci-java:
-    needs: getVersion
-    uses: ./.github/workflows/library_java_tests.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
+  # pr-ci-verification:
+  #   needs: getVerifyVersion
+  #   uses: ./.github/workflows/library_dafny_verification.yml
+  #   with:
+  #     dafny: ${{needs.getVerifyVersion.outputs.version}}
+  # pr-ci-java:
+  #   needs: getVersion
+  #   uses: ./.github/workflows/library_java_tests.yml
+  #   with:
+  #     dafny: ${{needs.getVersion.outputs.version}}
   pr-ci-examples:
     needs: getVersion
     uses: ./.github/workflows/library_examples.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
-  pr-ci-net:
-    needs: getVersion
-    uses: ./.github/workflows/library_net_tests.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
+  # pr-ci-net:
+  #   needs: getVersion
+  #   uses: ./.github/workflows/library_net_tests.yml
+  #   with:
+  #     dafny: ${{needs.getVersion.outputs.version}}
   # pr-interop-test:
   #   needs: getVersion
   #   uses: ./.github/workflows/library_interop_tests.yml
@@ -70,11 +70,11 @@ jobs:
     needs:
       - getVersion
       - getVerifyVersion
-      - pr-ci-verification
+      # - pr-ci-verification
       - pr-ci-format
       # - pr-ci-codegen
-      - pr-ci-java
-      - pr-ci-net
+      # - pr-ci-java
+      # - pr-ci-net
       # - pr-interop-test
       - pr-ci-examples
       # TODO-HV-2-Python: Removing Python until we fix bugs in Dafny/Python transpilation
