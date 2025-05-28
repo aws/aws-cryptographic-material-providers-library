@@ -12,6 +12,9 @@ from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.s
 from aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
 )
+from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.errors import (
+    _smithy_error_to_dafny_error as aws_cryptography_primitives_smithy_error_to_dafny_error,
+)
 from typing import Any, Dict, Generic, List, Literal, TypeVar
 
 
@@ -81,6 +84,213 @@ class AlreadyExistsConditionFailed(ApiError[Literal["AlreadyExistsConditionFaile
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AlreadyExistsConditionFailed):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class BranchKeyCiphertextException(ApiError[Literal["BranchKeyCiphertextException"]]):
+    code: Literal["BranchKeyCiphertextException"] = "BranchKeyCiphertextException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """The cipher-text or branch key context incorporated into the cipher-
+        text, such as the encryption context, is corrupted, missing, or
+        otherwise invalid. For branch keys,
+
+        the branch key context (BKC) is a combination of:
+        - the encryption
+        context
+        - storage identifiers (partition key, sort key, logical name)
+        - metadata
+        that binds the Branch Key to encrypted data (version)
+        - create-time
+        -
+        hierarchy-version
+
+        If any of the above are modified without calling KMS,
+        the
+        branch key's cipher-text becomes invalid.
+
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the BranchKeyCiphertextException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "BranchKeyCiphertextException":
+        """Creates a BranchKeyCiphertextException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return BranchKeyCiphertextException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "BranchKeyCiphertextException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, BranchKeyCiphertextException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class HierarchyVersionException(ApiError[Literal["HierarchyVersionException"]]):
+    code: Literal["HierarchyVersionException"] = "HierarchyVersionException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """The HierarchyVersion of the Branch Key is not supported by the
+        operation.
+
+        'hierarchy-version-2' Branch Keys can only be created or
+        versioned (rotated) via the Branch Key Store Admin.
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the HierarchyVersionException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "HierarchyVersionException":
+        """Creates a HierarchyVersionException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return HierarchyVersionException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "HierarchyVersionException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, HierarchyVersionException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class KeyManagementException(ApiError[Literal["KeyManagementException"]]):
+    code: Literal["KeyManagementException"] = "KeyManagementException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """AWS KMS request was unsuccesful or response was invalid.
+
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the KeyManagementException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyManagementException":
+        """Creates a KeyManagementException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return KeyManagementException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "KeyManagementException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyManagementException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
+    code: Literal["KeyStoreException"] = "KeyStoreException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the KeyStoreException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "KeyStoreException":
+        """Creates a KeyStoreException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return KeyStoreException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "KeyStoreException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, KeyStoreException):
             return False
         attributes: list[str] = [
             "message",
@@ -283,50 +493,6 @@ class NoLongerExistsConditionFailed(ApiError[Literal["NoLongerExistsConditionFai
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
-    code: Literal["KeyStoreException"] = "KeyStoreException"
-    message: str
-
-    def __init__(
-        self,
-        *,
-        message: str,
-    ):
-        super().__init__(message)
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the KeyStoreException to a dictionary."""
-        return {
-            "message": self.message,
-            "code": self.code,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KeyStoreException":
-        """Creates a KeyStoreException from a dictionary."""
-        kwargs: Dict[str, Any] = {
-            "message": d["message"],
-        }
-
-        return KeyStoreException(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "KeyStoreException("
-        if self.message is not None:
-            result += f"message={repr(self.message)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, KeyStoreException):
-            return False
-        attributes: list[str] = [
-            "message",
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
 class VersionRaceException(ApiError[Literal["VersionRaceException"]]):
     code: Literal["VersionRaceException"] = "VersionRaceException"
     message: str
@@ -377,116 +543,6 @@ class VersionRaceException(ApiError[Literal["VersionRaceException"]]):
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
-class BranchKeyCiphertextException(ApiError[Literal["BranchKeyCiphertextException"]]):
-    code: Literal["BranchKeyCiphertextException"] = "BranchKeyCiphertextException"
-    message: str
-
-    def __init__(
-        self,
-        *,
-        message: str,
-    ):
-        """The cipher-text or additional authenticated data incorporated into
-        the cipher-text, such as the encryption context, is corrupted, missing,
-        or otherwise invalid. For Branch Keys,
-
-        the Encryption Context is a combination of:
-        - the
-        custom encryption context
-        - storage identifiers (partition key, sort key,
-        logical name)
-        - metadata that binds the Branch Key to encrypted data
-        (version)
-
-        If any of the above are modified without calling KMS,
-        the Branch
-        Key's cipher-text becomes invalid.
-
-        :param message: A message associated with the specific error.
-        """
-        super().__init__(message)
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the BranchKeyCiphertextException to a dictionary."""
-        return {
-            "message": self.message,
-            "code": self.code,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "BranchKeyCiphertextException":
-        """Creates a BranchKeyCiphertextException from a dictionary."""
-        kwargs: Dict[str, Any] = {
-            "message": d["message"],
-        }
-
-        return BranchKeyCiphertextException(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "BranchKeyCiphertextException("
-        if self.message is not None:
-            result += f"message={repr(self.message)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, BranchKeyCiphertextException):
-            return False
-        attributes: list[str] = [
-            "message",
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
-class KeyManagementException(ApiError[Literal["KeyManagementException"]]):
-    code: Literal["KeyManagementException"] = "KeyManagementException"
-    message: str
-
-    def __init__(
-        self,
-        *,
-        message: str,
-    ):
-        """AWS KMS request was unsuccesful or response was invalid.
-
-        :param message: A message associated with the specific error.
-        """
-        super().__init__(message)
-
-    def as_dict(self) -> Dict[str, Any]:
-        """Converts the KeyManagementException to a dictionary."""
-        return {
-            "message": self.message,
-            "code": self.code,
-        }
-
-    @staticmethod
-    def from_dict(d: Dict[str, Any]) -> "KeyManagementException":
-        """Creates a KeyManagementException from a dictionary."""
-        kwargs: Dict[str, Any] = {
-            "message": d["message"],
-        }
-
-        return KeyManagementException(**kwargs)
-
-    def __repr__(self) -> str:
-        result = "KeyManagementException("
-        if self.message is not None:
-            result += f"message={repr(self.message)}"
-
-        return result + ")"
-
-    def __eq__(self, other: Any) -> bool:
-        if not isinstance(other, KeyManagementException):
-            return False
-        attributes: list[str] = [
-            "message",
-            "message",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
-
 class AlreadyExistsConditionFailed(ApiError[Literal["AlreadyExistsConditionFailed"]]):
     code: Literal["AlreadyExistsConditionFailed"] = "AlreadyExistsConditionFailed"
     message: str
@@ -494,6 +550,11 @@ class AlreadyExistsConditionFailed(ApiError[Literal["AlreadyExistsConditionFaile
 
 class BranchKeyCiphertextException(ApiError[Literal["BranchKeyCiphertextException"]]):
     code: Literal["BranchKeyCiphertextException"] = "BranchKeyCiphertextException"
+    message: str
+
+
+class HierarchyVersionException(ApiError[Literal["HierarchyVersionException"]]):
+    code: Literal["HierarchyVersionException"] = "HierarchyVersionException"
     message: str
 
 
@@ -534,6 +595,10 @@ class OldEncConditionFailed(ApiError[Literal["OldEncConditionFailed"]]):
 class VersionRaceException(ApiError[Literal["VersionRaceException"]]):
     code: Literal["VersionRaceException"] = "VersionRaceException"
     message: str
+
+
+class AwsCryptographicPrimitives(ApiError[Literal["AwsCryptographicPrimitives"]]):
+    AwsCryptographicPrimitives: Any
 
 
 class ComAmazonawsDynamodb(ApiError[Literal["ComAmazonawsDynamodb"]]):
@@ -724,6 +789,14 @@ def _smithy_error_to_dafny_error(e: ServiceError):
 
     if isinstance(
         e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.HierarchyVersionException,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_HierarchyVersionException(
+            message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(
+        e,
         aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.KeyManagementException,
     ):
         return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyManagementException(
@@ -776,6 +849,11 @@ def _smithy_error_to_dafny_error(e: ServiceError):
     ):
         return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_VersionRaceException(
             message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(e, AwsCryptographicPrimitives):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_AwsCryptographyPrimitives(
+            aws_cryptography_primitives_smithy_error_to_dafny_error(e.message)
         )
 
     if isinstance(e, ComAmazonawsDynamodb):

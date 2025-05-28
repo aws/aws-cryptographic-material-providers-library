@@ -18,8 +18,8 @@ public class VersionKeyInput {
   private final KmsSymmetricKeyArn KmsArn;
 
   /**
-   * This configures which Key Management Operations will be used
-   *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
+   * For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported.
+   *   For 'hierarchy-version-2' (HV-2), only AwsKmsSimple is supported.
    */
   private final KeyManagementStrategy Strategy;
 
@@ -44,8 +44,8 @@ public class VersionKeyInput {
   }
 
   /**
-   * @return This configures which Key Management Operations will be used
-   *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
+   * @return For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported.
+   *   For 'hierarchy-version-2' (HV-2), only AwsKmsSimple is supported.
    */
   public KeyManagementStrategy Strategy() {
     return this.Strategy;
@@ -81,14 +81,14 @@ public class VersionKeyInput {
     KmsSymmetricKeyArn KmsArn();
 
     /**
-     * @param Strategy This configures which Key Management Operations will be used
-     *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
+     * @param Strategy For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported.
+     *   For 'hierarchy-version-2' (HV-2), only AwsKmsSimple is supported.
      */
     Builder Strategy(KeyManagementStrategy Strategy);
 
     /**
-     * @return This configures which Key Management Operations will be used
-     *    AND the Key Management Clients (and Grant Tokens) used to invoke those Operations.
+     * @return For 'hierarchy-version-1' (HV-1), only AwsKmsReEncrypt or AwsKmsSimple are supported.
+     *   For 'hierarchy-version-2' (HV-2), only AwsKmsSimple is supported.
      */
     KeyManagementStrategy Strategy();
 

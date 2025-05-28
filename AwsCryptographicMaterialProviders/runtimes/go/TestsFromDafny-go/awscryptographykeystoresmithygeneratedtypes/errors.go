@@ -6,6 +6,36 @@ import (
 	"fmt"
 )
 
+type BranchKeyCiphertextException struct {
+	KeyStoreBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e BranchKeyCiphertextException) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}
+
+type HierarchyVersionException struct {
+	KeyStoreBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e HierarchyVersionException) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}
+
+type KeyManagementException struct {
+	KeyStoreBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e KeyManagementException) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}
+
 type KeyStoreException struct {
 	KeyStoreBaseException
 	Message           string
@@ -36,16 +66,6 @@ func (e AlreadyExistsConditionFailed) Error() string {
 	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
 }
 
-type BranchKeyCiphertextException struct {
-	KeyStoreBaseException
-	Message           string
-	ErrorCodeOverride *string
-}
-
-func (e BranchKeyCiphertextException) Error() string {
-	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
-}
-
 type KeyStorageException struct {
 	KeyStoreBaseException
 	Message           string
@@ -63,16 +83,6 @@ type MutationCommitmentConditionFailed struct {
 }
 
 func (e MutationCommitmentConditionFailed) Error() string {
-	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
-}
-
-type KeyManagementException struct {
-	KeyStoreBaseException
-	Message           string
-	ErrorCodeOverride *string
-}
-
-func (e KeyManagementException) Error() string {
 	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
 }
 

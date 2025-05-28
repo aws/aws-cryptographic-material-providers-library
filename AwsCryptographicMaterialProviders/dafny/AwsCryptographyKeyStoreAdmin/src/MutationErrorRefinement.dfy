@@ -1,7 +1,7 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-include "KmsUtils.dfy"
+include "KeyStoreAdminHelpers.dfy"
 
 module {:options "/functionSyntax:4" } MutationErrorRefinement {
   import opened Wrappers
@@ -11,8 +11,9 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
   import KMS = Com.Amazonaws.Kms
   import StandardLibrary.String
   import Structure
-  import KmsUtils
+  import KeyStoreAdminHelpers
 
+  // TODO-HV-2-FF-Python: Python runtime fails to unwrap errorMessage?.
   function ParsedErrorContext(
     nameonly localOperation: string,
     nameonly kmsOperation: string,
@@ -36,8 +37,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     nameonly kmsOperation: string := "GenerateDataKeyWithoutPlaintext"
   ): (output: Types.Error)
   {
-    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
-    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
+    var kmsError? := KMSKeystoreOperations.ExtractKmsError(error);
+    var kmsErrorMessage? := KMSKeystoreOperations.ExtractMessageFromKmsError(error);
     var errorContext := ParsedErrorContext(
                           localOperation := localOperation,
                           kmsOperation := kmsOperation,
@@ -60,8 +61,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     requires branchKeyItem.Type.ActiveHierarchicalSymmetricVersion?
   {
     //TODO Mutations-FF :: Decrypt/Encrypt Strategy will need to refactor this
-    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
-    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
+    var kmsError? := KMSKeystoreOperations.ExtractKmsError(error);
+    var kmsErrorMessage? := KMSKeystoreOperations.ExtractMessageFromKmsError(error);
     var errorContext := ParsedErrorContext(
                           localOperation := localOperation,
                           kmsOperation := kmsOperation,
@@ -84,8 +85,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     requires branchKeyItem.Type.ActiveHierarchicalSymmetricVersion?
   {
     //TODO Mutations-FF :: Decrypt/Encrypt Strategy will need to refactor this
-    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
-    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
+    var kmsError? := KMSKeystoreOperations.ExtractKmsError(error);
+    var kmsErrorMessage? := KMSKeystoreOperations.ExtractMessageFromKmsError(error);
     var errorContext := ParsedErrorContext(
                           localOperation := localOperation,
                           kmsOperation := kmsOperation,
@@ -107,8 +108,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
   ): (output: Types.Error)
     requires branchKeyItem.Type.HierarchicalSymmetricVersion?
   {
-    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
-    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
+    var kmsError? := KMSKeystoreOperations.ExtractKmsError(error);
+    var kmsErrorMessage? := KMSKeystoreOperations.ExtractMessageFromKmsError(error);
     var errorContext := ParsedErrorContext(
                           localOperation := localOperation,
                           kmsOperation := kmsOperation,
@@ -135,8 +136,8 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
     requires kmsOperation == "ReEncrypt" || kmsOperation == "Encrypt" || kmsOperation == "Decrypt"
     requires localOperation == "ApplyMutation" || localOperation == "InitializeMutation"
   {
-    var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
-    var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
+    var kmsError? := KMSKeystoreOperations.ExtractKmsError(error);
+    var kmsErrorMessage? := KMSKeystoreOperations.ExtractMessageFromKmsError(error);
     var itemType := match item.Type {
       case ActiveHierarchicalSymmetricVersion(version) => Structure.BRANCH_KEY_ACTIVE_TYPE
       case ActiveHierarchicalSymmetricBeacon(version) => Structure.BEACON_KEY_TYPE_VALUE
@@ -148,8 +149,9 @@ module {:options "/functionSyntax:4" } MutationErrorRefinement {
       identifier := item.Identifier,
       itemType := itemType,
       errorMessage? := kmsErrorMessage?);
-    // if it is an opaque KMS Error, and there is a message, it is KMS.Types.OpaqueWithText
-    var kmsWithMsg: bool := opaqueKmsError?.Some? && kmsErrorMessage?.Some?;
+    // If it is a KMS Error, and there is a message, it is a valid KMS.Types.Error,
+    // This will helps to refine KMS Error to matching KMS Arn
+    var kmsWithMsg: bool := kmsError?.Some? && kmsErrorMessage?.Some?;
     // If kmsWithMsg and we can match the error message based on the KMS Operation
     if (kmsWithMsg) {
       match kmsOperation {

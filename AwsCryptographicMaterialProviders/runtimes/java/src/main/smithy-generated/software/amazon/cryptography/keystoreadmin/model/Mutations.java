@@ -4,15 +4,17 @@
 package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Map;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 
 /**
  * Define the Mutation in terms of the terminal, or end state,
  * value for a particular Branch Key property.
  * The original value will be REPLACED with this value.
- * As of v1.9.0, a Mutation can either:
+ * As of v<HV-2>, a Mutation can either:
  * - replace the KmsArn protecting the Branch Key
- * - replace the custom encryption context
- * - replace both the KmsArn and the custom encryption context
+ * - replace the encryption context
+ * - change the 'hierarchy-version'
+ * - any combination of the above
  */
 public class Mutations {
 
@@ -29,14 +31,21 @@ public class Mutations {
   /**
    * Optional. If not set, there will be no change to the Encryption Context.
    *   ReEncrypt all Items of the Branch Key
-   *   to be authorized with this custom encryption context.
+   *   to be authorized with this encryption context.
    *   An empty Encryption Context is not allowed.
    */
   private final Map<String, String> TerminalEncryptionContext;
 
+  /**
+   * Optional. If set, changes the hierarchy-version of the Branch Key.
+   *   At this time, only '2' is allowed; there is no operation that faciliates HV-2 -> HV-1.
+   */
+  private final HierarchyVersion TerminalHierarchyVersion;
+
   protected Mutations(BuilderImpl builder) {
     this.TerminalKmsArn = builder.TerminalKmsArn();
     this.TerminalEncryptionContext = builder.TerminalEncryptionContext();
+    this.TerminalHierarchyVersion = builder.TerminalHierarchyVersion();
   }
 
   /**
@@ -54,11 +63,19 @@ public class Mutations {
   /**
    * @return Optional. If not set, there will be no change to the Encryption Context.
    *   ReEncrypt all Items of the Branch Key
-   *   to be authorized with this custom encryption context.
+   *   to be authorized with this encryption context.
    *   An empty Encryption Context is not allowed.
    */
   public Map<String, String> TerminalEncryptionContext() {
     return this.TerminalEncryptionContext;
+  }
+
+  /**
+   * @return Optional. If set, changes the hierarchy-version of the Branch Key.
+   *   At this time, only '2' is allowed; there is no operation that faciliates HV-2 -> HV-1.
+   */
+  public HierarchyVersion TerminalHierarchyVersion() {
+    return this.TerminalHierarchyVersion;
   }
 
   public Builder toBuilder() {
@@ -93,7 +110,7 @@ public class Mutations {
     /**
      * @param TerminalEncryptionContext Optional. If not set, there will be no change to the Encryption Context.
      *   ReEncrypt all Items of the Branch Key
-     *   to be authorized with this custom encryption context.
+     *   to be authorized with this encryption context.
      *   An empty Encryption Context is not allowed.
      */
     Builder TerminalEncryptionContext(
@@ -103,10 +120,22 @@ public class Mutations {
     /**
      * @return Optional. If not set, there will be no change to the Encryption Context.
      *   ReEncrypt all Items of the Branch Key
-     *   to be authorized with this custom encryption context.
+     *   to be authorized with this encryption context.
      *   An empty Encryption Context is not allowed.
      */
     Map<String, String> TerminalEncryptionContext();
+
+    /**
+     * @param TerminalHierarchyVersion Optional. If set, changes the hierarchy-version of the Branch Key.
+     *   At this time, only '2' is allowed; there is no operation that faciliates HV-2 -> HV-1.
+     */
+    Builder TerminalHierarchyVersion(HierarchyVersion TerminalHierarchyVersion);
+
+    /**
+     * @return Optional. If set, changes the hierarchy-version of the Branch Key.
+     *   At this time, only '2' is allowed; there is no operation that faciliates HV-2 -> HV-1.
+     */
+    HierarchyVersion TerminalHierarchyVersion();
 
     Mutations build();
   }
@@ -117,11 +146,14 @@ public class Mutations {
 
     protected Map<String, String> TerminalEncryptionContext;
 
+    protected HierarchyVersion TerminalHierarchyVersion;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(Mutations model) {
       this.TerminalKmsArn = model.TerminalKmsArn();
       this.TerminalEncryptionContext = model.TerminalEncryptionContext();
+      this.TerminalHierarchyVersion = model.TerminalHierarchyVersion();
     }
 
     public Builder TerminalKmsArn(String TerminalKmsArn) {
@@ -142,6 +174,17 @@ public class Mutations {
 
     public Map<String, String> TerminalEncryptionContext() {
       return this.TerminalEncryptionContext;
+    }
+
+    public Builder TerminalHierarchyVersion(
+      HierarchyVersion TerminalHierarchyVersion
+    ) {
+      this.TerminalHierarchyVersion = TerminalHierarchyVersion;
+      return this;
+    }
+
+    public HierarchyVersion TerminalHierarchyVersion() {
+      return this.TerminalHierarchyVersion;
     }
 
     public Mutations build() {

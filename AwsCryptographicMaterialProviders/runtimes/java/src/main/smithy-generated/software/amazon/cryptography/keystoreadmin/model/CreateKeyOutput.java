@@ -4,6 +4,7 @@
 package software.amazon.cryptography.keystoreadmin.model;
 
 import java.util.Objects;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 
 public class CreateKeyOutput {
 
@@ -12,8 +13,18 @@ public class CreateKeyOutput {
    */
   private final String Identifier;
 
+  /**
+   * The hierarchy-version of a Branch Key;
+   *   all items of the same Branch Key SHOULD
+   *   have the same hierarchy-version.
+   *   The hierarchy-version determines how the Branch Key Store
+   *   protects and validates the branch key context (BKC).
+   */
+  private final HierarchyVersion HierarchyVersion;
+
   protected CreateKeyOutput(BuilderImpl builder) {
     this.Identifier = builder.Identifier();
+    this.HierarchyVersion = builder.HierarchyVersion();
   }
 
   /**
@@ -21,6 +32,17 @@ public class CreateKeyOutput {
    */
   public String Identifier() {
     return this.Identifier;
+  }
+
+  /**
+   * @return The hierarchy-version of a Branch Key;
+   *   all items of the same Branch Key SHOULD
+   *   have the same hierarchy-version.
+   *   The hierarchy-version determines how the Branch Key Store
+   *   protects and validates the branch key context (BKC).
+   */
+  public HierarchyVersion HierarchyVersion() {
+    return this.HierarchyVersion;
   }
 
   public Builder toBuilder() {
@@ -42,6 +64,24 @@ public class CreateKeyOutput {
      */
     String Identifier();
 
+    /**
+     * @param HierarchyVersion The hierarchy-version of a Branch Key;
+     *   all items of the same Branch Key SHOULD
+     *   have the same hierarchy-version.
+     *   The hierarchy-version determines how the Branch Key Store
+     *   protects and validates the branch key context (BKC).
+     */
+    Builder HierarchyVersion(HierarchyVersion HierarchyVersion);
+
+    /**
+     * @return The hierarchy-version of a Branch Key;
+     *   all items of the same Branch Key SHOULD
+     *   have the same hierarchy-version.
+     *   The hierarchy-version determines how the Branch Key Store
+     *   protects and validates the branch key context (BKC).
+     */
+    HierarchyVersion HierarchyVersion();
+
     CreateKeyOutput build();
   }
 
@@ -49,10 +89,13 @@ public class CreateKeyOutput {
 
     protected String Identifier;
 
+    protected HierarchyVersion HierarchyVersion;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(CreateKeyOutput model) {
       this.Identifier = model.Identifier();
+      this.HierarchyVersion = model.HierarchyVersion();
     }
 
     public Builder Identifier(String Identifier) {
@@ -64,10 +107,24 @@ public class CreateKeyOutput {
       return this.Identifier;
     }
 
+    public Builder HierarchyVersion(HierarchyVersion HierarchyVersion) {
+      this.HierarchyVersion = HierarchyVersion;
+      return this;
+    }
+
+    public HierarchyVersion HierarchyVersion() {
+      return this.HierarchyVersion;
+    }
+
     public CreateKeyOutput build() {
       if (Objects.isNull(this.Identifier())) {
         throw new IllegalArgumentException(
           "Missing value for required field `Identifier`"
+        );
+      }
+      if (Objects.isNull(this.HierarchyVersion())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `HierarchyVersion`"
         );
       }
       return new CreateKeyOutput(this);

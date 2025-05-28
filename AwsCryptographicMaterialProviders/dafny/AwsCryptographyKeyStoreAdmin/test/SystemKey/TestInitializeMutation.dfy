@@ -131,5 +131,4 @@ module {:options "/functionSyntax:4" } TestSystemKey.TestInitializeMutation {
     var ddbClient :- expect Fixtures.ProvideDDBClient();
     var _ := CleanupItems.DeleteBranchKey(Identifier:=testId, ddbClient:=ddbClient);
   }
-
 }

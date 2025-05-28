@@ -19,19 +19,8 @@ public class KmsSymmetricKeyArn {
    */
   private final String KmsKeyArn;
 
-  /**
-   * If an MRK ARN is provided,
-   *   and the persisted Branch Key holds an MRK ARN,
-   *   then those two ARNs may differ in region,
-   *   although they must be otherwise equal.
-   *   If either ARN is not an MRK ARN, then
-   *   KmsMRKeyArn behaves exactly as kmsKeyArn.
-   */
-  private final String KmsMRKeyArn;
-
   protected KmsSymmetricKeyArn(BuilderImpl builder) {
     this.KmsKeyArn = builder.KmsKeyArn();
-    this.KmsMRKeyArn = builder.KmsMRKeyArn();
   }
 
   /**
@@ -46,18 +35,6 @@ public class KmsSymmetricKeyArn {
    */
   public String KmsKeyArn() {
     return this.KmsKeyArn;
-  }
-
-  /**
-   * @return If an MRK ARN is provided,
-   *   and the persisted Branch Key holds an MRK ARN,
-   *   then those two ARNs may differ in region,
-   *   although they must be otherwise equal.
-   *   If either ARN is not an MRK ARN, then
-   *   KmsMRKeyArn behaves exactly as kmsKeyArn.
-   */
-  public String KmsMRKeyArn() {
-    return this.KmsMRKeyArn;
   }
 
   public Builder toBuilder() {
@@ -93,26 +70,6 @@ public class KmsSymmetricKeyArn {
      */
     String KmsKeyArn();
 
-    /**
-     * @param KmsMRKeyArn If an MRK ARN is provided,
-     *   and the persisted Branch Key holds an MRK ARN,
-     *   then those two ARNs may differ in region,
-     *   although they must be otherwise equal.
-     *   If either ARN is not an MRK ARN, then
-     *   KmsMRKeyArn behaves exactly as kmsKeyArn.
-     */
-    Builder KmsMRKeyArn(String KmsMRKeyArn);
-
-    /**
-     * @return If an MRK ARN is provided,
-     *   and the persisted Branch Key holds an MRK ARN,
-     *   then those two ARNs may differ in region,
-     *   although they must be otherwise equal.
-     *   If either ARN is not an MRK ARN, then
-     *   KmsMRKeyArn behaves exactly as kmsKeyArn.
-     */
-    String KmsMRKeyArn();
-
     KmsSymmetricKeyArn build();
   }
 
@@ -120,13 +77,10 @@ public class KmsSymmetricKeyArn {
 
     protected String KmsKeyArn;
 
-    protected String KmsMRKeyArn;
-
     protected BuilderImpl() {}
 
     protected BuilderImpl(KmsSymmetricKeyArn model) {
       this.KmsKeyArn = model.KmsKeyArn();
-      this.KmsMRKeyArn = model.KmsMRKeyArn();
     }
 
     public Builder KmsKeyArn(String KmsKeyArn) {
@@ -136,15 +90,6 @@ public class KmsSymmetricKeyArn {
 
     public String KmsKeyArn() {
       return this.KmsKeyArn;
-    }
-
-    public Builder KmsMRKeyArn(String KmsMRKeyArn) {
-      this.KmsMRKeyArn = KmsMRKeyArn;
-      return this;
-    }
-
-    public String KmsMRKeyArn() {
-      return this.KmsMRKeyArn;
     }
 
     public KmsSymmetricKeyArn build() {
@@ -157,7 +102,7 @@ public class KmsSymmetricKeyArn {
     }
 
     private boolean onlyOneNonNull() {
-      Object[] allValues = { this.KmsKeyArn, this.KmsMRKeyArn };
+      Object[] allValues = { this.KmsKeyArn };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {
         if (Objects.nonNull(o)) {

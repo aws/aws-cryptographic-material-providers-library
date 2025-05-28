@@ -5,18 +5,28 @@ include "../src/Index.dfy"
 include "../../AwsCryptographyKeyStore/test/Fixtures.dfy"
 
 module {:options "/functionSyntax:4" } AdminFixtures {
-  import Types = AwsCryptographyKeyStoreAdminTypes
-  import KeyStoreTypes = AwsCryptographyKeyStoreTypes
-  import KeyStoreAdmin
-  import KeyStore
+  // Standard Library Imports
+  import opened Wrappers
+  import UTF8 = Fixtures.UTF8
+    // SDK Imports
   import KMS = Com.Amazonaws.Kms
   import DDB = Com.Amazonaws.Dynamodb
-  import opened Wrappers
+    // (Branch) Key Store Imports
+  import KeyStore
+  import KeyStoreTypes = AwsCryptographyKeyStoreTypes
   import Fixtures
-  import UTF8 = Fixtures.UTF8
   import DefaultKeyStorageInterface
   import Structure
   import KmsUtils
+    // (Branch) Key Store Admin Imports
+  import KeyStoreAdmin
+  import Types = AwsCryptographyKeyStoreAdminTypes
+  import KeyStoreAdminHelpers
+
+  // These are Branch Keys that are in an "in-flight" mutation,
+  // but that mutation was started pre-HV-2.
+  const STATIC_PRE_HV2_MUTATION_WITH_SYSTEM_KEY := "STATIC-PRE-HV-2-MUTATION-WITH-SYSTEM-KEY"
+  const STATIC_PRE_HV2_MUTATION_WITH_TRUST_STORAGE := "STATIC-PRE-HV-2-MUTATION-WITH-TRUST-STORAGE"
 
   method DefaultAdmin(
     nameonly physicalName: string := Fixtures.branchKeyStoreName,
@@ -44,13 +54,34 @@ module {:options "/functionSyntax:4" } AdminFixtures {
       ddbClient := ddbClient,
       logicalKeyStoreName := logicalName,
       ddbTableNameUtf8 := physicalNameUtf8,
-      logicalKeyStoreNameUtf8 := logicalNameUtf8);
+      logicalKeyStoreNameUtf8 := logicalNameUtf8
+    );
 
     var underTestConfig := Types.KeyStoreAdminConfig(
       logicalKeyStoreName := logicalName,
       storage := KeyStoreTypes.Storage.custom(storage));
     var underTest :- expect KeyStoreAdmin.KeyStoreAdmin(underTestConfig);
     return Success(underTest);
+  }
+
+  method StaticAdmin(
+    nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None
+  )
+    returns (output: Result<Types.IKeyStoreAdminClient, Types.Error>)
+    ensures output.Success? ==> output.value.ValidState()
+    requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
+    modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
+    ensures output.Success?
+            ==>
+              && output.value.ValidState()
+              && fresh(output.value)
+              && fresh(output.value.Modifies)
+  {
+    output := DefaultAdmin(
+      physicalName := Fixtures.staticBranchKeyStoreName,
+      logicalName := Fixtures.staticLogicalKeyStoreName,
+      ddbClient? := ddbClient?
+    );
   }
 
   method DefaultKeyManagerStrategy(
@@ -67,6 +98,27 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     var kmsClient :- expect Fixtures.ProvideKMSClient(kmsClient?);
     assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
     var strategy := Types.KeyManagementStrategy.AwsKmsReEncrypt(
+      KeyStoreTypes.AwsKms(
+        grantTokens := None,
+        kmsClient := Some(kmsClient)
+      ));
+    return Success(strategy);
+  }
+
+  method SimpleKeyManagerStrategy(
+    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
+  )
+    returns (output: Result<Types.KeyManagementStrategy, Types.Error>)
+    requires kmsClient?.Some? ==> kmsClient?.value.ValidState()
+    ensures output.Success? ==>
+              && output.value.AwsKmsSimple?
+              && output.value.AwsKmsSimple.kmsClient.Some?
+              && output.value.AwsKmsSimple.kmsClient.value.ValidState()
+    modifies (if kmsClient?.Some? then kmsClient?.value.Modifies else {})
+  {
+    var kmsClient :- expect Fixtures.ProvideKMSClient(kmsClient?);
+    assume {:axiom} fresh(kmsClient) && fresh(kmsClient.Modifies);
+    var strategy := Types.KeyManagementStrategy.AwsKmsSimple(
       KeyStoreTypes.AwsKms(
         grantTokens := None,
         kmsClient := Some(kmsClient)
@@ -139,8 +191,10 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     key: string := "Robbie",
     value: string := "Is a dog.")
 
-  /** Adds an "un-modeled Attribute" to the Active & Decrypt. */
-  /** If alsoViolateBeacion?, also add to Beacon.*/
+  /** Adds an "un-modeled Attribute" to the Active & Decrypt.
+   If alsoViolateBeacion?, also add to Beacon.
+   If violateReservedAttribute, the reserved attributes can be modified,
+   such as 'create-time' or 'version'. */
   method AddAttributeWithoutLibrary(
     nameonly id: string,
     nameonly physicalName: string := Fixtures.branchKeyStoreName,
@@ -148,12 +202,14 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     nameonly keyValue: KeyValue := KeyValue(key:="Robbie", value:="Is a dog."),
     nameonly alsoViolateBeacon?: bool := false,
     nameonly ddbClient?: Option<DDB.Types.IDynamoDBClient> := None,
-    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None
+    nameonly kmsClient?: Option<KMS.Types.IKMSClient> := None,
+    nameonly violateReservedAttribute: bool := false
   )
     returns (output: Result<bool, KmsDdbError>)
     requires DDB.Types.IsValid_TableName(physicalName)
     requires UTF8.IsASCIIString(physicalName) && UTF8.IsASCIIString(logicalName)
-    requires keyValue.key !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    // Either the keyValue is NOT reserved, or this is violating a reserved attribute
+    requires violateReservedAttribute || keyValue.key !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
     requires DDB.Types.IsValid_AttributeName(keyValue.key)
     requires ddbClient?.Some? ==> ddbClient?.value.ValidState()
     modifies (if ddbClient?.Some? then ddbClient?.value.Modifies else {})
@@ -166,14 +222,14 @@ module {:options "/functionSyntax:4" } AdminFixtures {
 
     var allThree :- expect Fixtures.getItems(id:=id, underTest:=storage);
     var activeDDB :- expect ViolateItem(
-      item := allThree.active, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName);
+      item := allThree.active, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName, violateReservedAttribute:=violateReservedAttribute);
     var decryptDDB :- expect ViolateItem(
-      item := allThree.decrypt, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName);
+      item := allThree.decrypt, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName, violateReservedAttribute:=violateReservedAttribute);
     var TransactItems := [activeDDB, decryptDDB];
 
     if (alsoViolateBeacon?) {
       var beaconDDB :- expect ViolateItem(
-        item := allThree.beacon, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName);
+        item := allThree.beacon, keyValue:=keyValue, kmsClient:=kmsClient, physicalName:=physicalName, violateReservedAttribute:=violateReservedAttribute);
       TransactItems := TransactItems + [beaconDDB];
     }
 
@@ -186,22 +242,29 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     nameonly item: KeyStoreTypes.EncryptedHierarchicalKey,
     nameonly keyValue: KeyValue,
     nameonly kmsClient: KMS.Types.IKMSClient,
-    nameonly physicalName: string := Fixtures.branchKeyStoreName
+    nameonly physicalName: string := Fixtures.branchKeyStoreName,
+    nameonly violateReservedAttribute: bool := false
   )
     returns (ddbPutItem: Result<DDB.Types.TransactWriteItem, KmsDdbError>)
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
-    requires keyValue.key !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    // Either the keyValue is NOT reserved, or this is violating a reserved attribute
+    requires violateReservedAttribute || keyValue.key !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
     requires DDB.Types.IsValid_AttributeName(keyValue.key)
     requires DDB.Types.IsValid_TableName(physicalName)
   {
     assume {:axiom} KMS.Types.IsValid_CiphertextType(item.CiphertextBlob);
     assume {:axiom} KMS.Types.IsValid_KeyIdType(item.KmsArn);
+    var violatedEC;
     var aMap := map[keyValue.key := keyValue.value];
-    expect keyValue.key !in item.EncryptionContext, "key of KeyValue cannot already be in EC";
-    var violatedEC := item.EncryptionContext + aMap;
-    expect Structure.BranchKeyContext?(violatedEC), "Library is too good and won't let Tony cheat";
+    if (!violateReservedAttribute) {
+      expect keyValue.key !in item.EncryptionContext, "key of KeyValue cannot already be in EC";
+      violatedEC := item.EncryptionContext + aMap;
+      expect Structure.BranchKeyContext?(violatedEC), "Library is too good and won't let Tony cheat";
+    } else {
+      violatedEC := item.EncryptionContext + aMap;
+    }
     var reEncryptReq := KMS.Types.ReEncryptRequest(
       CiphertextBlob := item.CiphertextBlob,
       SourceEncryptionContext := Some(item.EncryptionContext),
@@ -211,6 +274,8 @@ module {:options "/functionSyntax:4" } AdminFixtures {
     var reEncryptRes :- expect kmsClient.ReEncrypt(reEncryptReq);
     expect reEncryptRes.CiphertextBlob.Some?, "KMS did not return ciphertext.";
 
+    // This assumption is a LIE; but I am not copying a bunch of methods
+    assume {:axiom} Structure.BranchKeyContext?(violatedEC);
     var violated := Structure.ConstructEncryptedHierarchicalKey(
       violatedEC, reEncryptRes.CiphertextBlob.value);
 
@@ -220,6 +285,58 @@ module {:options "/functionSyntax:4" } AdminFixtures {
           Put := Some(DDB.Types.Put(
                         Item := Structure.ToAttributeMap(violated),
                         TableName := physicalName))));
+  }
+
+  method CreateHappyCaseId(
+    nameonly id: string,
+    nameonly kmsId: string := Fixtures.keyArn,
+    nameonly hierarchyVersion: KeyStoreTypes.HierarchyVersion := KeyStoreTypes.HierarchyVersion.v1,
+    nameonly strategy?: Option<Types.KeyManagementStrategy> := None,
+    nameonly admin?: Option<Types.IKeyStoreAdminClient> := None,
+    nameonly versionCount: nat := 3,
+    nameonly customEC: KeyStoreTypes.EncryptionContext := Fixtures.RobbieEC
+  )
+    requires KMS.Types.IsValid_KeyIdType(kmsId)
+    requires 0 < |customEC|
+  {
+    var admin;
+    if admin?.None? {
+      admin :- expect DefaultAdmin(
+        physicalName := Fixtures.branchKeyStoreName,
+        logicalName := Fixtures.logicalKeyStoreName,
+        ddbClient? := None
+      );
+    } else {
+      admin := admin?.value;
+    }
+    var strategy;
+    if strategy?.None? {
+      strategy :- expect SimpleKeyManagerStrategy();
+    } else {
+      strategy := strategy?.value;
+    }
+
+    assume {:axiom} fresh(admin) && fresh(admin.Modifies);
+    var input := Types.CreateKeyInput(
+      Identifier := Some(id),
+      EncryptionContext := Some(customEC),
+      KmsArn := Types.KmsSymmetricKeyArn.KmsKeyArn(kmsId),
+      Strategy := Some(strategy),
+      HierarchyVersion := Some(hierarchyVersion)
+    );
+    var branchKeyId :- expect admin.CreateKey(input);
+
+    // If you need a new version
+    var inputV := Types.VersionKeyInput(
+      Identifier:= id ,
+      KmsArn:= Types.KmsSymmetricKeyArn.KmsKeyArn(kmsId),
+      Strategy:= Some(strategy)
+    );
+    var versionIndex := 0;
+    while versionIndex < versionCount {
+      var _ :- expect admin.VersionKey(inputV);
+      versionIndex := versionIndex + 1;
+    }
   }
 }
 

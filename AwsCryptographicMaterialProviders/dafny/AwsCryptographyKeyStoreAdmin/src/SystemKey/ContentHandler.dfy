@@ -1,10 +1,12 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-include "../KmsUtils.dfy"
+include "../KeyStoreAdminHelpers.dfy"
 include "../../../../dafny/AwsCryptographicMaterialProviders/src/CanonicalEncryptionContext.dfy"
 include "../../../../dafny/AwsCryptographicMaterialProviders/src/Index.dfy"
 include "../../../../dafny/AwsCryptographicMaterialProviders/src/Keyrings/AwsKms/AwsKmsUtils.dfy"
+
+include "../../../../dafny/AwsCryptographyKeyStore/src/KmsUtils.dfy"
 
 /* Internal methods for Signing and Verifying Arbitary Content */
 module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
@@ -12,13 +14,14 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
   import opened StandardLibrary.UInt
   import KMS = Com.Amazonaws.Kms
   import Types = AwsCryptographyKeyStoreAdminTypes
-  import KmsUtils
+  import KeyStoreAdminHelpers
   import AtomicPrimitives
   import CanonicalEncryptionContext
   import MPL = MaterialProviders
   import Base64
   import UTF8
   import AwsKmsUtils
+  import KmsUtils
   import Structure
 
   // TODO: refactor constants to follow pattern in Materials.dfy.
@@ -87,31 +90,6 @@ module {:options "/functionSyntax:4" } SystemKey.ContentHandler {
       && Crypto.ValidState()
       && Content.ValidState()
     }
-  }
-
-  method ProvideCryptoClient(
-    // Crypto?: Option<AtomicPrimitives.Types.IAwsCryptographicPrimitivesClient> := None
-    Crypto?: Option<AtomicPrimitives.AtomicPrimitivesClient> := None
-  )
-    returns (output: Result<AtomicPrimitives.AtomicPrimitivesClient, AtomicPrimitives.Types.Error>)
-    requires Crypto?.Some? ==> Crypto?.value.ValidState()
-    modifies (if Crypto?.Some? then Crypto?.value.Modifies else {})
-    ensures output.Success?
-            ==>
-              && output.value.ValidState()
-              && fresh(output.value)
-              && fresh(output.value.Modifies)
-  {
-    var Crypto: AtomicPrimitives.AtomicPrimitivesClient; //AtomicPrimitives.Types.IAwsCryptographicPrimitivesClient;
-    if (Crypto?.None?) {
-      Crypto :- AtomicPrimitives.AtomicPrimitives();
-    } else {
-      Crypto := Crypto?.value;
-    }
-    // If the customer gave us the Crypto Client, it is fresh
-    // If we create the Crypto Client, it is fresh
-    assume {:axiom} fresh(Crypto) && fresh(Crypto.Modifies);
-    return Success(Crypto);
   }
 
   // TODO-Mutations-FF : Add Pre/Post Conditions

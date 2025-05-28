@@ -17,6 +17,58 @@ module {:options "/functionSyntax:4"} StorageHelpers {
   const ToAttributeMap := Structure.ToAttributeMap
   const ToEncryptedHierarchicalKey := Structure.ToEncryptedHierarchicalKey
 
+  function HasValidBKType?(
+    item: DDB.Types.AttributeMap,
+    identifier: string,
+    ddbTableName: string
+  ): (output: Result<Structure.ValidBKType, Types.Error>)
+    ensures
+      output.Success?
+      ==>
+        && Structure.TYPE_FIELD in item
+        && item[Structure.TYPE_FIELD].S?
+        && Structure.ValidBKType?(item[Structure.TYPE_FIELD].S)
+        && output.value == item[Structure.TYPE_FIELD].S
+  {
+    :- Need(
+         && Structure.TYPE_FIELD in item
+         && item[Structure.TYPE_FIELD].S?
+         && Structure.ValidBKType?(item[Structure.TYPE_FIELD].S),
+         Types.KeyStorageException(
+           message:="Item returned by DDB has an unsupported Type or is missing it enitrely."
+           + " TableName: " + ddbTableName
+           + "\tBranch Key ID: " + identifier)
+       );
+    Success(item[Structure.TYPE_FIELD].S)
+  }
+
+  function HasValidHierarchyVersion?(
+    item: DDB.Types.AttributeMap,
+    identifier: string,
+    ddbTableName: string,
+    bkType: Structure.ValidBKType
+  ): (output: Result<string, Types.Error>)
+    ensures
+      output.Success?
+      ==>
+        && Structure.HIERARCHY_VERSION in item
+        && item[Structure.HIERARCHY_VERSION].N?
+        && Structure.StringIsValidHierarchyVersion?(item[Structure.HIERARCHY_VERSION].N)
+        && output.value == item[Structure.HIERARCHY_VERSION].N
+  {
+    :- Need(
+         && Structure.HIERARCHY_VERSION in item
+         && item[Structure.HIERARCHY_VERSION].N?
+         && Structure.StringIsValidHierarchyVersion?(item[Structure.HIERARCHY_VERSION].N),
+         Types.KeyStorageException(
+           message:="Item returned by DDB has an unsupported Schema Version (`hierarchy-version`) or is missing it entirely."
+           + " TableName: " + ddbTableName
+           + "\tBranch Key ID: " + identifier
+           + "\tBK Type/SortKey: " + bkType)
+       );
+    Success(item[Structure.HIERARCHY_VERSION].N)
+  }
+
   function MutationCommitmentFromOptionalItem(
     item?: Option<DDB.Types.AttributeMap>,
     identifier: string,
@@ -38,23 +90,25 @@ module {:options "/functionSyntax:4"} StorageHelpers {
     ddbTableName: string
   ): (output: Result<Types.MutationCommitment, Types.Error>)
     ensures output.Success? ==>
+              var schemaVersion? := HasValidHierarchyVersion?(item, identifier, ddbTableName, Structure.MUTATION_COMMITMENT_TYPE);
+              && schemaVersion?.Success?
               && (output.value.Identifier == identifier)
-              && Structure.MutationCommitmentAttribute?(item)
-              && output.value == Structure.ToMutationCommitment(item)
-    ensures !Structure.MutationCommitmentAttribute?(item) ==> output.Failure?
+              && Structure.MutationCommitmentAttribute?(item, schemaVersion?.value)
+              && output.value == Structure.ToMutationCommitment(item, schemaVersion?.value)
   {
+    var schemaVersion :- HasValidHierarchyVersion?(item, identifier, ddbTableName, Structure.MUTATION_COMMITMENT_TYPE);
     :- Need(
-         Structure.MutationCommitmentAttribute?(item),
+         Structure.MutationCommitmentAttribute?(item, schemaVersion),
          Types.KeyStorageException(
-           message:="Malformed Mutation Lock encountered. TableName: "
+           message:="Malformed Mutation Commitment encountered. TableName: "
            + ddbTableName + "\tBranch Key ID: " + identifier)
        );
-    var mLock := Structure.ToMutationCommitment(item);
+    var mLock := Structure.ToMutationCommitment(item, schemaVersion);
     :- Need(
          mLock.Identifier == identifier,
          Types.KeyStorageException(
            message:=
-             "Mutation Lock returned by DDB is for wrong Branch Key ID. "
+             "Mutation Commitment returned by DDB is for wrong Branch Key ID. "
              + "TableName: " + ddbTableName
              + "\tRequested Branch Key ID: " + identifier
              + "\tReturned Branch Key ID: " + mLock.Identifier)
@@ -83,18 +137,20 @@ module {:options "/functionSyntax:4"} StorageHelpers {
     ddbTableName: string
   ): (output: Result<Types.MutationIndex, Types.Error>)
     ensures output.Success? ==>
+              var schemaVersion? := HasValidHierarchyVersion?(item, identifier, ddbTableName, Structure.MUTATION_INDEX_TYPE);
+              && schemaVersion?.Success?
               && (output.value.Identifier == identifier)
-              && Structure.MutationIndexAttribute?(item)
-              && output.value == Structure.ToMutationIndex(item)
-    ensures !Structure.MutationIndexAttribute?(item) ==> output.Failure?
+              && Structure.MutationIndexAttribute?(item, schemaVersion?.value)
+              && output.value == Structure.ToMutationIndex(item, schemaVersion?.value)
   {
+    var schemaVersion :- HasValidHierarchyVersion?(item, identifier, ddbTableName, Structure.MUTATION_INDEX_TYPE);
     :- Need(
-         Structure.MutationIndexAttribute?(item),
+         Structure.MutationIndexAttribute?(item, schemaVersion),
          Types.KeyStorageException(
            message:="Malformed Mutation Index encountered. TableName: "
            + ddbTableName + "\tBranch Key ID: " + identifier)
        );
-    var mIndex := Structure.ToMutationIndex(item);
+    var mIndex := Structure.ToMutationIndex(item, schemaVersion);
     :- Need(
          mIndex.Identifier == identifier,
          Types.KeyStorageException(
@@ -115,11 +171,13 @@ module {:options "/functionSyntax:4"} StorageHelpers {
   ): (output: Result<Types.EncryptedHierarchicalKey, Types.Error>)
     ensures output.Success?
             ==>
-              && Structure.EncryptedHierarchicalKey?(output.value)
+              && Structure.EncryptedHierarchicalKeyFromStorage?(output.value)
               && output.value.Identifier == identifier
               && output.value.EncryptionContext[Structure.TABLE_FIELD] == logicalKeyStoreName
               && KmsArn.ValidKmsArn?(output.value.KmsArn)
   {
+    var bkType :- HasValidBKType?(item, identifier, ddbTableName);
+    var schemaVersion :- HasValidHierarchyVersion?(item, identifier, ddbTableName, bkType);
     :- Need(
          Structure.BranchKeyItem?(item),
          Types.KeyStorageException(

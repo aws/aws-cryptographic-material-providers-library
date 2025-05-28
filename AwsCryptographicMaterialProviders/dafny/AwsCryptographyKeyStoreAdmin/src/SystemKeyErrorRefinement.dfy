@@ -1,7 +1,7 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
-include "KmsUtils.dfy"
+include "KeyStoreAdminHelpers.dfy"
 
 module {:options "/functionSyntax:4" } SystemKeyErrorRefinement {
   import opened Wrappers
@@ -11,7 +11,7 @@ module {:options "/functionSyntax:4" } SystemKeyErrorRefinement {
   import KMS = Com.Amazonaws.Kms
   import StandardLibrary.String
   import Structure
-  import KmsUtils
+  import KeyStoreAdminHelpers
 
   // function ParsedErrorContext(
   //   nameonly localOperation: string,
@@ -39,7 +39,7 @@ module {:options "/functionSyntax:4" } SystemKeyErrorRefinement {
   //   requires branchKeyItem.Type.ActiveHierarchicalSymmetricVersion?
   // {
   //   //TODO-Mutations-GA :: Better error message
-  //   var opaqueKmsError? := KmsUtils.ExtractKmsOpaque(error);
+  //   var kmsError? := KmsUtils.ExtractKmsError(error);
   //   var kmsErrorMessage? := KmsUtils.ExtractMessageFromKmsError(error);
   //   var errorContext := ParsedErrorContext(
   //                         localOperation := localOperation,

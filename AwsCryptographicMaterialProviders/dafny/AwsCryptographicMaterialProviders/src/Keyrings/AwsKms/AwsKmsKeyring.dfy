@@ -455,6 +455,12 @@ module AwsKmsKeyring {
              //# included in the input [decryption materials]
              //# (../structures.md#decryption-materials).
           && AlgorithmSuites.GetEncryptKeyLength(input.materials.algorithmSuite) as nat == |res.value.materials.plaintextDataKey.value|
+             //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
+             //= type=implication
+             //# To attempt to decrypt a particular [encrypted data key]
+             //# (../structures.md#encrypted-data-key), OnDecrypt MUST call [AWS KMS
+             //# Decrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html)
+             //# with the configured AWS KMS client.
           && var LastDecrypt := Last(client.History.Decrypt);
           && LastDecrypt.output.Success?
           && OkForDecrypt(awsKmsArn, awsKmsKey).Pass?
@@ -476,36 +482,26 @@ module AwsKmsKeyring {
                      //# (https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html),
                      //# the keyring MUST call with a request constructed
                      //# as follows:
-                  && KMS.DecryptRequest(
-                       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
-                       //= type=implication
-                       //# - `KeyId` MUST be the configured AWS KMS key identifier.
-                       KeyId := Some(awsKmsKey),
-                       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
-                       //= type=implication
-                       //# - `CiphertextBlob` MUST be the [encrypted data key ciphertext]
-                       //# (../structures.md#ciphertext).
-                       CiphertextBlob := maybeWrappedMaterial.value,
-                       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
-                       //= type=implication
-                       //# - `EncryptionContext` MUST be the [encryption context]
-                       //# (../structures.md#encryption-context) included in the input
-                       //# [decryption materials](../structures.md#decryption-materials).
-                       EncryptionContext := Some(maybeStringifiedEncCtx.value),
-                       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
-                       //= type=implication
-                       //# - `GrantTokens` MUST be this keyring's [grant tokens]
-                       //# (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
-                       GrantTokens := Some(grantTokens),
-                       EncryptionAlgorithm := None
-                     )
                      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
                      //= type=implication
-                     //# To attempt to decrypt a particular [encrypted data key]
-                     //# (../structures.md#encrypted-data-key), OnDecrypt MUST call [AWS KMS
-                     //# Decrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html)
-                     //# with the configured AWS KMS client.
-                     == LastDecrypt.input
+                     //# - `KeyId` MUST be the configured AWS KMS key identifier.
+                  && LastDecrypt.input.KeyId == Some(awsKmsKey)
+                     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
+                     //= type=implication
+                     //# - `CiphertextBlob` MUST be the [encrypted data key ciphertext]
+                     //# (../structures.md#ciphertext).
+                  && LastDecrypt.input.CiphertextBlob == maybeWrappedMaterial.value
+                     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
+                     //= type=implication
+                     //# - `EncryptionContext` MUST be the [encryption context]
+                     //# (../structures.md#encryption-context) included in the input
+                     //# [decryption materials](../structures.md#decryption-materials).
+                  && LastDecrypt.input.EncryptionContext == Some(maybeStringifiedEncCtx.value)
+                     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
+                     //= type=implication
+                     //# - `GrantTokens` MUST be this keyring's [grant tokens]
+                     //# (https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
+                  && LastDecrypt.input.GrantTokens == Some(grantTokens)
                      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
                      //= type=implication
                      //# - The `KeyId` field in the response MUST equal the configured AWS
@@ -548,6 +544,8 @@ module AwsKmsKeyring {
             ));
       }
 
+      AnEdkExistsLemma(edksToAttempt);
+
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
       //# For each encrypted data key in the filtered set, one at a time, the
       //# OnDecrypt MUST attempt to decrypt the data key.
@@ -574,19 +572,43 @@ module AwsKmsKeyring {
       //# If OnDecrypt fails to successfully decrypt any [encrypted data key]
       //# (../structures.md#encrypted-data-key), then it MUST yield an error
       //# that includes all the collected errors.
-      .MapFailure(errors => Types.CollectionOfErrors(
-                      list := errors,
-                      message := "No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."));
+      .MapFailure(
+        errors
+        =>
+          Types.CollectionOfErrors(
+            list := errors,
+            message := "No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."
+          ));
 
       ghost var LastDecrypt := Last(client.History.Decrypt);
       assert LastDecrypt.output.Success?;
       assert LastDecrypt.output.value.KeyId == Some(awsKmsKey);
+      assert exists edk | edk in edksToAttempt
+          ::
+            && var maybeWrappedMaterial :=
+              EdkWrapping.GetProviderWrappedMaterial(edk.ciphertext, input.materials.algorithmSuite);
+            && maybeWrappedMaterial.Success?
+            && KMS.IsValid_CiphertextType(maybeWrappedMaterial.value)
+            && LastDecrypt.input.KeyId == Some(awsKmsKey)
+            && LastDecrypt.input.CiphertextBlob == maybeWrappedMaterial.value
+            && LastDecrypt.input.GrantTokens == Some(grantTokens)
+            && var maybeStringifiedEncCtx := StringifyEncryptionContext(materials.encryptionContext);
+            && maybeStringifiedEncCtx.Success?
+            && LastDecrypt.input.EncryptionContext == Some(maybeStringifiedEncCtx.value);
 
       assert decryptClosure.Ensures(Last(attempts).input, Success(SealedDecryptionMaterials), DropLast(attempts));
       return Success(Types.OnDecryptOutput(
                        materials := SealedDecryptionMaterials
                      ));
     }
+  }
+
+  lemma AnEdkExistsLemma(edksToAttempt: seq<Types.EncryptedDataKey>)
+    requires |edksToAttempt| > 0
+    ensures exists edk | edk in edksToAttempt :: true
+  {
+    var edk := edksToAttempt[0];
+    assert edk in edksToAttempt;
   }
 
   class OnDecryptEncryptedDataKeyFilter
@@ -605,8 +627,8 @@ module AwsKmsKeyring {
       && (
         && res.Success?
         && res.value
-        ==>
-          edk.keyProviderId == PROVIDER_ID)
+        ==> exists edk' | edk' == edk
+            :: edk'.keyProviderId == PROVIDER_ID)
     }
 
     method Invoke(edk: Types.EncryptedDataKey)
