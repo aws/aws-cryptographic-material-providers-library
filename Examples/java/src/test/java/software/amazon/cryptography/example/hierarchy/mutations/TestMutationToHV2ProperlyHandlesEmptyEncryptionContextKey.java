@@ -103,6 +103,7 @@ public class TestMutationToHV2ProperlyHandlesEmptyEncryptionContextKey {
       Objects.nonNull(caughtException),
       "Exception was expected"
     );
+    // TODO-HV-2-FOLLOW : Create unique errors for Emptyish vs Out of Bound Modification
     Assert.assertTrue(
       caughtException.getMessage().contains(expectedErrorMsgContains),
       "Error Message did not contain expected content. Expected message to contain: " +

@@ -89,6 +89,7 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
   const MD_DIGEST_SHA_NOT_MATCHED :=
     "This branch key item has failed the authentication check. Either it has been tampered with or the wrong 'Logical Key Store Name' has been provided."
 
+  // TODO-HV-2-FOLLOW : Create unique errors for Emptyish vs Out of Bound Modification
   const INVALID_EC_FOUND :=
     "Invalid encryption context found. There are two possible reasons: Emptyish Keys or out-of-library modification."
     + " Emptyish Keys: one or more Keys in the Encryption Context are emptyish; KMS will reject them, and this library cannot process them for \"hierarchy-version-2\"."
