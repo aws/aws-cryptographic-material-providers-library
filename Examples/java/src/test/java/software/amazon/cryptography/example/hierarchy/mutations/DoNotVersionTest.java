@@ -35,7 +35,8 @@ public class DoNotVersionTest {
         Fixtures.KEYSTORE_KMS_ARN,
         branchKeyId,
         admin,
-        HierarchyVersion.v1
+        HierarchyVersion.v1,
+        null
       ),
       "Creation of test BK failed."
     );

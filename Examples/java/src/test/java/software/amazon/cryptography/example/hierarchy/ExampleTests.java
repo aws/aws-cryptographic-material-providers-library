@@ -39,7 +39,8 @@ public class ExampleTests {
       Fixtures.KEYSTORE_KMS_ARN,
       branchKeyId,
       AdminProvider.admin(),
-      HierarchyVersion.v2
+      HierarchyVersion.v2,
+      null
     );
     final KeyStore keyStore = KeyStoreProvider.keyStore(
       Fixtures.KEYSTORE_KMS_ARN
@@ -123,7 +124,8 @@ public class ExampleTests {
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      initialHVersion
+      initialHVersion,
+      null
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
@@ -227,7 +229,8 @@ public class ExampleTests {
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      initialHVersion
+      initialHVersion,
+      null
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =
@@ -341,7 +344,8 @@ public class ExampleTests {
       Fixtures.KEYSTORE_KMS_ARN,
       null,
       AdminProvider.admin(),
-      initialHVersion
+      initialHVersion,
+      null
     );
     System.out.println("\nCreated Branch Key: " + branchKeyId);
     branchKeyId =

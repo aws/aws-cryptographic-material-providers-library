@@ -50,7 +50,8 @@ public class DescribeMutationTest {
       Fixtures.KEYSTORE_KMS_ARN,
       branchKeyId,
       null,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      null
     );
     InitMutation(
       branchKeyId,
@@ -88,7 +89,8 @@ public class DescribeMutationTest {
       Fixtures.KEYSTORE_KMS_ARN,
       branchKeyId,
       null,
-      HierarchyVersion.v1
+      HierarchyVersion.v1,
+      null
     );
     InitMutation(
       branchKeyId,

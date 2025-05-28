@@ -41,6 +41,8 @@ dependencies {
     implementation("org.slf4j:slf4j-api:${slf4jVersion}")
     implementation("org.slf4j:slf4j-simple:${slf4jVersion}")
     implementation("org.slf4j:jcl-over-slf4j:${slf4jVersion}")
+    // A very nice library for validating collections
+    implementation("org.apache.commons:commons-collections4:4.5.0")
     // https://mvnrepository.com/artifact/org.testng/testng
     testImplementation("org.testng:testng:7.5")
     // https://mvnrepository.com/artifact/org.mockito/mockito-inline
