@@ -70,8 +70,8 @@ tasks.withType<JavaCompile>() {
 tasks.test {
     useTestNG()
     // This will show System.out.println statements
-    testLogging.showStandardStreams = true
-    testLogging { events("passed", "skipped") }
+    // testLogging.showStandardStreams = true
+    testLogging { events( "skipped", "failed") }
     filter {
         excludeTestsMatching("software.amazon.cryptography.example.hierarchy.concurrent.*")
     }
