@@ -1,7 +1,6 @@
 package software.amazon.cryptography.example;
 
 import java.util.Map;
-import org.apache.commons.collections4.MapUtils;
 import software.amazon.awssdk.utils.ImmutableMap;
 
 public class Constants {
