@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 package software.amazon.cryptography.example;
 
-import java.time.Duration;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.http.SdkHttpClient;
@@ -45,6 +44,13 @@ public class Fixtures {
     "arn:aws:iam::370957321024:role/Restricted-KMS-HKey-Two-Only";
   public static final String KMS_KEYSTORE_ONLY =
     "arn:aws:iam::370957321024:role/Restricted-KMS-HKey-One-Only";
+  public static final String KMS_HV1_With_Prefixed_Robbie =
+    "arn:aws:iam::370957321024:role/KMS-HV1-With-Prefixed-Robbie";
+  // ^ Restrict to Encryption Context that contains "aws-crypto-ec:Robbie": "Is a Dog."
+  public static final String KMS_HV2_With_Only_Robbie =
+    "arn:aws:iam::370957321024:role/KMS-HV2-Robbie-Only";
+  // ^ Restrict to Encryption Context that is ONLY "Robbie": "Is a Dog."
+
   // Static Branch Key IDs
   public static final String HV2_BRANCH_KEY_ID =
     "4a0c7b92-3703-4209-8961-24b07ab6562b";
@@ -55,7 +61,6 @@ public class Fixtures {
     DefaultCredentialsProvider.create();
   public static final SdkHttpClient httpClient = ApacheHttpClient
     .builder()
-    .connectionTimeToLive(Duration.ofSeconds(5))
     .build();
   public static final DynamoDbClient ddbClientWest2 = DynamoDbClient
     .builder()
@@ -108,6 +113,34 @@ public class Fixtures {
     .credentialsProvider(
       CredentialUtils.credsForRole(
         Fixtures.KMS_KEYSTORE_ONLY,
+        "java-mpl-examples",
+        Region.US_WEST_2,
+        Fixtures.httpClient,
+        Fixtures.defaultCreds
+      )
+    )
+    .region(Region.US_WEST_2)
+    .httpClient(Fixtures.httpClient)
+    .build();
+  public static final KmsClient prefixedRobbiePresent = KmsClient
+    .builder()
+    .credentialsProvider(
+      CredentialUtils.credsForRole(
+        Fixtures.KMS_HV1_With_Prefixed_Robbie,
+        "java-mpl-examples",
+        Region.US_WEST_2,
+        Fixtures.httpClient,
+        Fixtures.defaultCreds
+      )
+    )
+    .region(Region.US_WEST_2)
+    .httpClient(Fixtures.httpClient)
+    .build();
+  public static final KmsClient defixedRobbieOnly = KmsClient
+    .builder()
+    .credentialsProvider(
+      CredentialUtils.credsForRole(
+        Fixtures.KMS_HV2_With_Only_Robbie,
         "java-mpl-examples",
         Region.US_WEST_2,
         Fixtures.httpClient,
