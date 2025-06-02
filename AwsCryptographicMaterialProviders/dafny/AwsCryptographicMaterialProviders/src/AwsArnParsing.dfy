@@ -9,11 +9,12 @@ module AwsArnParsing {
   import opened Wrappers
   import opened Seq
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import Types = AwsCryptographyMaterialProvidersTypes
   import DDB = ComAmazonawsDynamodbTypes
   import UTF8
 
-  const MAX_AWS_KMS_IDENTIFIER_LENGTH := 2048
+  const MAX_AWS_KMS_IDENTIFIER_LENGTH := 2048 as uint64
 
   datatype AwsResource = AwsResource(
     resourceType: string,
@@ -21,7 +22,8 @@ module AwsArnParsing {
   ) {
     predicate method Valid()
     {
-      && 0 < |value|
+      SequenceIsSafeBecauseItIsInMemory(value);
+      && 0 < |value| as uint64
     }
 
     function method ToString(): string
@@ -43,11 +45,15 @@ module AwsArnParsing {
   ) {
     predicate method Valid()
     {
+      SequenceIsSafeBecauseItIsInMemory(partition);
+      SequenceIsSafeBecauseItIsInMemory(service);
+      SequenceIsSafeBecauseItIsInMemory(region);
+      SequenceIsSafeBecauseItIsInMemory(account);
       && arnLiteral == "arn"
-      && 0 < |partition|
-      && 0 < |service|
-      && 0 < |region|
-      && 0 < |account|
+      && 0 < |partition| as uint64
+      && 0 < |service| as uint64
+      && 0 < |region| as uint64
+      && 0 < |account| as uint64
       && resource.Valid()
     }
 
@@ -116,9 +122,10 @@ module AwsArnParsing {
   {
     var info := Split(identifier, '/');
 
-    :- Need(info[0] != "key", "Malformed raw key id: " + identifier);
+    :- Need(info[0 as uint32] != "key", "Malformed raw key id: " + identifier);
+    SequenceIsSafeBecauseItIsInMemory(info);
 
-    if |info| == 1 then
+    if |info| as uint64 == 1 then
       ParseAwsKmsResources("key/" + identifier)
     else
       ParseAwsKmsResources(identifier)
@@ -127,11 +134,12 @@ module AwsArnParsing {
   function method ParseAwsKmsResources(identifier: string): (result: Result<AwsKmsResource, string>)
   {
     var info := Split(identifier, '/');
+    SequenceIsSafeBecauseItIsInMemory(info);
 
-    :- Need(|info| > 1, "Malformed resource: " + identifier);
+    :- Need(|info| as uint64 > 1, "Malformed resource: " + identifier);
 
-    var resourceType := info[0];
-    var value := Join(info[1..], "/");
+    var resourceType := info[0 as uint32];
+    var value := Join(info[1 as uint32 ..], "/");
 
     var resource := AwsResource(resourceType, value);
 
@@ -239,17 +247,19 @@ module AwsArnParsing {
               && |Split(identifier, ':')[4]| > 0
   {
     var components := Split(identifier, ':');
+    SequenceIsSafeBecauseItIsInMemory(components);
 
-    :- Need(6 == |components|, "Malformed arn: " + identifier);
 
-    var resource :- ParseAwsKmsResources(components[5]);
+    :- Need(6 == |components| as uint64, "Malformed arn: " + identifier);
+
+    var resource :- ParseAwsKmsResources(components[5 as uint32]);
 
     var arn := AwsArn(
-                 components[0],
-                 components[1],
-                 components[2],
-                 components[3],
-                 components[4],
+                 components[0 as uint32],
+                 components[1 as uint32],
+                 components[2 as uint32],
+                 components[3 as uint32],
+                 components[4 as uint32],
                  resource
                );
 
@@ -268,17 +278,18 @@ module AwsArnParsing {
               && |Split(identifier, ':')[4]| > 0
   {
     var components := Split(identifier, ':');
+    SequenceIsSafeBecauseItIsInMemory(components);
 
-    :- Need(6 == |components|, "Malformed arn: " + identifier);
+    :- Need(6 == |components| as uint64, "Malformed arn: " + identifier);
 
-    var resource :- ParseAmazonDynamodbResources(components[5]);
+    var resource :- ParseAmazonDynamodbResources(components[5 as uint32]);
 
     var arn := AwsArn(
-                 components[0],
-                 components[1],
-                 components[2],
-                 components[3],
-                 components[4],
+                 components[0 as uint32],
+                 components[1 as uint32],
+                 components[2 as uint32],
+                 components[3 as uint32],
+                 components[4 as uint32],
                  resource
                );
 
@@ -454,7 +465,8 @@ module AwsArnParsing {
   ): (res: Result<AwsKmsIdentifier, string>)
   {
     :- Need(UTF8.IsASCIIString(s), "Not a valid ASCII string.");
-    :- Need(0 < |s| <= MAX_AWS_KMS_IDENTIFIER_LENGTH , "Identifier exceeds maximum length.");
+    SequenceIsSafeBecauseItIsInMemory(s);
+    :- Need(0 < |s| as uint64 <= MAX_AWS_KMS_IDENTIFIER_LENGTH, "Identifier exceeds maximum length.");
     ParseAwsKmsIdentifier(s)
   }
 

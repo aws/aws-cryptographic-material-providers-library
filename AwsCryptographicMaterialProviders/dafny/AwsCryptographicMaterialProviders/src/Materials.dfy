@@ -8,6 +8,7 @@ module Materials {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import Base64
   import UTF8
   import Types = AwsCryptographyMaterialProvidersTypes
@@ -115,7 +116,7 @@ module Materials {
 
     :- Need(forall key <- input.requiredEncryptionContextKeys :: key in input.encryptionContext,
             Types.AwsCryptographicMaterialProvidersException(
-              message := "Reporoduced encryption context key did not exist in provided encryption context.")
+              message := "Reproduced encryption context key did not exist in provided encryption context.")
        );
 
     var suite := AS.GetSuite(input.algorithmSuiteId);
@@ -158,7 +159,7 @@ module Materials {
    * of the plaintext data key and encrypted data keys.
    * Once a plaintext data key is added,
    * it can never be removed or altered.
-   * Simmilarly encrypted data keys can be added,
+   * Similarly encrypted data keys can be added,
    * but none can be removed.
    * This lets keyrings/CMM handle immutable data,
    * and easily assert these invariants.
@@ -167,6 +168,8 @@ module Materials {
     oldMat: Types.EncryptionMaterials,
     newMat: Types.EncryptionMaterials
   ) {
+    SequenceIsSafeBecauseItIsInMemory(oldMat.encryptedDataKeys);
+    SequenceIsSafeBecauseItIsInMemory(newMat.encryptedDataKeys);
     && newMat.algorithmSuite == oldMat.algorithmSuite
     && newMat.encryptionContext == oldMat.encryptionContext
     && newMat.requiredEncryptionContextKeys == oldMat.requiredEncryptionContextKeys
@@ -176,13 +179,13 @@ module Materials {
          || oldMat.plaintextDataKey == newMat.plaintextDataKey
        )
     && newMat.plaintextDataKey.Some?
-    && |oldMat.encryptedDataKeys| <= |newMat.encryptedDataKeys|
+    && |oldMat.encryptedDataKeys| as uint64 <= |newMat.encryptedDataKeys| as uint64
     && multiset(oldMat.encryptedDataKeys) <= multiset(newMat.encryptedDataKeys)
     && (
          !oldMat.algorithmSuite.symmetricSignature.None?
          ==>
            && newMat.symmetricSigningKeys.Some?
-           && (oldMat.symmetricSigningKeys.Some? || (oldMat.symmetricSigningKeys.None? && |oldMat.encryptedDataKeys| == 0))
+           && (oldMat.symmetricSigningKeys.Some? || (oldMat.symmetricSigningKeys.None? && |oldMat.encryptedDataKeys| as uint64 == 0))
            && multiset(oldMat.symmetricSigningKeys.UnwrapOr([])) <= multiset(newMat.symmetricSigningKeys.value))
     && ValidEncryptionMaterials(oldMat)
     && ValidEncryptionMaterials(newMat)
@@ -212,6 +215,9 @@ module Materials {
   {}
 
   predicate method ValidEncryptionMaterials(encryptionMaterials: Types.EncryptionMaterials) {
+    SequenceIsSafeBecauseItIsInMemory(encryptionMaterials.encryptedDataKeys);
+    OptionalSequenceIsSafeBecauseItIsInMemory(encryptionMaterials.plaintextDataKey);
+    OptionalSequenceIsSafeBecauseItIsInMemory(encryptionMaterials.symmetricSigningKeys);
     && AS.AlgorithmSuite?(encryptionMaterials.algorithmSuite)
     && var suite := encryptionMaterials.algorithmSuite;
     && (suite.signature.None? <==> encryptionMaterials.signingKey.None?)
@@ -221,12 +227,12 @@ module Materials {
        //# - Fit the specification for the [key derivation algorithm](algorithm-
        //#   suites.md#key-derivation-algorithm) included in this decryption
        //#   material's [algorithm suite](#algorithm-suite).
-    && (encryptionMaterials.plaintextDataKey.Some? ==> AS.GetEncryptKeyLength(suite) as nat == |encryptionMaterials.plaintextDataKey.value|)
+    && (encryptionMaterials.plaintextDataKey.Some? ==> AS.GetEncryptKeyLength(suite) as uint64 == |encryptionMaterials.plaintextDataKey.value| as uint64)
        //= aws-encryption-sdk-specification/framework/structures.md#encrypted-data-keys
        //= type=implication
        //# If the plaintext data key is not included in this set of encryption
        //# materials, this list MUST be empty.
-    && (encryptionMaterials.plaintextDataKey.None? ==> |encryptionMaterials.encryptedDataKeys| == 0)
+    && (encryptionMaterials.plaintextDataKey.None? ==> |encryptionMaterials.encryptedDataKeys| as uint64 == 0)
        //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-1
        //= type=implication
        //# If an [encryption material](#encryption-materials) contains a [signing key]
@@ -247,17 +253,17 @@ module Materials {
     //# included in this encryption material's [algorithm suite](#algorithm-suite).
     // ECDSA keys are just bytes.
     // `FieldSize` in Signature.dfy could be exported to do this check
-    // But at this time existince is deemed acceptable.
+    // But at this time existence is deemed acceptable.
     && (suite.signature.ECDSA? <==> encryptionMaterials.signingKey.Some?)
     && (!suite.signature.None? <==> EC_PUBLIC_KEY_FIELD in encryptionMaterials.encryptionContext)
        //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-keys
        //= type=implication
        //# If the algorithm suite does contain a symmetric signing algorithm, this list MUST have length equal to the [encrypted data key list](#encrypted-data-keys).
     && (suite.symmetricSignature.HMAC? && encryptionMaterials.symmetricSigningKeys.Some? ==>
-          |encryptionMaterials.symmetricSigningKeys.value| == |encryptionMaterials.encryptedDataKeys|)
+          |encryptionMaterials.symmetricSigningKeys.value| as uint64 == |encryptionMaterials.encryptedDataKeys| as uint64)
     && (suite.symmetricSignature.HMAC? ==>
           || encryptionMaterials.symmetricSigningKeys.Some?
-          || (|encryptionMaterials.encryptedDataKeys| == 0 && encryptionMaterials.symmetricSigningKeys.None?))
+          || (|encryptionMaterials.encryptedDataKeys| as uint64 == 0 && encryptionMaterials.symmetricSigningKeys.None?))
        //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-keys
        //= type=implication
        //# If the algorithm suite does not contain a symmetric signing algorithm, this list MUST NOT be included in the materials.
@@ -289,8 +295,9 @@ module Materials {
   //# - For every key in [Required Encryption Context Keys](structures.md#required-encryption-context-keys)
   //#   there MUST be a matching key in the [Encryption Context](structures.md#encryption-context-1).
   predicate method EncryptionMaterialsHasPlaintextDataKey(encryptionMaterials: Types.EncryptionMaterials) {
+    SequenceIsSafeBecauseItIsInMemory(encryptionMaterials.encryptedDataKeys);
     && encryptionMaterials.plaintextDataKey.Some?
-    && |encryptionMaterials.encryptedDataKeys| > 0
+    && |encryptionMaterials.encryptedDataKeys| as uint64 > 0
     && ValidEncryptionMaterials(encryptionMaterials)
   }
 
@@ -352,7 +359,8 @@ module Materials {
             Types.InvalidEncryptionMaterialsTransition( message := "Attempt to modify invalid encryption material."));
     :- Need(encryptionMaterials.plaintextDataKey.None?,
             Types.InvalidEncryptionMaterialsTransition( message :="Attempt to modify plaintextDataKey."));
-    :- Need(AS.GetEncryptKeyLength(suite) as nat == |plaintextDataKey|,
+    SequenceIsSafeBecauseItIsInMemory(plaintextDataKey);
+    :- Need(AS.GetEncryptKeyLength(suite) as uint64 == |plaintextDataKey| as uint64,
             Types.InvalidEncryptionMaterialsTransition( message := "plaintextDataKey does not match Algorithm Suite specification."));
     :- Need(symmetricSigningKeysToAdd.None? == encryptionMaterials.algorithmSuite.symmetricSignature.None?,
             Types.InvalidEncryptionMaterialsTransition( message := "Adding encrypted data keys without a symmetric signing key when using symmetric signing is not allowed."));
@@ -418,6 +426,7 @@ module Materials {
   {}
 
   predicate method ValidDecryptionMaterials(decryptionMaterials: Types.DecryptionMaterials) {
+    OptionalSequenceIsSafeBecauseItIsInMemory(decryptionMaterials.plaintextDataKey);
     && AS.AlgorithmSuite?(decryptionMaterials.algorithmSuite)
     && var suite := decryptionMaterials.algorithmSuite;
     //= aws-encryption-sdk-specification/framework/structures.md#plaintext-data-key-1
@@ -426,7 +435,7 @@ module Materials {
     //# - Fit the specification for the [encryption algorithm](algorithm-
     //# suites.md#encryption-algorithm)  included in this decryption
     //# material's [algorithm suite](#algorithm-suite-1).
-    && (decryptionMaterials.plaintextDataKey.Some? ==> AS.GetEncryptKeyLength(suite) as nat == |decryptionMaterials.plaintextDataKey.value|)
+    && (decryptionMaterials.plaintextDataKey.Some? ==> AS.GetEncryptKeyLength(suite) as uint64 == |decryptionMaterials.plaintextDataKey.value| as uint64)
        //= aws-encryption-sdk-specification/framework/structures.md#encryption-context-2
        //= type=implication
        //# If a [decryption materials](#decryption-materials) contains a [verification key]
@@ -447,7 +456,7 @@ module Materials {
     //# included in this decryption material's [algorithm suite](#algorithm-suite-1).
     // ECDSA keys are just bytes.
     // `FieldSize` in Signature.dfy could be exported to do this check
-    // But at this time existince is deemed acceptable.
+    // But at this time existence is deemed acceptable.
     && (suite.signature.ECDSA? <==> decryptionMaterials.verificationKey.Some?)
     && (!suite.signature.None? <==> EC_PUBLIC_KEY_FIELD in decryptionMaterials.encryptionContext)
        //= aws-encryption-sdk-specification/framework/structures.md#symmetric-signing-key
@@ -481,12 +490,13 @@ module Materials {
               && DecryptionMaterialsWithPlaintextDataKey(res.value)
               && DecryptionMaterialsTransitionIsValid(decryptionMaterials, res.value)
   {
+    SequenceIsSafeBecauseItIsInMemory(plaintextDataKey);
     var suite := decryptionMaterials.algorithmSuite;
     :- Need(ValidDecryptionMaterials(decryptionMaterials),
             Types.InvalidDecryptionMaterialsTransition( message := "Attempt to modify invalid decryption material."));
     :- Need(decryptionMaterials.plaintextDataKey.None?,
             Types.InvalidDecryptionMaterialsTransition( message := "Attempt to modify plaintextDataKey."));
-    :- Need(AS.GetEncryptKeyLength(suite) as nat == |plaintextDataKey|,
+    :- Need(AS.GetEncryptKeyLength(suite) as uint64 == |plaintextDataKey| as uint64,
             Types.InvalidDecryptionMaterialsTransition( message := "plaintextDataKey does not match Algorithm Suite specification."));
     :- Need(symmetricSigningKey.Some? == !decryptionMaterials.algorithmSuite.symmetricSignature.None?,
             Types.InvalidDecryptionMaterialsTransition( message := "symmetric signature key must be added with plaintextDataKey if using an algorithm suite with symmetric signing."));

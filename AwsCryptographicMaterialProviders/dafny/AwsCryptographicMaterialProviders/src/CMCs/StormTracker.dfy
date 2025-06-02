@@ -151,7 +151,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
         inFlightTTL := cache.inFlightTTL as Types.PositiveLong;
       }
 
-      this.wrapped := new LocalCMC.LocalCMC(cache.entryCapacity as nat, cache.entryPruningTailSize.UnwrapOr(1) as nat);
+      this.wrapped := new LocalCMC.LocalCMC(cache.entryCapacity as uint64, cache.entryPruningTailSize.UnwrapOr(1) as uint64);
       this.inFlight := new MutableMap();
       this.gracePeriod := gracePeriod;
       this.graceInterval := graceInterval;
@@ -334,8 +334,8 @@ module {:options "/functionSyntax:4" }  StormTracker {
       // and T[0] is the most recent.
       var keySet := inFlight.Keys();
       var keys := SortedSets.ComputeSetToSequence(keySet);
-      for i := 0 to |keys|
-        invariant forall k | i <= k < |keys| :: keys[k] in inFlight.Keys()
+      for i : uint64 := 0 to |keys| as uint64
+        invariant forall k | i as nat <= k < |keys| :: keys[k] in inFlight.Keys()
         invariant ValidState()
       {
         reveal Seq.HasNoDuplicates();

@@ -366,8 +366,8 @@ module TestKDFK_TestVectors {
     print name + "\n";
     expect (|IKM| == 32 || |IKM| == 48) && L > 0 && 4 + |info| < INT32_MAX_LIMIT && (hash == AtomicPrimitives.Types.SHA_256 || hash == AtomicPrimitives.Types.SHA_384);
     expect
-      L as int + Digest.Length(AtomicPrimitives.Types.DigestAlgorithm.SHA_256) < INT32_MAX_LIMIT - 1
-      && L as int + Digest.Length(AtomicPrimitives.Types.DigestAlgorithm.SHA_384) < INT32_MAX_LIMIT - 1;
+      L as int + Digest.Length(AtomicPrimitives.Types.DigestAlgorithm.SHA_256) as nat < INT32_MAX_LIMIT - 1
+      && L as int + Digest.Length(AtomicPrimitives.Types.DigestAlgorithm.SHA_384) as nat < INT32_MAX_LIMIT - 1;
 
     TestKDF.KdfRawDeriveTest(IKM, info, L, OKM, hash);
   }

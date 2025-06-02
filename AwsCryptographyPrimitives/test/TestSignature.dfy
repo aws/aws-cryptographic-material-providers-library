@@ -21,7 +21,7 @@ module TestSignature {
   )
   {
     // The following is a declared postcondition of the KeyGen method:
-    expect |sigKeyPair.verificationKey| == Signature.FieldSize(alg);
+    expect |sigKeyPair.verificationKey| == Signature.FieldSize(alg) as nat;
   }
 
   method YCompression(alg: Types.ECDSASignatureAlgorithm, fieldSize: nat) {

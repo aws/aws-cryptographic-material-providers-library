@@ -28,6 +28,12 @@ func (_this *MutableMap) Equals(other *MutableMap) bool {
 	return _this == other
 }
 
+// If you use the returned value, and ALSO continue to modify the MutableMap
+// Then things might get weird. 
+func (_this *MutableMap) Content() _dafny.Map {
+	return _this.Internal
+}
+
 func (_this *MutableMap) EqualsGeneric(x interface{}) bool {
 	other, ok := x.(*MutableMap)
 	return ok && _this.Equals(other)

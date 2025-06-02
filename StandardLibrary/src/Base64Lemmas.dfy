@@ -80,10 +80,10 @@ module Base64Lemmas {
     requires |s| >= 4
     requires Is1Padding(s[(|s| - 4)..])
   {
+    assert |s| % 4 == 0;
     assert |DecodeValid(s)| % 3 == 2;
     assert 2 <= |DecodeValid(s)|;
   }
-
 
   lemma DecodeValidUnpaddedPartialFrom2PaddedSeq(s: seq<char>)
     requires IsBase64String(s)

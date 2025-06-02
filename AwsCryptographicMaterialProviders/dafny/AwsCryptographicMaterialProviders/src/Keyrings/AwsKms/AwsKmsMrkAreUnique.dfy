@@ -10,6 +10,8 @@ module AwsKmsMrkAreUnique {
   import opened Seq
   import opened AwsArnParsing
   import Types = AwsCryptographyMaterialProvidersTypes
+  import opened StandardLibrary.MemoryMath
+  import opened StandardLibrary.UInt
 
   //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-are-unique.md#implementation
   //= type=implication
@@ -18,13 +20,15 @@ module AwsKmsMrkAreUnique {
     : (result: Outcome<Types.Error>)
   {
     var mrks := Seq.Filter(IsMultiRegionAwsKmsIdentifier, identifiers);
+    SequenceIsSafeBecauseItIsInMemory(mrks);
 
-    if |mrks| == 0 then
+    if |mrks| as uint64 == 0 then
       Pass
     else
       var mrkKeyIds := Seq.Map(GetKeyId, mrks);
       var setMrks := ToSet(mrkKeyIds);
-      if |mrkKeyIds| == |setMrks| then
+      SetIsSafeBecauseItIsInMemory(setMrks);
+      if |mrkKeyIds| as uint64 == |setMrks| as uint64 then
         Pass
       else
         var duplicateMrkIds := set x | x in mrkKeyIds && multiset(mrkKeyIds)[x] >= 1;
@@ -36,7 +40,8 @@ module AwsKmsMrkAreUnique {
         assert |mrks| == |mrkKeyIds|;
         var duplicates := Seq.Map(identifierToString, duplicateIdentifiers);
 
-        if |duplicates| == 0 then
+        SequenceIsSafeBecauseItIsInMemory(duplicates);
+        if |duplicates| as uint64 == 0 then
           Fail(Types.AwsCryptographicMaterialProvidersException(message :="Impossible"))
         else
           Fail(Types.AwsCryptographicMaterialProvidersException(

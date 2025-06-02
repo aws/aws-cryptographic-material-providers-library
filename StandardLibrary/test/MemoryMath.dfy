@@ -4,7 +4,7 @@
 include "../src/MemoryMath.dfy"
 
 module {:options "--function-syntax:4"} MemoryMathTest {
-  import MemoryMath
+  import StandardLibrary.MemoryMath
   import opened StandardLibrary.UInt
 
   method Constrained(x : seq<uint8>, y : uint64, z : uint64) returns (ret : uint64)

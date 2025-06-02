@@ -19,6 +19,8 @@ include "AwsKms/AwsKmsRsaKeyring.dfy"
 module {:options "-functionSyntax:4"} MultiKeyring {
   import opened StandardLibrary
   import opened Wrappers
+  import opened StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import Types = AwsCryptographyMaterialProvidersTypes
   import Keyring
   import Materials
@@ -268,14 +270,15 @@ module {:options "-functionSyntax:4"} MultiKeyring {
         returnMaterials := onEncryptOutput.value.materials;
       }
 
-      for i := 0 to |this.childKeyrings|
+      SequenceIsSafeBecauseItIsInMemory(this.childKeyrings);
+      for i : uint64 := 0 to |this.childKeyrings| as uint64
         invariant 0 == i && this.generatorKeyring.None? ==> returnMaterials == input.materials
         invariant 0 < i || this.generatorKeyring.Some?  ==>
             && Materials.ValidEncryptionMaterialsTransition(input.materials, returnMaterials)
             && Materials.EncryptionMaterialsHasPlaintextDataKey(returnMaterials)
         invariant returnMaterials.plaintextDataKey.Some?
         invariant unchanged(History)
-        invariant i < |this.childKeyrings| ==> this.childKeyrings[i].Modifies <= Modifies
+        invariant i as nat < |this.childKeyrings| ==> this.childKeyrings[i].Modifies <= Modifies
       {
         var onEncryptInput := Types.OnEncryptInput(materials := returnMaterials);
         var child: Types.IKeyring := this.childKeyrings[i];
@@ -403,7 +406,8 @@ module {:options "-functionSyntax:4"} MultiKeyring {
       //# decrypt the materials, the multi-keyring MUST attempt to decrypt
       //# using its child keyrings, until one either succeeds in decryption or
       //# all have failed.
-      for j := 0 to |this.childKeyrings|
+      SequenceIsSafeBecauseItIsInMemory(this.childKeyrings);
+      for j : uint64 := 0 to |this.childKeyrings| as uint64
         invariant Materials.DecryptionMaterialsWithoutPlaintextDataKey(materials)
         invariant unchanged(History)
       {
@@ -482,7 +486,7 @@ module {:options "-functionSyntax:4"} MultiKeyring {
   }
 
   // This is a helper to gather
-  // all the `Modifies` sets togeter
+  // all the `Modifies` sets together
   // for Dafny.
   // Makes the code in the constructor
   // a little more readable.
