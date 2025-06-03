@@ -87,13 +87,13 @@ module {:options "/functionSyntax:4" } Structure {
            && "a" != "h";
   }
 
-  // lemma RestrictedStringsAreNotPrefixed(s: string)
-  //   ensures s in BRANCH_KEY_RESTRICTED_FIELD_NAMES ==> !(ENCRYPTION_CONTEXT_PREFIX <= s)
-  // {
-  //   assert && ENCRYPTION_CONTEXT_PREFIX[0] == 'a'
-  //          && HIERARCHY_VERSION[0] == 'h'
-  //          && 'a' != 'h';
-  // }
+  lemma RestrictedStringsAreNotPrefixed(s: string)
+    ensures s in BRANCH_KEY_RESTRICTED_FIELD_NAMES ==> !(ENCRYPTION_CONTEXT_PREFIX <= s)
+  {
+    assert && ENCRYPTION_CONTEXT_PREFIX[0] == 'a'
+           && HIERARCHY_VERSION[0] == 'h'
+           && 'a' != 'h';
+  }
 
   lemma RestrictedStringsEnsureNotPrefixed(s: string)
     requires s in BRANCH_KEY_RESTRICTED_FIELD_NAMES
@@ -104,17 +104,20 @@ module {:options "/functionSyntax:4" } Structure {
            && 'a' != 'h';
   }
 
-  // lemma HierarchyVersionIsNotPrefixed()
-  //   ensures && ENCRYPTION_CONTEXT_PREFIX[0] as char == 'a' as char
-  //           && HIERARCHY_VERSION[0] == 'h'
-  //           && "a" != "h"
-  // {}
+  lemma PrefixedStringsAreNotReserved(s: string)
+    requires ENCRYPTION_CONTEXT_PREFIX <= s
+    ensures s !in BRANCH_KEY_RESTRICTED_FIELD_NAMES
+  {
+    assert && ENCRYPTION_CONTEXT_PREFIX[0] == 'a'
+           && HIERARCHY_VERSION[0] == 'h'
+           && 'a' != 'h';
+  }
 
   type PrefixedEncryptionContext = m: map<string, string> | PrefixedEncryptionContext?(m) witness *
   predicate PrefixedEncryptionContext?(m: map<string, string>): (output: bool)
     ensures output ==> m.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES
   {
-    // && m.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    NoRestrictedAttributeNameStartsWithPrefix();
     forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX <= k
   }
 
