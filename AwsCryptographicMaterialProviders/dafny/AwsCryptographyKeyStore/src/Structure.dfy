@@ -160,7 +160,7 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   function ToBranchKeyMaterials(
-    encryptionContext: BranchKeyContext,
+    branchKeyContext: BranchKeyContext,
     plaintextKey: seq<uint8>
   ): (output: Result<Types.BranchKeyMaterials, Types.Error>)
 
@@ -168,8 +168,8 @@ module {:options "/functionSyntax:4" } Structure {
     //= type=implication
     //# The `type` attribute MUST either be equal to `"branch:ACTIVE"` or start with `"branch:version:"`.
     requires
-      || encryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE
-      || BRANCH_KEY_TYPE_PREFIX < encryptionContext[TYPE_FIELD]
+      || branchKeyContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE
+      || BRANCH_KEY_TYPE_PREFIX < branchKeyContext[TYPE_FIELD]
 
     ensures output.Success?
             ==>
@@ -180,21 +180,21 @@ module {:options "/functionSyntax:4" } Structure {
                  //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
                  //= type=implication
                  //# - [Branch Key Id](./structures.md#branch-key-id) MUST be the `branch-key-id`
-              && output.value.branchKeyIdentifier == encryptionContext[BRANCH_KEY_IDENTIFIER_FIELD]
+              && output.value.branchKeyIdentifier == branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD]
 
               && var versionInformation
-                   := if BRANCH_KEY_ACTIVE_VERSION_FIELD in encryptionContext then
+                   := if BRANCH_KEY_ACTIVE_VERSION_FIELD in branchKeyContext then
                         //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
                         //= type=implication
                         //# If the `type` attribute is equal to `"branch:ACTIVE"`
                         //# then the authenticated encryption context MUST have a `version` attribute
                         //# and the version string is this value.
-                        encryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
+                        branchKeyContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
                       else
                         //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
                         //= type=implication
                         //# If the `type` attribute start with `"branch:version:"` then the version string MUST be equal to this value.
-                        encryptionContext[TYPE_FIELD];
+                        branchKeyContext[TYPE_FIELD];
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
               //= type=implication
               //# - [Branch Key Version](./structures.md#branch-key-version)
@@ -210,33 +210,37 @@ module {:options "/functionSyntax:4" } Structure {
               //= type=implication
               //# - [Encryption Context](./structures.md#encryption-context-3) MUST be constructed by
               //# [Custom Encryption Context From Authenticated Encryption Context](#custom-encryption-context-from-authenticated-encryption-context)
-              && ExtractCustomEncryptionContext(encryptionContext).Success?
-              && output.value.encryptionContext == ExtractCustomEncryptionContext(encryptionContext).value
+              && ExtractCustomEncryptionContext(branchKeyContext).Success?
+              && output.value.encryptionContext == ExtractCustomEncryptionContext(branchKeyContext).value
 
               && (forall k <- output.value.encryptionContext
                     ::
                       && UTF8.Decode(k).Success?
                       && UTF8.Decode(output.value.encryptionContext[k]).Success?
-                      && (ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value in encryptionContext)
-                      && encryptionContext[ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value] == UTF8.Decode(output.value.encryptionContext[k]).value)
+                      && (ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value in branchKeyContext)
+                      && branchKeyContext[ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value] == UTF8.Decode(output.value.encryptionContext[k]).value)
 
   {
-    var versionInformation := if BRANCH_KEY_ACTIVE_VERSION_FIELD in encryptionContext then
-                                encryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
+    var versionInformation := if BRANCH_KEY_ACTIVE_VERSION_FIELD in branchKeyContext then
+                                branchKeyContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
                               else
-                                encryptionContext[TYPE_FIELD];
+                                branchKeyContext[TYPE_FIELD];
     var branchKeyVersion := versionInformation[|BRANCH_KEY_TYPE_PREFIX| as uint32..];
     var branchKeyVersionUtf8 :- UTF8.Encode(branchKeyVersion)
                                 .MapFailure(e => Types.KeyStoreException( message := e ));
 
-    var customEncryptionContext :- ExtractCustomEncryptionContext(encryptionContext);
+    var customEncryptionContext :- ExtractCustomEncryptionContext(branchKeyContext);
 
-    Success(Types.BranchKeyMaterials(
-              branchKeyIdentifier := encryptionContext[BRANCH_KEY_IDENTIFIER_FIELD],
-              branchKeyVersion := branchKeyVersionUtf8,
-              branchKey := plaintextKey,
-              encryptionContext := customEncryptionContext
-            ))
+    Success(
+      Types.BranchKeyMaterials(
+        branchKeyIdentifier := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
+        branchKeyVersion := branchKeyVersionUtf8,
+        branchKey := plaintextKey,
+        encryptionContext := customEncryptionContext,
+        kmsArn := branchKeyContext[KMS_FIELD],
+        createTime := branchKeyContext[KEY_CREATE_TIME],
+        hierarchyVersion := branchKeyContext[HIERARCHY_VERSION]
+      ))
   }
 
   function ToBeaconKeyMaterials(
