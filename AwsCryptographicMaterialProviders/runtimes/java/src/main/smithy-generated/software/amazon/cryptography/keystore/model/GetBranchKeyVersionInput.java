@@ -11,7 +11,7 @@ import java.util.Objects;
 public class GetBranchKeyVersionInput {
 
   /**
-   * The identifier for the Branch Key to get a particular version for.
+   * The identifier for the Branch Key.
    */
   private final String branchKeyIdentifier;
 
@@ -26,7 +26,7 @@ public class GetBranchKeyVersionInput {
   }
 
   /**
-   * @return The identifier for the Branch Key to get a particular version for.
+   * @return The identifier for the Branch Key.
    */
   public String branchKeyIdentifier() {
     return this.branchKeyIdentifier;
@@ -49,12 +49,12 @@ public class GetBranchKeyVersionInput {
 
   public interface Builder {
     /**
-     * @param branchKeyIdentifier The identifier for the Branch Key to get a particular version for.
+     * @param branchKeyIdentifier The identifier for the Branch Key.
      */
     Builder branchKeyIdentifier(String branchKeyIdentifier);
 
     /**
-     * @return The identifier for the Branch Key to get a particular version for.
+     * @return The identifier for the Branch Key.
      */
     String branchKeyIdentifier();
 
