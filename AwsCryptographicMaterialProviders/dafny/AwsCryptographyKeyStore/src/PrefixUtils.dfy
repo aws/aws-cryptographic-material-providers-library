@@ -4,7 +4,7 @@
 module {:options "/functionSyntax:4" } PrefixUtils {
   // import opened Structure
 
-  opaque function AddingPrefixToKeysOfMapDoesNotCreateCollisions(
+  function AddingPrefixToKeysOfMapDoesNotCreateCollisions(
     nameonly prefix: string,
     nameonly aMap: map<string, string>
   ): (output: map<string, string>)
