@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 include "../Model/AwsCryptographyKeyStoreAdminTypes.dfy"
 include "MutationStateStructures.dfy"
-include "PrefixUtils.dfy"
 include "KeyStoreAdminHelpers.dfy"
 include "MutationIndexUtils.dfy"
 include "SystemKey/Handler.dfy"
