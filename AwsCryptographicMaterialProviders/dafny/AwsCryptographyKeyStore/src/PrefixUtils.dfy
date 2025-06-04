@@ -10,6 +10,7 @@ module {:options "/functionSyntax:4" } PrefixUtils {
   ): (output: map<string, string>)
     ensures forall k <- aMap
               ::
+                && k == (prefix + k)[|prefix|..]
                 && prefix + k in output
                 && output[prefix + k] == aMap[k]
   {
@@ -44,5 +45,4 @@ module {:options "/functionSyntax:4" } PrefixUtils {
           k;
     map i <- filteredKeys :: i := aMap[i]
   }
-
 }
