@@ -57,18 +57,18 @@
 
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.Core" Version="3.7.304.2" />
+    <PackageReference Include="AWSSDK.Core" Version="4.0.0.7" />
     <PackageReference Include="DafnyRuntime" Version="[4.2.0,$(DafnyVersion)]" />
-    <PackageReference Include="BouncyCastle.Cryptography" Version="2.3.1" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.1" />
     <ProjectReference Include="../../../StandardLibrary/runtimes/net/STD.csproj" />
 
     <!--
       System.Collections.Immutable can be removed once dafny.msbuild is updated with
       https://github.com/dafny-lang/dafny.msbuild/pull/10 and versioned
     -->
-    <PackageReference Include="System.Collections.Immutable" Version="1.7.0" />
+    <PackageReference Include="System.Collections.Immutable" Version="9.0.5" />
     <!-- Work around for dafny-lang/dafny/issues/1951; remove once resolved -->
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.6.1" />
 
     <Compile Include="Extern/**/*.cs" />
     <Compile Include="Generated/**/*.cs" />
