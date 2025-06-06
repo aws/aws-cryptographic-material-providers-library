@@ -250,6 +250,9 @@ func Aws_cryptography_keyStore_GetActiveBranchKeyOutput_branchKeyMaterials_FromD
 		BranchKeyVersion:  Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKeyVersion()),
 		EncryptionContext: Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_encryptionContext()),
 		BranchKey:         Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKey()),
+		KmsArn:            Aws_cryptography_keyStore_BranchKeyMaterials_kmsArn_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_kmsArn()),
+		CreateTime:        Aws_cryptography_keyStore_BranchKeyMaterials_createTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_createTime()),
+		HierarchyVersion:  Aws_cryptography_keyStore_BranchKeyMaterials_hierarchyVersion_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_hierarchyVersion()),
 	}
 }
 func Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_FromDafny(input interface{}) string {
@@ -298,6 +301,42 @@ func Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_FromDafny(input inte
 			b = append(b, a.Select(i).(byte))
 		}
 		return b
+	}()
+}
+func Aws_cryptography_keyStore_BranchKeyMaterials_kmsArn_FromDafny(input interface{}) string {
+	return func() string {
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
+	}()
+}
+func Aws_cryptography_keyStore_BranchKeyMaterials_createTime_FromDafny(input interface{}) string {
+	return func() string {
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
+	}()
+}
+func Aws_cryptography_keyStore_BranchKeyMaterials_hierarchyVersion_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+	return func() awscryptographykeystoresmithygeneratedtypes.HierarchyVersion {
+		var u awscryptographykeystoresmithygeneratedtypes.HierarchyVersion
+		inputEnum := input.(AwsCryptographyKeyStoreTypes.HierarchyVersion)
+		index := -1
+		for allEnums := dafny.Iterate(AwsCryptographyKeyStoreTypes.CompanionStruct_HierarchyVersion_{}.AllSingletonConstructors()); ; {
+			enum, ok := allEnums()
+			if ok {
+				index++
+				if enum.(AwsCryptographyKeyStoreTypes.HierarchyVersion).Equals(inputEnum) {
+					break
+				}
+			}
+		}
+
+		return u.Values()[index]
 	}()
 }
 func Aws_cryptography_keyStore_GetBeaconKeyInput_branchKeyIdentifier_FromDafny(input interface{}) string {
@@ -413,6 +452,9 @@ func Aws_cryptography_keyStore_GetBranchKeyVersionOutput_branchKeyMaterials_From
 		BranchKeyVersion:  Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKeyVersion()),
 		EncryptionContext: Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_encryptionContext()),
 		BranchKey:         Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKey()),
+		KmsArn:            Aws_cryptography_keyStore_BranchKeyMaterials_kmsArn_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_kmsArn()),
+		CreateTime:        Aws_cryptography_keyStore_BranchKeyMaterials_createTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_createTime()),
+		HierarchyVersion:  Aws_cryptography_keyStore_BranchKeyMaterials_hierarchyVersion_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_hierarchyVersion()),
 	}
 }
 func Aws_cryptography_keyStore_GetKeyStoreInfoOutput_keyStoreId_FromDafny(input interface{}) string {

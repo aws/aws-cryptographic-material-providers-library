@@ -18,6 +18,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     GetBranchKeyVersionInput_GetBranchKeyVersionInput as DafnyGetBranchKeyVersionInput,
     GetBranchKeyVersionOutput_GetBranchKeyVersionOutput as DafnyGetBranchKeyVersionOutput,
     GetKeyStoreInfoOutput_GetKeyStoreInfoOutput as DafnyGetKeyStoreInfoOutput,
+    HierarchyVersion_v1,
     KMSConfiguration_discovery,
     KMSConfiguration_kmsKeyArn,
     KMSConfiguration_kmsMRKeyArn,
@@ -366,7 +367,38 @@ def aws_cryptography_keystore_BranchKeyMaterials(native_input):
             }
         ),
         branchKey=Seq(native_input.branch_key),
+        kmsArn=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.kms_arn.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        createTime=Seq(
+            "".join(
+                [
+                    chr(int.from_bytes(pair, "big"))
+                    for pair in zip(
+                        *[iter(native_input.create_time.encode("utf-16-be"))] * 2
+                    )
+                ]
+            )
+        ),
+        hierarchyVersion=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_HierarchyVersion(
+            native_input.hierarchy_version
+        ),
     )
+
+
+def aws_cryptography_keystore_HierarchyVersion(native_input):
+    if native_input == "1":
+        return HierarchyVersion_v1()
+
+    else:
+        raise ValueError(f"No recognized enum value in enum type: {native_input=}")
 
 
 def aws_cryptography_keystore_GetBranchKeyVersionOutput(native_input):

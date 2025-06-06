@@ -22,18 +22,22 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly beaconKey: Option<Secret> := Option.None ,
     nameonly hmacKeys: Option<HmacKeyMap> := Option.None
   )
+  type BranchKeyIdentifier = string
   datatype BranchKeyMaterials = | BranchKeyMaterials (
-    nameonly branchKeyIdentifier: string ,
+    nameonly branchKeyIdentifier: BranchKeyIdentifier ,
     nameonly branchKeyVersion: Utf8Bytes ,
     nameonly encryptionContext: EncryptionContext ,
-    nameonly branchKey: Secret
+    nameonly branchKey: Secret ,
+    nameonly kmsArn: ComAmazonawsKmsTypes.KeyIdType ,
+    nameonly createTime: CreateTime ,
+    nameonly hierarchyVersion: HierarchyVersion
   )
   datatype CreateKeyInput = | CreateKeyInput (
-    nameonly branchKeyIdentifier: Option<string> := Option.None ,
+    nameonly branchKeyIdentifier: Option<BranchKeyIdentifier> := Option.None ,
     nameonly encryptionContext: Option<EncryptionContext> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
-    nameonly branchKeyIdentifier: string
+    nameonly branchKeyIdentifier: BranchKeyIdentifier
   )
   datatype CreateKeyStoreInput = | CreateKeyStoreInput (
 
@@ -41,24 +45,25 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype CreateKeyStoreOutput = | CreateKeyStoreOutput (
     nameonly tableArn: ComAmazonawsDynamodbTypes.TableArn
   )
+  type CreateTime = string
   datatype Discovery = | Discovery (
 
                        )
   type EncryptionContext = map<Utf8Bytes, Utf8Bytes>
   datatype GetActiveBranchKeyInput = | GetActiveBranchKeyInput (
-    nameonly branchKeyIdentifier: string
+    nameonly branchKeyIdentifier: BranchKeyIdentifier
   )
   datatype GetActiveBranchKeyOutput = | GetActiveBranchKeyOutput (
     nameonly branchKeyMaterials: BranchKeyMaterials
   )
   datatype GetBeaconKeyInput = | GetBeaconKeyInput (
-    nameonly branchKeyIdentifier: string
+    nameonly branchKeyIdentifier: BranchKeyIdentifier
   )
   datatype GetBeaconKeyOutput = | GetBeaconKeyOutput (
     nameonly beaconKeyMaterials: BeaconKeyMaterials
   )
   datatype GetBranchKeyVersionInput = | GetBranchKeyVersionInput (
-    nameonly branchKeyIdentifier: string ,
+    nameonly branchKeyIdentifier: BranchKeyIdentifier ,
     nameonly branchKeyVersion: string
   )
   datatype GetBranchKeyVersionOutput = | GetBranchKeyVersionOutput (
@@ -72,6 +77,8 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly kmsConfiguration: KMSConfiguration
   )
   type GrantTokenList = seq<string>
+  datatype HierarchyVersion =
+    | v1
   type HmacKeyMap = map<string, Secret>
   class IKeyStoreClientCallHistory {
     ghost constructor() {

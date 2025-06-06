@@ -11,6 +11,9 @@ namespace AWS.Cryptography.KeyStore
     private string _branchKeyVersion;
     private System.Collections.Generic.Dictionary<string, string> _encryptionContext;
     private System.IO.MemoryStream _branchKey;
+    private string _kmsArn;
+    private string _createTime;
+    private AWS.Cryptography.KeyStore.HierarchyVersion _hierarchyVersion;
     public string BranchKeyIdentifier
     {
       get { return this._branchKeyIdentifier; }
@@ -47,12 +50,42 @@ namespace AWS.Cryptography.KeyStore
     {
       return this._branchKey != null;
     }
+    public string KmsArn
+    {
+      get { return this._kmsArn; }
+      set { this._kmsArn = value; }
+    }
+    public bool IsSetKmsArn()
+    {
+      return this._kmsArn != null;
+    }
+    public string CreateTime
+    {
+      get { return this._createTime; }
+      set { this._createTime = value; }
+    }
+    public bool IsSetCreateTime()
+    {
+      return this._createTime != null;
+    }
+    public AWS.Cryptography.KeyStore.HierarchyVersion HierarchyVersion
+    {
+      get { return this._hierarchyVersion; }
+      set { this._hierarchyVersion = value; }
+    }
+    public bool IsSetHierarchyVersion()
+    {
+      return this._hierarchyVersion != null;
+    }
     public void Validate()
     {
       if (!IsSetBranchKeyIdentifier()) throw new System.ArgumentException("Missing value for required property 'BranchKeyIdentifier'");
       if (!IsSetBranchKeyVersion()) throw new System.ArgumentException("Missing value for required property 'BranchKeyVersion'");
       if (!IsSetEncryptionContext()) throw new System.ArgumentException("Missing value for required property 'EncryptionContext'");
       if (!IsSetBranchKey()) throw new System.ArgumentException("Missing value for required property 'BranchKey'");
+      if (!IsSetKmsArn()) throw new System.ArgumentException("Missing value for required property 'KmsArn'");
+      if (!IsSetCreateTime()) throw new System.ArgumentException("Missing value for required property 'CreateTime'");
+      if (!IsSetHierarchyVersion()) throw new System.ArgumentException("Missing value for required property 'HierarchyVersion'");
 
     }
   }
