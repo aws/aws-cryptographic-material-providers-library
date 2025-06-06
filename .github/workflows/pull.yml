@@ -34,11 +34,11 @@ jobs:
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
-  # pr-ci-rust:
-  #   needs: getVersion
-  #   uses: ./.github/workflows/library_rust_tests.yml
-  #   with:
-  #     dafny: ${{needs.getVersion.outputs.version}}
+  pr-ci-rust:
+    needs: getVersion
+    uses: ./.github/workflows/library_rust_tests.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
   pr-ci-python:
     needs: getVersion
     uses: ./.github/workflows/library_python_tests.yml
@@ -67,7 +67,7 @@ jobs:
       - pr-ci-net
       - pr-ci-python
       # - pr-ci-go
-      # - pr-ci-rust
+      - pr-ci-rust
       - pr-interop-test
     runs-on: ubuntu-22.04
     steps:
