@@ -31,15 +31,67 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'
+        
+    - name: Set up Dafny
+      uses: dafny-lang/setup-dafny-action@v1.6.1
+      with:
+        dafny-version: '4.2.0'
 
-    - name: Install dependencies
+    - name: Setup dependencies
+      run: |
+        # Install system dependencies
+        sudo apt-get update
+        sudo apt-get install -y build-essential jq
+
+    - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
         # Install pytest, hypothesis and other testing dependencies
-        pip install pytest pytest-xdist pytest-cov hypothesis boto3
-        # Install AWS cryptography libraries
-        pip install -e ./AwsCryptographicMaterialProviders/runtimes/python/
-        pip install -e ./TestVectorsAwsCryptographicMaterialProviders/runtimes/python/
+        pip install pytest pytest-xdist pytest-cov hypothesis boto3 poetry tox
+
+    - name: Build and install dependencies in correct order
+      run: |
+        # StandardLibrary should be built and installed first
+        echo "Building StandardLibrary..."
+        cd StandardLibrary
+        make build-python
+        pip install -e ./runtimes/python/
+        cd ..
+        
+        # Then AwsCryptographyPrimitives
+        echo "Building AwsCryptographyPrimitives..."
+        cd AwsCryptographyPrimitives
+        make build-python
+        pip install -e ./runtimes/python/
+        cd ..
+        
+        # Then ComAmazonawsKms
+        echo "Building ComAmazonawsKms..."
+        cd ComAmazonawsKms
+        make build-python
+        pip install -e ./runtimes/python/
+        cd ..
+        
+        # Then ComAmazonawsDynamodb
+        echo "Building ComAmazonawsDynamodb..."
+        cd ComAmazonawsDynamodb
+        make build-python
+        pip install -e ./runtimes/python/
+        cd ..
+        
+        # Then AwsCryptographicMaterialProviders
+        echo "Building AwsCryptographicMaterialProviders..."
+        cd AwsCryptographicMaterialProviders
+        make build-python
+        pip install -e ./runtimes/python/
+        cd ..
+        
+        # Finally TestVectorsAwsCryptographicMaterialProviders
+        echo "Building TestVectorsAwsCryptographicMaterialProviders..."
+        cd TestVectorsAwsCryptographicMaterialProviders
+        make build-python
+        pip install -e ./runtimes/python/
+        cd ..
 
     # Source the CI account credentials if available (only on protected branches/internal PRs)
     - name: Setup AWS Credentials
