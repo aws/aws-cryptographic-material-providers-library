@@ -1,0 +1,2 @@
+TestEncrypts MacOS Python 44.428 8.170
+TestDecrypts MacOS Python 57.607 25.410

@@ -1,0 +1,90 @@
+name: MPL Fuzz Testing
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      duration:
+        description: 'Duration of the fuzz testing in minutes'
+        required: false
+        default: '10'
+        type: string
+
+jobs:
+  fuzz-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10']
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        # Install pytest, hypothesis and other testing dependencies
+        pip install pytest pytest-xdist pytest-cov hypothesis boto3
+        # Install AWS cryptography libraries
+        pip install -e ./AwsCryptographicMaterialProviders/runtimes/python/
+        pip install -e ./TestVectorsAwsCryptographicMaterialProviders/runtimes/python/
+
+    # Source the CI account credentials if available (only on protected branches/internal PRs)
+    - name: Setup AWS Credentials
+      if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+      run: |
+        # If the assume-ci-role.sh script exists, source it to get AWS credentials
+        if [ -f "assume-ci-role.sh" ]; then
+          echo "Setting up AWS credentials for KMS testing"
+          source ./assume-ci-role.sh
+        else
+          echo "No assume-ci-role.sh script found, skipping AWS credentials setup"
+        fi
+      shell: bash
+
+    # Run the fuzz tests
+    - name: Run Basic Fuzz Tests
+      run: |
+        cd TestVectorsAwsCryptographicMaterialProviders/runtimes/python
+        python -m pytest -xvs test/test_fuzz_encryption.py::test_encryption_decryption_roundtrip test/test_fuzz_encryption.py::test_multi_keyring_handling
+
+    # Run the more intensive fuzz tests with longer duration
+    - name: Run Extended Fuzz Tests
+      if: github.event_name == 'workflow_dispatch'
+      env:
+        TEST_DURATION: ${{ github.event.inputs.duration }}
+      run: |
+        # Set environment variables for hypothesis
+        export HYPOTHESIS_MAX_EXAMPLES=1000
+        export HYPOTHESIS_DEADLINE=30000  # 30 seconds
+        
+        cd TestVectorsAwsCryptographicMaterialProviders/runtimes/python
+        
+        # Run tests in a loop for the specified duration using our helper script
+        python test/run_duration_fuzz_tests.py
+
+    # Add a step to test with KMS if AWS credentials are available
+    - name: Run KMS Keyring Test
+      if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+      run: |
+        # Check if AWS credentials are available
+        if [ -n "$AWS_ACCESS_KEY_ID" ] && [ -n "$AWS_SECRET_ACCESS_KEY" ]; then
+          echo "Running KMS keyring test with AWS credentials"
+          cd TestVectorsAwsCryptographicMaterialProviders/runtimes/python
+          python -m pytest -xvs test/test_fuzz_encryption.py::test_kms_keyring_if_available
+        else
+          echo "AWS credentials not available, skipping KMS keyring test"
+        fi
+      shell: bash
