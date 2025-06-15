@@ -110,7 +110,7 @@ cd ../../../ || { echo "Error: Cannot navigate back to project root"; exit 1; }
 git checkout -b "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
 git add "releases/go/$RELEASE_DIR_NAME"
 
-git commit -m \"Release $RELEASE_DIR_NAME Go module ${VERSION}\""
+git commit -m "Release $RELEASE_DIR_NAME Go module ${VERSION}"
 git push origin "golang-release-staging-branch/$RELEASE_DIR_NAME"
 
 echo ""
