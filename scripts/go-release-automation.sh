@@ -105,21 +105,21 @@ echo "Running go build to check for errors..."
 go build --gcflags="-e" ./...
 
 # Step 8: Prepare for commit
-echo "Step 8: Preparing for commit..."
+echo "Step 8: creating a PR..."
 cd ../../../ || { echo "Error: Cannot navigate back to project root"; exit 1; }
-
+git checkout -b "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
 git add "releases/go/$RELEASE_DIR_NAME"
-git status
+
+git commit -m \"Release $RELEASE_DIR_NAME Go module ${VERSION}\""
+git push origin "golang-release-staging-branch/$RELEASE_DIR_NAME"
 
 echo ""
 echo "Go release process completed successfully!"
 echo ""
 echo "Next steps:"
-echo "1. Review the changes and commit them:"
-echo "   git commit -m \"Release $RELEASE_DIR_NAME Go module ${VERSION}\""
-echo "2. Create a PR with your changes"
-echo "3. After PR is merged, create a tag:"
+echo "1. Create a PR with your changes"
+echo "2. After PR is merged, create a tag:"
 echo "   git tag releases/go/${RELEASE_DIR_NAME}/${VERSION}"
-echo "4. Push the tag:"
+echo "3. Push the tag:"
 echo "   git push --tags"
 echo ""
