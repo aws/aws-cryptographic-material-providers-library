@@ -1,6 +1,7 @@
 name: Go Release Automation
 
 on:
+  pull_request:
   workflow_dispatch:
     inputs:
       project-name:
