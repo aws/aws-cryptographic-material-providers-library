@@ -27,8 +27,6 @@ get_release_dir_name() {
 }
 
 go_release_script() {
-  echo $0
-
   PROJECT_NAME=$1
   VERSION=$2
 
