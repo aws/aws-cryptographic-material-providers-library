@@ -22,7 +22,7 @@ get_release_dir_name() {
     "ComAmazonawsKms") echo "kms" ;;
     "ComAmazonawsDynamodb") echo "dynamodb" ;;
     "StandardLibrary") echo "smithy-dafny-standard-library" ;;
-    *) echo "$project" ;;  # Default to the original name if no mapping exists
+    *) echo "Error: Unknown project name: $project" >&2; return 1 ;;
   esac
 }
 
