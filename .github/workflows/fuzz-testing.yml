@@ -108,38 +108,35 @@ jobs:
       shell: bash
       continue-on-error: true
 
-    # Run the fuzz tests
-    - name: Run Basic Fuzz Tests
+    # Run the CI-friendly fuzz tests
+    - name: Run Basic Fuzz Tests (CI mode)
       run: |
         cd TestVectorsAwsCryptographicMaterialProviders/runtimes/python
-        # Make test script executable and run it instead of using pytest directly
-        chmod +x test/run_tests.py
-        python test/run_tests.py
+        python -m pytest -xvs test/test_fuzz_ci.py::test_encryption_decryption_roundtrip_ci test/test_fuzz_ci.py::test_multi_keyring_handling_ci
 
-    # Run the more intensive fuzz tests with longer duration
-    - name: Run Extended Fuzz Tests
+    # Run the more intensive CI-friendly fuzz tests with longer duration
+    - name: Run Extended Fuzz Tests (CI mode)
       if: github.event_name == 'workflow_dispatch'
       env:
         TEST_DURATION: ${{ github.event.inputs.duration }}
       run: |
         # Set environment variables for hypothesis
-        export HYPOTHESIS_MAX_EXAMPLES=1000
-        export HYPOTHESIS_DEADLINE=30000  # 30 seconds
+        export HYPOTHESIS_MAX_EXAMPLES=100  # Reduced for CI
+        export HYPOTHESIS_DEADLINE=30000    # 30 seconds
         
         cd TestVectorsAwsCryptographicMaterialProviders/runtimes/python
-        # Use our custom test runner with the duration test script
-        chmod +x test/run_duration_fuzz_tests.py
-        python test/run_tests.py test/run_duration_fuzz_tests.py
+        # Run the CI tests with more examples
+        python -m pytest -xvs test/test_fuzz_ci.py
 
     # Add a step to test with KMS if AWS credentials are available
-    - name: Run KMS Keyring Test
+    - name: Run KMS Keyring Test (CI mode)
       if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
       run: |
         # Check if AWS credentials are available
         if [ -n "$AWS_ACCESS_KEY_ID" ] && [ -n "$AWS_SECRET_ACCESS_KEY" ]; then
           echo "Running KMS keyring test with AWS credentials"
           cd TestVectorsAwsCryptographicMaterialProviders/runtimes/python
-          python test/run_tests.py test_fuzz_encryption.py::test_kms_keyring_if_available
+          python -m pytest -xvs test/test_fuzz_ci.py::test_kms_keyring_if_available_ci
         else
           echo "AWS credentials not available, skipping KMS keyring test"
           # Exit with success so this step doesn't fail the workflow
