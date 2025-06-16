@@ -35,10 +35,33 @@ class MockDecryptionMaterials:
         self.decryption_materials = MagicMock()
         self.decryption_materials.plaintext_data_key = b'mock_plaintext_key'
 
+# Mock classes for the internal Dafny-generated modules
+class MockDefaultMaterialProvidersConfig:
+    pass
+
+class MockInternalMaterialProviders:
+    class default__:
+        @staticmethod
+        def MaterialProviders(config):
+            class Success:
+                def is_Failure(self):
+                    return False
+                
+                def get_Success(self):
+                    from mock_helpers import MockMaterialProviders
+                    return MockMaterialProviders()
+                
+            return Success()
+        
+        @staticmethod
+        def DefaultMaterialProvidersConfig():
+            return MockDefaultMaterialProvidersConfig()
+
 # Function to patch import errors
 def patch_module_imports():
     """Patch module imports that might fail in the test environment"""
     import sys
+    from unittest.mock import MagicMock
     
     class MockModule:
         def __getattr__(self, name):
@@ -59,8 +82,14 @@ def patch_module_imports():
             __import__(module_name)
         except ImportError:
             sys.modules[module_name] = MockModule()
-            
-    # Create a mock for MaterialProviders
+    
+    # Create specific mock for the internaldafny MaterialProviders
+    module = sys.modules.get('aws_cryptographic_material_providers.internaldafny.generated', MockModule())
+    # Add the MaterialProviders class that's imported directly in the test
+    module.MaterialProviders = MockInternalMaterialProviders
+    sys.modules['aws_cryptographic_material_providers.internaldafny.generated'] = module
+    
+    # Create a mock for the main MaterialProviders class
     try:
         from aws_cryptographic_material_providers.mpl import AwsCryptographicMaterialProviders
     except (ImportError, AttributeError):
