@@ -57,6 +57,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -98,6 +99,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -206,7 +208,7 @@ func (_static *CompanionStruct_Default___) Quote(cs m_JSON_Utils_Cursors.Cursor_
 		return m_Wrappers.Companion_Result_.Create_Success_((_1_cs).Split())
 	}
 }
-func (_static *CompanionStruct_Default___) String(cs m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
+func (_static *CompanionStruct_Default___) String_(cs m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
 	var _0_valueOrError0 m_Wrappers.Result = Companion_Default___.Quote(cs)
 	_ = _0_valueOrError0
 	if (_0_valueOrError0).IsFailure() {

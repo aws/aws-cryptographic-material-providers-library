@@ -46,6 +46,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -87,6 +88,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -153,13 +155,13 @@ func (_static *CompanionStruct_Default___) EscapeUnicode(c uint16) _dafny.Sequen
 	_ = _0_sStr
 	var _1_s _dafny.Sequence = m_UnicodeStrings.Companion_Default___.ASCIIToUTF16(_0_sStr)
 	_ = _1_s
-	return _dafny.Companion_Sequence_.Concatenate(_1_s, _dafny.SeqCreate(((_dafny.IntOfInt64(4)).Minus(_dafny.IntOfUint32((_1_s).Cardinality()))).Uint32(), func(coer36 func(_dafny.Int) uint16) func(_dafny.Int) interface{} {
-		return func(arg40 _dafny.Int) interface{} {
-			return coer36(arg40)
+	return _dafny.Companion_Sequence_.Concatenate(_dafny.SeqCreate(((_dafny.IntOfInt64(4)).Minus(_dafny.IntOfUint32((_1_s).Cardinality()))).Uint32(), func(coer33 func(_dafny.Int) uint16) func(_dafny.Int) interface{} {
+		return func(arg36 _dafny.Int) interface{} {
+			return coer33(arg36)
 		}
 	}(func(_2___v0 _dafny.Int) uint16 {
-		return uint16(_dafny.Char(' '))
-	})))
+		return uint16(_dafny.Char('0'))
+	})), _1_s)
 }
 func (_static *CompanionStruct_Default___) Escape(str _dafny.Sequence, start _dafny.Int) _dafny.Sequence {
 	var _0___accumulator _dafny.Sequence = _dafny.SeqOf()
@@ -247,7 +249,7 @@ func (_static *CompanionStruct_Default___) EscapeToUTF8(str _dafny.Sequence, sta
 		}
 	}
 }
-func (_static *CompanionStruct_Default___) String(str _dafny.Sequence) m_Wrappers.Result {
+func (_static *CompanionStruct_Default___) String_(str _dafny.Sequence) m_Wrappers.Result {
 	var _0_valueOrError0 m_Wrappers.Result = Companion_Default___.EscapeToUTF8(str, _dafny.Zero)
 	_ = _0_valueOrError0
 	if (_0_valueOrError0).IsFailure() {
@@ -272,7 +274,7 @@ func (_static *CompanionStruct_Default___) Number(dec m_JSON_Values.Decimal) m_W
 	})()))
 }
 func (_static *CompanionStruct_Default___) KeyValue(kv _dafny.Tuple) m_Wrappers.Result {
-	var _0_valueOrError0 m_Wrappers.Result = Companion_Default___.String((*(kv).IndexInt(0)).(_dafny.Sequence))
+	var _0_valueOrError0 m_Wrappers.Result = Companion_Default___.String_((*(kv).IndexInt(0)).(_dafny.Sequence))
 	_ = _0_valueOrError0
 	if (_0_valueOrError0).IsFailure() {
 		return (_0_valueOrError0).PropagateFailure()
@@ -318,9 +320,9 @@ func (_static *CompanionStruct_Default___) Join(sep _dafny.Sequence, items _dafn
 	}
 }
 func (_static *CompanionStruct_Default___) Object(obj _dafny.Sequence) m_Wrappers.Result {
-	var _0_valueOrError0 m_Wrappers.Result = Companion_Default___.Join(m_UnicodeStrings.Companion_Default___.ASCIIToUTF8(_dafny.SeqOfString(",")), _dafny.SeqCreate((_dafny.IntOfUint32((obj).Cardinality())).Uint32(), func(coer37 func(_dafny.Int) m_Wrappers.Result) func(_dafny.Int) interface{} {
-		return func(arg41 _dafny.Int) interface{} {
-			return coer37(arg41)
+	var _0_valueOrError0 m_Wrappers.Result = Companion_Default___.Join(m_UnicodeStrings.Companion_Default___.ASCIIToUTF8(_dafny.SeqOfString(",")), _dafny.SeqCreate((_dafny.IntOfUint32((obj).Cardinality())).Uint32(), func(coer34 func(_dafny.Int) m_Wrappers.Result) func(_dafny.Int) interface{} {
+		return func(arg37 _dafny.Int) interface{} {
+			return coer34(arg37)
 		}
 	}((func(_1_obj _dafny.Sequence) func(_dafny.Int) m_Wrappers.Result {
 		return func(_2_i _dafny.Int) m_Wrappers.Result {
@@ -337,9 +339,9 @@ func (_static *CompanionStruct_Default___) Object(obj _dafny.Sequence) m_Wrapper
 	}
 }
 func (_static *CompanionStruct_Default___) Array(arr _dafny.Sequence) m_Wrappers.Result {
-	var _0_valueOrError0 m_Wrappers.Result = Companion_Default___.Join(m_UnicodeStrings.Companion_Default___.ASCIIToUTF8(_dafny.SeqOfString(",")), _dafny.SeqCreate((_dafny.IntOfUint32((arr).Cardinality())).Uint32(), func(coer38 func(_dafny.Int) m_Wrappers.Result) func(_dafny.Int) interface{} {
-		return func(arg42 _dafny.Int) interface{} {
-			return coer38(arg42)
+	var _0_valueOrError0 m_Wrappers.Result = Companion_Default___.Join(m_UnicodeStrings.Companion_Default___.ASCIIToUTF8(_dafny.SeqOfString(",")), _dafny.SeqCreate((_dafny.IntOfUint32((arr).Cardinality())).Uint32(), func(coer35 func(_dafny.Int) m_Wrappers.Result) func(_dafny.Int) interface{} {
+		return func(arg38 _dafny.Int) interface{} {
+			return coer35(arg38)
 		}
 	}((func(_1_arr _dafny.Sequence) func(_dafny.Int) m_Wrappers.Result {
 		return func(_2_i _dafny.Int) m_Wrappers.Result {
@@ -379,7 +381,7 @@ func (_static *CompanionStruct_Default___) JSON(js m_JSON_Values.JSON) m_Wrapper
 		if _source0.Is_String() {
 			var _1_str _dafny.Sequence = _source0.Get_().(m_JSON_Values.JSON_String).Str
 			_ = _1_str
-			return Companion_Default___.String(_1_str)
+			return Companion_Default___.String_(_1_str)
 		}
 	}
 	{

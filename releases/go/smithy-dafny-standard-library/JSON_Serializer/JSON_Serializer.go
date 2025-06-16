@@ -49,6 +49,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -90,6 +91,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -165,7 +167,7 @@ func (_static *CompanionStruct_Default___) Bool(b bool) m_JSON_Utils_Views_Core.
 func (_static *CompanionStruct_Default___) CheckLength(s _dafny.Sequence, err m_JSON_Errors.SerializationError) m_Wrappers.Outcome {
 	return m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32((s).Cardinality())).Cmp(m_BoundedInts.Companion_Default___.TWO__TO__THE__32()) < 0, err)
 }
-func (_static *CompanionStruct_Default___) String(str _dafny.Sequence) m_Wrappers.Result {
+func (_static *CompanionStruct_Default___) String_(str _dafny.Sequence) m_Wrappers.Result {
 	var _0_valueOrError0 m_Wrappers.Result = m_JSON_Spec.Companion_Default___.EscapeToUTF8(str, _dafny.Zero)
 	_ = _0_valueOrError0
 	if (_0_valueOrError0).IsFailure() {
@@ -224,27 +226,27 @@ func (_static *CompanionStruct_Default___) Number(dec m_JSON_Values.Decimal) m_W
 			if ((dec).Dtor_e10()).Sign() == 0 {
 				return m_Wrappers.Companion_Result_.Create_Success_(m_JSON_Grammar.Companion_Maybe_.Create_Empty_())
 			}
-			return func(_pat_let6_0 m_JSON_Utils_Views_Core.View__) m_Wrappers.Result {
+			return func(_pat_let5_0 m_JSON_Utils_Views_Core.View__) m_Wrappers.Result {
 				return func(_5_e m_JSON_Utils_Views_Core.View__) m_Wrappers.Result {
-					return func(_pat_let7_0 m_JSON_Utils_Views_Core.View__) m_Wrappers.Result {
+					return func(_pat_let6_0 m_JSON_Utils_Views_Core.View__) m_Wrappers.Result {
 						return func(_6_sign m_JSON_Utils_Views_Core.View__) m_Wrappers.Result {
-							return func(_pat_let8_0 m_Wrappers.Result) m_Wrappers.Result {
+							return func(_pat_let7_0 m_Wrappers.Result) m_Wrappers.Result {
 								return func(_7_valueOrError2 m_Wrappers.Result) m_Wrappers.Result {
 									return (func() m_Wrappers.Result {
 										if (_7_valueOrError2).IsFailure() {
 											return (_7_valueOrError2).PropagateFailure()
 										}
-										return func(_pat_let9_0 m_JSON_Utils_Views_Core.View__) m_Wrappers.Result {
+										return func(_pat_let8_0 m_JSON_Utils_Views_Core.View__) m_Wrappers.Result {
 											return func(_8_num m_JSON_Utils_Views_Core.View__) m_Wrappers.Result {
 												return m_Wrappers.Companion_Result_.Create_Success_(m_JSON_Grammar.Companion_Maybe_.Create_NonEmpty_(m_JSON_Grammar.Companion_Jexp_.Create_JExp_(_5_e, _6_sign, _8_num)))
-											}(_pat_let9_0)
+											}(_pat_let8_0)
 										}((_7_valueOrError2).Extract().(m_JSON_Utils_Views_Core.View__))
 									})()
-								}(_pat_let8_0)
+								}(_pat_let7_0)
 							}(Companion_Default___.Int(m__Math.Companion_Default___.Abs((_pat_let_tv1).Dtor_e10())))
-						}(_pat_let7_0)
+						}(_pat_let6_0)
 					}(Companion_Default___.Sign((_pat_let_tv0).Dtor_e10()))
-				}(_pat_let6_0)
+				}(_pat_let5_0)
 			}(m_JSON_Utils_Views_Core.Companion_View___.OfBytes(_dafny.SeqOf(uint8(_dafny.Char('e')))))
 		})()
 		_ = _4_valueOrError1
@@ -261,7 +263,7 @@ func (_static *CompanionStruct_Default___) MkStructural(v interface{}) m_JSON_Gr
 	return m_JSON_Grammar.Companion_Structural_.Create_Structural_(m_JSON_Grammar.Companion_Default___.EMPTY(), v, m_JSON_Grammar.Companion_Default___.EMPTY())
 }
 func (_static *CompanionStruct_Default___) KeyValue(kv _dafny.Tuple) m_Wrappers.Result {
-	var _0_valueOrError0 m_Wrappers.Result = Companion_Default___.String((*(kv).IndexInt(0)).(_dafny.Sequence))
+	var _0_valueOrError0 m_Wrappers.Result = Companion_Default___.String_((*(kv).IndexInt(0)).(_dafny.Sequence))
 	_ = _0_valueOrError0
 	if (_0_valueOrError0).IsFailure() {
 		return (_0_valueOrError0).PropagateFailure()
@@ -303,9 +305,9 @@ TAIL_CALL_START:
 	}
 }
 func (_static *CompanionStruct_Default___) Object(obj _dafny.Sequence) m_Wrappers.Result {
-	var _0_valueOrError0 m_Wrappers.Result = m_Seq.Companion_Default___.MapWithResult(func(coer39 func(_dafny.Tuple) m_Wrappers.Result) func(interface{}) m_Wrappers.Result {
-		return func(arg43 interface{}) m_Wrappers.Result {
-			return coer39(arg43.(_dafny.Tuple))
+	var _0_valueOrError0 m_Wrappers.Result = m_Seq.Companion_Default___.MapWithResult(func(coer36 func(_dafny.Tuple) m_Wrappers.Result) func(interface{}) m_Wrappers.Result {
+		return func(arg39 interface{}) m_Wrappers.Result {
+			return coer36(arg39.(_dafny.Tuple))
 		}
 	}((func(_1_obj _dafny.Sequence) func(_dafny.Tuple) m_Wrappers.Result {
 		return func(_2_v _dafny.Tuple) m_Wrappers.Result {
@@ -322,9 +324,9 @@ func (_static *CompanionStruct_Default___) Object(obj _dafny.Sequence) m_Wrapper
 	}
 }
 func (_static *CompanionStruct_Default___) Array(arr _dafny.Sequence) m_Wrappers.Result {
-	var _0_valueOrError0 m_Wrappers.Result = m_Seq.Companion_Default___.MapWithResult(func(coer40 func(m_JSON_Values.JSON) m_Wrappers.Result) func(interface{}) m_Wrappers.Result {
-		return func(arg44 interface{}) m_Wrappers.Result {
-			return coer40(arg44.(m_JSON_Values.JSON))
+	var _0_valueOrError0 m_Wrappers.Result = m_Seq.Companion_Default___.MapWithResult(func(coer37 func(m_JSON_Values.JSON) m_Wrappers.Result) func(interface{}) m_Wrappers.Result {
+		return func(arg40 interface{}) m_Wrappers.Result {
+			return coer37(arg40.(m_JSON_Values.JSON))
 		}
 	}((func(_1_arr _dafny.Sequence) func(m_JSON_Values.JSON) m_Wrappers.Result {
 		return func(_2_v m_JSON_Values.JSON) m_Wrappers.Result {
@@ -359,7 +361,7 @@ func (_static *CompanionStruct_Default___) Value(js m_JSON_Values.JSON) m_Wrappe
 		if _source0.Is_String() {
 			var _1_str _dafny.Sequence = _source0.Get_().(m_JSON_Values.JSON_String).Str
 			_ = _1_str
-			var _2_valueOrError0 m_Wrappers.Result = Companion_Default___.String(_1_str)
+			var _2_valueOrError0 m_Wrappers.Result = Companion_Default___.String_(_1_str)
 			_ = _2_valueOrError0
 			if (_2_valueOrError0).IsFailure() {
 				return (_2_valueOrError0).PropagateFailure()
