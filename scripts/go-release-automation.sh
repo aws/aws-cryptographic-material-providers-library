@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Automated Go Release Process Script
-# This script automates steps 1-8 of the Go release process
+# Go Release Process Script
+# Used for copying go files to release directory and make a commit
 
 set -e  # Exit on error
 
@@ -30,7 +30,7 @@ go_release_script() {
   PROJECT_NAME=$1
   VERSION=$2
 
-  echo "Starting Go release process for $PROJECT_NAME $VERSION"
+  echo "Starting Go release script for $PROJECT_NAME $VERSION"
 
   # Check if this is an AWS SDK project
   IS_AWS_SDK=false
@@ -53,9 +53,6 @@ go_release_script() {
   make polymorph_go
   make transpile_go
   make test_go
-
-  # Step 4: Show git diff
-  echo "Step 4: Showing git diff for review..."
 
   # Step 5: Run Go tools in ImplementationFromDafny-go
   echo "Step 5: Running Go tools in ImplementationFromDafny-go..."
