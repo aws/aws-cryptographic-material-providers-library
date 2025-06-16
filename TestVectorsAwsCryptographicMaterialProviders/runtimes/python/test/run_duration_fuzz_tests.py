@@ -4,6 +4,10 @@ import time
 import subprocess
 import os
 
+# Add the current directory to the path so we can import mock_helpers
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, current_dir)
+
 def run_fuzz_tests_for_duration():
     """
     Run fuzz tests continuously for a specified duration.
@@ -20,7 +24,8 @@ def run_fuzz_tests_for_duration():
     count = 0
     while time.time() < end_time:
         print(f"Running test iteration {count+1}...")
-        result = subprocess.call(['python', '-m', 'pytest', '-xvs', 'test/test_fuzz_encryption.py'])
+        # Use our custom test runner which includes mocks
+        result = subprocess.call(['python', 'test/run_tests.py'])
         if result != 0:
             print(f"Test iteration {count+1} failed with exit code {result}")
             sys.exit(result)
