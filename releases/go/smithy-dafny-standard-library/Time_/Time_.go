@@ -27,9 +27,11 @@ import (
 	m_Seq_MergeSort "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq_MergeSort"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
+	m_UTF8 "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UTF8"
 	m_UnicodeStrings "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UnicodeStrings"
 	m__Unicode "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Unicode_"
 	m_Utf16EncodingForm "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Utf16EncodingForm"
@@ -67,6 +69,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -204,17 +207,33 @@ func (_static *CompanionStruct_Default___) PrintTime(time RelativeTime) {
 	_dafny.Print((Companion_Default___.FormatMilli((time).Dtor_CpuTime())).SetString())
 	_dafny.Print((_dafny.SeqOfString("\n")).SetString())
 }
-func (_static *CompanionStruct_Default___) PrintTimeLong(time RelativeTime, tag _dafny.Sequence) {
-	_dafny.Print((tag).SetString())
-	_dafny.Print((_dafny.SeqOfString(" ")).SetString())
-	_dafny.Print((m_OsLang.GetOsLong()).SetString())
-	_dafny.Print((_dafny.SeqOfString(" ")).SetString())
-	_dafny.Print((m_OsLang.GetLanguageLong()).SetString())
-	_dafny.Print((_dafny.SeqOfString(" Clock Time : ")).SetString())
-	_dafny.Print((Companion_Default___.FormatMilli((time).Dtor_ClockTime())).SetString())
-	_dafny.Print((_dafny.SeqOfString(" CPU Time : ")).SetString())
-	_dafny.Print((Companion_Default___.FormatMilli((time).Dtor_CpuTime())).SetString())
-	_dafny.Print((_dafny.SeqOfString("\n")).SetString())
+func (_static *CompanionStruct_Default___) PrintTimeSinceLong(start AbsoluteTime, tag _dafny.Sequence, file m_Wrappers.Option) {
+	var _0_t RelativeTime
+	_ = _0_t
+	var _out0 RelativeTime
+	_ = _out0
+	_out0 = Companion_Default___.TimeSince(start)
+	_0_t = _out0
+	Companion_Default___.PrintTimeLong(_0_t, tag, file)
+}
+func (_static *CompanionStruct_Default___) PrintTimeLong(time RelativeTime, tag _dafny.Sequence, file m_Wrappers.Option) {
+	var _0_val _dafny.Sequence
+	_ = _0_val
+	_0_val = _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(tag, _dafny.SeqOfString(" ")), m_OsLang.GetOsShort()), _dafny.SeqOfString(" ")), m_OsLang.GetLanguageShort()), _dafny.SeqOfString(" ")), Companion_Default___.FormatMilli((time).Dtor_ClockTime())), _dafny.SeqOfString(" ")), Companion_Default___.FormatMilli((time).Dtor_CpuTime())), _dafny.SeqOfString("\n"))
+	_dafny.Print((_0_val).SetString())
+	if (file).Is_Some() {
+		var _1_utf8__val m_Wrappers.Result
+		_ = _1_utf8__val
+		_1_utf8__val = m_UTF8.Encode(_0_val)
+		if (_1_utf8__val).Is_Success() {
+			var _2___v0 m_Wrappers.Result
+			_ = _2___v0
+			var _out0 m_Wrappers.Result
+			_ = _out0
+			_out0 = m_FileIO.Companion_Default___.AppendBytesToFile((file).Dtor_value().(_dafny.Sequence), (_1_utf8__val).Dtor_value().(_dafny.Sequence))
+			_2___v0 = _out0
+		}
+	}
 }
 func (_static *CompanionStruct_Default___) PrintTimeShort(time RelativeTime) {
 	_dafny.Print((_dafny.SeqOfString("CPU:")).SetString())

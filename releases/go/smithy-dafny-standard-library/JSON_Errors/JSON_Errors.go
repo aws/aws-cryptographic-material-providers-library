@@ -44,6 +44,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -85,6 +86,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -503,9 +505,9 @@ func (_this DeserializationError) ToString() _dafny.Sequence {
 					return _dafny.SeqOfString("EOF")
 				})()
 				_ = _6_c
-				var _7_c0s _dafny.Sequence = _dafny.SeqCreate((_dafny.IntOfUint32((_4_bs0).Cardinality())).Uint32(), func(coer35 func(_dafny.Int) _dafny.Char) func(_dafny.Int) interface{} {
-					return func(arg39 _dafny.Int) interface{} {
-						return coer35(arg39)
+				var _7_c0s _dafny.Sequence = _dafny.SeqCreate((_dafny.IntOfUint32((_4_bs0).Cardinality())).Uint32(), func(coer32 func(_dafny.Int) _dafny.Char) func(_dafny.Int) interface{} {
+					return func(arg35 _dafny.Int) interface{} {
+						return coer32(arg35)
 					}
 				}((func(_8_bs0 _dafny.Sequence) func(_dafny.Int) _dafny.Char {
 					return func(_9_idx _dafny.Int) _dafny.Char {

@@ -1,7 +1,7 @@
-// Package OsLang
-// Dafny module OsLang compiled into Go
+// Package StandardLibrary_MemoryMath
+// Dafny module StandardLibrary_MemoryMath compiled into Go
 
-package OsLang
+package StandardLibrary_MemoryMath
 
 import (
 	os "os"
@@ -24,11 +24,7 @@ import (
 	m_Relations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Relations"
 	m_Seq "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq"
 	m_Seq_MergeSort "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq_MergeSort"
-	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
-	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
-	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
-	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
 	m_UnicodeStrings "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UnicodeStrings"
 	m__Unicode "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Unicode_"
@@ -67,10 +63,6 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
-var _ m_StandardLibrary_MemoryMath.Dummy__
-var _ m_StandardLibrary_Sequence.Dummy__
-var _ m_StandardLibrary_String.Dummy__
-var _ m_StandardLibrary.Dummy__
 
 type Dummy__ struct{}
 
@@ -100,7 +92,7 @@ func (_this *Default__) EqualsGeneric(x interface{}) bool {
 }
 
 func (*Default__) String() string {
-	return "OsLang.Default__"
+	return "StandardLibrary_MemoryMath.Default__"
 }
 func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 	return [](*_dafny.TraitID){}
@@ -108,11 +100,14 @@ func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 
 var _ _dafny.TraitOffspring = &Default__{}
 
-func (_static *CompanionStruct_Default___) GetPlatformShort() _dafny.Sequence {
-	return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(m_OsLang.GetLanguageShort(), _dafny.SeqOfString(" ")), m_OsLang.GetOsShort())
+func (_static *CompanionStruct_Default___) Add(x uint64, y uint64) uint64 {
+	return (x) + (y)
 }
-func (_static *CompanionStruct_Default___) GetPlatformLong() _dafny.Sequence {
-	return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(m_OsLang.GetLanguageLong(), _dafny.SeqOfString(" ")), m_OsLang.GetOsLong())
+func (_static *CompanionStruct_Default___) Add3(x uint64, y uint64, z uint64) uint64 {
+	return ((x) + (y)) + (z)
+}
+func (_static *CompanionStruct_Default___) Add4(w uint64, x uint64, y uint64, z uint64) uint64 {
+	return (((w) + (x)) + (y)) + (z)
 }
 
 // End of class Default__

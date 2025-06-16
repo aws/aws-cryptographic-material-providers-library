@@ -53,6 +53,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -94,6 +95,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -169,9 +171,9 @@ func (_static *CompanionStruct_Default___) Structural(self m_JSON_Grammar.Struct
 	return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(Companion_Default___.View((self).Dtor_before()), (fT)((self).Dtor_t())), Companion_Default___.View((self).Dtor_after()))
 }
 func (_static *CompanionStruct_Default___) StructuralView(self m_JSON_Grammar.Structural) _dafny.Sequence {
-	return Companion_Default___.Structural(self, func(coer43 func(m_JSON_Utils_Views_Core.View__) _dafny.Sequence) func(interface{}) _dafny.Sequence {
-		return func(arg47 interface{}) _dafny.Sequence {
-			return coer43(arg47.(m_JSON_Utils_Views_Core.View__))
+	return Companion_Default___.Structural(self, func(coer40 func(m_JSON_Utils_Views_Core.View__) _dafny.Sequence) func(interface{}) _dafny.Sequence {
+		return func(arg43 interface{}) _dafny.Sequence {
+			return coer40(arg43.(m_JSON_Utils_Views_Core.View__))
 		}
 	}(Companion_Default___.View))
 }
@@ -201,14 +203,14 @@ TAIL_CALL_START:
 	}
 }
 func (_static *CompanionStruct_Default___) Bracketed(self m_JSON_Grammar.Bracketed, fDatum func(m_JSON_Grammar.Suffixed) _dafny.Sequence) _dafny.Sequence {
-	return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(Companion_Default___.StructuralView((self).Dtor_l()), Companion_Default___.ConcatBytes((self).Dtor_data(), func(coer44 func(m_JSON_Grammar.Suffixed) _dafny.Sequence) func(interface{}) _dafny.Sequence {
-		return func(arg48 interface{}) _dafny.Sequence {
-			return coer44(arg48.(m_JSON_Grammar.Suffixed))
+	return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(Companion_Default___.StructuralView((self).Dtor_l()), Companion_Default___.ConcatBytes((self).Dtor_data(), func(coer41 func(m_JSON_Grammar.Suffixed) _dafny.Sequence) func(interface{}) _dafny.Sequence {
+		return func(arg44 interface{}) _dafny.Sequence {
+			return coer41(arg44.(m_JSON_Grammar.Suffixed))
 		}
 	}(fDatum))), Companion_Default___.StructuralView((self).Dtor_r()))
 }
 func (_static *CompanionStruct_Default___) KeyValue(self m_JSON_Grammar.JKeyValue) _dafny.Sequence {
-	return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(Companion_Default___.String((self).Dtor_k()), Companion_Default___.StructuralView((self).Dtor_colon())), Companion_Default___.Value((self).Dtor_v()))
+	return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(Companion_Default___.String_((self).Dtor_k()), Companion_Default___.StructuralView((self).Dtor_colon())), Companion_Default___.Value((self).Dtor_v()))
 }
 func (_static *CompanionStruct_Default___) Frac(self m_JSON_Grammar.Jfrac) _dafny.Sequence {
 	return _dafny.Companion_Sequence_.Concatenate(Companion_Default___.View((self).Dtor_period()), Companion_Default___.View((self).Dtor_num()))
@@ -217,23 +219,23 @@ func (_static *CompanionStruct_Default___) Exp(self m_JSON_Grammar.Jexp) _dafny.
 	return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(Companion_Default___.View((self).Dtor_e()), Companion_Default___.View((self).Dtor_sign())), Companion_Default___.View((self).Dtor_num()))
 }
 func (_static *CompanionStruct_Default___) Number(self m_JSON_Grammar.Jnumber) _dafny.Sequence {
-	return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(Companion_Default___.View((self).Dtor_minus()), Companion_Default___.View((self).Dtor_num())), Companion_Default___.Maybe((self).Dtor_frac(), func(coer45 func(m_JSON_Grammar.Jfrac) _dafny.Sequence) func(interface{}) _dafny.Sequence {
-		return func(arg49 interface{}) _dafny.Sequence {
-			return coer45(arg49.(m_JSON_Grammar.Jfrac))
+	return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(Companion_Default___.View((self).Dtor_minus()), Companion_Default___.View((self).Dtor_num())), Companion_Default___.Maybe((self).Dtor_frac(), func(coer42 func(m_JSON_Grammar.Jfrac) _dafny.Sequence) func(interface{}) _dafny.Sequence {
+		return func(arg45 interface{}) _dafny.Sequence {
+			return coer42(arg45.(m_JSON_Grammar.Jfrac))
 		}
-	}(Companion_Default___.Frac))), Companion_Default___.Maybe((self).Dtor_exp(), func(coer46 func(m_JSON_Grammar.Jexp) _dafny.Sequence) func(interface{}) _dafny.Sequence {
-		return func(arg50 interface{}) _dafny.Sequence {
-			return coer46(arg50.(m_JSON_Grammar.Jexp))
+	}(Companion_Default___.Frac))), Companion_Default___.Maybe((self).Dtor_exp(), func(coer43 func(m_JSON_Grammar.Jexp) _dafny.Sequence) func(interface{}) _dafny.Sequence {
+		return func(arg46 interface{}) _dafny.Sequence {
+			return coer43(arg46.(m_JSON_Grammar.Jexp))
 		}
 	}(Companion_Default___.Exp)))
 }
-func (_static *CompanionStruct_Default___) String(self m_JSON_Grammar.Jstring) _dafny.Sequence {
+func (_static *CompanionStruct_Default___) String_(self m_JSON_Grammar.Jstring) _dafny.Sequence {
 	return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(Companion_Default___.View((self).Dtor_lq()), Companion_Default___.View((self).Dtor_contents())), Companion_Default___.View((self).Dtor_rq()))
 }
 func (_static *CompanionStruct_Default___) CommaSuffix(c m_JSON_Grammar.Maybe) _dafny.Sequence {
-	return Companion_Default___.Maybe(c, func(coer47 func(m_JSON_Grammar.Structural) _dafny.Sequence) func(interface{}) _dafny.Sequence {
-		return func(arg51 interface{}) _dafny.Sequence {
-			return coer47(arg51.(m_JSON_Grammar.Structural))
+	return Companion_Default___.Maybe(c, func(coer44 func(m_JSON_Grammar.Structural) _dafny.Sequence) func(interface{}) _dafny.Sequence {
+		return func(arg47 interface{}) _dafny.Sequence {
+			return coer44(arg47.(m_JSON_Grammar.Structural))
 		}
 	}(Companion_Default___.StructuralView))
 }
@@ -244,9 +246,9 @@ func (_static *CompanionStruct_Default___) Item(self m_JSON_Grammar.Suffixed) _d
 	return _dafny.Companion_Sequence_.Concatenate(Companion_Default___.Value((self).Dtor_t().(m_JSON_Grammar.Value)), Companion_Default___.CommaSuffix((self).Dtor_suffix()))
 }
 func (_static *CompanionStruct_Default___) Object(obj m_JSON_Grammar.Bracketed) _dafny.Sequence {
-	return Companion_Default___.Bracketed(obj, func(coer48 func(m_JSON_Grammar.Suffixed) _dafny.Sequence) func(m_JSON_Grammar.Suffixed) _dafny.Sequence {
-		return func(arg52 m_JSON_Grammar.Suffixed) _dafny.Sequence {
-			return coer48(arg52)
+	return Companion_Default___.Bracketed(obj, func(coer45 func(m_JSON_Grammar.Suffixed) _dafny.Sequence) func(m_JSON_Grammar.Suffixed) _dafny.Sequence {
+		return func(arg48 m_JSON_Grammar.Suffixed) _dafny.Sequence {
+			return coer45(arg48)
 		}
 	}((func(_0_obj m_JSON_Grammar.Bracketed) func(m_JSON_Grammar.Suffixed) _dafny.Sequence {
 		return func(_1_d m_JSON_Grammar.Suffixed) _dafny.Sequence {
@@ -255,9 +257,9 @@ func (_static *CompanionStruct_Default___) Object(obj m_JSON_Grammar.Bracketed) 
 	})(obj)))
 }
 func (_static *CompanionStruct_Default___) Array(arr m_JSON_Grammar.Bracketed) _dafny.Sequence {
-	return Companion_Default___.Bracketed(arr, func(coer49 func(m_JSON_Grammar.Suffixed) _dafny.Sequence) func(m_JSON_Grammar.Suffixed) _dafny.Sequence {
-		return func(arg53 m_JSON_Grammar.Suffixed) _dafny.Sequence {
-			return coer49(arg53)
+	return Companion_Default___.Bracketed(arr, func(coer46 func(m_JSON_Grammar.Suffixed) _dafny.Sequence) func(m_JSON_Grammar.Suffixed) _dafny.Sequence {
+		return func(arg49 m_JSON_Grammar.Suffixed) _dafny.Sequence {
+			return coer46(arg49)
 		}
 	}((func(_0_arr m_JSON_Grammar.Bracketed) func(m_JSON_Grammar.Suffixed) _dafny.Sequence {
 		return func(_1_d m_JSON_Grammar.Suffixed) _dafny.Sequence {
@@ -286,7 +288,7 @@ func (_static *CompanionStruct_Default___) Value(self m_JSON_Grammar.Value) _daf
 		if _source0.Is_String() {
 			var _2_str m_JSON_Grammar.Jstring = _source0.Get_().(m_JSON_Grammar.Value_String).Str
 			_ = _2_str
-			return Companion_Default___.String(_2_str)
+			return Companion_Default___.String_(_2_str)
 		}
 	}
 	{
@@ -310,9 +312,9 @@ func (_static *CompanionStruct_Default___) Value(self m_JSON_Grammar.Value) _daf
 	}
 }
 func (_static *CompanionStruct_Default___) JSON(js m_JSON_Grammar.Structural) _dafny.Sequence {
-	return Companion_Default___.Structural(js, func(coer50 func(m_JSON_Grammar.Value) _dafny.Sequence) func(interface{}) _dafny.Sequence {
-		return func(arg54 interface{}) _dafny.Sequence {
-			return coer50(arg54.(m_JSON_Grammar.Value))
+	return Companion_Default___.Structural(js, func(coer47 func(m_JSON_Grammar.Value) _dafny.Sequence) func(interface{}) _dafny.Sequence {
+		return func(arg50 interface{}) _dafny.Sequence {
+			return coer47(arg50.(m_JSON_Grammar.Value))
 		}
 	}(Companion_Default___.Value))
 }
