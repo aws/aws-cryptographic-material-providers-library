@@ -5,16 +5,6 @@
 
 set -e  # Exit on error
 
-# Check if project name and version is provided
-if [ $# -lt 2 ]; then
-  echo "Usage: $0 <project-name> [version]"
-  echo "Example: $0 ComAmazonawsKms v0.1.0"
-  exit 1
-fi
-
-PROJECT_NAME=$1
-VERSION=$2
-
 # Function to map project name to release directory name
 get_release_dir_name() {
   local project=$1
@@ -28,98 +18,113 @@ get_release_dir_name() {
   esac
 }
 
-cd ..
+go_release_script() {
+  echo $0
+  # Check if project name and version is provided
+  if [ $# -ne 3 ]; then
+    echo "Usage: $0 <project-name> [version]"
+    echo "Example: $0 ComAmazonawsKms v0.1.0"
+    exit 1
+  fi
 
-echo "Starting Go release process for $PROJECT_NAME $VERSION"
+  PROJECT_NAME=$1
+  VERSION=$2
 
-# Check if this is an AWS SDK project
-IS_AWS_SDK=false
-if [[ "$PROJECT_NAME" == "ComAmazonawsKms" || "$PROJECT_NAME" == "ComAmazonawsDynamodb" ]]; then
-  IS_AWS_SDK=true
-  echo "Detected AWS SDK project: $PROJECT_NAME"
-fi
+  cd ..
 
-# Step 1: Pull the latest smithy-dafny and libraries git submodules
-echo "Step 1: Pulling latest git submodules..."
-git submodule update --init --recursive
+  echo "Starting Go release process for $PROJECT_NAME $VERSION"
 
-# Step 2: Go to the project directory
-echo "Step 2: Navigating to $PROJECT_NAME..."
-cd "$PROJECT_NAME" || { echo "Error: Project directory $PROJECT_NAME not found"; exit 1; }
+  # Check if this is an AWS SDK project
+  IS_AWS_SDK=false
+  if [[ "$PROJECT_NAME" == "ComAmazonawsKms" || "$PROJECT_NAME" == "ComAmazonawsDynamodb" ]]; then
+    IS_AWS_SDK=true
+    echo "Detected AWS SDK project: $PROJECT_NAME"
+  fi
 
-# Step 3: Build using make commands
-echo "Step 3: Building project..."
-make polymorph_dafny
-make polymorph_go
-make transpile_go
-make test_go
+  # Step 1: Pull the latest smithy-dafny and libraries git submodules
+  echo "Step 1: Pulling latest git submodules..."
+  git submodule update --init --recursive
 
-# Step 4: Show git diff
-echo "Step 4: Showing git diff for review..."
+  # Step 2: Go to the project directory
+  echo "Step 2: Navigating to $PROJECT_NAME..."
+  cd "$PROJECT_NAME" || { echo "Error: Project directory $PROJECT_NAME not found"; exit 1; }
 
-# Step 5: Run Go tools in ImplementationFromDafny-go
-echo "Step 5: Running Go tools in ImplementationFromDafny-go..."
-cd runtimes/go/ImplementationFromDafny-go || { echo "Error: ImplementationFromDafny-go directory not found"; exit 1; }
+  # Step 3: Build using make commands
+  echo "Step 3: Building project..."
+  make polymorph_dafny
+  make polymorph_go
+  make transpile_go
+  make test_go
 
-if [ "$IS_AWS_SDK" = false ]; then
-  # Remove all shim.go files for non-AWS SDK projects
-  find . -name "*shim.go" -type f -delete
-  echo "Removed all shim.go files"
-fi
+  # Step 4: Show git diff
+  echo "Step 4: Showing git diff for review..."
 
-echo "Running goimports..."
-goimports -w .
+  # Step 5: Run Go tools in ImplementationFromDafny-go
+  echo "Step 5: Running Go tools in ImplementationFromDafny-go..."
+  cd runtimes/go/ImplementationFromDafny-go || { echo "Error: ImplementationFromDafny-go directory not found"; exit 1; }
 
-echo "Running go get -u..."
-go get -u
+  if [ "$IS_AWS_SDK" = false ]; then
+    # Remove all shim.go files for non-AWS SDK projects
+    find . -name "*shim.go" -type f -delete
+    echo "Removed all shim.go files"
+  fi
 
-echo "Running go mod tidy..."
-go mod tidy
+  echo "Running goimports..."
+  goimports -w .
 
-echo "Running go build to check for errors..."
-go build --gcflags="-e" ./...
+  echo "Running go get -u..."
+  go get -u
 
-# Get the mapped release directory name
-RELEASE_DIR_NAME=$(get_release_dir_name "$PROJECT_NAME")
+  echo "Running go mod tidy..."
+  go mod tidy
 
-# Step 6: Copy files to releases directory
-echo "Step 6: Copying files to releases/go/$RELEASE_DIR_NAME..."
+  echo "Running go build to check for errors..."
+  go build --gcflags="-e" ./...
 
-# Use rsync to copy files while excluding specific ones
-rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" ./ "../../../releases/go/$RELEASE_DIR_NAME/"
+  # Get the mapped release directory name
+  RELEASE_DIR_NAME=$(get_release_dir_name "$PROJECT_NAME")
 
-# Step 7: Run Go tools in releases directory
-echo "Step 7: Running Go tools in releases/go/$RELEASE_DIR_NAME..."
+  # Step 6: Copy files to releases directory
+  echo "Step 6: Copying files to releases/go/$RELEASE_DIR_NAME..."
 
-cd "../../../../releases/go/$RELEASE_DIR_NAME" || { echo "Error: releases directory not found"; exit 1; }
+  # Use rsync to copy files while excluding specific ones
+  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" ./ "../../../releases/go/$RELEASE_DIR_NAME/"
 
-echo "Running goimports..."
-goimports -w .
-echo "Running go get -u..."
-go get -u ./...
+  # Step 7: Run Go tools in releases directory
+  echo "Step 7: Running Go tools in releases/go/$RELEASE_DIR_NAME..."
 
-echo "Running go mod tidy..."
-go mod tidy
+  cd "../../../../releases/go/$RELEASE_DIR_NAME" || { echo "Error: releases directory not found"; exit 1; }
 
-echo "Running go build to check for errors..."
-go build --gcflags="-e" ./...
+  echo "Running goimports..."
+  goimports -w .
+  echo "Running go get -u..."
+  go get -u ./...
 
-# Step 8: Prepare for commit
-echo "Step 8: creating a PR..."
-cd ../../../ || { echo "Error: Cannot navigate back to project root"; exit 1; }
-git checkout -b "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
-git add "releases/go/$RELEASE_DIR_NAME"
+  echo "Running go mod tidy..."
+  go mod tidy
 
-git commit -m "Release $RELEASE_DIR_NAME Go module ${VERSION}"
-git push origin "golang-release-staging-branch/$RELEASE_DIR_NAME"
+  echo "Running go build to check for errors..."
+  go build --gcflags="-e" ./...
 
-echo ""
-echo "Go release process completed successfully!"
-echo ""
-echo "Next steps:"
-echo "1. Create a PR with your changes"
-echo "2. After PR is merged, create a tag:"
-echo "   git tag releases/go/${RELEASE_DIR_NAME}/${VERSION}"
-echo "3. Push the tag:"
-echo "   git push --tags"
-echo ""
+  # Step 8: Prepare for commit
+  echo "Step 8: creating a PR..."
+  cd ../../../ || { echo "Error: Cannot navigate back to project root"; exit 1; }
+  git checkout -b "golang-release-staging-branch/$PROJECT_NAME/${VERSION}"
+  git add "releases/go/$RELEASE_DIR_NAME"
+
+  git commit -m "Release $RELEASE_DIR_NAME Go module ${VERSION}"
+  git push origin "golang-release-staging-branch/$PROJECT_NAME/${VERSION}"
+
+  echo ""
+  echo "Go release process completed successfully!"
+  echo ""
+  echo "Next steps:"
+  echo "1. Create a PR with your changes"
+  echo "2. After PR is merged, create a tag:"
+  echo "   git tag releases/go/${RELEASE_DIR_NAME}/${VERSION}"
+  echo "3. Push the tag:"
+  echo "   git push --tags"
+  echo ""
+}
+
+"$@"
