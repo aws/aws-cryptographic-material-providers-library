@@ -5,6 +5,14 @@
 
 set -e  # Exit on error
 
+# Check if project name and version is provided
+if [ $# -ne 3 ]; then
+  echo "Usage: $0 <function> <project-name> [version]"
+  echo "Example: $0 get_release_dir_name ComAmazonawsKms v0.1.0"
+  echo "Example: $0 go_release_script ComAmazonawsKms v0.1.0"
+  exit 1
+fi
+
 # Function to map project name to release directory name
 get_release_dir_name() {
   local project=$1
@@ -20,17 +28,9 @@ get_release_dir_name() {
 
 go_release_script() {
   echo $0
-  # Check if project name and version is provided
-  if [ $# -ne 3 ]; then
-    echo "Usage: $0 <project-name> [version]"
-    echo "Example: $0 ComAmazonawsKms v0.1.0"
-    exit 1
-  fi
 
   PROJECT_NAME=$1
   VERSION=$2
-
-  cd ..
 
   echo "Starting Go release process for $PROJECT_NAME $VERSION"
 
