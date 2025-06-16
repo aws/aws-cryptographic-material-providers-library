@@ -1,0 +1,88 @@
+name: Go Release Automation
+
+on:
+  workflow_dispatch:
+    inputs:
+      project-name:
+        description: 'Project name (e.g., ComAmazonawsKms)'
+        required: true
+        type: string
+      version:
+        description: 'Version (e.g., v0.1.0)'
+        required: true
+        type: string
+
+jobs:
+  go-release:
+    runs-on: macos-13
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update submodules
+        run: |
+          git submodule update --init --recursive
+
+      - name: Setup Dafny
+        uses: ./.github/actions/setup_dafny
+        with:
+          dafny-version: "4.2.0"  # Using a default version, adjust as needed
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"  # Using the version from library_go_tests.yml
+
+      - name: Install Go imports
+        run: |
+          go install golang.org/x/tools/cmd/goimports@latest
+
+      - name: Install Smithy-Dafny codegen dependencies
+        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Run Go release automation script
+        run: |
+          chmod +x ./scripts/go-release-automation.sh
+          ./scripts/go-release-automation.sh ${{ github.event.inputs.project-name }} ${{ github.event.inputs.version }}
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Extract the release directory name using the function from the script
+          PROJECT_NAME="${{ github.event.inputs.project-name }}"
+          VERSION="${{ github.event.inputs.version }}"
+          
+          # Get the release directory name using the sourced function
+          RELEASE_DIR_NAME=$(get_release_dir_name "$PROJECT_NAME")
+          
+          BRANCH_NAME="golang-release-staging-branch/$RELEASE_DIR_NAME/$VERSION"
+          
+          # Create PR using GitHub CLI
+          gh pr create \
+            --title "Release $RELEASE_DIR_NAME Go module $VERSION" \
+            --body "This PR was automatically created by the Go Release Automation workflow.
+            
+            It releases version $VERSION of the $RELEASE_DIR_NAME Go module.
+            
+            Please review the changes carefully before merging." \
+            --base main \
+            --head "$BRANCH_NAME" \
+            --label "go-release" \
+            --label "automated-pr"
