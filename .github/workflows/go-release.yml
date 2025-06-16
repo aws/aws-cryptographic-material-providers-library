@@ -74,14 +74,19 @@ jobs:
           
           BRANCH_NAME="golang-release-staging-branch/$RELEASE_DIR_NAME/$VERSION"
           
+          DIFF_FILES=$(diff -qr $PROJECT_NAME/runtimes/go/ImplementationFromDafny-go releases/go/$RELEASE_DIR_NAME)
           # Create PR using GitHub CLI
           gh pr create \
             --title "Release $RELEASE_DIR_NAME Go module $VERSION" \
             --body "This PR was automatically created by the Go Release Automation workflow.
             
-            It releases version $VERSION of the $RELEASE_DIR_NAME Go module.
+            It releases version $VERSION of the $RELEASE_DIR_NAME Go module. The diff between is
+
+            ```
+            $DIFF_FILES
+            ```
             
-            Please review the changes carefully before merging." \
+            Please review the diff carefully before merging." \
             --base main \
             --head "$BRANCH_NAME" \
             --label "go-release" \
