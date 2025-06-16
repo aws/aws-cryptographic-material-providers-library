@@ -59,9 +59,27 @@ modules_to_ensure = [
 for module in modules_to_ensure:
     ensure_module_exists(module)
 
-# Monkey patch test_fuzz_encryption.py to use mocks if it exists
+# Find and import test_fuzz_encryption.py
+test_fuzz_encryption = None
 try:
-    import test_fuzz_encryption
+    # Try direct import first (if we're in the test directory)
+    try:
+        import test_fuzz_encryption
+        print("Imported test_fuzz_encryption from current directory")
+    except ImportError:
+        # Try from parent package
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        test_file_path = os.path.join(current_dir, 'test_fuzz_encryption.py')
+        
+        if os.path.exists(test_file_path):
+            import importlib.util
+            spec = importlib.util.spec_from_file_location("test_fuzz_encryption", test_file_path)
+            test_fuzz_encryption = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(test_fuzz_encryption)
+            print(f"Imported test_fuzz_encryption from {test_file_path}")
+        else:
+            print(f"WARNING: Could not find test_fuzz_encryption.py at {test_file_path}")
+            raise ImportError("Could not find test_fuzz_encryption.py")
     
     # Override the create functions to use mocks
     def mock_create_material_providers():
@@ -82,14 +100,28 @@ try:
     test_fuzz_encryption.create_multi_keyring = mock_create_multi_keyring
     
     print("Successfully monkey patched test_fuzz_encryption.py")
-except ImportError:
-    print("Warning: Could not patch test_fuzz_encryption.py, tests may fail")
+except ImportError as e:
+    print(f"Warning: Could not patch test_fuzz_encryption.py: {e}")
 
 # Import pytest now so that our path changes take effect
 import pytest
 
 if __name__ == "__main__":
     # Get command line args and pass them to pytest
-    args = sys.argv[1:] if len(sys.argv) > 1 else ["test_fuzz_encryption.py::test_encryption_decryption_roundtrip", "test_fuzz_encryption.py::test_multi_keyring_handling"]
+    if len(sys.argv) > 1:
+        args = sys.argv[1:]
+    else:
+        # We need to handle different possible execution directories
+        # If run from within the test directory
+        if os.path.exists("test_fuzz_encryption.py"):
+            args = ["test_fuzz_encryption.py::test_encryption_decryption_roundtrip", "test_fuzz_encryption.py::test_multi_keyring_handling"]
+        # If run from the package root directory
+        elif os.path.exists("test/test_fuzz_encryption.py"):
+            args = ["test/test_fuzz_encryption.py::test_encryption_decryption_roundtrip", "test/test_fuzz_encryption.py::test_multi_keyring_handling"]
+        else:
+            print("ERROR: Cannot find test_fuzz_encryption.py in either current directory or test/ subdirectory")
+            sys.exit(1)
+    
+    print(f"Running tests with args: {args}")
     exit_code = pytest.main(["-xvs"] + args)
     sys.exit(exit_code)
