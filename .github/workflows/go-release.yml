@@ -37,12 +37,12 @@ jobs:
       - name: Setup Dafny
         uses: ./.github/actions/setup_dafny
         with:
-          dafny-version: "4.2.0" # Using a default version, adjust as needed
+          dafny-version: "4.9.0"
 
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.23" # Using the version from library_go_tests.yml
+          go-version: "1.23"
 
       - name: Install Go imports
         run: |
