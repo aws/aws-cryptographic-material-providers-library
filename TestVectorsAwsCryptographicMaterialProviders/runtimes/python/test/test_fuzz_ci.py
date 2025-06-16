@@ -6,19 +6,24 @@ simplified tests that don't depend on actual crypto implementations.
 """
 
 import logging
+import hypothesis
 from hypothesis import given, settings
 
-# Import the fuzzing strategies from the real test file
-try:
-    from test_fuzz_encryption import encryption_contexts, plaintexts, algorithm_suites
-except ImportError:
-    # Handle case where module is imported from a different directory
-    from test.test_fuzz_encryption import encryption_contexts, plaintexts, algorithm_suites
+# Import the fuzzing strategies from our shared module
+from .fuzz_strategies import encryption_contexts, plaintexts, algorithm_suites
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, 
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("mpl_fuzz_ci_tests")
+
+# Configure Hypothesis for CI (faster tests, more deterministic)
+hypothesis.settings.register_profile("ci", 
+                                   deadline=None,  # No deadline in CI
+                                   print_blob=True,  # Show example blobs 
+                                   derandomize=True,  # Make tests deterministic
+                                   suppress_health_check=(hypothesis.HealthCheck.too_slow,))
+hypothesis.settings.load_profile("ci")
 
 #########################
 # CI-friendly test cases

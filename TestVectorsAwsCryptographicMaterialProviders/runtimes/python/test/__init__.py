@@ -1,2 +1,6 @@
-# Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
-# SPDX-License-Identifier: Apache-2.0
+"""
+Test package for AWS Cryptographic Material Providers Library
+
+This package contains fuzzing tests that verify the behavior of the library
+under various inputs and conditions.
+"""
