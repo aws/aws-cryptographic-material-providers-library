@@ -85,8 +85,11 @@ go_release_script() {
   # Step 6: Copy files to releases directory
   echo "Step 6: Copying files to releases/go/$RELEASE_DIR_NAME..."
 
-  # Use rsync to copy files while excluding specific ones
-  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" ./ "../../../../releases/go/$RELEASE_DIR_NAME/"
+  # Use rsync to copy files while excluding following ones:
+    # ImplementationFromDafny.go: This file is for devlopment. Users is expected use API(s) from `*/api_client.go`
+    # ImplementationFromDafny-go.dtr: This is the dafny translation record only needed for code generation
+    # go.mod and go.sum: These files will be updated by go mod tidy
+  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" --exclude="go.mod" --exclude="go.sum" ./ "../../../../releases/go/$RELEASE_DIR_NAME/"
 
   # Step 7: Run Go tools in releases directory
   echo "Step 7: Running Go tools in releases/go/$RELEASE_DIR_NAME..."
