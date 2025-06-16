@@ -1,16 +1,70 @@
 """
-Simplified version of fuzz tests for CI environments
+Simplified Fuzz Testing for AWS Cryptographic Material Providers Library
 
-This module imports the fuzzing strategies from test_fuzz_encryption but implements
-simplified tests that don't depend on actual crypto implementations.
+This file demonstrates how property-based testing with Hypothesis can generate
+diverse inputs for testing encryption and decryption operations.
+It's designed to run in CI environments without requiring the actual crypto implementations.
 """
 
+import os
 import logging
 import hypothesis
 from hypothesis import given, settings
 
-# Import the fuzzing strategies from our shared module
-from .fuzz_strategies import encryption_contexts, plaintexts, algorithm_suites
+# Try different import methods to make this work both in CI and locally
+try:
+    # Try direct import first (when run with pytest -m)
+    from .fuzz_strategies import encryption_contexts, plaintexts, algorithm_suites
+except (ImportError, ValueError):
+    try:
+        # Try relative import from the same directory
+        from fuzz_strategies import encryption_contexts, plaintexts, algorithm_suites
+    except ImportError:
+        # Fall back to defining strategies inline for CI simplicity
+        import hypothesis.strategies as st
+        from hypothesis.strategies import composite
+        
+        # Constants for test configuration
+        MAX_PLAINTEXT_SIZE = 1024 * 10  # 10KB max plaintext for performance
+        TEST_ALGORITHMS = [
+            "ALG_AES_256_GCM_HKDF_SHA512_COMMIT_KEY",  # Default committed algorithm
+            "ALG_AES_256_GCM_IV12_TAG16_HKDF_SHA384_ECDSA_P384" # Algorithm with signature
+        ]
+        
+        @composite
+        def encryption_contexts(draw, min_pairs=0, max_pairs=20):
+            """Generate random encryption contexts with different characteristics"""
+            num_pairs = draw(st.integers(min_value=min_pairs, max_value=max_pairs))
+            
+            key_strategy = st.text(min_size=1, max_size=20)
+            value_strategy = st.text(min_size=0, max_size=50)
+            
+            context = {}
+            for _ in range(num_pairs):
+                key = draw(key_strategy)
+                value = draw(value_strategy)
+                if key and key not in context:
+                    context[key] = value
+            
+            return context
+
+        @composite
+        def algorithm_suites(draw):
+            """Generate valid algorithm suite IDs"""
+            return draw(st.sampled_from(TEST_ALGORITHMS))
+
+        @composite
+        def plaintexts(draw, min_size=0, max_size=MAX_PLAINTEXT_SIZE):
+            """Generate random plaintexts of varying sizes and patterns"""
+            size = draw(st.integers(min_value=min_size, max_value=max_size))
+            content_type = draw(st.sampled_from(["random", "zeros", "ones"]))
+            
+            if content_type == "random":
+                return draw(st.binary(min_size=size, max_size=size))
+            elif content_type == "zeros":
+                return bytes([0] * size)
+            else:  # ones
+                return bytes([255] * size)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, 
