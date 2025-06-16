@@ -9,7 +9,7 @@ set -e  # Exit on error
 if [ $# -ne 3 ]; then
   echo "Usage: $0 <function> <project-name> [version]"
   echo "Example: $0 get_release_dir_name ComAmazonawsKms v0.1.0"
-  echo "Example: $0 go_release_script ComAmazonawsKms v0.1.0"
+  echo "Example: $0 run_release_script ComAmazonawsKms v0.1.0"
   exit 1
 fi
 
@@ -26,7 +26,7 @@ get_release_dir_name() {
   esac
 }
 
-go_release_script() {
+run_release_script() {
   PROJECT_NAME=$1
   VERSION=$2
 
