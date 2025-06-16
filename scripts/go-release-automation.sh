@@ -86,7 +86,7 @@ go_release_script() {
   echo "Step 6: Copying files to releases/go/$RELEASE_DIR_NAME..."
 
   # Use rsync to copy files while excluding specific ones
-  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" ./ "../../../releases/go/$RELEASE_DIR_NAME/"
+  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" ./ "../../../../releases/go/$RELEASE_DIR_NAME/"
 
   # Step 7: Run Go tools in releases directory
   echo "Step 7: Running Go tools in releases/go/$RELEASE_DIR_NAME..."
