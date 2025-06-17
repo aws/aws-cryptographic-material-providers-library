@@ -2,6 +2,9 @@
 
 ## [1.11.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.10.1...v1.11.0) (2025-06-17)
 
+This release is available in the following languages:
+- Java
+
 ### Fixes -- All Languages
 
 * **dafny:** bump Dafny libraries for JSON fix ([#1517](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1517)) ([d8679e5](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d8679e517ae3bc3b074325f849b5cb6c252c8f18))
