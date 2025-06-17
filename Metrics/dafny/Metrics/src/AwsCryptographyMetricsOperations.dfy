@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../Model/AwsCryptographyMetricsTypes.dfy"
+include "MetricsAgentText.dfy"
 
 module AwsCryptographyMetricsOperations refines AbstractAwsCryptographyMetricsOperations {
   import UUID
+  import MetricsAgentText
 
-  datatype Config = Config(
-    nameonly MetricsLoggerConfig: MetricsLoggerConfig
-  )
+  datatype Config = Config()
   type InternalConfig = Config
   
   predicate ValidInternalConfig?(config: InternalConfig)
@@ -17,22 +17,18 @@ module AwsCryptographyMetricsOperations refines AbstractAwsCryptographyMetricsOp
   function ModifiesInternalConfig(config: InternalConfig) : set<object>
   {{}}
 
-  predicate CreateTextLoggerEnsuresPublicly(input: CreateTextLoggerInput , output: Result<CreateLoggerOutput, Error>)
+  predicate CreateTextMetricsAgentEnsuresPublicly(input: CreateTextMetricsAgentInput , output: Result<CreateMetricsAgentOutput, Error>)
   {true}
 
-  method CreateTextLogger(config: InternalConfig, input: CreateTextLoggerInput)
-    returns (output: Result<CreateLoggerOutput, Error>)
+  method {:axiom} CreateTextMetricsAgent(config: InternalConfig, input: CreateTextMetricsAgentInput)
+    returns (output: Result<CreateMetricsAgentOutput, Error>)
   {
-    var fileName;
-    if input.fileName.Some? {
-      fileName := input.fileName.value;
-    } else {
-      var fileName? := UUID.GenerateUUID();
-      fileName :- fileName?
-      // TODO create a generic error here for failing to create a text logger.
-      .MapFailure(e => Types.MetricsServiceError(message := e));
-    }
-    // TODO call the create class to get us a TextLogger
-    return Failure(Error.MetricsServiceError(message := "E"));
+    :- Need(
+      |input.fileName| > 0,
+      Error.MetricsServiceError(message := "Log FileName length MUST be greater than 0.")
+    );
+    var logger := new MetricsAgentText.TextLogger(input.fileName);
+  
+    return Success(CreateMetricsAgentOutput(metricsAgent := logger)); 
   }
 }

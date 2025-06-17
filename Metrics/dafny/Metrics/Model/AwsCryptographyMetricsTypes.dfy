@@ -14,9 +14,11 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } Aws
 
   class IAwsCryptographicMetricsClientCallHistory {
     ghost constructor() {
-      CreateTextLogger := [];
+      CreateTextMetricsAgent := [];
+      CreateMultiMetricsAgent := [];
     }
-    ghost var CreateTextLogger: seq<DafnyCallEvent<CreateTextLoggerInput, Result<CreateLoggerOutput, Error>>>
+    ghost var CreateTextMetricsAgent: seq<DafnyCallEvent<CreateTextMetricsAgentInput, Result<CreateMetricsAgentOutput, Error>>>
+    ghost var CreateMultiMetricsAgent: seq<DafnyCallEvent<CreateMetricsAgentInput, Result<CreateMetricsAgentOutput, Error>>>
   }
   trait {:termination false} IAwsCryptographicMetricsClient
   {
@@ -45,37 +47,238 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } Aws
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
     ghost const History: IAwsCryptographicMetricsClientCallHistory
-    predicate CreateTextLoggerEnsuresPublicly(input: CreateTextLoggerInput , output: Result<CreateLoggerOutput, Error>)
+    predicate CreateTextMetricsAgentEnsuresPublicly(input: CreateTextMetricsAgentInput , output: Result<CreateMetricsAgentOutput, Error>)
     // The public method to be called by library consumers
-    method CreateTextLogger ( input: CreateTextLoggerInput )
-      returns (output: Result<CreateLoggerOutput, Error>)
+    method CreateTextMetricsAgent ( input: CreateTextMetricsAgentInput )
+      returns (output: Result<CreateMetricsAgentOutput, Error>)
       requires
         && ValidState()
       modifies Modifies - {History} ,
-               History`CreateTextLogger
+               History`CreateTextMetricsAgent
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History}
       ensures
         && ValidState()
         && ( output.Success? ==>
-               && output.value.logger.ValidState()
-               && output.value.logger.Modifies !! {History}
-               && fresh(output.value.logger)
-               && fresh ( output.value.logger.Modifies
+               && output.value.metricsAgent.ValidState()
+               && output.value.metricsAgent.Modifies !! {History}
+               && fresh(output.value.metricsAgent)
+               && fresh ( output.value.metricsAgent.Modifies
                           - Modifies - {History} ) )
-      ensures CreateTextLoggerEnsuresPublicly(input, output)
-      ensures History.CreateTextLogger == old(History.CreateTextLogger) + [DafnyCallEvent(input, output)]
+      ensures CreateTextMetricsAgentEnsuresPublicly(input, output)
+      ensures History.CreateTextMetricsAgent == old(History.CreateTextMetricsAgent) + [DafnyCallEvent(input, output)]
+
+    predicate CreateMultiMetricsAgentEnsuresPublicly(input: CreateMetricsAgentInput , output: Result<CreateMetricsAgentOutput, Error>)
+    // The public method to be called by library consumers
+    method CreateMultiMetricsAgent ( input: CreateMetricsAgentInput )
+      returns (output: Result<CreateMetricsAgentOutput, Error>)
+      requires
+        && ValidState() && ( forall i <- input.metricsAgents ::
+                               && i.ValidState()
+                               && i.Modifies !! {History}
+           )
+      modifies Modifies - {History} ,
+               (set m: object, i | i in input.metricsAgents && m in i.Modifies :: m) ,
+               History`CreateMultiMetricsAgent
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History} ,
+                (set m: object, i | i in input.metricsAgents && m in i.Modifies :: m)
+      ensures
+        && ValidState()
+        && ( output.Success? ==>
+               && output.value.metricsAgent.ValidState()
+               && output.value.metricsAgent.Modifies !! {History}
+               && fresh(output.value.metricsAgent)
+               && fresh ( output.value.metricsAgent.Modifies
+                          - Modifies - {History}
+                          - (set m: object, i | i in input.metricsAgents && m in i.Modifies :: m) ) )
+      ensures CreateMultiMetricsAgentEnsuresPublicly(input, output)
+      ensures History.CreateMultiMetricsAgent == old(History.CreateMultiMetricsAgent) + [DafnyCallEvent(input, output)]
 
   }
   datatype CreateLoggerOutput = | CreateLoggerOutput (
     nameonly logger: ILogger
   )
+  datatype CreateMetricsAgentInput = | CreateMetricsAgentInput (
+    nameonly metricsAgents: MetricsAgentList
+  )
+  datatype CreateMetricsAgentOutput = | CreateMetricsAgentOutput (
+    nameonly metricsAgent: IMetricsAgent
+  )
   datatype CreateTextLoggerInput = | CreateTextLoggerInput (
     nameonly fileName: Option<string> := Option.None
   )
-  datatype MetricsLoggerConfig = | MetricsLoggerConfig (
+  datatype CreateTextMetricsAgentInput = | CreateTextMetricsAgentInput (
+    nameonly fileName: string
+  )
+  type MetricsAgentList = seq<IMetricsAgent>
+  class IMetricsAgentCallHistory {
+    ghost constructor() {
+      PutCount := [];
+      PutDate := [];
+      PutTime := [];
+      PutProperty := [];
+    }
+    ghost var PutCount: seq<DafnyCallEvent<PutCountInput, Result<PutOutput, Error>>>
+    ghost var PutDate: seq<DafnyCallEvent<PutDateInput, Result<PutOutput, Error>>>
+    ghost var PutTime: seq<DafnyCallEvent<PutTimeInput, Result<PutOutput, Error>>>
+    ghost var PutProperty: seq<DafnyCallEvent<PutPropertyInput, Result<PutOutput, Error>>>
+  }
+  trait {:termination false} IMetricsAgent
+  {
+    // Helper to define any additional modifies/reads clauses.
+    // If your operations need to mutate state,
+    // add it in your constructor function:
+    // Modifies := {your, fields, here, History};
+    // If you do not need to mutate anything:
+    // Modifies := {History};
 
-                                 )
+    ghost const Modifies: set<object>
+    // For an unassigned field defined in a trait,
+    // Dafny can only assign a value in the constructor.
+    // This means that for Dafny to reason about this value,
+    // it needs some way to know (an invariant),
+    // about the state of the object.
+    // This builds on the Valid/Repr paradigm
+    // To make this kind requires safe to add
+    // to methods called from unverified code,
+    // the predicate MUST NOT take any arguments.
+    // This means that the correctness of this requires
+    // MUST only be evaluated by the class itself.
+    // If you require any additional mutation,
+    // then you MUST ensure everything you need in ValidState.
+    // You MUST also ensure ValidState in your constructor.
+    predicate ValidState()
+      ensures ValidState() ==> History in Modifies
+    ghost const History: IMetricsAgentCallHistory
+    predicate PutCountEnsuresPublicly(input: PutCountInput , output: Result<PutOutput, Error>)
+    // The public method to be called by library consumers
+    method PutCount ( input: PutCountInput )
+      returns (output: Result<PutOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`PutCount
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures PutCountEnsuresPublicly(input, output)
+      ensures History.PutCount == old(History.PutCount) + [DafnyCallEvent(input, output)]
+    {
+      output := PutCount' (input);
+      History.PutCount := History.PutCount + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method PutCount' ( input: PutCountInput )
+      returns (output: Result<PutOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures PutCountEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
+    predicate PutDateEnsuresPublicly(input: PutDateInput , output: Result<PutOutput, Error>)
+    // The public method to be called by library consumers
+    method PutDate ( input: PutDateInput )
+      returns (output: Result<PutOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`PutDate
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures PutDateEnsuresPublicly(input, output)
+      ensures History.PutDate == old(History.PutDate) + [DafnyCallEvent(input, output)]
+    {
+      output := PutDate' (input);
+      History.PutDate := History.PutDate + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method PutDate' ( input: PutDateInput )
+      returns (output: Result<PutOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures PutDateEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
+    predicate PutTimeEnsuresPublicly(input: PutTimeInput , output: Result<PutOutput, Error>)
+    // The public method to be called by library consumers
+    method PutTime ( input: PutTimeInput )
+      returns (output: Result<PutOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`PutTime
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures PutTimeEnsuresPublicly(input, output)
+      ensures History.PutTime == old(History.PutTime) + [DafnyCallEvent(input, output)]
+    {
+      output := PutTime' (input);
+      History.PutTime := History.PutTime + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method PutTime' ( input: PutTimeInput )
+      returns (output: Result<PutOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures PutTimeEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
+    predicate PutPropertyEnsuresPublicly(input: PutPropertyInput , output: Result<PutOutput, Error>)
+    // The public method to be called by library consumers
+    method PutProperty ( input: PutPropertyInput )
+      returns (output: Result<PutOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`PutProperty
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures PutPropertyEnsuresPublicly(input, output)
+      ensures History.PutProperty == old(History.PutProperty) + [DafnyCallEvent(input, output)]
+    {
+      output := PutProperty' (input);
+      History.PutProperty := History.PutProperty + [DafnyCallEvent(input, output)];
+    }
+    // The method to implement in the concrete class.
+    method PutProperty' ( input: PutPropertyInput )
+      returns (output: Result<PutOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History}
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures PutPropertyEnsuresPublicly(input, output)
+      ensures unchanged(History)
+
+  }
+  datatype MetricsConfig = | MetricsConfig (
+
+                           )
   class ILoggerCallHistory {
     ghost constructor() {
       Put := [];
@@ -180,17 +383,34 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny.types" } Aws
   datatype PublishOutput = | PublishOutput (
 
                            )
+  datatype PutCountInput = | PutCountInput (
+    nameonly description: string ,
+    nameonly count: int64 ,
+    nameonly transactionId: Option<string> := Option.None
+  )
+  datatype PutDateInput = | PutDateInput (
+    nameonly description: string ,
+    nameonly date: string ,
+    nameonly transactionId: Option<string> := Option.None
+  )
   datatype PutInput = | PutInput (
     nameonly message: string
   )
   datatype PutOutput = | PutOutput (
 
                        )
+  datatype PutPropertyInput = | PutPropertyInput (
+    nameonly description: string ,
+    nameonly value: string ,
+    nameonly transactionId: Option<string> := Option.None
+  )
+  datatype PutTimeInput = | PutTimeInput (
+    nameonly description: string ,
+    nameonly duration: int64 ,
+    nameonly transactionId: Option<string> := Option.None
+  )
   datatype Error =
       // Local Error structures are listed here
-    | MetricsChainError (
-        nameonly message: string
-      )
     | MetricsPublishError (
         nameonly message: string
       )
@@ -246,9 +466,9 @@ abstract module AbstractAwsCryptographyMetricsService
   import opened UTF8
   import opened Types = AwsCryptographyMetricsTypes
   import Operations : AbstractAwsCryptographyMetricsOperations
-  function method DefaultMetricsLoggerConfig(): MetricsLoggerConfig
-  method MetricsLogger(config: MetricsLoggerConfig := DefaultMetricsLoggerConfig())
-    returns (res: Result<MetricsLoggerClient, Error>)
+  function method DefaultMetricsConfig(): MetricsConfig
+  method Metrics(config: MetricsConfig := DefaultMetricsConfig())
+    returns (res: Result<MetricsClient, Error>)
     ensures res.Success? ==>
               && fresh(res.value)
               && fresh(res.value.Modifies)
@@ -262,7 +482,7 @@ abstract module AbstractAwsCryptographyMetricsService
   function method CreateFailureOfError(error: Error): Result<IAwsCryptographicMetricsClient, Error> {
     Failure(error)
   }
-  class MetricsLoggerClient extends IAwsCryptographicMetricsClient
+  class MetricsClient extends IAwsCryptographicMetricsClient
   {
     constructor(config: Operations.InternalConfig)
       requires Operations.ValidInternalConfig?(config)
@@ -276,30 +496,62 @@ abstract module AbstractAwsCryptographyMetricsService
                 && Operations.ValidInternalConfig?(config)
                 && History !in Operations.ModifiesInternalConfig(config)
                 && Modifies == Operations.ModifiesInternalConfig(config) + {History}
-    predicate CreateTextLoggerEnsuresPublicly(input: CreateTextLoggerInput , output: Result<CreateLoggerOutput, Error>)
-    {Operations.CreateTextLoggerEnsuresPublicly(input, output)}
+    predicate CreateTextMetricsAgentEnsuresPublicly(input: CreateTextMetricsAgentInput , output: Result<CreateMetricsAgentOutput, Error>)
+    {Operations.CreateTextMetricsAgentEnsuresPublicly(input, output)}
     // The public method to be called by library consumers
-    method CreateTextLogger ( input: CreateTextLoggerInput )
-      returns (output: Result<CreateLoggerOutput, Error>)
+    method CreateTextMetricsAgent ( input: CreateTextMetricsAgentInput )
+      returns (output: Result<CreateMetricsAgentOutput, Error>)
       requires
         && ValidState()
       modifies Modifies - {History} ,
-               History`CreateTextLogger
+               History`CreateTextMetricsAgent
       // Dafny will skip type parameters when generating a default decreases clause.
       decreases Modifies - {History}
       ensures
         && ValidState()
         && ( output.Success? ==>
-               && output.value.logger.ValidState()
-               && output.value.logger.Modifies !! {History}
-               && fresh(output.value.logger)
-               && fresh ( output.value.logger.Modifies
+               && output.value.metricsAgent.ValidState()
+               && output.value.metricsAgent.Modifies !! {History}
+               && fresh(output.value.metricsAgent)
+               && fresh ( output.value.metricsAgent.Modifies
                           - Modifies - {History} ) )
-      ensures CreateTextLoggerEnsuresPublicly(input, output)
-      ensures History.CreateTextLogger == old(History.CreateTextLogger) + [DafnyCallEvent(input, output)]
+      ensures CreateTextMetricsAgentEnsuresPublicly(input, output)
+      ensures History.CreateTextMetricsAgent == old(History.CreateTextMetricsAgent) + [DafnyCallEvent(input, output)]
     {
-      output := Operations.CreateTextLogger(config, input);
-      History.CreateTextLogger := History.CreateTextLogger + [DafnyCallEvent(input, output)];
+      output := Operations.CreateTextMetricsAgent(config, input);
+      History.CreateTextMetricsAgent := History.CreateTextMetricsAgent + [DafnyCallEvent(input, output)];
+    }
+
+    predicate CreateMultiMetricsAgentEnsuresPublicly(input: CreateMetricsAgentInput , output: Result<CreateMetricsAgentOutput, Error>)
+    {Operations.CreateMultiMetricsAgentEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method CreateMultiMetricsAgent ( input: CreateMetricsAgentInput )
+      returns (output: Result<CreateMetricsAgentOutput, Error>)
+      requires
+        && ValidState() && ( forall i <- input.metricsAgents ::
+                               && i.ValidState()
+                               && i.Modifies !! {History}
+           )
+      modifies Modifies - {History} ,
+               (set m: object, i | i in input.metricsAgents && m in i.Modifies :: m) ,
+               History`CreateMultiMetricsAgent
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History} ,
+                (set m: object, i | i in input.metricsAgents && m in i.Modifies :: m)
+      ensures
+        && ValidState()
+        && ( output.Success? ==>
+               && output.value.metricsAgent.ValidState()
+               && output.value.metricsAgent.Modifies !! {History}
+               && fresh(output.value.metricsAgent)
+               && fresh ( output.value.metricsAgent.Modifies
+                          - Modifies - {History}
+                          - (set m: object, i | i in input.metricsAgents && m in i.Modifies :: m) ) )
+      ensures CreateMultiMetricsAgentEnsuresPublicly(input, output)
+      ensures History.CreateMultiMetricsAgent == old(History.CreateMultiMetricsAgent) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.CreateMultiMetricsAgent(config, input);
+      History.CreateMultiMetricsAgent := History.CreateMultiMetricsAgent + [DafnyCallEvent(input, output)];
     }
 
   }
@@ -312,12 +564,12 @@ abstract module AbstractAwsCryptographyMetricsOperations {
   type InternalConfig
   predicate ValidInternalConfig?(config: InternalConfig)
   function ModifiesInternalConfig(config: InternalConfig): set<object>
-  predicate CreateTextLoggerEnsuresPublicly(input: CreateTextLoggerInput , output: Result<CreateLoggerOutput, Error>)
+  predicate CreateTextMetricsAgentEnsuresPublicly(input: CreateTextMetricsAgentInput , output: Result<CreateMetricsAgentOutput, Error>)
   // The private method to be refined by the library developer
 
 
-  method CreateTextLogger ( config: InternalConfig , input: CreateTextLoggerInput )
-    returns (output: Result<CreateLoggerOutput, Error>)
+  method CreateTextMetricsAgent ( config: InternalConfig , input: CreateTextMetricsAgentInput )
+    returns (output: Result<CreateMetricsAgentOutput, Error>)
     requires
       && ValidInternalConfig?(config)
     modifies ModifiesInternalConfig(config)
@@ -326,9 +578,35 @@ abstract module AbstractAwsCryptographyMetricsOperations {
     ensures
       && ValidInternalConfig?(config)
       && ( output.Success? ==>
-             && output.value.logger.ValidState()
-             && fresh(output.value.logger)
-             && fresh ( output.value.logger.Modifies
+             && output.value.metricsAgent.ValidState()
+             && fresh(output.value.metricsAgent)
+             && fresh ( output.value.metricsAgent.Modifies
                         - ModifiesInternalConfig(config) ) )
-    ensures CreateTextLoggerEnsuresPublicly(input, output)
+    ensures CreateTextMetricsAgentEnsuresPublicly(input, output)
+
+
+  predicate CreateMultiMetricsAgentEnsuresPublicly(input: CreateMetricsAgentInput , output: Result<CreateMetricsAgentOutput, Error>)
+  // The private method to be refined by the library developer
+
+
+  method CreateMultiMetricsAgent ( config: InternalConfig , input: CreateMetricsAgentInput )
+    returns (output: Result<CreateMetricsAgentOutput, Error>)
+    requires
+      && ValidInternalConfig?(config) && ( forall i <- input.metricsAgents ::
+                                             && i.ValidState()
+         )
+    modifies ModifiesInternalConfig(config) ,
+             (set m: object, i | i in input.metricsAgents && m in i.Modifies :: m)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config) ,
+              (set m: object, i | i in input.metricsAgents && m in i.Modifies :: m)
+    ensures
+      && ValidInternalConfig?(config)
+      && ( output.Success? ==>
+             && output.value.metricsAgent.ValidState()
+             && fresh(output.value.metricsAgent)
+             && fresh ( output.value.metricsAgent.Modifies
+                        - ModifiesInternalConfig(config)
+                        - (set m: object, i | i in input.metricsAgents && m in i.Modifies :: m) ) )
+    ensures CreateMultiMetricsAgentEnsuresPublicly(input, output)
 }

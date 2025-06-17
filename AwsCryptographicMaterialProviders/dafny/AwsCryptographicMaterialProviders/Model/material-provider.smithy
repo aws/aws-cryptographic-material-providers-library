@@ -78,10 +78,7 @@ service AwsCryptographicMaterialProviders {
   errors: [AwsCryptographicMaterialProvidersException],
 }
 
-structure MaterialProvidersConfig {
-  loggerConfig: aws.cryptography.metrics#MetricsLoggerConfig,
-  logger: aws.cryptography.metrics#MetricsLoggerReference
-}
+structure MaterialProvidersConfig {}
 
 // Errors
 

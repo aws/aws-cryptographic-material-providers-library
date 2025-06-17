@@ -7,24 +7,21 @@ include "AwsCryptographyMetricsOperations.dfy"
 module {:extern "software.amazon.cryptography.metrics.internaldafny" } Metrics refines AbstractAwsCryptographyMetricsService {
   import Operations = AwsCryptographyMetricsOperations
 
-  function method DefaultMetricsLoggerConfig(): MetricsLoggerConfig 
+  function method DefaultMetricsConfig(): MetricsConfig 
   {
-    MetricsLoggerConfig()
+    MetricsConfig
   }
 
-  method MetricsLogger(config: MetricsLoggerConfig)
-    returns (res: Result<MetricsLoggerClient, Error>)
+  method MetricsLogger()
+    returns (res: Result<MetricsClient, Error>)
     ensures res.Success? ==>
-              && res.value is MetricsLoggerClient
+              && res.value is MetricsClient
   {
-    var logger := new MetricsLoggerClient(
-      Operations.Config(
-        MetricsLoggerConfig := config
-    ));
+    var logger := new MetricsClient(Operations.Config());
     return Success(logger);
   }
 
-  class MetricsLoggerClient... {
+  class MetricsClient... {
 
     predicate ValidState()
     {
