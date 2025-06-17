@@ -6,6 +6,16 @@ import (
 	"fmt"
 )
 
+type BranchKeyCiphertextException struct {
+	KeyStoreBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e BranchKeyCiphertextException) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}
+
 type KeyStoreException struct {
 	KeyStoreBaseException
 	Message           string

@@ -347,17 +347,17 @@ list GrantTokenList {
   member: String
 }
 
-//= aws-encryption-sdk-specification/framework/structures.md#structure-3
-//= type=implication
-//# This structure MUST include all of the following fields:
-//# 
-//# - [Branch Key](#branch-key)
-//# - [Branch Key Id](#branch-key-id)
-//# - [Branch Key Version](#branch-key-version)
-//# - [Encryption Context](#encryption-context-3)
-//# - [KMS ARN](#kms-arn)
-//# - [Create Time](#create-time)
-//# - [Hierarchy Version](#hierarchy-version)
+//XX= aws-encryption-sdk-specification/framework/structures.md#structure-3
+//XX= type=implication
+//XX# This structure MUST include all of the following fields:
+//XX# 
+//XX# - [Branch Key](#branch-key)
+//XX# - [Branch Key Id](#branch-key-id)
+//XX# - [Branch Key Version](#branch-key-version)
+//XX# - [Encryption Context](#encryption-context-3)
+//XX# - [KMS ARN](#kms-arn)
+//XX# - [Create Time](#create-time)
+//XX# - [Hierarchy Version](#hierarchy-version)
 structure BranchKeyMaterials {
     @required
     branchKeyIdentifier: String,

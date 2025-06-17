@@ -40,6 +40,70 @@ class UnknownApiError(ApiError[Literal["Unknown"]]):
     code: Literal["Unknown"] = "Unknown"
 
 
+class BranchKeyCiphertextException(ApiError[Literal["BranchKeyCiphertextException"]]):
+    code: Literal["BranchKeyCiphertextException"] = "BranchKeyCiphertextException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """The cipher-text or branch key materials incorporated into the
+        cipher-text, such as the encryption context, is corrupted, missing, or
+        otherwise invalid. For branch keys,
+
+        the branch key materials is a combination of:
+        - the encryption
+        context
+        - storage identifiers (partition key, sort key, logical name)
+        - metadata
+        that binds the Branch Key to encrypted data (version)
+        - create-time
+        -
+        hierarchy-version
+
+        If any of the above are modified without calling KMS,
+        the
+        branch key's cipher-text becomes invalid.
+
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the BranchKeyCiphertextException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "BranchKeyCiphertextException":
+        """Creates a BranchKeyCiphertextException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return BranchKeyCiphertextException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "BranchKeyCiphertextException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, BranchKeyCiphertextException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
 class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
     code: Literal["KeyStoreException"] = "KeyStoreException"
     message: str
@@ -82,6 +146,11 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
             "message",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
+
+class BranchKeyCiphertextException(ApiError[Literal["BranchKeyCiphertextException"]]):
+    code: Literal["BranchKeyCiphertextException"] = "BranchKeyCiphertextException"
+    message: str
 
 
 class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
@@ -259,6 +328,14 @@ class OpaqueWithTextError(ApiError[Literal["OpaqueWithTextError"]]):
 def _smithy_error_to_dafny_error(e: ServiceError):
     """Converts the provided native Smithy-modeled error into the corresponding
     Dafny error."""
+    if isinstance(
+        e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.BranchKeyCiphertextException,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_BranchKeyCiphertextException(
+            message=_dafny.Seq(e.message)
+        )
+
     if isinstance(
         e,
         aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.KeyStoreException,

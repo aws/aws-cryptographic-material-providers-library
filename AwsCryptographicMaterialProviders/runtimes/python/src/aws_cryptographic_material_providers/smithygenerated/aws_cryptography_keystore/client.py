@@ -113,8 +113,13 @@ class KeyStore:
         )
 
     def create_key(self, input: CreateKeyInput) -> CreateKeyOutput:
-        """Create a new Branch Key in the Key Store. Additionally create a
-        Beacon Key that is tied to this Branch Key.
+        """Create a new Branch Key in the Key Store. Additionally create a Beacon Key that is tied to this Branch Key.
+          This creates 3 items: the ACTIVE branch key item, the DECRYPT_ONLY for the ACTIVE branch key item, and the beacon key.
+          In DynamoDB, the sort-key for the ACTIVE branch key is 'branch:ACTIVE`; the sort-key for the decrypt_only is 'branch:version:<uuid>'; the sort-key for the beacon key is `beacon:ACTIVE'.
+          The active branch key and the decrypt_only items have the same AES-256 key.
+          The beacon key AES-256 is unqiue.
+          For Hierarchy Version 1, KMS is called 3 times; GenerateDataKeyWithoutPlaintext is called twice, ReEncrypt is called once.
+          For Hierarchy Version 2, KMS is called 5 times; GenerateDataKey follwed by Encrypt twice to create the ACTIVE branch key and decrypt_only. Another GenerateDataKey follwed by Encrypt creates the beacon key.
 
         :param input: The operation's input.
         """
@@ -128,8 +133,13 @@ class KeyStore:
         )
 
     def version_key(self, input: VersionKeyInput) -> VersionKeyOutput:
-        """Create a new ACTIVE version of an existing Branch Key in the Key
-        Store, and set the previously ACTIVE version to DECRYPT_ONLY.
+        """Rotates an exsisting Branch Key; this generates a fresh AES-256 key which all future encrypts will use for the Key Derivation Function, until VersionKey is executed again.
+           Rotation is accomplished by first authenticating the ACTIVE branch key item according to it's hierarchy-version with KMS.
+           Then, again using KMS, new material is generated and encrypted, creating a new ACTIVE and corresponding decrypt_only.
+           These two items are then writen to the DynamoDB table via a TransactionWriteItems;
+           this only overwrites the ACTIVE item, the corresponding decrypt_only is a new item.
+           This leaves all the previous decrypt_only items avabile to service decryption of previous rotations.
+           See Branch Key Store Developer Guide's 'Rotate your active branch key': https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/rotate-branch-key.html
 
         :param input: Inputs for versioning a Branch Key.
         """

@@ -7,6 +7,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     CreateKeyOutput_CreateKeyOutput as DafnyCreateKeyOutput,
     CreateKeyStoreOutput_CreateKeyStoreOutput as DafnyCreateKeyStoreOutput,
     Error,
+    Error_BranchKeyCiphertextException,
     Error_KeyStoreException,
     GetActiveBranchKeyOutput_GetActiveBranchKeyOutput as DafnyGetActiveBranchKeyOutput,
     GetBeaconKeyOutput_GetBeaconKeyOutput as DafnyGetBeaconKeyOutput,
@@ -20,6 +21,7 @@ from typing import Any
 
 from .dafny_protocol import DafnyResponse
 from .errors import (
+    BranchKeyCiphertextException,
     CollectionOfErrors,
     ComAmazonawsDynamodb,
     ComAmazonawsKms,
@@ -110,6 +112,8 @@ def _deserialize_error(error: Error) -> ServiceError:
             message=_dafny.string_of(error.message),
             list=[_deserialize_error(dafny_e) for dafny_e in error.list],
         )
+    elif error.is_BranchKeyCiphertextException:
+        return BranchKeyCiphertextException(message=_dafny.string_of(error.message))
     elif error.is_KeyStoreException:
         return KeyStoreException(message=_dafny.string_of(error.message))
     elif error.is_ComAmazonawsKms:
