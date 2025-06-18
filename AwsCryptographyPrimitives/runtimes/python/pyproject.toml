@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-cryptography-internal-primitives"
-version = "1.10.1"
+version = "1.11.0"
 description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
@@ -13,7 +13,7 @@ include = ["**/internaldafny/generated/*.py"]
 [tool.poetry.dependencies]
 python = "^3.11.0"
 aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
-cryptography = "^43.0.1"
+cryptography = ">=43.0.1, <46"
 
 # Package testing
 
