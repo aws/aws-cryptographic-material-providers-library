@@ -27,8 +27,8 @@ phases:
       - curl https://services.gradle.org/distributions/gradle-7.6-all.zip -L -o gradle.zip
       - unzip -qq gradle.zip && rm gradle.zip
       - export PATH="$PWD/gradle-7.6/bin:$PATH"
-      - make -C StandardLibrary setup_net
       - cd aws-cryptographic-material-providers-library/
+      - make -C StandardLibrary setup_net
   pre_build:
     commands:
       # Get published CA MPL jar
