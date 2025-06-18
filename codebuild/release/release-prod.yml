@@ -16,6 +16,7 @@ phases:
   install:
     runtime-versions:
       java: corretto8
+      dotnet: 6.0
     commands:
       - cd ..
       # Get Dafny
