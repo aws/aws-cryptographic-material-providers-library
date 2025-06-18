@@ -1,75 +1,133 @@
 name: MPL Fuzz Testing
 
 on:
+  # Run on main branch changes
   push:
     branches: [ main ]
+  
+  # Run on PRs
   pull_request:
     branches: [ main ]
+  
   # Allow manual triggering
   workflow_dispatch:
     inputs:
-      duration:
-        description: 'Duration of the fuzz testing in minutes'
+      runtime:
+        description: 'Runtime to test'
+        required: true
+        default: 'python'
+        type: choice
+        options:
+          - python
+          - java
+          - net
+          - rust
+          - go
+      num_vectors:
+        description: 'Number of test vectors to generate'
         required: false
-        default: '10'
+        default: '1000'
         type: string
 
+  # Run scheduled tests (weekly on Sunday)
+  schedule:
+    - cron: '0 0 * * 0'
+
 jobs:
-  fuzz-test:
+  basic-fuzz-test:
+    name: Basic Fuzz Tests (Python Runtime)
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.11', '3.12']
-
+    
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install hypothesis pytest
+      
+      - name: Generate and run tests
+        run: |
+          chmod +x TestVectorsAwsCryptographicMaterialProviders/runtimes/python/test/run_fuzz_tests.sh
+          chmod +x TestVectorsAwsCryptographicMaterialProviders/runtimes/python/test/generate_fuzz_vectors.py
+          cd TestVectorsAwsCryptographicMaterialProviders/runtimes/python/test
+          ./run_fuzz_tests.sh --runtime python --num-vectors 100 --verbose
+      
+      - name: Archive test artifacts
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: fuzz-test-artifacts
+          path: |
+            TestVectorsAwsCryptographicMaterialProviders/runtimes/python/fuzz_manifest.json
+            TestVectorsAwsCryptographicMaterialProviders/runtimes/python/fuzz_failures.log
+          retention-days: 7
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-        cache: 'pip'
-
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        # Install just the test dependencies
-        pip install pytest pytest-xdist pytest-cov hypothesis boto3
-        # Install the test package
-        pip install -e ./TestVectorsAwsCryptographicMaterialProviders/runtimes/python/
-
-    # Source the CI account credentials if available (only on protected branches/internal PRs)
-    - name: Setup AWS Credentials
-      if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-      run: |
-        export AWS_REGION=us-west-2
-        if [ -f "assume-ci-role.sh" ]; then
-          echo "Setting up AWS credentials for KMS testing"
-          chmod +x ./assume-ci-role.sh
-          source ./assume-ci-role.sh || echo "Failed to assume role, continuing without AWS credentials"
-        fi
-      shell: bash
-      continue-on-error: true
-
-    # Run the basic CI-friendly fuzz tests
-    - name: Run Basic Fuzz Tests
-      run: |
-        cd TestVectorsAwsCryptographicMaterialProviders/runtimes/python
-        # Set environment variable to indicate CI environment
-        export CI=true
-        python -m pytest -xvs test/test_fuzz_ci.py
-
-    # Run the more intensive CI-friendly fuzz tests with longer duration
-    - name: Run Extended Fuzz Tests
-      if: github.event_name == 'workflow_dispatch'
-      env:
-        TEST_DURATION: ${{ github.event.inputs.duration }}
-        CI: true
-      run: |
-        # Set environment variables for hypothesis
-        export HYPOTHESIS_MAX_EXAMPLES=100
-        export HYPOTHESIS_DEADLINE=30000  # 30 seconds
-        
-        cd TestVectorsAwsCryptographicMaterialProviders/runtimes/python
-        # Run the CI tests with more examples (will skip crypto-dependent tests)
-        python -m pytest -xvs test/test_fuzz_ci.py
+  # This job only runs on manual trigger or scheduled run
+  extended-fuzz-test:
+    name: Extended Fuzz Tests (${{ github.event.inputs.runtime || 'python' }})
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install hypothesis pytest
+      
+      - name: Set up Java (if needed)
+        if: ${{ github.event.inputs.runtime == 'java' || github.event_name == 'schedule' }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+      
+      - name: Set up .NET (if needed)
+        if: ${{ github.event.inputs.runtime == 'net' || github.event_name == 'schedule' }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'
+      
+      - name: Set up Rust (if needed)
+        if: ${{ github.event.inputs.runtime == 'rust' || github.event_name == 'schedule' }}
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+      
+      - name: Set up Go (if needed)
+        if: ${{ github.event.inputs.runtime == 'go' || github.event_name == 'schedule' }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+      
+      - name: Generate and run tests
+        run: |
+          mkdir -p TestVectorsAwsCryptographicMaterialProviders/runtimes/python
+          chmod +x TestVectorsAwsCryptographicMaterialProviders/runtimes/python/test/run_fuzz_tests.sh
+          cd TestVectorsAwsCryptographicMaterialProviders/runtimes/python/test
+          ./run_fuzz_tests.sh --runtime ${{ github.event.inputs.runtime || 'python' }} --num-vectors ${{ github.event.inputs.num_vectors || '1000' }} --verbose
+      
+      - name: Archive test artifacts
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: extended-fuzz-test-artifacts
+          path: |
+            TestVectorsAwsCryptographicMaterialProviders/runtimes/*/fuzz_manifest.json
+            TestVectorsAwsCryptographicMaterialProviders/runtimes/*/fuzz_failures.log
+          retention-days: 7
