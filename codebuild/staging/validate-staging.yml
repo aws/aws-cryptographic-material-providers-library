@@ -15,6 +15,7 @@ phases:
   install:
     runtime-versions:
       java: $JAVA_ENV_VERSION
+      dotnet: 6.0
     commands:
       - cd ..
       # Get Dafny
