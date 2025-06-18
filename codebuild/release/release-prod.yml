@@ -29,6 +29,7 @@ phases:
       - unzip -qq gradle.zip && rm gradle.zip
       - export PATH="$PWD/gradle-7.6/bin:$PATH"
       - cd aws-cryptographic-material-providers-library/
+      - make -C StandardLibrary setup_net
   pre_build:
     commands:
       - aws secretsmanager get-secret-value --region us-west-2 --secret-id Maven-GPG-Keys-Release --query SecretBinary --output text | base64 -d > ~/mvn_gpg.tgz
