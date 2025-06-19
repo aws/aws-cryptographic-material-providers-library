@@ -1,0 +1,77 @@
+file_format_version = "1.0"
+dafny_version = "4.9.2.0"
+[options_by_module.Fixtures]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestCreateKeyStore]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestLyingBranchKey]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestDiscoveryGetKeys]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestConfig]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestGetKeys]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.CleanupItems]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestCreateKeysWithSpecialECKeys]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestCreateKeys]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestVersionKey]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestUtils]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestIntermediateKeyWrapping]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestErrorMessages]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestDefaultClientProvider]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestRawECDHKeyring]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestRawAESKeyring]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestMultiKeyring]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestRawRSAKeying]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestAwsKmsRsaKeyring]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestAwsKmsHierarchicalKeyring]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestAwsKmsEcdhKeyring]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestAwsKmsEncryptedDataKeyFilter]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestLocalCMC]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestStormTracker]
+legacy-module-names = true
+rust-sync = false
+[options_by_module.TestEcdhCalculation]
+legacy-module-names = true
+rust-sync = false
