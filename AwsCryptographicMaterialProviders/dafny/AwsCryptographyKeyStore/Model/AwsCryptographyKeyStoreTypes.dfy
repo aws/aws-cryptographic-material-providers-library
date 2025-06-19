@@ -20,17 +20,25 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly beaconKeyIdentifier: string ,
     nameonly encryptionContext: EncryptionContext ,
     nameonly beaconKey: Option<Secret> := Option.None ,
-    nameonly hmacKeys: Option<HmacKeyMap> := Option.None
+    nameonly hmacKeys: Option<HmacKeyMap> := Option.None ,
+    nameonly kmsArn: ComAmazonawsKmsTypes.KeyIdType ,
+    nameonly createTime: CreateTime ,
+    nameonly hierarchyVersion: HierarchyVersion
   )
+  type BranchKeyIdentifier = string
   datatype BranchKeyMaterials = | BranchKeyMaterials (
     nameonly branchKeyIdentifier: string ,
     nameonly branchKeyVersion: Utf8Bytes ,
     nameonly encryptionContext: EncryptionContext ,
-    nameonly branchKey: Secret
+    nameonly branchKey: Secret ,
+    nameonly kmsArn: ComAmazonawsKmsTypes.KeyIdType ,
+    nameonly createTime: CreateTime ,
+    nameonly hierarchyVersion: HierarchyVersion
   )
   datatype CreateKeyInput = | CreateKeyInput (
     nameonly branchKeyIdentifier: Option<string> := Option.None ,
-    nameonly encryptionContext: Option<EncryptionContext> := Option.None
+    nameonly encryptionContext: Option<EncryptionContext> := Option.None ,
+    nameonly hierarchyVersion: Option<HierarchyVersion> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
     nameonly branchKeyIdentifier: string
@@ -41,6 +49,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype CreateKeyStoreOutput = | CreateKeyStoreOutput (
     nameonly tableArn: ComAmazonawsDynamodbTypes.TableArn
   )
+  type CreateTime = string
   datatype Discovery = | Discovery (
 
                        )
@@ -72,6 +81,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly kmsConfiguration: KMSConfiguration
   )
   type GrantTokenList = seq<string>
+  datatype HierarchyVersion =
+    | v1
+    | v2
   type HmacKeyMap = map<string, Secret>
   class IKeyStoreClientCallHistory {
     ghost constructor() {
@@ -251,6 +263,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
                               )
   datatype Error =
       // Local Error structures are listed here
+    | BranchKeyCiphertextException (
+        nameonly message: string
+      )
     | KeyStoreException (
         nameonly message: string
       )
