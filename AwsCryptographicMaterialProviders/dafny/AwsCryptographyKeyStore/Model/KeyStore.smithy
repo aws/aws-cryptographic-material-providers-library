@@ -62,6 +62,18 @@ service KeyStore {
   errors: [KeyStoreException]
 }
 
+@documentation("The identifier for the Branch Key.")
+string BranchKeyIdentifier
+
+@documentation("Timestamp in ISO 8601 format in UTC, to microsecond precision, that this Branch Key Item's Material was generated.")
+string CreateTime
+
+@documentation("Schema Version of the Branch Key. All items of the same Branch Key SHOULD have the same hierarchy-version. The hierarchy-version determines how the Branch Key Store protects and validates the branch key.")
+@enum([
+  { name: "v1", value: "1" }
+])
+string HierarchyVersion
+
 structure KeyStoreConfig {
 
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#initialization
@@ -192,18 +204,16 @@ operation CreateKey {
 //# - An optional branch key id
 //# - An optional encryption context
 structure CreateKeyInput {
-  @javadoc("The identifier for the created Branch Key.")
-  branchKeyIdentifier: String,
+  branchKeyIdentifier: BranchKeyIdentifier,
 
-  @javadoc("Custom encryption context for the Branch Key. Required if branchKeyIdentifier is set.")
+  @documentation("Encryption context for the Branch Key. Required if branchKeyIdentifier is set.")
   encryptionContext: EncryptionContext
 }
 
 @javadoc("Outputs for Branch Key creation.")
 structure CreateKeyOutput {
   @required
-  @javadoc("A identifier for the created Branch Key.")
-  branchKeyIdentifier: String
+  branchKeyIdentifier: BranchKeyIdentifier
 }
 
 // VersionKey will create a new branch key under the 
@@ -240,8 +250,7 @@ operation GetActiveBranchKey {
 @javadoc("Inputs for getting a Branch Key's ACTIVE version.")
 structure GetActiveBranchKeyInput {
   @required
-  @javadoc("The identifier for the Branch Key to get the ACTIVE version for.")
-  branchKeyIdentifier: String
+  branchKeyIdentifier: BranchKeyIdentifier
 }
 
 @javadoc("Outputs for getting a Branch Key's ACTIVE version.")
@@ -267,8 +276,7 @@ structure GetBranchKeyVersionInput {
   //= type=implication
   //# - MUST supply a `branch-key-id`
   @required
-  @javadoc("The identifier for the Branch Key to get a particular version for.")
-  branchKeyIdentifier: String,
+  branchKeyIdentifier: BranchKeyIdentifier,
 
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
   //= type=implication
@@ -298,7 +306,7 @@ structure GetBeaconKeyInput {
   //# - MUST supply a `branch-key-id`
   @required
   @javadoc("The identifier of the Branch Key the Beacon Key is associated with.")
-  branchKeyIdentifier: String
+  branchKeyIdentifier: BranchKeyIdentifier
 }
 
 @javadoc("Outputs for getting a Beacon Key")
@@ -320,9 +328,12 @@ list GrantTokenList {
 //# - [Branch Key Id](#branch-key-id)
 //# - [Branch Key Version](#branch-key-version)
 //# - [Encryption Context](#encryption-context-3)
+//# - [KMS ARN](#kms-arn)
+//# - [Create Time](#create-time)
+//# - [Hierarchy Version](#hierarchy-version)
 structure BranchKeyMaterials {
     @required
-    branchKeyIdentifier: String,
+    branchKeyIdentifier: BranchKeyIdentifier,
 
     @required
     branchKeyVersion: Utf8Bytes,
@@ -331,7 +342,17 @@ structure BranchKeyMaterials {
     encryptionContext: EncryptionContext,
 
     @required
-    branchKey: Secret,
+    branchKey: Secret
+
+    @required
+    @documentation("The AWS KMS Key ARN used to protect this Branch Key.")
+    kmsArn: com.amazonaws.kms#KeyIdType
+
+    @required
+    createTime: CreateTime
+
+    @required
+    hierarchyVersion: HierarchyVersion
 }
 
 structure BeaconKeyMaterials {
