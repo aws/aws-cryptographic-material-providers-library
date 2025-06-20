@@ -1,0 +1,20 @@
+{
+  "type": "awses-decrypt-verify",
+  "version": 1,
+  "tests": [
+    {
+      "id": "vector_000000",
+      "encryption_context": {},
+      "plaintext": "",
+      "algorithm_suite": "ALG_AES_128_GCM_IV12_TAG16_NO_KDF"
+    },
+    {
+      "id": "unicode_vector_000000",
+      "encryption_context": {
+        "A": "A"
+      },
+      "plaintext": "AA==",
+      "algorithm_suite": "ALG_AES_128_GCM_IV12_TAG16_NO_KDF"
+    }
+  ]
+}
