@@ -86,7 +86,7 @@ run_release_script() {
     # ImplementationFromDafny.go: This file is for devlopment. Users is expected use API(s) from `*/api_client.go`
     # ImplementationFromDafny-go.dtr: This is the dafny translation record only needed for code generation
     # go.mod and go.sum: These files will be updated by go mod tidy
-  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" --exclude="go.mod" --exclude="go.sum" ./ "../../../../releases/go/$RELEASE_DIR_NAME/"
+  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" --exclude="go.mod" --exclude="go.sum" ./ "./$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/"
 
   # Step 7: Run Go tools in releases directory
   echo "Step 7: Running Go tools in releases/go/$RELEASE_DIR_NAME..."
@@ -106,7 +106,7 @@ run_release_script() {
 
   # Step 8: Prepare for commit
   echo "Step 8: creating a PR..."
-  cd ../../../ || { echo "Error: Cannot navigate back to project root"; exit 1; }
+  cd `git rev-parse --show-toplevel` || { echo "Error: Cannot navigate back to project root"; exit 1; }
   git checkout -b "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
   git add "releases/go/$RELEASE_DIR_NAME"
 
