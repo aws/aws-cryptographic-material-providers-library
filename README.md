@@ -1,6 +1,6 @@
 # AWS Cryptographic Material Providers Library
 
-📣 Note: This repository contains the source code and related files for all
+📣 Note: This repository contains the source code and related files for al
 language implementations of the AWS Cryptographic Material Providers Library.
 See our [supported languages](#supported-languages) section for more information.
 
