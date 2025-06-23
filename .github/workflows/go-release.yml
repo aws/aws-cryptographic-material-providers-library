@@ -28,6 +28,15 @@ jobs:
         run: |
           git config --global core.longpaths true
 
+      # KMS and MPL tests need to use credentials which can call KMS
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        if: github.event.inputs.project-name == 'ComAmazonawsKms' || github.event.inputs.project-name == 'ComAmazonawsDynamodb' || github.event.inputs.project-name == 'AwsCryptographicMaterialProviders' 
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: GoReleaseTest
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
