@@ -13,7 +13,11 @@ on:
         type: string
 
 jobs:
+  get-dafny-version:
+    uses: ./.github/workflows/dafny_version.yaml
+    
   go-release:
+    needs: get-dafny-version
     runs-on: macos-13
     permissions:
       contents: write
@@ -37,7 +41,7 @@ jobs:
       - name: Setup Dafny
         uses: ./.github/actions/setup_dafny
         with:
-          dafny-version: "4.9.0"
+          dafny-version: ${{ needs.get-dafny-version.outputs.version }}
 
       - name: Install Go
         uses: actions/setup-go@v5
@@ -59,7 +63,7 @@ jobs:
       - name: Run Go release automation script
         run: |
           chmod +x ./scripts/go-release-automation.sh
-          ./scripts/go-release-automation.sh ${{ github.event.inputs.project-name }} ${{ github.event.inputs.version }}
+          ./scripts/go-release-automation.sh ${{ github.event.inputs.project-name }} ${{ github.event.inputs.version }} ${{ needs.get-dafny-version.outputs.version }}
 
       - name: Create Pull Request
         env:
