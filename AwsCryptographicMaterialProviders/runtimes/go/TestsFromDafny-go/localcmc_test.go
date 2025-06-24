@@ -102,6 +102,9 @@ func testLotsOfAdding(cache awscryptographymaterialproviderssmithygeneratedtypes
 					BeaconKeyIdentifier: beaconKeyIdentifier,
 					BeaconKey:           []byte(beaconKeyIdentifier),
 					EncryptionContext:   map[string]string{},
+					KmsArn:              "KeyId",
+					CreateTime:          "CreateTime",
+					HierarchyVersion:    awscryptographykeystoresmithygeneratedtypes.HierarchyVersionV1,
 				},
 			}
 
