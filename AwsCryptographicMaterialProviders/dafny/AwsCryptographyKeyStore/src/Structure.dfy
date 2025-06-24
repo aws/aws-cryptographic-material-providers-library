@@ -3,6 +3,7 @@
 
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
 include "../../../dafny/AwsCryptographicMaterialProviders/src/AwsArnParsing.dfy"
+include "./PrefixUtils.dfy"
 
 module {:options "/functionSyntax:4" } Structure {
   import opened Wrappers
@@ -14,6 +15,7 @@ module {:options "/functionSyntax:4" } Structure {
   import UTF8
   import AwsArnParsing
   import KmsArn
+  import PrefixUtils
 
   const BRANCH_KEY_IDENTIFIER_FIELD := "branch-key-id"
   const TYPE_FIELD := "type"
@@ -21,19 +23,126 @@ module {:options "/functionSyntax:4" } Structure {
   const HIERARCHY_VERSION := "hierarchy-version"
   const TABLE_FIELD := "tablename"
   const KMS_FIELD := "kms-arn"
-
   const BRANCH_KEY_FIELD := "enc"
   const BRANCH_KEY_ACTIVE_VERSION_FIELD := "version"
+
+  const BRANCH_KEY_RESTRICTED_FIELD_NAMES := {
+    BRANCH_KEY_IDENTIFIER_FIELD,
+    TYPE_FIELD,
+    KEY_CREATE_TIME,
+    HIERARCHY_VERSION,
+    TABLE_FIELD,
+    KMS_FIELD,
+    BRANCH_KEY_FIELD,
+    BRANCH_KEY_ACTIVE_VERSION_FIELD
+  }
 
   const BRANCH_KEY_TYPE_PREFIX := "branch:version:"
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE"
   const BEACON_KEY_TYPE_VALUE := "beacon:ACTIVE"
   const ENCRYPTION_CONTEXT_PREFIX := "aws-crypto-ec:"
+  const HIERARCHY_VERSION_VALUE_1 := "1"
+
+  type ValidBKType = s: string | ValidBKType?(s) witness *
+  predicate ValidBKType?(s: string) {
+    || BRANCH_KEY_TYPE_PREFIX < s
+    || s == BRANCH_KEY_ACTIVE_TYPE
+    || s == BEACON_KEY_TYPE_VALUE
+  }
+
+  lemma NoRestrictedAttributeNameStartsWithPrefix()
+    ensures (
+              forall
+                reserved <- BRANCH_KEY_RESTRICTED_FIELD_NAMES
+                ::
+                  !( ENCRYPTION_CONTEXT_PREFIX <= reserved) //&& !(ENCRYPTION_CONTEXT_PREFIX < reserved)
+            )
+  {
+    HierarchyVersionIsNotPrefixed();
+  }
+
+  lemma HierarchyVersionIsNotPrefixed()
+    ensures ENCRYPTION_CONTEXT_PREFIX[0] == 'a'
+            && HIERARCHY_VERSION[0] == 'h'
+            && "a" != "h"
+  {}
+
+  type PrefixedEncryptionContext = m: map<string, string> | PrefixedEncryptionContext?(m) witness *
+  predicate PrefixedEncryptionContext?(
+    m: map<string, string>
+  ): (output: bool)
+    ensures output ==> m.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES
+  {
+    NoRestrictedAttributeNameStartsWithPrefix();
+    && forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX <= k
+  }
+
+  predicate StringIsValidHierarchyVersion?(version: string)
+  {
+    version == HIERARCHY_VERSION_VALUE_1
+  }
+
+  function HierarchyVersionToString(
+    version: Types.HierarchyVersion
+  ): (output: string)
+    ensures StringIsValidHierarchyVersion?(output)
+    ensures StringToHierarchyVersion(output) == version
+  {
+    match version {
+      case v1 => HIERARCHY_VERSION_VALUE_1
+    }
+  }
+
+  function StringToHierarchyVersion(
+    version: string
+  ): (output: Types.HierarchyVersion)
+    requires StringIsValidHierarchyVersion?(version)
+    ensures version == HIERARCHY_VERSION_VALUE_1 ==> output.v1?
+  {
+    Types.HierarchyVersion.v1
+  }
+
+  lemma HierarchyVersionRoundTrip(version: Types.HierarchyVersion)
+    ensures StringToHierarchyVersion(HierarchyVersionToString(version)) == version
+  {}
 
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#custom-encryption-context
   //= type=exception
   //# Across all versions of a Branch Key, the custom encryption context MUST be equal.
   // At this time, we have no operation that reads all the records of a Branch Key ID.
+
+  datatype BranchKey = | BranchKeyContext (
+    nameonly branchKeyId: Types.BranchKeyIdentifier,
+    nameonly version: Types.Utf8Bytes,
+    nameonly encryptionContext: Types.EncryptionContext,
+    nameonly prefixedEncryptionContext: PrefixedEncryptionContext,
+    nameonly kmsArn: KMS.KeyIdType,
+    nameonly createTime: Types.CreateTime,
+    nameonly hierarchyVersion: Types.HierarchyVersion,
+    nameonly bkType: ValidBKType
+  ) {
+    predicate IsValid()
+    {
+      && KMS.IsValid_KeyIdType(kmsArn)
+      && (SequenceIsSafeBecauseItIsInMemory(branchKeyId); 0 < |branchKeyId| as uint64)
+      && (SequenceIsSafeBecauseItIsInMemory(bkType); 0 < |bkType| as uint64)
+         // TODO: Timestamp length is deterministic, we should require the length be exact
+      && (SequenceIsSafeBecauseItIsInMemory(createTime); 0 < |createTime| as uint64)
+      && ValidBKType?(bkType)
+    }
+    predicate IsDecryptOnly()
+      requires IsValid()
+    {
+      BRANCH_KEY_TYPE_PREFIX < bkType
+    }
+    predicate IsActive()
+      requires IsValid()
+    {
+      BRANCH_KEY_ACTIVE_TYPE == bkType
+    }
+    /* function AsStringMap(): (bkc: map<string, string>)
+      requires IsValid() */
+  }
 
   type BranchKeyContext = m: map<string, string> | BranchKeyContext?(m) witness *
   predicate BranchKeyContext?(m: map<string, string>) {
@@ -52,7 +161,7 @@ module {:options "/functionSyntax:4" } Structure {
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
        //= type=implication
        //# - MUST have a `hierarchy-version`
-    && (HIERARCHY_VERSION in m)
+    && (HIERARCHY_VERSION in m && StringIsValidHierarchyVersion?(m[HIERARCHY_VERSION]))
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
        //= type=implication
        //# - MUST have a `tablename` attribute to store the logicalKeyStoreName
@@ -160,7 +269,7 @@ module {:options "/functionSyntax:4" } Structure {
   }
 
   function ToBranchKeyMaterials(
-    encryptionContext: BranchKeyContext,
+    branchKeyContext: BranchKeyContext,
     plaintextKey: seq<uint8>
   ): (output: Result<Types.BranchKeyMaterials, Types.Error>)
 
@@ -168,8 +277,8 @@ module {:options "/functionSyntax:4" } Structure {
     //= type=implication
     //# The `type` attribute MUST either be equal to `"branch:ACTIVE"` or start with `"branch:version:"`.
     requires
-      || encryptionContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE
-      || BRANCH_KEY_TYPE_PREFIX < encryptionContext[TYPE_FIELD]
+      || branchKeyContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE
+      || BRANCH_KEY_TYPE_PREFIX < branchKeyContext[TYPE_FIELD]
 
     ensures output.Success?
             ==>
@@ -180,21 +289,21 @@ module {:options "/functionSyntax:4" } Structure {
                  //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
                  //= type=implication
                  //# - [Branch Key Id](./structures.md#branch-key-id) MUST be the `branch-key-id`
-              && output.value.branchKeyIdentifier == encryptionContext[BRANCH_KEY_IDENTIFIER_FIELD]
+              && output.value.branchKeyIdentifier == branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD]
 
               && var versionInformation
-                   := if BRANCH_KEY_ACTIVE_VERSION_FIELD in encryptionContext then
+                   := if BRANCH_KEY_ACTIVE_VERSION_FIELD in branchKeyContext then
                         //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
                         //= type=implication
                         //# If the `type` attribute is equal to `"branch:ACTIVE"`
                         //# then the authenticated encryption context MUST have a `version` attribute
                         //# and the version string is this value.
-                        encryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
+                        branchKeyContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
                       else
                         //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
                         //= type=implication
                         //# If the `type` attribute start with `"branch:version:"` then the version string MUST be equal to this value.
-                        encryptionContext[TYPE_FIELD];
+                        branchKeyContext[TYPE_FIELD];
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-materials-from-authenticated-encryption-context
               //= type=implication
               //# - [Branch Key Version](./structures.md#branch-key-version)
@@ -210,33 +319,37 @@ module {:options "/functionSyntax:4" } Structure {
               //= type=implication
               //# - [Encryption Context](./structures.md#encryption-context-3) MUST be constructed by
               //# [Custom Encryption Context From Authenticated Encryption Context](#custom-encryption-context-from-authenticated-encryption-context)
-              && ExtractCustomEncryptionContext(encryptionContext).Success?
-              && output.value.encryptionContext == ExtractCustomEncryptionContext(encryptionContext).value
+              && ExtractCustomEncryptionContext(branchKeyContext).Success?
+              && output.value.encryptionContext == ExtractCustomEncryptionContext(branchKeyContext).value
 
               && (forall k <- output.value.encryptionContext
                     ::
                       && UTF8.Decode(k).Success?
                       && UTF8.Decode(output.value.encryptionContext[k]).Success?
-                      && (ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value in encryptionContext)
-                      && encryptionContext[ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value] == UTF8.Decode(output.value.encryptionContext[k]).value)
+                      && (ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value in branchKeyContext)
+                      && branchKeyContext[ENCRYPTION_CONTEXT_PREFIX + UTF8.Decode(k).value] == UTF8.Decode(output.value.encryptionContext[k]).value)
 
   {
-    var versionInformation := if BRANCH_KEY_ACTIVE_VERSION_FIELD in encryptionContext then
-                                encryptionContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
+    var versionInformation := if BRANCH_KEY_ACTIVE_VERSION_FIELD in branchKeyContext then
+                                branchKeyContext[BRANCH_KEY_ACTIVE_VERSION_FIELD]
                               else
-                                encryptionContext[TYPE_FIELD];
+                                branchKeyContext[TYPE_FIELD];
     var branchKeyVersion := versionInformation[|BRANCH_KEY_TYPE_PREFIX| as uint32..];
     var branchKeyVersionUtf8 :- UTF8.Encode(branchKeyVersion)
                                 .MapFailure(e => Types.KeyStoreException( message := e ));
 
-    var customEncryptionContext :- ExtractCustomEncryptionContext(encryptionContext);
+    var customEncryptionContext :- ExtractCustomEncryptionContext(branchKeyContext);
 
-    Success(Types.BranchKeyMaterials(
-              branchKeyIdentifier := encryptionContext[BRANCH_KEY_IDENTIFIER_FIELD],
-              branchKeyVersion := branchKeyVersionUtf8,
-              branchKey := plaintextKey,
-              encryptionContext := customEncryptionContext
-            ))
+    Success(
+      Types.BranchKeyMaterials(
+        branchKeyIdentifier := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
+        branchKeyVersion := branchKeyVersionUtf8,
+        branchKey := plaintextKey,
+        encryptionContext := customEncryptionContext,
+        kmsArn := branchKeyContext[KMS_FIELD],
+        createTime := branchKeyContext[KEY_CREATE_TIME],
+        hierarchyVersion := StringToHierarchyVersion(branchKeyContext[HIERARCHY_VERSION])
+      ))
   }
 
   function ToBeaconKeyMaterials(
@@ -302,7 +415,7 @@ module {:options "/functionSyntax:4" } Structure {
     Success(map i <- encodedEncryptionContext :: i.0.value := i.1.value)
   }
 
-  opaque function DecryptOnlyBranchKeyEncryptionContext(
+  function DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
     timestamp: string,
@@ -342,7 +455,7 @@ module {:options "/functionSyntax:4" } Structure {
       KEY_CREATE_TIME := timestamp,
       TABLE_FIELD := logicalKeyStoreName,
       KMS_FIELD := kmsKeyArn,
-      HIERARCHY_VERSION := "1"
+      HIERARCHY_VERSION := HIERARCHY_VERSION_VALUE_1
     ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
   }
 
@@ -412,6 +525,7 @@ module {:options "/functionSyntax:4" } Structure {
     && TYPE_FIELD in m && m[TYPE_FIELD].S?
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N?
+    && StringIsValidHierarchyVersion?(m[HIERARCHY_VERSION].N)
     && TABLE_FIELD !in m
     && KMS_FIELD in m && m[KMS_FIELD].S? && KMS.IsValid_KeyIdType(m[KMS_FIELD].S)
     && BRANCH_KEY_FIELD in m && m[BRANCH_KEY_FIELD].B?
