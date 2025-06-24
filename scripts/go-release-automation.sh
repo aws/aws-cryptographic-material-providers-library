@@ -39,23 +39,23 @@ run_release_script() {
     echo "Detected AWS SDK project: $PROJECT_NAME"
   fi
 
-  # Step 1: Pull the latest smithy-dafny and libraries git submodules
-  echo "Step 1: Pulling latest git submodules..."
+  # Pull the latest smithy-dafny and libraries git submodules
+  echo " Pulling latest git submodules..."
   git submodule update --init --recursive
 
-  # Step 2: Go to the project directory
-  echo "Step 2: Navigating to $PROJECT_NAME..."
+  # Go to the project directory
+  echo " Navigating to $PROJECT_NAME..."
   cd "$PROJECT_NAME" || { echo "Error: Project directory $PROJECT_NAME not found"; exit 1; }
 
-  # Step 3: Build using make commands
-  echo "Step 3: Building project..."
+  # Build using make commands
+  echo " Building project..."
   make polymorph_dafny
   make polymorph_go
   make transpile_go
   make test_go
 
-  # Step 5: Run Go tools in ImplementationFromDafny-go
-  echo "Step 5: Running Go tools in ImplementationFromDafny-go..."
+  # Run Go tools in ImplementationFromDafny-go
+  echo " Running Go tools in ImplementationFromDafny-go..."
   cd runtimes/go/ImplementationFromDafny-go || { echo "Error: ImplementationFromDafny-go directory not found"; exit 1; }
 
   if [ "$IS_AWS_SDK" = false ]; then
@@ -79,17 +79,17 @@ run_release_script() {
   # Get the mapped release directory name
   RELEASE_DIR_NAME=$(get_release_dir_name "$PROJECT_NAME")
 
-  # Step 6: Copy files to releases directory
-  echo "Step 6: Copying files to releases/go/$RELEASE_DIR_NAME..."
+  # Copy files to releases directory
+  echo " Copying files to releases/go/$RELEASE_DIR_NAME..."
 
   # Use rsync to copy files while excluding following ones:
     # ImplementationFromDafny.go: This file is for devlopment. Users is expected use API(s) from `*/api_client.go`
     # ImplementationFromDafny-go.dtr: This is the dafny translation record only needed for code generation
     # go.mod and go.sum: These files will be updated by go mod tidy
-  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" --exclude="go.mod" --exclude="go.sum" ./ "./$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/"
+  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" --exclude="go.mod" --exclude="go.sum" ./ "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/"
 
-  # Step 7: Run Go tools in releases directory
-  echo "Step 7: Running Go tools in releases/go/$RELEASE_DIR_NAME..."
+  # Run Go tools in releases directory
+  echo "Running Go tools in releases/go/$RELEASE_DIR_NAME..."
 
   cd "../../../../releases/go/$RELEASE_DIR_NAME" || { echo "Error: releases directory not found"; exit 1; }
 
@@ -104,8 +104,8 @@ run_release_script() {
   echo "Running go build to check for errors..."
   go build --gcflags="-e" ./...
 
-  # Step 8: Prepare for commit
-  echo "Step 8: creating a PR..."
+  # Prepare for commit
+  echo "creating a PR..."
   cd `git rev-parse --show-toplevel` || { echo "Error: Cannot navigate back to project root"; exit 1; }
   git checkout -b "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
   git add "releases/go/$RELEASE_DIR_NAME"
