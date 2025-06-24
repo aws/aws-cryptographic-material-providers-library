@@ -235,7 +235,10 @@ module {:options "/functionSyntax:4" } Structure {
               branchKeyIdentifier := encryptionContext[BRANCH_KEY_IDENTIFIER_FIELD],
               branchKeyVersion := branchKeyVersionUtf8,
               branchKey := plaintextKey,
-              encryptionContext := customEncryptionContext
+              encryptionContext := customEncryptionContext,
+              kmsArn := "KeyId",
+              createTime := "CreateTime",
+              hierarchyVersion := Types.HierarchyVersion.v1
             ))
   }
 
@@ -251,7 +254,10 @@ module {:options "/functionSyntax:4" } Structure {
               beaconKeyIdentifier := encryptionContext[BRANCH_KEY_IDENTIFIER_FIELD],
               beaconKey := Some(plaintextKey),
               hmacKeys := None,
-              encryptionContext := customEncryptionContext
+              encryptionContext := customEncryptionContext,
+              kmsArn := "KeyId",
+              createTime := "CreateTime",
+              hierarchyVersion := Types.HierarchyVersion.v1
             ))
   }
 
