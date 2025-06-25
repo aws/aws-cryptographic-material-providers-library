@@ -100,5 +100,5 @@ jobs:
             Please review the diff carefully before merging." \
             --base main \
             --head "$BRANCH_NAME" \
-            --label "go-release" \
+            --label "golang" \
             --draft
