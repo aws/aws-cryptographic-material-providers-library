@@ -26,6 +26,7 @@ import (
 	m_Seq_MergeSort "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq_MergeSort"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -66,6 +67,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -74,14 +76,14 @@ type Dummy__ struct{}
 
 // Definition of class SeqReader
 type SeqReader struct {
-	Pos   _dafny.Int
+	Pos   uint64
 	_data _dafny.Sequence
 }
 
 func New_SeqReader_() *SeqReader {
 	_this := SeqReader{}
 
-	_this.Pos = _dafny.Zero
+	_this.Pos = uint64(0)
 	_this._data = _dafny.EmptySeq
 	return &_this
 }
@@ -128,25 +130,25 @@ var _ _dafny.TraitOffspring = &SeqReader{}
 func (_this *SeqReader) Ctor__(s _dafny.Sequence) {
 	{
 		(_this)._data = s
-		(_this).Pos = _dafny.Zero
+		(_this).Pos = uint64(0)
 	}
 }
-func (_this *SeqReader) ReadElements(n _dafny.Int) _dafny.Sequence {
+func (_this *SeqReader) ReadElements(n uint64) _dafny.Sequence {
 	{
 		var elems _dafny.Sequence = _dafny.EmptySeq
 		_ = elems
-		elems = (((_this).Data()).Drop((_this.Pos).Uint32())).Take((n).Uint32())
-		(_this).Pos = (_this.Pos).Plus(n)
+		elems = (((_this).Data()).Drop(uint32(_this.Pos))).Take(uint32(n))
+		(_this).Pos = m_StandardLibrary_MemoryMath.Companion_Default___.Add(_this.Pos, n)
 		elems = elems
 		return elems
 		return elems
 	}
 }
-func (_this *SeqReader) ReadExact(n _dafny.Int) m_Wrappers.Result {
+func (_this *SeqReader) ReadExact(n uint64) m_Wrappers.Result {
 	{
 		var res m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
 		_ = res
-		if (n).Cmp((_dafny.IntOfUint32(((_this).Data()).Cardinality())).Minus(_this.Pos)) > 0 {
+		if (n) > ((uint64(((_this).Data()).Cardinality())) - (func() uint64 { return (_this.Pos) })()) {
 			res = m_Wrappers.Companion_Result_.Create_Failure_(_dafny.SeqOfString("IO Error: Not enough elements left on stream."))
 			return res
 		} else {
@@ -239,7 +241,7 @@ func (_this *ByteReader) ReadByte() m_Wrappers.Result {
 		_ = _0_valueOrError0
 		var _out0 m_Wrappers.Result
 		_ = _out0
-		_out0 = ((_this).Reader()).ReadExact(_dafny.One)
+		_out0 = ((_this).Reader()).ReadExact(uint64(1))
 		_0_valueOrError0 = _out0
 		if (_0_valueOrError0).IsFailure() {
 			res = (_0_valueOrError0).PropagateFailure()
@@ -253,7 +255,7 @@ func (_this *ByteReader) ReadByte() m_Wrappers.Result {
 		return res
 	}
 }
-func (_this *ByteReader) ReadBytes(n _dafny.Int) m_Wrappers.Result {
+func (_this *ByteReader) ReadBytes(n uint64) m_Wrappers.Result {
 	{
 		var res m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
 		_ = res
@@ -283,7 +285,7 @@ func (_this *ByteReader) ReadUInt16() m_Wrappers.Result {
 		_ = _0_valueOrError0
 		var _out0 m_Wrappers.Result
 		_ = _out0
-		_out0 = ((_this).Reader()).ReadExact(_dafny.IntOfInt64(2))
+		_out0 = ((_this).Reader()).ReadExact(uint64(2))
 		_0_valueOrError0 = _out0
 		if (_0_valueOrError0).IsFailure() {
 			res = (_0_valueOrError0).PropagateFailure()
@@ -308,7 +310,7 @@ func (_this *ByteReader) ReadUInt32() m_Wrappers.Result {
 		_ = _0_valueOrError0
 		var _out0 m_Wrappers.Result
 		_ = _out0
-		_out0 = ((_this).Reader()).ReadExact(_dafny.IntOfInt64(4))
+		_out0 = ((_this).Reader()).ReadExact(uint64(4))
 		_0_valueOrError0 = _out0
 		if (_0_valueOrError0).IsFailure() {
 			res = (_0_valueOrError0).PropagateFailure()
@@ -333,7 +335,7 @@ func (_this *ByteReader) ReadUInt64() m_Wrappers.Result {
 		_ = _0_valueOrError0
 		var _out0 m_Wrappers.Result
 		_ = _out0
-		_out0 = ((_this).Reader()).ReadExact(_dafny.IntOfInt64(8))
+		_out0 = ((_this).Reader()).ReadExact(uint64(8))
 		_0_valueOrError0 = _out0
 		if (_0_valueOrError0).IsFailure() {
 			res = (_0_valueOrError0).PropagateFailure()
@@ -354,14 +356,14 @@ func (_this *ByteReader) IsDoneReading() bool {
 	{
 		var b bool = false
 		_ = b
-		b = (_dafny.IntOfUint32((((_this).Reader()).Data()).Cardinality())).Cmp((_this).Reader().Pos) == 0
+		b = (uint64((((_this).Reader()).Data()).Cardinality())) == ((_this).Reader().Pos)
 		return b
 		return b
 	}
 }
-func (_this *ByteReader) GetSizeRead() _dafny.Int {
+func (_this *ByteReader) GetSizeRead() uint64 {
 	{
-		var n _dafny.Int = _dafny.Zero
+		var n uint64 = uint64(0)
 		_ = n
 		n = (_this).Reader().Pos
 		return n
@@ -432,12 +434,12 @@ func (_this *SeqWriter) Ctor__() {
 		(_this).Data = _dafny.SeqOf()
 	}
 }
-func (_this *SeqWriter) WriteElements(elems _dafny.Sequence) _dafny.Int {
+func (_this *SeqWriter) WriteElements(elems _dafny.Sequence) uint64 {
 	{
-		var n _dafny.Int = _dafny.Zero
+		var n uint64 = uint64(0)
 		_ = n
 		(_this).Data = _dafny.Companion_Sequence_.Concatenate(_this.Data, elems)
-		n = _dafny.IntOfUint32((elems).Cardinality())
+		n = uint64((elems).Cardinality())
 		return n
 		return n
 	}
@@ -506,44 +508,44 @@ func (_this *ByteWriter) Ctor__() {
 		(_this)._writer = _0_mw
 	}
 }
-func (_this *ByteWriter) WriteByte(n uint8) _dafny.Int {
+func (_this *ByteWriter) WriteByte(n uint8) uint64 {
 	{
-		var r _dafny.Int = _dafny.Zero
+		var r uint64 = uint64(0)
 		_ = r
-		var _out0 _dafny.Int
+		var _out0 uint64
 		_ = _out0
 		_out0 = ((_this).Writer()).WriteElements(_dafny.SeqOf(n))
 		r = _out0
 		return r
 	}
 }
-func (_this *ByteWriter) WriteBytes(s _dafny.Sequence) _dafny.Int {
+func (_this *ByteWriter) WriteBytes(s _dafny.Sequence) uint64 {
 	{
-		var r _dafny.Int = _dafny.Zero
+		var r uint64 = uint64(0)
 		_ = r
-		var _out0 _dafny.Int
+		var _out0 uint64
 		_ = _out0
 		_out0 = ((_this).Writer()).WriteElements(s)
 		r = _out0
 		return r
 	}
 }
-func (_this *ByteWriter) WriteUInt16(n uint16) _dafny.Int {
+func (_this *ByteWriter) WriteUInt16(n uint16) uint64 {
 	{
-		var r _dafny.Int = _dafny.Zero
+		var r uint64 = uint64(0)
 		_ = r
-		var _out0 _dafny.Int
+		var _out0 uint64
 		_ = _out0
 		_out0 = ((_this).Writer()).WriteElements(m_StandardLibrary_UInt.Companion_Default___.UInt16ToSeq(n))
 		r = _out0
 		return r
 	}
 }
-func (_this *ByteWriter) WriteUInt32(n uint32) _dafny.Int {
+func (_this *ByteWriter) WriteUInt32(n uint32) uint64 {
 	{
-		var r _dafny.Int = _dafny.Zero
+		var r uint64 = uint64(0)
 		_ = r
-		var _out0 _dafny.Int
+		var _out0 uint64
 		_ = _out0
 		_out0 = ((_this).Writer()).WriteElements(m_StandardLibrary_UInt.Companion_Default___.UInt32ToSeq(n))
 		r = _out0
@@ -555,9 +557,9 @@ func (_this *ByteWriter) GetDataWritten() _dafny.Sequence {
 		return (_this).Writer().Data
 	}
 }
-func (_this *ByteWriter) GetSizeWritten() _dafny.Int {
+func (_this *ByteWriter) GetSizeWritten() uint64 {
 	{
-		return _dafny.IntOfUint32(((_this).Writer().Data).Cardinality())
+		return uint64(((_this).Writer().Data).Cardinality())
 	}
 }
 func (_this *ByteWriter) Writer() *SeqWriter {

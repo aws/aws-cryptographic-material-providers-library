@@ -26,6 +26,7 @@ import (
 	m_Seq_MergeSort "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq_MergeSort"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -66,6 +67,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -125,23 +127,6 @@ func (_static *CompanionStruct_Default___) IsASCIIString(s _dafny.Sequence) bool
 		return !(((_0_i).Sign() != -1) && ((_0_i).Cmp(_dafny.IntOfUint32((s).Cardinality())) < 0)) || ((_dafny.IntOfInt32(rune((s).Select((_0_i).Uint32()).(_dafny.Char)))).Cmp(_dafny.IntOfInt64(128)) < 0)
 	})
 }
-func (_static *CompanionStruct_Default___) EncodeAscii(s _dafny.Sequence) _dafny.Sequence {
-	var _0___accumulator _dafny.Sequence = _dafny.SeqOf()
-	_ = _0___accumulator
-	goto TAIL_CALL_START
-TAIL_CALL_START:
-	if (_dafny.IntOfUint32((s).Cardinality())).Sign() == 0 {
-		return _dafny.Companion_Sequence_.Concatenate(_0___accumulator, _dafny.SeqOf())
-	} else {
-		var _1_x _dafny.Sequence = _dafny.SeqOf(uint8((s).Select(0).(_dafny.Char)))
-		_ = _1_x
-		_0___accumulator = _dafny.Companion_Sequence_.Concatenate(_0___accumulator, _1_x)
-		var _in0 _dafny.Sequence = (s).Drop(1)
-		_ = _in0
-		s = _in0
-		goto TAIL_CALL_START
-	}
-}
 func (_static *CompanionStruct_Default___) Uses1Byte(s _dafny.Sequence) bool {
 	return ((uint8(0)) <= ((s).Select(0).(uint8))) && (((s).Select(0).(uint8)) <= (uint8(127)))
 }
@@ -155,61 +140,64 @@ func (_static *CompanionStruct_Default___) Uses4Bytes(s _dafny.Sequence) bool {
 	return (((((((s).Select(0).(uint8)) == (uint8(240))) && (((uint8(144)) <= ((s).Select(1).(uint8))) && (((s).Select(1).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((s).Select(2).(uint8))) && (((s).Select(2).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((s).Select(3).(uint8))) && (((s).Select(3).(uint8)) <= (uint8(191))))) || ((((((uint8(241)) <= ((s).Select(0).(uint8))) && (((s).Select(0).(uint8)) <= (uint8(243)))) && (((uint8(128)) <= ((s).Select(1).(uint8))) && (((s).Select(1).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((s).Select(2).(uint8))) && (((s).Select(2).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((s).Select(3).(uint8))) && (((s).Select(3).(uint8)) <= (uint8(191)))))) || ((((((s).Select(0).(uint8)) == (uint8(244))) && (((uint8(128)) <= ((s).Select(1).(uint8))) && (((s).Select(1).(uint8)) <= (uint8(143))))) && (((uint8(128)) <= ((s).Select(2).(uint8))) && (((s).Select(2).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((s).Select(3).(uint8))) && (((s).Select(3).(uint8)) <= (uint8(191)))))
 }
 func (_static *CompanionStruct_Default___) ValidUTF8Range(a _dafny.Sequence, lo _dafny.Int, hi _dafny.Int) bool {
-	goto TAIL_CALL_START
-TAIL_CALL_START:
+	var _hresult bool = false
+	_ = _hresult
+	if m_StandardLibrary_UInt.Companion_Default___.HasUint64Len(a) {
+		_hresult = Companion_Default___.BoundedValidUTF8Range(a, (lo).Uint64(), (hi).Uint64())
+		return _hresult
+	}
 	if (lo).Cmp(hi) == 0 {
-		return true
-	} else {
-		var _0_r _dafny.Sequence = (a).Subsequence((lo).Uint32(), (hi).Uint32())
-		_ = _0_r
-		if Companion_Default___.Uses1Byte(_0_r) {
-			var _in0 _dafny.Sequence = a
-			_ = _in0
-			var _in1 _dafny.Int = (lo).Plus(_dafny.One)
-			_ = _in1
-			var _in2 _dafny.Int = hi
-			_ = _in2
-			a = _in0
-			lo = _in1
-			hi = _in2
-			goto TAIL_CALL_START
-		} else if ((_dafny.IntOfInt64(2)).Cmp(_dafny.IntOfUint32((_0_r).Cardinality())) <= 0) && (Companion_Default___.Uses2Bytes(_0_r)) {
-			var _in3 _dafny.Sequence = a
-			_ = _in3
-			var _in4 _dafny.Int = (lo).Plus(_dafny.IntOfInt64(2))
-			_ = _in4
-			var _in5 _dafny.Int = hi
-			_ = _in5
-			a = _in3
-			lo = _in4
-			hi = _in5
-			goto TAIL_CALL_START
-		} else if ((_dafny.IntOfInt64(3)).Cmp(_dafny.IntOfUint32((_0_r).Cardinality())) <= 0) && (Companion_Default___.Uses3Bytes(_0_r)) {
-			var _in6 _dafny.Sequence = a
-			_ = _in6
-			var _in7 _dafny.Int = (lo).Plus(_dafny.IntOfInt64(3))
-			_ = _in7
-			var _in8 _dafny.Int = hi
-			_ = _in8
-			a = _in6
-			lo = _in7
-			hi = _in8
-			goto TAIL_CALL_START
-		} else if ((_dafny.IntOfInt64(4)).Cmp(_dafny.IntOfUint32((_0_r).Cardinality())) <= 0) && (Companion_Default___.Uses4Bytes(_0_r)) {
-			var _in9 _dafny.Sequence = a
-			_ = _in9
-			var _in10 _dafny.Int = (lo).Plus(_dafny.IntOfInt64(4))
-			_ = _in10
-			var _in11 _dafny.Int = hi
-			_ = _in11
-			a = _in9
-			lo = _in10
-			hi = _in11
-			goto TAIL_CALL_START
+		_hresult = true
+		return _hresult
+	}
+	var _0_i _dafny.Int
+	_ = _0_i
+	_0_i = lo
+	for (_0_i).Cmp(hi) < 0 {
+		if ((_0_i).Cmp(hi) < 0) && (((uint8(0)) <= ((a).Select((_0_i).Uint32()).(uint8))) && (((a).Select((_0_i).Uint32()).(uint8)) <= (uint8(127)))) {
+			_0_i = (_0_i).Plus(_dafny.One)
+		} else if ((((_0_i).Plus(_dafny.One)).Cmp(hi) < 0) && (((uint8(194)) <= ((a).Select((_0_i).Uint32()).(uint8))) && (((a).Select((_0_i).Uint32()).(uint8)) <= (uint8(223))))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8)) <= (uint8(191)))) {
+			_0_i = (_0_i).Plus(_dafny.IntOfInt64(2))
+		} else if (((_0_i).Plus(_dafny.IntOfInt64(2))).Cmp(hi) < 0) && ((((((((a).Select((_0_i).Uint32()).(uint8)) == (uint8(224))) && (((uint8(160)) <= ((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8)) <= (uint8(191))))) || (((((uint8(225)) <= ((a).Select((_0_i).Uint32()).(uint8))) && (((a).Select((_0_i).Uint32()).(uint8)) <= (uint8(236)))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8)) <= (uint8(191)))))) || (((((a).Select((_0_i).Uint32()).(uint8)) == (uint8(237))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8)) <= (uint8(159))))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8)) <= (uint8(191)))))) || (((((uint8(238)) <= ((a).Select((_0_i).Uint32()).(uint8))) && (((a).Select((_0_i).Uint32()).(uint8)) <= (uint8(239)))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8)) <= (uint8(191)))))) {
+			_0_i = (_0_i).Plus(_dafny.IntOfInt64(3))
+		} else if (((_0_i).Plus(_dafny.IntOfInt64(3))).Cmp(hi) < 0) && ((((((((a).Select((_0_i).Uint32()).(uint8)) == (uint8(240))) && (((uint8(144)) <= ((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.IntOfInt64(3))).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.IntOfInt64(3))).Uint32()).(uint8)) <= (uint8(191))))) || ((((((uint8(241)) <= ((a).Select((_0_i).Uint32()).(uint8))) && (((a).Select((_0_i).Uint32()).(uint8)) <= (uint8(243)))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.IntOfInt64(3))).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.IntOfInt64(3))).Uint32()).(uint8)) <= (uint8(191)))))) || ((((((a).Select((_0_i).Uint32()).(uint8)) == (uint8(244))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.One)).Uint32()).(uint8)) <= (uint8(143))))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.IntOfInt64(2))).Uint32()).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(((_0_i).Plus(_dafny.IntOfInt64(3))).Uint32()).(uint8))) && (((a).Select(((_0_i).Plus(_dafny.IntOfInt64(3))).Uint32()).(uint8)) <= (uint8(191)))))) {
+			_0_i = (_0_i).Plus(_dafny.IntOfInt64(4))
 		} else {
-			return false
+			_hresult = false
+			return _hresult
 		}
 	}
+	_hresult = true
+	return _hresult
+	return _hresult
+}
+func (_static *CompanionStruct_Default___) BoundedValidUTF8Range(a _dafny.Sequence, lo uint64, hi uint64) bool {
+	var _hresult bool = false
+	_ = _hresult
+	if (lo) == (hi) {
+		_hresult = true
+		return _hresult
+	}
+	var _0_i uint64
+	_ = _0_i
+	_0_i = lo
+	for (_0_i) < (hi) {
+		if ((_0_i) < (hi)) && (((uint8(0)) <= ((a).Select(uint32(_0_i)).(uint8))) && (((a).Select(uint32(_0_i)).(uint8)) <= (uint8(127)))) {
+			_0_i = (_0_i) + (uint64(1))
+		} else if (((_0_i) < ((hi) - (func() uint64 { return (uint64(1)) })())) && (((uint8(194)) <= ((a).Select(uint32(_0_i)).(uint8))) && (((a).Select(uint32(_0_i)).(uint8)) <= (uint8(223))))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(1)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(1)))).(uint8)) <= (uint8(191)))) {
+			_0_i = (_0_i) + (uint64(2))
+		} else if (((uint64(2)) <= (hi)) && ((_0_i) < ((hi) - (func() uint64 { return (uint64(2)) })()))) && ((((((((a).Select(uint32(_0_i)).(uint8)) == (uint8(224))) && (((uint8(160)) <= ((a).Select(uint32((_0_i) + (uint64(1)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(1)))).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(2)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(2)))).(uint8)) <= (uint8(191))))) || (((((uint8(225)) <= ((a).Select(uint32(_0_i)).(uint8))) && (((a).Select(uint32(_0_i)).(uint8)) <= (uint8(236)))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(1)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(1)))).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(2)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(2)))).(uint8)) <= (uint8(191)))))) || (((((a).Select(uint32(_0_i)).(uint8)) == (uint8(237))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(1)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(1)))).(uint8)) <= (uint8(159))))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(2)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(2)))).(uint8)) <= (uint8(191)))))) || (((((uint8(238)) <= ((a).Select(uint32(_0_i)).(uint8))) && (((a).Select(uint32(_0_i)).(uint8)) <= (uint8(239)))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(1)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(1)))).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(2)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(2)))).(uint8)) <= (uint8(191)))))) {
+			_0_i = (_0_i) + (uint64(3))
+		} else if (((uint64(3)) <= (hi)) && ((_0_i) < ((hi) - (func() uint64 { return (uint64(3)) })()))) && ((((((((a).Select(uint32(_0_i)).(uint8)) == (uint8(240))) && (((uint8(144)) <= ((a).Select(uint32((_0_i) + (uint64(1)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(1)))).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(2)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(2)))).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(3)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(3)))).(uint8)) <= (uint8(191))))) || ((((((uint8(241)) <= ((a).Select(uint32(_0_i)).(uint8))) && (((a).Select(uint32(_0_i)).(uint8)) <= (uint8(243)))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(1)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(1)))).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(2)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(2)))).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(3)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(3)))).(uint8)) <= (uint8(191)))))) || ((((((a).Select(uint32(_0_i)).(uint8)) == (uint8(244))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(1)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(1)))).(uint8)) <= (uint8(143))))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(2)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(2)))).(uint8)) <= (uint8(191))))) && (((uint8(128)) <= ((a).Select(uint32((_0_i) + (uint64(3)))).(uint8))) && (((a).Select(uint32((_0_i) + (uint64(3)))).(uint8)) <= (uint8(191)))))) {
+			_0_i = (_0_i) + (uint64(4))
+		} else {
+			_hresult = false
+			return _hresult
+		}
+	}
+	_hresult = true
+	return _hresult
+	return _hresult
 }
 func (_static *CompanionStruct_Default___) ValidUTF8Seq(s _dafny.Sequence) bool {
 	return Companion_Default___.ValidUTF8Range(s, _dafny.Zero, _dafny.IntOfUint32((s).Cardinality()))
