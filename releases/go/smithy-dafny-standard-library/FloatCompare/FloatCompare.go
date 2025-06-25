@@ -29,6 +29,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -70,6 +71,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -235,9 +237,9 @@ TAIL_CALL_START:
 	}
 }
 func (_static *CompanionStruct_Default___) AppendZeros(x _dafny.Sequence, newLength _dafny.Int) _dafny.Sequence {
-	return _dafny.Companion_Sequence_.Concatenate(x, _dafny.SeqCreate(((newLength).Minus(_dafny.IntOfUint32((x).Cardinality()))).Uint32(), func(coer26 func(_dafny.Int) _dafny.Char) func(_dafny.Int) interface{} {
-		return func(arg30 _dafny.Int) interface{} {
-			return coer26(arg30)
+	return _dafny.Companion_Sequence_.Concatenate(x, _dafny.SeqCreate(((newLength).Minus(_dafny.IntOfUint32((x).Cardinality()))).Uint32(), func(coer25 func(_dafny.Int) _dafny.Char) func(_dafny.Int) interface{} {
+		return func(arg28 _dafny.Int) interface{} {
+			return coer25(arg28)
 		}
 	}(func(_0_i _dafny.Int) _dafny.Char {
 		return _dafny.Char('0')

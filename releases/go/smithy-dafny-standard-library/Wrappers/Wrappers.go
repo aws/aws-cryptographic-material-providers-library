@@ -57,6 +57,13 @@ func (_static *CompanionStruct_Default___) Need(condition bool, error_ interface
 		return Companion_Outcome_.Create_Fail_(error_)
 	}
 }
+func (_static *CompanionStruct_Default___) FNeed(condition bool, error_ func() interface{}) Outcome {
+	if condition {
+		return Companion_Outcome_.Create_Pass_()
+	} else {
+		return Companion_Outcome_.Create_Fail_((error_)())
+	}
+}
 
 // End of class Default__
 
