@@ -48,32 +48,32 @@ jobs:
         run: |
           git submodule update --init --recursive
 
-      # - name: Setup Dafny
-      #   uses: ./.github/actions/setup_dafny
-      #   with:
-      #     dafny-version: ${{ needs.get-dafny-version.outputs.version }}
+      - name: Setup Dafny
+        uses: ./.github/actions/setup_dafny
+        with:
+          dafny-version: ${{ needs.get-dafny-version.outputs.version }}
 
-      # - name: Install Go
-      #   uses: actions/setup-go@v5
-      #   with:
-      #     go-version: "1.23"
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
 
-      # - name: Install Go imports
-      #   run: |
-      #     go install golang.org/x/tools/cmd/goimports@latest
+      - name: Install Go imports
+        run: |
+          go install golang.org/x/tools/cmd/goimports@latest
 
-      # - name: Install Smithy-Dafny codegen dependencies
-      #   uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+      - name: Install Smithy-Dafny codegen dependencies
+        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
       - name: Configure Git
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-      # - name: Run Go release automation script
-      #   run: |
-      #     chmod +x ./scripts/go-release-automation.sh
-      #     ./scripts/go-release-automation.sh run_release_script ${{ github.event.inputs.project-name }} ${{ github.event.inputs.version }}
+      - name: Run Go release automation script
+        run: |
+          chmod +x ./scripts/go-release-automation.sh
+          ./scripts/go-release-automation.sh run_release_script ${{ github.event.inputs.project-name }} ${{ github.event.inputs.version }}
 
       - name: Create Pull Request
         env:
