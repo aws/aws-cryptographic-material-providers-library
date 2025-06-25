@@ -1,0 +1,16 @@
+file_format_version = "1.0"
+dafny_version = "4.9.0.0"
+[options_by_module.AwsCryptographyMetricsTypes]
+legacy-module-names = true
+[options_by_module.AbstractAwsCryptographyMetricsOperations]
+legacy-module-names = true
+[options_by_module.AbstractAwsCryptographyMetricsService]
+legacy-module-names = true
+[options_by_module.MetricsAgent]
+legacy-module-names = true
+[options_by_module.MetricsAgentText]
+legacy-module-names = true
+[options_by_module.AwsCryptographyMetricsOperations]
+legacy-module-names = true
+[options_by_module.Metrics]
+legacy-module-names = true

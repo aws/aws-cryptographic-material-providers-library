@@ -38,13 +38,13 @@ DIR_STRUCTURE_V2=V2
 
 # # Constants for languages that drop extern names (Python, Go)
 
-# TYPES_FILE_PATH=Model/ComAmazonawsKmsTypes.dfy
-# TYPES_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.services.kms.internaldafny.types\" } ComAmazonawsKmsTypes"
-# TYPES_FILE_WITHOUT_EXTERN_STRING="module ComAmazonawsKmsTypes"
+TYPES_FILE_PATH=dafny/Metrics/Model/AwsCryptographyMetricsTypes.dfy
+TYPES_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.metrics.internaldafny.types\" } AwsCryptographyMetricsTypes"
+TYPES_FILE_WITHOUT_EXTERN_STRING="module AwsCryptographyMetricsTypes"
 
-# INDEX_FILE_PATH=src/Index.dfy
-# INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.services.kms.internaldafny\"} Com.Amazonaws.Kms refines AbstractComAmazonawsKmsService {"
-# INDEX_FILE_WITHOUT_EXTERN_STRING="module Com.Amazonaws.Kms refines AbstractComAmazonawsKmsService {"
+INDEX_FILE_PATH=dafny/Metrics/src/Index.dfy
+INDEX_FILE_WITH_EXTERN_STRING="module {:extern \"software.amazon.cryptography.metrics.internaldafny\" } Metrics refines AbstractAwsCryptographyMetricsService {"
+INDEX_FILE_WITHOUT_EXTERN_STRING="module Metrics refines AbstractAwsCryptographyMetricsService {"
 
 # # Python
 

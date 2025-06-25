@@ -12,12 +12,12 @@ module {:extern "software.amazon.cryptography.metrics.internaldafny" } Metrics r
     MetricsConfig
   }
 
-  method MetricsLogger()
+  method Metrics(config: MetricsConfig)
     returns (res: Result<MetricsClient, Error>)
     ensures res.Success? ==>
               && res.value is MetricsClient
   {
-    var logger := new MetricsClient(Operations.Config());
+    var logger := new MetricsClient(Operations.Config);
     return Success(logger);
   }
 

@@ -21,7 +21,7 @@ long PositiveLong
     DynamoDB_20120810,
     TrentService,
     KeyStore,
-    AwsCryptographicMetrics 
+    // AwsCryptographicMetrics 
   ]
 )
 service AwsCryptographicMaterialProviders {

@@ -3,10 +3,14 @@
 
 include "../Model/AwsCryptographyMetricsTypes.dfy"
 include "MetricsAgentText.dfy"
+include "MultiMetricsAgent.dfy"
 
 module AwsCryptographyMetricsOperations refines AbstractAwsCryptographyMetricsOperations {
+  import opened StandardLibrary.MemoryMath
+  
   import UUID
   import MetricsAgentText
+  import MultiMetricsAgent
 
   datatype Config = Config()
   type InternalConfig = Config
@@ -16,19 +20,20 @@ module AwsCryptographyMetricsOperations refines AbstractAwsCryptographyMetricsOp
 
   function ModifiesInternalConfig(config: InternalConfig) : set<object>
   {{}}
-
-  predicate CreateTextMetricsAgentEnsuresPublicly(input: CreateTextMetricsAgentInput , output: Result<CreateMetricsAgentOutput, Error>)
+  
+  predicate CreateMultiMetricsAgentEnsuresPublicly(input: CreateMetricsAgentInput , output: Result<CreateMetricsAgentOutput, Error>)
   {true}
 
-  method {:axiom} CreateTextMetricsAgent(config: InternalConfig, input: CreateTextMetricsAgentInput)
+  method CreateMultiMetricsAgent(config: InternalConfig, input: CreateMetricsAgentInput)
     returns (output: Result<CreateMetricsAgentOutput, Error>)
   {
-    :- Need(
-      |input.fileName| > 0,
-      Error.MetricsServiceError(message := "Log FileName length MUST be greater than 0.")
-    );
-    var logger := new MetricsAgentText.TextLogger(input.fileName);
+    SequenceIsSafeBecauseItIsInMemory(input.metricsAgents);
+    :- Need(|input.metricsAgents| as uint64 > 0,
+            Types.MetricsServiceError(
+              message := "Configuration Error: MUST provide at least one MetricsAgent"));
+
+    var metricsAgent := new MultiMetricsAgent.MultiMetricsAgent(input.metricsAgents);
   
-    return Success(CreateMetricsAgentOutput(metricsAgent := logger)); 
+    return Success(CreateMetricsAgentOutput(metricsAgent := metricsAgent));
   }
 }

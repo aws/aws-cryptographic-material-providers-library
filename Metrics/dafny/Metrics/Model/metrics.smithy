@@ -12,7 +12,6 @@ service AwsCryptographicMetrics {
   version: "2023-04-01",
   resources: [MetricsAgent],
   operations: [
-    CreateTextMetricsAgent,
     CreateMultiMetricsAgent
   ],
   errors: [

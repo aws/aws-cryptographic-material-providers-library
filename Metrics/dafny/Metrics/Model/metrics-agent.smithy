@@ -99,17 +99,6 @@ list MetricsAgentList {
   member: MetricsAgentReference
 }
 
-// TextMetricsAgent Constructor
-operation CreateTextMetricsAgent {
-  input: CreateTextMetricsAgentInput,
-  output: CreateMetricsAgentOutput
-}
-
-structure CreateTextMetricsAgentInput {
-  @required
-  fileName: String
-}
-
 // MultiMetricsAgent Constructor
 operation CreateMultiMetricsAgent {
     input: CreateMetricsAgentInput,

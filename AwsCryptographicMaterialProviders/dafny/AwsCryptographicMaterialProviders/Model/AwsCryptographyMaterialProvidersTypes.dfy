@@ -6,7 +6,6 @@ include "../../AwsCryptographyKeyStore/src/Index.dfy"
 include "../../../../AwsCryptographyPrimitives/src/Index.dfy"
 include "../../../../ComAmazonawsDynamodb/src/Index.dfy"
 include "../../../../ComAmazonawsKms/src/Index.dfy"
-include "../../../../Metrics/dafny/Metrics/src/Index.dfy"
 module {:extern "software.amazon.cryptography.materialproviders.internaldafny.types" } AwsCryptographyMaterialProvidersTypes
 {
   import opened Wrappers
@@ -16,8 +15,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
   import AwsCryptographyPrimitivesTypes
   import ComAmazonawsDynamodbTypes
   import ComAmazonawsKmsTypes
-  import AwsCryptographyMetricsTypes
-  // Generic helpers for verification of mock/unit tests.
+    // Generic helpers for verification of mock/unit tests.
   datatype DafnyCallEvent<I, O> = DafnyCallEvent(input: I, output: O)
 
   // Begin Generated Types
@@ -1542,9 +1540,8 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly recipientKmsIdentifier: KmsKeyId
   )
   datatype MaterialProvidersConfig = | MaterialProvidersConfig (
-    nameonly loggerConfig: Option<AwsCryptographyMetricsTypes.MetricsLoggerConfig> := Option.None ,
-    nameonly logger: Option<AwsCryptographyMetricsTypes.ILogger> := Option.None
-  )
+
+                                     )
   datatype Materials =
     | Encryption(Encryption: EncryptionMaterials)
     | Decryption(Decryption: DecryptionMaterials)
@@ -1697,7 +1694,6 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     | AwsCryptographyPrimitives(AwsCryptographyPrimitives: AwsCryptographyPrimitivesTypes.Error)
     | ComAmazonawsDynamodb(ComAmazonawsDynamodb: ComAmazonawsDynamodbTypes.Error)
     | ComAmazonawsKms(ComAmazonawsKms: ComAmazonawsKmsTypes.Error)
-    | AwsCryptographyMetrics(AwsCryptographyMetrics: AwsCryptographyMetricsTypes.Error)
       // The Collection error is used to collect several errors together
       // This is useful when composing OR logic.
       // Consider the following method:
@@ -1745,22 +1741,11 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
   function method DefaultMaterialProvidersConfig(): MaterialProvidersConfig
   method MaterialProviders(config: MaterialProvidersConfig := DefaultMaterialProvidersConfig())
     returns (res: Result<MaterialProvidersClient, Error>)
-    requires config.logger.Some? ==>
-               config.logger.value.ValidState()
-    modifies if config.logger.Some? then
-               config.logger.value.Modifies
-             else {}
     ensures res.Success? ==>
               && fresh(res.value)
-              && fresh(res.value.Modifies
-                       - ( if config.logger.Some? then
-                             config.logger.value.Modifies
-                           else {}
-                       ) )
+              && fresh(res.value.Modifies)
               && fresh(res.value.History)
               && res.value.ValidState()
-    ensures config.logger.Some? ==>
-              config.logger.value.ValidState()
 
   // Helper functions for the benefit of native code to create a Success(client) without referring to Dafny internals
   function method CreateSuccessOfClient(client: IAwsCryptographicMaterialProvidersClient): Result<IAwsCryptographicMaterialProvidersClient, Error> {

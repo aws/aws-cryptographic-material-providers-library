@@ -5,13 +5,13 @@ include "../Model/AwsCryptographyMetricsTypes.dfy"
 include "MetricsAgent.dfy"
 
 
-module MetricsAgentText {
+module {:extern "MetricsAgentText"} MetricsAgentText {
   import opened Types = AwsCryptographyMetricsTypes
   import opened Wrappers
   import opened StandardLibrary.UInt
   import MetricsAgent
 
-  class TextLogger
+  class {:extern "TextLogger"} MetricsAgentText
     extends MetricsAgent.VerifiableInterface
   {
     const fileName: string
@@ -27,9 +27,8 @@ module MetricsAgentText {
     )
       requires |fileName| > 0
       ensures ValidState()
-      ensures fresh (Modifies) && fresh(History) 
+      ensures fresh(Modifies) && fresh(History) 
     {
-      this.fileName := fileName;
       History := new Types.IMetricsAgentCallHistory();
       Modifies := {History};
     }
@@ -140,25 +139,25 @@ module MetricsAgentText {
   }
 
   // Externs
-  method {:extern "MetricsAgent.TextLogger", "PutCount"} ExternPutCount(
+  method {:extern "MetricsAgentText.TextLogger", "PutCount"} ExternPutCount(
     description: string ,
     count: int64 ,
     transactionId: Option<string> := Option.None
   ) returns (res: bool)
   
-  method {:extern "MetricsAgent.TextLogger", "PutDate"} ExternPutDate(
+  method {:extern "MetricsAgentText.TextLogger", "PutDate"} ExternPutDate(
     description: string ,
     date: string ,
     transactionId: Option<string> := Option.None
   ) returns (res: bool)
   
-  method {:extern "MetricsAgent.TextLogger", "PutTime"} ExternPutTime(
+  method {:extern "MetricsAgentText.TextLogger", "PutTime"} ExternPutTime(
     description: string ,
     duration: int64 ,
     transactionId: Option<string> := Option.None
   ) returns (res: bool)
   
-  method {:extern "MetricsAgent.TextLogger", "PutProperty"} ExternPutProperty(
+  method {:extern "MetricsAgentText.TextLogger", "PutProperty"} ExternPutProperty(
     description: string ,
     value: string ,
     transactionId: Option<string> := Option.None
