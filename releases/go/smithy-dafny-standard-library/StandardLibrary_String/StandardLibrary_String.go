@@ -25,6 +25,7 @@ import (
 	m_Seq "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq"
 	m_Seq_MergeSort "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq_MergeSort"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
 	m_UnicodeStrings "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UnicodeStrings"
@@ -64,6 +65,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 
 type Dummy__ struct{}
@@ -155,19 +157,16 @@ func (_static *CompanionStruct_Default___) Base10Int2String(n _dafny.Int) _dafny
 func (_static *CompanionStruct_Default___) HasSubString(haystack _dafny.Sequence, needle _dafny.Sequence) m_Wrappers.Option {
 	var o m_Wrappers.Option = m_Wrappers.Companion_Option_.Default()
 	_ = o
-	if (_dafny.IntOfUint32((haystack).Cardinality())).Cmp(_dafny.IntOfUint32((needle).Cardinality())) < 0 {
+	if (uint64((haystack).Cardinality())) < (uint64((needle).Cardinality())) {
 		o = m_Wrappers.Companion_Option_.Create_None_()
 		return o
-	}
-	if !((_dafny.IntOfUint32((haystack).Cardinality())).Cmp((m_StandardLibrary_UInt.Companion_Default___.UINT64__MAX__LIMIT()).Minus(_dafny.One)) <= 0) {
-		panic("src/String.dfy(75,4): " + (_dafny.SeqOfString("expectation violation")).String())
 	}
 	var _0_size uint64
 	_ = _0_size
 	_0_size = uint64((needle).Cardinality())
 	var _1_limit uint64
 	_ = _1_limit
-	_1_limit = ((uint64((haystack).Cardinality())) - (func() uint64 { return (_0_size) })()) + (uint64(1))
+	_1_limit = m_StandardLibrary_MemoryMath.Companion_Default___.Add((uint64((haystack).Cardinality()))-(func() uint64 { return (_0_size) })(), uint64(1))
 	var _hi0 uint64 = _1_limit
 	_ = _hi0
 	for _2_index := uint64(0); _2_index < _hi0; _2_index++ {
