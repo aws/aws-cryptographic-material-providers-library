@@ -91,7 +91,7 @@ run_release_script() {
   # Run Go tools in releases directory
   echo "Running Go tools in releases/go/$RELEASE_DIR_NAME..."
 
-  cd "../../../../releases/go/$RELEASE_DIR_NAME" || { echo "Error: releases directory not found"; exit 1; }
+  cd "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/" || { echo "Error: releases directory not found"; exit 1; }
 
   echo "Running goimports..."
   goimports -w .
@@ -105,24 +105,13 @@ run_release_script() {
   go build --gcflags="-e" ./...
 
   # Prepare for commit
-  echo "creating a PR..."
-  cd `git rev-parse --show-toplevel` || { echo "Error: Cannot navigate back to project root"; exit 1; }
+  echo "creating a branch..."
+
   git checkout -b "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
-  git add "releases/go/$RELEASE_DIR_NAME"
+  git add *
 
   git commit -m "Release $RELEASE_DIR_NAME Go module ${VERSION}"
   git push origin "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
-
-  echo ""
-  echo "Go release process completed successfully!"
-  echo ""
-  echo "Next steps:"
-  echo "1. Create a PR with your changes"
-  echo "2. After PR is merged, create a tag:"
-  echo "   git tag releases/go/${RELEASE_DIR_NAME}/${VERSION}"
-  echo "3. Push the tag:"
-  echo "   git push --tags"
-  echo ""
 }
 
 "$@"
