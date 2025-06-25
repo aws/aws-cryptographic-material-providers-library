@@ -92,13 +92,9 @@ jobs:
           # Create PR using GitHub CLI
           gh pr create \
             --title "Release $RELEASE_DIR_NAME Go module $VERSION" \
-            --body "This PR was automatically created by the Go Release Automation workflow. It releases version $VERSION of the $RELEASE_DIR_NAME Go module. The diff between is below:
-            ```
-            $DIFF_FILES
-            ```
-            Note: Go release requires changelog to be update manually. 
-
-            Please review the diff carefully before merging." \
+            --body "This PR was automatically created by the Go Release Automation workflow. It releases version $VERSION of the $RELEASE_DIR_NAME Go module. The diff between is below: 
+          $DIFF_FILES
+            " \
             --base main \
             --head "$BRANCH_NAME" \
             --label "golang" \
