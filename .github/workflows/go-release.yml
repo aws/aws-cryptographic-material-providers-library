@@ -84,7 +84,7 @@ jobs:
           VERSION="${{ github.event.inputs.version }}"
 
           # Get the release directory name using the sourced function
-          RELEASE_DIR_NAME=$(get_release_dir_name "$PROJECT_NAME")
+          RELEASE_DIR_NAME=$(./scripts/go-release-automation.sh get_release_dir_name "$PROJECT_NAME" "$VERSION")
 
           BRANCH_NAME="golang-release-staging-branch/$RELEASE_DIR_NAME/$VERSION"
 
