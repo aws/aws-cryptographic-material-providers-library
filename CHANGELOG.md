@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.11.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.0...v1.11.1) (2025-06-26)
+
+### Maintenance -- All Languages
+
+* **dafny:** update makefile to only use prettier 3.5.3  ([#1577](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1577)) ([79503ec](https://github.com/aws/aws-cryptographic-material-providers-library/commit/79503ecba8568c79325701e6cc28b478e896233c))
+
+### Maintenance -- Java
+
+* **java:** revert project properties to be 1.11.0  ([#1571](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1571)) ([bbc63ae](https://github.com/aws/aws-cryptographic-material-providers-library/commit/bbc63aefc67c3b3f97bfd8467bcafd1718d4e69f))
+* **java:** set .NET version to 6.0 in release workflow ([#1573](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1573)) ([e986e73](https://github.com/aws/aws-cryptographic-material-providers-library/commit/e986e732ade1e41cea2a3265b7548d5731bae9d5))
+* **java:** update java codebuild to use Ubuntu standard:6.0 image ([#1574](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1574)) ([8346326](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8346326f41bfaa1a0ef7fe03dcf4ff4851f0a2ed))
+
+### Miscellaneous
+
+* **CI:** add command to setup net in release workflow ([#1570](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1570)) ([0e25037](https://github.com/aws/aws-cryptographic-material-providers-library/commit/0e2503776027cb5b83aa09b37adc543fa2037af4))
+* **CI:** Allow local testing ([#1569](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1569)) ([ad341db](https://github.com/aws/aws-cryptographic-material-providers-library/commit/ad341db7b1e179e62772294473125d415c88511d))
+
 ## [1.11.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.10.1...v1.11.0) (2025-06-17)
 
 This release is available in the following languages:
