@@ -249,8 +249,9 @@ def generate_test_vectors(num_vectors: int, include_unicode_tests: bool = True) 
 def create_manifest(vectors: List[TestVector], output_dir: str, filename: str = "manifest.json") -> str:
     """Create a manifest file from test vectors."""
     manifest = {
-        "type": "awses-decrypt-verify",
+        "type": "awses-mpl-encrypt",
         "version": 1,
+        "keys": "file://keys.json",
         "tests": [v.to_json() for v in vectors]
     }
     

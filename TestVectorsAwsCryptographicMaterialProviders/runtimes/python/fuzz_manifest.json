@@ -1,6 +1,7 @@
 {
-  "type": "awses-decrypt-verify",
+  "type": "awses-mpl-encrypt",
   "version": 1,
+  "keys": "file://keys.json",
   "tests": [
     {
       "id": "vector_000000",
