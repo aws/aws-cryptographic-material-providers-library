@@ -45,6 +45,9 @@ jobs:
           distribution: "corretto"
           java-version: 8
 
+      - name: Install Smithy-Dafny codegen dependencies
+        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+
       - name: Build AwsCryptographicMaterialProviders Java implementation
         working-directory: ./AwsCryptographicMaterialProviders
         run: |
