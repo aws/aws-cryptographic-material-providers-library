@@ -9,31 +9,31 @@ jobs:
   rebase:
     name: Rebase mutations branch
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      
+
       - name: Set up Git configuration
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
-      
+
       - name: Fetch all branches
         run: git fetch --all
-      
+
       - name: Rebase mutations branch
         id: rebase
         run: |
           # Determine default branch name dynamically
           DEFAULT_BRANCH=${{github.event.repository.default_branch}}
           echo "Default branch is $DEFAULT_BRANCH"
-          
+
           # Checkout mutations branch
           git checkout mutations/mutations
-          
+
           # Attempt rebase
           if git rebase origin/$DEFAULT_BRANCH; then
             echo "Rebase successful"
@@ -44,11 +44,11 @@ jobs:
             echo "rebase_status=failed" >> $GITHUB_OUTPUT
           fi
         continue-on-error: true
-      
+
       - name: Push rebased branch
         if: steps.rebase.outputs.rebase_status == 'success'
         run: git push --force-with-lease origin mutations
-      
+
       - name: Create issue on rebase failure
         if: steps.rebase.outputs.rebase_status == 'failed'
         uses: actions/github-script@v6
