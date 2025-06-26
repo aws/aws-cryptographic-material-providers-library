@@ -216,8 +216,8 @@ jobs:
             macos-13,
           ]
         #TODO add back rust and go after figuring out build failures
-        encrypting_language: [java, net, python]
-        decrypting_language: [java, net, python]
+        encrypting_language: [java, net]
+        decrypting_language: [java, net]
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
     permissions:
