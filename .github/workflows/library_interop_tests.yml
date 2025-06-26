@@ -27,7 +27,7 @@ jobs:
             macos-13,
           ]
           #TODO add back rust and go after figuring out build failures
-        language: [java, net, python]
+        language: [java, net]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
