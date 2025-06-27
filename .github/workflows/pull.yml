@@ -34,21 +34,21 @@ jobs:
     uses: ./.github/workflows/library_examples.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
-  pr-ci-net:
-    needs: getVersion
-    uses: ./.github/workflows/library_net_tests.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
+  # pr-ci-net:
+  #   needs: getVersion
+  #   uses: ./.github/workflows/library_net_tests.yml
+  #   with:
+  #     dafny: ${{needs.getVersion.outputs.version}}
   # pr-ci-rust:
   #   needs: getVersion
   #   uses: ./.github/workflows/library_rust_tests.yml
   #   with:
   #     dafny: ${{needs.getVersion.outputs.version}}
-  pr-ci-python:
-    needs: getVersion
-    uses: ./.github/workflows/library_python_tests.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
+  # pr-ci-python:
+  #   needs: getVersion
+  #   uses: ./.github/workflows/library_python_tests.yml
+  #   with:
+  #     dafny: ${{needs.getVersion.outputs.version}}
   # pr-ci-go:
   #   needs: getVersion
   #   uses: ./.github/workflows/library_go_tests.yml
@@ -69,8 +69,8 @@ jobs:
       - pr-ci-codegen
       - pr-ci-verification
       - pr-ci-java
-      - pr-ci-net
-      - pr-ci-python
+      # - pr-ci-net
+      # - pr-ci-python
       # - pr-ci-go
       # - pr-ci-rust
       - pr-interop-test

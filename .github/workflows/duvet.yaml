@@ -4,7 +4,7 @@
 name: Duvet report
 
 on:
-  pull_request:
+  # pull_request:
   push:
     branches:
       - main
