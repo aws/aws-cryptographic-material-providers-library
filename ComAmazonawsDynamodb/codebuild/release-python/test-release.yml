@@ -14,6 +14,7 @@ phases:
       - pip install --upgrade pip
     runtime-versions:
       python: latest
+      dotnet: 6.0
   pre_build:
     commands:
       # Get Dafny
@@ -24,6 +25,8 @@ phases:
       - export PATH="$PWD/dafny:$PATH"
       # Switch back to the main directory
       - cd aws-cryptographic-material-providers-library
+      # Without this the if-dafny-at-least command includes "Downloading ..." output
+      - make -C StandardLibrary setup_net
       # Assert that project version is the expected released version
       - git fetch --tags
       - git checkout $COMMIT_ID
