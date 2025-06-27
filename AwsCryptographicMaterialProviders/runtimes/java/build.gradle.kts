@@ -20,6 +20,30 @@ var dafnyVersion = props.getProperty("dafnyVersion")
 group = "software.amazon.cryptography"
 version = props.getProperty("mplVersion")
 description = "AWS Cryptographic Material Providers Library"
+var slf4jVersion = "1.7.32"
+
+sourceSets {
+    create("examples") {
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+    create("testExamples") {
+        compileClasspath += sourceSets.test.get().output + sourceSets["examples"].output + sourceSets.main.get().output
+        runtimeClasspath += sourceSets.test.get().output + sourceSets["examples"].output + sourceSets.main.get().output
+    }
+}
+val examplesImplementation: Configuration by configurations.getting{
+    extendsFrom(configurations.testImplementation.get())
+}
+configurations.add(examplesImplementation)
+val examplesAnnotationProcessor: Configuration by configurations.getting{
+    extendsFrom(configurations.testAnnotationProcessor.get())
+}
+configurations.add(examplesAnnotationProcessor)
+val testExamplesImplementation: Configuration by configurations.getting{
+    extendsFrom(configurations["examplesImplementation"])
+}
+configurations.add(testExamplesImplementation)
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(8))
@@ -28,6 +52,12 @@ java {
     }
     sourceSets["test"].java {
         srcDir("src/test")
+    }
+    sourceSets["examples"].java {
+        srcDir("src/examples")
+    }
+    sourceSets["testExamples"].java {
+        srcDir("src/testExamples")
     }
     withJavadocJar()
     withSourcesJar()
@@ -83,6 +113,21 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.testng/testng
     testImplementation("org.testng:testng:7.5")
+    // Needed to adapt Apache Commons Logging used by Apache HTTP Client to Slf4j to avoid
+    // ClassNotFoundException: org.apache.commons.logging.impl.LogFactoryImpl during runtime
+    testImplementation("org.slf4j:slf4j-api:${slf4jVersion}")
+    testImplementation("org.slf4j:slf4j-simple:${slf4jVersion}")
+    testImplementation("org.slf4j:jcl-over-slf4j:${slf4jVersion}")
+        
+    // Example Dependencies
+    examplesImplementation("software.amazon.awssdk:arns")
+    examplesImplementation("software.amazon.awssdk:auth")
+    examplesImplementation("software.amazon.awssdk:sts")
+    examplesImplementation("software.amazon.awssdk:utils")
+    examplesImplementation("software.amazon.awssdk:apache-client")
+    examplesAnnotationProcessor("org.projectlombok:lombok:1.18.30")
+    examplesImplementation("com.google.code.findbugs:jsr305:3.0.2")
+
 }
 
 publishing {
@@ -254,6 +299,46 @@ tasks.test {
             }
         }
     })
+}
+
+val testExamples = task<Test>("testExamples") {
+    description = "Runs examples tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["testExamples"].output.classesDirs
+    classpath = sourceSets["testExamples"].runtimeClasspath + sourceSets["examples"].output + sourceSets.main.get().output
+    shouldRunAfter("compileJava", "compileExamplesJava", "test")
+    // This will show System.out.println statements
+    testLogging.showStandardStreams = true
+    useTestNG()
+
+    testLogging {
+        events("passed")
+    }
+    filter {
+        excludeTestsMatching("software.amazon.cryptography.example.hierarchy.concurrent.*")
+    }
+}
+
+val testConcurrentExamples = task<Test>("testConcurrentExamples") {
+    description = "Runs concurrency tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["testExamples"].output.classesDirs
+    classpath = sourceSets["testExamples"].runtimeClasspath + sourceSets["examples"].output + sourceSets.main.get().output
+    // This will show System.out.println statements
+    testLogging.showStandardStreams = true
+    useTestNG() {
+        suites("src/testExamples/java/software/amazon/cryptography/example/hierarchy/concurrent/testng-parallel.xml")
+        maxParallelForks = 2
+    }
+
+    testLogging {
+        events("passed")
+    }
+    filter {
+        includeTestsMatching("software.amazon.cryptography.example.hierarchy.concurrent.*")
+    }
 }
 
 fun buildPom(mavenPublication: MavenPublication) {
