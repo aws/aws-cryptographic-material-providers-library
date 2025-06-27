@@ -18,7 +18,10 @@ module  {:options "/functionSyntax:4"} TestStormTracker {
                 branchKeyIdentifier := "spoo",
                 branchKeyVersion := data,
                 branchKey := data,
-                encryptionContext := map[]
+                encryptionContext := map[],
+                kmsArn := "KeyId",
+                createTime := "CreateTime",
+                hierarchyVersion := HierarchyVersion.v1
               ))
   }
 

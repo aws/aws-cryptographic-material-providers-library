@@ -24,6 +24,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.CreateKeyStoreI
 import software.amazon.cryptography.keystore.internaldafny.types.CreateKeyStoreOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.Discovery;
 import software.amazon.cryptography.keystore.internaldafny.types.Error;
+import software.amazon.cryptography.keystore.internaldafny.types.Error_BranchKeyCiphertextException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException;
 import software.amazon.cryptography.keystore.internaldafny.types.GetActiveBranchKeyInput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetActiveBranchKeyOutput;
@@ -32,12 +33,14 @@ import software.amazon.cryptography.keystore.internaldafny.types.GetBeaconKeyOut
 import software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetKeyStoreInfoOutput;
+import software.amazon.cryptography.keystore.internaldafny.types.HierarchyVersion;
 import software.amazon.cryptography.keystore.internaldafny.types.IKeyStoreClient;
 import software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguration;
 import software.amazon.cryptography.keystore.internaldafny.types.KeyStoreConfig;
 import software.amazon.cryptography.keystore.internaldafny.types.MRDiscovery;
 import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyInput;
 import software.amazon.cryptography.keystore.internaldafny.types.VersionKeyOutput;
+import software.amazon.cryptography.keystore.model.BranchKeyCiphertextException;
 import software.amazon.cryptography.keystore.model.CollectionOfErrors;
 import software.amazon.cryptography.keystore.model.KeyStoreException;
 import software.amazon.cryptography.keystore.model.OpaqueError;
@@ -48,6 +51,9 @@ import software.amazon.cryptography.services.kms.internaldafny.types.IKMSClient;
 public class ToDafny {
 
   public static Error Error(RuntimeException nativeValue) {
+    if (nativeValue instanceof BranchKeyCiphertextException) {
+      return ToDafny.Error((BranchKeyCiphertextException) nativeValue);
+    }
     if (nativeValue instanceof KeyStoreException) {
       return ToDafny.Error((KeyStoreException) nativeValue);
     }
@@ -136,11 +142,26 @@ public class ToDafny {
             DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
           )
         );
+    DafnySequence<? extends Character> kmsArn;
+    kmsArn =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.kmsArn()
+      );
+    DafnySequence<? extends Character> createTime;
+    createTime =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.createTime()
+      );
+    HierarchyVersion hierarchyVersion;
+    hierarchyVersion = ToDafny.HierarchyVersion(nativeValue.hierarchyVersion());
     return new BeaconKeyMaterials(
       beaconKeyIdentifier,
       encryptionContext,
       beaconKey,
-      hmacKeys
+      hmacKeys,
+      kmsArn,
+      createTime,
+      hierarchyVersion
     );
   }
 
@@ -168,11 +189,26 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
         nativeValue.branchKey()
       );
+    DafnySequence<? extends Character> kmsArn;
+    kmsArn =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.kmsArn()
+      );
+    DafnySequence<? extends Character> createTime;
+    createTime =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.createTime()
+      );
+    HierarchyVersion hierarchyVersion;
+    hierarchyVersion = ToDafny.HierarchyVersion(nativeValue.hierarchyVersion());
     return new BranchKeyMaterials(
       branchKeyIdentifier,
       branchKeyVersion,
       encryptionContext,
-      branchKey
+      branchKey,
+      kmsArn,
+      createTime,
+      hierarchyVersion
     );
   }
 
@@ -213,7 +249,19 @@ public class ToDafny {
             DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
           )
         );
-    return new CreateKeyInput(branchKeyIdentifier, encryptionContext);
+    Option<HierarchyVersion> hierarchyVersion;
+    hierarchyVersion =
+      Objects.nonNull(nativeValue.hierarchyVersion())
+        ? Option.create_Some(
+          HierarchyVersion._typeDescriptor(),
+          ToDafny.HierarchyVersion(nativeValue.hierarchyVersion())
+        )
+        : Option.create_None(HierarchyVersion._typeDescriptor());
+    return new CreateKeyInput(
+      branchKeyIdentifier,
+      encryptionContext,
+      hierarchyVersion
+    );
   }
 
   public static CreateKeyOutput CreateKeyOutput(
@@ -449,6 +497,15 @@ public class ToDafny {
     return new VersionKeyOutput();
   }
 
+  public static Error Error(BranchKeyCiphertextException nativeValue) {
+    DafnySequence<? extends Character> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.message()
+      );
+    return new Error_BranchKeyCiphertextException(message);
+  }
+
   public static Error Error(KeyStoreException nativeValue) {
     DafnySequence<? extends Character> message;
     message =
@@ -456,6 +513,29 @@ public class ToDafny {
         nativeValue.message()
       );
     return new Error_KeyStoreException(message);
+  }
+
+  public static HierarchyVersion HierarchyVersion(
+    software.amazon.cryptography.keystore.model.HierarchyVersion nativeValue
+  ) {
+    switch (nativeValue) {
+      case v1:
+        {
+          return HierarchyVersion.create_v1();
+        }
+      case v2:
+        {
+          return HierarchyVersion.create_v2();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.keystore.internaldafny.types.HierarchyVersion."
+          );
+        }
+    }
   }
 
   public static KMSConfiguration KMSConfiguration(
