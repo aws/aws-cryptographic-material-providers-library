@@ -5,6 +5,7 @@
 This release is available in the following languages:
 
 - Java
+- Python
 
 ### Fixes -- All Languages
 
