@@ -1,0 +1,4 @@
+# file: /Users/shreyesx/Documents/aws-cryptographic-material-providers-library/TestVectorsAwsCryptographicMaterialProviders/fuzz_testing/fuzz_generator.py
+# hypothesis_version: 6.135.16
+
+[127, '0014', '0214', '0378', '0478', 'Ll', 'Lo', 'Lu', 'Mc', 'Mn', 'Nd', 'P', 'S', 'Zs', '__main__', 'algorithmSuiteId', 'aws-kms', 'description', 'encryptionContext', 'fuzz_keys.json', 'fuzz_test.json', 'key', 'positive-keyring', 'tests', 'type', 'us-east-1-mrk', 'us-west-2-mrk', 'utf-8', 'w']
