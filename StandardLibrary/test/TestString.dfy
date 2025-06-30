@@ -56,11 +56,17 @@ module TestStrings {
     else
       "/../../MyFile"
   }
-  // ensure that FileIO error are returned properly, and not a panic! or the like
-  method {:test} TestBadFileIO()
-  {
-    var x := WriteBytesToFile(BadFilename(), [1,2,3,4,5]);
-    expect x.Failure?;
-  }
-
+  // This test relies on OS-specific behavior.
+  // It appears to work on GHA runners and developers' local environments,
+  // but not in Python on the Linux image used by our CodeBuild projects.
+  // The team agrees this test does not add significant value and can be removed until
+  // it works in expected environments.
+  /*
+    // ensure that FileIO error are returned properly, and not a panic! or the like
+    method {:test} TestBadFileIO()
+    {
+      var x := WriteBytesToFile(BadFilename(), [1,2,3,4,5]);
+      expect x.Failure?;
+    }
+  */
 }
