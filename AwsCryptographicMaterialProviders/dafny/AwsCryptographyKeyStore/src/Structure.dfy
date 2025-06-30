@@ -15,6 +15,10 @@ module {:options "/functionSyntax:4" } Structure {
   import AwsArnParsing
   import KmsArn
 
+  //Attribute Values
+  const HIERARCHY_VERSION_VALUE_1 := "1"
+  const HIERARCHY_VERSION_VALUE_2 := "2"
+
   const BRANCH_KEY_IDENTIFIER_FIELD := "branch-key-id"
   const TYPE_FIELD := "type"
   const KEY_CREATE_TIME := "create-time"
@@ -29,6 +33,78 @@ module {:options "/functionSyntax:4" } Structure {
   const BRANCH_KEY_ACTIVE_TYPE := "branch:ACTIVE"
   const BEACON_KEY_TYPE_VALUE := "beacon:ACTIVE"
   const ENCRYPTION_CONTEXT_PREFIX := "aws-crypto-ec:"
+
+  const AES_256_LENGTH: uint8 := 32
+  // BKC => Branch Key Context
+  const BKC_DIGEST_LENGTH: uint8 := 48
+
+  type EncryptionContextString = map<string, string>
+
+  datatype EncryptedHierarchicalKey = | EncryptedHierarchicalKey (
+    nameonly Identifier: string ,
+    // nameonly Type: HierarchicalKeyType ,
+    nameonly CreateTime: string ,
+    nameonly KmsArn: string ,
+    nameonly EncryptionContext: EncryptionContextString ,
+    nameonly CiphertextBlob: seq<uint8>
+  )
+
+  // Helper function to encode encryption context from string map to UTF8 bytes map
+  function EncodeEncryptionContext(
+    input: EncryptionContextString
+  ): (output: Result<Types.EncryptionContext, string>)
+    ensures output.Success? ==> |output.value| == |input| // Output map size equals input map size
+    ensures output.Failure? ==> output.error == "Unable to encode string"
+  {
+    var encodedEncryptionContext
+      := set k <- input
+           ::
+             (UTF8.Encode(k), UTF8.Encode(input[k]), k);
+
+    if (forall i <- encodedEncryptionContext
+          ::
+            && i.0.Success?
+            && i.1.Success?)
+    then
+      var resultMap := map i <- encodedEncryptionContext :: i.0.value := i.1.value;
+      if |resultMap| == |input| then
+        Success(resultMap)
+      else
+        Failure("Unable to encode string")
+    else
+      Failure("Unable to encode string")
+  }
+
+  function ConstructEncryptedHierarchicalKey(
+    branchKeyContext: map<string, string>,
+    CiphertextBlob: seq<uint8>
+  ): (output: EncryptedHierarchicalKey)
+    requires BranchKeyContext?(branchKeyContext)
+  {
+    /*
+    var Type
+      := if branchKeyContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE then
+           Types.ActiveHierarchicalSymmetricVersion(
+             Types.ActiveHierarchicalSymmetric(
+               Version := branchKeyContext[BRANCH_KEY_ACTIVE_VERSION_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]
+             ))
+         else if branchKeyContext[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE then
+           Types.HierarchicalKeyType.ActiveHierarchicalSymmetricBeacon(Types.ActiveHierarchicalSymmetricBeacon.ActiveHierarchicalSymmetricBeacon)
+         else
+           Types.HierarchicalSymmetricVersion(
+             Types.HierarchicalSymmetric(
+               Version := branchKeyContext[TYPE_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]
+             ));
+*/
+    EncryptedHierarchicalKey(
+      Identifier := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
+      // Type := Type,
+      CreateTime := branchKeyContext[KEY_CREATE_TIME],
+      KmsArn := branchKeyContext[KMS_FIELD],
+      EncryptionContext := branchKeyContext,
+      CiphertextBlob := CiphertextBlob
+    )
+  }
 
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#custom-encryption-context
   //= type=exception
@@ -308,12 +384,45 @@ module {:options "/functionSyntax:4" } Structure {
     Success(map i <- encodedEncryptionContext :: i.0.value := i.1.value)
   }
 
+  predicate StringIsValidHierarchyVersion?(version: string)
+  {
+    version == HIERARCHY_VERSION_VALUE_1 || version == HIERARCHY_VERSION_VALUE_2
+  }
+
+  function HierarchyVersionToString(
+    version: Types.HierarchyVersion
+  ): (output: string)
+    ensures StringIsValidHierarchyVersion?(output)
+    ensures StringToHierarchyVersion(output) == version
+  {
+    match version {
+      case v1 => HIERARCHY_VERSION_VALUE_1
+      case v2 => HIERARCHY_VERSION_VALUE_2
+    }
+  }
+
+  function StringToHierarchyVersion(
+    version: string
+  ): (output: Types.HierarchyVersion)
+    requires StringIsValidHierarchyVersion?(version)
+    ensures version == HIERARCHY_VERSION_VALUE_1 ==> output.v1?
+    ensures version == HIERARCHY_VERSION_VALUE_2 ==> output.v2?
+  {
+    if version == HIERARCHY_VERSION_VALUE_1 then Types.HierarchyVersion.v1 else Types.HierarchyVersion.v2
+  }
+
+  lemma HierarchyVersionRoundTrip(version: Types.HierarchyVersion)
+    ensures StringToHierarchyVersion(HierarchyVersionToString(version)) == version
+  {
+  }
+
   opaque function DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
+    hierarchyVersion: Types.HierarchyVersion,
     customEncryptionContext: map<string, string>
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
@@ -348,7 +457,7 @@ module {:options "/functionSyntax:4" } Structure {
       KEY_CREATE_TIME := timestamp,
       TABLE_FIELD := logicalKeyStoreName,
       KMS_FIELD := kmsKeyArn,
-      HIERARCHY_VERSION := "1"
+      HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
     ] + map k <- customEncryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := customEncryptionContext[k]
   }
 
@@ -536,6 +645,7 @@ module {:options "/functionSyntax:4" } Structure {
     timestamp: string,
     logicalKeyStoreName: string,
     kmsKeyArn: string,
+    hierarchyVersion: Types.HierarchyVersion,
     encryptionContext: map<string, string>
   )
     requires 0 < |branchKeyId|
@@ -545,7 +655,7 @@ module {:options "/functionSyntax:4" } Structure {
     requires KmsArn.ValidKmsArn?(kmsKeyArn)
     ensures
       var decryptOnly := DecryptOnlyBranchKeyEncryptionContext(
-                           branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName, kmsKeyArn, encryptionContext);
+                           branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName, kmsKeyArn, hierarchyVersion, encryptionContext);
       var active := ActiveBranchKeyEncryptionContext(decryptOnly);
       var beacon := BeaconKeyEncryptionContext(decryptOnly);
       && decryptOnly[TYPE_FIELD] != active[TYPE_FIELD]

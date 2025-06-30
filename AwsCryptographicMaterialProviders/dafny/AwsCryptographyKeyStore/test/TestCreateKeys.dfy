@@ -241,6 +241,7 @@ module TestCreateKeys {
       "",
       "",
       keyArn,
+      Types.HierarchyVersion.v1,
       map[]
     );
 
@@ -266,6 +267,7 @@ module TestCreateKeys {
       "",
       "",
       keyArn,
+      Types.HierarchyVersion.v1,
       map[]
     );
 
