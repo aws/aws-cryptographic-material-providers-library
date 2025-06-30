@@ -553,20 +553,9 @@ module {:options "/functionSyntax:4" } CreateKeys {
       encryptionContext := encryptionContext
     );
 
-    // CreateBranchAndBeaconKeysVersion2
-
-    // Write ACTIVE, Version & Beacon Items to storage
-    // var _ :- keyManagerAndStorage.storage.WriteNewEncryptedBranchKey(
-    //   Types.WriteNewEncryptedBranchKeyInput(
-    //     Active := activeBKItem,
-    //     Version := decryptOnlyBKItem,
-    //     Beacon := beaconBKItem
-    //   )
-    // );
-
-    var decryptOnlyItem := Structure.ToAttributeMap(decryptOnlyBKItem.EncryptionContext, decryptOnlyBKItem.CiphertextBlob);
-    var activeItem := Structure.ToAttributeMap(activeBKItem.EncryptionContext, activeBKItem.CiphertextBlob);
-    var beaconItem := Structure.ToAttributeMap(beaconBKItem.EncryptionContext, beaconBKItem.CiphertextBlob);
+    var decryptOnlyItem := Structure.ToAttributeMap(decryptOnlyBranchKeyContext, decryptOnlyBKItem.CiphertextBlob);
+    var activeItem := Structure.ToAttributeMap(activeBranchKeyContext, activeBKItem.CiphertextBlob);
+    var beaconItem := Structure.ToAttributeMap(beaconBranchKeyContext, beaconBKItem.CiphertextBlob);
     var _ :- DDBKeystoreOperations.WriteNewKeyToStore(
       decryptOnlyItem,
       activeItem,

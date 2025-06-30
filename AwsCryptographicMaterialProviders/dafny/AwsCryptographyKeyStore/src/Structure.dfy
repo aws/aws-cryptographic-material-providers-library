@@ -38,6 +38,18 @@ module {:options "/functionSyntax:4" } Structure {
   // BKC => Branch Key Context
   const BKC_DIGEST_LENGTH: uint8 := 48
 
+    // TODO-HV-2-FOLLOW : Introduce a Lemma that ensures none of these fields start with aws-crypto-ec
+  const BRANCH_KEY_RESTRICTED_FIELD_NAMES := {
+    BRANCH_KEY_IDENTIFIER_FIELD,
+    TYPE_FIELD,
+    KEY_CREATE_TIME,
+    HIERARCHY_VERSION,
+    TABLE_FIELD,
+    KMS_FIELD,
+    BRANCH_KEY_FIELD,
+    BRANCH_KEY_ACTIVE_VERSION_FIELD
+  }
+
   type EncryptionContextString = map<string, string>
 
   datatype EncryptedHierarchicalKey = | EncryptedHierarchicalKey (
@@ -136,7 +148,8 @@ module {:options "/functionSyntax:4" } Structure {
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
        //= type=implication
        //# - MUST have a `kms-arn` attribute
-    && (KMS_FIELD in m) && KMS.IsValid_KeyIdType(m[KMS_FIELD])
+    && (KMS_FIELD in m)
+    && KMS.IsValid_KeyIdType(m[KMS_FIELD])
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-keystore-item
     //# The key `enc` MUST NOT exist in the constructed [encryption context](#encryption-context).

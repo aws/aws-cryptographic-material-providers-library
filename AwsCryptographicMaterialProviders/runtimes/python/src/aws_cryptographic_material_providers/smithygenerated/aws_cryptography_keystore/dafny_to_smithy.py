@@ -349,14 +349,6 @@ def aws_cryptography_keystore_KeyStoreConfig(dafny_input):
     )
 
 
-def aws_cryptography_keystore_MaterialProvidersReference(dafny_input):
-    from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.client import (
-        AwsCryptographicMaterialProviders,
-    )
-
-    return AwsCryptographicMaterialProviders(config=None, dafny_client=dafny_input)
-
-
 def aws_cryptography_keystore_PrimitivesReference(dafny_input):
     from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.client import (
         AwsCryptographicPrimitives,

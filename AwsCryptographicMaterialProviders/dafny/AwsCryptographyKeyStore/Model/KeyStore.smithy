@@ -34,9 +34,6 @@ structure DdbClientReference {}
 @reference(service: AwsCryptographicPrimitives)
 structure PrimitivesReference {}
 
-@reference(service: AwsCryptographicMaterialProviders)
-structure MaterialProvidersReference {}
-
 @localService(
   sdkId: "KeyStore",
   config: KeyStoreConfig,
