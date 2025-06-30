@@ -422,6 +422,22 @@ func (input KeyStoreConfig) Aws_cryptography_keyStore_KeyStoreConfig_kmsConfigur
 	return nil
 }
 
+type MaterialProvidersReference struct {
+}
+
+func (input MaterialProvidersReference) Validate() error {
+
+	return nil
+}
+
+type PrimitivesReference struct {
+}
+
+func (input PrimitivesReference) Validate() error {
+
+	return nil
+}
+
 // KMSConfigurationMemberdiscovery
 // KMSConfigurationMemberkmsKeyArn
 // KMSConfigurationMemberkmsMRKeyArn

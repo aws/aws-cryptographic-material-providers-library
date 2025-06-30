@@ -18,6 +18,9 @@ use com.amazonaws.dynamodb#DynamoDB_20120810
 
 use com.amazonaws.kms#TrentService
 
+use aws.cryptography.primitives#AwsCryptographicPrimitives
+use aws.cryptography.materialProviders#AwsCryptographicMaterialProviders
+
 
 @dafnyUtf8Bytes
 string Utf8Bytes
@@ -27,6 +30,12 @@ structure KmsClientReference {}
 
 @reference(service: DynamoDB_20120810)
 structure DdbClientReference {}
+
+@reference(service: AwsCryptographicPrimitives)
+structure PrimitivesReference {}
+
+@reference(service: AwsCryptographicMaterialProviders)
+structure MaterialProvidersReference {}
 
 @localService(
   sdkId: "KeyStore",

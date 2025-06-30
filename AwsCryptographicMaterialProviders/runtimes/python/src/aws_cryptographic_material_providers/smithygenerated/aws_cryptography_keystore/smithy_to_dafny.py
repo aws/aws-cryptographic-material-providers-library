@@ -632,3 +632,11 @@ def aws_cryptography_keystore_KeyStoreConfig(native_input):
             else (Option_None())
         ),
     )
+
+
+def aws_cryptography_keystore_MaterialProvidersReference(native_input):
+    return native_input._config.dafnyImplInterface.impl
+
+
+def aws_cryptography_keystore_PrimitivesReference(native_input):
+    return native_input._config.dafnyImplInterface.impl
