@@ -297,6 +297,18 @@ module {:options "/functionSyntax:4" } CreateKeys {
       ));
   }
 
+  /* Common KMS Requirements for VersionKey and CreateKey operations. */
+  predicate HV2CreateKMSCommon(
+    nameonly kmsConfiguration: Types.KMSConfiguration
+  ): (output: bool)
+    ensures output ==>
+              && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
+              && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+  {
+    && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
+    && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+  }
+
   twostate predicate HV2EncryptionOfBranchKeyAreCorrect(
     nameonly new decryptOnlyKMSEnc: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
     nameonly new encryptOnlyKMSEnc: KMS.DafnyCallEvent<KMS.EncryptRequest, Result<KMS.EncryptResponse, KMS.Error>>,
@@ -308,10 +320,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     reads cryptoAndKms.kmsClient.History
     requires
       && cryptoAndKms.ValidState()
-         // && HV2CreateKMSCommon(
-         //      kmsConfiguration := kmsConfiguration,
-         //      keyManagerAndStorage := keyManagerAndStorage
-         //    )
+      && HV2CreateKMSCommon(kmsConfiguration := kmsConfiguration)
       && decryptOnlyKMSEnc in cryptoAndKms.kmsClient.History.Encrypt
       && encryptOnlyKMSEnc in cryptoAndKms.kmsClient.History.Encrypt
   {

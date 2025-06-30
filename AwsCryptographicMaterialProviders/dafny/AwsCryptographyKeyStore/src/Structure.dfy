@@ -38,7 +38,7 @@ module {:options "/functionSyntax:4" } Structure {
   // BKC => Branch Key Context
   const BKC_DIGEST_LENGTH: uint8 := 48
 
-    // TODO-HV-2-FOLLOW : Introduce a Lemma that ensures none of these fields start with aws-crypto-ec
+  // TODO-HV-2-FOLLOW : Introduce a Lemma that ensures none of these fields start with aws-crypto-ec
   const BRANCH_KEY_RESTRICTED_FIELD_NAMES := {
     BRANCH_KEY_IDENTIFIER_FIELD,
     TYPE_FIELD,
