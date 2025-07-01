@@ -13,19 +13,29 @@ on:
         type: string
 
 jobs:
+  checkMembership:
+    runs-on: macos-13
+    steps:
+      -  name: Get user membership
+         id: checkUserMember
+         uses: tspascoal/get-user-teams-membership@v3
+         with:
+          username: ${{ github.actor }}
+          team: 'AWS Crypto Tools'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Fail if membership is false"
+        if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
+        run: |
+          echo $steps.checkUserMember.outputs.isTeamMember
+          exit 1
+
   get-dafny-version:
-    # there is no easy way in gha to check if the actor is part of the team, running semantic release is a more
-    # privileged operation, so we must make sure this list of users is a subset of the users labeled as maintainers of
-    # https://github.com/orgs/aws/teams/aws-crypto-tools
-    if: contains('["seebees","texastony","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","kessplas","ajewellamz"]', github.actor)
+    needs: checkMembership
     uses: ./.github/workflows/dafny_version.yaml
 
   go-release:
-    # there is no easy way in gha to check if the actor is part of the team, running semantic release is a more
-    # privileged operation, so we must make sure this list of users is a subset of the users labeled as maintainers of
-    # https://github.com/orgs/aws/teams/aws-crypto-tools
-    if: contains('["seebees","texastony","ShubhamChaturvedi7","lucasmcdonald3","josecorella","imabhichow","rishav-karanjit","antonf-amzn","kessplas","ajewellamz"]', github.actor)
-    needs: get-dafny-version
+    needs: [checkMembership, get-dafny-version]
     runs-on: macos-13
     permissions:
       contents: write
