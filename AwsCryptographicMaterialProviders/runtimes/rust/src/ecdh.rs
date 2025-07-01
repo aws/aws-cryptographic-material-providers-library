@@ -234,8 +234,8 @@ pub mod ECDH {
             Ok(slice)
         }
         fn get_public_key(alg: &ECDHCurveSpec, pem: &[u8]) -> Result<Vec<u8>, String> {
-            let pem = std::str::from_utf8(pem).map_err(|e| format!("{:?}", e))?;
-            let private_key = pem::parse(pem).map_err(|e| format!("{:?}", e))?;
+            let pem = std::str::from_utf8(pem).map_err(|e| format!("{e:?}"))?;
+            let private_key = pem::parse(pem).map_err(|e| format!("{e:?}"))?;
             inner_get_public_key(private_key.contents(), get_nid(alg))
         }
 
@@ -319,7 +319,7 @@ pub mod ECDH {
                     value: dafny_runtime::Sequence::from_array_owned(x),
                 }),
                 Err(e) => {
-                    let msg = format!("ECDH Get Public Key : {}", e);
+                    let msg = format!("ECDH Get Public Key : {e}");
                     Rc::new(_Wrappers_Compile::Result::Failure {
                         error: super::error(&msg),
                     })
@@ -378,7 +378,7 @@ pub mod ECDH {
                     value: dafny_runtime::Sequence::from_array_owned(v),
                 }),
                 Err(e) => {
-                    let msg = format!("ECDH Compress Public Key {}", e);
+                    let msg = format!("ECDH Compress Public Key {e}");
                     Rc::new(_Wrappers_Compile::Result::Failure {
                         error: super::error(&msg),
                     })
@@ -396,7 +396,7 @@ pub mod ECDH {
                     value: dafny_runtime::Sequence::from_array_owned(v),
                 }),
                 Err(e) => {
-                    let msg = format!("ECDH Decompress Public Key {}", e);
+                    let msg = format!("ECDH Decompress Public Key {e}");
                     Rc::new(_Wrappers_Compile::Result::Failure {
                         error: super::error(&msg),
                     })
@@ -429,13 +429,13 @@ pub mod ECDH {
             private_key_pem: &[u8],
             public_key_der: &[u8],
         ) -> Result<Vec<u8>, String> {
-            let pem = std::str::from_utf8(private_key_pem).map_err(|e| format!("{:?}", e))?;
-            let private_key = pem::parse(pem).map_err(|e| format!("{:?}", e))?;
+            let pem = std::str::from_utf8(private_key_pem).map_err(|e| format!("{e:?}"))?;
+            let private_key = pem::parse(pem).map_err(|e| format!("{e:?}"))?;
             let private_key = aws_lc_rs::agreement::PrivateKey::from_private_key_der(
                 super::ECCUtils::get_alg(curve_algorithm),
                 private_key.contents(),
             )
-            .map_err(|e| format!("{:?}", e))?;
+            .map_err(|e| format!("{e:?}"))?;
             let public_key = super::ECCUtils::X509_to_X962(public_key_der, false, None)?;
             let public_key = aws_lc_rs::agreement::UnparsedPublicKey::new(
                 super::ECCUtils::get_alg(curve_algorithm),
@@ -458,7 +458,7 @@ pub mod ECDH {
                     value: dafny_runtime::Sequence::from_array_owned(v),
                 }),
                 Err(e) => {
-                    let msg = format!("ECDH Calculate Shared Secret : {}", e);
+                    let msg = format!("ECDH Calculate Shared Secret : {e}");
                     Rc::new(_Wrappers_Compile::Result::Failure {
                         error: super::error(&msg),
                     })
@@ -477,16 +477,16 @@ pub mod ECDH {
         fn ecdsa_key_gen(alg: &ECDHCurveSpec) -> Result<(Vec<u8>, Vec<u8>), String> {
             let private_key =
                 aws_lc_rs::agreement::PrivateKey::generate(super::ECCUtils::get_alg(alg))
-                    .map_err(|e| format!("{:?}", e))?;
+                    .map_err(|e| format!("{e:?}"))?;
 
             let public_key = private_key
                 .compute_public_key()
-                .map_err(|e| format!("{:?}", e))?;
+                .map_err(|e| format!("{e:?}"))?;
 
             let public_key: Vec<u8> = super::ECCUtils::X962_to_X509(public_key.as_ref(), alg)?;
 
             let private_key_der = AsDer::<EcPrivateKeyRfc5915Der>::as_der(&private_key)
-                .map_err(|e| format!("{:?}", e))?;
+                .map_err(|e| format!("{e:?}"))?;
             let private_key = pem::Pem::new("PRIVATE KEY", private_key_der.as_ref());
             let private_key = pem::encode(&private_key);
             let private_key: Vec<u8> = private_key.into_bytes();
@@ -505,7 +505,7 @@ pub mod ECDH {
                     }),
                 }),
                 Err(e) => {
-                    let msg = format!("ECDH Generate Key Pair : {}", e);
+                    let msg = format!("ECDH Generate Key Pair : {e}");
                     Rc::new(_Wrappers_Compile::Result::Failure {
                         error: super::error(&msg),
                     })
@@ -526,12 +526,12 @@ pub mod ECDH {
 
             let pair: crate::ECDH::EccKeyPair = match &*KeyGeneration::GenerateKeyPair(&alg) {
                 _Wrappers_Compile::Result::Success { value } => (**value).clone(),
-                _Wrappers_Compile::Result::Failure { error } => panic!("{:?}", error),
+                _Wrappers_Compile::Result::Failure { error } => panic!("{error:?}"),
             };
 
             match &*ECCUtils::ValidatePublicKey(&alg, pair.publicKey()) {
                 _Wrappers_Compile::Result::Success { .. } => {}
-                _Wrappers_Compile::Result::Failure { error } => panic!("{:?}", error),
+                _Wrappers_Compile::Result::Failure { error } => panic!("{error:?}"),
             };
         }
     }
