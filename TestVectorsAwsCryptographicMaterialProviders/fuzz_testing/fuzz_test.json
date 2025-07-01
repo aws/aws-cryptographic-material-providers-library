@@ -1,75 +1,67 @@
 {
   "tests": {
-    "7e994121-a9ec-479b-88f6-98d0bb491fa2": {
+    "da0a25ca-2646-4fcd-a4fb-fdb71b44c650": {
       "type": "positive-keyring",
-      "description": "Fuzzed test vector with 6702 and 4 context keys",
-      "algorithmSuiteId": "6702",
+      "description": "Fuzzed test vector with 0378 and 9 context keys",
+      "algorithmSuiteId": "0378",
       "encryptionContext": {
-        "‗৽࠷=༄🕒϶˻㏈": "𐓺ſž",
-        "qa𞤪úꮈŘРƀòҤ": "ç",
-        "Ń🯹ỵ": "ĎôĮġŞġ",
-        "pŕðHĎ۰𝓩": ""
-      },
-      "requiredEncryptionContextKeys": [],
-      "encryptKeyDescription": {
-        "type": "aws-kms",
-        "key": "us-east-1-mrk"
-      },
-      "decryptKeyDescription": {
-        "type": "aws-kms",
-        "key": "us-east-1-mrk"
-      },
-      "reproducedEncryptionContext": {
-        "¤ë·󖭻'": "𣶚Üü\u0003𖨧𗗍񹼸«\u001a󢩪]tôJ",
-        "ꛆ)": "ÈÀ£񛴕𜚾ÌZ",
-        "Ù": "",
-        "𝲊E^Qþ=󏥊\u0018¶þ;?G󣘪󥆽Û+": "ãàç",
-        "Ë": "-",
-        "¬@򂗵𷯵n\u0001𝠱": "½ìö񖐘0",
-        "q\u0011񜱢񼶑 E!񯅴Û򊼠򗱔Á": "\u0015p½í",
-        "\u0006á𓉴eu󶈳ç\bûÅÃí𾭵¿N": "¡±I",
-        "Ñì\u0007DØ.bN": ">󐁶Ñ",
-        "yB0Ä񗀞JK'\u0014򨎉": ""
-      }
-    },
-    "5b994120-456d-4f7a-9443-1d4835f34321": {
-      "type": "positive-keyring",
-      "description": "Fuzzed test vector with 0014 and 1 context keys",
-      "algorithmSuiteId": "0014",
-      "encryptionContext": {
-        "0": ""
-      },
-      "requiredEncryptionContextKeys": [],
-      "encryptKeyDescription": {
-        "type": "aws-kms",
-        "key": "us-west-2-mrk"
-      },
-      "decryptKeyDescription": {
-        "type": "aws-kms",
-        "key": "us-west-2-mrk"
-      },
-      "reproducedEncryptionContext": {
-        "0": ""
-      }
-    },
-    "0c9cd2f5-54e0-49c9-8a16-34fa3a2814a2": {
-      "type": "positive-keyring",
-      "description": "Fuzzed test vector with 0178 and 6 context keys",
-      "algorithmSuiteId": "0178",
-      "encryptionContext": {
-        "MªĞi𗘁": "ἇuï",
-        "rXpÖ": "taĽ唶ŦŠ㟟󠄟ĽćïUíž棤𥃐𢴿ĳFµìãŌXðŇKÒÝÌ",
-        "˳": "الكل في المجمو عة",
-        "˙࠽།٪𝀙_༻˼˩˺": "秀畏Pż",
-        "©״´": "˚¥؊𝥱˥˒¯",
-        "༔↲˜{": ""
+        "ŶţŗêJÙ": "㎗",
+        "௵྿߾": "ËČ",
+        "˧׆¨־÷྿": "Ë",
+        "qōŃ𢜷Ē": "đ",
+        "˭٬˷©¨؈৳": "òᏋŎ𝛡ð",
+        "#°˟^؋": "㌵🪆🄧",
+        "🇺🇸": "؉˃°˼",
+        "膳ut": "Ńĸ9 Yj",
+        "ūĬẀ𝐾ĀŧⳭŠéŒϸꟊÃŁÒZ": "𢼑ÉĞGŽŧi"
       },
       "requiredEncryptionContextKeys": [
-        "rXpÖ",
-        "rXpÖ",
-        "MªĞi𗘁",
-        "༔↲˜{",
-        "MªĞi𗘁"
+        "˧׆¨־÷྿",
+        "ŶţŗêJÙ",
+        "˭٬˷©¨؈৳"
+      ],
+      "encryptKeyDescription": {
+        "type": "aws-kms",
+        "key": "us-west-2-encrypt-only"
+      },
+      "decryptKeyDescription": {
+        "type": "aws-kms",
+        "key": "us-west-2-encrypt-only"
+      },
+      "reproducedEncryptionContext": {
+        "ŶţŗêJÙ": "㎗",
+        "௵྿߾": "ËČ",
+        "˧׆¨־÷྿": "Ë",
+        "qōŃ𢜷Ē": "đ",
+        "˭٬˷©¨؈৳": "òᏋŎ𝛡ð",
+        "#°˟^؋": "㌵🪆🄧",
+        "🇺🇸": "؉˃°˼",
+        "膳ut": "Ńĸ9 Yj",
+        "ūĬẀ𝐾ĀŧⳭŠéŒϸꟊÃŁÒZ": "𢼑ÉĞGŽŧi"
+      }
+    },
+    "eaee000c-0400-4f8d-a365-b09f50f4a8ae": {
+      "type": "positive-keyring",
+      "description": "Fuzzed test vector with 0178 and 10 context keys",
+      "algorithmSuiteId": "0178",
+      "encryptionContext": {
+        "˭": "",
+        "¸🕑؇«܅": "",
+        "7ŤԨĢ𝐊": "۔[༆㌛؛܋𐮛༻?¬",
+        "\"&๏": "8",
+        "🜼🍧𝁗(༕༚🚸⤽྿🫢": "śÙ𑃷n uFÅ𑣗ûŷéQv kτæ",
+        "üĹÈóůħÓĜŀņ": "",
+        "٫🢆-༆⣧։༒»༅`": "ŻV",
+        "ĤŇ": "ő𐐔",
+        "܇᙭⯕=⫱)⼽¸˔܁": "Ÿ𝘕Ĩ",
+        "౷࠼": "ĳŌi"
+      },
+      "requiredEncryptionContextKeys": [
+        "ĤŇ",
+        "܇᙭⯕=⫱)⼽¸˔܁",
+        "ĤŇ",
+        "🜼🍧𝁗(༕༚🚸⤽྿🫢",
+        "üĹÈóůħÓĜŀņ"
       ],
       "encryptKeyDescription": {
         "type": "aws-kms",
@@ -79,43 +71,7 @@
         "type": "aws-kms",
         "key": "us-west-2-mrk"
       },
-      "reproducedEncryptionContext": {}
-    },
-    "1a1df32d-0863-4ba4-977f-2b68872ac3a0": {
-      "type": "positive-keyring",
-      "description": "Fuzzed test vector with 0014 and 1 context keys",
-      "algorithmSuiteId": "0014",
-      "encryptionContext": {
-        "0": ""
-      },
-      "requiredEncryptionContextKeys": [],
-      "encryptKeyDescription": {
-        "type": "aws-kms",
-        "key": "us-west-2-mrk"
-      },
-      "decryptKeyDescription": {
-        "type": "aws-kms",
-        "key": "us-west-2-mrk"
-      },
-      "reproducedEncryptionContext": {
-        "0": ""
-      }
-    },
-    "9c1ee1b1-a114-4560-bcb3-68121ff10916": {
-      "type": "positive-keyring",
-      "description": "Fuzzed test vector with 0214 and 0 context keys",
-      "algorithmSuiteId": "0214",
-      "encryptionContext": {},
-      "requiredEncryptionContextKeys": [],
-      "encryptKeyDescription": {
-        "type": "aws-kms",
-        "key": "us-west-2-encrypt-only"
-      },
-      "decryptKeyDescription": {
-        "type": "aws-kms",
-        "key": "us-west-2-encrypt-only"
-      },
-      "reproducedEncryptionContext": {}
+      "reproducedEncryptionContext": {"˭": "","¸🕑؇«܅": ""}
     }
   }
 }

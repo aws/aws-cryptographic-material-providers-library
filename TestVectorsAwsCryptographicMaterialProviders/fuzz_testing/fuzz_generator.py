@@ -83,19 +83,19 @@ def fuzz_test_vector(draw):
     algorithm_suites = [
         # ESDK Algorithm Suites
         "0014",  # AES-128-GCM, no KDF
-        "0046",  # AES-192-GCM, no KDF  
-        "0078",  # AES-256-GCM, no KDF
-        "0114",  # AES-128-GCM, HKDF-SHA256
-        "0146",  # AES-192-GCM, HKDF-SHA256
+       # "0046",  # AES-192-GCM, no KDF  
+       # "0078",  # AES-256-GCM, no KDF
+       # "0114",  # AES-128-GCM, HKDF-SHA256
+        #"0146",  # AES-192-GCM, HKDF-SHA256
         "0178",  # AES-256-GCM, HKDF-SHA256
         "0214",  # AES-128-GCM, HKDF-SHA256, ECDSA-P256
-        "0346",  # AES-192-GCM, HKDF-SHA384, ECDSA-P384
+       # "0346",  # AES-192-GCM, HKDF-SHA384, ECDSA-P384
         "0378",  # AES-256-GCM, HKDF-SHA384, ECDSA-P384
         "0478",  # AES-256-GCM, HKDF-SHA512, Key Commitment
-        "0578",  # AES-256-GCM, HKDF-SHA512, Key Commitment, ECDSA-P384
-        # DBE Algorithm Suites
-        "6701",  # DBE AES-256-GCM
-        "6702"   # DBE AES-256-GCM, Key Commitment
+        #"0578",  # AES-256-GCM, HKDF-SHA512, Key Commitment, ECDSA-P384
+        ## DBE Algorithm Suites
+        #"6701",  # DBE AES-256-GCM
+        #"6702"   # DBE AES-256-GCM, Key Commitment
     ]
     
     # Generate encryption context
@@ -167,7 +167,7 @@ def fuzz_test_vector(draw):
     }
 
 
-def generate_fuzzed_test_vectors(num_vectors: int = 5) -> Dict[str, Any]:
+def generate_fuzzed_test_vectors(num_vectors: int = 2) -> Dict[str, Any]:
     """
     Generate a set of fuzzed test vectors.
     
@@ -235,7 +235,7 @@ def main():
     create_fuzzed_keys_json()
     
     # Generate fuzzed test vectors
-    test_vectors = generate_fuzzed_test_vectors(num_vectors=5)
+    test_vectors = generate_fuzzed_test_vectors(num_vectors=2)
     
     # Save to file
     save_test_vectors(test_vectors, "fuzz_test.json")

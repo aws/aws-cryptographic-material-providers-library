@@ -145,6 +145,16 @@ class FuzzTestRunner:
         logger.info("=== Starting Fuzz Test Run ===")
         logger.info(f"Timestamp: {datetime.now()}")
         
+        # Load the fuzzed test vectors for detailed logging
+        try:
+            with open("fuzz_test.json", "r") as f:
+                fuzz_data = json.load(f)
+            test_vectors = fuzz_data.get("tests", {})
+            logger.info(f"Loaded {len(test_vectors)} fuzzed test vectors")
+        except Exception as e:
+            logger.error(f"Failed to load fuzz test data: {e}")
+            test_vectors = {}
+        
         # Set up test environment
         if not self.setup_test_environment():
             return False
@@ -154,13 +164,13 @@ class FuzzTestRunner:
             logger.info("Step 1: Generating encrypt manifest...")
             success, output = self.run_make_command("test_generate_vectors_python")
             if not success:
-                self.record_failure("manifest_generation", "Failed to generate encrypt manifest", output)
+                self.record_failure("manifest_generation", "Failed to generate encrypt manifest", output, test_vectors)
             
             # Step 2: Run encryption tests
             logger.info("Step 2: Running encryption tests...")
             success, output = self.run_make_command("test_encrypt_vectors_python")
             if not success:
-                self.record_failure("encryption", "Encryption tests failed", output)
+                self.record_failure("encryption", "Encryption tests failed", output, test_vectors)
             else:
                 self.success_count += 1
             
@@ -168,7 +178,7 @@ class FuzzTestRunner:
             logger.info("Step 3: Running decryption tests...")
             success, output = self.run_make_command("test_decrypt_encrypt_vectors_python")
             if not success:
-                self.record_failure("decryption", "Decryption tests failed", output)
+                self.record_failure("decryption", "Decryption tests failed", output, test_vectors)
             else:
                 self.success_count += 1
             
@@ -181,19 +191,68 @@ class FuzzTestRunner:
             # Always restore original files
             self.restore_original_files()
     
-    def record_failure(self, test_type: str, description: str, output: str):
-        """Record a test failure."""
+    def record_failure(self, test_type: str, description: str, output: str, test_vectors: dict = None):
+        """Record a test failure with detailed information."""
+        # Try to extract specific test vector information from the output
+        failed_test_ids = self.extract_failed_test_ids(output)
+        
         failure = {
             "timestamp": datetime.now().isoformat(),
             "test_type": test_type,
             "description": description,
-            "output": output
+            "output": output,
+            "failed_test_ids": failed_test_ids,
+            "fuzzed_inputs": {}
         }
+        
+        # Add details about the failed test vectors
+        if test_vectors and failed_test_ids:
+            for test_id in failed_test_ids:
+                if test_id in test_vectors:
+                    failure["fuzzed_inputs"][test_id] = {
+                        "algorithm_suite": test_vectors[test_id].get("algorithmSuiteId"),
+                        "encryption_context": test_vectors[test_id].get("encryptionContext"),
+                        "required_keys": test_vectors[test_id].get("requiredEncryptionContextKeys"),
+                        "reproduced_context": test_vectors[test_id].get("reproducedEncryptionContext"),
+                        "key_description": test_vectors[test_id].get("encryptKeyDescription")
+                    }
         
         self.failures.append(failure)
         self.failure_count += 1
         
         logger.error(f"FAILURE: {test_type} - {description}")
+        
+        # Log detailed information about failed test vectors
+        if failed_test_ids:
+            logger.error(f"Failed test IDs: {failed_test_ids}")
+            for test_id in failed_test_ids:
+                if test_vectors and test_id in test_vectors:
+                    test = test_vectors[test_id]
+                    logger.error(f"  Test {test_id}:")
+                    logger.error(f"    Algorithm: {test.get('algorithmSuiteId')}")
+                    logger.error(f"    Context: {test.get('encryptionContext')}")
+                    logger.error(f"    Required Keys: {test.get('requiredEncryptionContextKeys')}")
+                    logger.error(f"    Reproduced Context: {test.get('reproducedEncryptionContext')}")
+    
+    def extract_failed_test_ids(self, output: str) -> list:
+        """Extract test IDs from failure output."""
+        # Look for patterns like "Test ID: abc123-def456" or similar
+        import re
+        
+        # Common patterns for test IDs in the output
+        patterns = [
+            r'Test ID:\s*([a-f0-9-]+)',
+            r'Test\s+([a-f0-9-]+)\s+failed',
+            r'Vector\s+([a-f0-9-]+)\s+failed',
+            r'([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})'
+        ]
+        
+        failed_ids = []
+        for pattern in patterns:
+            matches = re.findall(pattern, output, re.IGNORECASE)
+            failed_ids.extend(matches)
+        
+        return list(set(failed_ids))  # Remove duplicates
     
     def log_summary(self):
         """Log a summary of the test run."""
@@ -209,13 +268,69 @@ class FuzzTestRunner:
                 logger.error(f"  Type: {failure['test_type']}")
                 logger.error(f"  Description: {failure['description']}")
                 logger.error(f"  Timestamp: {failure['timestamp']}")
-                logger.error(f"  Output: {failure['output'][:500]}...")  # Truncate long output
+                
+                if failure.get('failed_test_ids'):
+                    logger.error(f"  Failed Test IDs: {failure['failed_test_ids']}")
+                    
+                    # Show details of failed test vectors
+                    for test_id in failure['failed_test_ids']:
+                        if test_id in failure.get('fuzzed_inputs', {}):
+                            test_info = failure['fuzzed_inputs'][test_id]
+                            logger.error(f"    Test {test_id}:")
+                            logger.error(f"      Algorithm: {test_info.get('algorithm_suite')}")
+                            logger.error(f"      Context: {test_info.get('encryption_context')}")
+                            logger.error(f"      Required Keys: {test_info.get('required_keys')}")
+                            logger.error(f"      Reproduced Context: {test_info.get('reproduced_context')}")
+                
+                # Show truncated output
+                output_preview = failure['output'][:1000] + "..." if len(failure['output']) > 1000 else failure['output']
+                logger.error(f"  Output Preview: {output_preview}")
         
         # Save detailed failure report
         if self.failures:
+            detailed_report = {
+                "summary": {
+                    "total_tests": self.success_count + self.failure_count,
+                    "successful": self.success_count,
+                    "failures": self.failure_count,
+                    "timestamp": datetime.now().isoformat()
+                },
+                "failures": self.failures
+            }
+            
             with open("fuzz_detailed_failures.json", "w") as f:
-                json.dump(self.failures, f, indent=2)
+                json.dump(detailed_report, f, indent=2)
             logger.info("Detailed failure report saved to fuzz_detailed_failures.json")
+            
+            # Also create a human-readable summary
+            with open("fuzz_failure_summary.txt", "w") as f:
+                f.write("=== FUZZ TEST FAILURE SUMMARY ===\n")
+                f.write(f"Timestamp: {datetime.now()}\n")
+                f.write(f"Total Tests: {self.success_count + self.failure_count}\n")
+                f.write(f"Successful: {self.success_count}\n")
+                f.write(f"Failures: {self.failure_count}\n\n")
+                
+                for i, failure in enumerate(self.failures, 1):
+                    f.write(f"FAILURE {i}:\n")
+                    f.write(f"  Type: {failure['test_type']}\n")
+                    f.write(f"  Description: {failure['description']}\n")
+                    f.write(f"  Timestamp: {failure['timestamp']}\n")
+                    
+                    if failure.get('failed_test_ids'):
+                        f.write(f"  Failed Test IDs: {failure['failed_test_ids']}\n")
+                        
+                        for test_id in failure['failed_test_ids']:
+                            if test_id in failure.get('fuzzed_inputs', {}):
+                                test_info = failure['fuzzed_inputs'][test_id]
+                                f.write(f"    Test {test_id}:\n")
+                                f.write(f"      Algorithm: {test_info.get('algorithm_suite')}\n")
+                                f.write(f"      Context: {test_info.get('encryption_context')}\n")
+                                f.write(f"      Required Keys: {test_info.get('required_keys')}\n")
+                                f.write(f"      Reproduced Context: {test_info.get('reproduced_context')}\n")
+                    
+                    f.write(f"  Output: {failure['output']}\n\n")
+            
+            logger.info("Human-readable summary saved to fuzz_failure_summary.txt")
 
 
 def main():
@@ -223,11 +338,6 @@ def main():
     print("=== AWS Cryptographic Material Providers Fuzz Testing Runner ===")
     
     # Check if we're in the right directory
-    # if not os.path.exists("fuzz_testing"):
-    #     print("Error: fuzz_testing directory not found. Run from TestVectorsAwsCryptographicMaterialProviders directory.")
-    #     sys.exit(1)
-    
-    # Check if fuzzed test vectors exist
     if not os.path.exists("fuzz_test.json"):
         print("Error: fuzz_test.json not found. Run fuzz_generator.py first.")
         sys.exit(1)
