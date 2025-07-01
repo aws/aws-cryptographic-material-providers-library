@@ -101,8 +101,10 @@ jobs:
           make purge_polymorph_code
 
       - name: Update Go dependencies
-        if: github.event_name == 'schedule'
+        working-directory: ./${{ matrix.library }}/runtimes/go/TestsFromDafny-go
+        # if: github.event_name == 'schedule'
         run: |
+          echo $github.event_name
           go get -u ./...
 
       - name: Test ${{ matrix.library }}
