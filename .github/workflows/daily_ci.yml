@@ -67,3 +67,16 @@ jobs:
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+  slack-notify:
+    needs: [getVersion, getVerifyVersion, daily-ci-format, daily-ci-codegen, daily-ci-verification, daily-ci-java, daily-ci-net, daily-ci-rust, daily-ci-python, daily-ci-go, daily-interop-test]
+    if: ${{ failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send GitHub Action data to a Slack workflow
+        if: failure()
+        uses: slackapi/slack-github-action@v2.1.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload: |
+            {"message": "MPL's daily CI failed!"}
+          webhook-type: webhook-trigger
