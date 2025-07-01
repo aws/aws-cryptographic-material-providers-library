@@ -39,66 +39,45 @@ from .config import Config
 
 def _deserialize_get_key_store_info(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetKeyStoreInfoOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetKeyStoreInfoOutput(input.value)
 
 def _deserialize_create_key_store(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_CreateKeyStoreOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_CreateKeyStoreOutput(input.value)
 
 def _deserialize_create_key(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_CreateKeyOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_CreateKeyOutput(input.value)
 
 def _deserialize_version_key(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_VersionKeyOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_VersionKeyOutput(input.value)
 
 def _deserialize_get_active_branch_key(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetActiveBranchKeyOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetActiveBranchKeyOutput(input.value)
 
 def _deserialize_get_branch_key_version(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetBranchKeyVersionOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetBranchKeyVersionOutput(input.value)
 
 def _deserialize_get_beacon_key(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetBeaconKeyOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetBeaconKeyOutput(input.value)
 
 def _deserialize_error(error: Error) -> ServiceError:
     if error.is_Opaque:
@@ -111,12 +90,10 @@ def _deserialize_error(error: Error) -> ServiceError:
             list=[_deserialize_error(dafny_e) for dafny_e in error.list],
         )
     elif error.is_KeyStoreException:
-        return KeyStoreException(message=_dafny.string_of(error.message))
+      return KeyStoreException(message=_dafny.string_of(error.message))
     elif error.is_ComAmazonawsKms:
         return ComAmazonawsKms(message=_dafny.string_of(error.ComAmazonawsKms.message))
     elif error.is_ComAmazonawsDynamodb:
-        return ComAmazonawsDynamodb(
-            message=_dafny.string_of(error.ComAmazonawsDynamodb.message)
-        )
+        return ComAmazonawsDynamodb(message=_dafny.string_of(error.ComAmazonawsDynamodb.message))
     else:
         return OpaqueError(obj=error)
