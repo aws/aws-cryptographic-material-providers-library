@@ -13,11 +13,6 @@ on:
         required: false
         default: false
         type: boolean
-      caller:
-        description: "The name of the workflow that called this workflow"
-        required: false
-        type: string
-        default: "unknown"
 
 jobs:
   testGo:
