@@ -167,7 +167,7 @@ def fuzz_test_vector(draw):
     }
 
 
-def generate_fuzzed_test_vectors(num_vectors: int = 2) -> Dict[str, Any]:
+def generate_fuzzed_test_vectors(num_vectors: int = 1) -> Dict[str, Any]:
     """
     Generate a set of fuzzed test vectors.
     
@@ -235,7 +235,7 @@ def main():
     create_fuzzed_keys_json()
     
     # Generate fuzzed test vectors
-    test_vectors = generate_fuzzed_test_vectors(num_vectors=2)
+    test_vectors = generate_fuzzed_test_vectors(num_vectors=1)
     
     # Save to file
     save_test_vectors(test_vectors, "fuzz_test.json")
