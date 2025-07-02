@@ -1,0 +1,18 @@
+[git]
+tag_pattern = "^releases/go/mpl/v*"
+filter_commits = true
+commit_parsers = [
+    { message = '^feat\((go|dafny)\)', group = "Features"},
+    { message = '^fix\((go|dafny)\)', group = "Fixes"},
+    { message = '^chore\((go|dafny)\)', group = "Maintenance"},
+    { message = '^docs\((go|dafny)\)', group = "Maintenance"},
+    { message = '^revert\((go|dafny)\)', group = "Fixes"},
+    { message = '^style\((go|dafny)\)', group = "Refactor"},
+    { message = '^refactor\((go|dafny)\)', group = "Miscellaneous"},
+    { message = '^perf\((go|dafny)\)', group = "Miscellaneous"},
+    { message = '^test\((go|dafny)\)', group = "Miscellaneous"},
+]
+
+[changelog]
+header = "# Changelog\n\n"
+trim = true
