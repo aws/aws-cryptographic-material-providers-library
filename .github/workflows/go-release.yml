@@ -74,7 +74,6 @@ jobs:
         id: release-dir
         run: |
           RELEASE_DIR_NAME=$(./scripts/go-release-automation.sh get_release_dir_name "${{ github.event.inputs.project-name }}" "${{ github.event.inputs.version }}")
-          echo 
           echo "releaseDirName=$RELEASE_DIR_NAME" >> $GITHUB_OUTPUT
 
       - name: Generate a changelog
