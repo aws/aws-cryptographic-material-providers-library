@@ -3,7 +3,7 @@
 
 include "../Model/ComAmazonawsKmsTypes.dfy"
 
-module {:extern "software.amazon.cryptography.services.kms.internaldafny"} Com.Amazonaws.Kms refines AbstractComAmazonawsKmsService {
+module Com.Amazonaws.Kms refines AbstractComAmazonawsKmsService {
 
   function method DefaultKMSClientConfigType() : KMSClientConfigType {
     KMSClientConfigType
@@ -30,8 +30,7 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny"} Com.A
 
   function method DafnyUserAgentSuffix(runtime: string): string
   {
-    var version := "1.0.1";
+    var version := "1.11.0";
     "AwsCryptographicMPL/" + runtime + "/" + version
   }
-
 }
