@@ -7,7 +7,7 @@ commit_parsers = [
     { message = '^chore\((go|all languages)\)', group = "Maintenance"},
     { message = '^docs\((go|all languages)\)', group = "Maintenance"},
     { message = '^revert\((go|all languages)\)', group = "Fixes"},
-    { message = '^style\((go|all languages)\)', group = "Refactor"},
+    { message = '^style\((go|all languages)\)', group = "Miscellaneous"},
     { message = '^refactor\((go|all languages)\)', group = "Miscellaneous"},
     { message = '^perf\((go|all languages)\)', group = "Miscellaneous"},
     { message = '^test\((go|all languages)\)', group = "Miscellaneous"},
