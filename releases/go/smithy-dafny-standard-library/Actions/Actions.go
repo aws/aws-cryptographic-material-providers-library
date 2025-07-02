@@ -32,6 +32,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -73,6 +74,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -126,14 +128,14 @@ func (_static *CompanionStruct_Default___) DeterministicMap(action Deterministic
 	var _0_rs _dafny.Sequence
 	_ = _0_rs
 	_0_rs = _dafny.SeqOf()
-	var _hi0 _dafny.Int = _dafny.IntOfUint32((s).Cardinality())
+	var _hi0 uint64 = uint64((s).Cardinality())
 	_ = _hi0
-	for _1_i := _dafny.Zero; _1_i.Cmp(_hi0) < 0; _1_i = _1_i.Plus(_dafny.One) {
+	for _1_i := uint64(0); _1_i < _hi0; _1_i++ {
 		var _2_r interface{}
 		_ = _2_r
 		var _out0 interface{}
 		_ = _out0
-		_out0 = (action).Invoke((s).Select((_1_i).Uint32()).(interface{}))
+		_out0 = (action).Invoke((s).Select(uint32(_1_i)).(interface{}))
 		_2_r = _out0
 		_0_rs = _dafny.Companion_Sequence_.Concatenate(_0_rs, _dafny.SeqOf(_2_r))
 	}
@@ -147,14 +149,14 @@ func (_static *CompanionStruct_Default___) DeterministicMapWithResult(action Det
 	var _0_rs _dafny.Sequence
 	_ = _0_rs
 	_0_rs = _dafny.SeqOf()
-	var _hi0 _dafny.Int = _dafny.IntOfUint32((s).Cardinality())
+	var _hi0 uint64 = uint64((s).Cardinality())
 	_ = _hi0
-	for _1_i := _dafny.Zero; _1_i.Cmp(_hi0) < 0; _1_i = _1_i.Plus(_dafny.One) {
+	for _1_i := uint64(0); _1_i < _hi0; _1_i++ {
 		var _2_valueOrError0 m_Wrappers.Result = m_Wrappers.Result{}
 		_ = _2_valueOrError0
 		var _out0 interface{}
 		_ = _out0
-		_out0 = (action).Invoke((s).Select((_1_i).Uint32()).(interface{}))
+		_out0 = (action).Invoke((s).Select(uint32(_1_i)).(interface{}))
 		_2_valueOrError0 = _out0.(m_Wrappers.Result)
 		if (_2_valueOrError0).IsFailure() {
 			res = (_2_valueOrError0).PropagateFailure()
@@ -175,14 +177,14 @@ func (_static *CompanionStruct_Default___) DeterministicFlatMap(action Determini
 	var _0_rs _dafny.Sequence
 	_ = _0_rs
 	_0_rs = _dafny.SeqOf()
-	var _hi0 _dafny.Int = _dafny.IntOfUint32((s).Cardinality())
+	var _hi0 uint64 = uint64((s).Cardinality())
 	_ = _hi0
-	for _1_i := _dafny.Zero; _1_i.Cmp(_hi0) < 0; _1_i = _1_i.Plus(_dafny.One) {
+	for _1_i := uint64(0); _1_i < _hi0; _1_i++ {
 		var _2_r _dafny.Sequence
 		_ = _2_r
 		var _out0 interface{}
 		_ = _out0
-		_out0 = (action).Invoke((s).Select((_1_i).Uint32()).(interface{}))
+		_out0 = (action).Invoke((s).Select(uint32(_1_i)).(interface{}))
 		_2_r = _out0.(_dafny.Sequence)
 		_0_rs = _dafny.Companion_Sequence_.Concatenate(_0_rs, _2_r)
 	}
@@ -196,14 +198,14 @@ func (_static *CompanionStruct_Default___) DeterministicFlatMapWithResult(action
 	var _0_rs _dafny.Sequence
 	_ = _0_rs
 	_0_rs = _dafny.SeqOf()
-	var _hi0 _dafny.Int = _dafny.IntOfUint32((s).Cardinality())
+	var _hi0 uint64 = uint64((s).Cardinality())
 	_ = _hi0
-	for _1_i := _dafny.Zero; _1_i.Cmp(_hi0) < 0; _1_i = _1_i.Plus(_dafny.One) {
+	for _1_i := uint64(0); _1_i < _hi0; _1_i++ {
 		var _2_valueOrError0 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
 		_ = _2_valueOrError0
 		var _out0 interface{}
 		_ = _out0
-		_out0 = (action).Invoke((s).Select((_1_i).Uint32()).(interface{}))
+		_out0 = (action).Invoke((s).Select(uint32(_1_i)).(interface{}))
 		_2_valueOrError0 = _out0.(m_Wrappers.Result)
 		if (_2_valueOrError0).IsFailure() {
 			res = (_2_valueOrError0).PropagateFailure()
@@ -226,17 +228,17 @@ func (_static *CompanionStruct_Default___) Filter(action DeterministicAction, s 
 	var _0_rs _dafny.Sequence
 	_ = _0_rs
 	_0_rs = _dafny.SeqOf()
-	var _hi0 _dafny.Int = _dafny.IntOfUint32((s).Cardinality())
+	var _hi0 uint64 = uint64((s).Cardinality())
 	_ = _hi0
-	for _1_i := _dafny.Zero; _1_i.Cmp(_hi0) < 0; _1_i = _1_i.Plus(_dafny.One) {
+	for _1_i := uint64(0); _1_i < _hi0; _1_i++ {
 		var _2_r bool
 		_ = _2_r
 		var _out0 interface{}
 		_ = _out0
-		_out0 = (action).Invoke((s).Select((_1_i).Uint32()).(interface{}))
+		_out0 = (action).Invoke((s).Select(uint32(_1_i)).(interface{}))
 		_2_r = _out0.(bool)
 		if _2_r {
-			_0_rs = _dafny.Companion_Sequence_.Concatenate(_0_rs, _dafny.SeqOf((s).Select((_1_i).Uint32()).(interface{})))
+			_0_rs = _dafny.Companion_Sequence_.Concatenate(_0_rs, _dafny.SeqOf((s).Select(uint32(_1_i)).(interface{})))
 		}
 	}
 	res = _0_rs
@@ -249,14 +251,14 @@ func (_static *CompanionStruct_Default___) FilterWithResult(action Deterministic
 	var _0_rs _dafny.Sequence
 	_ = _0_rs
 	_0_rs = _dafny.SeqOf()
-	var _hi0 _dafny.Int = _dafny.IntOfUint32((s).Cardinality())
+	var _hi0 uint64 = uint64((s).Cardinality())
 	_ = _hi0
-	for _1_i := _dafny.Zero; _1_i.Cmp(_hi0) < 0; _1_i = _1_i.Plus(_dafny.One) {
+	for _1_i := uint64(0); _1_i < _hi0; _1_i++ {
 		var _2_valueOrError0 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(false)
 		_ = _2_valueOrError0
 		var _out0 interface{}
 		_ = _out0
-		_out0 = (action).Invoke((s).Select((_1_i).Uint32()).(interface{}))
+		_out0 = (action).Invoke((s).Select(uint32(_1_i)).(interface{}))
 		_2_valueOrError0 = _out0.(m_Wrappers.Result)
 		if (_2_valueOrError0).IsFailure() {
 			res = (_2_valueOrError0).PropagateFailure()
@@ -266,7 +268,7 @@ func (_static *CompanionStruct_Default___) FilterWithResult(action Deterministic
 		_ = _3_r
 		_3_r = (_2_valueOrError0).Extract().(bool)
 		if _3_r {
-			_0_rs = _dafny.Companion_Sequence_.Concatenate(_0_rs, _dafny.SeqOf((s).Select((_1_i).Uint32()).(interface{})))
+			_0_rs = _dafny.Companion_Sequence_.Concatenate(_0_rs, _dafny.SeqOf((s).Select(uint32(_1_i)).(interface{})))
 		}
 	}
 	res = m_Wrappers.Companion_Result_.Create_Success_(_0_rs)
@@ -279,14 +281,14 @@ func (_static *CompanionStruct_Default___) ReduceToSuccess(action ActionWithResu
 	var _0_attemptedResults _dafny.Sequence
 	_ = _0_attemptedResults
 	_0_attemptedResults = _dafny.SeqOf()
-	var _hi0 _dafny.Int = _dafny.IntOfUint32((s).Cardinality())
+	var _hi0 uint64 = uint64((s).Cardinality())
 	_ = _hi0
-	for _1_i := _dafny.Zero; _1_i.Cmp(_hi0) < 0; _1_i = _1_i.Plus(_dafny.One) {
+	for _1_i := uint64(0); _1_i < _hi0; _1_i++ {
 		var _2_attempt m_Wrappers.Result
 		_ = _2_attempt
 		var _out0 interface{}
 		_ = _out0
-		_out0 = (action).Invoke((s).Select((_1_i).Uint32()).(interface{}))
+		_out0 = (action).Invoke((s).Select(uint32(_1_i)).(interface{}))
 		_2_attempt = _out0.(m_Wrappers.Result)
 		_0_attemptedResults = _dafny.Companion_Sequence_.Concatenate(_0_attemptedResults, _dafny.SeqOf(_2_attempt))
 		if (_2_attempt).Is_Success() {
@@ -296,13 +298,13 @@ func (_static *CompanionStruct_Default___) ReduceToSuccess(action ActionWithResu
 			return res
 		}
 	}
-	res = m_Wrappers.Companion_Result_.Create_Failure_(m_Seq.Companion_Default___.Map(func(coer29 func(m_Wrappers.Result) interface{}) func(interface{}) interface{} {
-		return func(arg33 interface{}) interface{} {
-			return coer29(arg33.(m_Wrappers.Result))
+	res = m_Wrappers.Companion_Result_.Create_Failure_(m_Seq.Companion_Default___.Map(func(coer26 func(m_Wrappers.Result) interface{}) func(interface{}) interface{} {
+		return func(arg29 interface{}) interface{} {
+			return coer26(arg29.(m_Wrappers.Result))
 		}
-	}(func(coer30 func(m_Wrappers.Result) interface{}) func(m_Wrappers.Result) interface{} {
-		return func(arg34 m_Wrappers.Result) interface{} {
-			return coer30(arg34)
+	}(func(coer27 func(m_Wrappers.Result) interface{}) func(m_Wrappers.Result) interface{} {
+		return func(arg30 m_Wrappers.Result) interface{} {
+			return coer27(arg30)
 		}
 	}(Companion_Default___.PluckErrors)), _0_attemptedResults))
 	return res
