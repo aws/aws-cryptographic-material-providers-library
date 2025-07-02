@@ -30,6 +30,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -71,6 +72,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -120,11 +122,26 @@ func (_static *CompanionStruct_Default___) IsBase64Char(c _dafny.Char) bool {
 	return (((((c) == (_dafny.Char('+'))) || ((c) == (_dafny.Char('/')))) || (((_dafny.Char('0')) <= (c)) && ((c) <= (_dafny.Char('9'))))) || (((_dafny.Char('A')) <= (c)) && ((c) <= (_dafny.Char('Z'))))) || (((_dafny.Char('a')) <= (c)) && ((c) <= (_dafny.Char('z'))))
 }
 func (_static *CompanionStruct_Default___) IsUnpaddedBase64String(s _dafny.Sequence) bool {
-	return (((_dafny.IntOfUint32((s).Cardinality())).Modulo(_dafny.IntOfInt64(4))).Sign() == 0) && (_dafny.Quantifier((s).UniqueElements(), true, func(_forall_var_0 _dafny.Char) bool {
-		var _0_k _dafny.Char
-		_0_k = interface{}(_forall_var_0).(_dafny.Char)
-		return !(_dafny.Companion_Sequence_.Contains(s, _0_k)) || (Companion_Default___.IsBase64Char(_0_k))
-	}))
+	var _hresult bool = false
+	_ = _hresult
+	var _0_size uint64
+	_ = _0_size
+	_0_size = uint64((s).Cardinality())
+	if ((_0_size) % (uint64(4))) != (uint64(0)) /* dircomp */ {
+		_hresult = false
+		return _hresult
+	}
+	var _hi0 uint64 = _0_size
+	_ = _hi0
+	for _1_i := uint64(0); _1_i < _hi0; _1_i++ {
+		if !(Companion_Default___.IsBase64Char((s).Select(uint32(_1_i)).(_dafny.Char))) {
+			_hresult = false
+			return _hresult
+		}
+	}
+	_hresult = true
+	return _hresult
+	return _hresult
 }
 func (_static *CompanionStruct_Default___) IndexToChar(i uint8) _dafny.Char {
 	if (i) == (uint8(63)) {
@@ -134,9 +151,9 @@ func (_static *CompanionStruct_Default___) IndexToChar(i uint8) _dafny.Char {
 	} else if ((uint8(52)) <= (i)) && ((i) <= (uint8(61))) {
 		return _dafny.Char(((i) - (func() uint8 { return (uint8(4)) })()))
 	} else if ((uint8(26)) <= (i)) && ((i) <= (uint8(51))) {
-		return (_dafny.Char((i))) + (_dafny.Char((_dafny.IntOfInt64(71)).Int32()))
+		return _dafny.Char(((uint8(i)) + (uint8(71))))
 	} else {
-		return (_dafny.Char((i))) + (_dafny.Char((_dafny.IntOfInt64(65)).Int32()))
+		return _dafny.Char(((uint8(i)) + (uint8(65))))
 	}
 }
 func (_static *CompanionStruct_Default___) CharToIndex(c _dafny.Char) uint8 {
@@ -145,11 +162,11 @@ func (_static *CompanionStruct_Default___) CharToIndex(c _dafny.Char) uint8 {
 	} else if (c) == (_dafny.Char('+')) {
 		return uint8(62)
 	} else if ((_dafny.Char('0')) <= (c)) && ((c) <= (_dafny.Char('9'))) {
-		return uint8((c) + (_dafny.Char((_dafny.IntOfInt64(4)).Int32())))
+		return uint8((uint8(c)) + (uint8(4)))
 	} else if ((_dafny.Char('a')) <= (c)) && ((c) <= (_dafny.Char('z'))) {
-		return uint8((c) - (_dafny.Char((_dafny.IntOfInt64(71)).Int32())))
+		return uint8((uint8(c)) - (func() uint8 { return (uint8(71)) })())
 	} else {
-		return uint8((c) - (_dafny.Char((_dafny.IntOfInt64(65)).Int32())))
+		return uint8((uint8(c)) - (func() uint8 { return (uint8(65)) })())
 	}
 }
 func (_static *CompanionStruct_Default___) UInt24ToSeq(x uint32) _dafny.Sequence {
@@ -164,7 +181,10 @@ func (_static *CompanionStruct_Default___) UInt24ToSeq(x uint32) _dafny.Sequence
 	return _dafny.SeqOf(_0_b0, _2_b1, _3_b2)
 }
 func (_static *CompanionStruct_Default___) SeqToUInt24(s _dafny.Sequence) uint32 {
-	return (((uint32((s).Select(0).(uint8))) * (uint32(65536))) + ((uint32((s).Select(1).(uint8))) * (uint32(256)))) + (uint32((s).Select(2).(uint8)))
+	return (((uint32((s).Select(uint32(uint32(0))).(uint8))) * (uint32(65536))) + ((uint32((s).Select(uint32(uint32(1))).(uint8))) * (uint32(256)))) + (uint32((s).Select(uint32(uint32(2))).(uint8)))
+}
+func (_static *CompanionStruct_Default___) SeqPosToUInt24(s _dafny.Sequence, pos uint64) uint32 {
+	return (((uint32((s).Select(uint32(pos)).(uint8))) * (uint32(65536))) + ((uint32((s).Select(uint32((pos) + (uint64(1)))).(uint8))) * (uint32(256)))) + (uint32((s).Select(uint32((pos) + (uint64(2)))).(uint8)))
 }
 func (_static *CompanionStruct_Default___) UInt24ToIndexSeq(x uint32) _dafny.Sequence {
 	var _0_b0 uint8 = uint8((x) / (uint32(262144)))
@@ -182,65 +202,86 @@ func (_static *CompanionStruct_Default___) UInt24ToIndexSeq(x uint32) _dafny.Seq
 	return _dafny.SeqOf(_0_b0, _2_b1, _4_b2, _5_b3)
 }
 func (_static *CompanionStruct_Default___) IndexSeqToUInt24(s _dafny.Sequence) uint32 {
-	return ((((uint32((s).Select(0).(uint8))) * (uint32(262144))) + ((uint32((s).Select(1).(uint8))) * (uint32(4096)))) + ((uint32((s).Select(2).(uint8))) * (uint32(64)))) + (uint32((s).Select(3).(uint8)))
+	return ((((uint32((s).Select(uint32(uint32(0))).(uint8))) * (uint32(262144))) + ((uint32((s).Select(uint32(uint32(1))).(uint8))) * (uint32(4096)))) + ((uint32((s).Select(uint32(uint32(2))).(uint8))) * (uint32(64)))) + (uint32((s).Select(uint32(uint32(3))).(uint8)))
+}
+func (_static *CompanionStruct_Default___) IndexSeqPosToUInt24(s _dafny.Sequence, pos uint64) uint32 {
+	return ((((uint32((s).Select(uint32(pos)).(uint8))) * (uint32(262144))) + ((uint32((s).Select(uint32((pos) + (uint64(1)))).(uint8))) * (uint32(4096)))) + ((uint32((s).Select(uint32((pos) + (uint64(2)))).(uint8))) * (uint32(64)))) + (uint32((s).Select(uint32((pos) + (uint64(3)))).(uint8)))
 }
 func (_static *CompanionStruct_Default___) DecodeBlock(s _dafny.Sequence) _dafny.Sequence {
 	return Companion_Default___.UInt24ToSeq(Companion_Default___.IndexSeqToUInt24(s))
 }
+func (_static *CompanionStruct_Default___) DecodeBlockPos(s _dafny.Sequence, pos uint64) _dafny.Sequence {
+	return Companion_Default___.UInt24ToSeq(Companion_Default___.IndexSeqPosToUInt24(s, pos))
+}
 func (_static *CompanionStruct_Default___) EncodeBlock(s _dafny.Sequence) _dafny.Sequence {
 	return Companion_Default___.UInt24ToIndexSeq(Companion_Default___.SeqToUInt24(s))
 }
+func (_static *CompanionStruct_Default___) EncodeBlockPos(s _dafny.Sequence, pos uint64) _dafny.Sequence {
+	return Companion_Default___.UInt24ToIndexSeq(Companion_Default___.SeqPosToUInt24(s, pos))
+}
 func (_static *CompanionStruct_Default___) DecodeRecursively(s _dafny.Sequence) _dafny.Sequence {
-	var _0___accumulator _dafny.Sequence = _dafny.SeqOf()
-	_ = _0___accumulator
-	goto TAIL_CALL_START
-TAIL_CALL_START:
-	if (_dafny.IntOfUint32((s).Cardinality())).Sign() == 0 {
-		return _dafny.Companion_Sequence_.Concatenate(_0___accumulator, _dafny.SeqOf())
-	} else {
-		_0___accumulator = _dafny.Companion_Sequence_.Concatenate(_0___accumulator, Companion_Default___.DecodeBlock((s).Take(4)))
-		var _in0 _dafny.Sequence = (s).Drop(4)
-		_ = _in0
-		s = _in0
-		goto TAIL_CALL_START
+	var b _dafny.Sequence = _dafny.EmptySeq
+	_ = b
+	var _0_i uint64
+	_ = _0_i
+	_0_i = uint64((s).Cardinality())
+	var _1_result _dafny.Sequence
+	_ = _1_result
+	_1_result = _dafny.SeqOf()
+	for (_0_i) > (uint64(0)) {
+		_1_result = _dafny.Companion_Sequence_.Concatenate(Companion_Default___.DecodeBlockPos(s, (_0_i)-(func() uint64 { return (uint64(4)) })()), _1_result)
+		_0_i = (_0_i) - (func() uint64 { return (uint64(4)) })()
 	}
+	b = _1_result
+	return b
+	return b
 }
 func (_static *CompanionStruct_Default___) EncodeRecursively(b _dafny.Sequence) _dafny.Sequence {
-	var _0___accumulator _dafny.Sequence = _dafny.SeqOf()
-	_ = _0___accumulator
-	goto TAIL_CALL_START
-TAIL_CALL_START:
-	if (_dafny.IntOfUint32((b).Cardinality())).Sign() == 0 {
-		return _dafny.Companion_Sequence_.Concatenate(_0___accumulator, _dafny.SeqOf())
-	} else {
-		_0___accumulator = _dafny.Companion_Sequence_.Concatenate(_0___accumulator, Companion_Default___.EncodeBlock((b).Take(3)))
-		var _in0 _dafny.Sequence = (b).Drop(3)
-		_ = _in0
-		b = _in0
-		goto TAIL_CALL_START
+	var s _dafny.Sequence = _dafny.EmptySeq
+	_ = s
+	var _0_i uint64
+	_ = _0_i
+	_0_i = uint64((b).Cardinality())
+	var _1_result _dafny.Sequence
+	_ = _1_result
+	_1_result = _dafny.SeqOf()
+	for (_0_i) > (uint64(0)) {
+		_1_result = _dafny.Companion_Sequence_.Concatenate(Companion_Default___.EncodeBlockPos(b, (_0_i)-(func() uint64 { return (uint64(3)) })()), _1_result)
+		_0_i = (_0_i) - (func() uint64 { return (uint64(3)) })()
 	}
+	s = _1_result
+	return s
+	return s
 }
 func (_static *CompanionStruct_Default___) FromCharsToIndices(s _dafny.Sequence) _dafny.Sequence {
-	return _dafny.SeqCreate((_dafny.IntOfUint32((s).Cardinality())).Uint32(), func(coer27 func(_dafny.Int) uint8) func(_dafny.Int) interface{} {
-		return func(arg31 _dafny.Int) interface{} {
-			return coer27(arg31)
-		}
-	}((func(_0_s _dafny.Sequence) func(_dafny.Int) uint8 {
-		return func(_1_i _dafny.Int) uint8 {
-			return Companion_Default___.CharToIndex((_0_s).Select((_1_i).Uint32()).(_dafny.Char))
-		}
-	})(s)))
+	var b _dafny.Sequence = _dafny.EmptySeq
+	_ = b
+	var _0_result _dafny.Sequence
+	_ = _0_result
+	_0_result = _dafny.SeqOf()
+	var _hi0 uint64 = uint64((s).Cardinality())
+	_ = _hi0
+	for _1_i := uint64(0); _1_i < _hi0; _1_i++ {
+		_0_result = _dafny.Companion_Sequence_.Concatenate(_0_result, _dafny.SeqOf(Companion_Default___.CharToIndex((s).Select(uint32(_1_i)).(_dafny.Char))))
+	}
+	b = _0_result
+	return b
+	return b
 }
 func (_static *CompanionStruct_Default___) FromIndicesToChars(b _dafny.Sequence) _dafny.Sequence {
-	return _dafny.SeqCreate((_dafny.IntOfUint32((b).Cardinality())).Uint32(), func(coer28 func(_dafny.Int) _dafny.Char) func(_dafny.Int) interface{} {
-		return func(arg32 _dafny.Int) interface{} {
-			return coer28(arg32)
-		}
-	}((func(_0_b _dafny.Sequence) func(_dafny.Int) _dafny.Char {
-		return func(_1_i _dafny.Int) _dafny.Char {
-			return Companion_Default___.IndexToChar((_0_b).Select((_1_i).Uint32()).(uint8))
-		}
-	})(b))).SetString()
+	var s _dafny.Sequence = _dafny.EmptySeq.SetString()
+	_ = s
+	var _0_result _dafny.Sequence
+	_ = _0_result
+	_0_result = _dafny.SeqOfChars()
+	var _hi0 uint64 = uint64((b).Cardinality())
+	_ = _hi0
+	for _1_i := uint64(0); _1_i < _hi0; _1_i++ {
+		_0_result = _dafny.Companion_Sequence_.Concatenate(_0_result, _dafny.SeqOfChars(Companion_Default___.IndexToChar((b).Select(uint32(_1_i)).(uint8))))
+	}
+	s = _0_result
+	return s
+	return s
 }
 func (_static *CompanionStruct_Default___) DecodeUnpadded(s _dafny.Sequence) _dafny.Sequence {
 	return Companion_Default___.DecodeRecursively(Companion_Default___.FromCharsToIndices(s))
@@ -249,50 +290,52 @@ func (_static *CompanionStruct_Default___) EncodeUnpadded(b _dafny.Sequence) _da
 	return Companion_Default___.FromIndicesToChars(Companion_Default___.EncodeRecursively(b))
 }
 func (_static *CompanionStruct_Default___) Is1Padding(s _dafny.Sequence) bool {
-	return ((((((_dafny.IntOfUint32((s).Cardinality())).Cmp(_dafny.IntOfInt64(4)) == 0) && (Companion_Default___.IsBase64Char((s).Select(0).(_dafny.Char)))) && (Companion_Default___.IsBase64Char((s).Select(1).(_dafny.Char)))) && (Companion_Default___.IsBase64Char((s).Select(2).(_dafny.Char)))) && (((Companion_Default___.CharToIndex((s).Select(2).(_dafny.Char))) % (uint8(4))) == (uint8(0)))) && (((s).Select(3).(_dafny.Char)) == (_dafny.Char('=')))
+	return ((((((uint64((s).Cardinality())) == (uint64(4))) && (Companion_Default___.IsBase64Char((s).Select(uint32(uint32(0))).(_dafny.Char)))) && (Companion_Default___.IsBase64Char((s).Select(uint32(uint32(1))).(_dafny.Char)))) && (Companion_Default___.IsBase64Char((s).Select(uint32(uint32(2))).(_dafny.Char)))) && (((Companion_Default___.CharToIndex((s).Select(uint32(uint32(2))).(_dafny.Char))) % (uint8(4))) == (uint8(0)))) && (((s).Select(uint32(uint32(3))).(_dafny.Char)) == (_dafny.Char('=')))
 }
 func (_static *CompanionStruct_Default___) Decode1Padding(s _dafny.Sequence) _dafny.Sequence {
-	var _0_d _dafny.Sequence = Companion_Default___.DecodeBlock(_dafny.SeqOf(Companion_Default___.CharToIndex((s).Select(0).(_dafny.Char)), Companion_Default___.CharToIndex((s).Select(1).(_dafny.Char)), Companion_Default___.CharToIndex((s).Select(2).(_dafny.Char)), uint8(0)))
+	var _0_d _dafny.Sequence = Companion_Default___.DecodeBlock(_dafny.SeqOf(Companion_Default___.CharToIndex((s).Select(uint32(uint32(0))).(_dafny.Char)), Companion_Default___.CharToIndex((s).Select(uint32(uint32(1))).(_dafny.Char)), Companion_Default___.CharToIndex((s).Select(uint32(uint32(2))).(_dafny.Char)), uint8(0)))
 	_ = _0_d
-	return _dafny.SeqOf((_0_d).Select(0).(uint8), (_0_d).Select(1).(uint8))
+	return _dafny.SeqOf((_0_d).Select(uint32(uint32(0))).(uint8), (_0_d).Select(uint32(uint32(1))).(uint8))
 }
 func (_static *CompanionStruct_Default___) Encode1Padding(b _dafny.Sequence) _dafny.Sequence {
-	var _0_e _dafny.Sequence = Companion_Default___.EncodeBlock(_dafny.SeqOf((b).Select(0).(uint8), (b).Select(1).(uint8), uint8(0)))
+	var _0_e _dafny.Sequence = Companion_Default___.EncodeBlock(_dafny.SeqOf((b).Select(uint32(uint32(0))).(uint8), (b).Select(uint32(uint32(1))).(uint8), uint8(0)))
 	_ = _0_e
-	return _dafny.SeqOfChars(Companion_Default___.IndexToChar((_0_e).Select(0).(uint8)), Companion_Default___.IndexToChar((_0_e).Select(1).(uint8)), Companion_Default___.IndexToChar((_0_e).Select(2).(uint8)), _dafny.Char('='))
+	return _dafny.SeqOfChars(Companion_Default___.IndexToChar((_0_e).Select(uint32(uint32(0))).(uint8)), Companion_Default___.IndexToChar((_0_e).Select(uint32(uint32(1))).(uint8)), Companion_Default___.IndexToChar((_0_e).Select(uint32(uint32(2))).(uint8)), _dafny.Char('='))
 }
 func (_static *CompanionStruct_Default___) Is2Padding(s _dafny.Sequence) bool {
-	return ((((((_dafny.IntOfUint32((s).Cardinality())).Cmp(_dafny.IntOfInt64(4)) == 0) && (Companion_Default___.IsBase64Char((s).Select(0).(_dafny.Char)))) && (Companion_Default___.IsBase64Char((s).Select(1).(_dafny.Char)))) && (((Companion_Default___.CharToIndex((s).Select(1).(_dafny.Char))) % (uint8(16))) == (uint8(0)))) && (((s).Select(2).(_dafny.Char)) == (_dafny.Char('=')))) && (((s).Select(3).(_dafny.Char)) == (_dafny.Char('=')))
+	return ((((((uint64((s).Cardinality())) == (uint64(4))) && (Companion_Default___.IsBase64Char((s).Select(uint32(uint32(0))).(_dafny.Char)))) && (Companion_Default___.IsBase64Char((s).Select(uint32(uint32(1))).(_dafny.Char)))) && (((Companion_Default___.CharToIndex((s).Select(uint32(uint32(1))).(_dafny.Char))) % (uint8(16))) == (uint8(0)))) && (((s).Select(uint32(uint32(2))).(_dafny.Char)) == (_dafny.Char('=')))) && (((s).Select(uint32(uint32(3))).(_dafny.Char)) == (_dafny.Char('=')))
 }
 func (_static *CompanionStruct_Default___) Decode2Padding(s _dafny.Sequence) _dafny.Sequence {
-	var _0_d _dafny.Sequence = Companion_Default___.DecodeBlock(_dafny.SeqOf(Companion_Default___.CharToIndex((s).Select(0).(_dafny.Char)), Companion_Default___.CharToIndex((s).Select(1).(_dafny.Char)), uint8(0), uint8(0)))
+	var _0_d _dafny.Sequence = Companion_Default___.DecodeBlock(_dafny.SeqOf(Companion_Default___.CharToIndex((s).Select(uint32(uint32(0))).(_dafny.Char)), Companion_Default___.CharToIndex((s).Select(uint32(uint32(1))).(_dafny.Char)), uint8(0), uint8(0)))
 	_ = _0_d
-	return _dafny.SeqOf((_0_d).Select(0).(uint8))
+	return _dafny.SeqOf((_0_d).Select(uint32(uint32(0))).(uint8))
 }
 func (_static *CompanionStruct_Default___) Encode2Padding(b _dafny.Sequence) _dafny.Sequence {
-	var _0_e _dafny.Sequence = Companion_Default___.EncodeBlock(_dafny.SeqOf((b).Select(0).(uint8), uint8(0), uint8(0)))
+	var _0_e _dafny.Sequence = Companion_Default___.EncodeBlock(_dafny.SeqOf((b).Select(uint32(uint32(0))).(uint8), uint8(0), uint8(0)))
 	_ = _0_e
-	return _dafny.SeqOfChars(Companion_Default___.IndexToChar((_0_e).Select(0).(uint8)), Companion_Default___.IndexToChar((_0_e).Select(1).(uint8)), _dafny.Char('='), _dafny.Char('='))
+	return _dafny.SeqOfChars(Companion_Default___.IndexToChar((_0_e).Select(uint32(uint32(0))).(uint8)), Companion_Default___.IndexToChar((_0_e).Select(uint32(uint32(1))).(uint8)), _dafny.Char('='), _dafny.Char('='))
 }
 func (_static *CompanionStruct_Default___) IsBase64String(s _dafny.Sequence) bool {
-	var _0_finalBlockStart _dafny.Int = (_dafny.IntOfUint32((s).Cardinality())).Minus(_dafny.IntOfInt64(4))
-	_ = _0_finalBlockStart
-	return (((_dafny.IntOfUint32((s).Cardinality())).Modulo(_dafny.IntOfInt64(4))).Sign() == 0) && ((Companion_Default___.IsUnpaddedBase64String(s)) || ((Companion_Default___.IsUnpaddedBase64String((s).Take((_0_finalBlockStart).Uint32()))) && ((Companion_Default___.Is1Padding((s).Drop((_0_finalBlockStart).Uint32()))) || (Companion_Default___.Is2Padding((s).Drop((_0_finalBlockStart).Uint32()))))))
+	var _0_size uint64 = uint64((s).Cardinality())
+	_ = _0_size
+	return (((_0_size) % (uint64(4))) == (uint64(0))) && ((Companion_Default___.IsUnpaddedBase64String(s)) || ((Companion_Default___.IsUnpaddedBase64String((s).Take(uint32((_0_size) - (func() uint64 { return (uint64(4)) })())))) && ((Companion_Default___.Is1Padding((s).Drop(uint32((_0_size) - (func() uint64 { return (uint64(4)) })())))) || (Companion_Default___.Is2Padding((s).Drop(uint32((_0_size) - (func() uint64 { return (uint64(4)) })())))))))
 }
 func (_static *CompanionStruct_Default___) DecodeValid(s _dafny.Sequence) _dafny.Sequence {
-	if _dafny.Companion_Sequence_.Equal(s, _dafny.SeqOfChars()) {
+	var _0_size uint64 = uint64((s).Cardinality())
+	_ = _0_size
+	if (_0_size) == (uint64(0)) {
 		return _dafny.SeqOf()
 	} else {
-		var _0_finalBlockStart _dafny.Int = (_dafny.IntOfUint32((s).Cardinality())).Minus(_dafny.IntOfInt64(4))
-		_ = _0_finalBlockStart
-		var _1_prefix _dafny.Sequence = (s).Take((_0_finalBlockStart).Uint32())
-		_ = _1_prefix
-		var _2_suffix _dafny.Sequence = (s).Drop((_0_finalBlockStart).Uint32())
-		_ = _2_suffix
-		if Companion_Default___.Is1Padding(_2_suffix) {
-			return _dafny.Companion_Sequence_.Concatenate(Companion_Default___.DecodeUnpadded(_1_prefix), Companion_Default___.Decode1Padding(_2_suffix))
-		} else if Companion_Default___.Is2Padding(_2_suffix) {
-			return _dafny.Companion_Sequence_.Concatenate(Companion_Default___.DecodeUnpadded(_1_prefix), Companion_Default___.Decode2Padding(_2_suffix))
+		var _1_finalBlockStart uint64 = (_0_size) - (func() uint64 { return (uint64(4)) })()
+		_ = _1_finalBlockStart
+		var _2_prefix _dafny.Sequence = (s).Take(uint32(_1_finalBlockStart))
+		_ = _2_prefix
+		var _3_suffix _dafny.Sequence = (s).Drop(uint32(_1_finalBlockStart))
+		_ = _3_suffix
+		if Companion_Default___.Is1Padding(_3_suffix) {
+			return _dafny.Companion_Sequence_.Concatenate(Companion_Default___.DecodeUnpadded(_2_prefix), Companion_Default___.Decode1Padding(_3_suffix))
+		} else if Companion_Default___.Is2Padding(_3_suffix) {
+			return _dafny.Companion_Sequence_.Concatenate(Companion_Default___.DecodeUnpadded(_2_prefix), Companion_Default___.Decode2Padding(_3_suffix))
 		} else {
 			return Companion_Default___.DecodeUnpadded(s)
 		}
@@ -306,26 +349,30 @@ func (_static *CompanionStruct_Default___) Decode(s _dafny.Sequence) m_Wrappers.
 	}
 }
 func (_static *CompanionStruct_Default___) Encode(b _dafny.Sequence) _dafny.Sequence {
-	if ((_dafny.IntOfUint32((b).Cardinality())).Modulo(_dafny.IntOfInt64(3))).Sign() == 0 {
-		var _0_s _dafny.Sequence = Companion_Default___.EncodeUnpadded(b)
-		_ = _0_s
-		return _0_s
-	} else if ((_dafny.IntOfUint32((b).Cardinality())).Modulo(_dafny.IntOfInt64(3))).Cmp(_dafny.One) == 0 {
-		var _1_s1 _dafny.Sequence = Companion_Default___.EncodeUnpadded((b).Take(((_dafny.IntOfUint32((b).Cardinality())).Minus(_dafny.One)).Uint32()))
-		_ = _1_s1
-		var _2_s2 _dafny.Sequence = Companion_Default___.Encode2Padding((b).Drop(((_dafny.IntOfUint32((b).Cardinality())).Minus(_dafny.One)).Uint32()))
-		_ = _2_s2
-		var _3_s _dafny.Sequence = _dafny.Companion_Sequence_.Concatenate(_1_s1, _2_s2)
-		_ = _3_s
-		return _3_s
+	var _0_size uint64 = uint64((b).Cardinality())
+	_ = _0_size
+	var _1_mod uint64 = (_0_size) % (uint64(3))
+	_ = _1_mod
+	if (_1_mod) == (uint64(0)) {
+		var _2_s _dafny.Sequence = Companion_Default___.EncodeUnpadded(b)
+		_ = _2_s
+		return _2_s
+	} else if (_1_mod) == (uint64(1)) {
+		var _3_s1 _dafny.Sequence = Companion_Default___.EncodeUnpadded((b).Take(uint32((_0_size) - (func() uint64 { return (uint64(1)) })())))
+		_ = _3_s1
+		var _4_s2 _dafny.Sequence = Companion_Default___.Encode2Padding((b).Drop(uint32((_0_size) - (func() uint64 { return (uint64(1)) })())))
+		_ = _4_s2
+		var _5_s _dafny.Sequence = _dafny.Companion_Sequence_.Concatenate(_3_s1, _4_s2)
+		_ = _5_s
+		return _5_s
 	} else {
-		var _4_s1 _dafny.Sequence = Companion_Default___.EncodeUnpadded((b).Take(((_dafny.IntOfUint32((b).Cardinality())).Minus(_dafny.IntOfInt64(2))).Uint32()))
-		_ = _4_s1
-		var _5_s2 _dafny.Sequence = Companion_Default___.Encode1Padding((b).Drop(((_dafny.IntOfUint32((b).Cardinality())).Minus(_dafny.IntOfInt64(2))).Uint32()))
-		_ = _5_s2
-		var _6_s _dafny.Sequence = _dafny.Companion_Sequence_.Concatenate(_4_s1, _5_s2)
-		_ = _6_s
-		return _6_s
+		var _6_s1 _dafny.Sequence = Companion_Default___.EncodeUnpadded((b).Take(uint32((_0_size) - (func() uint64 { return (uint64(2)) })())))
+		_ = _6_s1
+		var _7_s2 _dafny.Sequence = Companion_Default___.Encode1Padding((b).Drop(uint32((_0_size) - (func() uint64 { return (uint64(2)) })())))
+		_ = _7_s2
+		var _8_s _dafny.Sequence = _dafny.Companion_Sequence_.Concatenate(_6_s1, _7_s2)
+		_ = _8_s
+		return _8_s
 	}
 }
 
