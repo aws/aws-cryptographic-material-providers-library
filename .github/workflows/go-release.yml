@@ -70,10 +70,29 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-      - name: Run Go release automation script
+      # - name: Run Go release automation script
+      #   run: |
+      #     chmod +x ./scripts/go-release-automation.sh
+      #     ./scripts/go-release-automation.sh run_release_script ${{ github.event.inputs.project-name }} ${{ github.event.inputs.version }}
+      
+      - name: Generate a changelog
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: releases/go/.git-cliff.toml
+          args: --bump --prepend -u
+        env:
+          OUTPUT: releases/go/mpl/CHANGELOG.md
+
+      - name: Commit changelog
         run: |
-          chmod +x ./scripts/go-release-automation.sh
-          ./scripts/go-release-automation.sh run_release_script ${{ github.event.inputs.project-name }} ${{ github.event.inputs.version }}
+          set +e
+          VERSION="${{ github.event.inputs.version }}"
+          RELEASE_DIR_NAME=$(./scripts/go-release-automation.sh get_release_dir_name "$PROJECT_NAME" "$VERSION")
+          BRANCH_NAME="golang-release-staging-branch/$RELEASE_DIR_NAME/$VERSION"
+          git checkout -b "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
+          git add releases/go/mpl/CHANGELOG.md
+          git commit -m "Update changelog"
+          git push origin $BRANCH_NAME
 
       - name: Create Pull Request
         env:
