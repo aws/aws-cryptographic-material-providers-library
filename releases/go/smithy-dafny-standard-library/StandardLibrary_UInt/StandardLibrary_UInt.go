@@ -110,6 +110,15 @@ func (_static *CompanionStruct_Default___) HasUint32Len(s _dafny.Sequence) bool 
 func (_static *CompanionStruct_Default___) HasUint64Len(s _dafny.Sequence) bool {
 	return (_dafny.IntOfUint32((s).Cardinality())).Cmp(Companion_Default___.UINT64__LIMIT()) < 0
 }
+func (_static *CompanionStruct_Default___) HasUint16Size(s _dafny.Int) bool {
+	return (s).Cmp(Companion_Default___.UINT16__LIMIT()) < 0
+}
+func (_static *CompanionStruct_Default___) HasUint32Size(s _dafny.Int) bool {
+	return (s).Cmp(Companion_Default___.UINT32__LIMIT()) < 0
+}
+func (_static *CompanionStruct_Default___) HasUint64Size(s _dafny.Int) bool {
+	return (s).Cmp(Companion_Default___.UINT64__LIMIT()) < 0
+}
 func (_static *CompanionStruct_Default___) UInt16ToSeq(x uint16) _dafny.Sequence {
 	var _0_b0 uint8 = uint8((x) / (uint16(256)))
 	_ = _0_b0
@@ -118,9 +127,42 @@ func (_static *CompanionStruct_Default___) UInt16ToSeq(x uint16) _dafny.Sequence
 	return _dafny.SeqOf(_0_b0, _1_b1)
 }
 func (_static *CompanionStruct_Default___) SeqToUInt16(s _dafny.Sequence) uint16 {
-	var _0_x0 uint16 = (uint16((s).Select(0).(uint8))) * (uint16(256))
+	var _0_x0 uint16 = (uint16((s).Select(uint32(uint32(0))).(uint8))) * (uint16(256))
 	_ = _0_x0
-	return (_0_x0) + (uint16((s).Select(1).(uint8)))
+	return (_0_x0) + (uint16((s).Select(uint32(uint32(1))).(uint8)))
+}
+func (_static *CompanionStruct_Default___) SeqPosToUInt16(s _dafny.Sequence, pos uint64) uint16 {
+	var _0_x0 uint16 = (uint16((s).Select(uint32(pos)).(uint8))) * (uint16(256))
+	_ = _0_x0
+	return (_0_x0) + (uint16((s).Select(uint32((pos) + (uint64(1)))).(uint8)))
+}
+func (_static *CompanionStruct_Default___) SeqPosToUInt32(s _dafny.Sequence, pos uint64) uint32 {
+	var _0_x0 uint32 = (uint32((s).Select(uint32(pos)).(uint8))) * (uint32(16777216))
+	_ = _0_x0
+	var _1_x1 uint32 = (_0_x0) + ((uint32((s).Select(uint32((pos) + (uint64(1)))).(uint8))) * (uint32(65536)))
+	_ = _1_x1
+	var _2_x2 uint32 = (_1_x1) + ((uint32((s).Select(uint32((pos) + (uint64(2)))).(uint8))) * (uint32(256)))
+	_ = _2_x2
+	return (_2_x2) + (uint32((s).Select(uint32((pos) + (uint64(3)))).(uint8)))
+}
+func (_static *CompanionStruct_Default___) SeqPosToUInt64(s _dafny.Sequence, pos uint64) uint64 {
+	var _0_x0 uint64 = (uint64((s).Select(uint32(pos)).(uint8))) * (uint64(72057594037927936))
+	_ = _0_x0
+	var _1_x1 uint64 = (_0_x0) + ((uint64((s).Select(uint32((pos) + (uint64(1)))).(uint8))) * (uint64(281474976710656)))
+	_ = _1_x1
+	var _2_x2 uint64 = (_1_x1) + ((uint64((s).Select(uint32((pos) + (uint64(2)))).(uint8))) * (uint64(1099511627776)))
+	_ = _2_x2
+	var _3_x3 uint64 = (_2_x2) + ((uint64((s).Select(uint32((pos) + (uint64(3)))).(uint8))) * (uint64(4294967296)))
+	_ = _3_x3
+	var _4_x4 uint64 = (_3_x3) + ((uint64((s).Select(uint32((pos) + (uint64(4)))).(uint8))) * (uint64(16777216)))
+	_ = _4_x4
+	var _5_x5 uint64 = (_4_x4) + ((uint64((s).Select(uint32((pos) + (uint64(5)))).(uint8))) * (uint64(65536)))
+	_ = _5_x5
+	var _6_x6 uint64 = (_5_x5) + ((uint64((s).Select(uint32((pos) + (uint64(6)))).(uint8))) * (uint64(256)))
+	_ = _6_x6
+	var _7_x uint64 = (_6_x6) + (uint64((s).Select(uint32((pos) + (uint64(7)))).(uint8)))
+	_ = _7_x
+	return _7_x
 }
 func (_static *CompanionStruct_Default___) UInt32ToSeq(x uint32) _dafny.Sequence {
 	var _0_b0 uint8 = uint8((x) / (uint32(16777216)))
@@ -138,13 +180,13 @@ func (_static *CompanionStruct_Default___) UInt32ToSeq(x uint32) _dafny.Sequence
 	return _dafny.SeqOf(_0_b0, _2_b1, _4_b2, _5_b3)
 }
 func (_static *CompanionStruct_Default___) SeqToUInt32(s _dafny.Sequence) uint32 {
-	var _0_x0 uint32 = (uint32((s).Select(0).(uint8))) * (uint32(16777216))
+	var _0_x0 uint32 = (uint32((s).Select(uint32(uint32(0))).(uint8))) * (uint32(16777216))
 	_ = _0_x0
-	var _1_x1 uint32 = (_0_x0) + ((uint32((s).Select(1).(uint8))) * (uint32(65536)))
+	var _1_x1 uint32 = (_0_x0) + ((uint32((s).Select(uint32(uint32(1))).(uint8))) * (uint32(65536)))
 	_ = _1_x1
-	var _2_x2 uint32 = (_1_x1) + ((uint32((s).Select(2).(uint8))) * (uint32(256)))
+	var _2_x2 uint32 = (_1_x1) + ((uint32((s).Select(uint32(uint32(2))).(uint8))) * (uint32(256)))
 	_ = _2_x2
-	return (_2_x2) + (uint32((s).Select(3).(uint8)))
+	return (_2_x2) + (uint32((s).Select(uint32(uint32(3))).(uint8)))
 }
 func (_static *CompanionStruct_Default___) UInt64ToSeq(x uint64) _dafny.Sequence {
 	var _0_b0 uint8 = uint8((x) / (uint64(72057594037927936)))
@@ -178,21 +220,21 @@ func (_static *CompanionStruct_Default___) UInt64ToSeq(x uint64) _dafny.Sequence
 	return _dafny.SeqOf(_0_b0, _2_b1, _4_b2, _6_b3, _8_b4, _10_b5, _12_b6, _13_b7)
 }
 func (_static *CompanionStruct_Default___) SeqToUInt64(s _dafny.Sequence) uint64 {
-	var _0_x0 uint64 = (uint64((s).Select(0).(uint8))) * (uint64(72057594037927936))
+	var _0_x0 uint64 = (uint64((s).Select(uint32(uint32(0))).(uint8))) * (uint64(72057594037927936))
 	_ = _0_x0
-	var _1_x1 uint64 = (_0_x0) + ((uint64((s).Select(1).(uint8))) * (uint64(281474976710656)))
+	var _1_x1 uint64 = (_0_x0) + ((uint64((s).Select(uint32(uint32(1))).(uint8))) * (uint64(281474976710656)))
 	_ = _1_x1
-	var _2_x2 uint64 = (_1_x1) + ((uint64((s).Select(2).(uint8))) * (uint64(1099511627776)))
+	var _2_x2 uint64 = (_1_x1) + ((uint64((s).Select(uint32(uint32(2))).(uint8))) * (uint64(1099511627776)))
 	_ = _2_x2
-	var _3_x3 uint64 = (_2_x2) + ((uint64((s).Select(3).(uint8))) * (uint64(4294967296)))
+	var _3_x3 uint64 = (_2_x2) + ((uint64((s).Select(uint32(uint32(3))).(uint8))) * (uint64(4294967296)))
 	_ = _3_x3
-	var _4_x4 uint64 = (_3_x3) + ((uint64((s).Select(4).(uint8))) * (uint64(16777216)))
+	var _4_x4 uint64 = (_3_x3) + ((uint64((s).Select(uint32(uint32(4))).(uint8))) * (uint64(16777216)))
 	_ = _4_x4
-	var _5_x5 uint64 = (_4_x4) + ((uint64((s).Select(5).(uint8))) * (uint64(65536)))
+	var _5_x5 uint64 = (_4_x4) + ((uint64((s).Select(uint32(uint32(5))).(uint8))) * (uint64(65536)))
 	_ = _5_x5
-	var _6_x6 uint64 = (_5_x5) + ((uint64((s).Select(6).(uint8))) * (uint64(256)))
+	var _6_x6 uint64 = (_5_x5) + ((uint64((s).Select(uint32(uint32(6))).(uint8))) * (uint64(256)))
 	_ = _6_x6
-	var _7_x uint64 = (_6_x6) + (uint64((s).Select(7).(uint8)))
+	var _7_x uint64 = (_6_x6) + (uint64((s).Select(uint32(uint32(7))).(uint8)))
 	_ = _7_x
 	return _7_x
 }
