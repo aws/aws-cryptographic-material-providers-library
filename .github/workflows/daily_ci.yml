@@ -72,7 +72,7 @@ jobs:
     if: ${{ failure() }}
     runs-on: ubuntu-latest
     steps:
-      - name: Send GitHub Action data to a Slack workflow
+      - name: Send failure message to a Slack workflow
         uses: slackapi/slack-github-action@v2.1.0
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
