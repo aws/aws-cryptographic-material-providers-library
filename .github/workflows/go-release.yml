@@ -70,13 +70,20 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
+      - name: Get release directory name
+        id: release-dir
+        run: |
+          RELEASE_DIR_NAME=$(./scripts/go-release-automation.sh get_release_dir_name "${{ github.event.inputs.project-name }}" "${{ github.event.inputs.version }}")
+          echo 
+          echo "releaseDirName=$RELEASE_DIR_NAME" >> $GITHUB_OUTPUT
+
       - name: Generate a changelog
         uses: orhun/git-cliff-action@v4
         with:
           config: releases/go/.git-cliff.toml
           args: --bump --prepend -u
         env:
-          OUTPUT: releases/go/mpl/CHANGELOG.md
+          OUTPUT: releases/go/${{ steps.release-dir.outputs.releaseDirName }}/CHANGELOG.md
 
       - name: Run Go release automation script
         run: |
@@ -91,7 +98,7 @@ jobs:
           VERSION="${{ github.event.inputs.version }}"
 
           # Get the release directory name using the sourced function
-          RELEASE_DIR_NAME=$(./scripts/go-release-automation.sh get_release_dir_name "$PROJECT_NAME" "$VERSION")
+          RELEASE_DIR_NAME="${{ steps.release-dir.outputs.releaseDirName }}"
 
           BRANCH_NAME="golang-release-staging-branch/$RELEASE_DIR_NAME/$VERSION"
 
