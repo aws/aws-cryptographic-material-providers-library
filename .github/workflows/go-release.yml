@@ -106,7 +106,7 @@ jobs:
 
           # Create PR using GitHub CLI
           gh pr create \
-            --title "Release $RELEASE_DIR_NAME Go module $VERSION" \
+            --title "chore(go): Release $RELEASE_DIR_NAME Go module $VERSION" \
             --body "This PR was automatically created by the Go Release Automation workflow. It releases version $VERSION of the $RELEASE_DIR_NAME Go module. The diff between $PROJECT_NAME/runtimes/go/ImplementationFromDafny-go and releases/go/$RELEASE_DIR_NAME is below: 
 
           $DIFF_FILES
