@@ -81,9 +81,7 @@ jobs:
         uses: orhun/git-cliff-action@v4
         with:
           config: releases/go/.git-cliff.toml
-          args: --bump --prepend -u
-        env:
-          OUTPUT: releases/go/${{ steps.release-dir.outputs.releaseDirName }}/CHANGELOG.md
+          args: --bump -u --prepend releases/go/${{ steps.release-dir.outputs.releaseDirName }}/CHANGELOG.md
 
       - name: Run Go release automation script
         run: |
