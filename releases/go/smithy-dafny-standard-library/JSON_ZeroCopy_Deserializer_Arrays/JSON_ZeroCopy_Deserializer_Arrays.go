@@ -62,6 +62,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -103,6 +104,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -283,9 +285,9 @@ TAIL_CALL_START:
 	}
 }
 func (_static *CompanionStruct_Default___) Bracketed(cs m_JSON_Utils_Cursors.Cursor__, json m_JSON_Utils_Parsers.SubParser__) m_Wrappers.Result {
-	var _0_valueOrError0 m_Wrappers.Result = m_JSON_ZeroCopy_Deserializer_Core.Companion_Default___.Structural(cs, m_JSON_Utils_Parsers.Companion_Parser___.Create_Parser_(func(coer57 func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result) func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
-		return func(arg61 m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
-			return coer57(arg61)
+	var _0_valueOrError0 m_Wrappers.Result = m_JSON_ZeroCopy_Deserializer_Core.Companion_Default___.Structural(cs, m_JSON_Utils_Parsers.Companion_Parser___.Create_Parser_(func(coer54 func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result) func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
+		return func(arg57 m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
+			return coer54(arg57)
 		}
 	}(Companion_Default___.Open)))
 	_ = _0_valueOrError0
@@ -297,9 +299,9 @@ func (_static *CompanionStruct_Default___) Bracketed(cs m_JSON_Utils_Cursors.Cur
 		var _2_elems m_JSON_Utils_Cursors.Split = m_JSON_Utils_Cursors.Companion_Split_.Create_SP_(_dafny.SeqOf(), (_1_open).Dtor_cs())
 		_ = _2_elems
 		if (((_1_open).Dtor_cs()).Peek()) == (int16(m_JSON_ZeroCopy_Deserializer_ArrayParams.Companion_Default___.CLOSE())) {
-			var _3_p m_JSON_Utils_Parsers.Parser__ = m_JSON_Utils_Parsers.Companion_Parser___.Create_Parser_(func(coer58 func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result) func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
-				return func(arg62 m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
-					return coer58(arg62)
+			var _3_p m_JSON_Utils_Parsers.Parser__ = m_JSON_Utils_Parsers.Companion_Parser___.Create_Parser_(func(coer55 func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result) func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
+				return func(arg58 m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
+					return coer55(arg58)
 				}
 			}(Companion_Default___.Close))
 			_ = _3_p
