@@ -12,10 +12,10 @@ public class LocalCMCTests
 {
   private static MaterialProviders mpl = new MaterialProviders(new MaterialProvidersConfig());
   private static ICryptographicMaterialsCache test = mpl.CreateCryptographicMaterialsCache(
-      new CreateCryptographicMaterialsCacheInput { Cache = new CacheType{Default = new DefaultCache{EntryCapacity = 10}}}
+      new CreateCryptographicMaterialsCacheInput { Cache = new CacheType { Default = new DefaultCache { EntryCapacity = 10 } } }
     );
-  
-  private static ReadOnlyCollection<string> identifiers = 
+
+  private static ReadOnlyCollection<string> identifiers =
     new ReadOnlyCollection<string>(new List<string>{
       "one",
       "two",
@@ -47,7 +47,7 @@ public class LocalCMCTests
   {
     int threadCount = 10;
     int numTasks = 300000;
-    
+
     ThreadPool.SetMaxThreads(threadCount, threadCount);
     for (int i = 0; i < numTasks; i++)
     {
@@ -62,7 +62,7 @@ public class LocalCMCTests
     var beaconKeyIdentifier = identifiers[random.Next(ID_SIZE)];
 
     MemoryStream cacheIdentifier = new MemoryStream(Encoding.UTF8.GetBytes(beaconKeyIdentifier));
-    GetCacheEntryInput cacheEntryInput = new GetCacheEntryInput{Identifier = cacheIdentifier};
+    GetCacheEntryInput cacheEntryInput = new GetCacheEntryInput { Identifier = cacheIdentifier };
 
     try
     {
@@ -78,7 +78,10 @@ public class LocalCMCTests
           // The cacheIdentifier is used as the material
           // because we are not testing the cryptography here.
           BeaconKey = cacheIdentifier,
-          EncryptionContext = new Dictionary<string, string>()
+          EncryptionContext = new Dictionary<string, string>(),
+          KmsArn = "KeyId",
+          CreateTime = "CreateTime",
+          HierarchyVersion = HierarchyVersion.v1
         }
       };
 
@@ -93,28 +96,28 @@ public class LocalCMCTests
       test.PutCacheEntry(putCacheEntryInput);
     }
   }
-  
+
   // ONLY USED FOR TESTING
   public partial class ThreadSafeRandom
   {
-      [ThreadStatic] private static SecureRandom? _local;
+    [ThreadStatic] private static SecureRandom? _local;
 
-      private static SecureRandom Instance
+    private static SecureRandom Instance
+    {
+      get
       {
-          get
-          {
-              if (_local is null)
-              {
-                  _local = new SecureRandom();
-              }
-              return _local;
-          }
+        if (_local is null)
+        {
+          _local = new SecureRandom();
+        }
+        return _local;
       }
+    }
 
-      public static SecureRandom getSecureRandom()
-      {
-          return Instance;
-      }
+    public static SecureRandom getSecureRandom()
+    {
+      return Instance;
+    }
   }
 
 }

@@ -7,18 +7,21 @@ import dafny.DafnyMap;
 import dafny.DafnySequence;
 import java.lang.Byte;
 import java.lang.Character;
+import java.lang.IllegalArgumentException;
 import java.lang.RuntimeException;
 import java.lang.String;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 import software.amazon.cryptography.keystore.internaldafny.types.Error;
+import software.amazon.cryptography.keystore.internaldafny.types.Error_BranchKeyCiphertextException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_CollectionOfErrors;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_Opaque;
 import software.amazon.cryptography.keystore.internaldafny.types.Error_OpaqueWithText;
 import software.amazon.cryptography.keystore.internaldafny.types.IKeyStoreClient;
 import software.amazon.cryptography.keystore.model.BeaconKeyMaterials;
+import software.amazon.cryptography.keystore.model.BranchKeyCiphertextException;
 import software.amazon.cryptography.keystore.model.BranchKeyMaterials;
 import software.amazon.cryptography.keystore.model.CollectionOfErrors;
 import software.amazon.cryptography.keystore.model.CreateKeyInput;
@@ -33,6 +36,7 @@ import software.amazon.cryptography.keystore.model.GetBeaconKeyOutput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionOutput;
 import software.amazon.cryptography.keystore.model.GetKeyStoreInfoOutput;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystore.model.KMSConfiguration;
 import software.amazon.cryptography.keystore.model.KeyStoreConfig;
 import software.amazon.cryptography.keystore.model.KeyStoreException;
@@ -77,6 +81,19 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static BranchKeyCiphertextException Error(
+    Error_BranchKeyCiphertextException dafnyValue
+  ) {
+    BranchKeyCiphertextException.Builder nativeBuilder =
+      BranchKeyCiphertextException.builder();
+    nativeBuilder.message(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_message()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
   public static KeyStoreException Error(Error_KeyStoreException dafnyValue) {
     KeyStoreException.Builder nativeBuilder = KeyStoreException.builder();
     nativeBuilder.message(
@@ -88,6 +105,9 @@ public class ToNative {
   }
 
   public static RuntimeException Error(Error dafnyValue) {
+    if (dafnyValue.is_BranchKeyCiphertextException()) {
+      return ToNative.Error((Error_BranchKeyCiphertextException) dafnyValue);
+    }
     if (dafnyValue.is_KeyStoreException()) {
       return ToNative.Error((Error_KeyStoreException) dafnyValue);
     }
@@ -139,6 +159,19 @@ public class ToNative {
         ToNative.HmacKeyMap(dafnyValue.dtor_hmacKeys().dtor_value())
       );
     }
+    nativeBuilder.kmsArn(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_kmsArn()
+      )
+    );
+    nativeBuilder.createTime(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_createTime()
+      )
+    );
+    nativeBuilder.hierarchyVersion(
+      ToNative.HierarchyVersion(dafnyValue.dtor_hierarchyVersion())
+    );
     return nativeBuilder.build();
   }
 
@@ -164,6 +197,19 @@ public class ToNative {
         dafnyValue.dtor_branchKey()
       )
     );
+    nativeBuilder.kmsArn(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_kmsArn()
+      )
+    );
+    nativeBuilder.createTime(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_createTime()
+      )
+    );
+    nativeBuilder.hierarchyVersion(
+      ToNative.HierarchyVersion(dafnyValue.dtor_hierarchyVersion())
+    );
     return nativeBuilder.build();
   }
 
@@ -182,6 +228,13 @@ public class ToNative {
       nativeBuilder.encryptionContext(
         ToNative.EncryptionContext(
           dafnyValue.dtor_encryptionContext().dtor_value()
+        )
+      );
+    }
+    if (dafnyValue.dtor_hierarchyVersion().is_Some()) {
+      nativeBuilder.hierarchyVersion(
+        ToNative.HierarchyVersion(
+          dafnyValue.dtor_hierarchyVersion().dtor_value()
         )
       );
     }
@@ -405,6 +458,21 @@ public class ToNative {
   ) {
     VersionKeyOutput.Builder nativeBuilder = VersionKeyOutput.builder();
     return nativeBuilder.build();
+  }
+
+  public static HierarchyVersion HierarchyVersion(
+    software.amazon.cryptography.keystore.internaldafny.types.HierarchyVersion dafnyValue
+  ) {
+    if (dafnyValue.is_v1()) {
+      return HierarchyVersion.v1;
+    }
+    if (dafnyValue.is_v2()) {
+      return HierarchyVersion.v2;
+    }
+    throw new IllegalArgumentException(
+      "No entry of software.amazon.cryptography.keystore.model.HierarchyVersion matches the input : " +
+      dafnyValue
+    );
   }
 
   public static KMSConfiguration KMSConfiguration(

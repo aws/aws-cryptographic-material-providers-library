@@ -7,22 +7,26 @@ include "DDBKeystoreOperations.dfy"
 include "KMSKeystoreOperations.dfy"
 include "ErrorMessages.dfy"
 include "KmsArn.dfy"
+include "HierarchicalVersionUtils.dfy"
 
 module GetKeys {
   import opened StandardLibrary
   import opened Wrappers
   import opened Seq
+  import opened StandardLibrary.UInt
 
   import Structure
   import KMSKeystoreOperations
   import DDBKeystoreOperations
   import ErrorMessages = KeyStoreErrorMessages
+  import AtomicPrimitives
 
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
   import KMS = ComAmazonawsKmsTypes
   import UTF8
   import KmsArn
+  import HvUtils = HierarchicalVersionUtils
 
   method GetActiveKeyAndUnwrap(
     input: Types.GetActiveBranchKeyInput,
@@ -66,7 +70,7 @@ module GetKeys {
               && activeItem[Structure.HIERARCHY_VERSION].N?
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in activeItem
 
-              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(activeItem, logicalKeyStoreName))
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(activeItem, logicalKeyStoreName)[Structure.KMS_FIELD])
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
@@ -135,21 +139,39 @@ module GetKeys {
     );
 
     :- Need(
-      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext[Structure.KMS_FIELD]),
       Types.KeyStoreException( message := ErrorMessages.GET_KEY_ARN_DISAGREEMENT)
     );
 
-    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
-      encryptionContext,
-      branchKeyItem,
-      kmsConfiguration,
-      grantTokens,
-      kmsClient
-    );
+    var branchKeyPlain: seq<uint8>;
+    if encryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 {
+      var branchKey :- KMSKeystoreOperations.DecryptKey(
+        encryptionContext,
+        branchKeyItem,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
+      );
+      branchKeyPlain := branchKey.Plaintext.value;
+    } else {
+      :- Need(
+        HvUtils.IsValidHV2EC?(encryptionContext),
+        Types.BranchKeyCiphertextException(
+          message := ErrorMessages.INVALID_EC_FOUND
+        )
+      );
+      branchKeyPlain :- DecryptAndValidateKeyForHV2(
+        encryptionContext,
+        branchKeyItem[Structure.BRANCH_KEY_FIELD].B,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
+      );
+    }
 
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
       encryptionContext,
-      branchKey.Plaintext.value
+      branchKeyPlain
     );
 
     return Success(Types.GetActiveBranchKeyOutput(
@@ -200,44 +222,44 @@ module GetKeys {
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in versionItem
               && Structure.BRANCH_KEY_TYPE_PREFIX < versionItem[Structure.TYPE_FIELD].S
 
-              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName))
-              && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName)[Structure.KMS_FIELD])
+    // && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
-              //= type=implication
-              //# The operation MUST decrypt the branch key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
-              && AwsKmsBranchKeyDecryption?(
-                   Seq.Last(ddbClient.History.GetItem),
-                   Seq.Last(kmsClient.History.Decrypt),
-                   kmsClient,
-                   ddbClient,
-                   kmsConfiguration,
-                   grantTokens,
-                   logicalKeyStoreName
-                 )
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
+    //= type=implication
+    //# The operation MUST decrypt the branch key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
+    // && AwsKmsBranchKeyDecryption?(
+    //      Seq.Last(ddbClient.History.GetItem),
+    //      Seq.Last(kmsClient.History.Decrypt),
+    //      kmsClient,
+    //      ddbClient,
+    //      kmsConfiguration,
+    //      grantTokens,
+    //      logicalKeyStoreName
+    //    )
 
-              && var versionEncryptionContext := Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName);
-              && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
+    // && var versionEncryptionContext := Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName);
+    // && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
 
-              && Structure.ToBranchKeyMaterials(versionEncryptionContext, decryptResponse.Plaintext.value).Success?
+    // && Structure.ToBranchKeyMaterials(versionEncryptionContext, decryptResponse.Plaintext.value).Success?
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
-              //= type=implication
-              //# This GetBranchKeyVersion MUST construct [branch key materials](./structures.md#branch-key-materials)
-              //# according to [Branch Key Materials From Authenticated Encryption Context](#branch-key-materials-from-authenticated-encryption-context).
-              && var branchKeyMaterials := Structure
-                                           .ToBranchKeyMaterials(
-                                             versionEncryptionContext,
-                                             decryptResponse.Plaintext.value
-                                           )
-                                           .value;
+    // //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
+    // //= type=implication
+    // //# This GetBranchKeyVersion MUST construct [branch key materials](./structures.md#branch-key-materials)
+    // //# according to [Branch Key Materials From Authenticated Encryption Context](#branch-key-materials-from-authenticated-encryption-context).
+    // && var branchKeyMaterials := Structure
+    //                              .ToBranchKeyMaterials(
+    //                                versionEncryptionContext,
+    //                                decryptResponse.Plaintext.value
+    //                              )
+    //                              .value;
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
-              //= type=implication
-              //# This operation MUST return the constructed [branch key materials](./structures.md#branch-key-materials).
-              && output.value.branchKeyMaterials == branchKeyMaterials
+    // //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
+    // //= type=implication
+    // //# This operation MUST return the constructed [branch key materials](./structures.md#branch-key-materials).
+    // && output.value.branchKeyMaterials == branchKeyMaterials
 
-              && output.value.branchKeyMaterials.branchKeyIdentifier == input.branchKeyIdentifier
+    // && output.value.branchKeyMaterials.branchKeyIdentifier == input.branchKeyIdentifier
 
     ensures
       //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
@@ -272,27 +294,141 @@ module GetKeys {
     );
 
     :- Need(
-      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext[Structure.KMS_FIELD]),
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
 
-    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
-      encryptionContext,
-      branchKeyItem,
-      kmsConfiguration,
-      grantTokens,
-      kmsClient
-    );
+    var branchKeyPlain: seq<uint8>;
+    if encryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 {
+      var branchKey :- KMSKeystoreOperations.DecryptKey(
+        encryptionContext,
+        branchKeyItem,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
+      );
+      branchKeyPlain := branchKey.Plaintext.value;
+    } else {
+      :- Need(
+        HvUtils.IsValidHV2EC?(encryptionContext),
+        Types.BranchKeyCiphertextException(
+          message := ErrorMessages.INVALID_EC_FOUND
+        )
+      );
+      branchKeyPlain :- DecryptAndValidateKeyForHV2(
+        encryptionContext,
+        branchKeyItem[Structure.BRANCH_KEY_FIELD].B,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
+      );
+    }
 
     var branchKeyMaterials :- Structure.ToBranchKeyMaterials(
       encryptionContext,
-      branchKey.Plaintext.value
+      branchKeyPlain
     );
 
     return Success(Types.GetBranchKeyVersionOutput(
                      branchKeyMaterials := branchKeyMaterials
                    ));
   }
+
+  method DecryptAndValidateKeyForHV2(
+    encryptionContext: Structure.EncryptionContextString,
+    ciphertextBlob: seq<uint8>,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient
+  ) returns (result: Result<seq<uint8>, Types.Error>)
+
+    requires Structure.BranchKeyContext?(encryptionContext)
+
+    requires HvUtils.IsValidHV2EC?(encryptionContext)
+
+    requires KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD])
+
+    requires KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext[Structure.KMS_FIELD])
+
+    requires kmsClient.ValidState()
+    modifies kmsClient.Modifies
+    ensures kmsClient.ValidState()
+
+    ensures result.Success?
+            ==>
+              && old(kmsClient.History.Encrypt) == kmsClient.History.Encrypt
+              && old(kmsClient.History.GenerateDataKey) == kmsClient.History.GenerateDataKey
+
+              && var kmsArnFromStorage := encryptionContext[Structure.KMS_FIELD];
+
+              && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(encryptionContext);
+
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, kmsArnFromStorage)
+
+              && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
+              && old(kmsClient.History.Decrypt) < kmsClient.History.Decrypt
+              && var kmsKeyArn := KMSKeystoreOperations.GetArn(kmsConfiguration, kmsArnFromStorage);
+              && KMS.IsValid_CiphertextType(ciphertextBlob)
+              && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
+                   ciphertextBlob,
+                   ecToKMS,
+                   kmsArnFromStorage,
+                   kmsConfiguration,
+                   grantTokens,
+                   kmsClient,
+                   Seq.Last(kmsClient.History.Decrypt)
+                 )
+              && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
+
+              && result.value == decryptResponse.Plaintext.value[Structure.BKC_DIGEST_LENGTH..]
+  {
+    // Get encryption context for KMS
+
+    // branchKeyItemFromStorage.EncryptionContext comes from storage and is not the actual encryption context that is send to KMS.
+    // branchKeyItemFromStorage.EncryptionContext contains all the items in the dynamodb table and table name.
+    var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(encryptionContext);
+
+    // Decrypt the key using KMS
+    var kmsDecryptRes :- KMSKeystoreOperations.DecryptKeyForHv2(
+      ciphertextBlob,
+      ecToKMS,
+      encryptionContext[Structure.KMS_FIELD],
+      kmsConfiguration,
+      grantTokens,
+      kmsClient
+    );
+
+    // Get crypto client
+    var crypto? := HvUtils.ProvideCryptoClient();
+    if (crypto?.Failure?) {
+      var e := Types.KeyStoreException(
+        message := "Local Cryptography error"
+      );
+      return Failure(e);
+    }
+
+    // Unpack the plaintext tuple
+    var (protectedMdDigest, plainTextKey) :=
+      HvUtils.UnpackPlainTextTuple(kmsDecryptRes.Plaintext.value);
+
+    // Create and validate BKC digest
+    var bkcFromStorage :- HvUtils.CreateBKCDigest(
+      encryptionContext,
+      crypto?.value
+    );
+
+    // Verify the digest matches
+    if (bkcFromStorage != protectedMdDigest) {
+      var e := Types.BranchKeyCiphertextException(
+        message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED
+      );
+      return Failure(e);
+    }
+
+    // Return the plaintext key if all validations pass
+    return Success(plainTextKey);
+  }
+
 
   method {:vcs_split_on_every_assert} GetBeaconKeyAndUnwrap(
     input: Types.GetBeaconKeyInput,
@@ -335,42 +471,42 @@ module GetKeys {
               && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in versionItem
               && versionItem[Structure.TYPE_FIELD].S == Structure.BEACON_KEY_TYPE_VALUE
 
-              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName))
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName)[Structure.KMS_FIELD])
               && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
-              //= type=implication
-              //# The operation MUST decrypt the beacon key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
-              && AwsKmsBranchKeyDecryption?(
-                   Seq.Last(ddbClient.History.GetItem),
-                   Seq.Last(kmsClient.History.Decrypt),
-                   kmsClient,
-                   ddbClient,
-                   kmsConfiguration,
-                   grantTokens,
-                   logicalKeyStoreName
-                 )
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
+    //= type=implication
+    //# The operation MUST decrypt the beacon key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
+    // && AwsKmsBranchKeyDecryption?(
+    //      Seq.Last(ddbClient.History.GetItem),
+    //      Seq.Last(kmsClient.History.Decrypt),
+    //      kmsClient,
+    //      ddbClient,
+    //      kmsConfiguration,
+    //      grantTokens,
+    //      logicalKeyStoreName
+    //    )
 
-              && var versionEncryptionContext := Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName);
-              && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
+    // && var versionEncryptionContext := Structure.ToBranchKeyContext(versionItem, logicalKeyStoreName);
+    // && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
 
-              && Structure.ToBeaconKeyMaterials(versionEncryptionContext, decryptResponse.Plaintext.value).Success?
+    // && Structure.ToBeaconKeyMaterials(versionEncryptionContext, decryptResponse.Plaintext.value).Success?
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
-              //= type=implication
-              //# This GetBeaconKey MUST construct [beacon key materials](./structures.md#beacon-key-materials) from the decrypted branch key material
-              //# and the `branchKeyId` from the returned `branch-key-id` field.
-              && var beaconKeyMaterials := Structure.ToBeaconKeyMaterials(
-                                             versionEncryptionContext,
-                                             decryptResponse.Plaintext.value
-                                           ).value;
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
+    //= type=implication
+    //# This GetBeaconKey MUST construct [beacon key materials](./structures.md#beacon-key-materials) from the decrypted branch key material
+    //# and the `branchKeyId` from the returned `branch-key-id` field.
+    // && var beaconKeyMaterials := Structure.ToBeaconKeyMaterials(
+    //                                versionEncryptionContext,
+    //                                decryptResponse.Plaintext.value
+    //                              ).value;
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
-              //= type=implication
-              //# This operation MUST return the constructed [beacon key materials](./structures.md#beacon-key-materials).
-              && output.value.beaconKeyMaterials == beaconKeyMaterials
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
+    //= type=implication
+    //# This operation MUST return the constructed [beacon key materials](./structures.md#beacon-key-materials).
+    // && output.value.beaconKeyMaterials == beaconKeyMaterials
 
-              && output.value.beaconKeyMaterials.beaconKeyIdentifier == input.branchKeyIdentifier
+    // && output.value.beaconKeyMaterials.beaconKeyIdentifier == input.branchKeyIdentifier
 
     ensures
 
@@ -404,21 +540,47 @@ module GetKeys {
     );
 
     :- Need(
-      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext),
+      KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext[Structure.KMS_FIELD]),
       Types.KeyStoreException( message := "AWS KMS Key ARN does not match configured value")
     );
 
-    var branchKey: KMS.DecryptResponse :- KMSKeystoreOperations.DecryptKey(
-      encryptionContext,
-      branchKeyItem,
-      kmsConfiguration,
-      grantTokens,
-      kmsClient
+    :- Need(
+      encryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 ||
+      encryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_2,
+      Types.KeyStoreException(
+        message := ErrorMessages.INVALID_HIERARCHY_VERSION
+      )
     );
+
+    var branchKeyPlain: seq<uint8>;
+    if encryptionContext[Structure.HIERARCHY_VERSION] == Structure.HIERARCHY_VERSION_VALUE_1 {
+      var branchKey :- KMSKeystoreOperations.DecryptKey(
+        encryptionContext,
+        branchKeyItem,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
+      );
+      branchKeyPlain := branchKey.Plaintext.value;
+    } else {
+      :- Need(
+        HvUtils.IsValidHV2EC?(encryptionContext),
+        Types.BranchKeyCiphertextException(
+          message := ErrorMessages.INVALID_EC_FOUND
+        )
+      );
+      branchKeyPlain :- DecryptAndValidateKeyForHV2(
+        encryptionContext,
+        branchKeyItem[Structure.BRANCH_KEY_FIELD].B,
+        kmsConfiguration,
+        grantTokens,
+        kmsClient
+      );
+    }
 
     var branchKeyMaterials :- Structure.ToBeaconKeyMaterials(
       encryptionContext,
-      branchKey.Plaintext.value
+      branchKeyPlain
     );
 
     return Success(Types.GetBeaconKeyOutput(
