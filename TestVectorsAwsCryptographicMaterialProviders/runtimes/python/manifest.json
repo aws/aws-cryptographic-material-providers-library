@@ -1,34 +1,93 @@
 {
   "manifest": {
     "version": 4,
-    "type": "awses-mpl-decrypt"
+    "type": "awses-mpl-encrypt"
   },
-  "client": "mpl-dafny",
   "keys": "file://keys.json",
   "tests": {
-    "bfd1994b-d423-4c7a-8caf-736d000e665b": {
-      "type": "positive-keyring",
-      "description": "336f4fe7-37f0-477c-9668-30511271f760->Decryption 0014",
-      "algorithmSuiteId": "0014",
-      "keyDescription": {
+    "f63f4de6-6250-461f-8594-6a0aaf6a970e": {
+      "type": "negative-decrypt-keyring",
+      "description": "iD6R6hbvE2",
+      "algorithmSuiteId": "0346",
+      "encryptKeyDescription": {
         "type": "raw",
-        "key": "aes-256",
-        "provider-id": "aws-raw-vectors-persistent-aes-256",
+        "key": "aes-192",
+        "provider-id": "aws-raw-vectors-persistent-aes-192",
         "encryption-algorithm": "aes"
       },
-      "encryptedDataKeys": [
-        {
-          "keyProviderId": "aws-raw-vectors-persistent-aes-256",
-          "keyProviderInfo": "YWVzLTI1NgAAAIAAAAAM5E9PNEoDz12UOIzJ",
-          "ciphertext": "LQwN1X61I8cDHpewrnJPJ7mu2gySWIOmsT4CX13dfXY="
-        }
-      ],
-      "result": {
-        "plaintextDataKey": "STdAuUmKtFDw1XmvYqQGgw==",
-        "requiredEncryptionContextKeys": []
+      "decryptKeyDescription": {
+        "type": "raw",
+        "key": "aes-192",
+        "provider-id": "aws-raw-vectors-persistent-aes-192",
+        "encryption-algorithm": "aes"
       },
+      "reproducedEncryptionContext": {
+        " ": "{]R\u0019Îh󴈖󢳯»6",
+        "\u0012૕򯮐": " 　 ",
+        "[": "𑘹ྴؙ͂",
+        "¼": "  ",
+        "兲Č": "Õ×è²",
+        "񁍅׸৅": "⛘🨏᭵⌮😹↳↰⽺⇩᧮↧࿂℩⇛↊℀⇘"
+      },
+      "requiredEncryptionContextKeys": [],
       "encryptionContext": {
-        "𐀂": "𐀂"
+        "   　 ": "",
+        "兲Č": "ྡ",
+        "7𒘝ÑÀ\u001c񡢕": "wËÁ",
+        "\u0012૕򯮐": " 　 ",
+        "৏࡝޷޿੽޷੊": "",
+        "񁍅׸৅": "⛘🨏᭵⌮😹↳↰⽺⇩᧮↧࿂℩⇛↊℀⇘",
+        "႞˦": "𕍇",
+        "¼": "  ",
+        "[": "𑘹ྴؙ͂",
+        " ": "㈄᧴⌍᧮↧࿅↴␜⅍🖂"
+      },
+      "decryptErrorDescription": "LHDw8Nc37Js"
+    },
+    "e05ca0a0-f572-45e3-b28b-22fa9c1a69ff": {
+      "type": "positive-keyring",
+      "description": "VTYptDHi TfEXUQC1IhNxa6AKyEz",
+      "algorithmSuiteId": "0178",
+      "encryptKeyDescription": {
+        "type": "required-encryption-context-cmm",
+        "underlying": {
+          "type": "aws-kms",
+          "key": "us-east-1-mrk"
+        },
+        "requiredEncryptionContextKeys": [
+          "၂๐೫"
+        ]
+      },
+      "decryptKeyDescription": {
+        "type": "required-encryption-context-cmm",
+        "underlying": {
+          "type": "aws-kms",
+          "key": "us-east-1-mrk"
+        },
+        "requiredEncryptionContextKeys": [
+          "၂๐೫"
+        ]
+      },
+      "reproducedEncryptionContext": {},
+      "requiredEncryptionContextKeys": [
+        "၂๐೫"
+      ],
+      "encryptionContext": {
+        "𝆁ͣ": "⇰࿗᭩",
+        "̰ٞͤ҈۫𑲝": "᭹﷿௷᭧᭦˦₩𝥫༓𝄰᧟῝᧬῏",
+        "ٔ𑶍𑰵̴ֳ": "༜⍭᭷",
+        "ì􋣴\b\u0014fn񭔂%": "¬Yµ5򿴸\u000e",
+        "᧹": "™᧿𜽩༕🉈⣠®␆᧫®◝",
+        "₡༕᎗᭤࿖࿄༁😭҂": "",
+        "𒐧𝍡୲১": "؂৖񇶿޵",
+        "mr𦽭_h¨ËÊ򖣭񫏸": "𜼇ಂ",
+        "᧯": "           ",
+        "ٔͫ̇͆ᰱٌͮ𑼵ॗِ": "࿈࿃🪯⯪",
+        "ֶ֕̈ꦸ͎͑": "",
+        "၂๐೫": "                      ",
+        "     ": "𐡚߀",
+        "͸񏀑΃੥৓\u0019৊𹲙\u0002񼲺؄": "᧹⡇",
+        "৩௮႐౸५8١൰𞴊૧୩൴໔༧𐧾൵൲൩": "⡥℔༖⇞↊᧮⇘⇊⇨🮩⇋"
       }
     }
   }
