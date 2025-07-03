@@ -25,6 +25,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
   import AtomicPrimitives
   import HvUtils = HierarchicalVersionUtils
   import CanonicalEncryptionContext
+  import ErrorMessages = KeyStoreErrorMessages
 
   datatype CryptoAndKms = CryptoAndKms(
     kmsConfig: Types.KMSConfiguration,
@@ -41,6 +42,123 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ghost const Modifies := crypto.Modifies + kmsClient.Modifies
   }
 
+  // TODO-HV-2-M1 : Add a Dafny Test
+  method DecryptKeyForHv2(
+    ciphertextBlob: seq<uint8>,
+    encryptionContextToKms: Structure.EncryptionContextString,
+    kmsArnFromStorage: string,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient
+  )
+    returns (output: Result<KMS.DecryptResponse, Types.Error>)
+
+    requires kmsClient.ValidState()
+    requires KmsArn.ValidKmsArn?(kmsArnFromStorage)
+    requires AttemptKmsOperation?(kmsConfiguration, kmsArnFromStorage)
+
+    modifies kmsClient.Modifies
+    ensures kmsClient.ValidState()
+
+    ensures output.Success?
+            ==>
+              && old(kmsClient.History.Encrypt) == kmsClient.History.Encrypt
+              && old(kmsClient.History.GenerateDataKey) == kmsClient.History.GenerateDataKey
+              && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1
+              && old(kmsClient.History.Decrypt) < kmsClient.History.Decrypt
+              && KMS.IsValid_CiphertextType(ciphertextBlob)
+              && AwsKmsBranchKeyDecryptionForHV2?(
+                   ciphertextBlob,
+                   encryptionContextToKms,
+                   kmsArnFromStorage,
+                   kmsConfiguration,
+                   grantTokens,
+                   kmsClient,
+                   Seq.Last(kmsClient.History.Decrypt)
+                 )
+    ensures output.Success?
+            ==>
+              && Seq.Last(kmsClient.History.Decrypt).output.Success?
+              && output.value == Seq.Last(kmsClient.History.Decrypt).output.value
+              && output.value.Plaintext.Some?
+              && 80 == |output.value.Plaintext.value|
+  {
+    :- Need(
+      && KmsArn.ValidKmsArn?(kmsArnFromStorage)
+         // This check is overloaded.
+         // It is incredibly unlikely that the the stored ciphertext
+         // has dropped to 0 or exceeds the KMS limit.
+         // So the error message is left unchanged.
+      && KMS.IsValid_CiphertextType(ciphertextBlob),
+      Types.KeyStoreException( message := ErrorMessages.RETRIEVED_KEYSTORE_ITEM_INVALID_KMS_ARN)
+    );
+
+    var kmsKeyArn := GetArn(kmsConfiguration, kmsArnFromStorage);
+    var maybeDecryptResponse := kmsClient.Decrypt(
+      KMS.DecryptRequest(
+        CiphertextBlob := ciphertextBlob,
+        EncryptionContext := Some(encryptionContextToKms),
+        GrantTokens := Some(grantTokens),
+        KeyId := Some(kmsKeyArn),
+        EncryptionAlgorithm := None
+      )
+    );
+    var decryptResponse :- maybeDecryptResponse.MapFailure(e => Types.ComAmazonawsKms(e));
+
+    :- Need(
+      && decryptResponse.Plaintext.Some?
+      && 80 == |decryptResponse.Plaintext.value|,
+      Types.BranchKeyCiphertextException(
+        message := ErrorMessages.KMS_DECRYPT_INVALID_KEY_LENGTH_HV2)
+    );
+
+    output := Success(decryptResponse);
+  }
+
+  ghost predicate AwsKmsBranchKeyDecryptionForHV2?(
+    ciphertextBlob: seq<uint8>,
+    encryptionContextToKms: Structure.EncryptionContextString,
+    kmsArnFromStorage: string,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient,
+    decryptHistory: KMS.DafnyCallEvent<KMS.DecryptRequest, Result<KMS.DecryptResponse, KMS.Error>>
+  )
+    reads kmsClient.History
+
+    requires decryptHistory in kmsClient.History.Decrypt
+  {
+    && (kmsConfiguration.kmsKeyArn? ==> kmsArnFromStorage == kmsConfiguration.kmsKeyArn)
+
+    && (kmsConfiguration.kmsMRKeyArn? ==> MrkMatch(kmsArnFromStorage, kmsConfiguration.kmsMRKeyArn))
+
+    && (kmsConfiguration.discovery? || kmsConfiguration.mrDiscovery? ==> KmsArn.ValidKmsArn?(kmsArnFromStorage))
+
+    && var decryptRequest := decryptHistory.input;
+
+    && decryptRequest.KeyId.Some?
+
+    && (kmsConfiguration.discovery? ==> decryptRequest.KeyId == Some(kmsArnFromStorage))
+
+    && (kmsConfiguration.mrDiscovery? ==> decryptRequest.KeyId == Some(replaceRegion(kmsArnFromStorage, kmsConfiguration.mrDiscovery.region)))
+
+    && (kmsConfiguration.kmsKeyArn? ==> decryptRequest.KeyId == Some(kmsConfiguration.kmsKeyArn))
+
+    && (kmsConfiguration.kmsMRKeyArn? ==> MrkMatch(decryptRequest.KeyId.value, kmsConfiguration.kmsMRKeyArn))
+
+    && decryptRequest.CiphertextBlob == ciphertextBlob
+
+    && decryptRequest.EncryptionContext == Some(encryptionContextToKms)
+
+    && decryptRequest.GrantTokens == Some(grantTokens)
+
+    && decryptHistory.output.Success?
+
+    && decryptHistory.output.value.Plaintext.Some?
+
+    && |decryptHistory.output.value.Plaintext.value| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+  }
+
   method {:vcs_split_on_every_assert} packAndCallKMS(
     nameonly branchKeyContext: map<string, string>,
     nameonly cryptoAndKms: CryptoAndKms,
@@ -52,60 +170,60 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && cryptoAndKms.ValidState()
       && Structure.BranchKeyContext?(branchKeyContext)
       && |material| == Structure.AES_256_LENGTH as int
-      && AttemptKmsOperation?(cryptoAndKms.kmsConfig, branchKeyContext)
+      && AttemptKmsOperation?(cryptoAndKms.kmsConfig, branchKeyContext[Structure.KMS_FIELD])
       && GetKeyId(cryptoAndKms.kmsConfig) == branchKeyContext[Structure.KMS_FIELD]
     // TODO-HV-2-M? : Support KmsDecryptEncrypt?
     modifies cryptoAndKms.Modifies
     // Note: even if the method fails, the clients are ValidState
     ensures cryptoAndKms.ValidState()
-    ensures
-      // TODO-HV-2-GA: Update Specification for HV-2 Branch Key Creation
-      && output.Success? ==>
-        && var crypto := cryptoAndKms.crypto;
-        && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
-        && old(crypto.History.Digest) < crypto.History.Digest
-        && var digestEvent := Seq.Last(crypto.History.Digest);
-        && HvUtils.EncodeEncryptionContext(branchKeyContext).Success?
-        && var utf8BKContext := HvUtils.EncodeEncryptionContext(branchKeyContext).value;
-        && CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).Success?
-        && var canonicalEC := CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).value;
-        && AtomicPrimitives.Types.DigestInput(
-             digestAlgorithm := AtomicPrimitives.Types.SHA_384,
-             message := canonicalEC
-           ) == digestEvent.input
-        && digestEvent.output.Success?
-        && var digest := digestEvent.output.value;
 
-        && var packedPlaintext := digest + material;
-        && |packedPlaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+    // TODO-HV-2-GA: Update Specification for HV-2 Branch Key Creation
+    ensures output.Success? ==> (
+                && var crypto := cryptoAndKms.crypto;
+                && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
+                && old(crypto.History.Digest) < crypto.History.Digest
+                && var digestEvent := Seq.Last(crypto.History.Digest);
+                && HvUtils.EncodeEncryptionContext(branchKeyContext).Success?
+                && var utf8BKContext := HvUtils.EncodeEncryptionContext(branchKeyContext).value;
+                && CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).Success?
+                && var canonicalEC := CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).value;
+                && AtomicPrimitives.Types.DigestInput(
+                     digestAlgorithm := AtomicPrimitives.Types.SHA_384,
+                     message := canonicalEC
+                   ) == digestEvent.input
+                && digestEvent.output.Success?
+                && var digest := digestEvent.output.value;
 
-        && var kms := cryptoAndKms.kmsClient;
-        && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 1
-        && old(kms.History.Encrypt) < kms.History.Encrypt
-        && kms.History.Encrypt == old(kms.History.Encrypt) + [Seq.Last(kms.History.Encrypt)]
-        && Seq.Last(kms.History.Encrypt) == kms.History.Encrypt[|kms.History.Encrypt| -1]
-        && kms.History.GenerateDataKey == old(kms.History.GenerateDataKey)
-        && kms.History.Decrypt == old(kms.History.Decrypt)
-        && var kmsEncryptEvent :=  Seq.Last(kms.History.Encrypt);
-        && var kmsEncryptInput := kmsEncryptEvent.input;
-        && Compatible?(cryptoAndKms.kmsConfig, kmsEncryptInput.KeyId)
-        && var kmsKeyArn := GetKeyId(cryptoAndKms.kmsConfig);
-        && KMS.EncryptRequest(
-             KeyId := kmsKeyArn,
-             Plaintext := packedPlaintext,
-             EncryptionContext := Some(encryptionContext),
-             GrantTokens := Some(cryptoAndKms.grantTokens)
-           ) == kmsEncryptInput
-        && kmsEncryptInput.Plaintext == digest + material
-        && material == kmsEncryptInput.Plaintext[Structure.BKC_DIGEST_LENGTH..]
-        && kmsEncryptEvent.output.Success?
-        && kmsEncryptEvent.output.value.CiphertextBlob.Some?
-        && kmsEncryptEvent.output.value.KeyId.Some?
-        && kmsEncryptEvent.output.value.KeyId.value == kmsKeyArn // kmsKeyArn
-        && KMS.IsValid_CiphertextType(kmsEncryptEvent.output.value.CiphertextBlob.value)
-        && var wrappedMaterial := kmsEncryptEvent.output.value.CiphertextBlob.value;
-        && Structure.ConstructEncryptedHierarchicalKey(branchKeyContext, wrappedMaterial) == output.value
+                && var packedPlaintext := digest + material;
+                && |packedPlaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
 
+                && var kms := cryptoAndKms.kmsClient;
+                && |kms.History.Encrypt| == |old(kms.History.Encrypt)| + 1
+                && old(kms.History.Encrypt) < kms.History.Encrypt
+                && kms.History.Encrypt == old(kms.History.Encrypt) + [Seq.Last(kms.History.Encrypt)]
+                && Seq.Last(kms.History.Encrypt) == kms.History.Encrypt[|kms.History.Encrypt| -1]
+                && kms.History.GenerateDataKey == old(kms.History.GenerateDataKey)
+                && kms.History.Decrypt == old(kms.History.Decrypt)
+                && var kmsEncryptEvent :=  Seq.Last(kms.History.Encrypt);
+                && var kmsEncryptInput := kmsEncryptEvent.input;
+                && Compatible?(cryptoAndKms.kmsConfig, kmsEncryptInput.KeyId)
+                && var kmsKeyArn := GetKeyId(cryptoAndKms.kmsConfig);
+                && KMS.EncryptRequest(
+                     KeyId := kmsKeyArn,
+                     Plaintext := packedPlaintext,
+                     EncryptionContext := Some(encryptionContext),
+                     GrantTokens := Some(cryptoAndKms.grantTokens)
+                   ) == kmsEncryptInput
+                && kmsEncryptInput.Plaintext == digest + material
+                && material == kmsEncryptInput.Plaintext[Structure.BKC_DIGEST_LENGTH..]
+                && kmsEncryptEvent.output.Success?
+                && kmsEncryptEvent.output.value.CiphertextBlob.Some?
+                && kmsEncryptEvent.output.value.KeyId.Some?
+                && kmsEncryptEvent.output.value.KeyId.value == kmsKeyArn // kmsKeyArn
+                && KMS.IsValid_CiphertextType(kmsEncryptEvent.output.value.CiphertextBlob.value)
+                && var wrappedMaterial := kmsEncryptEvent.output.value.CiphertextBlob.value;
+                && Structure.ConstructEncryptedHierarchicalKey(branchKeyContext, wrappedMaterial) == output.value
+              )
     // ensures output.Success? ==>
     //           && var kmsKeyArn := GetKeyId(cryptoAndKms.kmsConfig);
     //           && Structure.BranchKeyContext?(output.value.EncryptionContext)
@@ -114,7 +232,9 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
 
   {
     var digest :- HvUtils.CreateBKCDigest(branchKeyContext, cryptoAndKms.crypto);
+    assert |cryptoAndKms.crypto.History.Digest| == |old(cryptoAndKms.crypto.History.Digest)| + 1;
     var plaintextTuple := HvUtils.PackPlainTextTuple(digest, material);
+    assert |cryptoAndKms.crypto.History.Digest| == |old(cryptoAndKms.crypto.History.Digest)| + 1;
     var wrappedMaterial :- EncryptKey(
       plaintextTuple,
       encryptionContext,
@@ -123,6 +243,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       cryptoAndKms.grantTokens,
       cryptoAndKms.kmsClient
     );
+    assert |cryptoAndKms.crypto.History.Digest| == |old(cryptoAndKms.crypto.History.Digest)| + 1;
     return Success(Structure.ConstructEncryptedHierarchicalKey(branchKeyContext, wrappedMaterial));
   }
 
@@ -151,17 +272,17 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     }
   }
 
-  predicate AttemptKmsOperation?(kmsConfiguration: Types.KMSConfiguration, encryptionContext: Structure.BranchKeyContext)
-    ensures AttemptKmsOperation?(kmsConfiguration, encryptionContext) && HasKeyId(kmsConfiguration)
-            ==> Compatible?(kmsConfiguration, encryptionContext[Structure.KMS_FIELD])
+  predicate AttemptKmsOperation?(kmsConfiguration: Types.KMSConfiguration, ecArn: string)
+    ensures AttemptKmsOperation?(kmsConfiguration, ecArn) && HasKeyId(kmsConfiguration)
+            ==> Compatible?(kmsConfiguration, ecArn)
   {
     match kmsConfiguration
-    case kmsKeyArn(arn) => (arn == encryptionContext[Structure.KMS_FIELD]) && KmsArn.ValidKmsArn?(arn)
-    case kmsMRKeyArn(arn) => MrkMatch(arn, encryptionContext[Structure.KMS_FIELD]) && KmsArn.ValidKmsArn?(arn)
-    case discovery(obj) => KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD])
-    case mrDiscovery(obj) => KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD])
+    case kmsKeyArn(arn) => (arn == ecArn) && KmsArn.ValidKmsArn?(arn)
+    case kmsMRKeyArn(arn) => MrkMatch(arn, ecArn) && KmsArn.ValidKmsArn?(arn)
+    case discovery(obj) => KmsArn.ValidKmsArn?(ecArn)
+    case mrDiscovery(obj) => KmsArn.ValidKmsArn?(ecArn)
   }
-
+  // encryptionContext[Structure.KMS_FIELD]
   predicate Compatible?(kmsConfiguration: Types.KMSConfiguration, keyId : string)
     requires(HasKeyId(kmsConfiguration))
   {
@@ -208,7 +329,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     returns (res: Result<KMS.GenerateDataKeyWithoutPlaintextResponse, Types.Error>)
     requires kmsClient.ValidState()
     requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
-    requires AttemptKmsOperation?(kmsConfiguration, encryptionContext)
+    requires AttemptKmsOperation?(kmsConfiguration, encryptionContext[Structure.KMS_FIELD])
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
     ensures
@@ -275,35 +396,33 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     requires |plaintext| == 80 || |plaintext| == 32
     requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
     requires Structure.BranchKeyContext?(branchKeyContext)
-    requires AttemptKmsOperation?(kmsConfiguration, branchKeyContext)
+    requires AttemptKmsOperation?(kmsConfiguration, branchKeyContext[Structure.KMS_FIELD])
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
-    ensures
-      res.Success?
-      ==>
-        && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
-        && kmsClient.History.GenerateDataKey == old(kmsClient.History.GenerateDataKey)
-        && kmsClient.History.Decrypt == old(kmsClient.History.Decrypt)
-        && var kmsKeyArn := GetKeyId(kmsConfiguration);
+    ensures res.Success? ==>
+              && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 1
+              && kmsClient.History.GenerateDataKey == old(kmsClient.History.GenerateDataKey)
+              && kmsClient.History.Decrypt == old(kmsClient.History.Decrypt)
+              && var kmsKeyArn := GetKeyId(kmsConfiguration);
 
-        && var encryptInput := Seq.Last(kmsClient.History.Encrypt).input;
-        && KMS.EncryptRequest(
-             KeyId := kmsKeyArn,
-             Plaintext := plaintext,
-             EncryptionContext := Some(encryptionContext),
-             GrantTokens := Some(grantTokens)
-           ) == encryptInput
+              && var encryptInput := Seq.Last(kmsClient.History.Encrypt).input;
+              && KMS.EncryptRequest(
+                   KeyId := kmsKeyArn,
+                   Plaintext := plaintext,
+                   EncryptionContext := Some(encryptionContext),
+                   GrantTokens := Some(grantTokens)
+                 ) == encryptInput
 
-        && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
-        && var encryptResponse := Seq.Last(kmsClient.History.Encrypt).output;
-        && encryptResponse.Success?
-        && encryptResponse.value.CiphertextBlob.Some?
-        && encryptResponse.value.KeyId.Some?
-        && encryptResponse.value.KeyId.value == kmsKeyArn // kmsKeyArn
-        && KMS.IsValid_CiphertextType(encryptResponse.value.CiphertextBlob.value)
-        && encryptResponse.value.CiphertextBlob.value == res.value
-        && kmsClient.History.Encrypt == old(kmsClient.History.Encrypt) + [Seq.Last(kmsClient.History.Encrypt)]
-        && Seq.Last(kmsClient.History.Encrypt) == kmsClient.History.Encrypt[|kmsClient.History.Encrypt| -1]
+              && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
+              && var encryptResponse := Seq.Last(kmsClient.History.Encrypt).output;
+              && encryptResponse.Success?
+              && encryptResponse.value.CiphertextBlob.Some?
+              && encryptResponse.value.KeyId.Some?
+              && encryptResponse.value.KeyId.value == kmsKeyArn // kmsKeyArn
+              && KMS.IsValid_CiphertextType(encryptResponse.value.CiphertextBlob.value)
+              && encryptResponse.value.CiphertextBlob.value == res.value
+              && kmsClient.History.Encrypt == old(kmsClient.History.Encrypt) + [Seq.Last(kmsClient.History.Encrypt)]
+              && Seq.Last(kmsClient.History.Encrypt) == kmsClient.History.Encrypt[|kmsClient.History.Encrypt| -1]
   {
     var kmsKeyArn := GetKeyId(kmsConfiguration);
     var kmsEncryptRequest := KMS.EncryptRequest(
@@ -352,7 +471,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
            && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD !in sourceEncryptionContext
            && destinationEncryptionContext == Structure.ActiveBranchKeyEncryptionContext(sourceEncryptionContext)
          )
-    requires AttemptKmsOperation?(kmsConfiguration, destinationEncryptionContext)
+    requires AttemptKmsOperation?(kmsConfiguration, destinationEncryptionContext[Structure.KMS_FIELD])
     requires HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(GetKeyId(kmsConfiguration))
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies
@@ -501,7 +620,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     returns (output: Result<KMS.DecryptResponse, Types.Error>)
     requires KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD])
     requires item == Structure.ToAttributeMap(encryptionContext, item[Structure.BRANCH_KEY_FIELD].B)
-    requires AttemptKmsOperation?(kmsConfiguration, encryptionContext)
+    requires AttemptKmsOperation?(kmsConfiguration, encryptionContext[Structure.KMS_FIELD])
 
     requires kmsClient.ValidState()
     modifies kmsClient.Modifies

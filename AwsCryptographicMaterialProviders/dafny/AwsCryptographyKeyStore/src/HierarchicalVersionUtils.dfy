@@ -50,6 +50,67 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     return Success(Crypto);
   }
 
+  function HasPrefix(key: string): bool {
+    |key| >= |Structure.ENCRYPTION_CONTEXT_PREFIX| &&
+    key[..|Structure.ENCRYPTION_CONTEXT_PREFIX|] == Structure.ENCRYPTION_CONTEXT_PREFIX
+  }
+
+  function RemovePrefix(key: string): string
+    requires HasPrefix(key)
+  {
+    key[|Structure.ENCRYPTION_CONTEXT_PREFIX|..]
+  }
+
+  // checks that when we transform keys in the encryption context by removing the aws-crypto-ec: prefix (if present),
+  // we don't end up with duplicate keys.
+  predicate HasUniqueTransformedKeys?(branchKeyContext: Structure.EncryptionContextString)
+  {
+    forall k1, k2 :: k1 in branchKeyContext && k2 in branchKeyContext ==>
+                       (
+                         // If transformed keys are equal
+                         (if HasPrefix(k1) then RemovePrefix(k1) else k1) ==
+                         (if HasPrefix(k2) then RemovePrefix(k2) else k2)
+                         ==>
+                           // Then original keys must be equal
+                           k1 == k2
+                       )
+  }
+
+  // Logically, HasUniqueTransformedKeys?(branchKeyContext) could be removed but verification does not understand that when
+  // Structure.PrefixedEncryptionContext?(branchKeyContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES) is true,
+  // HasUniqueTransformedKeys?(branchKeyContext) should be true and verification fails on SelectKmsEncryptionContextForHv2 function
+  // with "key expressions might be referring to the same value" on `map entry <- transformedContext :: entry.0 := entry.1`
+  predicate IsValidHV2EC?(branchKeyContext: Structure.EncryptionContextString) {
+    && Structure.PrefixedEncryptionContext?(branchKeyContext - Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES)
+    && HasUniqueTransformedKeys?(branchKeyContext)
+  }
+
+  // HV-2 only sends the Branch Key's Encryption Context to KMS, as compared to the Branch Key Context
+  // the Branch Key's Encryption Context can be divided into two groups
+  // 1. those created by MPL consumers via the library, which are prefixed with aws-crypto-ec:
+  // 2. those created by MPL consumers OUTSIDE of the library, which are not prefixed
+  function SelectKmsEncryptionContextForHv2(
+    branchKeyContext: Structure.EncryptionContextString
+  ): (output: Structure.EncryptionContextString)
+    requires Structure.BranchKeyContext?(branchKeyContext)
+    requires IsValidHV2EC?(branchKeyContext)
+    ensures forall k <- output ::
+              exists originalKey ::
+                && originalKey in branchKeyContext
+                && (HasPrefix(originalKey) ==> k == RemovePrefix(originalKey))
+                && (!HasPrefix(originalKey) ==> k == originalKey)
+                && originalKey !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+  {
+    var transformedContext :=
+      set k <- branchKeyContext.Keys
+          | k !in Structure.BRANCH_KEY_RESTRICTED_FIELD_NAMES
+        :: (
+             if HasPrefix(k) then RemovePrefix(k) else k,  // transformed key
+             branchKeyContext[k]                           // original value
+           );
+    map entry <- transformedContext :: entry.0 := entry.1
+  }
+
   method CreateBKCDigest (
     branchKeyContext: map<string, string>,
     crypto: AtomicPrimitives.AtomicPrimitivesClient

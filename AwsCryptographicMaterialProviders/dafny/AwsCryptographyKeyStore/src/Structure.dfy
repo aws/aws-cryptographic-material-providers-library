@@ -583,6 +583,13 @@ module {:options "/functionSyntax:4" } Structure {
     && m[TYPE_FIELD].S == BEACON_KEY_TYPE_VALUE
   }
 
+  type PrefixedEncryptionContext = m: map<string, string> | PrefixedEncryptionContext?(m) witness *
+  predicate PrefixedEncryptionContext?(m: map<string, string>) {
+    && m.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES
+    && forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX <= k
+  }
+
+
   lemma BranchKeyItemsDoNotCollide(a: ActiveBranchKeyItem, b: VersionBranchKeyItem, c: BeaconKeyItem)
     requires a[BRANCH_KEY_IDENTIFIER_FIELD] == b[BRANCH_KEY_IDENTIFIER_FIELD] == c[BRANCH_KEY_IDENTIFIER_FIELD]
     ensures a[TYPE_FIELD] != b[TYPE_FIELD]
