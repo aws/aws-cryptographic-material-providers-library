@@ -28,7 +28,7 @@ jobs:
         # Note python is only used for formatting generated code
         # in this workflow.
         # The workflow installs black and docformatter and runs them on generated code.
-        python-version: [3.11]
+        python-version: [3.9]
         go-version: [1.23]
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}

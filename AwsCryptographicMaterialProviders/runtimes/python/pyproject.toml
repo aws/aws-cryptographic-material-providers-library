@@ -12,7 +12,7 @@ include = ["**/internaldafny/generated/*.py"]
 readme = "README.rst"
 
 [tool.poetry.dependencies]
-python = "^3.11.0"
+python = "^3.9.0"
 aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
 aws-cryptography-internal-kms = {path = "../../../ComAmazonawsKms/runtimes/python"}
 aws-cryptography-internal-dynamodb = {path = "../../../ComAmazonawsDynamodb/runtimes/python"}

@@ -15,7 +15,7 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.11.0"
+python = "^3.9.0"
 pytz = ">=2023.3.post1, <2025.0.0"
 # TODO: Longer-term, write something to pull this in from the project's project.properties file
 DafnyRuntimePython = "4.9.0"
