@@ -43,7 +43,7 @@ optional = true
 
 [tool.poetry.group.docs.dependencies]
 toml = "^0.10.2"
-myst-parser = "^4"
+myst-parser = "^3"
 sphinx = "^7"
 sphinx_rtd_theme = "^2"
 
