@@ -1,0 +1,48 @@
+name: Go release preflight automation
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to check'
+        required: true
+      repository:
+        description: 'Repository name'
+        required: true
+      org:
+        description: 'Organization name'
+        default: 'aws'
+        required: true
+
+jobs:
+  validate-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: Check if tag exists
+        id: tag-check
+        run: |
+          git show-ref --verify --quiet refs/tags/$TAG && exit 1 || echo "Tag does not exist, continuing workflow"
+
+      - name: Check if Go package version exists
+        if: steps.tag-check.outputs.tag_exists == 'false'
+        run: |
+          # Try to get version info from Go proxy
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://proxy.golang.org/github.com/${{ github.event.inputs.org }}/${{ github.event.inputs.repository }}/@v/${{ github.event.inputs.version }}.info)
+          
+          if [ "$HTTP_STATUS" -eq "200" ]; then
+            echo "::error::Version ${{ github.event.inputs.version }} already exists in Go proxy!"
+            exit 1
+          else
+            echo "Version ${{ github.event.inputs.version }} does not exist in Go proxy."
+          fi
+
+      - name: Dry run changelog
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: releases/go/.git-cliff.toml
+          args: --bump -u

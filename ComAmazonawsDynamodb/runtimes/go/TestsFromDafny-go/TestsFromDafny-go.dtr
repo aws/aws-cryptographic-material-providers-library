@@ -1,0 +1,6 @@
+file_format_version = "1.0"
+dafny_version = "4.9.2.0"
+[options_by_module.TestComAmazonawsDynamoDB]
+go-module-name = "github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb/test"
+legacy-module-names = false
+rust-sync = false
