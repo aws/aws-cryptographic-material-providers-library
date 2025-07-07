@@ -26,6 +26,7 @@ import software.amazon.cryptography.materialproviders.model.CreateAwsKmsMrkKeyri
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsMrkMultiKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsMultiKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsRsaKeyringInput;
+import software.amazon.cryptography.materialproviders.model.CreateCachingCMMInput;
 import software.amazon.cryptography.materialproviders.model.CreateCryptographicMaterialsCacheInput;
 import software.amazon.cryptography.materialproviders.model.CreateDefaultClientSupplierInput;
 import software.amazon.cryptography.materialproviders.model.CreateDefaultCryptographicMaterialsManagerInput;
@@ -290,6 +291,21 @@ public class MaterialProviders {
       throw ToNative.Error(result.dtor_error());
     }
     return Keyring.wrap(result.dtor_value());
+  }
+
+  /**
+   * Creates a Caching Cryptographic Materials Manager.
+   *
+   * @param input Inputs for creating a Caching Cryptographic Materials Manager.
+   * @return Outputs for creating a Caching Cryptographic Materials Manager.
+   */
+  public ICryptographicMaterialsManager CreateCachingCMM(CreateCachingCMMInput input) {
+    software.amazon.cryptography.materialproviders.internaldafny.types.CreateCachingCMMInput dafnyValue = ToDafny.CreateCachingCMMInput(input);
+    Result<software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsManager, Error> result = this._impl.CreateCachingCMM(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return CryptographicMaterialsManager.wrap(result.dtor_value());
   }
 
   public ICryptographicMaterialsCache CreateCryptographicMaterialsCache(
