@@ -28,7 +28,7 @@ jobs:
             AwsCryptographicMaterialProviders,
             TestVectorsAwsCryptographicMaterialProviders,
           ]
-        python-version: ["3.11", "3.13"]
+        python-version: ["3.11", "3.13", "3.9", "3.10"]
         os: [
             # TODO fix Dafny-generated tests on Windows;
             # the sys.path workaround for generated Dafny doesn't work on Windows.
