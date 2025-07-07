@@ -27,6 +27,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
   import AwsArnParsing
   import KmsArn
   import HvUtils = HierarchicalVersionUtils
+  import GetKeys
 
   type material = m: seq<uint8> | |m| == 32 witness *
   datatype BKMaterialPair = | BKMaterialPair(
@@ -686,7 +687,88 @@ module {:options "/functionSyntax:4" } CreateKeys {
     ddbClient: DDB.IDynamoDBClient
   )
     returns (output: Result<Types.VersionKeyOutput, Types.Error>)
-    requires 0 < |input.branchKeyIdentifier| && 0 < |branchKeyVersion|
+    requires 0 < |branchKeyVersion|
+    requires ddbClient.Modifies !! kmsClient.Modifies
+    requires kmsClient.ValidState() && ddbClient.ValidState()
+    ensures kmsClient.ValidState() && ddbClient.ValidState()
+    modifies ddbClient.Modifies, kmsClient.Modifies
+    ensures
+      && !KMSKeystoreOperations.HasKeyId(kmsConfiguration)
+      ==> output.Failure?
+
+  {
+    :- Need(
+      && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
+      && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration)),
+      Types.KeyStoreException(
+        message := ErrorMessages.DISCOVERY_VERSION_KEY_NOT_SUPPORTED
+      )
+    );
+
+    :- Need(0 < |input.branchKeyIdentifier|, Types.KeyStoreException(message := ErrorMessages.BRANCH_KEY_ID_NEEDED));
+
+    var active :- DDBKeystoreOperations.GetActiveBranchKeyItem(
+      input.branchKeyIdentifier,
+      ddbTableName,
+      ddbClient
+    );
+
+    var hierarchyVersion := active[Structure.HIERARCHY_VERSION].N;
+
+    match hierarchyVersion {
+      case "1" =>
+        output := VersionActiveBranchKeyVersion1(
+          active,
+          timestamp,
+          branchKeyVersion,
+          ddbTableName,
+          logicalKeyStoreName,
+          kmsConfiguration,
+          grantTokens,
+          kmsClient,
+          ddbClient
+        );
+      case "2" =>
+        return Failure(Types.KeyStoreException(message := "foo"));
+        // :- Need(
+        //   keyManagerAndStorage.keyManagerStrat.kmsSimple?,
+        //   Types.KeyStoreException(message := ErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION_HV_2)
+        // );
+        // var kmsTuple := KmsUtils.getEncryptKMSTuple(keyManagerAndStorage.keyManagerStrat);
+        // output := VersionActiveBranchKeyVersion2(
+        //   oldActiveItem,
+        //   timestamp,
+        //   branchKeyVersion,
+        //   ddbTableName,
+        //   logicalKeyStoreName,
+        //   kmsConfiguration,
+        //   grantTokens,
+        //   kmsClient
+        // );
+      case _ =>
+        output := Failure(Types.KeyStoreException(
+                            message :=
+                              "Active Branch Key found with an unsupported hierarchy-version.\n"
+                              + "Only hierarchy-version 1 or hierarchy-version 2 are supported.\n"
+                              + "Found hierarchy-version " + hierarchyVersion + ".\n"
+                          ));
+    }
+  }
+
+  method VersionActiveBranchKeyVersion1(
+    oldActiveItem: Structure.ActiveBranchKeyItem,
+    timestamp: string,
+    branchKeyVersion: string,
+    ddbTableName: DDB.TableName,
+    logicalKeyStoreName: string,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient,
+    ddbClient: DDB.IDynamoDBClient
+  )
+    returns (output: Result<Types.VersionKeyOutput, Types.Error>)
+    requires 0 < |branchKeyVersion|
+    // requires 0 < |input.branchKeyIdentifier|
     requires ddbClient.Modifies !! kmsClient.Modifies
     requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
 
@@ -696,23 +778,23 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     ensures output.Success?
             ==>
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
-              //= type=implication
-              //# VersionKey MUST first get the active version for the branch key from the keystore
-              //# by calling AWS DDB `GetItem`
-              //# using the `branch-key-id` as the Partition Key and `"branch:ACTIVE"` value as the Sort Key.
-              && |ddbClient.History.GetItem| == |old(ddbClient.History.GetItem)| + 1
-              && Seq.Last(ddbClient.History.GetItem).input.Key
-                 == map[
-                      Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(input.branchKeyIdentifier),
-                      Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.BRANCH_KEY_ACTIVE_TYPE)
-                    ]
+              // //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+              // //= type=implication
+              // //# VersionKey MUST first get the active version for the branch key from the keystore
+              // //# by calling AWS DDB `GetItem`
+              // //# using the `branch-key-id` as the Partition Key and `"branch:ACTIVE"` value as the Sort Key.
+              // && |ddbClient.History.GetItem| == |old(ddbClient.History.GetItem)| + 1
+              // && Seq.Last(ddbClient.History.GetItem).input.Key
+              //    == map[
+              //         Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(input.branchKeyIdentifier),
+              //         Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.BRANCH_KEY_ACTIVE_TYPE)
+              //       ]
 
-              && Seq.Last(ddbClient.History.GetItem).output.Success?
-              && Seq.Last(ddbClient.History.GetItem).output.value.Item.Some?
-              && var oldActiveItem := Seq.Last(ddbClient.History.GetItem).output.value.Item.value;
-              && Structure.BranchKeyItem?(oldActiveItem)
-              && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in oldActiveItem
+              // && Seq.Last(ddbClient.History.GetItem).output.Success?
+              // && Seq.Last(ddbClient.History.GetItem).output.value.Item.Some?
+              // && var oldActiveItem := Seq.Last(ddbClient.History.GetItem).output.value.Item.value;
+              // && Structure.BranchKeyItem?(oldActiveItem)
+              // && Structure.BRANCH_KEY_ACTIVE_VERSION_FIELD in oldActiveItem
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
               //= type=implication
@@ -860,13 +942,6 @@ module {:options "/functionSyntax:4" } CreateKeys {
           ==> output.Failure?)
 
   {
-
-    var oldActiveItem :- DDBKeystoreOperations.GetActiveBranchKeyItem(
-      input.branchKeyIdentifier,
-      ddbTableName,
-      ddbClient
-    );
-
     var oldActiveEncryptionContext := Structure.ToBranchKeyContext(oldActiveItem, logicalKeyStoreName);
 
     :- Need(

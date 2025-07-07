@@ -39,7 +39,8 @@ structure PrimitivesReference {}
   config: KeyStoreConfig,
   dependencies: [
     DynamoDB_20120810,
-    TrentService
+    TrentService,
+    AwsCryptographicPrimitives
   ] 
 )
 service KeyStore {
