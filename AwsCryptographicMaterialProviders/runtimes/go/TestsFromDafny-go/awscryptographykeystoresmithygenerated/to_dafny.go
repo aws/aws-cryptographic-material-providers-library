@@ -11,6 +11,8 @@ import (
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms/comamazonawskmssmithygenerated"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographykeystoresmithygeneratedtypes"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/awscryptographyprimitivessmithygenerated"
+	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/awscryptographyprimitivessmithygeneratedtypes"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UTF8"
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
@@ -179,6 +181,9 @@ func Error_ToDafny(err error) AwsCryptographyKeyStoreTypes.Error {
 		return KeyStoreException_ToDafny(err.(awscryptographykeystoresmithygeneratedtypes.KeyStoreException))
 
 	//DependentErrors
+	case awscryptographyprimitivessmithygeneratedtypes.AwsCryptographicPrimitivesBaseException:
+		return AwsCryptographyKeyStoreTypes.Companion_Error_.Create_AwsCryptographyPrimitives_(awscryptographyprimitivessmithygenerated.Error_ToDafny(err))
+
 	case *smithy.OperationError:
 		if err.(*smithy.OperationError).Service() == "DynamoDB" {
 			DynamoDBError := comamazonawsdynamodbsmithygenerated.Error_ToDafny(err)
