@@ -730,21 +730,21 @@ module {:options "/functionSyntax:4" } CreateKeys {
         );
       case "2" =>
         return Failure(Types.KeyStoreException(message := "foo"));
-        // :- Need(
-        //   keyManagerAndStorage.keyManagerStrat.kmsSimple?,
-        //   Types.KeyStoreException(message := ErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION_HV_2)
-        // );
-        // var kmsTuple := KmsUtils.getEncryptKMSTuple(keyManagerAndStorage.keyManagerStrat);
-        // output := VersionActiveBranchKeyVersion2(
-        //   oldActiveItem,
-        //   timestamp,
-        //   branchKeyVersion,
-        //   ddbTableName,
-        //   logicalKeyStoreName,
-        //   kmsConfiguration,
-        //   grantTokens,
-        //   kmsClient
-        // );
+      // :- Need(
+      //   keyManagerAndStorage.keyManagerStrat.kmsSimple?,
+      //   Types.KeyStoreException(message := ErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION_HV_2)
+      // );
+      // var kmsTuple := KmsUtils.getEncryptKMSTuple(keyManagerAndStorage.keyManagerStrat);
+      // output := VersionActiveBranchKeyVersion2(
+      //   oldActiveItem,
+      //   timestamp,
+      //   branchKeyVersion,
+      //   ddbTableName,
+      //   logicalKeyStoreName,
+      //   kmsConfiguration,
+      //   grantTokens,
+      //   kmsClient
+      // );
       case _ =>
         output := Failure(Types.KeyStoreException(
                             message :=
