@@ -39,13 +39,15 @@ def fuzz_encryption_context(draw):
     - Emojis and special characters
     - Null bytes and control characters
     - Surrogate pairs and replacement characters
+    
+    IMPORTANT: No empty strings for keys or values (invalid for KMS)
     """
-    # Generate 0-20 key-value pairs
-    num_pairs = draw(st.integers(min_value=0, max_value=20))
+    # Generate 1-20 key-value pairs (minimum 1 to ensure context exists)
+    num_pairs = draw(st.integers(min_value=1, max_value=20))
     
     context = {}
     for _ in range(num_pairs):
-        # Generate diverse key names
+        # Generate diverse key names (minimum size 1 to avoid empty strings)
         key = draw(st.one_of(
             st.text(min_size=1, max_size=50),  # Normal text
             st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['So', 'Sc', 'Sk'])),  # Symbols
@@ -56,16 +58,16 @@ def fuzz_encryption_context(draw):
             st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
         ))
         
-        # Generate diverse values
+        # Generate diverse values (minimum size 1 to avoid empty strings)
         value = draw(st.one_of(
-            st.text(min_size=0, max_size=100),  # Normal text
-            st.text(min_size=0, max_size=100, alphabet=st.characters(whitelist_categories=['So', 'Sc', 'Sk'])),  # Symbols
-            st.text(min_size=0, max_size=100, alphabet=st.characters(whitelist_categories=['Lo', 'Ll', 'Lu'])),  # Letters
-            st.text(min_size=0, max_size=100, alphabet=st.characters(whitelist_categories=['Nd', 'Nl', 'No'])),  # Numbers
-            st.text(min_size=0, max_size=100, alphabet=st.characters(whitelist_categories=['Mn', 'Mc', 'Me'])),  # Marks
-            st.text(min_size=0, max_size=100, alphabet=st.characters(whitelist_categories=['Zs', 'Zl', 'Zp'])),  # Separators
-            st.text(min_size=0, max_size=100, alphabet=st.characters(whitelist_categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
-            st.text(min_size=0, max_size=100, alphabet=st.characters(whitelist_categories=['So'])),  # Emojis and symbols
+            st.text(min_size=1, max_size=100),  # Normal text
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['So', 'Sc', 'Sk'])),  # Symbols
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Lo', 'Ll', 'Lu'])),  # Letters
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Nd', 'Nl', 'No'])),  # Numbers
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Mn', 'Mc', 'Me'])),  # Marks
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Zs', 'Zl', 'Zp'])),  # Separators
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['So'])),  # Emojis and symbols
         ))
         
         context[key] = value
@@ -115,12 +117,9 @@ def fuzz_test_vector(draw):
     
     # HIGH PRIORITY: Generate fuzzed required encryption context keys (subset of context keys)
     context_keys = list(encryption_context.keys())
-    if len(context_keys) == 0:
-        # If no context keys, required keys should be empty
-        required_keys = []
-    else:
-        num_required = draw(st.integers(min_value=0, max_value=min(len(context_keys), 5)))
-        required_keys = draw(st.lists(st.sampled_from(context_keys), min_size=0, max_size=num_required, unique=True))
+    # Since we always have at least 1 context key, we always have required keys
+    num_required = draw(st.integers(min_value=1, max_value=min(len(context_keys), 5)))
+    required_keys = draw(st.lists(st.sampled_from(context_keys), min_size=1, max_size=num_required, unique=True))
     
     # HIGH PRIORITY: Generate fuzzed reproduced encryption context
     # Sometimes match exactly, sometimes partially, sometimes completely different
@@ -129,25 +128,22 @@ def fuzz_test_vector(draw):
     if reproduced_strategy == 'exact':
         reproduced_context = encryption_context.copy()
     elif reproduced_strategy == 'partial':
-        # Take a subset of the original context
-        if len(context_keys) == 0:
-            reproduced_context = {}
-        else:
-            subset_keys = draw(st.lists(st.sampled_from(context_keys), min_size=0, max_size=len(context_keys), unique=True))
-            reproduced_context = {k: encryption_context[k] for k in subset_keys if k in encryption_context}
+        # Take a subset of the original context (minimum 1 key to avoid empty)
+        subset_keys = draw(st.lists(st.sampled_from(context_keys), min_size=1, max_size=len(context_keys), unique=True))
+        reproduced_context = {k: encryption_context[k] for k in subset_keys if k in encryption_context}
     elif reproduced_strategy == 'empty':
-        reproduced_context = {}
+        # For empty strategy, use a single key to avoid completely empty context
+        reproduced_context = {context_keys[0]: encryption_context[context_keys[0]]}
     else:  # mismatch
-        # Create a context with some matching keys but different values
+        # Create a context with some matching keys but different values (minimum 1 key)
         reproduced_context = {}
-        if len(context_keys) > 0:
-            for key in draw(st.lists(st.sampled_from(context_keys), min_size=0, max_size=len(context_keys), unique=True)):
-                if draw(st.booleans()):
-                    # Same key, different value
-                    reproduced_context[key] = draw(st.text(min_size=1, max_size=50))
-                else:
-                    # Same key, same value
-                    reproduced_context[key] = encryption_context[key]
+        for key in draw(st.lists(st.sampled_from(context_keys), min_size=1, max_size=len(context_keys), unique=True)):
+            if draw(st.booleans()):
+                # Same key, different value (minimum size 1 to avoid empty)
+                reproduced_context[key] = draw(st.text(min_size=1, max_size=50))
+            else:
+                # Same key, same value
+                reproduced_context[key] = encryption_context[key]
     
     # FIXED VARIABLES: Choose algorithm suite and KMS key (randomly from valid options)
     algorithm_suite = draw(st.sampled_from(algorithm_suites))
