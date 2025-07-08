@@ -50,6 +50,30 @@ module {:options "/functionSyntax:4" } Structure {
     BRANCH_KEY_ACTIVE_VERSION_FIELD
   }
 
+  function ToEncryptedHierarchicalKey(
+    item: DDB.AttributeMap,
+    logicalKeyStoreName: string
+  ): (output: EncryptedHierarchicalKey)
+    requires BranchKeyItem?(item)
+    // ensures EncryptedHierarchicalKeyFromStorage?(output)
+  {
+    var EncryptionContext := map k <- item.Keys - {BRANCH_KEY_FIELD} + {TABLE_FIELD}
+                                      // Working around https://github.com/dafny-lang/dafny/issues/5776
+                                      //  that will make the following fail to compile
+                                      // match k
+                                      // case HIERARCHY_VERSION => item[k].N
+                                      // case TABLE_FIELD => logicalKeyStoreName
+                                      // case _ => item[k].S
+                               :: k := if k == HIERARCHY_VERSION then
+                                 item[k].N
+                               else if k == TABLE_FIELD then
+                                 logicalKeyStoreName
+                               else
+                                 item[k].S;
+
+    ConstructEncryptedHierarchicalKey(EncryptionContext, item[BRANCH_KEY_FIELD].B)
+  }
+
   type EncryptionContextString = map<string, string>
 
   datatype EncryptedHierarchicalKey = | EncryptedHierarchicalKey (

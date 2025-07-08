@@ -130,6 +130,11 @@ public class ToNative {
         dafnyValue.dtor_ComAmazonawsKms()
       );
     }
+    if (dafnyValue.is_AwsCryptographyPrimitives()) {
+      return software.amazon.cryptography.primitives.ToNative.Error(
+        dafnyValue.dtor_AwsCryptographyPrimitives()
+      );
+    }
     OpaqueError.Builder nativeBuilder = OpaqueError.builder();
     nativeBuilder.obj(dafnyValue);
     return nativeBuilder.build();

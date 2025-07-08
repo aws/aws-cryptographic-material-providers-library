@@ -729,22 +729,17 @@ module {:options "/functionSyntax:4" } CreateKeys {
           ddbClient
         );
       case "2" =>
-        return Failure(Types.KeyStoreException(message := "foo"));
-      // :- Need(
-      //   keyManagerAndStorage.keyManagerStrat.kmsSimple?,
-      //   Types.KeyStoreException(message := ErrorMessages.UNSUPPORTED_KEY_MANAGEMENT_STRATEGY_VERSION_HV_2)
-      // );
-      // var kmsTuple := KmsUtils.getEncryptKMSTuple(keyManagerAndStorage.keyManagerStrat);
-      // output := VersionActiveBranchKeyVersion2(
-      //   oldActiveItem,
-      //   timestamp,
-      //   branchKeyVersion,
-      //   ddbTableName,
-      //   logicalKeyStoreName,
-      //   kmsConfiguration,
-      //   grantTokens,
-      //   kmsClient
-      // );
+        output := VersionActiveBranchKeyVersion2(
+          active,
+          timestamp,
+          branchKeyVersion,
+          ddbTableName,
+          logicalKeyStoreName,
+          kmsConfiguration,
+          grantTokens,
+          kmsClient,
+          ddbClient
+        );
       case _ =>
         output := Failure(Types.KeyStoreException(
                             message :=
@@ -1005,6 +1000,191 @@ module {:options "/functionSyntax:4" } CreateKeys {
     output := Success(Types.VersionKeyOutput());
   }
 
+  method {:isolate_assertions} VersionActiveBranchKeyVersion2(
+    oldActiveItem: Structure.ActiveBranchKeyItem,
+    timestamp: string,
+    branchKeyVersion: string,
+    ddbTableName: DDB.TableName,
+    logicalKeyStoreName: string,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient,
+    ddbClient: DDB.IDynamoDBClient
+  )
+    returns (output: Result<Types.VersionKeyOutput, Types.Error>)
+    requires 0 < |branchKeyVersion|
+    // requires Structure.ActiveHierarchicalSymmetricKey?(oldActiveItem)
+    requires KmsArn.ValidKmsArn?(oldActiveItem[Structure.KMS_FIELD].S)
+    requires ddbClient.Modifies !! kmsClient.Modifies
+    requires KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
+
+    requires kmsClient.ValidState() && ddbClient.ValidState()
+    modifies ddbClient.Modifies, kmsClient.Modifies
+    ensures ddbClient.ValidState() && kmsClient.ValidState()
+    /*
+    ensures output.Success?
+            ==>
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem[Structure.KMS_FIELD].S)
+              && KMSKeystoreOperations.Compatible?(kmsConfiguration, oldActiveItem[Structure.KMS_FIELD].S)
+
+              && |kmsClient.History.GenerateDataKey| == |old(kmsClient.History.GenerateDataKey)| + 1 // for the new active
+              && |kmsClient.History.Decrypt| == |old(kmsClient.History.Decrypt)| + 1 // for decrypting the current active
+              && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 2 // for encrypting the new active and encrypting the old active into the version
+
+              && old(kmsClient.History.GenerateDataKey) < kmsClient.History.GenerateDataKey
+              && old(kmsClient.History.Decrypt) < kmsClient.History.Decrypt
+              && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
+
+              && var kmsKeyArn := KMSKeystoreOperations.GetKeyId(kmsConfiguration);
+              && HvUtils.IsValidHV2EC?(oldActiveItem.EncryptionContext)
+              && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(oldActiveItem.EncryptionContext);
+              && var gdkEvent := Seq.Last(kmsClient.History.GenerateDataKey);
+              && var gdkInput := gdkEvent.input;
+              && var gdkOutput := gdkEvent.output;
+              && KMS.GenerateDataKeyRequest(
+                   KeyId := kmsKeyArn,
+                   NumberOfBytes := Some(32),
+                   EncryptionContext := Some(ecToKMS),
+                   GrantTokens := Some(grantTokens)
+                 ) == gdkInput
+              && gdkOutput.Success?
+              && gdkOutput.value.Plaintext.Some?
+              && var newActiveMaterial := gdkOutput.value.Plaintext.value;
+
+              && KMS.IsValid_CiphertextType(oldActiveItem.CiphertextBlob)
+              && var kmsArnFromStorage := oldActiveItem.KmsArn;
+              && var decryptOutput := Seq.Last(kmsClient.History.Decrypt).output;
+              && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
+                   oldActiveItem.CiphertextBlob,
+                   ecToKMS,
+                   kmsArnFromStorage,
+                   kmsConfiguration,
+                   grantTokens,
+                   kmsClient,
+                   Seq.Last(kmsClient.History.Decrypt)
+                 )
+              && decryptOutput.Success?
+              && var oldActiveMaterial := decryptOutput.value.Plaintext.value[Structure.BKC_DIGEST_LENGTH..];
+
+              && WrappedBranchKeyVersionV2?(
+                   kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1],
+                   kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 2],
+                   newActiveMaterial,
+                   oldActiveMaterial,
+                   kmsClient,
+                   kmsConfiguration,
+                   grantTokens,
+                   ecToKMS
+                 )
+
+              && var decryptOnlyEncryptionContext := Structure.NewVersionFromActiveBranchKeyEncryptionContext(
+                                                       oldActiveItem.EncryptionContext,
+                                                       branchKeyVersion,
+                                                       timestamp
+                                                     );
+              && var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
+              && |storage.History.WriteNewEncryptedBranchKeyVersion| == |old(storage.History.WriteNewEncryptedBranchKeyVersion)| + 1
+
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Active.Item
+                 == Structure.ConstructEncryptedHierarchicalKey(
+                      activeEncryptionContext,
+                      kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1].output.value.CiphertextBlob.value
+                    )
+
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Version
+                 == Structure.ConstructEncryptedHierarchicalKey(
+                      decryptOnlyEncryptionContext,
+                      kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 2].output.value.CiphertextBlob.value
+                    )
+
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Active.Item.KmsArn == oldActiveItem.KmsArn
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).input.Version.KmsArn == oldActiveItem.KmsArn
+
+              && Seq.Last(storage.History.WriteNewEncryptedBranchKeyVersion).output.Success?
+
+              && output == Success(Types.VersionKeyOutput)
+              */
+  {
+    var activeItem := Structure.ToEncryptedHierarchicalKey(oldActiveItem, logicalKeyStoreName);
+
+    :- Need(
+      HvUtils.IsValidHV2EC?(activeItem.EncryptionContext),
+      Types.BranchKeyCiphertextException(
+        message := ErrorMessages.INVALID_EC_FOUND
+      )
+    );
+    :- Need(
+      && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem[Structure.KMS_FIELD].S)
+      && KMSKeystoreOperations.GetKeyId(kmsConfiguration) == oldActiveItem[Structure.KMS_FIELD].S,
+      Types.KeyStoreException(
+        message := ErrorMessages.VERSION_KEY_KMS_KEY_ARN_DISAGREEMENT)
+    );
+
+    var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(activeItem.EncryptionContext);
+
+    // var keyManagerStrategy := KmsUtils.keyManagerStrat.kmsSimple(
+    //   kmsSimple := KmsUtils.KMSTuple(kmsClient := kmsClient, grantTokens := grantTokens)
+    // );
+    // var keyManagerAndStorage := KmsUtils.KeyManagerAndStorage(
+    //   storage := storage,
+    //   keyManagerStrat := keyManagerStrategy
+    // );
+
+    var newActivePlaintextMaterial :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
+      encryptionContext := ecToKMS,
+      kmsConfiguration := kmsConfiguration,
+      grantTokens := grantTokens,
+      kmsClient := kmsClient
+    );
+
+    // Get crypto client
+    var crypto :- HvUtils.ProvideCryptoClient();
+
+    // we decrypt the oldActiveItem to get the ciphertext and then
+    // we encrypt it to a versioned key
+    var oldActiveItemPlaintext :- GetKeys.DecryptAndValidateKeyForHV2(
+      activeItem.EncryptionContext, // encryptionContext
+      oldActiveItem[Structure.BRANCH_KEY_FIELD].B,
+      kmsConfiguration,
+      grantTokens,
+      kmsClient
+    );
+
+    var decryptOnlyEncryptionContext := Structure.NewVersionFromActiveBranchKeyEncryptionContext(
+      activeItem.EncryptionContext,
+      branchKeyVersion,
+      timestamp
+    );
+    var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
+
+
+    var CryptoAndKms := KMSKeystoreOperations.CryptoAndKms(kmsConfiguration, crypto, grantTokens, kmsClient);
+    var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.packAndCallKMS(
+      branchKeyContext := decryptOnlyEncryptionContext,
+      cryptoAndKms := CryptoAndKms,
+      material := oldActiveItemPlaintext,
+      encryptionContext := ecToKMS
+    );
+
+    var wrappedActiveBranchKey :- KMSKeystoreOperations.packAndCallKMS(
+      branchKeyContext := activeEncryptionContext,
+      cryptoAndKms := CryptoAndKms,
+      material := newActivePlaintextMaterial.Plaintext.value,
+      encryptionContext := ecToKMS
+    );
+
+    var decryptOnlyItemMap := Structure.ToAttributeMap(decryptOnlyEncryptionContext, wrappedDecryptOnlyBranchKey.CiphertextBlob);
+    var activeItemMap := Structure.ToAttributeMap(activeEncryptionContext, wrappedActiveBranchKey.CiphertextBlob);
+
+    var _ :- DDBKeystoreOperations.WriteNewBranchKeyVersionToKeystore(
+      decryptOnlyItemMap,
+      activeItemMap,
+      ddbTableName,
+      ddbClient
+    );
+
+    output := Success(Types.VersionKeyOutput());
+  }
 
   ghost predicate WrappedBranchKeyCreation?(
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
