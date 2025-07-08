@@ -728,14 +728,14 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     && (kmsConfiguration.kmsKeyArn? ==> decryptRequest.KeyId == Some(kmsConfiguration.kmsKeyArn))
     && (kmsConfiguration.kmsMRKeyArn? ==> MrkMatch(decryptRequest.KeyId.value, kmsConfiguration.kmsMRKeyArn))
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-    //= type=implication
-    //# - `CiphertextBlob` MUST be the `CiphertextBlob` attribute value on the provided EncryptedHierarchicalKey
+    // = aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    // = type=implication
+    // # - `CiphertextBlob` MUST be the `CiphertextBlob` attribute value on the provided EncryptedHierarchicalKey
     && decryptRequest.CiphertextBlob == branchKeyItem[Structure.BRANCH_KEY_FIELD].B
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-    //= type=implication
-    //# - `EncryptionContext` MUST be the [encryption context](#encryption-context) of the provided EncryptedHierarchicalKey
+    // = aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    // = type=implication
+    // # - `EncryptionContext` MUST be the [encryption context](#encryption-context) of the provided EncryptedHierarchicalKey
     && decryptRequest.EncryptionContext == Some(encryptionContext)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
