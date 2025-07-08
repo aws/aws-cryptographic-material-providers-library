@@ -336,7 +336,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
       // Key Management Strategies
       var simpleStrategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
       var reEncryptStrategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-      var decryptEncryptStrategy :- expect AdminFixtures.DecryptEncrypKeyManagerStrategy(decryptKmsClient?:=Some(kmsClient), encryptKmsClient?:=Some(kmsClient));
+      var decryptEncryptStrategy :- expect AdminFixtures.DecryptEncryptKeyManagerStrategy(decryptKmsClient?:=Some(kmsClient), encryptKmsClient?:=Some(kmsClient));
       // Admin
       var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
   
@@ -422,7 +422,7 @@ module {:options "/functionSyntax:4" } TestAdminCreateKeys {
       // Key Management Strategies
       var simpleStrategy :- expect AdminFixtures.SimpleKeyManagerStrategy(kmsClient?:=Some(kmsClient));
       var reEncryptStrategy :- expect AdminFixtures.DefaultKeyManagerStrategy(kmsClient?:=Some(kmsClient));
-      var decryptEncryptStrategy :- expect AdminFixtures.DecryptEncrypKeyManagerStrategy(decryptKmsClient?:=Some(kmsClient), encryptKmsClient?:=Some(kmsClient));
+      var decryptEncryptStrategy :- expect AdminFixtures.DecryptEncryptKeyManagerStrategy(decryptKmsClient?:=Some(kmsClient), encryptKmsClient?:=Some(kmsClient));
       // Admin
       var underTest :- expect AdminFixtures.DefaultAdmin(ddbClient?:=Some(ddbClient));
   
