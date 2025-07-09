@@ -3,24 +3,20 @@
 
 
 # #!/usr/bin/env python3
+
+
 """
 Fuzz Testing Generator for AWS Cryptographic Material Providers Library
 
 This script generates fuzzed test vectors with a focused approach:
-1. Fuzz ONLY the 3 high-priority encryption context fields (infinite possibilities)
-2. Randomly choose from valid options for all other variables (limited options)
+1. Fuzz encryption context fields and key-related fields (strings; since there a variery of UTF-8 characters that can be tested)
+2. Randomly choosing and testing the "representative values" -> https://github.com/awslabs/aws-encryption-sdk-specification/blob/master/framework/test-vectors/test-vector-enumeration.md#selecting-a-representative-input-value
 
-HIGH PRIORITY - Fuzzed (Infinite Possibilities):
-- encryptionContext: Aggressive UTF-8 fuzzing
-- requiredEncryptionContextKeys: UTF-8 edge cases  
-- reproducedEncryptionContext: Context validation fuzzing
-
-Fixed Variables (Limited Options - Randomly Selected using Hypothesis):
-- algorithmSuiteId: randomly chosen from 13 valid algorithm suites
-- type: randomly chosen from 3 valid test types
-- key descriptions: randomly chosen from valid keyring types
-- etc.
+#TO DO:
+- Add key name and key name space fuzz testing (any unicode character)
 """
+
+
 
 import json
 import uuid
@@ -85,9 +81,8 @@ def fuzz_test_vector(draw):
     Generate a complete fuzzed test vector.
     
     This creates test vectors with:
-    - Fuzzed encryption contexts (HIGH PRIORITY) - UTF-8 fuzzing
+    - Fuzzed encryption contexts - UTF-8 fuzzing
     - Normal ASCII for descriptions and other fields
-    - Focus on cross-runtime UTF-8 vulnerability detection
     """
     # Use existing AWS KMS keys from keys.json
     kms_keys = [
@@ -97,7 +92,7 @@ def fuzz_test_vector(draw):
         "us-west-2-encrypt-only"
     ]
     
-    # All available algorithm suites (11 ESDK + 2 DBE)
+    # All available algorithm suites (11 ESDK + 2 DBE) as of date 07/9/2025
     algorithm_suites = [
         # ESDK Algorithm Suites
         "0014",  # AES-128-GCM, no KDF
@@ -116,16 +111,16 @@ def fuzz_test_vector(draw):
         "6702",  # DBE AES-256-GCM with Key Commitment
     ]
     
-    # HIGH PRIORITY: Generate fuzzed encryption context (UTF-8 fuzzing)
+    # Generate fuzzed encryption context (UTF-8 fuzzing)
     encryption_context = draw(fuzz_encryption_context())
     
-    # HIGH PRIORITY: Generate fuzzed required encryption context keys (subset of context keys)
+    # Generate fuzzed required encryption context keys (subset of context keys)
     context_keys = list(encryption_context.keys())
     # Since we always have at least 1 context key, we always have required keys
     num_required = draw(st.integers(min_value=1, max_value=min(len(context_keys), 5)))
     required_keys = draw(st.lists(st.sampled_from(context_keys), min_size=1, max_size=num_required, unique=True))
     
-    # HIGH PRIORITY: Generate fuzzed reproduced encryption context
+    #  Generate fuzzed reproduced encryption context
     # Sometimes match exactly, sometimes partially, sometimes completely different
     reproduced_strategy = draw(st.sampled_from(['exact', 'partial', 'empty', 'mismatch']))
     
