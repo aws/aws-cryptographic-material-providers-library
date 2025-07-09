@@ -244,7 +244,7 @@ test_decrypt_encrypt_vectors_net:
 
 test_decrypt_encrypt_vectors_python:
 	rm -rf runtimes/python/.tox
-	python3 -m tox -c runtimes/python --verbose -e cli -- decrypt --manifest-path $(PWD)/runtimes/python
+	python3 -m tox -c runtimes/python --verbose -e cli -- decrypt --manifest-path runtimes/python
 
 test_decrypt_encrypt_vectors_rust:
 	rustc --version
