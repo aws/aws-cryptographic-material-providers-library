@@ -65,6 +65,13 @@ module TestCreateKeys {
 
   method {:test} TestCreateBranchAndBeaconKeys()
   {
+    TestCreateBranchAndBeaconKeysInner(None);
+    TestCreateBranchAndBeaconKeysInner(Some(Types.HierarchyVersion.v1));
+    TestCreateBranchAndBeaconKeysInner(Some(Types.HierarchyVersion.v2));
+  }
+
+  method TestCreateBranchAndBeaconKeysInner(hierarchyVersion : Option<Types.HierarchyVersion>)
+  {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
@@ -83,7 +90,8 @@ module TestCreateKeys {
 
     var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(
                                                    branchKeyIdentifier := None,
-                                                   encryptionContext := None
+                                                   encryptionContext := None,
+                                                   hierarchyVersion := hierarchyVersion
                                                  ));
     var beaconKeyResult :- expect keyStore.GetBeaconKey(
       Types.GetBeaconKeyInput(
@@ -139,6 +147,13 @@ module TestCreateKeys {
 
   method {:test} TestCreateOptions()
   {
+    TestCreateOptionsInner(None);
+    TestCreateOptionsInner(Some(Types.HierarchyVersion.v1));
+    TestCreateOptionsInner(Some(Types.HierarchyVersion.v2));
+  }
+
+  method TestCreateOptionsInner(hierarchyVersion : Option<Types.HierarchyVersion>)
+  {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
@@ -165,7 +180,8 @@ module TestCreateKeys {
 
     var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(
                                                    branchKeyIdentifier := Some(id),
-                                                   encryptionContext := Some(encryptionContext)
+                                                   encryptionContext := Some(encryptionContext),
+                                                   hierarchyVersion := hierarchyVersion
                                                  ));
 
     var beaconKeyResult :- expect keyStore.GetBeaconKey(

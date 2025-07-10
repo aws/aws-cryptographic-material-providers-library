@@ -24,6 +24,13 @@ module TestVersionKey {
 
   method {:test} TestVersionKey()
   {
+    TestVersionKeyInner(None);
+    TestVersionKeyInner(Some(Types.HierarchyVersion.v1));
+    TestVersionKeyInner(Some(Types.HierarchyVersion.v2));
+  }
+
+  method TestVersionKeyInner(hierarchyVersion : Option<Types.HierarchyVersion>)
+  {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
@@ -46,7 +53,8 @@ module TestVersionKey {
     // when running in different runtimes
     var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(
                                                    branchKeyIdentifier := None,
-                                                   encryptionContext := None
+                                                   encryptionContext := None,
+                                                   hierarchyVersion := hierarchyVersion
                                                  ));
 
     var oldActiveResult :- expect keyStore.GetActiveBranchKey(
@@ -93,6 +101,13 @@ module TestVersionKey {
 
   method {:test} TestVersionKeyWithEC()
   {
+    TestVersionKeyWithECInner(None);
+    TestVersionKeyWithECInner(Some(Types.HierarchyVersion.v1));
+    TestVersionKeyWithECInner(Some(Types.HierarchyVersion.v2));
+  }
+
+  method TestVersionKeyWithECInner(hierarchyVersion : Option<Types.HierarchyVersion>)
+  {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
@@ -123,7 +138,8 @@ module TestVersionKey {
 
     var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(
                                                    branchKeyIdentifier := Some(id),
-                                                   encryptionContext := Some(encryptionContext)
+                                                   encryptionContext := Some(encryptionContext),
+                                                   hierarchyVersion := hierarchyVersion
                                                  ));
 
     expect branchKeyId.branchKeyIdentifier == id;
@@ -196,6 +212,13 @@ module TestVersionKey {
   }
 
   method {:test} TestMrkVersionKey()
+  {
+    TestMrkVersionKeyInner(None);
+    TestMrkVersionKeyInner(Some(Types.HierarchyVersion.v1));
+    TestMrkVersionKeyInner(Some(Types.HierarchyVersion.v2));
+  }
+
+  method TestMrkVersionKeyInner(hierarchyVersion : Option<Types.HierarchyVersion>)
   {
     var ddbClient :- expect DDB.DynamoDBClient();
 

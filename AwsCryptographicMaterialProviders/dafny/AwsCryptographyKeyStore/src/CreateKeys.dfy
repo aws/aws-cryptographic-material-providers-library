@@ -1126,14 +1126,6 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(activeItem.EncryptionContext);
 
-    // var keyManagerStrategy := KmsUtils.keyManagerStrat.kmsSimple(
-    //   kmsSimple := KmsUtils.KMSTuple(kmsClient := kmsClient, grantTokens := grantTokens)
-    // );
-    // var keyManagerAndStorage := KmsUtils.KeyManagerAndStorage(
-    //   storage := storage,
-    //   keyManagerStrat := keyManagerStrategy
-    // );
-
     var newActivePlaintextMaterial :- KMSKeystoreOperations.GetPlaintextDataKeyViaGenerateDataKey(
       encryptionContext := ecToKMS,
       kmsConfiguration := kmsConfiguration,

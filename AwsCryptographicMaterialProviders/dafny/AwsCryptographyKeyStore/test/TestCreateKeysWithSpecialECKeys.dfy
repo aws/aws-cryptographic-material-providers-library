@@ -24,7 +24,8 @@ module TestCreateKeysWithSpecialECKeys {
   // Creates a branch key with given encryption context, validates returned key materials after calling get keys.
   method HappyCaseRoundTrip(
     id : string,
-    encryptionContext : Types.EncryptionContext
+    encryptionContext : Types.EncryptionContext,
+    hierarchyVersion : Option<Types.HierarchyVersion>
   )
     requires |id| > 0
   {
@@ -48,7 +49,8 @@ module TestCreateKeysWithSpecialECKeys {
     // Create key
     var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(
                                                    branchKeyIdentifier := Some(id),
-                                                   encryptionContext := Some(encryptionContext)
+                                                   encryptionContext := Some(encryptionContext),
+                                                   hierarchyVersion := hierarchyVersion
                                                  ));
 
     // Get keys
@@ -87,6 +89,15 @@ module TestCreateKeysWithSpecialECKeys {
 
   method {:test} TestCreateKeyWithEmptyKeyEC()
   {
+    TestCreateKeyWithEmptyKeyECInner(None);
+    TestCreateKeyWithEmptyKeyECInner(Some(Types.HierarchyVersion.v1));
+
+    // Empty string as key in EC not allowed with V2
+    // TestCreateKeyWithEmptyKeyECInner(Some(Types.HierarchyVersion.v2));
+  }
+
+  method TestCreateKeyWithEmptyKeyECInner(hierarchyVersion : Option<Types.HierarchyVersion>)
+  {
     // Generate UUID for unique test run
     var uuid :- expect UUID.GenerateUUID();
     var id := "test-empty-string-key-ec-" + uuid;
@@ -99,11 +110,19 @@ module TestCreateKeysWithSpecialECKeys {
     // Test happy case
     HappyCaseRoundTrip(
       id,
-      encryptionContext
+      encryptionContext,
+      hierarchyVersion
     );
   }
 
   method {:test} TestCreateKeyWithWhiteSpaceEC()
+  {
+    TestCreateKeyWithWhiteSpaceECInner(None);
+    TestCreateKeyWithWhiteSpaceECInner(Some(Types.HierarchyVersion.v1));
+    TestCreateKeyWithWhiteSpaceECInner(Some(Types.HierarchyVersion.v2));
+  }
+
+  method TestCreateKeyWithWhiteSpaceECInner(hierarchyVersion : Option<Types.HierarchyVersion>)
   {
     // Generate UUID for unique test run
     var uuid :- expect UUID.GenerateUUID();
@@ -117,11 +136,18 @@ module TestCreateKeysWithSpecialECKeys {
     // Test happy case
     HappyCaseRoundTrip(
       id,
-      encryptionContext
+      encryptionContext,
+      hierarchyVersion
     );
   }
 
-  method {:test} TestCreateKeyWithAllSpecialCharsEC()
+  method {:test} TestCreateKeyWithAllSpecialCharsEC() {
+    TestCreateKeyWithAllSpecialCharsECInner(None);
+    TestCreateKeyWithAllSpecialCharsECInner(Some(Types.HierarchyVersion.v1));
+    TestCreateKeyWithAllSpecialCharsECInner(Some(Types.HierarchyVersion.v2));
+  }
+
+  method TestCreateKeyWithAllSpecialCharsECInner(hierarchyVersion : Option<Types.HierarchyVersion>)
   {
     // Generate UUID for unique test run
     var uuid :- expect UUID.GenerateUUID();
@@ -142,7 +168,8 @@ module TestCreateKeysWithSpecialECKeys {
     // Test happy case
     HappyCaseRoundTrip(
       id,
-      encryptionContext
+      encryptionContext,
+      hierarchyVersion
     );
   }
 }
