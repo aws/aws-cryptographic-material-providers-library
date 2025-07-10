@@ -50,24 +50,24 @@ def fuzz_encryption_context(draw):
         # Generate diverse key names (minimum size 1 to avoid empty strings)
         key = draw(st.one_of(
             st.text(min_size=1, max_size=50),  # Normal text
-            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['So', 'Sc', 'Sk'])),  # Symbols
-            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Lo', 'Ll', 'Lu'])),  # Letters
-            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Nd', 'Nl', 'No'])),  # Numbers
-            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Mn', 'Mc', 'Me'])),  # Marks
-            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Zs', 'Zl', 'Zp'])),  # Separators
-            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk'])),  # Symbols
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu'])),  # Letters
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])),  # Numbers
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])),  # Marks
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])),  # Separators
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
         ))
         
         # Generate diverse values (minimum size 1 to avoid empty strings)
         value = draw(st.one_of(
             st.text(min_size=1, max_size=100),  # Normal text
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['So', 'Sc', 'Sk'])),  # Symbols
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Lo', 'Ll', 'Lu'])),  # Letters
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Nd', 'Nl', 'No'])),  # Numbers
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Mn', 'Mc', 'Me'])),  # Marks
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Zs', 'Zl', 'Zp'])),  # Separators
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['So'])),  # Emojis and symbols
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['So', 'Sc', 'Sk'])),  # Symbols
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu'])),  # Letters
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])),  # Numbers
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])),  # Marks
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])),  # Separators
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['So'])),  # Emojis and symbols
         ))
         
         context[key] = value
@@ -192,7 +192,7 @@ def fuzz_test_vector(draw):
     return test_vector
 
 
-def generate_fuzz_test_vectors(num_vectors: int = 2) -> Dict[str, Any]:
+def generate_fuzz_test_vectors(num_vectors: int = 5) -> Dict[str, Any]:
     """
     Generate multiple fuzzed test vectors.
     
@@ -225,7 +225,7 @@ def main():
     print("Strategy: Focus on encryption context UTF-8 vulnerabilities")
     
     # Generate test vectors
-    test_vectors = generate_fuzz_test_vectors(num_vectors=2)
+    test_vectors = generate_fuzz_test_vectors(num_vectors=5)
     
     # Create manifest.json with the correct format
     manifest_data = {
