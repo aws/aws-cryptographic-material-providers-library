@@ -353,43 +353,6 @@ module Fixtures {
     nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> := Option.None
 */
 
-
-  datatype allThree = | allThree (
-    active: Structure.EncryptedHierarchicalKey,
-    beacon: Structure.EncryptedHierarchicalKey,
-    decrypt: Structure.EncryptedHierarchicalKey)
-  /*
-    method getItems(
-      nameonly id: string,
-      nameonly underTest: Types.IKeyStorageInterface
-    )
-      returns (output: Result<allThree, Types.Error>)
-      requires underTest.ValidState()
-      ensures underTest.ValidState()
-      modifies underTest.Modifies
-    {
-      var activeInput := Types.GetEncryptedActiveBranchKeyInput(
-        Identifier := id
-      );
-      var active? :- underTest.GetEncryptedActiveBranchKey(activeInput);
-      var active := active?.Item;
-  
-      var beaconInput := Types.GetEncryptedBeaconKeyInput(
-        Identifier := id
-      );
-      var beacon? :- underTest.GetEncryptedBeaconKey(beaconInput);
-      var beacon := beacon?.Item;
-  
-      expect active.Type.ActiveHierarchicalSymmetricVersion?;
-      var decryptInput := Types.GetEncryptedBranchKeyVersionInput(
-        Identifier := id,
-        Version := active.Type.ActiveHierarchicalSymmetricVersion.Version
-      );
-      var decrypt? :- underTest.GetEncryptedBranchKeyVersion(decryptInput);
-      var decrypt := decrypt?.Item;
-      output := Success(allThree(active, beacon, decrypt));
-    }
-  */
   const Robbie : UTF8.ValidUTF8Bytes :=
     var s := [0x52, 0x6f, 0x62, 0x62, 0x69, 0x65];
     assert s == UTF8.EncodeAscii("Robbie");

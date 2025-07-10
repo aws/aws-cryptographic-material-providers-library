@@ -87,6 +87,67 @@ module TestCreateKeysWithSpecialECKeys {
            "Failed to retrieve encryption context with branch key materials";
   }
 
+  method HappyCaseNoIdRoundTrip(
+    encryptionContext : Types.EncryptionContext,
+    hierarchyVersion : Option<Types.HierarchyVersion>
+  )
+  {
+    // Initialize KeyStore
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
+
+    var keyStoreConfig := Types.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClient)
+    );
+
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+
+    // Create key
+    var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(
+                                                   encryptionContext := Some(encryptionContext),
+                                                   hierarchyVersion := hierarchyVersion
+                                                 ));
+
+    // Get keys
+    var beaconKeyResult :- expect keyStore.GetBeaconKey(
+      Types.GetBeaconKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
+
+    var activeResult :- expect keyStore.GetActiveBranchKey(
+      Types.GetActiveBranchKeyInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier
+      ));
+
+    var branchKeyVersion :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
+    var versionResult :- expect keyStore.GetBranchKeyVersion(
+      Types.GetBranchKeyVersionInput(
+        branchKeyIdentifier := branchKeyId.branchKeyIdentifier,
+        branchKeyVersion := branchKeyVersion
+      ));
+
+    // Cleanup branch key
+    var _ :- expect CleanupItems.DeleteBranchKey(Identifier := branchKeyId.branchKeyIdentifier, ddbClient := ddbClient);
+
+    // Validate key materials
+    expect versionResult.branchKeyMaterials.branchKeyIdentifier
+        == activeResult.branchKeyMaterials.branchKeyIdentifier
+        == beaconKeyResult.beaconKeyMaterials.beaconKeyIdentifier;
+
+    expect encryptionContext
+        == versionResult.branchKeyMaterials.encryptionContext
+        == activeResult.branchKeyMaterials.encryptionContext
+        == beaconKeyResult.beaconKeyMaterials.encryptionContext,
+           "Failed to retrieve encryption context with branch key materials";
+  }
+
   method {:test} TestCreateKeyWithEmptyKeyEC()
   {
     TestCreateKeyWithEmptyKeyECInner(None);
@@ -136,6 +197,25 @@ module TestCreateKeysWithSpecialECKeys {
     // Test happy case
     HappyCaseRoundTrip(
       id,
+      encryptionContext,
+      hierarchyVersion
+    );
+  }
+
+  method {:test} TestCreateKeyWithNoEC()
+  {
+    TestCreateKeyWithNoECInner(None);
+    TestCreateKeyWithNoECInner(Some(Types.HierarchyVersion.v1));
+    TestCreateKeyWithNoECInner(Some(Types.HierarchyVersion.v2));
+  }
+
+  method TestCreateKeyWithNoECInner(hierarchyVersion : Option<Types.HierarchyVersion>)
+  {
+    // Create encryption context
+    var encryptionContext :- expect EncodeEncryptionContext(map[]);
+
+    // Test happy case
+    HappyCaseNoIdRoundTrip(
       encryptionContext,
       hierarchyVersion
     );

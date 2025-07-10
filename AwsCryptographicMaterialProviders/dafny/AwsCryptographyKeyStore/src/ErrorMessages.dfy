@@ -50,7 +50,7 @@ module {:options "/functionSyntax:4" } KeyStoreErrorMessages {
   const INVALID_EC_FOUND :=
     "Invalid encryption context found."
     + " This Branch Key has been modified outside of the library"
-    + " to include an attribute pair that is not prefixed with 'aws-crypto-ec'."
+    + " to include an attribute pair that is not prefixed with 'aws-crypto-ec:'."
     + " This modification, done without using an AWS Crypto Tools library,"
     + " prevents the Branch Key from being used with 'hierarchy-version-2'."
     + " Remove this modification while maintaining the Branch Key's cryptographic integrity,"
