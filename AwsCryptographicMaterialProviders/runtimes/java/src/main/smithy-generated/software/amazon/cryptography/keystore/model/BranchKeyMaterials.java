@@ -9,6 +9,9 @@ import java.util.Objects;
 
 public class BranchKeyMaterials {
 
+  /**
+   * The identifier for the Branch Key.
+   */
   private final String branchKeyIdentifier;
 
   private final String branchKeyVersion;
@@ -17,13 +20,34 @@ public class BranchKeyMaterials {
 
   private final ByteBuffer branchKey;
 
+  /**
+   * The AWS KMS Key ARN used to protect this Branch Key.
+   */
+  private final String kmsArn;
+
+  /**
+   * Timestamp in ISO 8601 format in UTC, to microsecond precision, that this Branch Key Item's Material was generated.
+   */
+  private final String createTime;
+
+  /**
+   * Schema Version of the Branch Key. All items of the same Branch Key SHOULD have the same hierarchy-version. The hierarchy-version determines how the Branch Key Store protects and validates the branch key.
+   */
+  private final HierarchyVersion hierarchyVersion;
+
   protected BranchKeyMaterials(BuilderImpl builder) {
     this.branchKeyIdentifier = builder.branchKeyIdentifier();
     this.branchKeyVersion = builder.branchKeyVersion();
     this.encryptionContext = builder.encryptionContext();
     this.branchKey = builder.branchKey();
+    this.kmsArn = builder.kmsArn();
+    this.createTime = builder.createTime();
+    this.hierarchyVersion = builder.hierarchyVersion();
   }
 
+  /**
+   * @return The identifier for the Branch Key.
+   */
   public String branchKeyIdentifier() {
     return this.branchKeyIdentifier;
   }
@@ -40,6 +64,27 @@ public class BranchKeyMaterials {
     return this.branchKey;
   }
 
+  /**
+   * @return The AWS KMS Key ARN used to protect this Branch Key.
+   */
+  public String kmsArn() {
+    return this.kmsArn;
+  }
+
+  /**
+   * @return Timestamp in ISO 8601 format in UTC, to microsecond precision, that this Branch Key Item's Material was generated.
+   */
+  public String createTime() {
+    return this.createTime;
+  }
+
+  /**
+   * @return Schema Version of the Branch Key. All items of the same Branch Key SHOULD have the same hierarchy-version. The hierarchy-version determines how the Branch Key Store protects and validates the branch key.
+   */
+  public HierarchyVersion hierarchyVersion() {
+    return this.hierarchyVersion;
+  }
+
   public Builder toBuilder() {
     return new BuilderImpl(this);
   }
@@ -49,8 +94,14 @@ public class BranchKeyMaterials {
   }
 
   public interface Builder {
+    /**
+     * @param branchKeyIdentifier The identifier for the Branch Key.
+     */
     Builder branchKeyIdentifier(String branchKeyIdentifier);
 
+    /**
+     * @return The identifier for the Branch Key.
+     */
     String branchKeyIdentifier();
 
     Builder branchKeyVersion(String branchKeyVersion);
@@ -65,6 +116,36 @@ public class BranchKeyMaterials {
 
     ByteBuffer branchKey();
 
+    /**
+     * @param kmsArn The AWS KMS Key ARN used to protect this Branch Key.
+     */
+    Builder kmsArn(String kmsArn);
+
+    /**
+     * @return The AWS KMS Key ARN used to protect this Branch Key.
+     */
+    String kmsArn();
+
+    /**
+     * @param createTime Timestamp in ISO 8601 format in UTC, to microsecond precision, that this Branch Key Item's Material was generated.
+     */
+    Builder createTime(String createTime);
+
+    /**
+     * @return Timestamp in ISO 8601 format in UTC, to microsecond precision, that this Branch Key Item's Material was generated.
+     */
+    String createTime();
+
+    /**
+     * @param hierarchyVersion Schema Version of the Branch Key. All items of the same Branch Key SHOULD have the same hierarchy-version. The hierarchy-version determines how the Branch Key Store protects and validates the branch key.
+     */
+    Builder hierarchyVersion(HierarchyVersion hierarchyVersion);
+
+    /**
+     * @return Schema Version of the Branch Key. All items of the same Branch Key SHOULD have the same hierarchy-version. The hierarchy-version determines how the Branch Key Store protects and validates the branch key.
+     */
+    HierarchyVersion hierarchyVersion();
+
     BranchKeyMaterials build();
   }
 
@@ -78,6 +159,12 @@ public class BranchKeyMaterials {
 
     protected ByteBuffer branchKey;
 
+    protected String kmsArn;
+
+    protected String createTime;
+
+    protected HierarchyVersion hierarchyVersion;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(BranchKeyMaterials model) {
@@ -85,6 +172,9 @@ public class BranchKeyMaterials {
       this.branchKeyVersion = model.branchKeyVersion();
       this.encryptionContext = model.encryptionContext();
       this.branchKey = model.branchKey();
+      this.kmsArn = model.kmsArn();
+      this.createTime = model.createTime();
+      this.hierarchyVersion = model.hierarchyVersion();
     }
 
     public Builder branchKeyIdentifier(String branchKeyIdentifier) {
@@ -123,6 +213,33 @@ public class BranchKeyMaterials {
       return this.branchKey;
     }
 
+    public Builder kmsArn(String kmsArn) {
+      this.kmsArn = kmsArn;
+      return this;
+    }
+
+    public String kmsArn() {
+      return this.kmsArn;
+    }
+
+    public Builder createTime(String createTime) {
+      this.createTime = createTime;
+      return this;
+    }
+
+    public String createTime() {
+      return this.createTime;
+    }
+
+    public Builder hierarchyVersion(HierarchyVersion hierarchyVersion) {
+      this.hierarchyVersion = hierarchyVersion;
+      return this;
+    }
+
+    public HierarchyVersion hierarchyVersion() {
+      return this.hierarchyVersion;
+    }
+
     public BranchKeyMaterials build() {
       if (Objects.isNull(this.branchKeyIdentifier())) {
         throw new IllegalArgumentException(
@@ -142,6 +259,31 @@ public class BranchKeyMaterials {
       if (Objects.isNull(this.branchKey())) {
         throw new IllegalArgumentException(
           "Missing value for required field `branchKey`"
+        );
+      }
+      if (Objects.isNull(this.kmsArn())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `kmsArn`"
+        );
+      }
+      if (Objects.nonNull(this.kmsArn()) && this.kmsArn().length() < 1) {
+        throw new IllegalArgumentException(
+          "The size of `kmsArn` must be greater than or equal to 1"
+        );
+      }
+      if (Objects.nonNull(this.kmsArn()) && this.kmsArn().length() > 2048) {
+        throw new IllegalArgumentException(
+          "The size of `kmsArn` must be less than or equal to 2048"
+        );
+      }
+      if (Objects.isNull(this.createTime())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `createTime`"
+        );
+      }
+      if (Objects.isNull(this.hierarchyVersion())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `hierarchyVersion`"
         );
       }
       return new BranchKeyMaterials(this);

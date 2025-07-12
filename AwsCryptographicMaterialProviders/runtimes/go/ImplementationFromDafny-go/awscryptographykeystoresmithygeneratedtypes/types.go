@@ -51,7 +51,13 @@ type BranchKeyMaterials struct {
 
 	BranchKeyVersion string
 
+	CreateTime string
+
 	EncryptionContext map[string]string
+
+	HierarchyVersion HierarchyVersion
+
+	KmsArn string
 }
 
 func (input BranchKeyMaterials) Validate() error {
@@ -63,6 +69,12 @@ func (input BranchKeyMaterials) Validate() error {
 	}
 	if input.Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate() != nil {
 		return input.Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_Validate()
+	}
+	if len(input.KmsArn) < 1 {
+		return fmt.Errorf("KeyIdType has a minimum length of 1 but has the length of %d.", len(input.KmsArn))
+	}
+	if len(input.KmsArn) > 2048 {
+		return fmt.Errorf("KeyIdType has a maximum length of 2048 but has the length of %d.", len(input.KmsArn))
 	}
 
 	return nil
