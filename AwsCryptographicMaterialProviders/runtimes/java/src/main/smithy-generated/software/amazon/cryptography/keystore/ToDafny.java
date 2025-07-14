@@ -32,6 +32,7 @@ import software.amazon.cryptography.keystore.internaldafny.types.GetBeaconKeyOut
 import software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetKeyStoreInfoOutput;
+import software.amazon.cryptography.keystore.internaldafny.types.HierarchyVersion;
 import software.amazon.cryptography.keystore.internaldafny.types.IKeyStoreClient;
 import software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguration;
 import software.amazon.cryptography.keystore.internaldafny.types.KeyStoreConfig;
@@ -168,11 +169,26 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
         nativeValue.branchKey()
       );
+    DafnySequence<? extends Character> kmsArn;
+    kmsArn =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.kmsArn()
+      );
+    DafnySequence<? extends Character> createTime;
+    createTime =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.createTime()
+      );
+    HierarchyVersion hierarchyVersion;
+    hierarchyVersion = ToDafny.HierarchyVersion(nativeValue.hierarchyVersion());
     return new BranchKeyMaterials(
       branchKeyIdentifier,
       branchKeyVersion,
       encryptionContext,
-      branchKey
+      branchKey,
+      kmsArn,
+      createTime,
+      hierarchyVersion
     );
   }
 
@@ -456,6 +472,25 @@ public class ToDafny {
         nativeValue.message()
       );
     return new Error_KeyStoreException(message);
+  }
+
+  public static HierarchyVersion HierarchyVersion(
+    software.amazon.cryptography.keystore.model.HierarchyVersion nativeValue
+  ) {
+    switch (nativeValue) {
+      case v1:
+        {
+          return HierarchyVersion.create();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.keystore.internaldafny.types.HierarchyVersion."
+          );
+        }
+    }
   }
 
   public static KMSConfiguration KMSConfiguration(

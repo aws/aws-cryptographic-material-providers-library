@@ -11,7 +11,7 @@ import java.util.Objects;
 public class GetActiveBranchKeyInput {
 
   /**
-   * The identifier for the Branch Key to get the ACTIVE version for.
+   * The identifier for the Branch Key.
    */
   private final String branchKeyIdentifier;
 
@@ -20,7 +20,7 @@ public class GetActiveBranchKeyInput {
   }
 
   /**
-   * @return The identifier for the Branch Key to get the ACTIVE version for.
+   * @return The identifier for the Branch Key.
    */
   public String branchKeyIdentifier() {
     return this.branchKeyIdentifier;
@@ -36,12 +36,12 @@ public class GetActiveBranchKeyInput {
 
   public interface Builder {
     /**
-     * @param branchKeyIdentifier The identifier for the Branch Key to get the ACTIVE version for.
+     * @param branchKeyIdentifier The identifier for the Branch Key.
      */
     Builder branchKeyIdentifier(String branchKeyIdentifier);
 
     /**
-     * @return The identifier for the Branch Key to get the ACTIVE version for.
+     * @return The identifier for the Branch Key.
      */
     String branchKeyIdentifier();
 

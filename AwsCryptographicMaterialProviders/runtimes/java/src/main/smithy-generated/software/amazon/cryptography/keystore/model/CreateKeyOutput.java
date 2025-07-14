@@ -11,7 +11,7 @@ import java.util.Objects;
 public class CreateKeyOutput {
 
   /**
-   * A identifier for the created Branch Key.
+   * The identifier for the Branch Key.
    */
   private final String branchKeyIdentifier;
 
@@ -20,7 +20,7 @@ public class CreateKeyOutput {
   }
 
   /**
-   * @return A identifier for the created Branch Key.
+   * @return The identifier for the Branch Key.
    */
   public String branchKeyIdentifier() {
     return this.branchKeyIdentifier;
@@ -36,12 +36,12 @@ public class CreateKeyOutput {
 
   public interface Builder {
     /**
-     * @param branchKeyIdentifier A identifier for the created Branch Key.
+     * @param branchKeyIdentifier The identifier for the Branch Key.
      */
     Builder branchKeyIdentifier(String branchKeyIdentifier);
 
     /**
-     * @return A identifier for the created Branch Key.
+     * @return The identifier for the Branch Key.
      */
     String branchKeyIdentifier();
 

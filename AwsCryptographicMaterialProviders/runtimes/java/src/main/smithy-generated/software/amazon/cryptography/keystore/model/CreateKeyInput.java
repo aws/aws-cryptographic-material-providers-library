@@ -8,12 +8,12 @@ import java.util.Map;
 public class CreateKeyInput {
 
   /**
-   * The identifier for the created Branch Key.
+   * The identifier for the Branch Key.
    */
   private final String branchKeyIdentifier;
 
   /**
-   * Custom encryption context for the Branch Key. Required if branchKeyIdentifier is set.
+   * Encryption context for the Branch Key. Required if branchKeyIdentifier is set.
    */
   private final Map<String, String> encryptionContext;
 
@@ -23,14 +23,14 @@ public class CreateKeyInput {
   }
 
   /**
-   * @return The identifier for the created Branch Key.
+   * @return The identifier for the Branch Key.
    */
   public String branchKeyIdentifier() {
     return this.branchKeyIdentifier;
   }
 
   /**
-   * @return Custom encryption context for the Branch Key. Required if branchKeyIdentifier is set.
+   * @return Encryption context for the Branch Key. Required if branchKeyIdentifier is set.
    */
   public Map<String, String> encryptionContext() {
     return this.encryptionContext;
@@ -46,22 +46,22 @@ public class CreateKeyInput {
 
   public interface Builder {
     /**
-     * @param branchKeyIdentifier The identifier for the created Branch Key.
+     * @param branchKeyIdentifier The identifier for the Branch Key.
      */
     Builder branchKeyIdentifier(String branchKeyIdentifier);
 
     /**
-     * @return The identifier for the created Branch Key.
+     * @return The identifier for the Branch Key.
      */
     String branchKeyIdentifier();
 
     /**
-     * @param encryptionContext Custom encryption context for the Branch Key. Required if branchKeyIdentifier is set.
+     * @param encryptionContext Encryption context for the Branch Key. Required if branchKeyIdentifier is set.
      */
     Builder encryptionContext(Map<String, String> encryptionContext);
 
     /**
-     * @return Custom encryption context for the Branch Key. Required if branchKeyIdentifier is set.
+     * @return Encryption context for the Branch Key. Required if branchKeyIdentifier is set.
      */
     Map<String, String> encryptionContext();
 

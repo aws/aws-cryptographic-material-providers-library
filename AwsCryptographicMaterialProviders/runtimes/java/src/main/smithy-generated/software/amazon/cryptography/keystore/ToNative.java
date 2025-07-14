@@ -7,6 +7,7 @@ import dafny.DafnyMap;
 import dafny.DafnySequence;
 import java.lang.Byte;
 import java.lang.Character;
+import java.lang.IllegalArgumentException;
 import java.lang.RuntimeException;
 import java.lang.String;
 import java.nio.ByteBuffer;
@@ -33,6 +34,7 @@ import software.amazon.cryptography.keystore.model.GetBeaconKeyOutput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionOutput;
 import software.amazon.cryptography.keystore.model.GetKeyStoreInfoOutput;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.keystore.model.KMSConfiguration;
 import software.amazon.cryptography.keystore.model.KeyStoreConfig;
 import software.amazon.cryptography.keystore.model.KeyStoreException;
@@ -163,6 +165,19 @@ public class ToNative {
       software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
         dafnyValue.dtor_branchKey()
       )
+    );
+    nativeBuilder.kmsArn(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_kmsArn()
+      )
+    );
+    nativeBuilder.createTime(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_createTime()
+      )
+    );
+    nativeBuilder.hierarchyVersion(
+      ToNative.HierarchyVersion(dafnyValue.dtor_hierarchyVersion())
     );
     return nativeBuilder.build();
   }
@@ -405,6 +420,18 @@ public class ToNative {
   ) {
     VersionKeyOutput.Builder nativeBuilder = VersionKeyOutput.builder();
     return nativeBuilder.build();
+  }
+
+  public static HierarchyVersion HierarchyVersion(
+    software.amazon.cryptography.keystore.internaldafny.types.HierarchyVersion dafnyValue
+  ) {
+    if (dafnyValue.is_v1()) {
+      return HierarchyVersion.v1;
+    }
+    throw new IllegalArgumentException(
+      "No entry of software.amazon.cryptography.keystore.model.HierarchyVersion matches the input : " +
+      dafnyValue
+    );
   }
 
   public static KMSConfiguration KMSConfiguration(
