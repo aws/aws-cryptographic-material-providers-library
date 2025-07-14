@@ -44,6 +44,7 @@ jobs:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: InterOpTests
+          role-duration-seconds: 7200
 
       - uses: actions/checkout@v4
         with:
@@ -213,7 +214,6 @@ jobs:
             ubuntu-22.04,
             macos-13,
           ]
-        encrypting_language: [java, net, rust, python, go]
         decrypting_language: [java, net, rust, python, go]
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
@@ -232,6 +232,7 @@ jobs:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: InterOpTests
+          role-duration-seconds: 7200
 
       - uses: actions/checkout@v4
         with:
@@ -369,12 +370,52 @@ jobs:
         run: |
           make purge_polymorph_code
 
-      - name: Download Encrypt Manifest Artifact
+      - name: Download Encrypt Manifest Artifact Java
         uses: actions/download-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.encrypting_language}}
+          name: ${{matrix.os}}_vector_artifact_java
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
-      - name: Decrypt Encrypt Manifest
+      - name: Decrypt Encrypt Manifest Java
+        working-directory: ./${{ matrix.library }}
+        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+
+      - name: Download Encrypt Manifest Artifact Net
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{matrix.os}}_vector_artifact_net
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Net
+        working-directory: ./${{ matrix.library }}
+        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+
+      - name: Download Encrypt Manifest Artifact Rust
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{matrix.os}}_vector_artifact_rust
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Rust
+        working-directory: ./${{ matrix.library }}
+        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+
+      - name: Download Encrypt Manifest Artifact Python
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{matrix.os}}_vector_artifact_python
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Python
+        working-directory: ./${{ matrix.library }}
+        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+
+      - name: Download Encrypt Manifest Artifact Go
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{matrix.os}}_vector_artifact_go
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Go
         working-directory: ./${{ matrix.library }}
         run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
