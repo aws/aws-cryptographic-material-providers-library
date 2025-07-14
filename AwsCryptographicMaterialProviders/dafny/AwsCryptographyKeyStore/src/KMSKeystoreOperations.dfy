@@ -38,6 +38,7 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       && HasKeyId(kmsConfig)
       && KmsArn.ValidKmsArn?(GetKeyId(kmsConfig))
       && crypto.ValidState() && kmsClient.ValidState()
+      && crypto.Modifies !! kmsClient.Modifies
     }
     ghost const Modifies := crypto.Modifies + kmsClient.Modifies
   }
@@ -178,14 +179,17 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     ensures cryptoAndKms.ValidState()
 
     // TODO-HV-2-GA: Update Specification for HV-2 Branch Key Creation
-    /*
     ensures output.Success? ==> (
                 && var crypto := cryptoAndKms.crypto;
                 && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
                 && old(crypto.History.Digest) < crypto.History.Digest
                 && var digestEvent := Seq.Last(crypto.History.Digest);
-                && HvUtils.EncodeEncryptionContext(branchKeyContext).Success?
-                && var utf8BKContext := HvUtils.EncodeEncryptionContext(branchKeyContext).value;
+                && digestEvent.output.Success?
+                && |digestEvent.output.value| == Structure.BKC_DIGEST_LENGTH as int
+
+                && Structure.EncodeEncryptionContext(branchKeyContext).Success?
+                && var utf8BKContext := Structure.EncodeEncryptionContext(branchKeyContext).value;
+                && Structure.BranchKeyContext?(branchKeyContext)
                 && CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).Success?
                 && var canonicalEC := CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).value;
                 && AtomicPrimitives.Types.DigestInput(
@@ -225,18 +229,14 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
                 && var wrappedMaterial := kmsEncryptEvent.output.value.CiphertextBlob.value;
                 && Structure.ConstructEncryptedHierarchicalKey(branchKeyContext, wrappedMaterial) == output.value
               )
-              */
-    // ensures output.Success? ==>
-    //           && var kmsKeyArn := GetKeyId(cryptoAndKms.kmsConfig);
-    //           && Structure.BranchKeyContext?(output.value.EncryptionContext)
-    //           && Structure.EncryptedHierarchicalKeyFromStorage?(output.value)
-    //           && output.value.KmsArn == kmsKeyArn
+    ensures output.Success? ==>
+              && var kmsKeyArn := GetKeyId(cryptoAndKms.kmsConfig);
+              && Structure.BranchKeyContext?(output.value.EncryptionContext)
+              && output.value.KmsArn == kmsKeyArn
 
   {
     var digest :- HvUtils.CreateBKCDigest(branchKeyContext, cryptoAndKms.crypto);
-    assert |cryptoAndKms.crypto.History.Digest| == |old(cryptoAndKms.crypto.History.Digest)| + 1;
     var plaintextTuple := HvUtils.PackPlainTextTuple(digest, material);
-    assert |cryptoAndKms.crypto.History.Digest| == |old(cryptoAndKms.crypto.History.Digest)| + 1;
     var wrappedMaterial :- EncryptKey(
       plaintextTuple,
       encryptionContext,
@@ -245,7 +245,6 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
       cryptoAndKms.grantTokens,
       cryptoAndKms.kmsClient
     );
-    // assert |cryptoAndKms.crypto.History.Digest| == |old(cryptoAndKms.crypto.History.Digest)| + 1;
     return Success(Structure.ConstructEncryptedHierarchicalKey(branchKeyContext, wrappedMaterial));
   }
 

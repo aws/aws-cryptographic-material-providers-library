@@ -119,25 +119,23 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     modifies crypto.Modifies
     ensures crypto.ValidState()
     ensures Structure.EncodeEncryptionContext(branchKeyContext).Failure? ==> output.Failure?
-    ensures
-      && output.Success?
-      ==>
-        // Note there is no proof that the input to the digest
-        // is utf8BKContext; dafny could not handle that
-        && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
-        && old(crypto.History.Digest) < crypto.History.Digest
-        && var digestEvent := Seq.Last(crypto.History.Digest);
-        && digestEvent.output.Success?
-        && digestEvent.output.value == output.value
-        && |output.value| == Structure.BKC_DIGEST_LENGTH as int
-        && Structure.EncodeEncryptionContext(branchKeyContext).Success?
-        && var utf8BKContext := Structure.EncodeEncryptionContext(branchKeyContext).value;
-        && CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).Success?
-        && var canonicalEC := CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).value;
-        && AtomicPrimitives.Types.DigestInput(
-          digestAlgorithm := AtomicPrimitives.Types.SHA_384,
-          message := canonicalEC
-        ) == digestEvent.input
+    ensures output.Success? ==>
+              // Note there is no proof that the input to the digest
+              // is utf8BKContext; dafny could not handle that
+              && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
+              && old(crypto.History.Digest) < crypto.History.Digest
+              && var digestEvent := Seq.Last(crypto.History.Digest);
+              && digestEvent.output.Success?
+              && digestEvent.output.value == output.value
+              && |output.value| == Structure.BKC_DIGEST_LENGTH as int
+              && Structure.EncodeEncryptionContext(branchKeyContext).Success?
+              && var utf8BKContext := Structure.EncodeEncryptionContext(branchKeyContext).value;
+              && CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).Success?
+              && var canonicalEC := CanonicalEncryptionContext.EncryptionContextToAAD(utf8BKContext).value;
+              && AtomicPrimitives.Types.DigestInput(
+                digestAlgorithm := AtomicPrimitives.Types.SHA_384,
+                message := canonicalEC
+              ) == digestEvent.input
   {
     var utf8BKContext :- Structure.EncodeEncryptionContext(branchKeyContext).MapFailure(WrapStringToError);
     var digestResult? := CanonicalEncryptionContext.EncryptionContextDigest(crypto, utf8BKContext);
@@ -170,32 +168,6 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
     ensures Result == bkcDigest + aes256Key
   {
     (bkcDigest + aes256Key)
-  }
-
-  // Helper function to encode encryption context from string map to UTF8 bytes map
-  function EncodeEncryptionContext(
-    input: Structure.EncryptionContextString
-  ): (output: Result<Types.EncryptionContext, string>)
-    ensures output.Success? ==> |output.value| == |input| // Output map size equals input map size
-    ensures output.Failure? ==> output.error == "Unable to encode string"
-  {
-    var encodedEncryptionContext
-      := set k <- input
-           ::
-             (UTF8.Encode(k), UTF8.Encode(input[k]), k);
-
-    if (forall i <- encodedEncryptionContext
-          ::
-            && i.0.Success?
-            && i.1.Success?)
-    then
-      var resultMap := map i <- encodedEncryptionContext :: i.0.value := i.1.value;
-      if |resultMap| == |input| then
-        Success(resultMap)
-      else
-        Failure("Unable to encode string")
-    else
-      Failure("Unable to encode string")
   }
 
   // Helper function to decode encryption context from UTF8 bytes map to string map
