@@ -243,9 +243,13 @@ def fuzz_test_vector(draw):
     # Generate basic components
     encryption_context = draw(fuzz_encryption_context())
     algorithm_suite = draw(st.sampled_from(ALGORITHM_SUITES))
-    kms_key = draw(st.sampled_from(KMS_KEYS))
     test_type = draw(st.sampled_from(TEST_TYPES))
     keyring_type = draw(st.sampled_from(KEYRING_TYPES))
+
+    if keyring_type in ["kms", "aws-kms-mrk-aware", "caching-cmm"]:
+        kms_key = draw(st.sampled_from(KMS_KEYS))
+    else:
+        kms_key = None  # Raw keyrings don't need this
     
     # Generate required keys based on test type
     required_keys = generate_required_keys(draw, test_type, encryption_context)
@@ -307,7 +311,7 @@ def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def generate_fuzz_test_vectors(num_vectors: int = 5) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Generate multiple fuzzed test vectors and collect new keys."""
+    """Generate multiple fuzzed test vectors and collect new key generated."""
     test_vectors = {}
     
     for i in range(num_vectors):
