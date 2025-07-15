@@ -1,7 +1,8 @@
 # This workflow reads the project.properties
 # into the environment variables
-# and then creates an output variable for `dafnyVersion`
-name: Dafny Version
+# and then creates an output variable for `dafnyVersion`, `dafnyVerifyVersion`
+# and `dafnyRustVersion`
+name: Dafny Versions
 
 on:
   workflow_call:
@@ -15,6 +16,8 @@ jobs:
     runs-on: ubuntu-22.04
     outputs:
       version: ${{ steps.read_property.outputs.dafnyVersion }}
+      verifyVersion: ${{ steps.read_property.outputs.dafnyVerifyVersion }}
+      rustVersion: ${{ steps.read_property.outputs.dafnyRustVersion }}
     steps:
       - uses: actions/checkout@v4
       - name: Read version from Properties-file
@@ -22,4 +25,4 @@ jobs:
         uses: christian-draeger/read-properties@1.1.1
         with:
           path: "./project.properties"
-          properties: "dafnyVersion"
+          properties: "dafnyVersion dafnyVerifyVersion dafnyRustVersion"
