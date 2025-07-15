@@ -64,7 +64,7 @@ module DefaultKeyStorageInterface {
     //= type=implication
     //# The Dynamodb Key Storage Interface MUST implement the [key storage interface](./key-storage.md#interface).
     extends Types.IKeyStorageInterface
-    {
+  {
 
     const ddbTableName: ComAmazonawsDynamodbTypes.TableName
     const ddbTableNameUtf8: UTF8.ValidUTF8Bytes
@@ -643,15 +643,15 @@ module DefaultKeyStorageInterface {
                       ddbOperation:="GetItem",
                       identifier:=input.Identifier,
                       tableName:=ddbTableName));
-        // SDKs/Smithy-Dafny/Custom Implementations of Storage MAY respond with None or an Empty Map.
-        // .NET returns an empty map, Java returns None.
+      // SDKs/Smithy-Dafny/Custom Implementations of Storage MAY respond with None or an Empty Map.
+      // .NET returns an empty map, Java returns None.
       :- Need(
         indexRes.Item.Some? && (0 < |indexRes.Item.value|),
         Types.KeyStorageException(
           message:=
             "GetMutation's GetItem for the Mutation Index returned an empty result. "
             + "Branch Key ID: " + input.Identifier
-            + "\tTable Name: " + ddbTableName));           
+            + "\tTable Name: " + ddbTableName));
 
       /** Process sensical DDB Response */
       ghost var lockCanidate := commitmentRes.Item;
