@@ -82,7 +82,6 @@ module GetKeys {
     && activeBranchKeyOutput.beaconKeyMaterials.beaconKeyIdentifier == expectedIdentifier
   }
 
-
   method  {:vcs_split_on_every_assert} GetActiveKeyAndUnwrap(
     input: Types.GetActiveBranchKeyInput,
     tableName: DDB.TableName,
@@ -192,7 +191,6 @@ module GetKeys {
           && Seq.Last(kmsClient.History.Decrypt).output.Failure?
           ==> output.Failure?)
   {
-
     var branchKeyItem :- DDBKeystoreOperations.GetActiveBranchKeyItem(
       input.branchKeyIdentifier,
       tableName,
@@ -856,5 +854,4 @@ module GetKeys {
                      ));
     }
   }
-
 }

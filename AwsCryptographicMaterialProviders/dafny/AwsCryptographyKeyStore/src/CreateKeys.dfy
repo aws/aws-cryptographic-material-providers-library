@@ -401,6 +401,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     nameonly new beaconGDK: KMS.DafnyCallEvent<KMS.GenerateDataKeyRequest, Result<KMS.GenerateDataKeyResponse, KMS.Error>>,
     nameonly encryptionContext: map<string, string>,
     nameonly kmsConfiguration: Types.KMSConfiguration,
+    nameonly grantTokens: KMS.GrantTokenList,
     nameonly kmsClient: KMS.IKMSClient
   )
     reads kmsClient.History
@@ -416,19 +417,20 @@ module {:options "/functionSyntax:4" } CreateKeys {
     && beaconGDK.output.Success? && bkGDK.output.Success?
     && beaconGDK.input.EncryptionContext == bkGDK.input.EncryptionContext == Some(encryptionContext)
     && beaconGDK.input.KeyId == bkGDK.input.KeyId == kmsKeyArn
-       // && beaconGDK.input.GrantTokens == bkGDK.input.GrantTokens == Some(grantTokens)
+    && beaconGDK.input.GrantTokens == bkGDK.input.GrantTokens == Some(grantTokens)
     && beaconGDK.input.NumberOfBytes == bkGDK.input.NumberOfBytes == Some(32)
     && beaconGDK.output.value.Plaintext.Some? && bkGDK.output.value.Plaintext.Some?
     && |beaconGDK.output.value.Plaintext.value| == |bkGDK.output.value.Plaintext.value| == 32
   }
 
-  twostate function HV2AssignmentOfGeneratedMaterial(
+  opaque twostate function HV2AssignmentOfGeneratedMaterial(
     nameonly new bkGDK: KMS.DafnyCallEvent<KMS.GenerateDataKeyRequest, Result<KMS.GenerateDataKeyResponse, KMS.Error>>,
     nameonly new beaconGDK: KMS.DafnyCallEvent<KMS.GenerateDataKeyRequest, Result<KMS.GenerateDataKeyResponse, KMS.Error>>,
     nameonly encryptionContext: map<string, string>,
     nameonly kmsConfiguration: Types.KMSConfiguration,
+    nameonly grantTokens: KMS.GrantTokenList,
     nameonly kmsClient: KMS.IKMSClient
-  ): BKMaterialPair
+  ): (output : BKMaterialPair)
     reads kmsClient.History
     requires
       && kmsClient.ValidState()
@@ -442,8 +444,12 @@ module {:options "/functionSyntax:4" } CreateKeys {
            beaconGDK := beaconGDK,
            encryptionContext := encryptionContext,
            kmsConfiguration := kmsConfiguration,
+           grantTokens := grantTokens,
            kmsClient := kmsClient
          )
+    ensures
+      && output.bk == bkGDK.output.value.Plaintext.value
+      && output.beacon == beaconGDK.output.value.Plaintext.value
   {
     BKMaterialPair(
       bk := bkGDK.output.value.Plaintext.value,
@@ -521,6 +527,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                    beaconGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| - 1],
                    encryptionContext := encryptionContext,
                    kmsConfiguration := kmsConfiguration,
+                   grantTokens := grantTokens,
                    kmsClient := kmsClient
                  )
               && var materialPair
@@ -529,6 +536,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                         beaconGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| - 1],
                         encryptionContext := encryptionContext,
                         kmsConfiguration := kmsConfiguration,
+                        grantTokens := grantTokens,
                         kmsClient := kmsClient
                       );
               && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
@@ -573,20 +581,29 @@ module {:options "/functionSyntax:4" } CreateKeys {
                    beaconGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| - 1],
                    encryptionContext := encryptionContext,
                    kmsConfiguration := kmsConfiguration,
+                   grantTokens := grantTokens,
                    kmsClient := kmsClient
                  )
+              && var beaconGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| - 1];
               && var materialPair
-                   := HV2AssignmentOfGeneratedMaterial(
-                        bkGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| -2],
-                        beaconGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| - 1],
-                        encryptionContext := encryptionContext,
-                        kmsConfiguration := kmsConfiguration,
-                        kmsClient := kmsClient
-                      );
+                := HV2AssignmentOfGeneratedMaterial(
+                     bkGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| -2],
+                     beaconGDK := beaconGDK,
+                     encryptionContext := encryptionContext,
+                     kmsConfiguration := kmsConfiguration,
+                     grantTokens := grantTokens,
+                     kmsClient := kmsClient
+                   );
               // KMS Encrypt is correct
+              && materialPair.beacon == beaconGDK.output.value.Plaintext.value
+              && beaconGDK.output.value.Plaintext.value == materialPair.beacon
               && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
+              && var beaconKMSEnc := kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1];
+              && |beaconKMSEnc.input.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
+              && beaconKMSEnc.input.Plaintext[Structure.BKC_DIGEST_LENGTH..] == beaconGDK.output.value.Plaintext.value
+              && beaconKMSEnc.input.Plaintext[Structure.BKC_DIGEST_LENGTH..] == materialPair.beacon
               && HV2EncryptionOfBeaconIsCorrect(
-                   beaconKMSEnc := kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1],
+                   beaconKMSEnc := beaconKMSEnc,
                    encryptionContext := encryptionContext,
                    kmsConfiguration := kmsConfiguration,
                    grantTokens := grantTokens,
@@ -595,7 +612,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                  )
               && var beaconCiphertext :=
                    HV2AssignmentOfEncryptedBeacon(
-                     beaconKMSEnc := kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1],
+                     beaconKMSEnc := beaconKMSEnc,
                      encryptionContext := encryptionContext,
                      kmsConfiguration := kmsConfiguration,
                      grantTokens := grantTokens,
@@ -696,6 +713,10 @@ module {:options "/functionSyntax:4" } CreateKeys {
       material := beaconPlaintextMaterial,
       encryptionContext := encryptionContext
     );
+
+    ghost var beaconEnc := Seq.Last(kmsClient.History.Encrypt);
+    assert |beaconEnc.input.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int;
+
 
     var decryptOnlyItem := Structure.ToAttributeMap(decryptOnlyBranchKeyContext, decryptOnlyBKItem.CiphertextBlob);
     var activeItem := Structure.ToAttributeMap(activeBranchKeyContext, activeBKItem.CiphertextBlob);
