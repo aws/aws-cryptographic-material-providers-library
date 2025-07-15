@@ -77,12 +77,12 @@ ALGORITHM_SUITES = [
         "0478",  # AES-256-GCM, HKDF-SHA512, Key Commitment
         "0578",  # AES-256-GCM, HKDF-SHA512, Key Commitment, ECDSA-P256
         # DBE Algorithm Suites
-        "6701",  # DBE AES-256-GCM
-        "6702",  # DBE AES-256-GCM with Key Commitment
+        "6700",  # DBE AES-256-GCM with Key Commitment
+        "6701",  # DBE AES-256-GCM with Key Commitment; ECDSA with P-384 and SHA-384
 ]
 
 
-# Below are the helper methods I have defined to assmeble a test vector; a modular generation process for easy debugging
+# Below are the helper methods defined to assmeble a test vector; a modular generation process for easy debugging
 
 def get_description_template(test_type: str, keyring_type: str) -> str:
     """Get description template for test type and keyring type combination."""
@@ -100,17 +100,24 @@ def fuzz_encryption_context(draw):
     for _ in range(num_pairs):
         # Generate Unicode keys and values (min_size=1 to avoid empty strings)
         key = draw(st.one_of(
-            st.text(min_size=1, max_size=50),
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk'])),
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu'])),
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),
+            st.text(min_size=1, max_size=50),  # Normal text
+            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['So', 'Sc', 'Sk', 'Sm'])),  # Symbols
+            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])),  # Letters
+            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Nd', 'Nl', 'No'])),  # Numbers
+            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Mn', 'Mc', 'Me'])),  # Marks
+            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Zs', 'Zl', 'Zp'])),  # Separators
+            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
         ))
         
         value = draw(st.one_of(
-            st.text(min_size=1, max_size=100),
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['So', 'Sc', 'Sk'])),
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu'])),
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),
+            st.text(min_size=1, max_size=100),  # Normal text
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['So', 'Sc', 'Sk'])),  # Symbols
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])),  # Letters
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Nd', 'Nl', 'No'])),  # Numbers
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Mn', 'Mc', 'Me'])),  # Marks
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Zs', 'Zl', 'Zp'])),  # Separators
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
+            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['So'])),  # Emojis and symbols
         ))
         
         context[key] = value
@@ -150,7 +157,21 @@ def create_key_description(draw, keyring_type: str, test_type: str, kms_key: str
     else:
         raise ValueError(f"Unknown keyring type: {keyring_type}")
 
-# For the KMS keys
+
+def create_raw_key_description(draw, test_type: str) -> Dict[str, Any]:
+    """Create raw keyring description."""
+    if test_type == "negative-encrypt-keyring":
+        return {"type": "static-material-keyring", "key": "no-plaintext-data-key"}
+    
+    raw_key_id = draw(st.sampled_from(RAW_KEY_TYPES))
+    key_identifiers = draw(fuzz_key_identifiers(raw_key_id))
+    return {
+        "type": "raw",
+        "key": key_identifiers["key_name"],
+        "provider-id": key_identifiers["key_namespace"],
+        "encryption-algorithm": "aes"
+    }
+
 def create_kms_based_key_description(draw, keyring_type: str, kms_key: str, required_keys: List[str]) -> Dict[str, Any]:
     """Create KMS-based keyring description (handles kms, mrk-aware, rsa)."""
     # Map keyring types to their underlying types and keys
@@ -214,7 +235,7 @@ def add_error_descriptions(test_vector: Dict[str, Any], test_type: str, keyring_
         test_vector["decryptErrorDescription"] = "Expected decryption failure"
 
 
-# Assembling the test vector
+# Assembling a test vector
 
 @composite
 def fuzz_test_vector(draw):
@@ -222,13 +243,9 @@ def fuzz_test_vector(draw):
     # Generate basic components
     encryption_context = draw(fuzz_encryption_context())
     algorithm_suite = draw(st.sampled_from(ALGORITHM_SUITES))
+    kms_key = draw(st.sampled_from(KMS_KEYS))
     test_type = draw(st.sampled_from(TEST_TYPES))
     keyring_type = draw(st.sampled_from(KEYRING_TYPES))
-
-    if keyring_type in ["kms", "aws-kms-mrk-aware", "caching-cmm"]:
-        kms_key = draw(st.sampled_from(KMS_KEYS))
-    else:
-        kms_key = None  # Raw keyrings don't need this
     
     # Generate required keys based on test type
     required_keys = generate_required_keys(draw, test_type, encryption_context)
@@ -290,7 +307,7 @@ def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def generate_fuzz_test_vectors(num_vectors: int = 5) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    """Generate multiple fuzzed test vectors and collect new key generated."""
+    """Generate multiple fuzzed test vectors and collect new keys."""
     test_vectors = {}
     
     for i in range(num_vectors):
