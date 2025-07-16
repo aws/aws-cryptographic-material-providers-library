@@ -81,7 +81,7 @@ ALGORITHM_SUITES = [
         "6701",  # DBE AES-256-GCM with Key Commitment; ECDSA with P-384 and SHA-384
 ]
 
-# Below are the helper methods defined to assemble a test vector; a modular generation process for easy debugging
+# Below are the helper methods defined to assemble a test vector; a modular generation process for easy debugging.
 
 def get_description_template(test_type: str, keyring_type: str) -> str:
     """Get description template for test type and keyring type combination."""
