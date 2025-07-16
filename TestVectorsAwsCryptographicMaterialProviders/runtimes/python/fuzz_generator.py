@@ -99,31 +99,55 @@ def fuzz_encryption_context(draw):
     
     for _ in range(num_pairs):
         # Generate Unicode keys and values (min_size=1 to avoid empty strings)
+
         key = draw(st.one_of(
+            # Basic categories
             st.text(min_size=1, max_size=50),  # Normal text
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])),  # Symbols
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])),  # Letters
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])),  # Numbers
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])),  # Marks
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])),  # Separators
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])), #Symbols
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])), #Letters
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])), #Numbers
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])), #Marks
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])), #Separators
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])), #Control characters
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Pc', 'Pd', 'Ps', 'Pe', 'Pi', 'Pf', 'Po'])), #Punctuation
+            
+            # Specific edge cases
+            st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
+            st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
+            
+            # Bidirectional text
+            st.text(min_size=1, max_size=25, alphabet=st.characters(script='Arabic')) + 
+                st.text(min_size=1, max_size=25, alphabet=st.characters(script='Latin')),
+            
+            # Emoji
+            st.text(min_size=1, max_size=50, alphabet=st.characters(block='Emoticons'))
         ))
         
         value = draw(st.one_of(
-            st.text(min_size=1, max_size=100),  # Normal text
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])),  # Symbols
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])),  # Letters
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])),  # Numbers
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])),  # Marks
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])),  # Separators
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['So'])),  # Emojis and symbols
+            st.text(min_size=1, max_size=50),  # Normal text
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])), #Symbols
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])), #Letters
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])), #Numbers
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])), #Marks
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])), #Separators
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])), #Control characters
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Pc', 'Pd', 'Ps', 'Pe', 'Pi', 'Pf', 'Po'])), #Punctuation
+            
+            # Specific edge cases
+            st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
+            st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
+            
+            # Bidirectional text
+            st.text(min_size=1, max_size=25, alphabet=st.characters(script='Arabic')) + 
+                st.text(min_size=1, max_size=25, alphabet=st.characters(script='Latin')),
+            
+            # Emoji
+            st.text(min_size=1, max_size=50, alphabet=st.characters(block='Emoticons'))
         ))
         
         context[key] = value
     
     return context
-
 
 def generate_required_keys(draw, test_type: str, encryption_context: Dict[str, str]) -> List[str]:
     """Generate requiredEncryptionContextKeys based on test type."""
@@ -144,7 +168,6 @@ def generate_required_keys(draw, test_type: str, encryption_context: Dict[str, s
         context_keys = list(encryption_context.keys())
         num_required = draw(st.integers(min_value=1, max_value=min(len(context_keys), 5)))
         return draw(st.lists(st.sampled_from(context_keys), min_size=1, max_size=num_required, unique=True))
-
 
 def create_key_description(draw, keyring_type: str, test_type: str, kms_key: str, required_keys: List[str]) -> Dict[str, Any]:
     """Create key description based on keyring and test type."""
@@ -188,7 +211,6 @@ def create_kms_based_key_description(draw, keyring_type: str, kms_key: str, requ
         "requiredEncryptionContextKeys": required_keys
     }
 
-
 def create_caching_cmm_description(kms_key: str, required_keys: List[str]) -> Dict[str, Any]:
     """Create caching CMM description."""
     return {
@@ -202,7 +224,6 @@ def create_caching_cmm_description(kms_key: str, required_keys: List[str]) -> Di
         "maxBytesEncrypted": 1000,
         "maxMessagesEncrypted": 10
     }
-
 
 def generate_reproduced_context(draw, encryption_context: Dict[str, str]) -> Dict[str, str]:
     """Generate reproducedEncryptionContext with various strategies."""
@@ -224,7 +245,6 @@ def generate_reproduced_context(draw, encryption_context: Dict[str, str]) -> Dic
             else:
                 reproduced_context[key] = encryption_context[key]
         return reproduced_context
-
 
 def add_error_descriptions(test_vector: Dict[str, Any], test_type: str, keyring_type: str) -> None:
     """Add error descriptions for negative tests."""
