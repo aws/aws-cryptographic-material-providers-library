@@ -10,6 +10,12 @@ on:
       version:
         description: "The dafny version"
         value: ${{ jobs.getDafnyVersion.outputs.version }}
+      verifyVersion:
+        description: "The dafny version for verification"
+        value: ${{ jobs.getDafnyVersion.outputs.verifyVersion }}
+      rustVersion:
+        description: "The dafny version when translating to Rust"
+        value: ${{ jobs.getDafnyVersion.outputs.rustVersion }}
 
 jobs:
   getDafnyVersion:
