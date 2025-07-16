@@ -82,7 +82,7 @@ ALGORITHM_SUITES = [
 ]
 
 
-# Below are the helper methods defined to assmeble a test vector; a modular generation process for easy debugging
+# Below are the helper methods defined to assemble a test vector; a modular generation process for easy debugging
 
 def get_description_template(test_type: str, keyring_type: str) -> str:
     """Get description template for test type and keyring type combination."""
@@ -156,7 +156,6 @@ def create_key_description(draw, keyring_type: str, test_type: str, kms_key: str
         return create_kms_based_key_description(draw, keyring_type, kms_key, required_keys)
     else:
         raise ValueError(f"Unknown keyring type: {keyring_type}")
-
 
 def create_raw_key_description(draw, test_type: str) -> Dict[str, Any]:
     """Create raw keyring description."""
