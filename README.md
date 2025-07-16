@@ -35,7 +35,7 @@ This repository is a top level repository which houses all source code in order 
 different runtimes.
 
 This library is written in Dafny, a formally verifiable programming language that can be compiled into
-different runtimes. This library is currently **ONLY** supported in Java, .NET, and Python.
+different runtimes. This library is currently **ONLY** supported in Java, .NET, Python, Rust and Go.
 
 ### Optional Prerequisites
 
@@ -46,6 +46,8 @@ but some APIs require an AWS account, an AWS KMS key, or an Amazon DynamoDB Tabl
 If you are using the AWS Cryptographic Material Providers Library for Java you will need the AWS SDK for Java V2.
 If you are using the AWS Cryptographic Material Providers Library for .NET you will need the AWS SDK for .NET V3.
 If you are using the AWS Cryptographic Material Providers Library for Python you will need boto3.
+If you are using the AWS Cryptographic Material Providers Library for Rust you will need the AWS SDK for Rust V1.
+If you are using the AWS Cryptographic Material Providers Library for Go you will need the AWS SDK for Go V2.
 
 **NOTE**: The `KmsAsyncClient` and `DynamoDBAsyncClient` are not supported, only the synchronous clients.
 
@@ -54,15 +56,17 @@ If you are using the AWS Cryptographic Material Providers Library for Python you
 - **To create a symmetric encryption KMS key in AWS KMS**, see [Creating Keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
 
 - **To download and install the AWS SDK for Java 2.x**, see [Installing the AWS SDK for Java 2.x](https://docs.aws.amazon.com/sdk-for-java/v2/developer-guide/getting-started.html).
-- **To download and install the AWS SDK for .Net 3.x** see [Installing the AWS SDK for .Net v3](https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/welcome.html)
-
+- **To download and install the AWS SDK for .Net 3.x** see [Installing the AWS SDK for .Net v3](https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/net-dg-config.html)
+- **To download and install boto3** see [Installing boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html)
+- **To download and install the AWS SDK for Rust 1.x** see [Installing the AWS SDK for Rust v1](https://docs.aws.amazon.com/sdk-for-rust/latest/dg/getting-started.html)
+- **To download and install the AWS SDK for Go 2.x** see [Installing the AWS SDK for Go v2](https://docs.aws.amazon.com/sdk-for-go/v2/developer-guide/getting-started.html)
 ## Supported Languages
 
 - Java
 - .NET
 - Python
-- Go
 - Rust
+- Go
 - Dafny
 
 ## FAQ
