@@ -28,7 +28,6 @@ import hypothesis
 from hypothesis import strategies as st
 from hypothesis.strategies import composite
 
-
 # Description templates for test vectors
 DESCRIPTION_TEMPLATES = {
     ("positive-keyring", "raw"): "Raw keyring test with Unicode fuzzing",
@@ -80,7 +79,6 @@ ALGORITHM_SUITES = [
         "6700",  # DBE AES-256-GCM with Key Commitment
         "6701",  # DBE AES-256-GCM with Key Commitment; ECDSA with P-384 and SHA-384
 ]
-
 
 # Below are the helper methods defined to assemble a test vector; a modular generation process for easy debugging
 
@@ -253,7 +251,6 @@ def add_error_descriptions(test_vector: Dict[str, Any], test_type: str, keyring_
     elif test_type == "negative-decrypt-keyring":
         test_vector["decryptErrorDescription"] = "Expected decryption failure"
 
-
 # Assembling a test vector
 
 @composite
@@ -296,7 +293,6 @@ def fuzz_test_vector(draw):
     
     return test_vector
 
-
 def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
     """Extract new keys from raw keyring test vectors.
 
@@ -328,7 +324,6 @@ def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
     
     return new_keys
 
-
 def generate_fuzz_test_vectors(num_vectors: int = 5) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Generate multiple fuzzed test vectors and collect new key generated."""
     test_vectors = {}
@@ -340,7 +335,6 @@ def generate_fuzz_test_vectors(num_vectors: int = 5) -> Tuple[Dict[str, Any], Di
     
     new_keys = extract_new_keys(test_vectors)
     return test_vectors, new_keys
-
 
 def main():
     """Main function to generate fuzzed test vectors."""
@@ -372,7 +366,6 @@ def main():
         json.dump(manifest_data, f, indent=2, ensure_ascii=False)
     
     print(f"Generated {len(test_vectors)} test vectors with {len(new_keys)} new keys")
-
 
 if __name__ == "__main__":
     main()
