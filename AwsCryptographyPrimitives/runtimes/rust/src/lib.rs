@@ -6,6 +6,11 @@
     non_camel_case_types
 )]
 
+#![allow(warnings, unconditional_panic)]
+#![allow(nonstandard_style)]
+#![allow(clippy::never_loop)]
+#![allow(clippy::absurd_extreme_comparisons)]
+
 pub mod client;
 pub mod conversions;
 pub mod error;
