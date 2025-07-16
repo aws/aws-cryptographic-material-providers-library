@@ -157,7 +157,6 @@ def create_key_description(draw, keyring_type: str, test_type: str, kms_key: str
     else:
         raise ValueError(f"Unknown keyring type: {keyring_type}")
 
-
 def create_raw_key_description(draw, test_type: str) -> Dict[str, Any]:
     """Create raw keyring description."""
     if test_type == "negative-encrypt-keyring":
