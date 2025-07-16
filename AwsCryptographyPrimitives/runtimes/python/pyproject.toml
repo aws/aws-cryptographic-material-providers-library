@@ -12,7 +12,7 @@ include = ["src/aws_cryptography_primitives/internaldafny/generated/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
-aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
+aws-cryptography-internal-standard-library = "1.11.0"
 cryptography = ">=43.0.1, <46"
 
 # Package testing
