@@ -101,23 +101,23 @@ def fuzz_encryption_context(draw):
         # Generate Unicode keys and values (min_size=1 to avoid empty strings)
         key = draw(st.one_of(
             st.text(min_size=1, max_size=50),  # Normal text
-            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['So', 'Sc', 'Sk', 'Sm'])),  # Symbols
-            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])),  # Letters
-            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Nd', 'Nl', 'No'])),  # Numbers
-            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Mn', 'Mc', 'Me'])),  # Marks
-            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Zs', 'Zl', 'Zp'])),  # Separators
-            st.text(min_size=1, max_size=50, alphabet=st.characters(whitelist_categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])),  # Symbols
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])),  # Letters
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])),  # Numbers
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])),  # Marks
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])),  # Separators
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
         ))
         
         value = draw(st.one_of(
             st.text(min_size=1, max_size=100),  # Normal text
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['So', 'Sc', 'Sk'])),  # Symbols
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])),  # Letters
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Nd', 'Nl', 'No'])),  # Numbers
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Mn', 'Mc', 'Me'])),  # Marks
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Zs', 'Zl', 'Zp'])),  # Separators
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
-            st.text(min_size=1, max_size=100, alphabet=st.characters(whitelist_categories=['So'])),  # Emojis and symbols
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])),  # Symbols
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])),  # Letters
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])),  # Numbers
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])),  # Marks
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])),  # Separators
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),  # Control chars
+            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['So'])),  # Emojis and symbols
         ))
         
         context[key] = value
