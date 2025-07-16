@@ -17,6 +17,7 @@ This script generates fuzzed test vectors with a focused approach:
     - Invalid encryption context formats
 - Strengthening encryption context fuzzing with specific edge cases, structured patterns
 - Add key name and key name space fuzz testing (any unicode character)
+- add RSA as well for "raw" key fuzzing
 - Remove extraneous logging/printing statements to simplify output on CI
 - Increase the number of test vectors
 """
@@ -178,6 +179,7 @@ def create_key_description(draw, keyring_type: str, test_type: str, kms_key: str
     else:
         raise ValueError(f"Unknown keyring type: {keyring_type}")
 
+#TODO-Fuzztesting: add RSA as well for "raw" key fuzzing
 def create_raw_key_description(draw, test_type: str) -> Dict[str, Any]:
     """Create raw keyring description."""
     if test_type == "negative-encrypt-keyring":
