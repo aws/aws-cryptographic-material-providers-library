@@ -6,61 +6,58 @@ on:
     - cron: "00 15 * * 1-5"
 
 jobs:
-  getVersion:
+  getVersions:
     # Don't run the cron builds on forks
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
-    uses: ./.github/workflows/dafny_version.yaml
-  getVerifyVersion:
-    if: github.event_name != 'schedule' || github.repository_owner == 'aws'
-    uses: ./.github/workflows/dafny_verify_version.yaml
+    uses: ./.github/workflows/dafny_versions.yaml
   daily-ci-format:
     needs: getVersion
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_format.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   daily-ci-codegen:
     needs: getVersion
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_codegen.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   daily-ci-verification:
     needs: getVerifyVersion
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_dafny_verification.yml
     with:
-      dafny: ${{needs.getVerifyVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.verifyVersion}}
   daily-ci-java:
     needs: getVersion
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_java_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   daily-ci-net:
     needs: getVersion
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_net_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   daily-ci-rust:
     needs: getVersion
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_rust_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.rustVersion}}
   daily-ci-python:
     needs: getVersion
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_python_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   daily-ci-go:
     needs: getVersion
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_go_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   daily-interop-test:
     needs: getVersion
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
