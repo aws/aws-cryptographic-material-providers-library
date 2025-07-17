@@ -17,6 +17,7 @@ This script generates fuzzed test vectors with a focused approach:
     - Invalid encryption context formats
 - Strengthening encryption context fuzzing with specific edge cases, structured patterns
 - Add key name and key name space fuzz testing (any unicode character)
+- add RSA as well for "raw" key fuzzing
 - Remove extraneous logging/printing statements to simplify output on CI
 - Increase the number of test vectors
 """
@@ -27,7 +28,6 @@ from typing import Dict, Any, List, Tuple
 import hypothesis
 from hypothesis import strategies as st
 from hypothesis.strategies import composite
-
 
 # Description templates for test vectors
 DESCRIPTION_TEMPLATES = {
@@ -77,12 +77,11 @@ ALGORITHM_SUITES = [
         "0478",  # AES-256-GCM, HKDF-SHA512, Key Commitment
         "0578",  # AES-256-GCM, HKDF-SHA512, Key Commitment, ECDSA-P256
         # DBE Algorithm Suites
-        "6701",  # DBE AES-256-GCM
-        "6702",  # DBE AES-256-GCM with Key Commitment
+        "6700",  # DBE AES-256-GCM with Key Commitment
+        "6701",  # DBE AES-256-GCM with Key Commitment; ECDSA with P-384 and SHA-384
 ]
 
-
-# Below are the helper methods I have defined to assmeble a test vector; a modular generation process for easy debugging
+# Below are the helper methods defined to assemble a test vector; a modular generation process for easy debugging.
 
 def get_description_template(test_type: str, keyring_type: str) -> str:
     """Get description template for test type and keyring type combination."""
@@ -99,24 +98,55 @@ def fuzz_encryption_context(draw):
     
     for _ in range(num_pairs):
         # Generate Unicode keys and values (min_size=1 to avoid empty strings)
+
         key = draw(st.one_of(
-            st.text(min_size=1, max_size=50),
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk'])),
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu'])),
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),
+            # Basic categories
+            st.text(min_size=1, max_size=50),  # Normal text
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])), #Symbols
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])), #Letters
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])), #Numbers
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])), #Marks
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])), #Separators
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])), #Control characters
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Pc', 'Pd', 'Ps', 'Pe', 'Pi', 'Pf', 'Po'])), #Punctuation
+            
+            # Specific edge cases
+            st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
+            st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
+            
+            # Bidirectional text
+            st.text(min_size=1, max_size=25, alphabet=st.characters(script='Arabic')) + 
+                st.text(min_size=1, max_size=25, alphabet=st.characters(script='Latin')),
+            
+            # Emoji
+            st.text(min_size=1, max_size=50, alphabet=st.characters(block='Emoticons'))
         ))
         
         value = draw(st.one_of(
-            st.text(min_size=1, max_size=100),
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['So', 'Sc', 'Sk'])),
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu'])),
-            st.text(min_size=1, max_size=100, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])),
+            st.text(min_size=1, max_size=50),  # Normal text
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])), #Symbols
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])), #Letters
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])), #Numbers
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])), #Marks
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])), #Separators
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])), #Control characters
+            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Pc', 'Pd', 'Ps', 'Pe', 'Pi', 'Pf', 'Po'])), #Punctuation
+            
+            # Specific edge cases
+            st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
+            st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
+            
+            # Bidirectional text
+            st.text(min_size=1, max_size=25, alphabet=st.characters(script='Arabic')) + 
+                st.text(min_size=1, max_size=25, alphabet=st.characters(script='Latin')),
+            
+            # Emoji
+            st.text(min_size=1, max_size=50, alphabet=st.characters(block='Emoticons'))
         ))
         
         context[key] = value
     
     return context
-
 
 def generate_required_keys(draw, test_type: str, encryption_context: Dict[str, str]) -> List[str]:
     """Generate requiredEncryptionContextKeys based on test type."""
@@ -138,7 +168,6 @@ def generate_required_keys(draw, test_type: str, encryption_context: Dict[str, s
         num_required = draw(st.integers(min_value=1, max_value=min(len(context_keys), 5)))
         return draw(st.lists(st.sampled_from(context_keys), min_size=1, max_size=num_required, unique=True))
 
-
 def create_key_description(draw, keyring_type: str, test_type: str, kms_key: str, required_keys: List[str]) -> Dict[str, Any]:
     """Create key description based on keyring and test type."""
     if keyring_type == "raw":
@@ -150,7 +179,21 @@ def create_key_description(draw, keyring_type: str, test_type: str, kms_key: str
     else:
         raise ValueError(f"Unknown keyring type: {keyring_type}")
 
-# For the KMS keys
+#TODO-Fuzztesting: add RSA as well for "raw" key fuzzing
+def create_raw_key_description(draw, test_type: str) -> Dict[str, Any]:
+    """Create raw keyring description."""
+    if test_type == "negative-encrypt-keyring":
+        return {"type": "static-material-keyring", "key": "no-plaintext-data-key"}
+    
+    raw_key_id = draw(st.sampled_from(RAW_KEY_TYPES))
+    key_identifiers = draw(fuzz_key_identifiers(raw_key_id))
+    return {
+        "type": "raw",
+        "key": key_identifiers["key_name"],
+        "provider-id": key_identifiers["key_namespace"],
+        "encryption-algorithm": "aes"
+    }
+
 def create_kms_based_key_description(draw, keyring_type: str, kms_key: str, required_keys: List[str]) -> Dict[str, Any]:
     """Create KMS-based keyring description (handles kms, mrk-aware, rsa)."""
     # Map keyring types to their underlying types and keys
@@ -168,7 +211,6 @@ def create_kms_based_key_description(draw, keyring_type: str, kms_key: str, requ
         "requiredEncryptionContextKeys": required_keys
     }
 
-
 def create_caching_cmm_description(kms_key: str, required_keys: List[str]) -> Dict[str, Any]:
     """Create caching CMM description."""
     return {
@@ -182,7 +224,6 @@ def create_caching_cmm_description(kms_key: str, required_keys: List[str]) -> Di
         "maxBytesEncrypted": 1000,
         "maxMessagesEncrypted": 10
     }
-
 
 def generate_reproduced_context(draw, encryption_context: Dict[str, str]) -> Dict[str, str]:
     """Generate reproducedEncryptionContext with various strategies."""
@@ -205,7 +246,6 @@ def generate_reproduced_context(draw, encryption_context: Dict[str, str]) -> Dic
                 reproduced_context[key] = encryption_context[key]
         return reproduced_context
 
-
 def add_error_descriptions(test_vector: Dict[str, Any], test_type: str, keyring_type: str) -> None:
     """Add error descriptions for negative tests."""
     if test_type == "negative-encrypt-keyring":
@@ -213,8 +253,7 @@ def add_error_descriptions(test_vector: Dict[str, Any], test_type: str, keyring_
     elif test_type == "negative-decrypt-keyring":
         test_vector["decryptErrorDescription"] = "Expected decryption failure"
 
-
-# Assembling the test vector
+# Assembling a test vector
 
 @composite
 def fuzz_test_vector(draw):
@@ -256,7 +295,6 @@ def fuzz_test_vector(draw):
     
     return test_vector
 
-
 def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
     """Extract new keys from raw keyring test vectors.
 
@@ -288,7 +326,6 @@ def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
     
     return new_keys
 
-
 def generate_fuzz_test_vectors(num_vectors: int = 5) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Generate multiple fuzzed test vectors and collect new key generated."""
     test_vectors = {}
@@ -300,7 +337,6 @@ def generate_fuzz_test_vectors(num_vectors: int = 5) -> Tuple[Dict[str, Any], Di
     
     new_keys = extract_new_keys(test_vectors)
     return test_vectors, new_keys
-
 
 def main():
     """Main function to generate fuzzed test vectors."""
@@ -332,7 +368,6 @@ def main():
         json.dump(manifest_data, f, indent=2, ensure_ascii=False)
     
     print(f"Generated {len(test_vectors)} test vectors with {len(new_keys)} new keys")
-
 
 if __name__ == "__main__":
     main()
