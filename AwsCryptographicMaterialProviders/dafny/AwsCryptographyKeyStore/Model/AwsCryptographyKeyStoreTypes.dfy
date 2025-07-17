@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 include "../../../../StandardLibrary/src/Index.dfy"
+include "../../../../AwsCryptographyPrimitives/src/Index.dfy"
 include "../../../../ComAmazonawsDynamodb/src/Index.dfy"
 include "../../../../ComAmazonawsKms/src/Index.dfy"
 module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } AwsCryptographyKeyStoreTypes
@@ -9,6 +10,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   import opened Wrappers
   import opened StandardLibrary.UInt
   import opened UTF8
+  import AwsCryptographyPrimitivesTypes
   import ComAmazonawsDynamodbTypes
   import ComAmazonawsKmsTypes
     // Generic helpers for verification of mock/unit tests.
@@ -20,17 +22,25 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly beaconKeyIdentifier: string ,
     nameonly encryptionContext: EncryptionContext ,
     nameonly beaconKey: Option<Secret> := Option.None ,
-    nameonly hmacKeys: Option<HmacKeyMap> := Option.None
+    nameonly hmacKeys: Option<HmacKeyMap> := Option.None ,
+    nameonly kmsArn: ComAmazonawsKmsTypes.KeyIdType ,
+    nameonly createTime: CreateTime ,
+    nameonly hierarchyVersion: HierarchyVersion
   )
+  type BranchKeyIdentifier = string
   datatype BranchKeyMaterials = | BranchKeyMaterials (
     nameonly branchKeyIdentifier: string ,
     nameonly branchKeyVersion: Utf8Bytes ,
     nameonly encryptionContext: EncryptionContext ,
-    nameonly branchKey: Secret
+    nameonly branchKey: Secret ,
+    nameonly kmsArn: ComAmazonawsKmsTypes.KeyIdType ,
+    nameonly createTime: CreateTime ,
+    nameonly hierarchyVersion: HierarchyVersion
   )
   datatype CreateKeyInput = | CreateKeyInput (
     nameonly branchKeyIdentifier: Option<string> := Option.None ,
-    nameonly encryptionContext: Option<EncryptionContext> := Option.None
+    nameonly encryptionContext: Option<EncryptionContext> := Option.None ,
+    nameonly hierarchyVersion: Option<HierarchyVersion> := Option.None
   )
   datatype CreateKeyOutput = | CreateKeyOutput (
     nameonly branchKeyIdentifier: string
@@ -41,6 +51,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype CreateKeyStoreOutput = | CreateKeyStoreOutput (
     nameonly tableArn: ComAmazonawsDynamodbTypes.TableArn
   )
+  type CreateTime = string
   datatype Discovery = | Discovery (
 
                        )
@@ -72,6 +83,9 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly kmsConfiguration: KMSConfiguration
   )
   type GrantTokenList = seq<string>
+  datatype HierarchyVersion =
+    | v1
+    | v2
   type HmacKeyMap = map<string, Secret>
   class IKeyStoreClientCallHistory {
     ghost constructor() {
@@ -251,10 +265,14 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
                               )
   datatype Error =
       // Local Error structures are listed here
+    | BranchKeyCiphertextException (
+        nameonly message: string
+      )
     | KeyStoreException (
         nameonly message: string
       )
       // Any dependent models are listed here
+    | AwsCryptographyPrimitives(AwsCryptographyPrimitives: AwsCryptographyPrimitivesTypes.Error)
     | ComAmazonawsDynamodb(ComAmazonawsDynamodb: ComAmazonawsDynamodbTypes.Error)
     | ComAmazonawsKms(ComAmazonawsKms: ComAmazonawsKmsTypes.Error)
       // The Collection error is used to collect several errors together
