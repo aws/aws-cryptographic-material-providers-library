@@ -7,19 +7,6 @@ Fuzz Testing Generator for AWS Cryptographic Material Providers Library
 This script generates fuzzed test vectors with a focused approach:
 1. Fuzz encryption context fields and key-related fields (strings; since there a variety of Unicode characters that can be tested)
 2. Randomly choosing and testing the "representative values" -> https://github.com/awslabs/aws-encryption-sdk-specification/blob/master/framework/test-vectors/test-vector-enumeration.md#selecting-a-representative-input-value
-
-#TODO-Fuzztesting:
-- "negative-encrypt-keyring" fuzzing functionality: currently, we implement tests with missing required keys (for KMS keyrings) or invalid key material (raw keryings)
-    - Invalid key material (like "no-plaintext-data-key" for raw keyrings)
-    - Insufficient permissions (encrypt-only keys trying to decrypt)
-    - Malformed key configurations
-    - Algorithm mismatches
-    - Invalid encryption context formats
-- Strengthening encryption context fuzzing with specific edge cases, structured patterns
-- Add key name and key name space fuzz testing (any unicode character)
-- add RSA as well for "raw" key fuzzing
-- Remove extraneous logging/printing statements to simplify output on CI
-- Increase the number of test vectors
 """
 
 import json
@@ -52,7 +39,10 @@ DESCRIPTION_TEMPLATES = {
 KMS_KEYS = ["us-west-2-mrk", "us-east-1-mrk", "us-west-2-decryptable", "us-west-2-encrypt-only"]
 MRK_KEYS = ["us-west-2-mrk", "us-east-1-mrk"]
 
+#TODO-Fuzztesting: #include 𝟁-nonascii-𐀂-aes-256-𝟁-with-� and rsa for raw keyrings
 RAW_KEY_TYPES = ["aes-128", "aes-192", "aes-256"]
+
+#TODO-Fuzztesting: add the remaining keyring types: see keys.json and cross-check
 KEYRING_TYPES = ["kms", "raw", "aws-kms-mrk-aware", "aws-kms-rsa", "caching-cmm"]
 
 TEST_TYPES = ["positive-keyring", "negative-encrypt-keyring", "negative-decrypt-keyring"]
@@ -87,6 +77,8 @@ def get_description_template(test_type: str, keyring_type: str) -> str:
     """Get description template for test type and keyring type combination."""
     return DESCRIPTION_TEMPLATES.get((test_type, keyring_type), f"Fuzz test: {test_type} with {keyring_type} keyring")
 
+#TODO-Fuzztesting: create the fuzz_key_identifiers helper method to generate fuzzed key name and key namespace for raw keyring.
+#TODO-Fuzztesting: Strengthening encryption context fuzzing with specific edge cases (close to the character limitation for encryption context (8,192)), structured patterns
 @composite
 def fuzz_encryption_context(draw):
     """Generate diverse encryption contexts with Unicode characters.
@@ -148,6 +140,8 @@ def fuzz_encryption_context(draw):
     
     return context
 
+#TODO-Fuzztesting: "negative-encrypt-keyring" fuzzing functionality: currently, implement tests with missing required keys (for KMS keyrings) or invalid key material (raw keryings)
+# but it could also fail because of algo mismatches or invalid encryption context formats
 def generate_required_keys(draw, test_type: str, encryption_context: Dict[str, str]) -> List[str]:
     """Generate requiredEncryptionContextKeys based on test type."""
     if test_type == "negative-encrypt-keyring":
@@ -179,7 +173,7 @@ def create_key_description(draw, keyring_type: str, test_type: str, kms_key: str
     else:
         raise ValueError(f"Unknown keyring type: {keyring_type}")
 
-#TODO-Fuzztesting: add RSA as well for "raw" key fuzzing
+#TODO-Fuzztesting: ensure use of other algorithm types for raw keyrings (not just aes)
 def create_raw_key_description(draw, test_type: str) -> Dict[str, Any]:
     """Create raw keyring description."""
     if test_type == "negative-encrypt-keyring":
@@ -194,6 +188,7 @@ def create_raw_key_description(draw, test_type: str) -> Dict[str, Any]:
         "encryption-algorithm": "aes"
     }
 
+#TODO-Fuzztesting: add aws-kms-ecdh and aws-kms-hierarchy
 def create_kms_based_key_description(draw, keyring_type: str, kms_key: str, required_keys: List[str]) -> Dict[str, Any]:
     """Create KMS-based keyring description (handles kms, mrk-aware, rsa)."""
     # Map keyring types to their underlying types and keys
@@ -205,6 +200,7 @@ def create_kms_based_key_description(draw, keyring_type: str, kms_key: str, requ
     
     underlying_config = keyring_config.get(keyring_type, {"type": "aws-kms", "key": kms_key})
     
+    #TODO-Fuzztesting: currently, only considering one "type": required-encryption-context-cmm; could consider aws-kms, symmetric, rsa, etc (refer to keys.json)
     return {
         "type": "required-encryption-context-cmm",
         "underlying": underlying_config,
@@ -213,6 +209,7 @@ def create_kms_based_key_description(draw, keyring_type: str, kms_key: str, requ
 
 def create_caching_cmm_description(kms_key: str, required_keys: List[str]) -> Dict[str, Any]:
     """Create caching CMM description."""
+    #TODO-Fuzztesting: currently, only considering one "type": required-encryption-context-cmm; could consider others like static-material-kerying (refer to keys.json)
     return {
         "type": "caching-cmm",
         "underlying": {
@@ -317,6 +314,7 @@ def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
                     base_key_id = key_type
                     break
             
+            #TODO-Fuzztesting: note: currently not testing every case for type, algorithm, encoding
             key_info = KEY_MATERIALS.get(base_key_id, KEY_MATERIALS["aes-256"])
             new_keys[key_name] = {
                 "encrypt": True, "decrypt": True, "algorithm": "aes", "type": "symmetric",
@@ -338,6 +336,9 @@ def generate_fuzz_test_vectors(num_vectors: int = 5) -> Tuple[Dict[str, Any], Di
     new_keys = extract_new_keys(test_vectors)
     return test_vectors, new_keys
 
+#TODO-Fuzztesting: create CI and add necessary Makefile commands
+#TODO-Fuzztesting: increase the number of test vectors (for CI)
+#TODO-Fuzztesting: remove extraneous logging/printing statements to simplify output (for CI)
 def main():
     """Main function to generate fuzzed test vectors."""
     # Generate test vectors and new keys
@@ -351,9 +352,9 @@ def main():
         print("Error: keys.json not found!")
         return
     
-    original_key_count = len(keys_data["keys"])
     keys_data["keys"].update(new_keys)
     
+    #TODO-Fuzztesting: this works for python runtime; however, this probably will not dump the JSON in the right place for all runtimes. Figure this out.
     with open("keys.json", "w") as f:
         json.dump(keys_data, f, indent=2, ensure_ascii=False)
     
@@ -363,7 +364,7 @@ def main():
         "keys": "file://keys.json",
         "tests": test_vectors
     }
-    
+    #TODO-Fuzztesting; same potential JSON directory issue as above ^^
     with open("manifest.json", "w") as f:
         json.dump(manifest_data, f, indent=2, ensure_ascii=False)
     
