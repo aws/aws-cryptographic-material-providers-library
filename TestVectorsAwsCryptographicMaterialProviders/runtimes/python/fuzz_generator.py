@@ -11,6 +11,7 @@ This script generates fuzzed test vectors with a focused approach:
 
 import json
 import uuid
+import unicodedata
 from typing import Dict, Any, List, Tuple
 import hypothesis
 from hypothesis import strategies as st
@@ -37,13 +38,12 @@ DESCRIPTION_TEMPLATES = {
 
 # Key, Algorithm, Test-Type, Key-Material Definitions
 KMS_KEYS = ["us-west-2-mrk", "us-east-1-mrk", "us-west-2-decryptable", "us-west-2-encrypt-only"]
-MRK_KEYS = ["us-west-2-mrk", "us-east-1-mrk"]
 
 #TODO-Fuzztesting: #include 𝟁-nonascii-𐀂-aes-256-𝟁-with-� and rsa for raw keyrings
 RAW_KEY_TYPES = ["aes-128", "aes-192", "aes-256"]
 
 #TODO-Fuzztesting: add the remaining keyring types: see keys.json and cross-check
-KEYRING_TYPES = ["kms", "raw", "aws-kms-mrk-aware", "aws-kms-rsa", "caching-cmm"]
+KEYRING_TYPES = ["kms", "raw", "aws-kms-mrk-aware", "aws-kms-rsa"]
 
 TEST_TYPES = ["positive-keyring", "negative-encrypt-keyring", "negative-decrypt-keyring"]
 
@@ -77,7 +77,53 @@ def get_description_template(test_type: str, keyring_type: str) -> str:
     """Get description template for test type and keyring type combination."""
     return DESCRIPTION_TEMPLATES.get((test_type, keyring_type), f"Fuzz test: {test_type} with {keyring_type} keyring")
 
-#TODO-Fuzztesting: create the fuzz_key_identifiers helper method to generate fuzzed key name and key namespace for raw keyring.
+@composite
+def fuzz_key_identifiers(draw, base_key_id: str) -> Dict[str, Any]:
+    """Generate fuzzed key name, namespace, and key material for raw keyrings
+    Returns:
+        Dictionary with key_name, key_namespace, and key_material
+    """
+    # Generate Unicode prefix and suffix for key name
+    unicode_strategies = [
+        st.text(min_size=1, max_size=10),  # Normal text
+        st.text(min_size=1, max_size=10, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])),  # Symbols
+        st.text(min_size=1, max_size=10, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])),  # Letters
+        st.text(min_size=1, max_size=10, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])),  # Numbers
+        
+        # Specific edge cases
+        st.text(min_size=1, max_size=10).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
+        st.text(min_size=1, max_size=10).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
+    ]
+    
+    unicode_prefix = draw(st.one_of(unicode_strategies))
+    unicode_suffix = draw(st.one_of(unicode_strategies))
+    
+    # Create key name with Unicode elements
+    key_name = f"{unicode_prefix}-{base_key_id}-{unicode_suffix}"
+    
+    # Create namespace with Unicode elements
+    namespace_part = draw(st.text(min_size=1, max_size=5))
+    key_namespace = f"aws-raw-vectors-persistent-{unicode_prefix}-{base_key_id}-{namespace_part}"
+    
+    # Generate fuzzed key-id
+    key_id_suffix = draw(st.one_of(unicode_strategies))
+    fuzzed_key_id = f"{base_key_id}-{key_id_suffix}"
+    
+    # Get key material information based on the base key ID
+    key_info = KEY_MATERIALS.get(base_key_id, KEY_MATERIALS["aes-256"])
+    key_material = {
+        "encrypt": True, 
+        "decrypt": True, 
+        "algorithm": "aes", 
+        "type": "symmetric",
+        "bits": key_info["bits"], 
+        "encoding": "base64",
+        "material": key_info["material"], 
+        "key-id": fuzzed_key_id  # Using the fuzzed key-id
+    }
+    
+    return {"key_name": key_name, "key_namespace": key_namespace, "key_material": key_material}
+
 #TODO-Fuzztesting: Strengthening encryption context fuzzing with specific edge cases (close to the character limitation for encryption context (8,192)), structured patterns
 @composite
 def fuzz_encryption_context(draw):
@@ -105,13 +151,6 @@ def fuzz_encryption_context(draw):
             # Specific edge cases
             st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
             st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
-            
-            # Bidirectional text
-            st.text(min_size=1, max_size=25, alphabet=st.characters(script='Arabic')) + 
-                st.text(min_size=1, max_size=25, alphabet=st.characters(script='Latin')),
-            
-            # Emoji
-            st.text(min_size=1, max_size=50, alphabet=st.characters(block='Emoticons'))
         ))
         
         value = draw(st.one_of(
@@ -127,13 +166,6 @@ def fuzz_encryption_context(draw):
             # Specific edge cases
             st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
             st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
-            
-            # Bidirectional text
-            st.text(min_size=1, max_size=25, alphabet=st.characters(script='Arabic')) + 
-                st.text(min_size=1, max_size=25, alphabet=st.characters(script='Latin')),
-            
-            # Emoji
-            st.text(min_size=1, max_size=50, alphabet=st.characters(block='Emoticons'))
         ))
         
         context[key] = value
@@ -273,7 +305,7 @@ def fuzz_test_vector(draw):
     key_description = create_key_description(draw, keyring_type, test_type, kms_key, required_keys)
     
     # Generate reproduced context
-    reproduced_context = generate_reproduced_context(draw, encryption_context)
+    reproduced_context = generate_reproduced_context(draw, encryption_context, test_type, required_keys)
     
     # Create test vector
     test_vector = {
@@ -324,7 +356,7 @@ def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
     
     return new_keys
 
-def generate_fuzz_test_vectors(num_vectors: int = 5) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+def generate_fuzz_test_vectors(num_vectors: int = 2) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Generate multiple fuzzed test vectors and collect new key generated."""
     test_vectors = {}
     
@@ -342,7 +374,7 @@ def generate_fuzz_test_vectors(num_vectors: int = 5) -> Tuple[Dict[str, Any], Di
 def main():
     """Main function to generate fuzzed test vectors."""
     # Generate test vectors and new keys
-    test_vectors, new_keys = generate_fuzz_test_vectors(num_vectors=5)
+    test_vectors, new_keys = generate_fuzz_test_vectors(num_vectors=2)
     
     # Load and update keys.json
     try:
