@@ -591,13 +591,7 @@ module DefaultKeyStorageInterface {
       ensures output.Success?
               ==>
                 && Seq.Last(ddbClient.History.GetItem).output.Success?
-                && Seq.Last(ddbClient.History.GetItem).output.value.Item.Some?
-                && 0 < |Seq.Last(ddbClient.History.GetItem).output.value.Item.value|
                 && Seq.Last(Seq.DropLast(ddbClient.History.GetItem)).output.Success?
-                && Seq.Last(Seq.DropLast(ddbClient.History.GetItem)).output.value.Item.Some?
-                && 0 < |Seq.Last(Seq.DropLast(ddbClient.History.GetItem)).output.value.Item.value|
-                && Structure.MutationCommitmentAttribute?(Seq.Last(Seq.DropLast(ddbClient.History.GetItem)).output.value.Item.value)
-                && Structure.MutationIndexAttribute?(Seq.Last(ddbClient.History.GetItem).output.value.Item.value)
       ensures
         && old(ddbClient.History.GetItem) < ddbClient.History.GetItem
     {
@@ -621,16 +615,6 @@ module DefaultKeyStorageInterface {
                       identifier:=input.Identifier,
                       tableName:=ddbTableName));
 
-        // SDKs/Smithy-Dafny/Custom Implementations of Storage MAY respond with None or an Empty Map.
-        // .NET returns an empty map, Java returns None.
-      :- Need(
-        commitmentRes.Item.Some? && (0 < |commitmentRes.Item.value|),
-        Types.KeyStorageException(
-          message:=
-            "GetMutation's GetItem for the Mutation Commitment returned an empty result. "
-            + "Branch Key ID: " + input.Identifier
-            + "\tTable Name: " + ddbTableName));
-
       // Get Mutation Index
       var indexKey: DDB.Key := map[
         Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(input.Identifier),
@@ -650,15 +634,6 @@ module DefaultKeyStorageInterface {
                       ddbOperation:="GetItem",
                       identifier:=input.Identifier,
                       tableName:=ddbTableName));
-      // SDKs/Smithy-Dafny/Custom Implementations of Storage MAY respond with None or an Empty Map.
-      // .NET returns an empty map, Java returns None.
-      :- Need(
-        indexRes.Item.Some? && (0 < |indexRes.Item.value|),
-        Types.KeyStorageException(
-          message:=
-            "GetMutation's GetItem for the Mutation Index returned an empty result. "
-            + "Branch Key ID: " + input.Identifier
-            + "\tTable Name: " + ddbTableName));
 
       /** Process sensical DDB Response */
       ghost var lockCandidate := commitmentRes.Item;
