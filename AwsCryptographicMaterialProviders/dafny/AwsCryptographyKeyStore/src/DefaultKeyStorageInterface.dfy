@@ -591,6 +591,13 @@ module DefaultKeyStorageInterface {
       ensures output.Success?
               ==>
                 && Seq.Last(ddbClient.History.GetItem).output.Success?
+                && Seq.Last(ddbClient.History.GetItem).output.value.Item.Some?
+                && 0 < |Seq.Last(ddbClient.History.GetItem).output.value.Item.value|
+                && Seq.Last(Seq.DropLast(ddbClient.History.GetItem)).output.Success?
+                && Seq.Last(Seq.DropLast(ddbClient.History.GetItem)).output.value.Item.Some?
+                && 0 < |Seq.Last(Seq.DropLast(ddbClient.History.GetItem)).output.value.Item.value|
+                && Structure.MutationCommitmentAttribute?(Seq.Last(Seq.DropLast(ddbClient.History.GetItem)).output.value.Item.value)
+                && Structure.MutationIndexAttribute?(Seq.Last(ddbClient.History.GetItem).output.value.Item.value)
       ensures
         && old(ddbClient.History.GetItem) < ddbClient.History.GetItem
     {
@@ -654,10 +661,10 @@ module DefaultKeyStorageInterface {
             + "\tTable Name: " + ddbTableName));
 
       /** Process sensical DDB Response */
-      ghost var lockCanidate := commitmentRes.Item;
+      ghost var lockCandidate := commitmentRes.Item;
       var lockItem: Option<Types.MutationCommitment> :-
         MutationCommitmentFromOptionalItem(commitmentRes.Item, input.Identifier, ddbTableName);
-      assert lockItem.Some? ==> lockCanidate.Some? && Structure.MutationCommitmentAttribute?(lockCanidate.value);
+      assert lockItem.Some? ==> lockCandidate.Some? && Structure.MutationCommitmentAttribute?(lockCandidate.value);
 
       ghost var indexCanidate := indexRes.Item;
       var indexItem: Option<Types.MutationIndex> :-
