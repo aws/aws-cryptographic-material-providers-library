@@ -11,13 +11,13 @@ jobs:
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/dafny_versions.yaml
   daily-ci-format:
-    needs: getVersion
+    needs: getVersions
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_format.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   daily-ci-codegen:
-    needs: getVersion
+    needs: getVersions
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_codegen.yml
     with:
@@ -29,37 +29,37 @@ jobs:
     with:
       dafny: ${{needs.getVersions.outputs.verifyVersion}}
   daily-ci-java:
-    needs: getVersion
+    needs: getVersions
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_java_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   daily-ci-net:
-    needs: getVersion
+    needs: getVersions
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   daily-ci-rust:
-    needs: getVersion
+    needs: getVersions
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_rust_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.rustVersion}}
   daily-ci-python:
-    needs: getVersion
+    needs: getVersions
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_python_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   daily-ci-go:
-    needs: getVersion
+    needs: getVersions
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_go_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   daily-interop-test:
-    needs: getVersion
+    needs: getVersions
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/library_interop_tests.yml
     with:
