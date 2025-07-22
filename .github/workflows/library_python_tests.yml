@@ -12,7 +12,7 @@ on:
         description: "Regenerate code using smithy-dafny"
         required: false
         default: false
-        type: boolean        
+        type: boolean
 
 jobs:
   testPython:
