@@ -25,4 +25,3 @@ jobs:
       dafnyVerifyVersion: ${{needs.getVersions.outputs.verifyVersion}}
       dafnyRustVersion: ${{needs.getVersions.outputs.rustVersion}}
       regenerate-code: true
-
