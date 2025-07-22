@@ -64,8 +64,23 @@ module {:options "/functionSyntax:4"} TestGetMutation {
     var output? := underTest.GetMutation(input);
     expect output?.Success?, "GetMutation should have succeeded, but it failed!";
     var output := output?.value;
-    expect output.MutationCommitment.None?, "There should be a Mutation Commitment";
-    expect output.MutationIndex.Some?, "There should be no Mutation Index";
+    expect output.MutationCommitment.None?, "There should not be a Mutation Commitment";
+    expect output.MutationIndex.Some?, "There should be a Mutation Index";
+  }
+
+  const TEST_YES_COMMITMENT_YES_INDEX_BKID := "test-storage-get-mutation-yes-commitment-yes-index"
+  method {:test} TestYesCommitmentYesIndexExpectSuccessWithNone()
+  {
+    // CreateCommitmentIndexBK(id := TEST_YES_COMMITMENT_YES_INDEX_BKID, withCommitment := true, withIndex := true); // Insert to re-create the test-id.
+    var underTest :- expect Fixtures.DefaultStorage();
+    var input := KeyStoreTypes.GetMutationInput(
+      Identifier := TEST_YES_COMMITMENT_YES_INDEX_BKID
+    );
+    var output? := underTest.GetMutation(input);
+    expect output?.Success?, "GetMutation should have succeeded, but it failed!";
+    var output := output?.value;
+    expect output.MutationCommitment.Some?, "There should be a Mutation Commitment";
+    expect output.MutationIndex.Some?, "There should be a Mutation Index";
   }
 
   method CreateCommitmentIndexBK(
