@@ -254,3 +254,27 @@ test_decrypt_encrypt_vectors_rust:
 
 test_decrypt_encrypt_vectors_go:
 	go -C runtimes/go/ImplementationFromDafny-go run ImplementationFromDafny.go decrypt --manifest-path=..
+
+# Fuzz Testing Commands
+
+# Generate fuzzed test vectors in the Python runtime directory (50 vectors)
+test_generate_fuzz_vectors:
+	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/python/
+	cd runtimes/python && python3 fuzz_generator.py --num-vectors 50
+	@echo "50 fuzzed test vectors generated in runtimes/python/"
+
+# Run fuzz interoperability test from one language to another
+# Usage: make test_fuzz_interop ENCRYPT_LANG=go DECRYPT_LANG=python
+test_fuzz_interop:
+	@echo "Testing interoperability from $(ENCRYPT_LANG) to $(DECRYPT_LANG)"
+	$(MAKE) test_generate_fuzz_vectors
+	@echo "Copying test vectors to $(ENCRYPT_LANG) runtime"
+	cp runtimes/python/manifest.json runtimes/$(ENCRYPT_LANG)/
+	cp runtimes/python/keys.json runtimes/$(ENCRYPT_LANG)/
+	@echo "Encrypting with $(ENCRYPT_LANG) runtime"
+	$(MAKE) test_encrypt_vectors_$(ENCRYPT_LANG)
+	@echo "Copying encrypted manifest and keys to $(DECRYPT_LANG) runtime"
+	cp runtimes/$(ENCRYPT_LANG)/manifest.json.encrypted runtimes/$(DECRYPT_LANG)/
+	cp runtimes/$(ENCRYPT_LANG)/keys.json runtimes/$(DECRYPT_LANG)/
+	@echo "Decrypting with $(DECRYPT_LANG) runtime"
+	$(MAKE) test_decrypt_encrypt_vectors_$(DECRYPT_LANG)

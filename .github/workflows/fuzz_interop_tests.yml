@@ -1,0 +1,188 @@
+name: Fuzz Testing Interoperability
+
+on:
+  push:  # Run on push to any branch
+  pull_request:
+    branches: [ main, master ]  # Run on PRs to main branches
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  fuzzInteropTest:
+    strategy:
+      fail-fast: false  # Continue testing other combinations even if one fails
+      matrix:
+        library: [TestVectorsAwsCryptographicMaterialProviders]
+        os: [ubuntu-22.04]  # Focus on one OS to reduce matrix size
+        # Randomize encryption and decryption languages
+        include:
+          - encrypt_lang: go
+            decrypt_lang: java
+          - encrypt_lang: java
+            decrypt_lang: go
+          - encrypt_lang: python
+            decrypt_lang: go
+          - encrypt_lang: go
+            decrypt_lang: python
+          - encrypt_lang: rust
+            decrypt_lang: net
+          - encrypt_lang: net
+            decrypt_lang: rust
+          - encrypt_lang: python
+            decrypt_lang: rust
+          - encrypt_lang: java
+            decrypt_lang: python
+    runs-on: ${{ matrix.os }}
+    permissions:
+      id-token: write  # Needed for AWS credentials
+      contents: read   # Needed for checkout
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+
+      # Configure AWS credentials for KMS access
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: FuzzInteropTests
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: "true"
+      - name: Init Submodules
+        shell: bash
+        run: |
+          git submodule update --init --recursive smithy-dafny
+
+      # Set up Python for running the fuzz generator
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+          architecture: x64
+      - run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade tox
+          pip install poetry
+          pip install hypothesis
+
+      # Set up language runtimes based on matrix
+      - name: Setup Java
+        if: matrix.encrypt_lang == 'java' || matrix.decrypt_lang == 'java'
+        uses: actions/setup-java@v3
+        with:
+          distribution: "corretto"
+          java-version: 17
+
+      - name: Setup .NET
+        if: matrix.encrypt_lang == 'net' || matrix.decrypt_lang == 'net'
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Setup Rust
+        if: matrix.encrypt_lang == 'rust' || matrix.decrypt_lang == 'rust'
+        uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
+        with:
+          components: rustfmt
+
+      - name: Setup Go
+        if: matrix.encrypt_lang == 'go' || matrix.decrypt_lang == 'go'
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Install Go imports
+        if: matrix.encrypt_lang == 'go' || matrix.decrypt_lang == 'go'
+        run: |
+          go install golang.org/x/tools/cmd/goimports@latest
+
+      # Setup Dafny for all languages
+      - name: Setup Dafny
+        uses: ./.github/actions/setup_dafny
+        with:
+          dafny-version: ${{ inputs.dafny || '4.2.0' }}
+
+      # Update simplified_fuzz_generator.py to accept command-line arguments
+      - name: Update fuzz generator
+        run: |
+          cat <<EOF >> TestVectorsAwsCryptographicMaterialProviders/runtimes/python/simplified_fuzz_generator.py
+          
+          # Add command-line argument support
+          if __name__ == "__main__":
+              import argparse
+              parser = argparse.ArgumentParser(description='Generate fuzzed test vectors')
+              parser.add_argument('--num-vectors', type=int, default=4, help='Number of test vectors to generate')
+              args = parser.parse_args()
+              
+              # Override the default number of vectors
+              test_vectors, new_keys = generate_fuzz_test_vectors(num_vectors=args.num_vectors)
+              
+              # Load and update keys.json
+              try:
+                  with open("keys.json", "r") as f:
+                      keys_data = json.load(f)
+              except FileNotFoundError:
+                  print("Error: keys.json not found!")
+                  exit(1)
+              
+              keys_data["keys"].update(new_keys)
+              
+              with open("keys.json", "w") as f:
+                  json.dump(keys_data, f, indent=2, ensure_ascii=False)
+              
+              # Create and save manifest.json
+              manifest_data = {
+                  "manifest": {"version": 4, "type": "awses-mpl-encrypt"},
+                  "keys": "file://keys.json",
+                  "tests": test_vectors
+              }
+              
+              with open("manifest.json", "w") as f:
+                  json.dump(manifest_data, f, indent=2, ensure_ascii=False)
+              
+              print(f"Generated {len(test_vectors)} test vectors with {len(new_keys)} new keys")
+          EOF
+
+      # Build implementations based on matrix
+      - name: Build Python implementation
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: make transpile_python
+
+      - name: Build Java implementation
+        if: matrix.encrypt_lang == 'java' || matrix.decrypt_lang == 'java'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make build_java CORES=$CORES
+
+      - name: Build .NET implementation
+        if: matrix.encrypt_lang == 'net' || matrix.decrypt_lang == 'net'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: make transpile_net
+
+      - name: Build Rust implementation
+        if: matrix.encrypt_lang == 'rust' || matrix.decrypt_lang == 'rust'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make polymorph_rust
+          make transpile_rust TRANSPILE_TESTS_IN_RUST=1
+
+      - name: Build Go implementation
+        if: matrix.encrypt_lang == 'go' || matrix.decrypt_lang == 'go'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make transpile_go
+          make purge_polymorph_code
+
+      # Run the interoperability test using our new Makefile command
+      - name: Run fuzz interoperability test
+        working-directory: ./${{ matrix.library }}
+        run: make test_fuzz_interop ENCRYPT_LANG=${{ matrix.encrypt_lang }} DECRYPT_LANG=${{ matrix.decrypt_lang }}
