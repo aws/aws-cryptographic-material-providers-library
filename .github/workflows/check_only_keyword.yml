@@ -4,7 +4,8 @@
 name: Check {:only} decorator presence
 
 on:
-  pull_request:
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
   grep-only-verification-keyword:

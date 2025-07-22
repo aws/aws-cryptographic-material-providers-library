@@ -44,6 +44,14 @@ on:
         type: boolean
 
 jobs:
+  sem-ver:
+    uses: ./.github/workflows/sem_ver.yml
+  check-files:
+    uses: ./.github/workflows/check_files.yml
+  check-only:
+    uses: ./.github/workflows/check_only_keyword.yml
+  ci-not-grep:
+    uses: ./.github/workflows/ci_static_analysis.yml
   ci-format:
     if: ${{ inputs.regenerate-code }}
     uses: ./.github/workflows/library_format.yml
@@ -75,6 +83,8 @@ jobs:
     with:
       dafny: ${{ inputs.dafnyRustVersion }}
       # Rust always regenerates code
+  ci-python-check-version-consistency:
+    uses: ./.github/workflows/check_dafny_runtime_versions.yml
   ci-python:
     uses: ./.github/workflows/library_python_tests.yml
     with:
