@@ -21,7 +21,7 @@ on:
       regenerate-code:
         description: "Regenerate code using smithy-dafny"
         required: false
-        default: true
+        default: false
         type: boolean
   workflow_call:
     inputs:
@@ -40,7 +40,7 @@ on:
       regenerate-code:
         description: "Regenerate code using smithy-dafny"
         required: false
-        default: true
+        default: false
         type: boolean
 
 jobs:
@@ -53,13 +53,11 @@ jobs:
   ci-not-grep:
     uses: ./.github/workflows/ci_static_analysis.yml
   ci-format:
-    if: ${{ inputs.regenerate-code }}
     uses: ./.github/workflows/library_format.yml
     with:
       dafny: ${{ inputs.dafnyVerifyVersion }}
       regenerate-code: ${{ inputs.regenerate-code }}
   ci-codegen:
-    if: ${{ inputs.regenerate-code }}
     uses: ./.github/workflows/library_codegen.yml
     with:
       dafny: ${{ inputs.dafnyVerifyVersion }}
