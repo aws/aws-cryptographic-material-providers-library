@@ -12,12 +12,12 @@ jobs:
     with:
       message: "New github issue: ${{ github.event.issue.html_url }}"
     secrets:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_GHI }}
-        
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_GHI }}
+
   notify-comment:
     if: github.event_name == 'issue_comment'
     uses: ./.github/workflows/slack-notification.yml
     with:
       message: "New comment on issue: ${{ github.event.comment.html_url }}"
     secrets:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_GHI }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_GHI }}
