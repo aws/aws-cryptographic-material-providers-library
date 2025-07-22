@@ -10,7 +10,7 @@ jobs:
   push-check:
     uses: ./.github/workflows/slack-notification.yml
     with:
-      message: "test message"
+      message: "test"
     secrets:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_GHI }}
   notify-issue:
