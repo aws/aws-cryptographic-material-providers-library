@@ -1,11 +1,18 @@
 name: Issue Created Notification
 on:
+  push:
   issues:
     types: [opened, reopened]
   issue_comment:
     types: [created]
 
 jobs:
+  push-check:
+    uses: ./.github/workflows/slack-notification.yml
+    with:
+      message: "test"
+    secrets:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_GHI }}
   notify-issue:
     if: github.event_name == 'issues'
     uses: ./.github/workflows/slack-notification.yml
