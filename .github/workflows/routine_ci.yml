@@ -14,7 +14,7 @@ on:
 
 jobs:
   getVersions:
-    uses: ./.github/workflows/dafny_versions.yaml
+    uses: ./.github/workflows/dafny_versions.yml
   ci:
     needs: getVersions
     uses: ./.github/workflows/ci.yml
