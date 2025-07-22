@@ -1,0 +1,28 @@
+# These are all the tests needed in general
+name: Routine CI
+
+on:
+  # This workflow runs every weekday at 15:00 UTC (8AM PDT)
+  schedule:
+    - cron: "00 15 * * 1-5"
+  # This worflow runs on every PR
+  pull_request:
+  # This workflow runs for every push to main
+  push:
+    branches:
+      - main
+
+jobs:
+  getVersions:
+    uses: ./.github/workflows/dafny_versions.yaml
+  ci:
+    needs: getVersions
+    uses: ./.github/workflows/ci.yml
+    # Don't run the daily CI on forks
+    if: github.event_name != 'schedule' || github.repository_owner == 'aws'
+    with:
+      dafnyTranspilerVersion: ${{needs.getVersions.outputs.version}}
+      dafnyVerifyVersion: ${{needs.getVersions.outputs.verifyVersion}}
+      dafnyRustVersion: ${{needs.getVersions.outputs.rustVersion}}
+      regenerate-code: true
+

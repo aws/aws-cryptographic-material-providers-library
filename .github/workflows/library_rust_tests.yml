@@ -8,11 +8,6 @@ on:
         description: "The Dafny version to run"
         required: true
         type: string
-      regenerate-code:
-        description: "Regenerate code using smithy-dafny"
-        required: false
-        default: false
-        type: boolean
 
 jobs:
   testRust:
