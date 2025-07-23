@@ -10,7 +10,7 @@ jobs:
     if: github.event_name == 'issues'
     uses: ./.github/workflows/slack-notification.yml
     with:
-      message: "New github issue: ${{ github.event.issue.html_url }}"
+      message: "New github issue `${{ github.event.issue.title }}`. Link: ${{ github.event.issue.html_url }}"
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_GHI }}
 
@@ -18,6 +18,6 @@ jobs:
     if: github.event_name == 'issue_comment'
     uses: ./.github/workflows/slack-notification.yml
     with:
-      message: "New comment on issue: ${{ github.event.comment.html_url }}"
+      message: "New comment on issue `${{ github.event.issue.title }}`. Link: ${{ github.event.comment.html_url }}"
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_GHI }}
