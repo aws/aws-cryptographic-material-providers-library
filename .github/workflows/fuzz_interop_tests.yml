@@ -9,7 +9,7 @@ on:
       dafny:
         description: "The Dafny version to run"
         required: false
-        default: "4.2.0"
+        default: "4.9.0"
         type: string
 
 jobs:
@@ -17,6 +17,7 @@ jobs:
     strategy:
       fail-fast: false # Continue testing other combinations even if one fails
       matrix:
+        library: [TestVectorsAwsCryptographicMaterialProviders]
         os: [ubuntu-22.04] # Focus on one OS to reduce matrix size
         # Test key language combinations for interoperability
         include:
@@ -86,7 +87,7 @@ jobs:
       - name: Setup Dafny
         uses: ./.github/actions/setup_dafny
         with:
-          dafny-version: ${{ inputs.dafny || '4.2.0' }}
+          dafny-version: ${{ inputs.dafny || '4.9.0' }}
 
       # Install Smithy-Dafny codegen dependencies - critical for transpile commands
       - name: Install Smithy-Dafny codegen dependencies
@@ -95,7 +96,7 @@ jobs:
       # Build Python implementation (always needed for fuzz generator)
       - name: Build Python implementation
         shell: bash
-        working-directory: ./TestVectorsAwsCryptographicMaterialProviders
+        working-directory: ./${{ matrix.library }}
         run: |
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_python
@@ -104,7 +105,7 @@ jobs:
       - name: Build Java implementation
         if: matrix.encrypt_lang == 'java' || matrix.decrypt_lang == 'java'
         shell: bash
-        working-directory: ./TestVectorsAwsCryptographicMaterialProviders
+        working-directory: ./${{ matrix.library }}
         run: |
           CORES=$(node -e 'console.log(os.cpus().length)')
           make build_java CORES=$CORES
@@ -113,7 +114,7 @@ jobs:
       - name: Build Go implementation
         if: matrix.encrypt_lang == 'go' || matrix.decrypt_lang == 'go'
         shell: bash
-        working-directory: ./TestVectorsAwsCryptographicMaterialProviders
+        working-directory: ./${{ matrix.library }}
         run: |
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_go
@@ -122,7 +123,7 @@ jobs:
       - name: Purge polymorph code in Go
         if: matrix.encrypt_lang == 'go' || matrix.decrypt_lang == 'go'
         shell: bash
-        working-directory: ./TestVectorsAwsCryptographicMaterialProviders
+        working-directory: ./${{ matrix.library }}
         run: |
           make purge_polymorph_code
 
@@ -135,5 +136,5 @@ jobs:
 
       # Run the interoperability test using our Makefile command
       - name: Run fuzz interoperability test
-        working-directory: ./TestVectorsAwsCryptographicMaterialProviders
+        working-directory: ./${{ matrix.library }}
         run: make test_fuzz_interop ENCRYPT_LANG=${{ matrix.encrypt_lang }} DECRYPT_LANG=${{ matrix.decrypt_lang }}
