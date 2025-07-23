@@ -1,0 +1,66 @@
+name: Simple Fuzz Testing Interoperability
+
+on:
+  push: # Run on push to any branch
+  pull_request:
+    branches: [main, master] # Run on PRs to main branches
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  fuzzInteropTest:
+    strategy:
+      fail-fast: false # Continue testing other combinations even if one fails
+      matrix:
+        os: [ubuntu-22.04] # Focus on one OS to reduce matrix size
+        # Test Python to Python for simplicity
+        include:
+          - encrypt_lang: python
+            decrypt_lang: python
+    runs-on: ${{ matrix.os }}
+    permissions:
+      id-token: write # Needed for AWS credentials
+      contents: read # Needed for checkout
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+
+      # Configure AWS credentials for KMS access
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: FuzzInteropTests
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: "true"
+
+      # Set up Python for running the fuzz generator
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+          architecture: x64
+      - run: |
+          python -m pip install --upgrade pip
+          pip install hypothesis
+
+      # Run the fuzz generator directly
+      - name: Generate fuzzed test vectors
+        run: |
+          # Copy keys.json to the Python runtime directory
+          cp TestVectorsAwsCryptographicMaterialProviders/dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json TestVectorsAwsCryptographicMaterialProviders/runtimes/python/
+          
+          # Run the fuzz generator
+          cd TestVectorsAwsCryptographicMaterialProviders/runtimes/python
+          python3 simplified_fuzz_generator.py --num-vectors 50
+          
+          # Show the generated files
+          echo "Generated files:"
+          ls -la
+          
+          # Show the content of the manifest.json file
+          echo "Manifest content:"
+          head -n 20 manifest.json
