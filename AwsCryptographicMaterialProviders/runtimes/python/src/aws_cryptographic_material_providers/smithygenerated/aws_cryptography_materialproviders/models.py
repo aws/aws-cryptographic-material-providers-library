@@ -856,7 +856,7 @@ SymmetricSignatureAlgorithm = Union[
 
 
 def _symmetric_signature_algorithm_from_dict(
-    d: Dict[str, Any]
+    d: Dict[str, Any],
 ) -> SymmetricSignatureAlgorithm:
     if "HMAC" in d:
         return SymmetricSignatureAlgorithmHMAC.from_dict(d)
@@ -1504,7 +1504,7 @@ class KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -1535,7 +1535,7 @@ class KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "KmsEcdhStaticConfigurationsKmsPrivateKeyToStaticPublicKey":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -1591,7 +1591,7 @@ KmsEcdhStaticConfigurations = Union[
 
 
 def _kms_ecdh_static_configurations_from_dict(
-    d: Dict[str, Any]
+    d: Dict[str, Any],
 ) -> KmsEcdhStaticConfigurations:
     if "KmsPublicKeyDiscovery" in d:
         return KmsEcdhStaticConfigurationsKmsPublicKeyDiscovery.from_dict(d)
@@ -3225,7 +3225,7 @@ class CreateDefaultCryptographicMaterialsManagerInput:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "CreateDefaultCryptographicMaterialsManagerInput":
         """Creates a CreateDefaultCryptographicMaterialsManagerInput from a
         dictionary."""
@@ -3603,7 +3603,7 @@ class RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "RawEcdhStaticConfigurationsRawPrivateKeyToStaticPublicKey":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -3637,7 +3637,7 @@ class RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey:
 
     @staticmethod
     def from_dict(
-        d: Dict[str, Any]
+        d: Dict[str, Any],
     ) -> "RawEcdhStaticConfigurationsEphemeralPrivateKeyToStaticPublicKey":
         if len(d) != 1:
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
@@ -3694,7 +3694,7 @@ RawEcdhStaticConfigurations = Union[
 
 
 def _raw_ecdh_static_configurations_from_dict(
-    d: Dict[str, Any]
+    d: Dict[str, Any],
 ) -> RawEcdhStaticConfigurations:
     if "PublicKeyDiscovery" in d:
         return RawEcdhStaticConfigurationsPublicKeyDiscovery.from_dict(d)
