@@ -250,7 +250,7 @@ def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
     
     return new_keys
 
-def generate_fuzz_test_vectors(num_vectors: int = 20) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+def generate_fuzz_test_vectors(num_vectors) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Generate multiple fuzzed test vectors and collect new key generated."""
     test_vectors = {}
     
@@ -267,8 +267,14 @@ def generate_fuzz_test_vectors(num_vectors: int = 20) -> Tuple[Dict[str, Any], D
 #TODO-Fuzztesting: remove extraneous logging/printing statements to simplify output (for CI)
 def main():
     """Main function to generate fuzzed test vectors."""
-    # Generate test vectors and new keys
-    test_vectors, new_keys = generate_fuzz_test_vectors(num_vectors=20)
+    # Parse command-line arguments
+    import argparse
+    parser = argparse.ArgumentParser(description='Generate fuzzed test vectors')
+    parser.add_argument('--num-vectors', type=int, default=20, help='Number of test vectors to generate')
+    args = parser.parse_args()
+    
+    # Generate test vectors and new keys with specified number
+    test_vectors, new_keys = generate_fuzz_test_vectors(num_vectors=args.num_vectors)
     
     # Load and update keys.json
     try:

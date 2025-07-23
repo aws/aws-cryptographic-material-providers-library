@@ -261,7 +261,7 @@ test_decrypt_encrypt_vectors_go:
 test_generate_fuzz_vectors:
 	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/python/
 	cd runtimes/python && python3 fuzz_generator.py --num-vectors 50
-	@echo "50 fuzzed test vectors generated in runtimes/python/"
+	@echo "fuzzed test vectors generated in runtimes/python/"
 
 # Run fuzz interoperability test from one language to another
 # Usage: make test_fuzz_interop ENCRYPT_LANG=go DECRYPT_LANG=python

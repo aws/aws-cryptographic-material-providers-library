@@ -20,6 +20,10 @@ jobs:
         library: [TestVectorsAwsCryptographicMaterialProviders]
         os: [ubuntu-22.04] # Focus on one OS to reduce matrix size
         # Test key language combinations for interoperability
+        #TODO-Fuzztesting:  Add more combinations
+        # encrypt_lang: [go, python, java, net]
+        # decrypt_lang: [go, python, java, net]
+        
         include:
           - encrypt_lang: go
             decrypt_lang: python
@@ -157,6 +161,7 @@ jobs:
           gradle-version: 7.2
 
       # Run the interoperability test using our Makefile command
+      #TODO-Fuzztesting: need to log/save failures
       - name: Run fuzz interoperability test
         working-directory: ./${{ matrix.library }}
         run: make test_fuzz_interop ENCRYPT_LANG=${{ matrix.encrypt_lang }} DECRYPT_LANG=${{ matrix.decrypt_lang }}
