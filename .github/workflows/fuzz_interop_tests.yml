@@ -1,18 +1,29 @@
 name: Fuzz Testing Interoperability
 
 on:
-  push:  # Run on push to any branch
+  push: # Run on push to any branch
   pull_request:
-    branches: [ main, master ]  # Run on PRs to main branches
-  workflow_dispatch:  # Allow manual triggering
+    branches: [main, master] # Run on PRs to main branches
+  workflow_dispatch: # Allow manual triggering
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: false
+        default: "4.2.0"
+        type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   fuzzInteropTest:
     strategy:
-      fail-fast: false  # Continue testing other combinations even if one fails
+      fail-fast: false # Continue testing other combinations even if one fails
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
-        os: [ubuntu-22.04]  # Focus on one OS to reduce matrix size
+        os: [ubuntu-22.04] # Focus on one OS to reduce matrix size
         # Randomize encryption and decryption languages
         include:
           - encrypt_lang: go
@@ -33,8 +44,8 @@ jobs:
             decrypt_lang: python
     runs-on: ${{ matrix.os }}
     permissions:
-      id-token: write  # Needed for AWS credentials
-      contents: read   # Needed for checkout
+      id-token: write # Needed for AWS credentials
+      contents: read # Needed for checkout
     steps:
       - name: Support longpaths on Git checkout
         run: |
@@ -99,21 +110,51 @@ jobs:
         run: |
           go install golang.org/x/tools/cmd/goimports@latest
 
-      # Setup Dafny for all languages
-      - name: Setup Dafny
+      # Setup Dafny with different versions for Rust vs other languages
+      - name: Setup Dafny for Rust
+        if: matrix.encrypt_lang == 'rust' || matrix.decrypt_lang == 'rust'
+        uses: ./.github/actions/setup_dafny
+        with:
+          dafny-version: nightly-2025-01-30-7db1e5f
+
+      - name: Setup Dafny for non-Rust
+        if: matrix.encrypt_lang != 'rust' && matrix.decrypt_lang != 'rust'
         uses: ./.github/actions/setup_dafny
         with:
           dafny-version: ${{ inputs.dafny || '4.2.0' }}
-          
+
       # Install Smithy-Dafny codegen dependencies - critical for transpile commands
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+
+      # Check directory structure before building
+      - name: Check directory structure
+        run: |
+          echo "Checking directory structure in StandardLibrary..."
+          ls -la StandardLibrary
+          echo "Checking for dafny directory in StandardLibrary..."
+          ls -la StandardLibrary/dafny || echo "dafny directory not found"
+          echo "Checking for src directory in StandardLibrary..."
+          ls -la StandardLibrary/src || echo "src directory not found"
+          echo "Checking directory structure in ${{ matrix.library }}..."
+          ls -la ${{ matrix.library }}
+          echo "Checking for dafny directory in ${{ matrix.library }}..."
+          ls -la ${{ matrix.library }}/dafny || echo "dafny directory not found"
+
+      # Regenerate code using smithy-dafny if necessary
+      - name: Regenerate code using smithy-dafny if necessary
+        if: ${{ inputs.regenerate-code }}
+        uses: ./.github/actions/polymorph_codegen
+        with:
+          dafny: ${{ inputs.dafny || '4.2.0' }}
+          library: ${{ matrix.library }}
+          diff-generated-code: false
 
       # Update simplified_fuzz_generator.py to accept command-line arguments
       - name: Update fuzz generator
         run: |
           cat <<EOF >> TestVectorsAwsCryptographicMaterialProviders/runtimes/python/simplified_fuzz_generator.py
-          
+
           # Add command-line argument support
           if __name__ == "__main__":
               import argparse
@@ -151,13 +192,23 @@ jobs:
           EOF
 
       # Build implementations based on matrix - following the exact pattern from library_interop_tests.yml
-      
+
       # Build Python implementation (always needed for fuzz generator)
       - name: Build Python implementation
         shell: bash
         working-directory: ./${{ matrix.library }}
         run: |
-          # This works because `node` is installed by default on GHA runners
+          echo "Current directory:"
+          pwd
+          echo "Directory contents:"
+          ls -la
+          echo "Searching for dafny directory:"
+          find . -name dafny -type d
+          echo "Searching for src directories:"
+          find . -name src -type d
+          echo "Searching for Index.dfy files:"
+          find . -name Index.dfy
+          # Original command
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_python
 
@@ -215,7 +266,7 @@ jobs:
         working-directory: ./${{ matrix.library }}
         run: |
           make purge_polymorph_code
-          
+
       # Setup gradle for Java
       - name: Setup gradle
         if: matrix.encrypt_lang == 'java' || matrix.decrypt_lang == 'java'

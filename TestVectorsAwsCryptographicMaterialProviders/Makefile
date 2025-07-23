@@ -268,13 +268,17 @@ test_generate_fuzz_vectors:
 test_fuzz_interop:
 	@echo "Testing interoperability from $(ENCRYPT_LANG) to $(DECRYPT_LANG)"
 	$(MAKE) test_generate_fuzz_vectors
-	@echo "Copying test vectors to $(ENCRYPT_LANG) runtime"
-	cp runtimes/python/manifest.json runtimes/$(ENCRYPT_LANG)/
-	cp runtimes/python/keys.json runtimes/$(ENCRYPT_LANG)/
+	@if [ "$(ENCRYPT_LANG)" != "python" ]; then \
+		echo "Copying test vectors to $(ENCRYPT_LANG) runtime"; \
+		cp runtimes/python/manifest.json runtimes/$(ENCRYPT_LANG)/; \
+		cp runtimes/python/keys.json runtimes/$(ENCRYPT_LANG)/; \
+	fi
 	@echo "Encrypting with $(ENCRYPT_LANG) runtime"
 	$(MAKE) test_encrypt_vectors_$(ENCRYPT_LANG)
-	@echo "Copying encrypted manifest and keys to $(DECRYPT_LANG) runtime"
-	cp runtimes/$(ENCRYPT_LANG)/manifest.json.encrypted runtimes/$(DECRYPT_LANG)/
-	cp runtimes/$(ENCRYPT_LANG)/keys.json runtimes/$(DECRYPT_LANG)/
+	@if [ "$(ENCRYPT_LANG)" != "$(DECRYPT_LANG)" ]; then \
+		echo "Copying encrypted manifest and keys to $(DECRYPT_LANG) runtime"; \
+		cp runtimes/$(ENCRYPT_LANG)/manifest.json.encrypted runtimes/$(DECRYPT_LANG)/; \
+		cp runtimes/$(ENCRYPT_LANG)/keys.json runtimes/$(DECRYPT_LANG)/; \
+	fi
 	@echo "Decrypting with $(DECRYPT_LANG) runtime"
 	$(MAKE) test_decrypt_encrypt_vectors_$(DECRYPT_LANG)
