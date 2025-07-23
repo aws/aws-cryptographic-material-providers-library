@@ -50,17 +50,18 @@ jobs:
       # Run the fuzz generator directly
       - name: Generate fuzzed test vectors
         run: |
+          # Check if the file exists
+          echo "Checking if fuzz_generator.py exists:"
+          ls -la TestVectorsAwsCryptographicMaterialProviders/runtimes/python/
+          
+          # Check the directory structure
+          echo "Directory structure:"
+          find TestVectorsAwsCryptographicMaterialProviders -type d | sort
+          
           # Copy keys.json to the Python runtime directory
           cp TestVectorsAwsCryptographicMaterialProviders/dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json TestVectorsAwsCryptographicMaterialProviders/runtimes/python/
           
-          # Run the fuzz generator
-          cd TestVectorsAwsCryptographicMaterialProviders/runtimes/python
-          python3 simplified_fuzz_generator.py --num-vectors 50
-          
-          # Show the generated files
-          echo "Generated files:"
-          ls -la
-          
-          # Show the content of the manifest.json file
-          echo "Manifest content:"
-          head -n 20 manifest.json
+          # Create a simplified fuzz generator if needed
+          if [ ! -f "TestVectorsAwsCryptographicMaterialProviders/runtimes/python/fuzz_generator.py" ]; then
+            echo "Creating simplified_fuzz_generator.py"
+            cat > TestVectorsAwsCryptographicMaterialProviders/runtimes/python/simplified_fuzz_generator.py << 'EOF'
