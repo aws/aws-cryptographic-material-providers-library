@@ -277,7 +277,7 @@ test_fuzz_interop:
 	$(MAKE) test_encrypt_vectors_$(ENCRYPT_LANG)
 	@if [ "$(ENCRYPT_LANG)" != "$(DECRYPT_LANG)" ]; then \
 		echo "Copying encrypted manifest and keys to $(DECRYPT_LANG) runtime"; \
-		cp runtimes/$(ENCRYPT_LANG)/manifest.json.encrypted runtimes/$(DECRYPT_LANG)/; \
+		cp runtimes/$(ENCRYPT_LANG)/manifest.json runtimes/$(DECRYPT_LANG)/; \
 		cp runtimes/$(ENCRYPT_LANG)/keys.json runtimes/$(DECRYPT_LANG)/; \
 	fi
 	@echo "Decrypting with $(DECRYPT_LANG) runtime"
