@@ -585,78 +585,65 @@ module DefaultKeyStorageInterface {
       ensures ValidState()
       ensures GetMutationEnsuresPublicly(input, output)
       ensures unchanged(History)
-
-      ensures |ddbClient.History.TransactGetItems| == |old(ddbClient.History.TransactGetItems)| + 1
       ensures output.Success?
               ==>
-                && Seq.Last(ddbClient.History.TransactGetItems).output.Success?
-
+                |ddbClient.History.GetItem| == |old(ddbClient.History.GetItem)| + 2
+      ensures output.Success?
+              ==>
+                && Seq.Last(ddbClient.History.GetItem).output.Success?
+                && Seq.Last(Seq.DropLast(ddbClient.History.GetItem)).output.Success?
       ensures
-        && old(ddbClient.History.TransactGetItems) < ddbClient.History.TransactGetItems
-
-      // If the lock is invalid, must fail
-      // TODO-Mutations-FF I cannot get these prove quickly, even though they seem quite straight forward
-      // ensures
-      //   && Seq.Last(ddbClient.History.TransactGetItems).output.Success?
-      //   && Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.Some?
-      //   && |Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value| == 2
-      //   && Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value[0].Item.Some?
-      //   && !Structure.MutationCommitmentAttribute?(Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value[0].Item.value)
-      //   ==> output.Failure?
-      // If the index is invalid, must fail
-      // ensures
-      //   && Seq.Last(ddbClient.History.TransactGetItems).output.Success?
-      //   && Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.Some?
-      //   && |Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value| == 2
-      //   && Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value[1].Item.Some?
-      //   && !Structure.MutationIndexAttribute?(Seq.Last(ddbClient.History.TransactGetItems).output.value.Responses.value[1].Item.value)
-      //   ==> output.Failure?
+        && old(ddbClient.History.GetItem) < ddbClient.History.GetItem
     {
-      var transactItems: DDB.TransactGetItemList
-        := Seq.Map(
-        (typeStr: string)
-        =>
-          // The DDB request is a list of TransactGetItems
-          DDB.TransactGetItem(
-            Get := DDB.Get(
-              Key := DDBKeyForType(typeStr, input.Identifier),
-              TableName := ddbTableName)),
-
-        // This is the seq we are mapping over. The DDB Result will be in this order!
-        [Structure.MUTATION_COMMITMENT_TYPE, Structure.MUTATION_INDEX_TYPE]);
-
-      var ddbRequest := DDB.TransactGetItemsInput(TransactItems := transactItems);
-      var ddbResponse? := ddbClient.TransactGetItems(ddbRequest);
-
-      /** Handle DDB Error */
-      var ddbResponse :- ddbResponse?
+      // Get Mutation Commitment
+      var commitmentKey: DDB.Key := map[
+        Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(input.Identifier),
+        Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.MUTATION_COMMITMENT_TYPE)
+      ];
+      var commitmentReq := DDB.GetItemInput(
+        Key := commitmentKey,
+        TableName := ddbTableName,
+        ConsistentRead :=  Some(true)
+      );
+      var commitmentRes? := ddbClient.GetItem(commitmentReq);
+      var commitmentRes :- commitmentRes?
       .MapFailure((e: DDB.Error) =>
                     wrapDdbException(
                       e:=e,
                       storageOperation:="GetMutation",
-                      ddbOperation:="TransactGetItems",
+                      ddbOperation:="GetItem",
                       identifier:=input.Identifier,
                       tableName:=ddbTableName));
 
-        // SDKs/Smithy-Dafny/Custom Implementations of Storage MAY respond with None or an Empty Map.
-        // .NET returns an empty map, Java returns None.
-      :- Need(
-        ddbResponse.Responses.Some? && (2 == |ddbResponse.Responses.value|),
-        Types.KeyStorageException(
-          message:=
-            "GetMutation: No items returned. "
-            + "Branch Key ID: " + input.Identifier
-            + "\tTable Name: " + ddbTableName));
+      // Get Mutation Index
+      var indexKey: DDB.Key := map[
+        Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(input.Identifier),
+        Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.MUTATION_INDEX_TYPE)
+      ];
+      var indexReq := DDB.GetItemInput(
+        Key := indexKey,
+        TableName := ddbTableName,
+        ConsistentRead :=  Some(true)
+      );
+      var indexRes? := ddbClient.GetItem(indexReq);
+      var indexRes :- indexRes?
+      .MapFailure((e: DDB.Error) =>
+                    wrapDdbException(
+                      e:=e,
+                      storageOperation:="GetMutation",
+                      ddbOperation:="GetItem",
+                      identifier:=input.Identifier,
+                      tableName:=ddbTableName));
 
       /** Process sensical DDB Response */
-      var lockCanidate := ddbResponse.Responses.value[0].Item;
+      ghost var lockCandidate := commitmentRes.Item;
       var lockItem: Option<Types.MutationCommitment> :-
-        MutationCommitmentFromOptionalItem(lockCanidate, input.Identifier, ddbTableName);
-      assert lockItem.Some? ==> lockCanidate.Some? && Structure.MutationCommitmentAttribute?(lockCanidate.value);
+        MutationCommitmentFromOptionalItem(commitmentRes.Item, input.Identifier, ddbTableName);
+      assert lockItem.Some? ==> lockCandidate.Some? && Structure.MutationCommitmentAttribute?(lockCandidate.value);
 
-      var indexCanidate := ddbResponse.Responses.value[1].Item;
+      ghost var indexCanidate := indexRes.Item;
       var indexItem: Option<Types.MutationIndex> :-
-        MutationIndexFromOptionalItem(indexCanidate, input.Identifier, ddbTableName);
+        MutationIndexFromOptionalItem(indexRes.Item, input.Identifier, ddbTableName);
       assert indexItem.Some? ==> indexCanidate.Some? && Structure.MutationIndexAttribute?(indexCanidate.value);
 
       return Success(
