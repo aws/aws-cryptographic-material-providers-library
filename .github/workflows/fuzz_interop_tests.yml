@@ -29,6 +29,11 @@ jobs:
             decrypt_lang: python
           - encrypt_lang: python
             decrypt_lang: java
+          - encrypt_lang: net
+            decrypt_lang: python
+          - encrypt_lang: python
+            decrypt_lang: net
+        dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
     permissions:
       id-token: write # Needed for AWS credentials
@@ -72,6 +77,12 @@ jobs:
           distribution: "corretto"
           java-version: 17
 
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        if: matrix.encrypt_lang == 'net' || matrix.decrypt_lang == 'net'
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
       - name: Setup Go
         if: matrix.encrypt_lang == 'go' || matrix.decrypt_lang == 'go'
         uses: actions/setup-go@v5
@@ -109,6 +120,15 @@ jobs:
         run: |
           CORES=$(node -e 'console.log(os.cpus().length)')
           make build_java CORES=$CORES
+
+      # Build .NET implementation if needed
+      - name: Build .NET implementation
+        if: matrix.encrypt_lang == 'net' || matrix.decrypt_lang == 'net'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make transpile_net
 
       # Build Go implementation if needed
       - name: Build Go implementation
