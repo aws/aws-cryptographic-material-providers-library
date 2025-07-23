@@ -67,6 +67,8 @@ jobs:
           architecture: x64
       - run: |
           python -m pip install --upgrade pip
+          pip install --upgrade tox
+          pip install poetry
           pip install hypothesis
 
       # Set up language runtimes based on matrix
