@@ -11,7 +11,7 @@ packages = [
 # Include generated internaldafny files in package distributions,
 # even though they are not included in version control
 include = [
-    "**/internaldafny/generated/*.py",
+    "src/smithy_dafny_standard_library/internaldafny/generated/*.py",
 ]
 
 [tool.poetry.dependencies]
