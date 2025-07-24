@@ -258,6 +258,8 @@ test_decrypt_encrypt_vectors_go:
 # Fuzz Testing Commands
 
 # Generate fuzzed test vectors in the Python runtime directory (50 vectors)
+#TODO-Fuzztesting: remove echo statements to eliminate noise when testing on large test-vector suite
+#TODO-Fuzztesting: having fuzz_generator.py in a common directory might simplify workflow
 test_generate_fuzz_vectors_python:
     cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/python/
     cd runtimes/python && python3 fuzz_generator.py --num-vectors 50
@@ -267,7 +269,7 @@ test_generate_fuzz_vectors_python:
 # Usage: make test_fuzz_interop ENCRYPT_LANG=go DECRYPT_LANG=python
 test_fuzz_interop:
     @echo "Testing interoperability from $(ENCRYPT_LANG) to $(DECRYPT_LANG)"
-    $(MAKE) test_generate_fuzz_vectors
+    $(MAKE) test_generate_fuzz_vectors_python
     @if [ "$(ENCRYPT_LANG)" != "python" ]; then \
         echo "Copying test vectors to $(ENCRYPT_LANG) runtime"; \
         cp runtimes/python/manifest.json runtimes/$(ENCRYPT_LANG)/; \
