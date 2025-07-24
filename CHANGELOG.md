@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.6](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.5...v1.7.6) (2025-07-23)
+
+
+### Bug Fixes
+
+* **dotnet:** resolve AWS SDK Dependency to less than v4 ([#1629](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1629)) ([60e46cd](https://github.com/aws/aws-cryptographic-material-providers-library/commit/60e46cde52b17c803b406324a1bc1cd1335c2b6b))
+
 ## [1.7.5](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.4...v1.7.5) (2025-01-30)
 
 This release is available in the following languages:
