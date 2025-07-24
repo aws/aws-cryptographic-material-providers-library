@@ -187,7 +187,7 @@ module DDBKeystoreOperations {
       Key := dynamoDbKey,
       TableName := tableName,
       AttributesToGet := None,
-      ConsistentRead :=  None,
+      ConsistentRead :=  true,
       ReturnConsumedCapacity := None,
       ProjectionExpression := None,
       ExpressionAttributeNames := None
@@ -255,7 +255,7 @@ module DDBKeystoreOperations {
       Key := dynamoDbKey,
       TableName := tableName,
       AttributesToGet := None,
-      ConsistentRead :=  None,
+      ConsistentRead :=  true,
       ReturnConsumedCapacity := None,
       ProjectionExpression := None,
       ExpressionAttributeNames := None
@@ -326,7 +326,7 @@ module DDBKeystoreOperations {
       Key := dynamoDbKey,
       TableName := tableName,
       AttributesToGet := None,
-      ConsistentRead :=  None,
+      ConsistentRead :=  true,
       ReturnConsumedCapacity := None,
       ProjectionExpression := None,
       ExpressionAttributeNames := None
