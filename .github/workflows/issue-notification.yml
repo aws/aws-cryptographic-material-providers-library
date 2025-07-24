@@ -15,7 +15,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_GHI }}
 
   notify-comment:
-    if: github.event_name == 'issue_comment'
+    if: github.event_name == 'issue_comment' && !github.event.issue.pull_request
     uses: ./.github/workflows/slack-notification.yml
     with:
       message: "New comment on issue `${{ github.event.issue.title }}`. Link: ${{ github.event.comment.html_url }}"
