@@ -258,7 +258,7 @@ test_decrypt_encrypt_vectors_go:
 # Fuzz Testing Commands
 
 # Generate fuzzed test vectors in the Python runtime directory (50 vectors)
-test_generate_fuzz_vectors:
+test_generate_fuzz_vectors_python:
     cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/python/
     cd runtimes/python && python3 fuzz_generator.py --num-vectors 50
     @echo "fuzzed test vectors generated in runtimes/python/"
