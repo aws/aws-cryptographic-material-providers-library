@@ -226,7 +226,7 @@ def create_kms_based_key_description(draw, keyring_type: str, kms_key: str, requ
     # Map keyring types to their underlying types and keys
     keyring_config = {
         "kms": {"type": "aws-kms", "key": kms_key},
-        "aws-kms-mrk-aware": {"type": "aws-kms-mrk-aware", "key": draw(st.sampled_from(MRK_KEYS))},
+        #"aws-kms-mrk-aware": {"type": "aws-kms-mrk-aware", "key": draw(st.sampled_from(MRK_KEYS))},
         "aws-kms-rsa": {"type": "aws-kms-rsa", "key": "us-west-2-rsa-mrk"}
     }
     
@@ -305,7 +305,7 @@ def fuzz_test_vector(draw):
     key_description = create_key_description(draw, keyring_type, test_type, kms_key, required_keys)
     
     # Generate reproduced context
-    reproduced_context = generate_reproduced_context(draw, encryption_context, test_type, required_keys)
+    reproduced_context = generate_reproduced_context(draw, encryption_context)#, test_type, required_keys
     
     # Create test vector
     test_vector = {
@@ -361,6 +361,7 @@ def generate_fuzz_test_vectors(num_vectors: int = 2) -> Tuple[Dict[str, Any], Di
     test_vectors = {}
     
     for i in range(num_vectors):
+        #TODO-Fuzztesting: remove .example(). This will be a blocking TODO when making PR to main
         test_vector = fuzz_test_vector().example()
         test_id = str(uuid.uuid4())
         test_vectors[test_id] = test_vector
