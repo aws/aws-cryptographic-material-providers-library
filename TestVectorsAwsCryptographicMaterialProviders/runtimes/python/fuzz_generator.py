@@ -227,7 +227,6 @@ def create_kms_based_key_description(draw, keyring_type: str, kms_key: str, requ
     # Map keyring types to their underlying types and keys
     keyring_config = {
         "kms": {"type": "aws-kms", "key": kms_key},
-        #"aws-kms-mrk-aware": {"type": "aws-kms-mrk-aware", "key": draw(st.sampled_from(MRK_KEYS))},
         "aws-kms-rsa": {"type": "aws-kms-rsa", "key": "us-west-2-rsa-mrk"}
     }
     
