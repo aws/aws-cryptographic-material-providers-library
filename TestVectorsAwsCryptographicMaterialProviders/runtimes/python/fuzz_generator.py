@@ -305,7 +305,7 @@ def fuzz_test_vector(draw):
     key_description = create_key_description(draw, keyring_type, test_type, kms_key, required_keys)
     
     # Generate reproduced context
-    reproduced_context = generate_reproduced_context(draw, encryption_context)#, test_type, required_keys
+    reproduced_context = generate_reproduced_context(draw, encryption_context)
     
     # Create test vector
     test_vector = {
