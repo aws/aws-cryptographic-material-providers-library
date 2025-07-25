@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-cryptography-internal-dynamodb"
-version = "1.7.6"
+version = "1.8.0"
 description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
@@ -13,7 +13,7 @@ include = ["**/internaldafny/generated/*.py"]
 [tool.poetry.dependencies]
 python = "^3.11.0"
 boto3 = "^1.35.42"
-aws-cryptography-internal-standard-library = "1.7.6"
+aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
 # Package testing
 
 [tool.poetry.group.test]
