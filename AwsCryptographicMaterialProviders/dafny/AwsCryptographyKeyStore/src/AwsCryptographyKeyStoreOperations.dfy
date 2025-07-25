@@ -30,6 +30,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     nameonly id: string,
     nameonly ddbTableName: DDB.TableName,
     nameonly logicalKeyStoreName: string,
+    nameonly requireConsistentReads: bool,
     nameonly kmsConfiguration: KMSConfiguration,
     nameonly grantTokens: KMS.GrantTokenList,
     nameonly kmsClient: ComAmazonawsKmsTypes.IKMSClient,
@@ -77,7 +78,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
         keyStoreName := config.ddbTableName,
         logicalKeyStoreName := config.logicalKeyStoreName,
         grantTokens := config.grantTokens,
-        kmsConfiguration := config.kmsConfiguration
+        kmsConfiguration := config.kmsConfiguration,
+        requireConsistentReads := config.requireConsistentReads
       )
     );
   }
@@ -246,7 +248,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.kmsConfiguration,
       config.grantTokens,
       config.kmsClient,
-      config.ddbClient
+      config.ddbClient,
+      config.requireConsistentReads
     );
   }
 
@@ -263,7 +266,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.kmsConfiguration,
       config.grantTokens,
       config.kmsClient,
-      config.ddbClient
+      config.ddbClient,
+      config.requireConsistentReads
     );
   }
 
@@ -280,7 +284,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.kmsConfiguration,
       config.grantTokens,
       config.kmsClient,
-      config.ddbClient
+      config.ddbClient,
+      config.requireConsistentReads
     );
   }
 
@@ -297,7 +302,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.kmsConfiguration,
       config.grantTokens,
       config.kmsClient,
-      config.ddbClient
+      config.ddbClient,
+      config.requireConsistentReads
     );
   }
 }
