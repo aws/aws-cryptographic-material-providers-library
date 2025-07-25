@@ -95,6 +95,7 @@ def fuzz_key_identifiers(draw, base_key_id: str) -> Dict[str, Any]:
         st.text(min_size=1, max_size=10).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
     ]
     
+    // TODO-Fuzztesting: ensure 100% randomness in keyname and namespace.
     unicode_prefix = draw(st.one_of(unicode_strategies))
     unicode_suffix = draw(st.one_of(unicode_strategies))
     
