@@ -72,7 +72,7 @@ jobs:
         if: ${{ inputs.regenerate-code }}
         uses: ./.github/actions/polymorph_codegen
         with:
-          dafny: ${{ env.DAFNY_VERSION }}
+          dafny: ${{ inputs.dafny }}
           library: ${{ matrix.library }}
           diff-generated-code: false
 

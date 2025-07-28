@@ -1,0 +1,119 @@
+# These are all the tests needed in general
+name: Continious Integration Tests
+
+on:
+  # This workflow is invoked by other workflows with the requested Dafny build.
+  # It represents all the required testing for the MPL.
+  workflow_dispatch:
+    inputs:
+      dafnyTranspilerVersion:
+        description: "The Dafny Transpiler and Runtime to use for all but Rust"
+        required: true
+        type: string
+      dafnyVerifyVersion:
+        description: "The Dafny Verifier Version to use"
+        required: true
+        type: string
+      dafnyRustVersion:
+        description: "The Dafny Transpiler and Runtime to use for Rust"
+        required: true
+        type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
+  workflow_call:
+    inputs:
+      dafnyTranspilerVersion:
+        description: "The Dafny Transpiler and Runtime to use for all but Rust"
+        required: true
+        type: string
+      dafnyVerifyVersion:
+        description: "The Dafny Verifier Version to use"
+        required: true
+        type: string
+      dafnyRustVersion:
+        description: "The Dafny Transpiler and Runtime to use for Rust"
+        required: true
+        type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  sem-ver:
+    uses: ./.github/workflows/sem_ver.yml
+  check-files:
+    uses: ./.github/workflows/check_files.yml
+  check-only:
+    uses: ./.github/workflows/check_only_keyword.yml
+  ci-not-grep:
+    uses: ./.github/workflows/ci_static_analysis.yml
+  ci-format:
+    uses: ./.github/workflows/library_format.yml
+    with:
+      dafny: ${{ inputs.dafnyVerifyVersion }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+  ci-codegen:
+    uses: ./.github/workflows/library_codegen.yml
+    with:
+      dafny: ${{ inputs.dafnyVerifyVersion }}
+  ci-verification:
+    uses: ./.github/workflows/library_dafny_verification.yml
+    with:
+      dafny: ${{ inputs.dafnyVerifyVersion }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+  ci-java:
+    uses: ./.github/workflows/library_java_tests.yml
+    with:
+      dafny: ${{ inputs.dafnyVerifyVersion }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+  ci-net:
+    uses: ./.github/workflows/library_net_tests.yml
+    with:
+      dafny: ${{ inputs.dafnyVerifyVersion }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+  ci-rust:
+    uses: ./.github/workflows/library_rust_tests.yml
+    with:
+      dafny: ${{ inputs.dafnyRustVersion }}
+      # Rust always regenerates code
+  ci-python-check-version-consistency:
+    uses: ./.github/workflows/check_dafny_runtime_versions.yml
+  ci-python:
+    uses: ./.github/workflows/library_python_tests.yml
+    with:
+      dafny: ${{ inputs.dafnyVerifyVersion }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+  ci-go:
+    uses: ./.github/workflows/library_go_tests.yml
+    with:
+      dafny: ${{ inputs.dafnyVerifyVersion }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+  interop-test:
+    uses: ./.github/workflows/library_interop_tests.yml
+    with:
+      dafny: ${{ inputs.dafnyVerifyVersion }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+    secrets: inherit
+  all-required:
+    if: always()
+    needs:
+      - ci-format
+      - ci-codegen
+      - ci-verification
+      - ci-java
+      - ci-net
+      - ci-python
+      - ci-go
+      - ci-rust
+      - interop-test
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Verify all required jobs passed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}

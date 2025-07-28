@@ -2,7 +2,8 @@
 name: Semantic Release Test Installation
 
 on:
-  pull_request:
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
   semantic-release:
