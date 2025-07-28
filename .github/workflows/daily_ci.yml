@@ -71,7 +71,7 @@ jobs:
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   notify:
-    needs: [getVersions, daily-ci-format, daily-ci-codegen, daily-ci-verification, daily-ci-java, daily-ci-net, daily-ci-rust, daily-ci-python, daily-ci-go, daily-interop-test]
+    needs: [yo, getVersions, daily-ci-format, daily-ci-codegen, daily-ci-verification, daily-ci-java, daily-ci-net, daily-ci-rust, daily-ci-python, daily-ci-go, daily-interop-test]
     if: ${{ failure() }}
     uses: ./.github/workflows/slack-notification.yml
     with:
