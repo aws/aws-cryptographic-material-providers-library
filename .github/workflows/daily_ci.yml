@@ -5,6 +5,13 @@ on:
   push:
 
 jobs:
+  yo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print 2
+        run: |
+          echo "3"
+          exit 1
   getVersions:
     # Don't run the cron builds on forks
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
