@@ -2,7 +2,8 @@
 name: Daily CI
 
 on:
-  push:
+  schedule:
+    - cron: "00 15 * * 1-5"
 
 jobs:
   getVersions:
