@@ -5,15 +5,7 @@ on:
   push:
 
 jobs:
-  yo:
-    runs-on: ubuntu-latest
-    steps:
-      - name: print 2
-        run: |
-          echo "3"
-          exit 1
   getVersions:
-    needs: yo
     # Don't run the cron builds on forks
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/dafny_versions.yaml
@@ -72,7 +64,7 @@ jobs:
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   notify:
-    needs: [yo, getVersions, daily-ci-format, daily-ci-codegen, daily-ci-verification, daily-ci-java, daily-ci-net, daily-ci-rust, daily-ci-python, daily-ci-go, daily-interop-test]
+    needs: [getVersions, daily-ci-format, daily-ci-codegen, daily-ci-verification, daily-ci-java, daily-ci-net, daily-ci-rust, daily-ci-python, daily-ci-go, daily-interop-test]
     if: ${{ failure() }}
     uses: ./.github/workflows/slack-notification.yml
     with:
