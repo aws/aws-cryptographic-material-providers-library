@@ -13,6 +13,7 @@ jobs:
           echo "3"
           exit 1
   getVersions:
+    needs: yo
     # Don't run the cron builds on forks
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     uses: ./.github/workflows/dafny_versions.yaml
