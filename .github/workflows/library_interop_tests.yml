@@ -200,10 +200,8 @@ jobs:
         working-directory: ./${{ matrix.library }}
         run: |
           if [ "${{ inputs.fuzz-testing }}" = "true" ]; then
-            cd dafny/TestVectorsAwsCryptographicMaterialProviders/test && python3 fuzz_generator.py --num-vectors 10
-            cd ../../../
-            cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/manifest.json runtimes/${{ matrix.language }}/
-            cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/${{ matrix.language }}/
+            echo "Generating fuzzed test vectors"
+            make test_generate_fuzz_vectors_${{ matrix.language }} NUM_VECTORS=10
           else
             echo "Generating regular test vectors"
             make test_generate_vectors_${{ matrix.language }}
