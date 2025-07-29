@@ -12,6 +12,10 @@ This release is available in the following languages:
 - **dafny:** append our user agent in KMS client ([#1564](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1564)) ([03d03ac](https://github.com/aws/aws-cryptographic-material-providers-library/commit/03d03ac1f3591885bcc583efb988602ed129c3c5))
 - **dafny:** remove negative test for codebuild runner ([#1603](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1603)) ([8b45e40](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8b45e40e9fa081e277837946e53836b308429ee8))
 
+### Maintenance -- Python
+
+- **python:** Updated pytz version range to include 2025 releases ([#1603](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1641)) ([1aced27](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1aced27699de7aebcb6d4513a9e72c604c7ce855))
+
 ### Maintenance -- Go
 
 - **go:** automate changelog for Go release ([#1607](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1607)) ([f9eb8e0](https://github.com/aws/aws-cryptographic-material-providers-library/commit/f9eb8e0169139946ca46a7a4f0e30abdff7f976e))
