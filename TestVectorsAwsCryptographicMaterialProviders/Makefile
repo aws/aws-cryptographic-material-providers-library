@@ -254,3 +254,23 @@ test_decrypt_encrypt_vectors_rust:
 
 test_decrypt_encrypt_vectors_go:
 	go -C runtimes/go/ImplementationFromDafny-go run ImplementationFromDafny.go decrypt --manifest-path=..
+
+# Fuzz Testing Command
+
+#TODO-Fuzztesting: remove echo statement to eliminate noise when testing on large test-vector suite
+# Usage: make test_fuzz_interop ENCRYPT_LANG= DECRYPT_LANG=
+test_fuzz_interop:
+	@echo "Testing interoperability from $(ENCRYPT_LANG) to $(DECRYPT_LANG)"
+
+	cd dafny/TestVectorsAwsCryptographicMaterialProviders/test && python3 fuzz_generator.py --num-vectors 10000
+
+	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/manifest.json runtimes/$(ENCRYPT_LANG)/
+	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/$(ENCRYPT_LANG)/
+	$(MAKE) test_encrypt_vectors_$(ENCRYPT_LANG)
+
+	@if [ "$(ENCRYPT_LANG)" != "$(DECRYPT_LANG)" ]; then \
+		cp runtimes/$(ENCRYPT_LANG)/manifest.json runtimes/$(DECRYPT_LANG)/; \
+		cp runtimes/$(ENCRYPT_LANG)/keys.json runtimes/$(DECRYPT_LANG)/; \
+	fi
+
+	$(MAKE) test_decrypt_encrypt_vectors_$(DECRYPT_LANG)
