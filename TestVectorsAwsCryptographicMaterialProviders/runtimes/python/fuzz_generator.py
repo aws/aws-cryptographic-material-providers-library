@@ -12,10 +12,12 @@ This script generates fuzzed test vectors with a focused approach:
 import json
 import uuid
 import unicodedata
+import warnings
 from typing import Dict, Any, List, Tuple
 import hypothesis
 from hypothesis import strategies as st
 from hypothesis.strategies import composite
+from hypothesis.errors import NonInteractiveExampleWarning
 
 # Description templates for test vectors
 DESCRIPTION_TEMPLATES = {
@@ -265,11 +267,13 @@ def generate_fuzz_test_vectors(num_vectors) -> Tuple[Dict[str, Any], Dict[str, A
     """Generate multiple fuzzed test vectors and collect new key generated."""
     test_vectors = {}
     
-    for i in range(num_vectors):
-        #TODO-Fuzztesting: remove .example(). This will be a blocking TODO when making PR to main
-        test_vector = fuzz_test_vector().example()
-        test_id = str(uuid.uuid4())
-        test_vectors[test_id] = test_vector
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=NonInteractiveExampleWarning)
+        for i in range(num_vectors):
+            #TODO-Fuzztesting: remove .example(). This will be a blocking TODO when making PR to main
+            test_vector = fuzz_test_vector().example()
+            test_id = str(uuid.uuid4())
+            test_vectors[test_id] = test_vector
     
     new_keys = extract_new_keys(test_vectors)
     return test_vectors, new_keys
