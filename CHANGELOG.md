@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.11.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.0...v1.11.1) (2025-07-29)
+
+### Maintenance -- All Languages
+
+* **dafny:** add Rust and Go to supported languages  ([#1492](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1492)) ([87ab402](https://github.com/aws/aws-cryptographic-material-providers-library/commit/87ab40233096739f2aa709fdcd948ce7452c7d04))
+* **dafny:** append our user agent in KMS client ([#1564](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1564)) ([03d03ac](https://github.com/aws/aws-cryptographic-material-providers-library/commit/03d03ac1f3591885bcc583efb988602ed129c3c5))
+* **dafny:** remove negative test for codebuild runner ([#1603](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1603)) ([8b45e40](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8b45e40e9fa081e277837946e53836b308429ee8))
+
+### Maintenance -- Go
+
+* **go:** automate changelog for Go release  ([#1607](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1607)) ([f9eb8e0](https://github.com/aws/aws-cryptographic-material-providers-library/commit/f9eb8e0169139946ca46a7a4f0e30abdff7f976e))
+* **go:** update go test matrix and clean up setup  ([#1625](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1625)) ([6baa15c](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6baa15ca499603dc4fe5501542d6f45b80d2c244))
+
+### Maintenance -- Rust
+
+* **rust:** update for new version of clippy ([#1606](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1606)) ([ec013f6](https://github.com/aws/aws-cryptographic-material-providers-library/commit/ec013f6ba85d62ab41db48fec92baca85625e4b9))
+
+### Miscellaneous
+
+* 5 instead of 25 interop decrypt processes ([#1620](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1620)) ([d82696b](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d82696b520681eaabd8f9a6c76bd9a208de4d6ac))
+* allow local testing for python ([#1598](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1598)) ([cbfa209](https://github.com/aws/aws-cryptographic-material-providers-library/commit/cbfa209c0b9453fe633a3047e3dcd5db0e7fa728))
+* bump credentials to 2 hours, for python ([#1621](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1621)) ([69991da](https://github.com/aws/aws-cryptographic-material-providers-library/commit/69991da9a26e4422dfdeb8fc95a87a46b0bb3ccc))
+* **cfn:** add trusted policy for optools mpl-python roles ([#1602](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1602)) ([436d939](https://github.com/aws/aws-cryptographic-material-providers-library/commit/436d93951038e4107b36bf1f4cb3a0a5fb870577))
+* **CI:** fix daily CI and add slack notification to it ([#1647](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1647)) ([c546646](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c546646a719b54f880a8aeccc6a6489fcf332070))
+* **CI:** send slack message on new GHI  ([#1632](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1632)) ([e80b7ae](https://github.com/aws/aws-cryptographic-material-providers-library/commit/e80b7aeaf691e956b6177aa24633681dcfe7a7ba))
+* **CI:** Test Rust on Dafny prerelease in nightly build ([#1623](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1623)) ([92070bc](https://github.com/aws/aws-cryptographic-material-providers-library/commit/92070bc128da94a24cfb84cc1fdd50f8ce5623f7))
+* **CI:** update to not trigger workflow on PR comments ([#1640](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1640)) ([c62e8cf](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c62e8cf0bf6b3efa0ae479a57b08ca91ef0306b6))
+* **deps:** bump slackapi/slack-github-action from 2.1.0 to 2.1.1 in /.github/workflows ([#1638](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1638)) ([40b643f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/40b643f9b95e325131a99c7ac5227d0851927980))
+* **Go:** Add Go release script and workflow to run it  ([#1562](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1562)) ([1c563bd](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1c563bdf8985f4c79b376929faa61496964dc69c))
+
 ## [1.11.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.10.1...v1.11.0) (2025-06-17)
 
 This release is available in the following languages:
