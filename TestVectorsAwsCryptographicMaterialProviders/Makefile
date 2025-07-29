@@ -255,32 +255,22 @@ test_decrypt_encrypt_vectors_rust:
 test_decrypt_encrypt_vectors_go:
 	go -C runtimes/go/ImplementationFromDafny-go run ImplementationFromDafny.go decrypt --manifest-path=..
 
-# Fuzz Testing Commands
+# Fuzz Testing Command
 
-# Generate fuzzed test vectors in the Python runtime directory (50 vectors)
-#TODO-Fuzztesting: remove echo statements to eliminate noise when testing on large test-vector suite
-#TODO-Fuzztesting: having fuzz_generator.py in a common directory might simplify workflow
-test_generate_fuzz_vectors_python:
-    cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/python/
-    cd runtimes/python && python3 fuzz_generator.py --num-vectors 50
-    @echo "fuzzed test vectors generated in runtimes/python/"
-
-# Run fuzz interoperability test from one language to another
-# Usage: make test_fuzz_interop ENCRYPT_LANG=go DECRYPT_LANG=python
+#TODO-Fuzztesting: remove echo statement to eliminate noise when testing on large test-vector suite
+# Usage: make test_fuzz_interop ENCRYPT_LANG= DECRYPT_LANG=
 test_fuzz_interop:
-    @echo "Testing interoperability from $(ENCRYPT_LANG) to $(DECRYPT_LANG)"
-    $(MAKE) test_generate_fuzz_vectors_python
-    @if [ "$(ENCRYPT_LANG)" != "python" ]; then \
-        echo "Copying test vectors to $(ENCRYPT_LANG) runtime"; \
-        cp runtimes/python/manifest.json runtimes/$(ENCRYPT_LANG)/; \
-        cp runtimes/python/keys.json runtimes/$(ENCRYPT_LANG)/; \
-    fi
-    @echo "Encrypting with $(ENCRYPT_LANG) runtime"
-    $(MAKE) test_encrypt_vectors_$(ENCRYPT_LANG)
-    @if [ "$(ENCRYPT_LANG)" != "$(DECRYPT_LANG)" ]; then \
-        echo "Copying encrypted manifest and keys to $(DECRYPT_LANG) runtime"; \
-        cp runtimes/$(ENCRYPT_LANG)/manifest.json runtimes/$(DECRYPT_LANG)/; \
-        cp runtimes/$(ENCRYPT_LANG)/keys.json runtimes/$(DECRYPT_LANG)/; \
-    fi
-    @echo "Decrypting with $(DECRYPT_LANG) runtime"
-    $(MAKE) test_decrypt_encrypt_vectors_$(DECRYPT_LANG)
+	@echo "Testing interoperability from $(ENCRYPT_LANG) to $(DECRYPT_LANG)"
+
+	cd dafny/TestVectorsAwsCryptographicMaterialProviders/test && python3 fuzz_generator.py --num-vectors 10000
+
+	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/manifest.json runtimes/$(ENCRYPT_LANG)/
+	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/$(ENCRYPT_LANG)/
+	$(MAKE) test_encrypt_vectors_$(ENCRYPT_LANG)
+
+	@if [ "$(ENCRYPT_LANG)" != "$(DECRYPT_LANG)" ]; then \
+		cp runtimes/$(ENCRYPT_LANG)/manifest.json runtimes/$(DECRYPT_LANG)/; \
+		cp runtimes/$(ENCRYPT_LANG)/keys.json runtimes/$(DECRYPT_LANG)/; \
+	fi
+
+	$(MAKE) test_decrypt_encrypt_vectors_$(DECRYPT_LANG)
