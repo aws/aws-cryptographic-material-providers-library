@@ -216,7 +216,7 @@ jobs:
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}
+          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json
 
   testInteroperablity:
@@ -390,7 +390,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.encrypting_language}}
+          name: ${{matrix.os}}_vector_artifact_${{matrix.encrypting_language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest
