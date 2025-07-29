@@ -2,6 +2,9 @@
 
 ## [1.11.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.0...v1.11.1) (2025-07-29)
 
+This release is available in the following languages:
+- Python
+
 ### Maintenance -- All Languages
 
 * **dafny:** add Rust and Go to supported languages  ([#1492](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1492)) ([87ab402](https://github.com/aws/aws-cryptographic-material-providers-library/commit/87ab40233096739f2aa709fdcd948ce7452c7d04))
