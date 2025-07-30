@@ -66,7 +66,7 @@ run_release_script() {
     echo "Removed all shim.go files"
   fi
 
-  run_go_tools()
+  run_go_tools
 
   # Replacement directives are removed to get package from go pkg instead of local copy
   echo "Removing all replace directives from go.mod..."
@@ -93,7 +93,7 @@ run_release_script() {
 
   cd "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/" || { echo "Error: releases directory not found"; exit 1; }
 
-  run_go_tools()
+  run_go_tools
 
   case "$PROJECT_NAME" in
     "AwsEncryptionSDK"|"DynamoDbEncryption") test_examples ;;
