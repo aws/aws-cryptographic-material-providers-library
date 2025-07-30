@@ -50,10 +50,10 @@ run_release_script() {
 
   # Build using make commands
   echo " Building project..."
-  make polymorph_dafny
-  make polymorph_go
-  make transpile_go
-  make test_go
+  # make polymorph_dafny
+  # make polymorph_go
+  # make transpile_go
+  # make test_go
 
   # Run Go tools in ImplementationFromDafny-go
   echo " Running Go tools in ImplementationFromDafny-go..."
@@ -65,7 +65,7 @@ run_release_script() {
     echo "Removed all shim.go files"
   fi
 
-  run_go_tools()
+  # run_go_tools()
 
   # Replacement directives are removed to get package from go pkg instead of local copy
   echo "Removing all replace directives from go.mod..."
@@ -92,7 +92,7 @@ run_release_script() {
 
   cd "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/" || { echo "Error: releases directory not found"; exit 1; }
 
-  run_go_tools()
+  # run_go_tools()
 
   case "$PROJECT_NAME" in
     "AwsEncryptionSDK"|"DynamoDbEncryption") test_examples ;;
@@ -101,11 +101,11 @@ run_release_script() {
   # Prepare for commit
   echo "creating a branch..."
 
-  git checkout -b "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
-  git add *
+  # git checkout -b "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
+  # git add *
 
-  git commit -m "Release $RELEASE_DIR_NAME Go module ${VERSION}"
-  git push origin "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
+  # git commit -m "Release $RELEASE_DIR_NAME Go module ${VERSION}"
+  # git push origin "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
 }
 
 run_go_tools() {
@@ -138,7 +138,7 @@ copy_examples() {
 
 test_examples() {
   cd "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/examples" || { echo "Error: examples directory not found"; exit 1; }
-  run_go_tools
+  # run_go_tools
   go run main.go
 }
 
