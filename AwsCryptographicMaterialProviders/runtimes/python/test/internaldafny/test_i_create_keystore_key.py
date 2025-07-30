@@ -21,13 +21,16 @@ def test_create_keystore_key():
     # KMS key ARN without kms:GenerateDataKeyWithoutPlaintext permission to create `hierarchy-version-1` branch key.
     kmsArnForHV2 = "arn:aws:kms:us-west-2:370957321024:key/da179005-1c04-4b91-a103-ee43b9a707e6"
 
-    with pytest.raises(ComAmazonawsKms):
+    try:
         # Attempt to create a key - this should fail due to KMS permissions
         keystore_create_key(
             key_store_table_name="KeyStoreDdbTable", 
             logical_key_store_name="KeyStoreDdbTable", 
             kms_key_arn=kmsArnForHV2
         )
+        pytest.fail("Expected ComAmazonawsKms exception, but no exception was raised")
+    except ComAmazonawsKms as ex:
+        assert "ClientError" in str(ex)
 
 
 def keystore_create_key(key_store_table_name: str, logical_key_store_name: str, kms_key_arn: str) -> str:
