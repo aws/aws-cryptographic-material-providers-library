@@ -187,7 +187,7 @@ jobs:
         working-directory: ./${{ matrix.library }}/runtimes/go/TestsFromDafny-go
         shell: bash
         run: |
-          go get -u
+          go get -u ./...
 
       - name: Setup gradle
         if: matrix.language == 'java'
