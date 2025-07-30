@@ -137,7 +137,7 @@ copy_examples() {
   esac
   
   cd "$(git rev-parse --show-toplevel)/$source_dir"
-  echo "Removing all replace directives from go.mod and only adding replacement for ESDK"
+  echo "Removing all replace directives from go.mod and only adding replacement for ESDK/DB-ESDK"
   go mod edit -json | jq -r '.Replace[].Old.Path' | xargs -n1 go mod edit -dropreplace
   go mod edit -replace="$replace_pkg"
   rsync -av --exclude="go.sum" ./ "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/examples"
