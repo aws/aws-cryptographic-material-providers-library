@@ -96,7 +96,7 @@ jobs:
           make purge_polymorph_code
 
       - name: Use latest minor or patch releases
-        if: github.event_name == 'schedule'
+        # if: github.event_name == 'schedule'
         working-directory: ./${{ matrix.library }}/runtimes/go/TestsFromDafny-go
         shell: bash
         run: |
