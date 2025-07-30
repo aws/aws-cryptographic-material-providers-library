@@ -22,6 +22,7 @@ get_release_dir_name() {
     "ComAmazonawsKms") echo "kms" ;;
     "ComAmazonawsDynamodb") echo "dynamodb" ;;
     "StandardLibrary") echo "smithy-dafny-standard-library" ;;
+    "DynamoDbEncryption") echo "dynamodb-esdk" ;;
     *) echo "Error: Unknown project name: $project" >&2; return 1 ;;
   esac
 }
@@ -64,17 +65,11 @@ run_release_script() {
     echo "Removed all shim.go files"
   fi
 
-  echo "Running goimports..."
-  goimports -w .
+  run_go_tools()
 
-  echo "Running go get -u..."
-  go get -u
-
-  echo "Running go mod tidy..."
-  go mod tidy
-
-  echo "Running go build to check for errors..."
-  go build --gcflags="-e" ./...
+  # Replacement directives are removed to get package from go pkg instead of local copy
+  echo "Removing all replace directives from go.mod..."
+  go mod edit -json | jq -r '.Replace[].Old.Path' | xargs -n1 go mod edit -dropreplace
 
   # Get the mapped release directory name
   RELEASE_DIR_NAME=$(get_release_dir_name "$PROJECT_NAME")
@@ -85,24 +80,23 @@ run_release_script() {
   # Use rsync to copy files while excluding following ones:
     # ImplementationFromDafny.go: This file is for devlopment. Users is expected use API(s) from `*/api_client.go`
     # ImplementationFromDafny-go.dtr: This is the dafny translation record only needed for code generation
-    # go.mod and go.sum: These files will be updated by go mod tidy
-  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" --exclude="go.mod" --exclude="go.sum" ./ "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/"
+    # go.sum: This files will be updated by go mod tidy
+  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" --exclude="go.sum" ./ "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/"
+
+  case "$PROJECT_NAME" in
+    "AwsEncryptionSDK"|"DynamoDbEncryption") copy_examples ;;
+  esac
 
   # Run Go tools in releases directory
   echo "Running Go tools in releases/go/$RELEASE_DIR_NAME..."
 
   cd "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/" || { echo "Error: releases directory not found"; exit 1; }
 
-  echo "Running goimports..."
-  goimports -w .
-  echo "Running go get -u..."
-  go get -u ./...
+  run_go_tools()
 
-  echo "Running go mod tidy..."
-  go mod tidy
-
-  echo "Running go build to check for errors..."
-  go build --gcflags="-e" ./...
+  case "$PROJECT_NAME" in
+    "AwsEncryptionSDK"|"DynamoDbEncryption") test_examples ;;
+  esac
 
   # Prepare for commit
   echo "creating a branch..."
@@ -112,6 +106,40 @@ run_release_script() {
 
   git commit -m "Release $RELEASE_DIR_NAME Go module ${VERSION}"
   git push origin "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
+}
+
+run_go_tools() {
+    echo "Running goimports..."
+    goimports -w .
+    echo "Running go get -u..."
+    go get -u ./...
+
+    echo "Running go mod tidy..."
+    go mod tidy
+
+    echo "Running go build to check for errors..."
+    go build --gcflags="-e" ./...
+}
+
+copy_examples() {
+  local source_dir
+  case "$PROJECT_NAME" in
+    "AwsEncryptionSDK") source_dir="$PROJECT_NAME/runtimes/go/ImplementationFromDafny-go/examples" ;;
+    "DynamoDbEncryption") source_dir="Examples/runtimes/go" ;;
+    *) return ;;
+  esac
+  
+  cd "$(git rev-parse --show-toplevel)/$source_dir"
+  echo "Removing all replace directives from go.mod and only adding replacement for ESDK"
+  go mod edit -json | jq -r '.Replace[].Old.Path' | xargs -n1 go mod edit -dropreplace
+  go mod edit -replace=github.com/aws/aws-encryption-sdk/releases/go/encryption-sdk=../
+  rsync -av --exclude="go.sum" ./ "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/examples"
+}
+
+test_examples() {
+  cd "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/examples" || { echo "Error: examples directory not found"; exit 1; }
+  run_go_tools
+  go run main.go
 }
 
 "$@"
