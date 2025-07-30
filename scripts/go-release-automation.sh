@@ -109,19 +109,6 @@ run_release_script() {
   git push origin "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
 }
 
-run_go_tools() {
-    echo "Running goimports..."
-    goimports -w .
-    echo "Running go get -u..."
-    go get -u ./...
-
-    echo "Running go mod tidy..."
-    go mod tidy
-
-    echo "Running go build to check for errors..."
-    go build --gcflags="-e" ./...
-}
-
 copy_examples() { 
   local source_dir replace_pkg
   case "$PROJECT_NAME" in
@@ -147,6 +134,19 @@ test_examples() {
   cd "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/examples" || { echo "Error: examples directory not found"; exit 1; }
   run_go_tools
   go run main.go
+}
+
+run_go_tools() {
+    echo "Running goimports..."
+    goimports -w .
+    echo "Running go get -u..."
+    go get -u ./...
+
+    echo "Running go mod tidy..."
+    go mod tidy
+
+    echo "Running go build to check for errors..."
+    go build --gcflags="-e" ./...
 }
 
 "$@"
