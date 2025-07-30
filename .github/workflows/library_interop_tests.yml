@@ -182,6 +182,13 @@ jobs:
         run: |
           make purge_polymorph_code
 
+      - name: Use latest minor or patch releases
+        # if: github.event_name == 'schedule'
+        working-directory: ./${{ matrix.library }}/runtimes/go/TestsFromDafny-go
+        shell: bash
+        run: |
+          go get -u
+
       - name: Setup gradle
         if: matrix.language == 'java'
         uses: gradle/gradle-build-action@v2
