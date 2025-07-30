@@ -40,10 +40,43 @@ KEY_MATERIALS = {
 
 # Algorithm suites
 ALGORITHM_SUITES = [
-    "0014",  # AES-128-GCM, no KDF
-    "0078",  # AES-256-GCM, no KDF
-    "0114",  # AES-128-GCM, HKDF-SHA256
-    "0178",  # AES-256-GCM, HKDF-SHA256
+        # ESDK Algorithm Suites
+        "0014",  # AES-128-GCM, no KDF
+        "0046",  # AES-192-GCM, no KDF  
+        "0078",  # AES-256-GCM, no KDF
+        "0114",  # AES-128-GCM, HKDF-SHA256
+        "0146",  # AES-192-GCM, HKDF-SHA256
+        "0178",  # AES-256-GCM, HKDF-SHA256
+        "0214",  # AES-128-GCM, HKDF-SHA256, ECDSA-P256
+        "0346",  # AES-192-GCM, HKDF-SHA384, ECDSA-P384
+        "0378",  # AES-256-GCM, HKDF-SHA384, ECDSA-P384
+        "0478",  # AES-256-GCM, HKDF-SHA512, Key Commitment
+        "0578",  # AES-256-GCM, HKDF-SHA512, Key Commitment, ECDSA-P256
+        # DBE Algorithm Suites
+        "6700",  # DBE AES-256-GCM with Key Commitment
+        "6701",  # DBE AES-256-GCM with Key Commitment; ECDSA with P-384 and SHA-384
+]
+
+# Unicode strategies for maximum diversity
+unicode_strategies = [
+    st.text(min_size=1, max_size=50),  # Normal text
+    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])), #Symbols
+    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])), #Letters
+    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])), #Numbers
+    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])), #Marks
+    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])), #Separators
+    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])), #Control characters
+    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Pc', 'Pd', 'Ps', 'Pe', 'Pi', 'Pf', 'Po'])), #Punctuation
+    
+    # Specific edge cases
+    st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
+    st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
+
+    #Incorrect handling of surrogate pairs, string truncation, character boundary issues; explicitly adding the lowest (U+0000) and highest (U+FFFF) 16-bit code points
+    st.lists(st.integers(min_value=0x10000, max_value=0x10FFFF), min_size=1, max_size=25).map(lambda codepoints: ''.join(chr(cp) for cp in codepoints)).map(lambda s: s + '\u0000\uFFFF'),
+
+    #Normalization + explicitly combining characters
+    st.text(min_size=2, max_size=50).map(lambda s: unicodedata.normalize('NFD', s + '\u0300\u0301'))
 ]
 
 # Below are the helper methods defined to assemble a test vector; a modular generation process for easy debugging.
@@ -54,45 +87,21 @@ def get_description_template(keyring_type: str) -> str:
 
 @composite
 def fuzz_key_identifiers(draw, base_key_id: str) -> Dict[str, Any]:
-    """Generate fuzzed key name, namespace, and key material for raw keyrings
+    """Generate completely independent fuzzed key identifiers for raw keyrings.
+    
+    Generates three independent Unicode strings:
+    1. key_name: Lookup key for keys.json (not in encrypted message)
+    2. key_namespace: Provider-id in encrypted message header (KEY PROVIDER ID)  
+    3. key_id: Key-id in encrypted message header (KEY PROVIDER INFORMATION)
+    
     Returns:
         Dictionary with key_name, key_namespace, and key_material
     """
-    # Generate Unicode prefix and suffix for key name
-    unicode_strategies = [
-        st.text(min_size=1, max_size=50),  # Normal text
-        st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])), #Symbols
-        st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])), #Letters
-        st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])), #Numbers
-        st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])), #Marks
-        st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])), #Separators
-        st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])), #Control characters
-        st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Pc', 'Pd', 'Ps', 'Pe', 'Pi', 'Pf', 'Po'])), #Punctuation
-        
-        # Specific edge cases
-        st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
-        st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
-    ]
     
-    # TODO-Fuzztesting: ensure 100% randomness in keyname and namespace.
-    """
-    It can technically be anything. And that applies for the key string (the name of the string that we lookup in keys.json), the key name and key name space, since they appear in the encrypted message header. 
-    Currently, chosen to have a prefix and suffix for convenience, so that it would be easy to identify keys, and their actual id easily; also, that was a few days ago, and the current version of fuzz_generator.py fuzzes all 3 
-    independently to maximize the chance of catching an error.
-    """
-    unicode_prefix = draw(st.one_of(unicode_strategies))
-    unicode_suffix = draw(st.one_of(unicode_strategies))
-    
-    # Create key name with Unicode elements
-    key_name = f"{unicode_prefix}-{base_key_id}-{unicode_suffix}"
-    
-    # Create namespace with Unicode elements
-    namespace_part = draw(st.text(min_size=1, max_size=5))
-    key_namespace = f"aws-raw-vectors-persistent-{unicode_prefix}-{base_key_id}-{namespace_part}"
-    
-    # Generate fuzzed key-id
-    key_id_suffix = draw(st.one_of(unicode_strategies))
-    fuzzed_key_id = f"{base_key_id}-{key_id_suffix}"
+    # Generate three completely independent Unicode strings
+    key_name = draw(st.one_of(unicode_strategies))           # Lookup key (not in message)
+    key_namespace = draw(st.one_of(unicode_strategies))      # Provider-id (in message header)
+    fuzzed_key_id = draw(st.one_of(unicode_strategies))      # Key-id (in message header)
     
     # Get key material information based on the base key ID
     key_info = KEY_MATERIALS.get(base_key_id, KEY_MATERIALS["aes-256"])
@@ -104,7 +113,7 @@ def fuzz_key_identifiers(draw, base_key_id: str) -> Dict[str, Any]:
         "bits": key_info["bits"], 
         "encoding": "base64",
         "material": key_info["material"], 
-        "key-id": fuzzed_key_id  # Using the fuzzed key-id
+        "key-id": fuzzed_key_id  # Using the independent fuzzed key-id
     }
     
     return {"key_name": key_name, "key_namespace": key_namespace, "key_material": key_material}
@@ -122,36 +131,8 @@ def fuzz_encryption_context(draw):
     for _ in range(num_pairs):
         # Generate Unicode keys and values (min_size=1 to avoid empty strings)
 
-        #TODO-Fuzztesting: move all unicode strategies to one palce so as to simply edit that
-        key = draw(st.one_of(
-            st.text(min_size=1, max_size=50),  # Normal text
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])), #Symbols
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])), #Letters
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])), #Numbers
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])), #Marks
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])), #Separators
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])), #Control characters
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Pc', 'Pd', 'Ps', 'Pe', 'Pi', 'Pf', 'Po'])), #Punctuation
-            
-            # Specific edge cases
-            st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
-            st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
-        ))
-        
-        value = draw(st.one_of(
-            st.text(min_size=1, max_size=50),  # Normal text
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])), #Symbols
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])), #Letters
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])), #Numbers
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])), #Marks
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])), #Separators
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])), #Control characters
-            st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Pc', 'Pd', 'Ps', 'Pe', 'Pi', 'Pf', 'Po'])), #Punctuation
-            
-            # Specific edge cases
-            st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
-            st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
-        ))
+        key = draw(st.one_of(unicode_strategies))
+        value = draw(st.one_of(unicode_strategies))
         
         context[key] = value
     
@@ -278,7 +259,6 @@ def generate_fuzz_test_vectors(num_vectors) -> Tuple[Dict[str, Any], Dict[str, A
     new_keys = extract_new_keys(test_vectors)
     return test_vectors, new_keys
 
-#TODO-Fuzztesting: create CI and add necessary Makefile commands
 #TODO-Fuzztesting: increase the number of test vectors (for CI)
 #TODO-Fuzztesting: remove extraneous logging/printing statements to simplify output (for CI)
 #TODO-Fuzztesting: Add a logging mechanism to log erros/vulnerabilities we run into
