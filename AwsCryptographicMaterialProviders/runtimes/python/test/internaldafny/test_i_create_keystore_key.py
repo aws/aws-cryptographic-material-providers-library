@@ -14,12 +14,12 @@ from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keyst
 
 pytestmark = [pytest.mark.examples]
 
-@pytest.mark.xfail(reason="Expected to fail with KMS AccessDeniedException")
+
 def test_create_keystore_key():
     """This test verifies that the smithy-python properly handles `OpaqueWithText` exception from SDK dependencies."""
 
     # KMS key ARN without kms:GenerateDataKeyWithoutPlaintext permission to create `hierarchy-version-1` branch key.
-    kmsArnForHV2 : str = "arn:aws:kms:us-west-2:370957321024:key/da179005-1c04-4b91-a103-ee43b9a707e6"
+    kmsArnForHV2 = "arn:aws:kms:us-west-2:370957321024:key/da179005-1c04-4b91-a103-ee43b9a707e6"
 
     with pytest.raises(ComAmazonawsKms):
         # Attempt to create a key - this should fail due to KMS permissions
