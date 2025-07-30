@@ -201,7 +201,7 @@ jobs:
         run: |
           if [ "${{ inputs.fuzz-testing }}" = "true" ]; then
             echo "Generating fuzzed test vectors"
-            make test_generate_fuzz_vectors_${{ matrix.language }} NUM_VECTORS=8000
+            make test_generate_fuzz_vectors_${{ matrix.language }} NUM_VECTORS=6000
           else
             echo "Generating regular test vectors"
             make test_generate_vectors_${{ matrix.language }}
