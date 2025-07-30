@@ -23,6 +23,7 @@ get_release_dir_name() {
     "ComAmazonawsDynamodb") echo "dynamodb" ;;
     "StandardLibrary") echo "smithy-dafny-standard-library" ;;
     "DynamoDbEncryption") echo "dynamodb-esdk" ;;
+    "AwsEncryptionSDK") echo "encryption-sdk" ;;
     *) echo "Error: Unknown project name: $project" >&2; return 1 ;;
   esac
 }
@@ -121,18 +122,24 @@ run_go_tools() {
     go build --gcflags="-e" ./...
 }
 
-copy_examples() {
-  local source_dir
+copy_examples() { 
+  local source_dir replace_pkg
   case "$PROJECT_NAME" in
-    "AwsEncryptionSDK") source_dir="$PROJECT_NAME/runtimes/go/ImplementationFromDafny-go/examples" ;;
-    "DynamoDbEncryption") source_dir="Examples/runtimes/go" ;;
+    "AwsEncryptionSDK") 
+      source_dir="$PROJECT_NAME/runtimes/go/ImplementationFromDafny-go/examples"
+      replace_pkg="github.com/aws/aws-encryption-sdk/releases/go/encryption-sdk=../"
+      ;;
+    "DynamoDbEncryption") 
+      source_dir="Examples/runtimes/go"
+      replace_pkg="github.com/aws/aws-database-encryption-sdk-dynamodb/releases/go/dynamodb-esdk=../"
+      ;;
     *) return ;;
   esac
   
   cd "$(git rev-parse --show-toplevel)/$source_dir"
   echo "Removing all replace directives from go.mod and only adding replacement for ESDK"
   go mod edit -json | jq -r '.Replace[].Old.Path' | xargs -n1 go mod edit -dropreplace
-  go mod edit -replace=github.com/aws/aws-encryption-sdk/releases/go/encryption-sdk=../
+  go mod edit -replace="$replace_pkg"
   rsync -av --exclude="go.sum" ./ "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/examples"
 }
 
