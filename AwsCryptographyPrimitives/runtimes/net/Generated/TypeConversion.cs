@@ -11,6 +11,33 @@ namespace AWS.Cryptography.Primitives
 
         private const string ISO8601DateFormatNoMS = "yyyy-MM-dd\\THH:mm:ss\\Z";
 
+        public static AWS.Cryptography.Primitives.AES_CTR FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_CTR(software.amazon.cryptography.primitives.internaldafny.types._IAES__CTR value)
+        {
+            software.amazon.cryptography.primitives.internaldafny.types.AES__CTR concrete = (software.amazon.cryptography.primitives.internaldafny.types.AES__CTR)value; AWS.Cryptography.Primitives.AES_CTR converted = new AWS.Cryptography.Primitives.AES_CTR(); converted.KeyLength = (int)FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_CTR__M9_keyLength(concrete._keyLength);
+            converted.NonceLength = (int)FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_CTR__M11_nonceLength(concrete._nonceLength); return converted;
+        }
+        public static software.amazon.cryptography.primitives.internaldafny.types._IAES__CTR ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_CTR(AWS.Cryptography.Primitives.AES_CTR value)
+        {
+            value.Validate();
+
+            return new software.amazon.cryptography.primitives.internaldafny.types.AES__CTR(ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_CTR__M9_keyLength(value.KeyLength), ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_CTR__M11_nonceLength(value.NonceLength));
+        }
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_CTR__M9_keyLength(int value)
+        {
+            return FromDafny_N3_aws__N12_cryptography__N10_primitives__S18_SymmetricKeyLength(value);
+        }
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_CTR__M9_keyLength(int value)
+        {
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S18_SymmetricKeyLength(value);
+        }
+        public static int FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_CTR__M11_nonceLength(int value)
+        {
+            return FromDafny_N3_aws__N12_cryptography__N10_primitives__S9_Uint8Bits(value);
+        }
+        public static int ToDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_CTR__M11_nonceLength(int value)
+        {
+            return ToDafny_N3_aws__N12_cryptography__N10_primitives__S9_Uint8Bits(value);
+        }
         public static AWS.Cryptography.Primitives.AES_GCM FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM(software.amazon.cryptography.primitives.internaldafny.types._IAES__GCM value)
         {
             software.amazon.cryptography.primitives.internaldafny.types.AES__GCM concrete = (software.amazon.cryptography.primitives.internaldafny.types.AES__GCM)value; AWS.Cryptography.Primitives.AES_GCM converted = new AWS.Cryptography.Primitives.AES_GCM(); converted.KeyLength = (int)FromDafny_N3_aws__N12_cryptography__N10_primitives__S7_AES_GCM__M9_keyLength(concrete._keyLength);

@@ -1430,6 +1430,26 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
       if (AWS.Cryptography.MaterialProviders.DBECommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT.Equals(value)) return software.amazon.cryptography.materialproviders.internaldafny.types.DBECommitmentPolicy.create();
       throw new System.ArgumentException("Invalid AWS.Cryptography.MaterialProviders.DBECommitmentPolicy value");
     }
+    public static Amazon.DynamoDBv2.IAmazonDynamoDB FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_DdbClientReference(software.amazon.cryptography.services.dynamodb.internaldafny.types.IDynamoDBClient value)
+    {
+      // This is converting a reference type in a dependant module.
+      // Therefore it defers to the dependant module for conversion
+      return AWS.Cryptography.MaterialProviders.TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_DdbClientReference(value);
+    }
+    public static software.amazon.cryptography.services.dynamodb.internaldafny.types.IDynamoDBClient ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_DdbClientReference(Amazon.DynamoDBv2.IAmazonDynamoDB value)
+    {
+      // This is converting a reference type in a dependant module.
+      // Therefore it defers to the dependant module for conversion
+      return AWS.Cryptography.MaterialProviders.TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_DdbClientReference(value);
+    }
+    public static string FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S11_DdbTableArn(Dafny.ISequence<char> value)
+    {
+      return new string(value.Elements);
+    }
+    public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S11_DdbTableArn(string value)
+    {
+      return Dafny.Sequence<char>.FromString(value);
+    }
     public static AWS.Cryptography.MaterialProviders.DecryptionMaterials FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_DecryptionMaterials(software.amazon.cryptography.materialproviders.internaldafny.types._IDecryptionMaterials value)
     {
       software.amazon.cryptography.materialproviders.internaldafny.types.DecryptionMaterials concrete = (software.amazon.cryptography.materialproviders.internaldafny.types.DecryptionMaterials)value; AWS.Cryptography.MaterialProviders.DecryptionMaterials converted = new AWS.Cryptography.MaterialProviders.DecryptionMaterials(); converted.AlgorithmSuite = (AWS.Cryptography.MaterialProviders.AlgorithmSuiteInfo)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_DecryptionMaterials__M14_algorithmSuite(concrete._algorithmSuite);
