@@ -17,9 +17,15 @@ public class CreateKeyInput {
    */
   private final Map<String, String> encryptionContext;
 
+  /**
+   * Optional. Defaults to v1.
+   */
+  private final HierarchyVersion hierarchyVersion;
+
   protected CreateKeyInput(BuilderImpl builder) {
     this.branchKeyIdentifier = builder.branchKeyIdentifier();
     this.encryptionContext = builder.encryptionContext();
+    this.hierarchyVersion = builder.hierarchyVersion();
   }
 
   /**
@@ -34,6 +40,13 @@ public class CreateKeyInput {
    */
   public Map<String, String> encryptionContext() {
     return this.encryptionContext;
+  }
+
+  /**
+   * @return Optional. Defaults to v1.
+   */
+  public HierarchyVersion hierarchyVersion() {
+    return this.hierarchyVersion;
   }
 
   public Builder toBuilder() {
@@ -65,6 +78,16 @@ public class CreateKeyInput {
      */
     Map<String, String> encryptionContext();
 
+    /**
+     * @param hierarchyVersion Optional. Defaults to v1.
+     */
+    Builder hierarchyVersion(HierarchyVersion hierarchyVersion);
+
+    /**
+     * @return Optional. Defaults to v1.
+     */
+    HierarchyVersion hierarchyVersion();
+
     CreateKeyInput build();
   }
 
@@ -74,11 +97,14 @@ public class CreateKeyInput {
 
     protected Map<String, String> encryptionContext;
 
+    protected HierarchyVersion hierarchyVersion;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(CreateKeyInput model) {
       this.branchKeyIdentifier = model.branchKeyIdentifier();
       this.encryptionContext = model.encryptionContext();
+      this.hierarchyVersion = model.hierarchyVersion();
     }
 
     public Builder branchKeyIdentifier(String branchKeyIdentifier) {
@@ -97,6 +123,15 @@ public class CreateKeyInput {
 
     public Map<String, String> encryptionContext() {
       return this.encryptionContext;
+    }
+
+    public Builder hierarchyVersion(HierarchyVersion hierarchyVersion) {
+      this.hierarchyVersion = hierarchyVersion;
+      return this;
+    }
+
+    public HierarchyVersion hierarchyVersion() {
+      return this.hierarchyVersion;
     }
 
     public CreateKeyInput build() {
