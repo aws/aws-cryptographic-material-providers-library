@@ -379,6 +379,10 @@ def _deserialize_error(error: Error) -> ServiceError:
             return ComAmazonawsKms(
                 message=_dafny.string_of(error.ComAmazonawsKms.objMessage)
             )
+        elif hasattr(error.ComAmazonawsKms, "Message"):
+            return ComAmazonawsKms(
+                message=_dafny.string_of(error.ComAmazonawsKms.Message)
+            )
         else:
             return ComAmazonawsKms(
                 message=_dafny.string_of(error.ComAmazonawsKms.message)
@@ -387,6 +391,10 @@ def _deserialize_error(error: Error) -> ServiceError:
         if hasattr(error.ComAmazonawsDynamodb, "objMessage"):
             return ComAmazonawsDynamodb(
                 message=_dafny.string_of(error.ComAmazonawsDynamodb.objMessage)
+            )
+        elif hasattr(error.ComAmazonawsDynamodb, "Message"):
+            return ComAmazonawsDynamodb(
+                message=_dafny.string_of(error.ComAmazonawsDynamodb.Message)
             )
         else:
             return ComAmazonawsDynamodb(
