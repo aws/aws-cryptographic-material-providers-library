@@ -74,6 +74,6 @@ def test_transaction_canceled_exception():
         keystore.create_key(create_input)
         pytest.fail("Expected TransactionCanceledException but no exception was raised")
     except ComAmazonawsDynamodb as e:
-        assert "TransactionCanceledException" in str(e), f"Expected TransactionCanceledException but got: {e}"
+        assert "Transaction cancelled" in str(e), f"Expected TransactionCanceledException but got: {e}"
     except Exception as e:
         pytest.fail(f"Unexpected error: {e}")
