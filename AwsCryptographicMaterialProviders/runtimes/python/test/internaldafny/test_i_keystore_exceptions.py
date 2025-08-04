@@ -18,6 +18,7 @@ from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keyst
 
 pytestmark = [pytest.mark.examples]
 
+BRANCH_KEY_ID = "test_transaction_canceled_exception_branch_id"
 # Constants for test configuration
 TEST_TABLE_NAME = "KeyStoreDdbTable"
 TEST_KMS_KEY_ARN = "arn:aws:kms:us-west-2:370957321024:key/9d989aa2-2f9c-438c-a745-cc57d3ad0126"
@@ -46,13 +47,13 @@ def test_kms_permission_exception():
 
 
 def test_transaction_canceled_exception():
-    """This test verifies that creating a key with the same ID twice properly triggers a TransactionCanceledException."""
+    """This test verifies that attempting to create an already configured branch key ID, throws a TransactionCanceledException."""
     # Create AWS clients
     ddb_client = boto3.client('dynamodb')
     kms_client = boto3.client('kms')
     
-    # Create a unique identifier for this test
-    branch_key_id = f"test-key-{uuid.uuid4()}"
+    # Branch Key ID is pre-configured in the table for this test
+    branch_key_id = "test_transaction_canceled_exception_branch_id"
     
     # Initialize KeyStore
     keystore = KeyStore(
@@ -65,12 +66,9 @@ def test_transaction_canceled_exception():
         )
     )
     
-    # Create the branch key first time
-    create_input = CreateKeyInput(branch_key_identifier=branch_key_id, encryption_context={'Robbie': 'is a Dog'})
-    keystore.create_key(create_input)
-    
     # Attempt to create the branch key again with same branch key id, which should fail with TransactionCanceledException
     try:
+        create_input = CreateKeyInput(branch_key_identifier=branch_key_id, encryption_context={'Robbie': 'is a Dog'})
         keystore.create_key(create_input)
         pytest.fail("Expected TransactionCanceledException but no exception was raised")
     except ComAmazonawsDynamodb as e:
