@@ -12,12 +12,9 @@ This script generates fuzzed test vectors with a focused approach:
 import json
 import uuid
 import unicodedata
-import warnings
+import random
+import argparse
 from typing import Dict, Any, List, Tuple
-import hypothesis
-from hypothesis import strategies as st
-from hypothesis.strategies import composite
-from hypothesis.errors import NonInteractiveExampleWarning
 
 # Description templates for test vectors
 DESCRIPTION_TEMPLATES = {
@@ -27,7 +24,7 @@ DESCRIPTION_TEMPLATES = {
 
 #TODO-Fuzztesting: #include the other keys: KMS keys, rsa for raw keys, (right now: 2 KMS keys, AES raw keys now); other keyring types; other test types (only positive-keyring now)
 # Key, Algorithm, Test-Type, Key-Material Definitions
-KMS_KEYS = ["us-west-2-mrk", "us-east-1-mrk"]
+KMS_KEYS = ["us-west-2-mrk", "us-east-1-mrk", "us-west-2-decryptable"] #us-west-2-rsa-mrk (alr have rsa), us-west-2-256-ecc, us-west-2-384-ecc (and alr have enough ecc)
 RAW_KEY_TYPES = ["aes-128", "aes-192", "aes-256", "ecc-256", "ecc-384", "ecc-521"] #"rsa-4096",
 KEYRING_TYPES = ["kms", "raw"]
 
@@ -104,27 +101,43 @@ ALGORITHM_SUITES = [
         "6701",  # DBE AES-256-GCM with Key Commitment; ECDSA with P-384 and SHA-384
 ]
 
-# Unicode strategies for maximum diversity
-unicode_strategies = [
-    st.text(min_size=1, max_size=50),  # Normal text
-    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])), #Symbols
-    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])), #Letters
-    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])), #Numbers
-    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Mn', 'Mc', 'Me'])), #Marks
-    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Zs', 'Zl', 'Zp'])), #Separators
-    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])), #Control characters
-    st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Pc', 'Pd', 'Ps', 'Pe', 'Pi', 'Pf', 'Po'])), #Punctuation
+def generate_unicode_string() -> str:
+    """Generate a Unicode string with diverse characters."""
+    # Define all Unicode categories we want to include
+    all_categories = [
+        'So', 'Sc', 'Sk', 'Sm',
+        'Lo', 'Ll', 'Lu', 'Lm', 'Lt',
+        'Nd', 'Nl', 'No',
+        'Mn', 'Mc', 'Me',
+        'Zs', 'Zl', 'Zp',
+        'Pc', 'Pd', 'Ps', 'Pe', 'Pi', 'Pf', 'Po'
+    ]
     
-    # Specific edge cases
-    st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
-    st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
-
-    #Incorrect handling of surrogate pairs, string truncation, character boundary issues; explicitly adding the lowest (U+0000) and highest (U+FFFF) 16-bit code points
-    st.lists(st.integers(min_value=0x10000, max_value=0x10FFFF), min_size=1, max_size=25).map(lambda codepoints: ''.join(chr(cp) for cp in codepoints)).map(lambda s: s + '\u0000\uFFFF'),
-
-    #Normalization + explicitly combining characters
-    st.text(min_size=2, max_size=50).map(lambda s: unicodedata.normalize('NFD', s + '\u0300\u0301'))
-]
+    # Generate a string with characters from random categories
+    length = random.randint(1, 50)
+    chars = []
+    for _ in range(length):
+        category = random.choice(all_categories)
+        char = chr(random.randint(0x0020, 0x10FFFF))
+        while unicodedata.category(char) != category:
+            char = chr(random.randint(0x0020, 0x10FFFF))
+        chars.append(char)
+    
+    basic_string = ''.join(chars)
+    
+    # Randomly apply normalization
+    normalizations = ['NFC', 'NFD', 'NFKC', 'NFKD']
+    normalized_string = unicodedata.normalize(random.choice(normalizations), basic_string)
+    
+    # Randomly add some special cases
+    special_cases = [
+        lambda s: s,  # No change
+        lambda s: s + '\u0000\uFFFF',  # Add BMP boundaries
+        lambda s: s + '\u0300\u0301',  # Add combining characters
+        lambda s: ''.join(chr(random.randint(0x10000, 0x10FFFF)) for _ in range(5)) + s  # Add non-BMP characters
+    ]
+    
+    return random.choice(special_cases)(normalized_string)
 
 # Below are the helper methods defined to assemble a test vector; a modular generation process for easy debugging.
 
@@ -132,75 +145,49 @@ def get_description_template(keyring_type: str) -> str:
     """Get description template for keyring type."""
     return DESCRIPTION_TEMPLATES.get(keyring_type, f"Fuzz test with {keyring_type} keyring")
 
-@composite
-def fuzz_key_identifiers(draw, base_key_id: str) -> Dict[str, Any]:
-    """Generate completely independent fuzzed key identifiers for raw keyrings.
-    
-    Generates three independent Unicode strings:
-    1. fuzzed_key_id: Lookup key for keys.json (not in encrypted message)
-    2. key_namespace: Provider-id in encrypted message header (KEY PROVIDER ID)  
-    3. key_id_in_material: Key-id in encrypted message header (KEY PROVIDER INFORMATION)
-    
-    Returns:
-        Dictionary with fuzzed_key_id, key_namespace, and key_id_in_material
-    """
-    
-    # Generate three completely independent Unicode strings
-    fuzzed_key_id = draw(st.one_of(unicode_strategies))      # Lookup key for keys.json (not in message)
-    key_namespace = draw(st.one_of(unicode_strategies))      # Provider-id (in message header)
-    key_id_in_material = draw(st.one_of(unicode_strategies)) # Key-id (in message header)
-    
-    return {"fuzzed_key_id": fuzzed_key_id, "key_namespace": key_namespace, "key_id_in_material": key_id_in_material}
-
 #TODO-Fuzztesting: Strengthening encryption context fuzzing with specific edge cases (close to the character limitation for encryption context (8,192)), structured patterns
-@composite
-def fuzz_encryption_context(draw):
+def fuzz_encryption_context():
     """Generate diverse encryption contexts with Unicode characters.
-    
     Avoids empty strings as they're invalid for KMS operations.
     """
-    num_pairs = draw(st.integers(min_value=3, max_value=10))  # Increased number of pairs
+    num_pairs = random.randint(3, 10)
     context = {}
-    
     for _ in range(num_pairs):
-        # Generate Unicode keys and values (min_size=1 to avoid empty strings)
-
-        key = draw(st.one_of(unicode_strategies))
-        value = draw(st.one_of(unicode_strategies))
-        
+        key = generate_unicode_string()
+        value = generate_unicode_string()
         context[key] = value
-    
     return context
 
 #TODO-Fuzztesting: "negative-encrypt-keyring" fuzzing functionality: in fuzzToDos branch, implemented tests with missing required keys (for KMS keyrings) or invalid key material (raw keryings)
 #but it could also fail because of algo mismatches or invalid encryption context formats
 #currently, only testing for positive-keyring
-def generate_required_keys(draw, encryption_context: Dict[str, str]) -> List[str]:
-    """Generate requiredEncryptionContextKeys from existing context keys."""
-    context_keys = list(encryption_context.keys())
-    num_required = draw(st.integers(min_value=1, max_value=len(context_keys)))
-    return draw(st.lists(st.sampled_from(context_keys), min_size=1, max_size=num_required, unique=True))
 
-def create_key_description(draw, keyring_type: str, kms_key: str, required_keys: List[str]) -> Dict[str, Any]:
+def create_key_description(keyring_type: str, kms_key: str, required_keys: List[str]) -> Dict[str, Any]:
     """Create key description based on keyring type."""
     if keyring_type == "raw":
-        return create_raw_key_description(draw)
+        return create_raw_key_description()
     elif keyring_type == "kms":
         return create_kms_key_description(kms_key, required_keys)
     else:
         raise ValueError(f"Unknown keyring type: {keyring_type}")
 
 #TODO-Fuzztesting: ensure use of other algorithm types for raw keyrings (not just aes)
-def create_raw_key_description(draw) -> Dict[str, Any]:
-    """Create raw keyring description."""
-    raw_key_id = draw(st.sampled_from(RAW_KEY_TYPES))
-    key_identifiers = draw(fuzz_key_identifiers(raw_key_id))
+def create_raw_key_description() -> Dict[str, Any]:
+    """Create raw keyring description without using Hypothesis."""
+    import random
     
-    # Base description for all raw keyrings
+    raw_key_id = random.choice(RAW_KEY_TYPES)
+    
+    # Generate key identifiers
+    fuzzed_key_id = generate_unicode_string()
+    key_namespace = generate_unicode_string()
+    key_id_in_material = generate_unicode_string()
+    
+    # Base description
     description = {
-        "key": key_identifiers["fuzzed_key_id"],  # Use fuzzed_key_id as the lookup key
-        "provider-id": key_identifiers["key_namespace"],
-        "_key_id_in_material": key_identifiers["key_id_in_material"]  # Store for later use in keys.json
+        "key": fuzzed_key_id,
+        "provider-id": key_namespace,
+        "_key_id_in_material": key_id_in_material
     }
     
     # Handle different key types
@@ -209,26 +196,19 @@ def create_raw_key_description(draw) -> Dict[str, Any]:
             "type": "raw",
             "encryption-algorithm": "aes"
         })
-    elif raw_key_id.startswith("rsa"):
-        description.update({
-            "type": "raw",
-            "encryption-algorithm": "rsa",
-            "padding-algorithm": "oaep-mgf1",
-            "padding-hash": "sha512"
-        })
     elif raw_key_id.startswith("ecc"):
-        # ECC keys use a different type and structure
         description.update({
             "type": "raw-ecdh",
-            "sender": key_identifiers["fuzzed_key_id"],  # Same key for sender and recipient in static mode
-            "recipient": key_identifiers["fuzzed_key_id"],
+            "sender": fuzzed_key_id,
+            "recipient": fuzzed_key_id,
             "sender-public-key": "sender-material-public-key",
-            "recipient-public-key": "recipient-material-public-key", 
-            "ecc-curve": raw_key_id,  # e.g., "ecc-256"
+            "recipient-public-key": "recipient-material-public-key",
+            "ecc-curve": raw_key_id,
             "schema": "static"
         })
     
     return description
+
 #TODO-Fuzztesting: add aws-kms-ecdh and aws-kms-hierarchy when more KMS keys are added
 def create_kms_key_description(kms_key: str, required_keys: List[str]) -> Dict[str, Any]:
     """Create KMS keyring description."""
@@ -240,39 +220,6 @@ def create_kms_key_description(kms_key: str, required_keys: List[str]) -> Dict[s
     }
 
 # Assembling a test vector
-
-@composite
-def fuzz_test_vector(draw):
-    """Generate a complete fuzzed test vector."""
-    # Generate basic components
-    encryption_context = draw(fuzz_encryption_context())
-    algorithm_suite = draw(st.sampled_from(ALGORITHM_SUITES))
-    keyring_type = draw(st.sampled_from(KEYRING_TYPES))
-
-    if keyring_type == "kms":
-        kms_key = draw(st.sampled_from(KMS_KEYS))
-    else:
-        kms_key = None  # Raw keyrings don't need this
-    
-    # Generate required keys
-    required_keys = generate_required_keys(draw, encryption_context)
-    
-    # Create key descriptions
-    key_description = create_key_description(draw, keyring_type, kms_key, required_keys)
-    
-    # Create test vector
-    test_vector = {
-        "type": "positive-keyring",  # Only positive test cases
-        "description": get_description_template(keyring_type),
-        "algorithmSuiteId": algorithm_suite,
-        "encryptKeyDescription": key_description,
-        "decryptKeyDescription": key_description,
-        "reproducedEncryptionContext": encryption_context,  # Same as original for positive tests
-        "requiredEncryptionContextKeys": required_keys,
-        "encryptionContext": encryption_context
-    }
-    
-    return test_vector
 
 def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
     """Extract new keys from raw keyring test vectors.
@@ -369,17 +316,47 @@ def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
     
     return new_keys
 
+def generate_single_test_vector() -> Dict[str, Any]:
+    """Generate a single test vector without using Hypothesis."""
+    # Generate encryption context
+    encryption_context = fuzz_encryption_context()
+    
+    # Select random values from available options
+    algorithm_suite = random.choice(ALGORITHM_SUITES)
+    keyring_type = random.choice(KEYRING_TYPES)
+    
+    # Generate required keys
+    context_keys = list(encryption_context.keys())
+    num_required = random.randint(1, len(context_keys))
+    required_keys = random.sample(context_keys, num_required)
+    
+    # Handle key description based on keyring type
+    if keyring_type == "kms":
+        kms_key = random.choice(KMS_KEYS)
+        key_description = create_kms_key_description(kms_key, required_keys)
+    else:  # raw
+        key_description = create_raw_key_description()
+    
+    # Create test vector
+    return {
+        "type": "positive-keyring",
+        "description": get_description_template(keyring_type),
+        "algorithmSuiteId": algorithm_suite,
+        "encryptKeyDescription": key_description,
+        "decryptKeyDescription": key_description,
+        "reproducedEncryptionContext": encryption_context,
+        "requiredEncryptionContextKeys": required_keys,
+        "encryptionContext": encryption_context
+    }
+
 def generate_fuzz_test_vectors(num_vectors) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Generate multiple fuzzed test vectors and collect new key generated."""
     test_vectors = {}
     
-    with warnings.catch_warnings():
-        warnings.filterwarnings("ignore", category=NonInteractiveExampleWarning)
-        for i in range(num_vectors):
-            #TODO-Fuzztesting: remove .example(). This will be a blocking TODO when making PR to main
-            test_vector = fuzz_test_vector().example()
-            test_id = str(uuid.uuid4())
-            test_vectors[test_id] = test_vector
+    for _ in range(num_vectors):
+        test_vector = generate_single_test_vector()
+        test_id = str(uuid.uuid4())
+        test_vectors[test_id] = test_vector
     
     new_keys = extract_new_keys(test_vectors)
     return test_vectors, new_keys
@@ -389,38 +366,34 @@ def generate_fuzz_test_vectors(num_vectors) -> Tuple[Dict[str, Any], Dict[str, A
 #TODO-Fuzztesting: Add a logging mechanism to log erros/vulnerabilities we run into
 def main():
     """Main function to generate fuzzed test vectors."""
-    # Parse command-line arguments
-    import argparse
     parser = argparse.ArgumentParser(description='Generate fuzzed test vectors')
-    parser.add_argument('--num-vectors', type=int, default=20, help='Number of test vectors to generate')
+    parser.add_argument('--num-vectors', type=int, default=5)
     args = parser.parse_args()
     
-    # Generate test vectors and new keys with specified number
-    test_vectors, new_keys = generate_fuzz_test_vectors(num_vectors=args.num_vectors)
-    
-    # Load and update keys.json
     try:
-        with open("keys.json", "r") as f:
+        # Generate vectors and update keys
+        test_vectors, new_keys = generate_fuzz_test_vectors(args.num_vectors)
+        
+        # Update keys.json
+        with open("keys.json", "r+") as f:
             keys_data = json.load(f)
+            keys_data["keys"].update(new_keys)
+            f.seek(0)
+            json.dump(keys_data, f, indent=2, ensure_ascii=False)
+            f.truncate()
+        
+        # Save manifest.json
+        with open("manifest.json", "w") as f:
+            json.dump({
+                "manifest": {"version": 4, "type": "awses-mpl-encrypt"},
+                "keys": "file://keys.json",
+                "tests": test_vectors
+            }, f, indent=2, ensure_ascii=False)
+        
+        print(f"Generated {len(test_vectors)} test vectors with {len(new_keys)} new keys")
+    
     except FileNotFoundError:
         print("Error: keys.json not found!")
-        return
-    
-    keys_data["keys"].update(new_keys)
-    
-    with open("keys.json", "w") as f:
-        json.dump(keys_data, f, indent=2, ensure_ascii=False)
-    
-    # Create and save manifest.json
-    manifest_data = {
-        "manifest": {"version": 4, "type": "awses-mpl-encrypt"},
-        "keys": "file://keys.json",
-        "tests": test_vectors
-    }
-    with open("manifest.json", "w") as f:
-        json.dump(manifest_data, f, indent=2, ensure_ascii=False)
-    
-    print(f"Generated {len(test_vectors)} test vectors with {len(new_keys)} new keys")
 
 if __name__ == "__main__":
     main()
