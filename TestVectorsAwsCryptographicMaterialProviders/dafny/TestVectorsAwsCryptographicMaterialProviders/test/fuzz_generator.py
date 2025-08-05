@@ -13,6 +13,7 @@ import json
 import uuid
 import unicodedata
 import warnings
+import argparse
 from typing import Dict, Any, List, Tuple
 import hypothesis
 from hypothesis import strategies as st
@@ -27,7 +28,7 @@ DESCRIPTION_TEMPLATES = {
 
 #TODO-Fuzztesting: #include the other keys: rsa for raw keys. Other test types too
 # Key, Algorithm, Test-Type, Key-Material Definitions
-KMS_KEYS = ["us-west-2-mrk", "us-east-1-mrk", "us-west-2-decryptable"] #us-west-2-rsa-mrk (alr have rsa), us-west-2-256-ecc, us-west-2-384-ecc (and alr have enough ecc)
+KMS_KEYS = ["us-west-2-mrk", "us-east-1-mrk", "us-west-2-decryptable"] #us-west-2-rsa-mrk (already have rsa), us-west-2-256-ecc, us-west-2-384-ecc (and already have enough ecc)
 RAW_KEY_TYPES = ["aes-128", "aes-192", "aes-256", "ecc-256", "ecc-384", "ecc-521"] #rsa-4096 not included because of complex interdependencies and structural requirements
 KEYRING_TYPES = ["kms", "raw"]
 
@@ -99,7 +100,7 @@ unicode_strategies = [
     st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Cc', 'Cf', 'Cs', 'Co', 'Cn'])), #Control characters
     st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Pc', 'Pd', 'Ps', 'Pe', 'Pi', 'Pf', 'Po'])), #Punctuation
     
-    # Specific edge cases
+    # Normalization cases
     st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFD', s)),  # Decomposed form
     st.text(min_size=1, max_size=50).map(lambda s: unicodedata.normalize('NFC', s)),  # Composed form
 
@@ -136,19 +137,18 @@ def fuzz_key_identifiers(draw, base_key_id: str) -> Dict[str, Any]:
     
     return {"fuzzed_key_id": fuzzed_key_id, "key_namespace": key_namespace, "key_id_in_material": key_id_in_material}
 
-#TODO-Fuzztesting: Strengthening encryption context fuzzing with specific edge cases (close to the character limitation for encryption context (8,192)), structured patterns
+#TODO-Fuzztesting: Strengthening encryption context fuzzing with specific edge cases (close to the character limitation for encryption context (8,192))
 @composite
 def fuzz_encryption_context(draw):
     """Generate diverse encryption contexts with Unicode characters.
     
     Avoids empty strings as they're invalid for KMS operations.
     """
-    num_pairs = draw(st.integers(min_value=3, max_value=10))  # Increased number of pairs
+    num_pairs = draw(st.integers(min_value=3, max_value=20))
     context = {}
     
     for _ in range(num_pairs):
         # Generate Unicode keys and values (min_size=1 to avoid empty strings)
-
         key = draw(st.one_of(unicode_strategies))
         value = draw(st.one_of(unicode_strategies))
         
@@ -228,10 +228,8 @@ def fuzz_test_vector(draw):
     else:
         kms_key = None  # Raw keyrings don't need this
     
-    # Generate required keys
     required_keys = generate_required_keys(draw, encryption_context)
     
-    # Create key descriptions
     key_description = create_key_description(draw, keyring_type, kms_key, required_keys)
     
     # Create test vector
@@ -241,7 +239,7 @@ def fuzz_test_vector(draw):
         "algorithmSuiteId": algorithm_suite,
         "encryptKeyDescription": key_description,
         "decryptKeyDescription": key_description,
-        "reproducedEncryptionContext": encryption_context,  # Same as original for positive tests
+        "reproducedEncryptionContext": encryption_context,
         "requiredEncryptionContextKeys": required_keys,
         "encryptionContext": encryption_context
     }
@@ -263,7 +261,7 @@ def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
         key_desc = test_vector.get("encryptKeyDescription", {})
         key_type = key_desc.get("type")
         
-        # Handle both "raw" (AES/RSA) and "raw-ecdh" (ECC) types
+        # Handle both "raw" (AES) and "raw-ecdh" (ECC) types
         if key_type in ["raw", "raw-ecdh"]:
             # The lookup key is now the fuzzed_key_id (stored in "key" field)
             fuzzed_key_id = key_desc["key"]
@@ -271,10 +269,8 @@ def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
             # Get the key-id that should go in the material (different from lookup key)
             key_id_in_material = key_desc.get("_key_id_in_material", fuzzed_key_id)
             
-            # Determine base key type from the encryption algorithm or ECC curve
             if key_type == "raw":
                 encryption_algorithm = key_desc.get("encryption-algorithm", "aes")
-                # Find matching key type based on algorithm
                 base_key_id = "aes-256"  # default fallback
                 for key_type_name in RAW_KEY_TYPES:
                     if key_type_name.startswith(encryption_algorithm):
@@ -284,7 +280,6 @@ def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
                 # For ECC, use the curve name directly
                 base_key_id = key_desc.get("ecc-curve", "ecc-256")
             
-            # Get key material information
             key_info = KEY_MATERIALS.get(base_key_id, KEY_MATERIALS["aes-256"])
             
             # Create the key entry for keys.json based on algorithm type
@@ -335,11 +330,10 @@ def generate_fuzz_test_vectors(num_vectors) -> Tuple[Dict[str, Any], Dict[str, A
     return test_vectors, new_keys
 
 #TODO-Fuzztesting: increase the number of test vectors (for CI), need to increase the stack perhaps?
-#TODO-Fuzztesting: Add a logging mechanism to log erros/vulnerabilities we run into
+#TODO-Fuzztesting: Add a logging mechanism to log errors/vulnerabilities we run into
 def main():
     """Main function to generate fuzzed test vectors."""
     # Parse command-line arguments
-    import argparse
     parser = argparse.ArgumentParser(description='Generate fuzzed test vectors')
     parser.add_argument('--num-vectors', type=int, default=20, help='Number of test vectors to generate')
     args = parser.parse_args()
