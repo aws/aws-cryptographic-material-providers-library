@@ -20,6 +20,12 @@ from hypothesis import strategies as st
 from hypothesis.strategies import composite
 from hypothesis.errors import NonInteractiveExampleWarning
 
+# Key identifier field names - constants to avoid magic strings
+KEY_ID_FIELD = "fuzzed_key_id"
+KEY_NAMESPACE_FIELD = "key_namespace"
+KEY_ID_IN_MATERIAL_FIELD = "key_id_in_material"
+INTERNAL_KEY_ID_FIELD = "_key_id_in_material"
+
 # Description templates for test vectors
 DESCRIPTION_TEMPLATES = {
     "raw": "Raw keyring test with Unicode fuzzing",
@@ -135,7 +141,7 @@ def fuzz_key_identifiers(draw, base_key_id: str) -> Dict[str, Any]:
     key_namespace = draw(st.one_of(unicode_strategies))      # Provider-id (in message header)
     key_id_in_material = draw(st.one_of(unicode_strategies)) # Key-id (in message header)
     
-    return {"fuzzed_key_id": fuzzed_key_id, "key_namespace": key_namespace, "key_id_in_material": key_id_in_material}
+    return {KEY_ID_FIELD: fuzzed_key_id, KEY_NAMESPACE_FIELD: key_namespace, KEY_ID_IN_MATERIAL_FIELD: key_id_in_material}
 
 #TODO-Fuzztesting: Strengthening encryption context fuzzing with specific edge cases (close to the character limitation for encryption context (8,192))
 @composite
@@ -180,9 +186,9 @@ def create_raw_key_description(draw) -> Dict[str, Any]:
     
     # Base description for all raw keyrings
     description = {
-        "key": key_identifiers["fuzzed_key_id"],  # Use fuzzed_key_id as the lookup key
-        "provider-id": key_identifiers["key_namespace"],
-        "_key_id_in_material": key_identifiers["key_id_in_material"]  # Store for later use in keys.json
+        "key": key_identifiers[KEY_ID_FIELD],  # Use fuzzed_key_id as the lookup key
+        "provider-id": key_identifiers[KEY_NAMESPACE_FIELD],
+        INTERNAL_KEY_ID_FIELD: key_identifiers[KEY_ID_IN_MATERIAL_FIELD]  # Store for later use in keys.json
     }
     
     # Handle different key types
@@ -195,8 +201,8 @@ def create_raw_key_description(draw) -> Dict[str, Any]:
         # ECC keys use a different type and structure
         description.update({
             "type": "raw-ecdh",
-            "sender": key_identifiers["fuzzed_key_id"],  # Same key for sender and recipient in static mode
-            "recipient": key_identifiers["fuzzed_key_id"],
+            "sender": key_identifiers[KEY_ID_FIELD],  # Same key for sender and recipient in static mode
+            "recipient": key_identifiers[KEY_ID_FIELD],
             "sender-public-key": "sender-material-public-key",
             "recipient-public-key": "recipient-material-public-key", 
             "ecc-curve": raw_key_id,  # e.g., "ecc-256"
@@ -267,7 +273,7 @@ def extract_new_keys(test_vectors: Dict[str, Any]) -> Dict[str, Any]:
             fuzzed_key_id = key_desc["key"]
             
             # Get the key-id that should go in the material (different from lookup key)
-            key_id_in_material = key_desc.get("_key_id_in_material", fuzzed_key_id)
+            key_id_in_material = key_desc.get(INTERNAL_KEY_ID_FIELD, fuzzed_key_id)
             
             if key_type == "raw":
                 encryption_algorithm = key_desc.get("encryption-algorithm", "aes")
