@@ -19,7 +19,7 @@ on:
         default: false
         type: boolean
       coverage-guided-fuzz:
-        description: "Use coverage-guided fuzzing (independent of fuzz-testing)"
+        description: "Use coverage-guided fuzzing to validate fuzz vector generation (automatically enables fuzz vectors)"
         required: false
         default: false
         type: boolean
@@ -208,7 +208,7 @@ jobs:
       - name: Create Manifests
         working-directory: ./${{ matrix.library }}
         run: |
-          if [ "${{ inputs.fuzz-testing }}" = "true" ]; then
+          if [ "${{ inputs.fuzz-testing }}" = "true" ] || [ "${{ inputs.coverage-guided-fuzz }}" = "true" ]; then
             echo "Generating fuzzed test vectors"
             make test_generate_fuzz_vectors_${{ matrix.language }} NUM_VECTORS=2000
           else
@@ -230,7 +230,7 @@ jobs:
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}${{ inputs.coverage-guided-fuzz && '_coverage_validated' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json
 
   testInteroperablity:
@@ -404,7 +404,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.encrypting_language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_${{matrix.encrypting_language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}${{ inputs.coverage-guided-fuzz && '_coverage_validated' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest
