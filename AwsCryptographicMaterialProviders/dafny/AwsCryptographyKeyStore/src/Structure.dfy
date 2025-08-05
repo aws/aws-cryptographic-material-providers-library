@@ -203,9 +203,9 @@ module {:options "/functionSyntax:4" } Structure {
        //= type=implication
        //# The ACTIVE encryption context value of the `type` attribute MUST equal to `"branch:ACTIVE"`.
     && (BRANCH_KEY_ACTIVE_VERSION_FIELD in m ==>
-          //= aws-encryption-sdk-specification/framework/branch-key-store.md#active-encryption-context
+          //= aws-encryption-sdk-specification/framework/branch-key-store.md#active-branch-key-context
           //= type=implication
-          //# The `version` attribute MUST store the branch key version formatted like `"branch:version:"` + `version`.
+          //# The `version` key MUST store the branch key version formatted like `"branch:version:"` + `version`.
           && BRANCH_KEY_TYPE_PREFIX < m[BRANCH_KEY_ACTIVE_VERSION_FIELD])
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#beacon-key-encryption-context
@@ -554,7 +554,7 @@ module {:options "/functionSyntax:4" } Structure {
   type BranchKeyItem = m: DDB.AttributeMap | BranchKeyItem?(m) witness *
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#record-format
   //= type=implication
-  //# A branch key record MAY include [custom encryption context](#custom-encryption-context) key-value pairs.
+  //# A branch key record MAY include [encryption context](./structures.md#encryption-context) key-value pairs.
 
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#record-format
   //= type=implication
@@ -739,10 +739,10 @@ module {:options "/functionSyntax:4" } Structure {
   )
     requires BranchKeyItem?(item) && BranchKeyContext?(encryptionContext)
     requires KmsArn.ValidKmsArn?(encryptionContext[KMS_FIELD])
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
-    //= type=implication
-    //# Any additionally attributes on the DynamoDB item
-    //# MUST be added to the encryption context.
+    // = aws-encryption-sdk-specification/framework/branch-key-store.md#encryption-context
+    // = type=implication
+    // # Any additionally attributes on the DynamoDB item
+    // # MUST be added to the encryption context.
     ensures
       item == ToAttributeMap(encryptionContext, item[BRANCH_KEY_FIELD].B)
       <==>

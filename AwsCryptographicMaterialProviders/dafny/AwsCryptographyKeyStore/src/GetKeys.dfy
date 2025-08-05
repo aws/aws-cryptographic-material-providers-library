@@ -161,7 +161,7 @@ module GetKeys {
                    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
                    //= type=implication
                    //# This GetActiveBranchKey MUST construct [branch key materials](./structures.md#branch-key-materials)
-                   //# according to [Branch Key Materials From Authenticated Encryption Context](#branch-key-materials-from-authenticated-encryption-context).
+                   //# according to [Branch Key Materials From Authenticated Branch Key Context](#branch-key-materials-from-authenticated-branch-key-context).
 
                    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
                    //= type=implication
@@ -308,7 +308,7 @@ module GetKeys {
                    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
                    //= type=implication
                    //# This GetBranchKeyVersion MUST construct [branch key materials](./structures.md#branch-key-materials)
-                   //# according to [Branch Key Materials From Authenticated Encryption Context](#branch-key-materials-from-authenticated-encryption-context).
+                   //# according to [Branch Key Materials From Authenticated Branch Key Context](#branch-key-materials-from-authenticated-branch-key-context).
 
                    //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
                    //= type=implication

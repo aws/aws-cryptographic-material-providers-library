@@ -142,7 +142,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
               //= type=implication
               //# If creation of the keys are successful,
-              //# the operation MUST call Amazon DynamoDB TransactWriteItems according to the [write key material](#writing-branch-key-and-beacon-key-to-key-store) section.
+              //# the operation MUST call Amazon DynamoDB TransactWriteItems according to the [write key material](#writing-branch-key-and-beacon-key-to-branch-key-store-table) section.
 
               && Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext).output.Success?
               && var beaconKmsOutput := Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext).output.value;
@@ -1319,9 +1319,9 @@ module {:options "/functionSyntax:4" } CreateKeys {
     //# - `SourceEncryptionContext` MUST be the [DECRYPT_ONLY encryption context for branch keys](#decrypt_only-encryption-context).
     && activeInput.SourceEncryptionContext == Some(decryptOnlyEncryptionContext)
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
     //= type=implication
-    //# - `DestinationEncryptionContext` MUST be the [ACTIVE encryption context for branch keys](#active-encryption-context).
+    //# - `DestinationEncryptionContext` MUST be the [ACTIVE branch key context for branch keys](#active-branch-key-context).
     && activeInput.DestinationEncryptionContext == Some(Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext))
 
     && reEncryptHistory.output.Success?
