@@ -150,7 +150,7 @@ def fuzz_encryption_context(draw):
     
     Avoids empty strings as they're invalid for KMS operations.
     """
-    num_pairs = draw(st.integers(min_value=3, max_value=20))
+    num_pairs = draw(st.integers(min_value=1, max_value=20))
     context = {}
     
     for _ in range(num_pairs):
