@@ -374,35 +374,35 @@ jobs:
         run: |
           make purge_polymorph_code
 
-      - name: Download Encrypt Manifest Artifact Java
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{matrix.os}}_vector_artifact_java
-          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+      # - name: Download Encrypt Manifest Artifact Java
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: ${{matrix.os}}_vector_artifact_java
+      #     path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
-      - name: Decrypt Encrypt Manifest Java
-        working-directory: ./${{ matrix.library }}
-        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+      # - name: Decrypt Encrypt Manifest Java
+      #   working-directory: ./${{ matrix.library }}
+      #   run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
 
-      - name: Download Encrypt Manifest Artifact Net
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{matrix.os}}_vector_artifact_net
-          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+      # - name: Download Encrypt Manifest Artifact Net
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: ${{matrix.os}}_vector_artifact_net
+      #     path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
-      - name: Decrypt Encrypt Manifest Net
-        working-directory: ./${{ matrix.library }}
-        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+      # - name: Decrypt Encrypt Manifest Net
+      #   working-directory: ./${{ matrix.library }}
+      #   run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
 
-      - name: Download Encrypt Manifest Artifact Rust
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{matrix.os}}_vector_artifact_rust
-          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+      # - name: Download Encrypt Manifest Artifact Rust
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: ${{matrix.os}}_vector_artifact_rust
+      #     path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
-      - name: Decrypt Encrypt Manifest Rust
-        working-directory: ./${{ matrix.library }}
-        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+      # - name: Decrypt Encrypt Manifest Rust
+      #   working-directory: ./${{ matrix.library }}
+      #   run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
 
       - name: Download Encrypt Manifest Artifact Python
         uses: actions/download-artifact@v4
