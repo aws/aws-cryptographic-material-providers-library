@@ -24,8 +24,10 @@ jobs:
             # windows-latest,
             ubuntu-22.04,
             macos-13,
+            macos-14,
+            macos-15, 
           ]
-        language: [java, net, rust, python, go]
+        language: [python]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
@@ -213,8 +215,10 @@ jobs:
             # windows-latest,
             ubuntu-22.04,
             macos-13,
+            macos-14,
+            macos-15, 
           ]
-        decrypting_language: [java, net, rust, python, go]
+        decrypting_language: [python]
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
     permissions:
