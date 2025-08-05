@@ -18,6 +18,11 @@ on:
         required: false
         default: false
         type: boolean
+      coverage-guided-fuzz:
+        description: "Use coverage-guided fuzzing (independent of fuzz-testing)"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   generateEncryptVectors:
@@ -84,8 +89,12 @@ jobs:
           pip install poetry
 
       - name: Install hypothesis for fuzz testing
-        if: ${{ inputs.fuzz-testing }}
+        if: ${{ inputs.fuzz-testing || inputs.coverage-guided-fuzz }}
         run: pip install hypothesis
+
+      - name: Install hypofuzz for coverage-guided fuzzing
+        if: ${{ inputs.coverage-guided-fuzz }}
+        run: pip install hypofuzz
 
       - name: Setup Rust Toolchain for GitHub CI
         if: matrix.language == 'rust'
@@ -201,11 +210,18 @@ jobs:
         run: |
           if [ "${{ inputs.fuzz-testing }}" = "true" ]; then
             echo "Generating fuzzed test vectors"
-            make test_generate_fuzz_vectors_${{ matrix.language }} NUM_VECTORS=10
+            make test_generate_fuzz_vectors_${{ matrix.language }} NUM_VECTORS=2000
           else
-            echo "Generating regular test vectors"
             make test_generate_vectors_${{ matrix.language }}
           fi
+
+      - name: Validate Test Vector Generation (Coverage-Guided Fuzzing)
+        if: ${{ inputs.coverage-guided-fuzz }}
+        working-directory: ./${{ matrix.library }}
+        run: |
+          echo "Running coverage-guided fuzzing to validate test vector generation logic"
+          make test_coverage_guided_fuzz_${{ matrix.language }} DURATION=300
+          echo "Coverage-guided validation completed - see output above for coverage metrics"
 
       - name: Create Encrypt Manifests
         working-directory: ./${{ matrix.library }}
