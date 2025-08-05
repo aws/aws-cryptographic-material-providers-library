@@ -17,7 +17,7 @@ runs:
     - name: Install smithy-dafny-codegen dependencies locally
       shell: bash
       env:
-        GRADLE_OPTS: "-Dorg.gradle.wrapper.networkTimeout=600000"
+        GRADLE_OPTS: "-Dorg.gradle.wrapper.networkTimeout=60000"
       run: |
         make -C smithy-dafny mvn_local_deploy_polymorph_dependencies
 
