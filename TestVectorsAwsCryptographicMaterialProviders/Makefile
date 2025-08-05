@@ -269,4 +269,4 @@ test_generate_fuzz_vectors_%:
 # Coverage-guided fuzzing using hypofuzz
 # Usage: make test_coverage_guided_fuzz_LANG LANG=python DURATION=300
 test_coverage_guided_fuzz_%:
-    cd dafny/TestVectorsAwsCryptographicMaterialProviders/test && python3 hypofuzz_runner.py --duration $(DURATION)
+	cd dafny/TestVectorsAwsCryptographicMaterialProviders/test && python3 hypofuzz_runner.py --duration $(DURATION)
