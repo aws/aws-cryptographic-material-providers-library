@@ -63,6 +63,13 @@ jobs:
       dafny: ${{needs.getVersion.outputs.version}}
       fuzz-testing: true
     secrets: inherit
+  pr-coverage-guided-fuzz-test:
+    needs: getVersion
+    uses: ./.github/workflows/library_interop_tests.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
+      coverage-guided-fuzz: true
+    secrets: inherit
   pr-ci-all-required:
     if: always()
     needs:
@@ -78,6 +85,7 @@ jobs:
       - pr-ci-rust
       - pr-interop-test
       - pr-fuzz-interop-test
+      - pr-coverage-guided-fuzz-test
     runs-on: ubuntu-22.04
     steps:
       - name: Verify all required jobs passed
