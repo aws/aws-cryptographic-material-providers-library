@@ -36,7 +36,7 @@ jobs:
             # Windows source code is tested downstream (ex. ESDK-Python CI).
             # windows-latest,
             ubuntu-22.04,
-            macos-13,
+            macos-latest,
           ]
     runs-on: ${{ matrix.os }}
     defaults:
