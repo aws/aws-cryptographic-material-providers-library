@@ -29,4 +29,4 @@ require (
 
 replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb => ../ImplementationFromDafny-go
 
-replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/
+

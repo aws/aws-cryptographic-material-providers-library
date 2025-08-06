@@ -4,10 +4,10 @@ go 1.23.2
 
 replace (
 	github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb v0.0.0 => ../../../../ComAmazonawsDynamodb/runtimes/go/ImplementationFromDafny-go/
-	github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms v0.0.0 => ../../../../ComAmazonawsKms/runtimes/go/ImplementationFromDafny-go/
+	github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms v0.0.0 => ../../../../releases/go/kms
 	github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl v0.0.0 => ../../../../AwsCryptographicMaterialProviders/runtimes/go/ImplementationFromDafny-go/
 	github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives v0.0.0 => ../../../../AwsCryptographyPrimitives/runtimes/go/ImplementationFromDafny-go/
-	github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/
+	
 )
 
 require (

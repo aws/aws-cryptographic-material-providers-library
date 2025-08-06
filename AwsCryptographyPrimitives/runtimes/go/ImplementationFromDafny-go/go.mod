@@ -6,4 +6,4 @@ require github.com/aws/aws-cryptographic-material-providers-library/releases/go/
 
 require github.com/dafny-lang/DafnyRuntimeGo/v4 v4.9.2
 
-replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library => ../../../../StandardLibrary/runtimes/go/ImplementationFromDafny-go/
+
