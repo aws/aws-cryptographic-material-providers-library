@@ -208,11 +208,10 @@ test_generate_vectors_rust:
 	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/rust/
 
 test_generate_vectors_go:
-	cd runtimes/go/TestsFromDafny-go
+	cd runtimes/go/TestsFromDafny-go && \
 	go mod tidy
-	cd ../ImplementationFromDafny-go
+	cd runtimes/go/ImplementationFromDafny-go && \
 	go mod tidy
-	cd ../../..
 	go -C runtimes/go/ImplementationFromDafny-go run ImplementationFromDafny.go encrypt-manifest --encrypt-manifest-output ../
 	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/go
 
