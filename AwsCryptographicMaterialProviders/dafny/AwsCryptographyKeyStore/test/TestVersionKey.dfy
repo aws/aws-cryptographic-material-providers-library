@@ -202,10 +202,10 @@ module TestVersionKey {
     expect getBranchKeyVersionResult.branchKeyMaterials.branchKey != newActiveResult.branchKeyMaterials.branchKey;
     // We expect that the custom EC is consistent across all versions of a Branch Key
     // Which makes this a test for:
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#writing-branch-key-and-beacon-key-to-branch-key-store-table
     //= type=test
-    //# - Every key-value pair of the custom [encryption context](./structures.md#encryption-context-3) that is associated with the branch key
-    //# MUST be added with an Attribute Name of `aws-crypto-ec:` + the Key and Attribute Value (S) of the value.
+    //# - Every key-value pair in the input `encryption-context`
+    //#   MUST be added with an Attribute Name of `aws-crypto-ec:` + the Key and Attribute Value (S) of the value.
     expect matEC == customEC;
     expect mat2EC == customEC;
     expect mat3EC == customEC;

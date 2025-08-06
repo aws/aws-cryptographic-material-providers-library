@@ -135,9 +135,9 @@ module TestCreateKeys {
     expect idRoundTrip == activeResult.branchKeyMaterials.branchKeyIdentifier;
 
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //= type=test
-    //# This guid MUST be [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
+    //# - `version`: a new guid. This guid MUST be [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
     var versionString :- expect UTF8.Decode(activeResult.branchKeyMaterials.branchKeyVersion);
     var versionByteUUID :- expect UUID.ToByteArray(versionString);
     var versionRoundTrip :- expect UUID.FromByteArray(versionByteUUID);

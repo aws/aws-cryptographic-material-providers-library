@@ -658,14 +658,14 @@ module GetKeys {
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
-    //# Every key in the constructed [encryption context](#encryption-context)
+    //# Every key in the constructed [branch key context](#branch-key-context)
     //# except `tableName`
-    //# MUST exist as a string attribute in the AWS DDB response item.
+    //# MUST exist as a attribute in the AWS DDB response item.
     && versionEncryptionContext.Keys - {Structure.TABLE_FIELD} < versionItem.Keys
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
-    //# Every value in the constructed [encryption context](#encryption-context)
+    //# Every value in the constructed [branch key context](#branch-key-context)
     //# except the logical table name
     //# MUST equal the value with the same key in the AWS DDB response item.
     && (forall k <- versionEncryptionContext.Keys - {Structure.TABLE_FIELD}
@@ -681,7 +681,7 @@ module GetKeys {
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
-    //# The key `enc` MUST NOT exist in the constructed [encryption context](#encryption-context).
+    //# The key `enc` MUST NOT exist in the constructed [branch key context](#branch-key-context).
     && Structure.BRANCH_KEY_FIELD !in  versionEncryptionContext
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
@@ -736,7 +736,7 @@ module GetKeys {
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
     //= type=implication
-    //# - `EncryptionContext` MUST be the [encryption context](#encryption-context) constructed above
+    //# - `EncryptionContext` MUST be the [encryption context from authenticated branch key context](#encryption-context-from-authenticated-branch-key-context)
     && decryptRequest.EncryptionContext == Some(versionEncryptionContext)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption

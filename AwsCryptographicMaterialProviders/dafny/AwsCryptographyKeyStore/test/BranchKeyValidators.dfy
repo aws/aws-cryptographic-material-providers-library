@@ -49,7 +49,7 @@ module {:options "/functionSyntax:4" } BranchKeyValidators {
     );
     // VerifyGetKeysFromStorage(identifier, storage, hierarchyVersion:=hierarchyVersion);
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //= type=test
     //# This guid MUST be [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
     var versionByteUUID :- expect UUID.ToByteArray(versionString);
@@ -109,7 +109,7 @@ module {:options "/functionSyntax:4" } BranchKeyValidators {
       }
       expect hvMatches?, "Hierarchy Version did not match expectation.";
   
-      //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+      //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
       //= type=test
       //# This timestamp MUST be in ISO 8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
       expect ISO8601?(active.Item.CreateTime);
@@ -227,7 +227,7 @@ module {:options "/functionSyntax:4" } BranchKeyValidators {
     && versionResult.branchKeyMaterials.encryptionContext == encryptionContext
   }
 
-  //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+  //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
   //= type=test
   //# This timestamp MUST be in ISO 8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
   lemma ISO8601Test()
@@ -235,9 +235,9 @@ module {:options "/functionSyntax:4" } BranchKeyValidators {
     assert ISO8601?("2024-08-06T17:23:25.000874Z");
   }
 
-  //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+  //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
   //= type=test
-  //# This timestamp MUST be in ISO 8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
+  //#  This timestamp MUST be in ISO 8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
   predicate ISO8601?(
     CreateTime: string
   )
