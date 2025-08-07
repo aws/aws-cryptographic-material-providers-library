@@ -59,11 +59,11 @@ module DDBKeystoreOperations {
          == Seq.Last(ddbClient.History.TransactWriteItems).input
       && old(ddbClient.History.TransactWriteItems) < ddbClient.History.TransactWriteItems
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#writing-branch-key-and-beacon-key-to-keystore
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#writing-branch-key-and-beacon-key-to-branch-key-store-table
     //= type=implication
     //# If DDB TransactWriteItems is successful, this operation MUST return a successful response containing no additional data.
     ensures output.Success? ==> Seq.Last(ddbClient.History.TransactWriteItems).output.Success?
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#writing-branch-key-and-beacon-key-to-keystore
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#writing-branch-key-and-beacon-key-to-branch-key-store-table
     //= type=implication
     //# Otherwise, this operation MUST yield an error.
     ensures Seq.Last(ddbClient.History.TransactWriteItems).output.Failure? ==> output.Failure?

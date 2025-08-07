@@ -138,6 +138,13 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       )
     );
 
+    var hierarchyVersion : HierarchyVersion;
+    if input.hierarchyVersion.None? {
+      hierarchyVersion := HierarchyVersion.v1;
+    } else {
+      hierarchyVersion := input.hierarchyVersion.value;
+    }
+
     var branchKeyIdentifier: string;
 
     if input.branchKeyIdentifier.None? {
@@ -154,7 +161,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       branchKeyIdentifier := input.branchKeyIdentifier.value;
     }
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //# - `timestamp`: a timestamp for the current time.
     //# This timestamp MUST be in ISO8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
     var timestamp? := Time.GetCurrentTimeStamp();
@@ -162,7 +169,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     .MapFailure(e => Types.KeyStoreException(message := e));
 
     var maybeBranchKeyVersion := UUID.GenerateUUID();
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //# - `version`: a new guid. This guid MUST be [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
     var branchKeyVersion :- maybeBranchKeyVersion
     .MapFailure(e => Types.KeyStoreException(message := e));
@@ -191,18 +198,34 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
            ,
             Types.KeyStoreException( message := ErrorMessages.UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR));
 
-    output := CreateKeys.CreateBranchAndBeaconKeys(
-      branchKeyIdentifier,
-      map i <- encodedEncryptionContext :: i.0.value := i.1.value,
-      timestamp,
-      branchKeyVersion,
-      config.ddbTableName,
-      config.logicalKeyStoreName,
-      config.kmsConfiguration,
-      config.grantTokens,
-      config.kmsClient,
-      config.ddbClient
-    );
+    if hierarchyVersion == HierarchyVersion.v1 {
+      output := CreateKeys.CreateBranchAndBeaconKeys(
+        branchKeyIdentifier,
+        map i <- encodedEncryptionContext :: i.0.value := i.1.value,
+        timestamp,
+        branchKeyVersion,
+        config.ddbTableName,
+        config.logicalKeyStoreName,
+        config.kmsConfiguration,
+        config.grantTokens,
+        config.kmsClient,
+        config.ddbClient
+      );
+    } else {
+      output := CreateKeys.CreateBranchAndBeaconKeysVersion2(
+        branchKeyIdentifier,
+        map i <- encodedEncryptionContext :: i.0.value := i.1.value,
+        timestamp,
+        branchKeyVersion,
+        config.ddbTableName,
+        config.logicalKeyStoreName,
+        config.kmsConfiguration,
+        config.grantTokens,
+        config.kmsClient,
+        config.ddbClient,
+        hierarchyVersion
+      );
+    }
   }
 
   predicate VersionKeyEnsuresPublicly(input: VersionKeyInput, output: Result<VersionKeyOutput, Error>)
