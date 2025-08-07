@@ -55,14 +55,6 @@ jobs:
     with:
       dafny: ${{needs.getVersion.outputs.version}}
     secrets: inherit
-  # TODO-Fuzztesting: Move this to scheduled CI
-  pr-fuzz-interop-test:
-    needs: getVersion
-    uses: ./.github/workflows/library_interop_tests.yml
-    with:
-      dafny: ${{needs.getVersion.outputs.version}}
-      fuzz-testing: true
-    secrets: inherit
   pr-ci-all-required:
     if: always()
     needs:
@@ -77,7 +69,6 @@ jobs:
       - pr-ci-go
       - pr-ci-rust
       - pr-interop-test
-      - pr-fuzz-interop-test
     runs-on: ubuntu-22.04
     steps:
       - name: Verify all required jobs passed

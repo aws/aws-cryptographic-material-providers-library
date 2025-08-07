@@ -67,3 +67,4 @@ jobs:
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+      fuzz-testing: true
