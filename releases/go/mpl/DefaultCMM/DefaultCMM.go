@@ -96,6 +96,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -115,6 +116,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -179,34 +181,34 @@ var _ m_KeyStore.Dummy__
 var _ m_AlgorithmSuites.Dummy__
 var _ m_Materials.Dummy__
 var _ m_Keyring.Dummy__
-var _ m_MultiKeyring.Dummy__
-var _ m_AwsKmsMrkAreUnique.Dummy__
-var _ m_Constants.Dummy__
-var _ m_MaterialWrapping.Dummy__
 var _ m_CanonicalEncryptionContext.Dummy__
+var _ m_MaterialWrapping.Dummy__
 var _ m_IntermediateKeyWrapping.Dummy__
 var _ m_EdkWrapping.Dummy__
 var _ m_ErrorMessages.Dummy__
+var _ m_RawAESKeyring.Dummy__
+var _ m_Constants.Dummy__
+var _ m_EcdhEdkWrapping.Dummy__
+var _ m_RawECDHKeyring.Dummy__
+var _ m_RawRSAKeyring.Dummy__
 var _ m_AwsKmsKeyring.Dummy__
-var _ m_StrictMultiKeyring.Dummy__
 var _ m_AwsKmsDiscoveryKeyring.Dummy__
-var _ m_DiscoveryMultiKeyring.Dummy__
-var _ m_AwsKmsMrkDiscoveryKeyring.Dummy__
-var _ m_MrkAwareDiscoveryMultiKeyring.Dummy__
-var _ m_AwsKmsMrkKeyring.Dummy__
-var _ m_MrkAwareStrictMultiKeyring.Dummy__
+var _ m_AwsKmsEcdhKeyring.Dummy__
 var _ m_LocalCMC.Dummy__
 var _ m_SynchronizedLocalCMC.Dummy__
 var _ m_StormTracker.Dummy__
 var _ m_StormTrackingCMC.Dummy__
 var _ m_CacheConstants.Dummy__
 var _ m_AwsKmsHierarchicalKeyring.Dummy__
+var _ m_AwsKmsMrkDiscoveryKeyring.Dummy__
+var _ m_AwsKmsMrkKeyring.Dummy__
 var _ m_AwsKmsRsaKeyring.Dummy__
-var _ m_EcdhEdkWrapping.Dummy__
-var _ m_RawECDHKeyring.Dummy__
-var _ m_AwsKmsEcdhKeyring.Dummy__
-var _ m_RawAESKeyring.Dummy__
-var _ m_RawRSAKeyring.Dummy__
+var _ m_MultiKeyring.Dummy__
+var _ m_AwsKmsMrkAreUnique.Dummy__
+var _ m_StrictMultiKeyring.Dummy__
+var _ m_DiscoveryMultiKeyring.Dummy__
+var _ m_MrkAwareDiscoveryMultiKeyring.Dummy__
+var _ m_MrkAwareStrictMultiKeyring.Dummy__
 var _ m_CMM.Dummy__
 var _ m_Defaults.Dummy__
 var _ m_Commitment.Dummy__
@@ -326,9 +328,9 @@ func (_this *DefaultCMM) GetEncryptionMaterials_k(input m_AwsCryptographyMateria
 			_6_maybeECDSAPair = _out0
 			var _7_valueOrError2 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(m_AwsCryptographyPrimitivesTypes.Companion_GenerateECDSASignatureKeyOutput_.Default())
 			_ = _7_valueOrError2
-			_7_valueOrError2 = (_6_maybeECDSAPair).MapFailure(func(coer129 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-				return func(arg130 interface{}) interface{} {
-					return coer129(arg130.(m_AwsCryptographyPrimitivesTypes.Error))
+			_7_valueOrError2 = (_6_maybeECDSAPair).MapFailure(func(coer125 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+				return func(arg126 interface{}) interface{} {
+					return coer125(arg126.(m_AwsCryptographyPrimitivesTypes.Error))
 				}
 			}(func(_8_e m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error {
 				return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographyPrimitives_(_8_e)
@@ -372,19 +374,23 @@ func (_this *DefaultCMM) GetEncryptionMaterials_k(input m_AwsCryptographyMateria
 		var _14_encryptionMaterialsOutput m_AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsOutput
 		_ = _14_encryptionMaterialsOutput
 		_14_encryptionMaterialsOutput = m_AwsCryptographyMaterialProvidersTypes.Companion_GetEncryptionMaterialsOutput_.Create_GetEncryptionMaterialsOutput_((_13_result).Dtor_materials())
-		var _15_valueOrError5 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-		_ = _15_valueOrError5
-		_15_valueOrError5 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.EncryptionMaterialsHasPlaintextDataKey((_14_encryptionMaterialsOutput).Dtor_encryptionMaterials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Could not retrieve materials required for encryption")))
-		if (_15_valueOrError5).IsFailure() {
-			output = (_15_valueOrError5).PropagateFailure()
-			return output
-		}
-		var _16_valueOrError6 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-		_ = _16_valueOrError6
-		_16_valueOrError6 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.ValidEncryptionMaterialsTransition(_11_materials, (_14_encryptionMaterialsOutput).Dtor_encryptionMaterials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Keyring returned an invalid response")))
-		if (_16_valueOrError6).IsFailure() {
-			output = (_16_valueOrError6).PropagateFailure()
-			return output
+		if !((m_MultiKeyring.Companion_Default___.Verified_q((_this).Keyring())) || (func(_is_21 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+			return _dafny.InstanceOf(_is_21, (*m_MultiKeyring.MultiKeyring)(nil))
+		}((_this).Keyring()))) {
+			var _15_valueOrError5 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+			_ = _15_valueOrError5
+			_15_valueOrError5 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.EncryptionMaterialsHasPlaintextDataKey((_14_encryptionMaterialsOutput).Dtor_encryptionMaterials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Could not retrieve materials required for encryption")))
+			if (_15_valueOrError5).IsFailure() {
+				output = (_15_valueOrError5).PropagateFailure()
+				return output
+			}
+			var _16_valueOrError6 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+			_ = _16_valueOrError6
+			_16_valueOrError6 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.ValidEncryptionMaterialsTransition(_11_materials, (_14_encryptionMaterialsOutput).Dtor_encryptionMaterials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Keyring returned an invalid response")))
+			if (_16_valueOrError6).IsFailure() {
+				output = (_16_valueOrError6).PropagateFailure()
+				return output
+			}
 		}
 		output = m_Wrappers.Companion_Result_.Create_Success_(_14_encryptionMaterialsOutput)
 		return output
@@ -414,13 +420,13 @@ func (_this *DefaultCMM) DecryptMaterials_k(input m_AwsCryptographyMaterialProvi
 			_ = _out0
 			_out0 = m_SortedSets.SetToSequence(_2_keysSet)
 			_3_keysSeq = _out0
-			var _4_i _dafny.Int
+			var _4_i uint64
 			_ = _4_i
-			_4_i = _dafny.Zero
-			for (_4_i).Cmp(_dafny.IntOfUint32((_3_keysSeq).Cardinality())) < 0 {
+			_4_i = uint64(0)
+			for (_4_i) < (uint64((_3_keysSeq).Cardinality())) {
 				var _5_key _dafny.Sequence
 				_ = _5_key
-				_5_key = (_3_keysSeq).Select((_4_i).Uint32()).(_dafny.Sequence)
+				_5_key = (_3_keysSeq).Select(uint32(_4_i)).(_dafny.Sequence)
 				if ((input).Dtor_encryptionContext()).Contains(_5_key) {
 					var _6_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 					_ = _6_valueOrError1
@@ -432,7 +438,7 @@ func (_this *DefaultCMM) DecryptMaterials_k(input m_AwsCryptographyMaterialProvi
 				} else {
 					_1_requiredEncryptionContextKeys = _dafny.Companion_Sequence_.Concatenate(_1_requiredEncryptionContextKeys, _dafny.SeqOf(_5_key))
 				}
-				_4_i = (_4_i).Plus(_dafny.One)
+				_4_i = (_4_i) + (uint64(1))
 			}
 		}
 		var _7_valueOrError2 m_Wrappers.Result = m_Wrappers.Result{}
@@ -458,12 +464,16 @@ func (_this *DefaultCMM) DecryptMaterials_k(input m_AwsCryptographyMaterialProvi
 		var _10_result m_AwsCryptographyMaterialProvidersTypes.OnDecryptOutput
 		_ = _10_result
 		_10_result = (_9_valueOrError3).Extract().(m_AwsCryptographyMaterialProvidersTypes.OnDecryptOutput)
-		var _11_valueOrError4 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-		_ = _11_valueOrError4
-		_11_valueOrError4 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.DecryptionMaterialsTransitionIsValid(_8_materials, (_10_result).Dtor_materials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Keyring.OnDecrypt failed to decrypt the plaintext data key.")))
-		if (_11_valueOrError4).IsFailure() {
-			output = (_11_valueOrError4).PropagateFailure()
-			return output
+		if !((m_MultiKeyring.Companion_Default___.Verified_q((_this).Keyring())) || (func(_is_22 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+			return _dafny.InstanceOf(_is_22, (*m_MultiKeyring.MultiKeyring)(nil))
+		}((_this).Keyring()))) {
+			var _11_valueOrError4 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+			_ = _11_valueOrError4
+			_11_valueOrError4 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.DecryptionMaterialsTransitionIsValid(_8_materials, (_10_result).Dtor_materials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Keyring.OnDecrypt failed to decrypt the plaintext data key.")))
+			if (_11_valueOrError4).IsFailure() {
+				output = (_11_valueOrError4).PropagateFailure()
+				return output
+			}
 		}
 		output = m_Wrappers.Companion_Result_.Create_Success_(m_AwsCryptographyMaterialProvidersTypes.Companion_DecryptMaterialsOutput_.Create_DecryptMaterialsOutput_((_10_result).Dtor_materials()))
 		return output
