@@ -15,10 +15,9 @@ import (
 	m_AwsCryptographyKeyStoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreOperations"
 	m_AwsCryptographyKeyStoreTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
 	m_AwsCryptographyMaterialProvidersTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
-	m_AwsKmsMrkAreUnique "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkAreUnique"
 	m_AwsKmsMrkMatchForDecrypt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkMatchForDecrypt"
 	m_AwsKmsUtils "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsUtils"
-	m_Constants "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Constants"
+	m_CanonicalEncryptionContext "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CanonicalEncryptionContext"
 	m_CreateKeyStoreTable "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeyStoreTable"
 	m_CreateKeys "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeys"
 	m_DDBKeystoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/DDBKeystoreOperations"
@@ -29,7 +28,6 @@ import (
 	m_Keyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Keyring"
 	m_KmsArn "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KmsArn"
 	m_Materials "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Materials"
-	m_MultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MultiKeyring"
 	m_Structure "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Structure"
 	m_AtomicPrimitives "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AtomicPrimitives"
 	m_AwsCryptographyPrimitivesOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesOperations"
@@ -67,6 +65,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -86,6 +85,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -150,9 +150,7 @@ var _ m_KeyStore.Dummy__
 var _ m_AlgorithmSuites.Dummy__
 var _ m_Materials.Dummy__
 var _ m_Keyring.Dummy__
-var _ m_MultiKeyring.Dummy__
-var _ m_AwsKmsMrkAreUnique.Dummy__
-var _ m_Constants.Dummy__
+var _ m_CanonicalEncryptionContext.Dummy__
 
 type Dummy__ struct{}
 
@@ -177,12 +175,13 @@ var Companion_GenerateAndWrapInput_ = CompanionStruct_GenerateAndWrapInput_{}
 type GenerateAndWrapInput_GenerateAndWrapInput struct {
 	AlgorithmSuite    m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
 	EncryptionContext _dafny.Map
+	SerializedEC      m_Wrappers.Result
 }
 
 func (GenerateAndWrapInput_GenerateAndWrapInput) isGenerateAndWrapInput() {}
 
-func (CompanionStruct_GenerateAndWrapInput_) Create_GenerateAndWrapInput_(AlgorithmSuite m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo, EncryptionContext _dafny.Map) GenerateAndWrapInput {
-	return GenerateAndWrapInput{GenerateAndWrapInput_GenerateAndWrapInput{AlgorithmSuite, EncryptionContext}}
+func (CompanionStruct_GenerateAndWrapInput_) Create_GenerateAndWrapInput_(AlgorithmSuite m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo, EncryptionContext _dafny.Map, SerializedEC m_Wrappers.Result) GenerateAndWrapInput {
+	return GenerateAndWrapInput{GenerateAndWrapInput_GenerateAndWrapInput{AlgorithmSuite, EncryptionContext, SerializedEC}}
 }
 
 func (_this GenerateAndWrapInput) Is_GenerateAndWrapInput() bool {
@@ -191,7 +190,7 @@ func (_this GenerateAndWrapInput) Is_GenerateAndWrapInput() bool {
 }
 
 func (CompanionStruct_GenerateAndWrapInput_) Default() GenerateAndWrapInput {
-	return Companion_GenerateAndWrapInput_.Create_GenerateAndWrapInput_(m_AwsCryptographyMaterialProvidersTypes.Companion_AlgorithmSuiteInfo_.Default(), _dafny.EmptyMap)
+	return Companion_GenerateAndWrapInput_.Create_GenerateAndWrapInput_(m_AwsCryptographyMaterialProvidersTypes.Companion_AlgorithmSuiteInfo_.Default(), _dafny.EmptyMap, m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq))
 }
 
 func (_this GenerateAndWrapInput) Dtor_algorithmSuite() m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo {
@@ -202,13 +201,17 @@ func (_this GenerateAndWrapInput) Dtor_encryptionContext() _dafny.Map {
 	return _this.Get_().(GenerateAndWrapInput_GenerateAndWrapInput).EncryptionContext
 }
 
+func (_this GenerateAndWrapInput) Dtor_serializedEC() m_Wrappers.Result {
+	return _this.Get_().(GenerateAndWrapInput_GenerateAndWrapInput).SerializedEC
+}
+
 func (_this GenerateAndWrapInput) String() string {
 	switch data := _this.Get_().(type) {
 	case nil:
 		return "null"
 	case GenerateAndWrapInput_GenerateAndWrapInput:
 		{
-			return "MaterialWrapping.GenerateAndWrapInput.GenerateAndWrapInput" + "(" + _dafny.String(data.AlgorithmSuite) + ", " + _dafny.String(data.EncryptionContext) + ")"
+			return "MaterialWrapping.GenerateAndWrapInput.GenerateAndWrapInput" + "(" + _dafny.String(data.AlgorithmSuite) + ", " + _dafny.String(data.EncryptionContext) + ", " + _dafny.String(data.SerializedEC) + ")"
 		}
 	default:
 		{
@@ -222,7 +225,7 @@ func (_this GenerateAndWrapInput) Equals(other GenerateAndWrapInput) bool {
 	case GenerateAndWrapInput_GenerateAndWrapInput:
 		{
 			data2, ok := other.Get_().(GenerateAndWrapInput_GenerateAndWrapInput)
-			return ok && data1.AlgorithmSuite.Equals(data2.AlgorithmSuite) && data1.EncryptionContext.Equals(data2.EncryptionContext)
+			return ok && data1.AlgorithmSuite.Equals(data2.AlgorithmSuite) && data1.EncryptionContext.Equals(data2.EncryptionContext) && data1.SerializedEC.Equals(data2.SerializedEC)
 		}
 	default:
 		{
@@ -390,12 +393,13 @@ type WrapInput_WrapInput struct {
 	PlaintextMaterial _dafny.Sequence
 	AlgorithmSuite    m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
 	EncryptionContext _dafny.Map
+	SerializedEC      m_Wrappers.Result
 }
 
 func (WrapInput_WrapInput) isWrapInput() {}
 
-func (CompanionStruct_WrapInput_) Create_WrapInput_(PlaintextMaterial _dafny.Sequence, AlgorithmSuite m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo, EncryptionContext _dafny.Map) WrapInput {
-	return WrapInput{WrapInput_WrapInput{PlaintextMaterial, AlgorithmSuite, EncryptionContext}}
+func (CompanionStruct_WrapInput_) Create_WrapInput_(PlaintextMaterial _dafny.Sequence, AlgorithmSuite m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo, EncryptionContext _dafny.Map, SerializedEC m_Wrappers.Result) WrapInput {
+	return WrapInput{WrapInput_WrapInput{PlaintextMaterial, AlgorithmSuite, EncryptionContext, SerializedEC}}
 }
 
 func (_this WrapInput) Is_WrapInput() bool {
@@ -404,7 +408,7 @@ func (_this WrapInput) Is_WrapInput() bool {
 }
 
 func (CompanionStruct_WrapInput_) Default() WrapInput {
-	return Companion_WrapInput_.Create_WrapInput_(_dafny.EmptySeq, m_AwsCryptographyMaterialProvidersTypes.Companion_AlgorithmSuiteInfo_.Default(), _dafny.EmptyMap)
+	return Companion_WrapInput_.Create_WrapInput_(_dafny.EmptySeq, m_AwsCryptographyMaterialProvidersTypes.Companion_AlgorithmSuiteInfo_.Default(), _dafny.EmptyMap, m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq))
 }
 
 func (_this WrapInput) Dtor_plaintextMaterial() _dafny.Sequence {
@@ -419,13 +423,17 @@ func (_this WrapInput) Dtor_encryptionContext() _dafny.Map {
 	return _this.Get_().(WrapInput_WrapInput).EncryptionContext
 }
 
+func (_this WrapInput) Dtor_serializedEC() m_Wrappers.Result {
+	return _this.Get_().(WrapInput_WrapInput).SerializedEC
+}
+
 func (_this WrapInput) String() string {
 	switch data := _this.Get_().(type) {
 	case nil:
 		return "null"
 	case WrapInput_WrapInput:
 		{
-			return "MaterialWrapping.WrapInput.WrapInput" + "(" + _dafny.String(data.PlaintextMaterial) + ", " + _dafny.String(data.AlgorithmSuite) + ", " + _dafny.String(data.EncryptionContext) + ")"
+			return "MaterialWrapping.WrapInput.WrapInput" + "(" + _dafny.String(data.PlaintextMaterial) + ", " + _dafny.String(data.AlgorithmSuite) + ", " + _dafny.String(data.EncryptionContext) + ", " + _dafny.String(data.SerializedEC) + ")"
 		}
 	default:
 		{
@@ -439,7 +447,7 @@ func (_this WrapInput) Equals(other WrapInput) bool {
 	case WrapInput_WrapInput:
 		{
 			data2, ok := other.Get_().(WrapInput_WrapInput)
-			return ok && data1.PlaintextMaterial.Equals(data2.PlaintextMaterial) && data1.AlgorithmSuite.Equals(data2.AlgorithmSuite) && data1.EncryptionContext.Equals(data2.EncryptionContext)
+			return ok && data1.PlaintextMaterial.Equals(data2.PlaintextMaterial) && data1.AlgorithmSuite.Equals(data2.AlgorithmSuite) && data1.EncryptionContext.Equals(data2.EncryptionContext) && data1.SerializedEC.Equals(data2.SerializedEC)
 		}
 	default:
 		{
@@ -602,12 +610,13 @@ type UnwrapInput_UnwrapInput struct {
 	WrappedMaterial   _dafny.Sequence
 	AlgorithmSuite    m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
 	EncryptionContext _dafny.Map
+	SerializedEC      m_Wrappers.Result
 }
 
 func (UnwrapInput_UnwrapInput) isUnwrapInput() {}
 
-func (CompanionStruct_UnwrapInput_) Create_UnwrapInput_(WrappedMaterial _dafny.Sequence, AlgorithmSuite m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo, EncryptionContext _dafny.Map) UnwrapInput {
-	return UnwrapInput{UnwrapInput_UnwrapInput{WrappedMaterial, AlgorithmSuite, EncryptionContext}}
+func (CompanionStruct_UnwrapInput_) Create_UnwrapInput_(WrappedMaterial _dafny.Sequence, AlgorithmSuite m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo, EncryptionContext _dafny.Map, SerializedEC m_Wrappers.Result) UnwrapInput {
+	return UnwrapInput{UnwrapInput_UnwrapInput{WrappedMaterial, AlgorithmSuite, EncryptionContext, SerializedEC}}
 }
 
 func (_this UnwrapInput) Is_UnwrapInput() bool {
@@ -616,7 +625,7 @@ func (_this UnwrapInput) Is_UnwrapInput() bool {
 }
 
 func (CompanionStruct_UnwrapInput_) Default() UnwrapInput {
-	return Companion_UnwrapInput_.Create_UnwrapInput_(_dafny.EmptySeq, m_AwsCryptographyMaterialProvidersTypes.Companion_AlgorithmSuiteInfo_.Default(), _dafny.EmptyMap)
+	return Companion_UnwrapInput_.Create_UnwrapInput_(_dafny.EmptySeq, m_AwsCryptographyMaterialProvidersTypes.Companion_AlgorithmSuiteInfo_.Default(), _dafny.EmptyMap, m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq))
 }
 
 func (_this UnwrapInput) Dtor_wrappedMaterial() _dafny.Sequence {
@@ -631,13 +640,17 @@ func (_this UnwrapInput) Dtor_encryptionContext() _dafny.Map {
 	return _this.Get_().(UnwrapInput_UnwrapInput).EncryptionContext
 }
 
+func (_this UnwrapInput) Dtor_serializedEC() m_Wrappers.Result {
+	return _this.Get_().(UnwrapInput_UnwrapInput).SerializedEC
+}
+
 func (_this UnwrapInput) String() string {
 	switch data := _this.Get_().(type) {
 	case nil:
 		return "null"
 	case UnwrapInput_UnwrapInput:
 		{
-			return "MaterialWrapping.UnwrapInput.UnwrapInput" + "(" + _dafny.String(data.WrappedMaterial) + ", " + _dafny.String(data.AlgorithmSuite) + ", " + _dafny.String(data.EncryptionContext) + ")"
+			return "MaterialWrapping.UnwrapInput.UnwrapInput" + "(" + _dafny.String(data.WrappedMaterial) + ", " + _dafny.String(data.AlgorithmSuite) + ", " + _dafny.String(data.EncryptionContext) + ", " + _dafny.String(data.SerializedEC) + ")"
 		}
 	default:
 		{
@@ -651,7 +664,7 @@ func (_this UnwrapInput) Equals(other UnwrapInput) bool {
 	case UnwrapInput_UnwrapInput:
 		{
 			data2, ok := other.Get_().(UnwrapInput_UnwrapInput)
-			return ok && data1.WrappedMaterial.Equals(data2.WrappedMaterial) && data1.AlgorithmSuite.Equals(data2.AlgorithmSuite) && data1.EncryptionContext.Equals(data2.EncryptionContext)
+			return ok && data1.WrappedMaterial.Equals(data2.WrappedMaterial) && data1.AlgorithmSuite.Equals(data2.AlgorithmSuite) && data1.EncryptionContext.Equals(data2.EncryptionContext) && data1.SerializedEC.Equals(data2.SerializedEC)
 		}
 	default:
 		{
