@@ -31,6 +31,7 @@ get_release_dir_name() {
 run_release_script() {
   PROJECT_NAME=$1
   VERSION=$2
+  ROOT_DIR="$(git rev-parse --show-toplevel)" || { echo "Error: root directory not found"; exit 1; }
 
   echo "Starting Go release script for $PROJECT_NAME $VERSION"
 
@@ -83,7 +84,7 @@ run_release_script() {
     # ImplementationFromDafny.go: This file is for devlopment. Users is expected use API(s) from `*/api_client.go`
     # ImplementationFromDafny-go.dtr: This is the dafny translation record only needed for code generation
     # go.sum: This files will be updated by go mod tidy
-  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" --exclude="go.sum" ./ "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/"
+  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" --exclude="go.sum" ./ "$ROOT_DIR/releases/go/$RELEASE_DIR_NAME/"
 
   case "$PROJECT_NAME" in
     "AwsEncryptionSDK"|"DynamoDbEncryption") copy_examples ;;
@@ -92,13 +93,15 @@ run_release_script() {
   # Run Go tools in releases directory
   echo "Running Go tools in releases/go/$RELEASE_DIR_NAME..."
 
-  cd "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/" || { echo "Error: releases directory not found"; exit 1; }
+  cd "$ROOT_DIR/releases/go/$RELEASE_DIR_NAME/" || { echo "Error: releases directory not found"; exit 1; }
 
   run_go_tools
 
   case "$PROJECT_NAME" in
     "AwsEncryptionSDK"|"DynamoDbEncryption") test_examples ;;
   esac
+
+  make -C "$ROOT_DIR" format_java_misc
 
   # Prepare for commit
   echo "creating a branch..."
@@ -124,15 +127,15 @@ copy_examples() {
     *) return ;;
   esac
   
-  cd "$(git rev-parse --show-toplevel)/$source_dir"
+  cd "$ROOT_DIR/$source_dir"
   echo "Removing all replace directives from go.mod and only adding replacement for ESDK/DB-ESDK"
   go mod edit -json | jq -r '.Replace[].Old.Path' | xargs -n1 go mod edit -dropreplace
   go mod edit -replace="$replace_pkg"
-  rsync -av --exclude="go.sum" ./ "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/examples"
+  rsync -av --exclude="go.sum" ./ "$ROOT_DIR/releases/go/$RELEASE_DIR_NAME/examples"
 }
 
 test_examples() {
-  cd "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/examples" || { echo "Error: examples directory not found"; exit 1; }
+  cd "$ROOT_DIR/releases/go/$RELEASE_DIR_NAME/examples" || { echo "Error: examples directory not found"; exit 1; }
   run_go_tools
   go run main.go
 }
