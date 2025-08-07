@@ -117,7 +117,7 @@ copy_examples() {
   local source_dir replace_pkg
   case "$PROJECT_NAME" in
     "AwsEncryptionSDK") 
-      source_dir="$PROJECT_NAME/runtimes/go/ImplementationFromDafny-go/examples"
+      source_dir="$PROJECT_NAME/runtimes/go/examples"
       replace_pkg="github.com/aws/aws-encryption-sdk/releases/go/encryption-sdk=../"
       ;;
     "DynamoDbEncryption") 
