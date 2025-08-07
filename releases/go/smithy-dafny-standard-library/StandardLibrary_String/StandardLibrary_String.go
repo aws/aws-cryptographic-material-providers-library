@@ -25,6 +25,7 @@ import (
 	m_Seq "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq"
 	m_Seq_MergeSort "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq_MergeSort"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
 	m_UnicodeStrings "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UnicodeStrings"
@@ -64,6 +65,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 
 type Dummy__ struct{}
@@ -152,27 +154,130 @@ func (_static *CompanionStruct_Default___) Int2String(n _dafny.Int, chars _dafny
 func (_static *CompanionStruct_Default___) Base10Int2String(n _dafny.Int) _dafny.Sequence {
 	return Companion_Default___.Int2String(n, Companion_Default___.Base10())
 }
+func (_static *CompanionStruct_Default___) SearchAndReplace(source _dafny.Sequence, old__str _dafny.Sequence, new__str _dafny.Sequence) _dafny.Sequence {
+	var o _dafny.Sequence = _dafny.EmptySeq
+	_ = o
+	var _0_old__pos m_Wrappers.Option
+	_ = _0_old__pos
+	var _out0 m_Wrappers.Option
+	_ = _out0
+	_out0 = Companion_Default___.HasSubString(source, old__str)
+	_0_old__pos = _out0
+	if (_0_old__pos).Is_None() {
+		o = source
+		return o
+	} else {
+		var _1_pos uint64
+		_ = _1_pos
+		_1_pos = ((_0_old__pos).Dtor_value().(_dafny.Int)).Uint64()
+		var _2_source__len uint64
+		_ = _2_source__len
+		_2_source__len = uint64((source).Cardinality())
+		var _3_old__str__len uint64
+		_ = _3_old__str__len
+		_3_old__str__len = uint64((old__str).Cardinality())
+		o = _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate((source).Take(uint32(_1_pos)), new__str), (source).Drop(uint32((_1_pos)+(_3_old__str__len))))
+		return o
+	}
+	return o
+}
+func (_static *CompanionStruct_Default___) SearchAndReplacePos(source _dafny.Sequence, old__str _dafny.Sequence, new__str _dafny.Sequence, pos uint64) _dafny.Tuple {
+	var o _dafny.Tuple = _dafny.TupleOf(_dafny.EmptySeq, m_Wrappers.Companion_Option_.Default())
+	_ = o
+	var _0_old__pos m_Wrappers.Option
+	_ = _0_old__pos
+	var _out0 m_Wrappers.Option
+	_ = _out0
+	_out0 = Companion_Default___.HasSubStringPos(source, old__str, pos)
+	_0_old__pos = _out0
+	if (_0_old__pos).Is_None() {
+		o = _dafny.TupleOf(source, m_Wrappers.Companion_Option_.Create_None_())
+		return o
+	} else {
+		var _1_source__len uint64
+		_ = _1_source__len
+		_1_source__len = uint64((source).Cardinality())
+		var _2_old__str__len uint64
+		_ = _2_old__str__len
+		_2_old__str__len = uint64((old__str).Cardinality())
+		var _3_new__str__len uint64
+		_ = _3_new__str__len
+		_3_new__str__len = uint64((new__str).Cardinality())
+		o = _dafny.TupleOf(_dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate((source).Take(uint32((_0_old__pos).Dtor_value().(uint64))), new__str), (source).Drop(uint32(((_0_old__pos).Dtor_value().(uint64))+(_2_old__str__len)))), m_Wrappers.Companion_Option_.Create_Some_(m_StandardLibrary_MemoryMath.Companion_Default___.Add((_0_old__pos).Dtor_value().(uint64), _3_new__str__len)))
+		o = o
+		return o
+	}
+	return o
+}
+func (_static *CompanionStruct_Default___) SearchAndReplaceAll(source__in _dafny.Sequence, old__str _dafny.Sequence, new__str _dafny.Sequence) _dafny.Sequence {
+	var o _dafny.Sequence = _dafny.EmptySeq
+	_ = o
+	var _0_pos uint64
+	_ = _0_pos
+	_0_pos = uint64(0)
+	var _1_source _dafny.Sequence
+	_ = _1_source
+	_1_source = source__in
+	for true {
+		var _2_res _dafny.Tuple
+		_ = _2_res
+		var _out0 _dafny.Tuple
+		_ = _out0
+		_out0 = Companion_Default___.SearchAndReplacePos(_1_source, old__str, new__str, _0_pos)
+		_2_res = _out0
+		if ((*(_2_res).IndexInt(1)).(m_Wrappers.Option)).Is_None() {
+			_0_pos = uint64((_1_source).Cardinality())
+			o = (*(_2_res).IndexInt(0)).(_dafny.Sequence)
+			return o
+		}
+		_1_source = (*(_2_res).IndexInt(0)).(_dafny.Sequence)
+		_0_pos = ((*(_2_res).IndexInt(1)).(m_Wrappers.Option)).Dtor_value().(uint64)
+	}
+	return o
+}
 func (_static *CompanionStruct_Default___) HasSubString(haystack _dafny.Sequence, needle _dafny.Sequence) m_Wrappers.Option {
 	var o m_Wrappers.Option = m_Wrappers.Companion_Option_.Default()
 	_ = o
-	if (_dafny.IntOfUint32((haystack).Cardinality())).Cmp(_dafny.IntOfUint32((needle).Cardinality())) < 0 {
+	if (uint64((haystack).Cardinality())) < (uint64((needle).Cardinality())) {
 		o = m_Wrappers.Companion_Option_.Create_None_()
 		return o
-	}
-	if !((_dafny.IntOfUint32((haystack).Cardinality())).Cmp((m_StandardLibrary_UInt.Companion_Default___.UINT64__MAX__LIMIT()).Minus(_dafny.One)) <= 0) {
-		panic("src/String.dfy(75,4): " + (_dafny.SeqOfString("expectation violation")).String())
 	}
 	var _0_size uint64
 	_ = _0_size
 	_0_size = uint64((needle).Cardinality())
 	var _1_limit uint64
 	_ = _1_limit
-	_1_limit = ((uint64((haystack).Cardinality())) - (func() uint64 { return (_0_size) })()) + (uint64(1))
+	_1_limit = m_StandardLibrary_MemoryMath.Companion_Default___.Add((uint64((haystack).Cardinality()))-(func() uint64 { return (_0_size) })(), uint64(1))
 	var _hi0 uint64 = _1_limit
 	_ = _hi0
 	for _2_index := uint64(0); _2_index < _hi0; _2_index++ {
 		if m_StandardLibrary_Sequence.Companion_Default___.SequenceEqual(haystack, needle, _2_index, uint64(0), _0_size) {
 			o = m_Wrappers.Companion_Option_.Create_Some_(_dafny.IntOfUint64(_2_index))
+			return o
+		}
+	}
+	o = m_Wrappers.Companion_Option_.Create_None_()
+	return o
+	return o
+}
+func (_static *CompanionStruct_Default___) HasSubStringPos(haystack _dafny.Sequence, needle _dafny.Sequence, pos uint64) m_Wrappers.Option {
+	var o m_Wrappers.Option = m_Wrappers.Companion_Option_.Default()
+	_ = o
+	if ((uint64((haystack).Cardinality())) - (func() uint64 { return (pos) })()) < (uint64((needle).Cardinality())) {
+		o = m_Wrappers.Companion_Option_.Create_None_()
+		return o
+	}
+	var _0_size uint64
+	_ = _0_size
+	_0_size = uint64((needle).Cardinality())
+	var _1_limit uint64
+	_ = _1_limit
+	_1_limit = m_StandardLibrary_MemoryMath.Companion_Default___.Add((uint64((haystack).Cardinality()))-(func() uint64 { return (_0_size) })(), uint64(1))
+	var _hi0 uint64 = _1_limit
+	_ = _hi0
+	for _2_index := pos; _2_index < _hi0; _2_index++ {
+		if m_StandardLibrary_Sequence.Companion_Default___.SequenceEqual(haystack, needle, _2_index, uint64(0), _0_size) {
+			o = m_Wrappers.Companion_Option_.Create_Some_(_2_index)
 			return o
 		}
 	}

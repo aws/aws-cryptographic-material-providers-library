@@ -37,6 +37,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -78,6 +79,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -130,12 +132,12 @@ func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 var _ _dafny.TraitOffspring = &Default__{}
 
 func (_static *CompanionStruct_Default___) Digest(input m_AwsCryptographyPrimitivesTypes.HMacInput) m_Wrappers.Result {
-	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32(((input).Dtor_key()).Cardinality())).Sign() == 1, m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Key MUST NOT be 0 bytes.")))
+	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((uint64(0)) < (uint64(((input).Dtor_key()).Cardinality())), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Key MUST NOT be 0 bytes.")))
 	_ = _0_valueOrError0
 	if (_0_valueOrError0).IsFailure() {
 		return (_0_valueOrError0).PropagateFailure()
 	} else {
-		var _1_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32(((input).Dtor_message()).Cardinality())).Cmp(m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()) < 0, m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Message over INT32_MAX_LIMIT")))
+		var _1_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((uint64(((input).Dtor_message()).Cardinality())) < ((m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()).Uint64()), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Message over INT32_MAX_LIMIT")))
 		_ = _1_valueOrError1
 		if (_1_valueOrError1).IsFailure() {
 			return (_1_valueOrError1).PropagateFailure()
