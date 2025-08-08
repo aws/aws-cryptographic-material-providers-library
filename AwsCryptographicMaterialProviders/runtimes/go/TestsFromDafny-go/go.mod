@@ -2,12 +2,12 @@ module github.com/aws/aws-cryptographic-material-providers-library/releases/go/m
 
 go 1.23.0
 
-replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl v0.0.0 => ../ImplementationFromDafny-go
+replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl => ../ImplementationFromDafny-go
 
 replace (
-	github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb v0.0.0 => ../../../../ComAmazonawsDynamodb/runtimes/go/ImplementationFromDafny-go/
-	github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms v0.0.0 => ../../../../ComAmazonawsKms/runtimes/go/ImplementationFromDafny-go/
-	github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives v0.0.0 => ../../../../AwsCryptographyPrimitives/runtimes/go/ImplementationFromDafny-go/
+	github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb => ../../../../ComAmazonawsDynamodb/runtimes/go/ImplementationFromDafny-go/
+	github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms => ../../../../ComAmazonawsKms/runtimes/go/ImplementationFromDafny-go/
+	github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives => ../../../../AwsCryptographyPrimitives/runtimes/go/ImplementationFromDafny-go/
 
 )
 
