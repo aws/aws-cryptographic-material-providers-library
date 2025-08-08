@@ -72,7 +72,7 @@ run_release_script() {
   # Replacement directives are removed to get package from go pkg instead of local copy
   # We need to copy `go.mod` otherwise without it this script will not work in the first release because all the go tools used in this script works only when there is a `go.mod` in the directory. Removing replacement directives helps in automating copying of `go.mod`.
   echo "Removing all replace directives from go.mod..."
-  go mod edit -json | jq -r '.Replace[].Old.Path' | xargs -n1 go mod edit -dropreplace
+  go mod edit -json | jq -r '.Replace[] | "\(.Old.Path)@\(.Old.Version)"' | xargs -n1 -I {} go mod edit -dropreplace={}
 
   # Get the mapped release directory name
   RELEASE_DIR_NAME=$(get_release_dir_name "$PROJECT_NAME")
