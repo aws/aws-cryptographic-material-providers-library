@@ -102,7 +102,7 @@ run_release_script() {
     "AwsEncryptionSDK"|"DynamoDbEncryption") test_examples ;;
   esac
 
-  make setup_prettier
+  make -C "$ROOT_DIR" setup_prettier
   make -C "$ROOT_DIR" format_java_misc
 
   if grep -q "replace" go.mod; then
