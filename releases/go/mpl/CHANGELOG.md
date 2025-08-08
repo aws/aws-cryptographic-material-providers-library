@@ -1,5 +1,7 @@
 # Changelog
 
+## [releases/go/mpl/v0.2.1] - 2025-08-08
+
 ## [releases/go/mpl/v0.2.1] - 2025-08-06
 
 ### Fixes

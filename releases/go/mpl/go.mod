@@ -31,10 +31,3 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sts v1.36.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 )
-
-replace (
-	github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb v0.0.0 => ../../../../ComAmazonawsDynamodb/runtimes/go/ImplementationFromDafny-go/
-	github.com/aws/aws-cryptographic-material-providers-library/releases/go/kms v0.0.0 => ../../../../ComAmazonawsKms/runtimes/go/ImplementationFromDafny-go/
-	github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives v0.0.0 => ../../../../AwsCryptographyPrimitives/runtimes/go/ImplementationFromDafny-go/
-
-)
