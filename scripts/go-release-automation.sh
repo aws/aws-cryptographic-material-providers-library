@@ -104,6 +104,11 @@ run_release_script() {
 
   make -C "$ROOT_DIR" format_java_misc
 
+  if grep -q "replace" go.mod; then
+    echo "Error: Found replace directives in go.mod files. Is this expected?"
+    exit 1
+  fi
+
   # Prepare for commit
   echo "creating a branch..."
 
