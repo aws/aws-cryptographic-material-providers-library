@@ -32,7 +32,6 @@ DESCRIPTION_TEMPLATES = {
     "kms": "KMS keyring test with Unicode fuzzing"
 }
 
-#TODO-Fuzztesting: #include the other keys: rsa for raw keys. Other test types too
 # Key, Algorithm, Test-Type, Key-Material Definitions
 KMS_KEYS = ["us-west-2-mrk", "us-east-1-mrk", "us-west-2-decryptable"] #us-west-2-rsa-mrk (already have rsa), us-west-2-256-ecc, us-west-2-384-ecc (and already have enough ecc)
 RAW_KEY_TYPES = ["aes-128", "aes-192", "aes-256", "ecc-256", "ecc-384", "ecc-521"] #rsa-4096 not included because of complex interdependencies and structural requirements
@@ -143,7 +142,6 @@ def fuzz_key_identifiers(draw, base_key_id: str) -> Dict[str, Any]:
     
     return {KEY_ID_FIELD: fuzzed_key_id, KEY_NAMESPACE_FIELD: key_namespace, KEY_ID_IN_MATERIAL_FIELD: key_id_in_material}
 
-#TODO-Fuzztesting: Strengthening encryption context fuzzing with specific edge cases (close to the character limitation for encryption context (8,192))
 @composite
 def fuzz_encryption_context(draw):
     """Generate diverse encryption contexts with Unicode characters.
@@ -162,7 +160,6 @@ def fuzz_encryption_context(draw):
     
     return context
 
-#TODO-Fuzztesting: "negative-encrypt-keyring" fuzzing functionality: in fuzzToDos branch, implemented tests with missing required keys (for KMS keyrings) or invalid key material (raw keryings), but it could also fail because of algo mismatches or invalid encryption context formats
 def generate_required_keys(draw, encryption_context: Dict[str, str]) -> List[str]:
     """Generate requiredEncryptionContextKeys from existing context keys."""
     context_keys = list(encryption_context.keys())
@@ -178,7 +175,6 @@ def create_key_description(draw, keyring_type: str, kms_key: str, required_keys:
     else:
         raise ValueError(f"Unknown keyring type: {keyring_type}")
 
-#TODO-Fuzztesting: for both raw and kms keys, different keys have different description structures; this has to be taken into consideration for the remaining keys
 def create_raw_key_description(draw) -> Dict[str, Any]:
     """Create raw keyring description."""
     raw_key_id = draw(st.sampled_from(RAW_KEY_TYPES))
@@ -325,7 +321,6 @@ def generate_fuzz_test_vectors(num_vectors) -> Tuple[Dict[str, Any], Dict[str, A
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=NonInteractiveExampleWarning)
         for i in range(num_vectors):
-            # TODO-Fuzztesting: remove .example() usage. Context: we're using Hypothesis as a data generator, not for testing properties.
             # Hypothesis is designed for property-based testing, so when using .example() it informs us that we should be using @given to actually test properties, not just generate examples.
             # But we're in a different use case, because we're essentially using Hypothesis as a sophisticated random data generator to create test vectors that will be evaluated by a different test system
             # Warning surpressed so that it doesn't fill the output with this message: https://github.com/aws/aws-cryptographic-material-providers-library/pull/1630/files#r2226909207; it will paste that message 2000 times for 2000 test vectors, for e.g.
@@ -336,8 +331,6 @@ def generate_fuzz_test_vectors(num_vectors) -> Tuple[Dict[str, Any], Dict[str, A
     new_keys = extract_new_keys(test_vectors)
     return test_vectors, new_keys
 
-#TODO-Fuzztesting: increase the number of test vectors (for CI), need to increase the stack perhaps?
-#TODO-Fuzztesting: Add a logging mechanism to log errors/vulnerabilities we run into
 def main():
     """Main function to generate fuzzed test vectors."""
     # Parse command-line arguments
