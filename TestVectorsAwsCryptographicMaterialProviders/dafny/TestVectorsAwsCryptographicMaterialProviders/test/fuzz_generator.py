@@ -97,7 +97,7 @@ ALGORITHM_SUITES = [
 
 # Unicode strategies for maximum diversity
 unicode_strategies = [
-    st.text(min_size=1, max_size=50),  # Normal text
+    st.text(min_size=1, max_size=50),
     st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])), #Symbols
     st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Lo', 'Ll', 'Lu', 'Lm', 'Lt'])), #Letters
     st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['Nd', 'Nl', 'No'])), #Numbers
