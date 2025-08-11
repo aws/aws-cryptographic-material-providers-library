@@ -44,7 +44,7 @@ run_release_script() {
 
   # Pull the latest smithy-dafny and libraries git submodules
   echo " Pulling latest git submodules..."
-  # git submodule update --init --recursive
+  git submodule update --init --recursive
 
   # Go to the project directory
   echo " Navigating to $PROJECT_NAME..."
@@ -52,10 +52,10 @@ run_release_script() {
 
   # Build using make commands
   echo " Building project..."
-  # make polymorph_dafny
-  # make polymorph_go
-  # make transpile_go
-  # make test_go
+  make polymorph_dafny
+  make polymorph_go
+  make transpile_go
+  make test_go
 
   # Run Go tools in ImplementationFromDafny-go
   echo " Running Go tools in ImplementationFromDafny-go..."
