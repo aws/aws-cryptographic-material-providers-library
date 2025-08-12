@@ -67,3 +67,10 @@ jobs:
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
+  daily-fuzz-interop-test:
+    needs: getVersion
+    if: github.event_name != 'schedule' || github.repository_owner == 'aws'
+    uses: ./.github/workflows/library_interop_tests.yml
+    with:
+      dafny: ${{needs.getVersion.outputs.version}}
+      fuzz-testing: true
