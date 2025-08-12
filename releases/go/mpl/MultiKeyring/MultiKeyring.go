@@ -15,19 +15,41 @@ import (
 	m_AwsCryptographyKeyStoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreOperations"
 	m_AwsCryptographyKeyStoreTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
 	m_AwsCryptographyMaterialProvidersTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
+	m_AwsKmsDiscoveryKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsDiscoveryKeyring"
+	m_AwsKmsEcdhKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsEcdhKeyring"
+	m_AwsKmsHierarchicalKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsHierarchicalKeyring"
+	m_AwsKmsKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsKeyring"
+	m_AwsKmsMrkDiscoveryKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkDiscoveryKeyring"
+	m_AwsKmsMrkKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkKeyring"
 	m_AwsKmsMrkMatchForDecrypt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkMatchForDecrypt"
+	m_AwsKmsRsaKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsRsaKeyring"
 	m_AwsKmsUtils "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsUtils"
+	m_CacheConstants "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CacheConstants"
+	m_CanonicalEncryptionContext "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CanonicalEncryptionContext"
+	m_Constants "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Constants"
 	m_CreateKeyStoreTable "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeyStoreTable"
 	m_CreateKeys "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeys"
 	m_DDBKeystoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/DDBKeystoreOperations"
+	m_EcdhEdkWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/EcdhEdkWrapping"
+	m_EdkWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/EdkWrapping"
+	m_ErrorMessages "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/ErrorMessages"
 	m_GetKeys "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/GetKeys"
+	m_IntermediateKeyWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/IntermediateKeyWrapping"
 	m_KMSKeystoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KMSKeystoreOperations"
 	m_KeyStore "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KeyStore"
 	m_KeyStoreErrorMessages "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KeyStoreErrorMessages"
 	m_Keyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Keyring"
 	m_KmsArn "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KmsArn"
+	m_LocalCMC "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/LocalCMC"
+	m_MaterialWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MaterialWrapping"
 	m_Materials "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Materials"
+	m_RawAESKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/RawAESKeyring"
+	m_RawECDHKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/RawECDHKeyring"
+	m_RawRSAKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/RawRSAKeyring"
+	m_StormTracker "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/StormTracker"
+	m_StormTrackingCMC "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/StormTrackingCMC"
 	m_Structure "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Structure"
+	m_SynchronizedLocalCMC "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/SynchronizedLocalCMC"
 	m_AtomicPrimitives "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AtomicPrimitives"
 	m_AwsCryptographyPrimitivesOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesOperations"
 	m_AwsCryptographyPrimitivesTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesTypes"
@@ -64,6 +86,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -83,6 +106,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -147,6 +171,28 @@ var _ m_KeyStore.Dummy__
 var _ m_AlgorithmSuites.Dummy__
 var _ m_Materials.Dummy__
 var _ m_Keyring.Dummy__
+var _ m_CanonicalEncryptionContext.Dummy__
+var _ m_MaterialWrapping.Dummy__
+var _ m_IntermediateKeyWrapping.Dummy__
+var _ m_EdkWrapping.Dummy__
+var _ m_ErrorMessages.Dummy__
+var _ m_RawAESKeyring.Dummy__
+var _ m_Constants.Dummy__
+var _ m_EcdhEdkWrapping.Dummy__
+var _ m_RawECDHKeyring.Dummy__
+var _ m_RawRSAKeyring.Dummy__
+var _ m_AwsKmsKeyring.Dummy__
+var _ m_AwsKmsDiscoveryKeyring.Dummy__
+var _ m_AwsKmsEcdhKeyring.Dummy__
+var _ m_LocalCMC.Dummy__
+var _ m_SynchronizedLocalCMC.Dummy__
+var _ m_StormTracker.Dummy__
+var _ m_StormTrackingCMC.Dummy__
+var _ m_CacheConstants.Dummy__
+var _ m_AwsKmsHierarchicalKeyring.Dummy__
+var _ m_AwsKmsMrkDiscoveryKeyring.Dummy__
+var _ m_AwsKmsMrkKeyring.Dummy__
+var _ m_AwsKmsRsaKeyring.Dummy__
 
 type Dummy__ struct{}
 
@@ -184,6 +230,29 @@ func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 
 var _ _dafny.TraitOffspring = &Default__{}
 
+func (_static *CompanionStruct_Default___) Verified_q(keyring m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+	return (((((((((func(_is_8 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+		return _dafny.InstanceOf(_is_8, (*m_RawAESKeyring.RawAESKeyring)(nil))
+	}(keyring)) || (func(_is_9 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+		return _dafny.InstanceOf(_is_9, (*m_RawECDHKeyring.RawEcdhKeyring)(nil))
+	}(keyring))) || (func(_is_10 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+		return _dafny.InstanceOf(_is_10, (*m_RawRSAKeyring.RawRSAKeyring)(nil))
+	}(keyring))) || (func(_is_11 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+		return _dafny.InstanceOf(_is_11, (*m_AwsKmsDiscoveryKeyring.AwsKmsDiscoveryKeyring)(nil))
+	}(keyring))) || (func(_is_12 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+		return _dafny.InstanceOf(_is_12, (*m_AwsKmsEcdhKeyring.AwsKmsEcdhKeyring)(nil))
+	}(keyring))) || (func(_is_13 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+		return _dafny.InstanceOf(_is_13, (*m_AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring)(nil))
+	}(keyring))) || (func(_is_14 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+		return _dafny.InstanceOf(_is_14, (*m_AwsKmsKeyring.AwsKmsKeyring)(nil))
+	}(keyring))) || (func(_is_15 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+		return _dafny.InstanceOf(_is_15, (*m_AwsKmsMrkDiscoveryKeyring.AwsKmsMrkDiscoveryKeyring)(nil))
+	}(keyring))) || (func(_is_16 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+		return _dafny.InstanceOf(_is_16, (*m_AwsKmsMrkKeyring.AwsKmsMrkKeyring)(nil))
+	}(keyring))) || (func(_is_17 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+		return _dafny.InstanceOf(_is_17, (*m_AwsKmsRsaKeyring.AwsKmsRsaKeyring)(nil))
+	}(keyring))
+}
 func (_static *CompanionStruct_Default___) AttemptDecryptDataKey(keyring m_AwsCryptographyMaterialProvidersTypes.IKeyring, input m_AwsCryptographyMaterialProvidersTypes.OnDecryptInput) m_Wrappers.Result {
 	var res m_Wrappers.Result = m_Wrappers.Result{}
 	_ = res
@@ -200,12 +269,16 @@ func (_static *CompanionStruct_Default___) AttemptDecryptDataKey(keyring m_AwsCr
 	var _1_output m_AwsCryptographyMaterialProvidersTypes.OnDecryptOutput
 	_ = _1_output
 	_1_output = (_0_valueOrError0).Extract().(m_AwsCryptographyMaterialProvidersTypes.OnDecryptOutput)
-	var _2_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-	_ = _2_valueOrError1
-	_2_valueOrError1 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.DecryptionMaterialsTransitionIsValid((input).Dtor_materials(), (_1_output).Dtor_materials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Keyring performed invalid material transition")))
-	if (_2_valueOrError1).IsFailure() {
-		res = (_2_valueOrError1).PropagateFailure()
-		return res
+	if !((Companion_Default___.Verified_q(keyring)) || (func(_is_18 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+		return _dafny.InstanceOf(_is_18, (*MultiKeyring)(nil))
+	}(keyring))) {
+		var _2_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+		_ = _2_valueOrError1
+		_2_valueOrError1 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.DecryptionMaterialsTransitionIsValid((input).Dtor_materials(), (_1_output).Dtor_materials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Keyring performed invalid material transition")))
+		if (_2_valueOrError1).IsFailure() {
+			res = (_2_valueOrError1).PropagateFailure()
+			return res
+		}
 	}
 	res = m_Wrappers.Companion_Result_.Create_Success_(_1_output)
 	return res
@@ -269,16 +342,16 @@ var _ m_AwsCryptographyMaterialProvidersTypes.IKeyring = &MultiKeyring{}
 var _ _dafny.TraitOffspring = &MultiKeyring{}
 
 func (_this *MultiKeyring) OnDecrypt(input m_AwsCryptographyMaterialProvidersTypes.OnDecryptInput) m_Wrappers.Result {
-	var _out1 m_Wrappers.Result
-	_ = _out1
-	_out1 = m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.OnDecrypt(_this, input)
-	return _out1
+	var _out11 m_Wrappers.Result
+	_ = _out11
+	_out11 = m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.OnDecrypt(_this, input)
+	return _out11
 }
 func (_this *MultiKeyring) OnEncrypt(input m_AwsCryptographyMaterialProvidersTypes.OnEncryptInput) m_Wrappers.Result {
-	var _out1 m_Wrappers.Result
-	_ = _out1
-	_out1 = m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.OnEncrypt(_this, input)
-	return _out1
+	var _out11 m_Wrappers.Result
+	_ = _out11
+	_out11 = m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.OnEncrypt(_this, input)
+	return _out11
 }
 func (_this *MultiKeyring) Ctor__(generatorKeyring m_Wrappers.Option, childKeyrings _dafny.Sequence) {
 	{
@@ -326,49 +399,67 @@ func (_this *MultiKeyring) OnEncrypt_k(input m_AwsCryptographyMaterialProvidersT
 				res = (_4_valueOrError1).PropagateFailure()
 				return res
 			}
-			var _5_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-			_ = _5_valueOrError2
-			_5_valueOrError2 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.ValidEncryptionMaterialsTransition((input).Dtor_materials(), ((_3_onEncryptOutput).Dtor_value().(m_AwsCryptographyMaterialProvidersTypes.OnEncryptOutput)).Dtor_materials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Generator keyring returned invalid encryption materials")))
-			if (_5_valueOrError2).IsFailure() {
-				res = (_5_valueOrError2).PropagateFailure()
-				return res
+			if !((Companion_Default___.Verified_q(m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.CastTo_(((_this).GeneratorKeyring()).Dtor_value()))) || (func(_is_19 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+				return _dafny.InstanceOf(_is_19, (*MultiKeyring)(nil))
+			}(m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.CastTo_(((_this).GeneratorKeyring()).Dtor_value())))) {
+				var _5_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+				_ = _5_valueOrError2
+				_5_valueOrError2 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.EncryptionMaterialsHasPlaintextDataKey(((_3_onEncryptOutput).Dtor_value().(m_AwsCryptographyMaterialProvidersTypes.OnEncryptOutput)).Dtor_materials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Could not retrieve materials required for encryption")))
+				if (_5_valueOrError2).IsFailure() {
+					res = (_5_valueOrError2).PropagateFailure()
+					return res
+				}
+				var _6_valueOrError3 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+				_ = _6_valueOrError3
+				_6_valueOrError3 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.ValidEncryptionMaterialsTransition((input).Dtor_materials(), ((_3_onEncryptOutput).Dtor_value().(m_AwsCryptographyMaterialProvidersTypes.OnEncryptOutput)).Dtor_materials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Generator keyring returned invalid encryption materials")))
+				if (_6_valueOrError3).IsFailure() {
+					res = (_6_valueOrError3).PropagateFailure()
+					return res
+				}
 			}
 			_1_returnMaterials = ((_3_onEncryptOutput).Dtor_value().(m_AwsCryptographyMaterialProvidersTypes.OnEncryptOutput)).Dtor_materials()
 		}
-		var _hi0 _dafny.Int = _dafny.IntOfUint32(((_this).ChildKeyrings()).Cardinality())
+		var _hi0 uint64 = uint64(((_this).ChildKeyrings()).Cardinality())
 		_ = _hi0
-		for _6_i := _dafny.Zero; _6_i.Cmp(_hi0) < 0; _6_i = _6_i.Plus(_dafny.One) {
-			var _7_onEncryptInput m_AwsCryptographyMaterialProvidersTypes.OnEncryptInput
-			_ = _7_onEncryptInput
-			_7_onEncryptInput = m_AwsCryptographyMaterialProvidersTypes.Companion_OnEncryptInput_.Create_OnEncryptInput_(_1_returnMaterials)
-			var _8_onEncryptOutput m_Wrappers.Result
-			_ = _8_onEncryptOutput
+		for _7_i := uint64(0); _7_i < _hi0; _7_i++ {
+			var _8_onEncryptInput m_AwsCryptographyMaterialProvidersTypes.OnEncryptInput
+			_ = _8_onEncryptInput
+			_8_onEncryptInput = m_AwsCryptographyMaterialProvidersTypes.Companion_OnEncryptInput_.Create_OnEncryptInput_(_1_returnMaterials)
+			var _9_child m_AwsCryptographyMaterialProvidersTypes.IKeyring
+			_ = _9_child
+			_9_child = ((_this).ChildKeyrings()).Select(uint32(_7_i)).(m_AwsCryptographyMaterialProvidersTypes.IKeyring)
+			var _10_onEncryptOutput m_Wrappers.Result
+			_ = _10_onEncryptOutput
 			var _out1 m_Wrappers.Result
 			_ = _out1
-			_out1 = (((_this).ChildKeyrings()).Select((_6_i).Uint32()).(m_AwsCryptographyMaterialProvidersTypes.IKeyring)).OnEncrypt(_7_onEncryptInput)
-			_8_onEncryptOutput = _out1
-			var _9_valueOrError3 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-			_ = _9_valueOrError3
-			_9_valueOrError3 = m_Wrappers.Companion_Default___.Need((_8_onEncryptOutput).Is_Success(), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Child keyring failed to encrypt plaintext data key")))
-			if (_9_valueOrError3).IsFailure() {
-				res = (_9_valueOrError3).PropagateFailure()
+			_out1 = (_9_child).OnEncrypt(_8_onEncryptInput)
+			_10_onEncryptOutput = _out1
+			var _11_valueOrError4 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+			_ = _11_valueOrError4
+			_11_valueOrError4 = m_Wrappers.Companion_Default___.Need((_10_onEncryptOutput).Is_Success(), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Child keyring failed to encrypt plaintext data key")))
+			if (_11_valueOrError4).IsFailure() {
+				res = (_11_valueOrError4).PropagateFailure()
 				return res
 			}
-			var _10_valueOrError4 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-			_ = _10_valueOrError4
-			_10_valueOrError4 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.ValidEncryptionMaterialsTransition(_1_returnMaterials, ((_8_onEncryptOutput).Dtor_value().(m_AwsCryptographyMaterialProvidersTypes.OnEncryptOutput)).Dtor_materials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Child keyring performed invalid transition on encryption materials")))
-			if (_10_valueOrError4).IsFailure() {
-				res = (_10_valueOrError4).PropagateFailure()
-				return res
+			if !((Companion_Default___.Verified_q(_9_child)) || (func(_is_20 m_AwsCryptographyMaterialProvidersTypes.IKeyring) bool {
+				return _dafny.InstanceOf(_is_20, (*MultiKeyring)(nil))
+			}(_9_child))) {
+				var _12_valueOrError5 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+				_ = _12_valueOrError5
+				_12_valueOrError5 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.EncryptionMaterialsHasPlaintextDataKey(((_10_onEncryptOutput).Dtor_value().(m_AwsCryptographyMaterialProvidersTypes.OnEncryptOutput)).Dtor_materials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Could not retrieve materials required for encryption")))
+				if (_12_valueOrError5).IsFailure() {
+					res = (_12_valueOrError5).PropagateFailure()
+					return res
+				}
+				var _13_valueOrError6 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+				_ = _13_valueOrError6
+				_13_valueOrError6 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.ValidEncryptionMaterialsTransition(_1_returnMaterials, ((_10_onEncryptOutput).Dtor_value().(m_AwsCryptographyMaterialProvidersTypes.OnEncryptOutput)).Dtor_materials()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Child keyring performed invalid transition on encryption materials")))
+				if (_13_valueOrError6).IsFailure() {
+					res = (_13_valueOrError6).PropagateFailure()
+					return res
+				}
 			}
-			_1_returnMaterials = ((_8_onEncryptOutput).Dtor_value().(m_AwsCryptographyMaterialProvidersTypes.OnEncryptOutput)).Dtor_materials()
-		}
-		var _11_valueOrError5 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-		_ = _11_valueOrError5
-		_11_valueOrError5 = m_Wrappers.Companion_Default___.Need(m_Materials.Companion_Default___.ValidEncryptionMaterialsTransition((input).Dtor_materials(), _1_returnMaterials), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("A child or generator keyring modified the encryption materials in illegal ways.")))
-		if (_11_valueOrError5).IsFailure() {
-			res = (_11_valueOrError5).PropagateFailure()
-			return res
+			_1_returnMaterials = ((_10_onEncryptOutput).Dtor_value().(m_AwsCryptographyMaterialProvidersTypes.OnEncryptOutput)).Dtor_materials()
 		}
 		res = m_Wrappers.Companion_Result_.Create_Success_(m_AwsCryptographyMaterialProvidersTypes.Companion_OnEncryptOutput_.Create_OnEncryptOutput_(_1_returnMaterials))
 		return res
@@ -408,14 +499,14 @@ func (_this *MultiKeyring) OnDecrypt_k(input m_AwsCryptographyMaterialProvidersT
 				_2_failures = _dafny.Companion_Sequence_.Concatenate(_2_failures, _dafny.SeqOf((_3_result).Dtor_error().(m_AwsCryptographyMaterialProvidersTypes.Error)))
 			}
 		}
-		var _hi0 _dafny.Int = _dafny.IntOfUint32(((_this).ChildKeyrings()).Cardinality())
+		var _hi0 uint64 = uint64(((_this).ChildKeyrings()).Cardinality())
 		_ = _hi0
-		for _4_j := _dafny.Zero; _4_j.Cmp(_hi0) < 0; _4_j = _4_j.Plus(_dafny.One) {
+		for _4_j := uint64(0); _4_j < _hi0; _4_j++ {
 			var _5_result m_Wrappers.Result
 			_ = _5_result
 			var _out1 m_Wrappers.Result
 			_ = _out1
-			_out1 = Companion_Default___.AttemptDecryptDataKey(((_this).ChildKeyrings()).Select((_4_j).Uint32()).(m_AwsCryptographyMaterialProvidersTypes.IKeyring), input)
+			_out1 = Companion_Default___.AttemptDecryptDataKey(((_this).ChildKeyrings()).Select(uint32(_4_j)).(m_AwsCryptographyMaterialProvidersTypes.IKeyring), input)
 			_5_result = _out1
 			if (_5_result).Is_Success() {
 				res = m_Wrappers.Companion_Result_.Create_Success_((_5_result).Dtor_value().(m_AwsCryptographyMaterialProvidersTypes.OnDecryptOutput))
