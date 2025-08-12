@@ -18,6 +18,11 @@ on:
         required: false
         default: false
         type: boolean
+      num-fuzz-vectors:
+        description: "Number of fuzz test vectors to generate (only used when fuzz-testing is true)"
+        required: false
+        default: 2000
+        type: number
 
 jobs:
   generateEncryptVectors:
@@ -37,6 +42,11 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    env:
+      # Increase Rust stack size for large-scale fuzz testing with 10,000+ test vectors
+      RUST_MIN_STACK: 404857600
+      # Increase Go stack size for large-scale fuzz testing with 10,000+ test vectors
+      GOSTACKSIZE: 16m
     steps:
       - name: Support longpaths on Git checkout
         run: |
@@ -200,8 +210,8 @@ jobs:
         working-directory: ./${{ matrix.library }}
         run: |
           if [ "${{ inputs.fuzz-testing }}" = "true" ]; then
-            echo "Generating fuzzed test vectors"
-            make test_generate_fuzz_vectors_${{ matrix.language }} NUM_VECTORS=2000
+            echo "Generating fuzzed test vectors (${{ inputs.num-fuzz-vectors }} vectors)"
+            make test_generate_fuzz_vectors_${{ matrix.language }} NUM_VECTORS=${{ inputs.num-fuzz-vectors }}
           else
             make test_generate_vectors_${{ matrix.language }}
           fi
@@ -235,6 +245,11 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    env:
+      # Increase Rust stack size for large-scale fuzz testing with 10,000+ test vectors
+      RUST_MIN_STACK: 404857600
+      # Increase Go stack size for large-scale fuzz testing with 10,000+ test vectors
+      GOSTACKSIZE: 16m
     steps:
       - name: Support longpaths on Git checkout
         run: |

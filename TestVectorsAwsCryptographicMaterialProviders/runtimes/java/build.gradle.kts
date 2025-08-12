@@ -97,6 +97,8 @@ tasks.register<JavaExec>("runTests") {
     dependsOn("copyKeysJSON")
     mainClass.set("TestsFromDafny")
     classpath = sourceSets["test"].runtimeClasspath
+    // Increase stack size for large-scale fuzz testing with 10,000+ test vectors
+    jvmArgs("-Xss16m")
 }
 
 tasks.register<Copy>("copyKeysJSON") {
@@ -111,4 +113,6 @@ tasks.register<Copy>("copyKeysJSONCurr") {
 
 application {
     mainClass.set("ImplementationFromDafny")
+    // Increase stack size for large-scale fuzz testing with 10,000+ test vectors
+    applicationDefaultJvmArgs = listOf("-Xss16m")
 }
