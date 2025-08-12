@@ -55,7 +55,6 @@ jobs:
     with:
       dafny: ${{needs.getVersion.outputs.version}}
     secrets: inherit
-  # TODO-Fuzztesting: Move this to scheduled CI
   pr-fuzz-interop-test:
     needs: getVersion
     uses: ./.github/workflows/library_interop_tests.yml
