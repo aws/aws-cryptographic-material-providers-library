@@ -63,6 +63,27 @@ module TestStrings {
     expect actual == "rose_daisy is a rose_daisy is a rose_daisy";
   }
 
+  method {:test} TestSearchAndReplaceAllNotEasy()
+  {
+    var actual := String.SearchAndReplaceAllNot("Koda is a Dog.", "Koda", "Robbie", String.AlphaNumericUnder);
+    expect actual == "Robbie is a Dog.";
+    actual := String.SearchAndReplaceAllNot("Koda is a Dog.", "Dog", "good boy", String.AlphaNumericUnder);
+    expect actual == "Koda is a good boy.";
+    actual := String.SearchAndReplaceAllNot("Koda is a Dog.", "Dog.", "good boy!", String.AlphaNumericUnder);
+    expect actual == "Koda is a good boy!";
+    actual := String.SearchAndReplaceAllNot("Koda is a Dog.", "Robbie", "good boy!", String.AlphaNumericUnder);
+    expect actual == "Koda is a Dog.";
+    actual := String.SearchAndReplaceAllNot("Koda is a Dog.", "Koda", "Koda", String.AlphaNumericUnder);
+    expect actual == "Koda is a Dog.";
+
+    actual := String.SearchAndReplaceAllNot("A rose is a rose is a rose.", "rose", "daisy", String.AlphaNumericUnder);
+    expect actual == "A daisy is a daisy is a daisy.";
+    actual := String.SearchAndReplaceAllNot("rose is a rose is a rose", "rose", "daisy", String.AlphaNumericUnder);
+    expect actual == "daisy is a daisy is a daisy";
+    actual := String.SearchAndReplaceAllNot("rose is a rose is a rose", "rose", "rose_daisy", String.AlphaNumericUnder);
+    expect actual == "rose_daisy is a rose_daisy is a rose_daisy";
+  }
+
   method {:test} TestHasSearchAndReplacePos()
   {
     var actual := String.SearchAndReplacePos("Koda is a Dog.", "Koda", "Robbie", 0);
@@ -89,6 +110,56 @@ module TestStrings {
     expect actual == ("Koda is a Dog.", None);
     actual := String.SearchAndReplacePos("Koda is a Dog.", "Koda", "Koda", 0);
     expect actual == ("Koda is a Dog.", Some(4));
+  }
+
+  // in most cases SearchAndReplacePosNot is just like SearchAndReplacePos
+  method {:test} TestHasSearchAndReplacePosNotEasy()
+  {
+    var actual := String.SearchAndReplacePosNot("Koda is a Dog.", "Koda", "Robbie", 0, String.AlphaNumericUnder);
+    expect actual == ("Robbie is a Dog.", Some(6));
+    actual := String.SearchAndReplacePosNot("Koda is a Dog.", "Koda", "Robbie", 1, String.AlphaNumericUnder);
+    expect actual == ("Koda is a Dog.", None);
+
+    actual := String.SearchAndReplacePosNot("Koda is a Dog.", "Dog", "good boy", 0, String.AlphaNumericUnder);
+    expect actual == ("Koda is a good boy.", Some(18));
+    actual := String.SearchAndReplacePosNot("Koda is a Dog.", "Dog", "good boy", 10, String.AlphaNumericUnder);
+    expect actual == ("Koda is a good boy.", Some(18));
+    actual := String.SearchAndReplacePosNot("Koda is a Dog.", "Dog", "good boy", 11, String.AlphaNumericUnder);
+    expect actual == ("Koda is a Dog.", None);
+
+    actual := String.SearchAndReplacePosNot("Koda is a Dog.", "Dog.", "good boy!", 0, String.AlphaNumericUnder);
+    expect actual == ("Koda is a good boy!", Some(19));
+    actual := String.SearchAndReplacePosNot("Koda is a Dog.", "Dog.", "good boy!", 10, String.AlphaNumericUnder);
+    expect actual == ("Koda is a good boy!", Some(19));
+    actual := String.SearchAndReplacePosNot("Koda is a Dog.", "Dog.", "good boy!", 11, String.AlphaNumericUnder);
+    expect actual == ("Koda is a Dog.", None);
+
+    actual := String.SearchAndReplacePosNot("Koda is a Dog.", "Robbie", "good boy!", 0, String.AlphaNumericUnder);
+    expect actual == ("Koda is a Dog.", None);
+    actual := String.SearchAndReplacePosNot("Koda is a Dog.", "Koda", "Koda", 0, String.AlphaNumericUnder);
+    expect actual == ("Koda is a Dog.", Some(4));
+  }
+
+  // when forbid comes in to play
+  method {:test} TestHasSearchAndReplacePosNotHard()
+  {
+    var actual := String.SearchAndReplacePosNot("KodaisaDog", "Koda", "Robbie", 0, String.AlphaNumericUnder);
+    expect actual == ("KodaisaDog", None);
+    actual := String.SearchAndReplacePosNot("KodaisaDog", "Dog", "Puppy", 1, String.AlphaNumericUnder);
+    expect actual == ("KodaisaDog", None);
+    actual := String.SearchAndReplacePosNot("Koda*isaDog", "Koda", "Robbie", 0, String.AlphaNumericUnder);
+    expect actual == ("Robbie*isaDog", Some(6));
+    actual := String.SearchAndReplacePosNot("Kodaisa.Dog", "Dog", "Puppy", 1, String.AlphaNumericUnder);
+    expect actual == ("Kodaisa.Puppy", Some(13));
+  }
+
+  // when forbid comes in to play
+  method {:test} TestHasSearchAndReplaceAllNotHard()
+  {
+    var actual := String.SearchAndReplaceAllNot("Koda1 Koda Koda2 Koda Koda3", "Koda", "Robbie", String.AlphaNumericUnder);
+    expect actual == "Koda1 Robbie Koda2 Robbie Koda3";
+    actual := String.SearchAndReplaceAllNot("Koda Koda1 Koda Koda2 Koda Koda3 Koda", "Koda", "Robbie", String.AlphaNumericUnder);
+    expect actual == "Robbie Koda1 Robbie Koda2 Robbie Koda3 Robbie";
   }
 
   method {:test} TestHasSubStringPositive()
