@@ -74,3 +74,4 @@ jobs:
     with:
       dafny: ${{needs.getVersion.outputs.version}}
       fuzz-testing: true
+      num-fuzz-vectors: 10000

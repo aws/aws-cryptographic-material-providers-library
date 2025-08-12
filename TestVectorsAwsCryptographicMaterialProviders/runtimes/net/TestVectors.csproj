@@ -8,6 +8,8 @@
         <TargetFrameworks>net6.0;net48</TargetFrameworks>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
         <OutputType>Exe</OutputType>
+        <!-- Increase stack size for large-scale fuzz testing with 10,000+ test vectors -->
+        <StackReserveSize>16777216</StackReserveSize>
     </PropertyGroup>
 
   <PropertyGroup>
