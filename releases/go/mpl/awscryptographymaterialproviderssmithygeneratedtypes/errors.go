@@ -86,16 +86,6 @@ func (e InvalidEncryptionMaterialsTransition) Error() string {
 	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
 }
 
-type EntryAlreadyExists struct {
-	AwsCryptographicMaterialProvidersBaseException
-	Message           string
-	ErrorCodeOverride *string
-}
-
-func (e EntryAlreadyExists) Error() string {
-	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
-}
-
 type EntryDoesNotExist struct {
 	AwsCryptographicMaterialProvidersBaseException
 	Message           string
@@ -113,5 +103,15 @@ type InFlightTTLExceeded struct {
 }
 
 func (e InFlightTTLExceeded) Error() string {
+	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
+}
+
+type EntryAlreadyExists struct {
+	AwsCryptographicMaterialProvidersBaseException
+	Message           string
+	ErrorCodeOverride *string
+}
+
+func (e EntryAlreadyExists) Error() string {
 	return fmt.Sprintf("%s: %s", e.ErrorCodeOverride, e.Message)
 }

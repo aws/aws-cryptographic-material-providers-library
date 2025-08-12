@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-cryptography-internal-kms"
-version = "1.11.0"
+version = "1.11.1"
 description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
@@ -8,7 +8,7 @@ packages = [
 ]
 # Include generated internaldafny files in package distributions,
 # even though they are not included in version control
-include = ["**/internaldafny/generated/*.py"]
+include = ["src/aws_cryptography_internal_kms/internaldafny/generated/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"

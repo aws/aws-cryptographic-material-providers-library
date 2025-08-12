@@ -53,6 +53,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -72,6 +73,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -263,7 +265,7 @@ func (_static *CompanionStruct_Default___) GetActiveBranchKeyItem(branchKeyIdent
 	_5_getItemResponse = (_3_valueOrError0).Extract().(m_ComAmazonawsDynamodbTypes.GetItemOutput)
 	var _6_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _6_valueOrError1
-	_6_valueOrError1 = m_Wrappers.Companion_Default___.Need((((_5_getItemResponse).Dtor_Item()).Is_Some()) && (((((_5_getItemResponse).Dtor_Item()).Dtor_value().(_dafny.Map)).Cardinality()).Cmp(_dafny.One) >= 0), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(m_KeyStoreErrorMessages.Companion_Default___.NO__CORRESPONDING__BRANCH__KEY()))
+	_6_valueOrError1 = m_Wrappers.Companion_Default___.Need((((_5_getItemResponse).Dtor_Item()).Is_Some()) && ((uint64((((_5_getItemResponse).Dtor_Item()).Dtor_value().(_dafny.Map)).CardinalityInt())) >= (uint64(1))), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(m_KeyStoreErrorMessages.Companion_Default___.NO__CORRESPONDING__BRANCH__KEY()))
 	if (_6_valueOrError1).IsFailure() {
 		output = (_6_valueOrError1).PropagateFailure()
 		return output
@@ -311,7 +313,7 @@ func (_static *CompanionStruct_Default___) GetVersionBranchKeyItem(branchKeyIden
 	_5_getItemResponse = (_3_valueOrError0).Extract().(m_ComAmazonawsDynamodbTypes.GetItemOutput)
 	var _6_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _6_valueOrError1
-	_6_valueOrError1 = m_Wrappers.Companion_Default___.Need((((_5_getItemResponse).Dtor_Item()).Is_Some()) && (((((_5_getItemResponse).Dtor_Item()).Dtor_value().(_dafny.Map)).Cardinality()).Cmp(_dafny.One) >= 0), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(m_KeyStoreErrorMessages.Companion_Default___.NO__CORRESPONDING__BRANCH__KEY()))
+	_6_valueOrError1 = m_Wrappers.Companion_Default___.Need((((_5_getItemResponse).Dtor_Item()).Is_Some()) && ((uint64((((_5_getItemResponse).Dtor_Item()).Dtor_value().(_dafny.Map)).CardinalityInt())) >= (uint64(1))), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(m_KeyStoreErrorMessages.Companion_Default___.NO__CORRESPONDING__BRANCH__KEY()))
 	if (_6_valueOrError1).IsFailure() {
 		output = (_6_valueOrError1).PropagateFailure()
 		return output
@@ -359,7 +361,7 @@ func (_static *CompanionStruct_Default___) GetBeaconKeyItem(branchKeyIdentifier 
 	_5_getItemResponse = (_3_valueOrError0).Extract().(m_ComAmazonawsDynamodbTypes.GetItemOutput)
 	var _6_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _6_valueOrError1
-	_6_valueOrError1 = m_Wrappers.Companion_Default___.Need((((_5_getItemResponse).Dtor_Item()).Is_Some()) && (((((_5_getItemResponse).Dtor_Item()).Dtor_value().(_dafny.Map)).Cardinality()).Cmp(_dafny.One) >= 0), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(m_KeyStoreErrorMessages.Companion_Default___.NO__CORRESPONDING__BRANCH__KEY()))
+	_6_valueOrError1 = m_Wrappers.Companion_Default___.Need((((_5_getItemResponse).Dtor_Item()).Is_Some()) && ((uint64((((_5_getItemResponse).Dtor_Item()).Dtor_value().(_dafny.Map)).CardinalityInt())) >= (uint64(1))), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(m_KeyStoreErrorMessages.Companion_Default___.NO__CORRESPONDING__BRANCH__KEY()))
 	if (_6_valueOrError1).IsFailure() {
 		output = (_6_valueOrError1).PropagateFailure()
 		return output

@@ -6,7 +6,7 @@ The AWS Cryptographic Internal AwsCryptographyPrimitives is a modeled library us
 
 ## Installation
 
-`go get github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives@v0.2.0`
+`go get github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives@latest`
 
 ## Security
 
