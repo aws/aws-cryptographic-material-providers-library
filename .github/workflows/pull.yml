@@ -57,7 +57,7 @@ jobs:
     needs: getVersions
     uses: ./.github/workflows/library_interop_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
       fuzz-testing: true
     secrets: inherit
   pr-ci-all-required:
