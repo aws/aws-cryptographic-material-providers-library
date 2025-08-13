@@ -198,6 +198,11 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
            ,
             Types.KeyStoreException( message := ErrorMessages.UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR));
 
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    //# If the `hierarchy-version` is `v1`,
+    //# the wrapped beacon key MUST be created according to [Wrapped Beacon Key Creation `v1`](#wrapped-beacon-key-creation-v1) and
+    //# the wrapped branch keys MUST be created according to
+    //# [Wrapped Branch Key Creation `v1`](#wrapped-branch-key-creation-v1);
     if hierarchyVersion == HierarchyVersion.v1 {
       output := CreateKeys.CreateBranchAndBeaconKeys(
         branchKeyIdentifier,
@@ -212,6 +217,11 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
         config.ddbClient
       );
     } else {
+      //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+      //# If the `hierarchy-version` is be `v2`,
+      //# the wrapped beacon Key MUST be created according to [Wrapped Beacon Key Creation `v2`](#wrapped-beacon-key-creation-v2) and
+      //# the wrapped branch keys MUST be created according to
+      //# [Wrapped Branch Key Creation `v2`](#wrapped-branch-key-creation-v2).
       output := CreateKeys.CreateBranchAndBeaconKeysVersion2(
         branchKeyIdentifier,
         map i <- encodedEncryptionContext :: i.0.value := i.1.value,

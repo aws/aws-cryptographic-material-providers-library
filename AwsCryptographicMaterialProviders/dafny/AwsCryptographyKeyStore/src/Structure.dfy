@@ -117,24 +117,8 @@ module {:options "/functionSyntax:4" } Structure {
   ): (output: EncryptedHierarchicalKey)
     requires BranchKeyContext?(branchKeyContext)
   {
-    /*
-    var Type
-      := if branchKeyContext[TYPE_FIELD] == BRANCH_KEY_ACTIVE_TYPE then
-           Types.ActiveHierarchicalSymmetricVersion(
-             Types.ActiveHierarchicalSymmetric(
-               Version := branchKeyContext[BRANCH_KEY_ACTIVE_VERSION_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]
-             ))
-         else if branchKeyContext[TYPE_FIELD] == BEACON_KEY_TYPE_VALUE then
-           Types.HierarchicalKeyType.ActiveHierarchicalSymmetricBeacon(Types.ActiveHierarchicalSymmetricBeacon.ActiveHierarchicalSymmetricBeacon)
-         else
-           Types.HierarchicalSymmetricVersion(
-             Types.HierarchicalSymmetric(
-               Version := branchKeyContext[TYPE_FIELD][|BRANCH_KEY_TYPE_PREFIX|..]
-             ));
-*/
     EncryptedHierarchicalKey(
       Identifier := branchKeyContext[BRANCH_KEY_IDENTIFIER_FIELD],
-      // Type := Type,
       CreateTime := branchKeyContext[KEY_CREATE_TIME],
       KmsArn := branchKeyContext[KMS_FIELD],
       EncryptionContext := branchKeyContext,
@@ -567,8 +551,17 @@ module {:options "/functionSyntax:4" } Structure {
   type ActiveBranchKeyItem = m: DDB.AttributeMap | ActiveBranchKeyItem?(m) witness *
   predicate ActiveBranchKeyItem?(m: DDB.AttributeMap) {
     && BranchKeyItem?(m)
+       //= aws-encryption-sdk-specification/framework/branch-key-store.md#active-branch-key-context
+       //= type=implication
+       //# The ACTIVE branch key context value of the key `type` MUST equal to `"branch:ACTIVE"`.
     && m[TYPE_FIELD].S == BRANCH_KEY_ACTIVE_TYPE
+       //= aws-encryption-sdk-specification/framework/branch-key-store.md#active-branch-key-context
+       //= type=implication
+       //# The ACTIVE branch key context MUST have a `version` key.
     && BRANCH_KEY_ACTIVE_VERSION_FIELD in m && m[BRANCH_KEY_ACTIVE_VERSION_FIELD].S?
+       //= aws-encryption-sdk-specification/framework/branch-key-store.md#active-branch-key-context
+       //= type=implication
+       //# The `version` key MUST store the branch key version formatted like `"branch:version:"` + `<version UUID>`.
     && BRANCH_KEY_TYPE_PREFIX < m[BRANCH_KEY_ACTIVE_VERSION_FIELD].S
   }
 
@@ -583,6 +576,9 @@ module {:options "/functionSyntax:4" } Structure {
   predicate BeaconKeyItem?(m: DDB.AttributeMap) {
     && BranchKeyItem?(m)
     && BRANCH_KEY_ACTIVE_VERSION_FIELD !in m
+       //= aws-encryption-sdk-specification/framework/branch-key-store.md#beacon-branch-key-context
+       //= type=implication
+       //# The Beacon key branch key context MUST include a key `type` and the value MUST be `"beacon:ACTIVE"`.
     && m[TYPE_FIELD].S == BEACON_KEY_TYPE_VALUE
   }
 

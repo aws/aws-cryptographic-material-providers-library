@@ -291,6 +291,19 @@ module {:options "/functionSyntax:4" } KMSKeystoreOperations {
     case kmsKeyArn(arn) => (arn == keyId)
     case kmsMRKeyArn(arn) => MrkMatch(arn, keyId)
   }
+  predicate Equal?(kmsConfiguration: Types.KMSConfiguration, keyId : string)
+    requires(HasKeyId(kmsConfiguration))
+  {
+    match kmsConfiguration
+    case kmsKeyArn(arn) => (arn == keyId)
+    case kmsMRKeyArn(arn) => (arn == keyId)
+  }
+
+  predicate OptEqual?(kmsConfiguration: Types.KMSConfiguration, keyId : Option<string>)
+    requires(HasKeyId(kmsConfiguration))
+  {
+    keyId.Some? && Equal?(kmsConfiguration, keyId.value)
+  }
 
   predicate OptCompatible?(kmsConfiguration: Types.KMSConfiguration, keyId : Option<string>)
     requires(HasKeyId(kmsConfiguration))

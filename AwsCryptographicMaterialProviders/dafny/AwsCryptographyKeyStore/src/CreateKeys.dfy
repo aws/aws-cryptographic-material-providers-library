@@ -75,15 +75,23 @@ module {:options "/functionSyntax:4" } CreateKeys {
     //# the [Branch Key and Beacon Key Creation](#branch-key-and-beacon-key-creation) section.
     ensures output.Success? ==>
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v1
               //= type=implication
               //# The operation MUST call [AWS KMS API GenerateDataKeyWithoutPlaintext](https://docs.aws.amazon.com/kms/latest/APIReference/API_GenerateDataKeyWithoutPlaintext.html).
 
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
               //= type=implication
               //# The call to AWS KMS GenerateDataKeyWithoutPlaintext MUST use the configured AWS KMS client to make the call.
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v1
+              //= type=implication
+              //# The call to AWS KMS GenerateDataKeyWithoutPlaintext MUST use the configured AWS KMS client to make the call.
               && |kmsClient.History.GenerateDataKeyWithoutPlaintext| == |old(kmsClient.History.GenerateDataKeyWithoutPlaintext)| + 2
 
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+              //= type=implication
+              //# The operation MUST call [AWS KMS API ReEncrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_ReEncrypt.html)
+              //# with a request constructed as follows:
               && |kmsClient.History.ReEncrypt| == |old(kmsClient.History.ReEncrypt)| + 1
 
               && var decryptOnlyEncryptionContext := Structure.DecryptOnlyBranchKeyEncryptionContext(
@@ -114,27 +122,38 @@ module {:options "/functionSyntax:4" } CreateKeys {
                    decryptOnlyEncryptionContext
                  )
 
+              && var reEncryptInput := Seq.Last(kmsClient.History.ReEncrypt).input;
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+              //= type=implication
+              //# - `SourceKeyId` MUST be the `kms-arn`.
+              && KMSKeystoreOperations.OptEqual?(kmsConfiguration, reEncryptInput.SourceKeyId)
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+              //= type=implication
+              //# - `DestinationKeyId` MUST be the `kms-arn`.
+              && KMSKeystoreOperations.Equal?(kmsConfiguration, reEncryptInput.DestinationKeyId)
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v1
               //= type=implication
               //# The operation MUST call AWS KMS GenerateDataKeyWithoutPlaintext with a request constructed as follows:
               && var beaconKmsInput := Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext).input;
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v1
               //= type=implication
               //# - `KeyId` MUST be the configured `AWS KMS Key ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
               && KMSKeystoreOperations.Compatible?(kmsConfiguration, beaconKmsInput.KeyId)
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v1
               //= type=implication
               //# - `NumberOfBytes` MUST be 32.
               && beaconKmsInput.NumberOfBytes == Some(32)
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v1
               //= type=implication
-              //# - `EncryptionContext` MUST be the [DECRYPT_ONLY branch context for branch keys](#decrypt_only-branch-key-context).
+              //# - `EncryptionContext` MUST be the [branch key context for beacon keys](#beacon-branch-key-context).
               && beaconKmsInput.EncryptionContext == Some(Structure.BeaconKeyEncryptionContext(decryptOnlyEncryptionContext))
 
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v1
               //= type=implication
               //# - `GrantTokens` MUST be this keystore's [grant tokens](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
               && beaconKmsInput.GrantTokens == Some(grantTokens)
@@ -178,8 +197,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && writeNewKey.TransactItems[0].Put.value.Item
                  == Structure.ToAttributeMap(
                       decryptOnlyEncryptionContext,
-          //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
-          //= type=implication
+                      //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+                      //= type=implication
                       //# If the call to AWS KMS GenerateDataKeyWithoutPlaintext succeeds,
                       //# the operation MUST use the GenerateDataKeyWithoutPlaintext result `CiphertextBlob`
                       //# as the wrapped DECRYPT_ONLY Branch Key.
@@ -200,11 +219,10 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && writeNewKey.TransactItems[2].Put.value.Item
                  == Structure.ToAttributeMap(
                       Structure.BeaconKeyEncryptionContext(decryptOnlyEncryptionContext),
-                      //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+                      //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v1
                       //= type=implication
                       //# If the call to AWS KMS GenerateDataKeyWithoutPlaintext succeeds,
-                      //# the operation MUST use the GenerateDataKeyWithoutPlaintext result `CiphertextBlob`
-                      //# as the wrapped DECRYPT_ONLY Branch Key.
+                      //# the operation MUST use the `CiphertextBlob` as the wrapped Beacon Key.
                       beaconKmsOutput.CiphertextBlob.value)
 
               && Seq.Last(ddbClient.History.TransactWriteItems).output.Success?
@@ -283,10 +301,18 @@ module {:options "/functionSyntax:4" } CreateKeys {
       kmsClient
     );
 
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+    //# The operation MUST generate a map of strings,
+    //# the [DECRYPT_ONLY branch context for branch keys](#decrypt_only-branch-key-context),
+    //# using the `branchKeyId`, `version`, `timestamp`, `kms-arn`, `encryption-context`, and `hierarchy-version`.
     var decryptOnlyBranchKeyItem := Structure.ToAttributeMap(
       decryptOnlyEncryptionContext,
       wrappedDecryptOnlyBranchKey.CiphertextBlob.value
     );
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+    //# The operation MUST generate a map of strings,
+    //# the [ACTIVE branch context for branch keys](#active-branch-key-context)
+    //# using the `branchKeyId`, `version`, `timestamp`, `kms-arn`, `encryption-context`, and `hierarchy-version`.
     var activeBranchKeyItem := Structure.ToAttributeMap(
       activeEncryptionContext,
       wrappedActiveBranchKey.CiphertextBlob.value
@@ -508,7 +534,6 @@ module {:options "/functionSyntax:4" } CreateKeys {
     returns (output: Result<Types.CreateKeyOutput, Types.Error>)
 
     requires
-      // TODO-HV-2-M4 : BKS Datatype for Crypto, Storage, KMS Tuple
       && KMSKeystoreOperations.HasKeyId(kmsConfiguration) && KmsArn.ValidKmsArn?(KMSKeystoreOperations.GetKeyId(kmsConfiguration))
       && hierarchyVersion.v2?
       && 0 < |branchKeyIdentifier|
@@ -519,6 +544,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires ddbClient.Modifies !! kmsClient.Modifies
     modifies ddbClient.Modifies, kmsClient.Modifies
     ensures ddbClient.ValidState() && kmsClient.ValidState()
+
     // Wrapped BK HV2
     ensures output.Success? ==>
               && |kmsClient.History.GenerateDataKey| == |old(kmsClient.History.GenerateDataKey)| + 2
@@ -575,8 +601,36 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     // Wrapped Beacon HV2
     ensures output.Success? ==>
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# The operation MUST call [AWS KMS API GenerateDataKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_GenerateDataKey.html).
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# The call to AWS KMS GenerateDataKey MUST use the configured AWS KMS client to make the call.
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# The operation MUST call AWS KMS GenerateDataKey with a request constructed as follows:
               && |kmsClient.History.GenerateDataKey| == |old(kmsClient.History.GenerateDataKey)| + 2
                  // Generate Data Key Requests are correct
+
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# - `KeyId` MUST be the `kms-arn`
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# - `NumberOfBytes` MUST be 32.
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# - `EncryptionContext` MUST be the `encryption-context`
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# - `GrantTokens` MUST be this keystore's [grant tokens](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
               && HV2GenerationOfBeaconAndBranchKeyAreCorrect(
                    bkGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| -2],
                    beaconGDK := kmsClient.History.GenerateDataKey[|kmsClient.History.GenerateDataKey| - 1],
@@ -595,14 +649,43 @@ module {:options "/functionSyntax:4" } CreateKeys {
                      grantTokens := grantTokens,
                      kmsClient := kmsClient
                    );
+
               // KMS Encrypt is correct
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# If the call to AWS KMS GenerateDataKey succeeds,
+              //# the operation MUST use the `Plaintext` from GenerateDataKey result
+              //# as the plain-text Beacon Key.
               && materialPair.beacon == beaconGDK.output.value.Plaintext.value
               && beaconGDK.output.value.Plaintext.value == materialPair.beacon
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# The operation MUST call [AWS KMS API Encrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html)
+              //# with a request constructed as follows:
               && |kmsClient.History.Encrypt| == |old(kmsClient.History.Encrypt)| + 3
               && var beaconKMSEnc := kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1];
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# The operation MUST concatenate the **SHA-384 Digest for the beacon key**
+              //# with the plain-text Beacon Key,
+              //# creating the **beacon plain-text tuple**.
               && |beaconKMSEnc.input.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int
               && beaconKMSEnc.input.Plaintext[Structure.BKC_DIGEST_LENGTH..] == beaconGDK.output.value.Plaintext.value
               && beaconKMSEnc.input.Plaintext[Structure.BKC_DIGEST_LENGTH..] == materialPair.beacon
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# - `Plaintext` MUST be the **beacon plain-text tuple**.
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# - `KeyId` MUST be the `kms-arn`.
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+              //= type=implication
+              //# - `EncryptionContext` MUST be the `encryption-context`.
               && HV2EncryptionOfBeaconIsCorrect(
                    beaconKMSEnc := beaconKMSEnc,
                    encryptionContext := encryptionContext,
@@ -611,6 +694,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
                    kmsClient := kmsClient,
                    material := materialPair.beacon
                  )
+                 //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+                 //= type=implication
+                 //# If the call to AWS KMS Encrypt succeeds,
+                 //# the operation MUST use the Encrypt result `CiphertextBlob`
+                 //# as the wrapped Beacon Key.
               && var beaconCiphertext :=
                    HV2AssignmentOfEncryptedBeacon(
                      beaconKMSEnc := beaconKMSEnc,
@@ -644,6 +732,9 @@ module {:options "/functionSyntax:4" } CreateKeys {
       encryptionContext
     );
     var activeBranchKeyContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyBranchKeyContext);
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-beacon-key-creation-v2
+    //# The operation MUST create a map of strings,
+    //# the [branch key context for beacon keys](#beacon-branch-key-context).
     var beaconBranchKeyContext := Structure.BeaconKeyEncryptionContext(decryptOnlyBranchKeyContext);
 
     // get plaintext data key by calling kms::GenerateDataKey
@@ -856,14 +947,14 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //# If the `hierarchy-version` is `v1`, the values on the AWS DDB response item MUST be authenticated according to
               //# [authenticating a keystore item for item with hierarchy version v1](#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v1).
 
-               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v1
-               //= type=implication
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v1
+              //= type=implication
               //# The operation MUST use the configured `KMS SDK Client` to authenticate the value of the keystore item.
               && |kmsClient.History.ReEncrypt| == |old(kmsClient.History.ReEncrypt)| + 2 // This 2 because we need to wrap the new version
 
-               //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v1
-               //= type=implication
-               //# The operation MUST call [AWS KMS API ReEncrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_ReEncrypt.html)
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v1
+              //= type=implication
+              //# The operation MUST call [AWS KMS API ReEncrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_ReEncrypt.html)
               //# with a request constructed as follows:
               && var reEncryptInput := Seq.Last(Seq.DropLast(kmsClient.History.ReEncrypt)).input;
 
@@ -938,9 +1029,9 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && writeNewKey.TransactItems[1].Put.value.Item
                  == Structure.ToAttributeMap(
                       Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext),
-              //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
-              //= type=implication
-              //# If the call to AWS KMS ReEncrypt succeeds,
+                      //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
+                      //= type=implication
+                      //# If the call to AWS KMS ReEncrypt succeeds,
                       //# the operation MUST use the ReEncrypt result `CiphertextBlob`
                       //# as the wrapped ACTIVE Branch Key.
                       Seq.Last(kmsClient.History.ReEncrypt).output.value.CiphertextBlob.value)
