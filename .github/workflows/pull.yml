@@ -54,7 +54,7 @@ jobs:
       dafny: ${{needs.getVersions.outputs.version}}
     secrets: inherit
   pr-fuzz-interop-test:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersion.outputs.version}}
