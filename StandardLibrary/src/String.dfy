@@ -103,26 +103,6 @@ module StandardLibrary.String {
     }
   }
 
-  function printFromFunction<T>(x: T): () {
-    ()
-  } by method {
-    print x,"\n";
-    return ();
-  }
-  function printFromFunction2<T, U>(x: T, y : U): () {
-    ()
-  } by method {
-    print x, " ", y, "\n";
-    return ();
-  }
-  function printFromFunction3<T, U, V>(x: T, y : U, z : V): () {
-    ()
-  } by method {
-    print x, " ", y, " ", z, "\n";
-    return ();
-  }
-
-
   predicate method BadStart<T(==)>(source : seq<T>, pos : uint64, forbid : seq<T>)
     requires pos as nat <= |source|
   {
@@ -132,19 +112,19 @@ module StandardLibrary.String {
       source[pos-1] in forbid
   }
 
-  predicate method BadEnd<T(==)>(source : seq<T>, pos : uint64, len : uint64, forbid : seq<T>) {
+  predicate method BadEnd<T(==)>(source : seq<T>, pos : uint64, match_len : uint64, forbid : seq<T>) {
     SequenceIsSafeBecauseItIsInMemory(source);
     var source_len : uint64 := |source| as uint64;
-    if Add(pos, len) >= source_len then
+    if Add(pos, match_len) >= source_len then
       false
     else
-      source[pos+len] in forbid
+      source[pos+match_len] in forbid
 
   }
-  predicate method BadMatch<T(==)>(source : seq<T>, pos : uint64, len : uint64, forbid : seq<T>)
+  predicate method BadMatch<T(==)>(source : seq<T>, pos : uint64, match_len : uint64, forbid : seq<T>)
     requires pos as nat <= |source|
   {
-    BadStart(source, pos, forbid) || BadEnd(source, pos, len, forbid)
+    BadStart(source, pos, forbid) || BadEnd(source, pos, match_len, forbid)
   }
 
   const AlphaNumeric      : string := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
