@@ -48,6 +48,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -68,6 +69,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -163,7 +165,7 @@ func (_static *CompanionStruct_Default___) OkForDecrypt(id m_AwsArnParsing.AwsKm
 	}
 }
 func (_static *CompanionStruct_Default___) StringifyEncryptionContext(utf8EncCtx _dafny.Map) m_Wrappers.Result {
-	if ((utf8EncCtx).Cardinality()).Sign() == 0 {
+	if (uint64((utf8EncCtx).CardinalityInt())) == (uint64(0)) {
 		return m_Wrappers.Companion_Result_.Create_Success_(_dafny.NewMapBuilder().ToMap())
 	} else {
 		var _0_stringifyResults _dafny.Map = func() _dafny.Map {
@@ -272,7 +274,7 @@ func (_static *CompanionStruct_Default___) ValidateKmsKeyId(keyId _dafny.Sequenc
 		if (_2_valueOrError1).IsFailure() {
 			return (_2_valueOrError1).PropagateFailure()
 		} else {
-			var _3_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(((_dafny.IntOfUint32((keyId).Cardinality())).Sign() == 1) && ((_dafny.IntOfUint32((keyId).Cardinality())).Cmp(m_AwsArnParsing.Companion_Default___.MAX__AWS__KMS__IDENTIFIER__LENGTH()) <= 0), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Key identifier is too long")))
+			var _3_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(((uint64(0)) < (uint64((keyId).Cardinality()))) && ((uint64((keyId).Cardinality())) <= (m_AwsArnParsing.Companion_Default___.MAX__AWS__KMS__IDENTIFIER__LENGTH())), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Key identifier is too long")))
 			_ = _3_valueOrError2
 			if (_3_valueOrError2).IsFailure() {
 				return (_3_valueOrError2).PropagateFailure()
@@ -285,7 +287,7 @@ func (_static *CompanionStruct_Default___) ValidateKmsKeyId(keyId _dafny.Sequenc
 func (_static *CompanionStruct_Default___) GetValidGrantTokens(grantTokens m_Wrappers.Option) m_Wrappers.Result {
 	var _0_tokens _dafny.Sequence = (grantTokens).UnwrapOr(_dafny.SeqOf()).(_dafny.Sequence)
 	_ = _0_tokens
-	var _1_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(((_dafny.IntOfUint32((_0_tokens).Cardinality())).Sign() != -1) && ((_dafny.IntOfUint32((_0_tokens).Cardinality())).Cmp(_dafny.IntOfInt64(10)) <= 0), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Grant token list can have no more than 10 tokens")))
+	var _1_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(((uint64(0)) <= (uint64((_0_tokens).Cardinality()))) && ((uint64((_0_tokens).Cardinality())) <= (uint64(10))), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Grant token list can have no more than 10 tokens")))
 	_ = _1_valueOrError0
 	if (_1_valueOrError0).IsFailure() {
 		return (_1_valueOrError0).PropagateFailure()
@@ -293,7 +295,7 @@ func (_static *CompanionStruct_Default___) GetValidGrantTokens(grantTokens m_Wra
 		var _2_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(_dafny.Quantifier((_0_tokens).UniqueElements(), true, func(_forall_var_0 _dafny.Sequence) bool {
 			var _3_token _dafny.Sequence
 			_3_token = interface{}(_forall_var_0).(_dafny.Sequence)
-			return !(_dafny.Companion_Sequence_.Contains(_0_tokens, _3_token)) || (((_dafny.One).Cmp(_dafny.IntOfUint32((_3_token).Cardinality())) <= 0) && ((_dafny.IntOfUint32((_3_token).Cardinality())).Cmp(_dafny.IntOfInt64(8192)) <= 0))
+			return !(_dafny.Companion_Sequence_.Contains(_0_tokens, _3_token)) || (((uint64(1)) <= (uint64((_3_token).Cardinality()))) && ((uint64((_3_token).Cardinality())) <= (uint64(8192))))
 		}), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Grant token list contains a grant token with invalid length")))
 		_ = _2_valueOrError1
 		if (_2_valueOrError1).IsFailure() {
@@ -356,7 +358,7 @@ func (_static *CompanionStruct_Default___) ParseKeyNamespaceAndName(keyNamespace
 	} else {
 		var _2_namespace _dafny.Sequence = (_0_valueOrError0).Extract().(_dafny.Sequence)
 		_ = _2_namespace
-		var _3_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32((_2_namespace).Cardinality())).Cmp(m_StandardLibrary_UInt.Companion_Default___.UINT16__LIMIT()) < 0, m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Key namespace too long")))
+		var _3_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((uint64((_2_namespace).Cardinality())) < ((m_StandardLibrary_UInt.Companion_Default___.UINT16__LIMIT()).Uint64()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Key namespace too long")))
 		_ = _3_valueOrError1
 		if (_3_valueOrError1).IsFailure() {
 			return (_3_valueOrError1).PropagateFailure()
@@ -374,7 +376,7 @@ func (_static *CompanionStruct_Default___) ParseKeyNamespaceAndName(keyNamespace
 			} else {
 				var _6_name _dafny.Sequence = (_4_valueOrError2).Extract().(_dafny.Sequence)
 				_ = _6_name
-				var _7_valueOrError3 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32((_6_name).Cardinality())).Cmp(m_StandardLibrary_UInt.Companion_Default___.UINT16__LIMIT()) < 0, m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Key name too long")))
+				var _7_valueOrError3 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((uint64((_6_name).Cardinality())) < ((m_StandardLibrary_UInt.Companion_Default___.UINT16__LIMIT()).Uint64()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Key name too long")))
 				_ = _7_valueOrError3
 				if (_7_valueOrError3).IsFailure() {
 					return (_7_valueOrError3).PropagateFailure()
@@ -386,7 +388,7 @@ func (_static *CompanionStruct_Default___) ParseKeyNamespaceAndName(keyNamespace
 	}
 }
 func (_static *CompanionStruct_Default___) ValidateDiscoveryFilter(filter m_AwsCryptographyMaterialProvidersTypes.DiscoveryFilter) m_Wrappers.Result {
-	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32(((filter).Dtor_accountIds()).Cardinality())).Sign() == 1, m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Discovery filter must have at least one account ID")))
+	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((uint64(((filter).Dtor_accountIds()).Cardinality())) > (uint64(0)), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Discovery filter must have at least one account ID")))
 	_ = _0_valueOrError0
 	if (_0_valueOrError0).IsFailure() {
 		return (_0_valueOrError0).PropagateFailure()
@@ -394,13 +396,13 @@ func (_static *CompanionStruct_Default___) ValidateDiscoveryFilter(filter m_AwsC
 		var _1_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(_dafny.Quantifier(((filter).Dtor_accountIds()).UniqueElements(), true, func(_forall_var_0 _dafny.Sequence) bool {
 			var _2_accountId _dafny.Sequence
 			_2_accountId = interface{}(_forall_var_0).(_dafny.Sequence)
-			return !(_dafny.Companion_Sequence_.Contains((filter).Dtor_accountIds(), _2_accountId)) || ((_dafny.IntOfUint32((_2_accountId).Cardinality())).Sign() == 1)
+			return !(_dafny.Companion_Sequence_.Contains((filter).Dtor_accountIds(), _2_accountId)) || ((uint64((_2_accountId).Cardinality())) > (uint64(0)))
 		}), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Discovery filter account IDs cannot be blank")))
 		_ = _1_valueOrError1
 		if (_1_valueOrError1).IsFailure() {
 			return (_1_valueOrError1).PropagateFailure()
 		} else {
-			var _3_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32(((filter).Dtor_partition()).Cardinality())).Sign() == 1, m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Discovery filter partition cannot be blank")))
+			var _3_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((uint64(((filter).Dtor_partition()).Cardinality())) > (uint64(0)), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Discovery filter partition cannot be blank")))
 			_ = _3_valueOrError2
 			if (_3_valueOrError2).IsFailure() {
 				return (_3_valueOrError2).PropagateFailure()

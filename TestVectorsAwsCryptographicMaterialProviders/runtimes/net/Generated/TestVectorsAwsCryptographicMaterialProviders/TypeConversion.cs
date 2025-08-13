@@ -490,6 +490,134 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
       }
       throw new System.ArgumentException("Invalid AWS.Cryptography.MaterialProviders.CacheType state");
     }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types._IDerivationAlgorithm ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M10_commitment(AWS.Cryptography.MaterialProviders.DerivationAlgorithm value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_DerivationAlgorithm(value);
+    }
+    public static AWS.Cryptography.MaterialProviders.EdkWrappingAlgorithm FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M11_edkWrapping(software.amazon.cryptography.materialproviders.internaldafny.types._IEdkWrappingAlgorithm value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S20_EdkWrappingAlgorithm(value);
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types._IEdkWrappingAlgorithm ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M11_edkWrapping(AWS.Cryptography.MaterialProviders.EdkWrappingAlgorithm value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S20_EdkWrappingAlgorithm(value);
+    }
+    public static AWS.Cryptography.MaterialProviders.Encrypt FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M7_encrypt(software.amazon.cryptography.materialproviders.internaldafny.types._IEncrypt value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S7_Encrypt(value);
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types._IEncrypt ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M7_encrypt(AWS.Cryptography.MaterialProviders.Encrypt value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S7_Encrypt(value);
+    }
+    public static AWS.Cryptography.MaterialProviders.AlgorithmSuiteId FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M2_id(software.amazon.cryptography.materialproviders.internaldafny.types._IAlgorithmSuiteId value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S16_AlgorithmSuiteId(value);
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types._IAlgorithmSuiteId ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M2_id(AWS.Cryptography.MaterialProviders.AlgorithmSuiteId value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S16_AlgorithmSuiteId(value);
+    }
+    public static AWS.Cryptography.MaterialProviders.DerivationAlgorithm FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M3_kdf(software.amazon.cryptography.materialproviders.internaldafny.types._IDerivationAlgorithm value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_DerivationAlgorithm(value);
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types._IDerivationAlgorithm ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M3_kdf(AWS.Cryptography.MaterialProviders.DerivationAlgorithm value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S19_DerivationAlgorithm(value);
+    }
+    public static int FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M14_messageVersion(int value)
+    {
+      return FromDafny_N6_smithy__N3_api__S7_Integer(value);
+    }
+    public static int ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M14_messageVersion(int value)
+    {
+      return ToDafny_N6_smithy__N3_api__S7_Integer(value);
+    }
+    public static AWS.Cryptography.MaterialProviders.SignatureAlgorithm FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M9_signature(software.amazon.cryptography.materialproviders.internaldafny.types._ISignatureAlgorithm value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_SignatureAlgorithm(value);
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types._ISignatureAlgorithm ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M9_signature(AWS.Cryptography.MaterialProviders.SignatureAlgorithm value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_SignatureAlgorithm(value);
+    }
+    public static AWS.Cryptography.MaterialProviders.SymmetricSignatureAlgorithm FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M18_symmetricSignature(software.amazon.cryptography.materialproviders.internaldafny.types._ISymmetricSignatureAlgorithm value)
+    {
+      return FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S27_SymmetricSignatureAlgorithm(value);
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types._ISymmetricSignatureAlgorithm ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S18_AlgorithmSuiteInfo__M18_symmetricSignature(AWS.Cryptography.MaterialProviders.SymmetricSignatureAlgorithm value)
+    {
+      return ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S27_SymmetricSignatureAlgorithm(value);
+    }
+    public static AWS.Cryptography.MaterialProviders.AwsCryptographicMaterialProvidersException FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S42_AwsCryptographicMaterialProvidersException(software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException value)
+    {
+      return new AWS.Cryptography.MaterialProviders.AwsCryptographicMaterialProvidersException(
+      FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S42_AwsCryptographicMaterialProvidersException__M7_message(value._message)
+      );
+    }
+    public static software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S42_AwsCryptographicMaterialProvidersException(AWS.Cryptography.MaterialProviders.AwsCryptographicMaterialProvidersException value)
+    {
+
+      return new software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException(
+      ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S42_AwsCryptographicMaterialProvidersException__M7_message(value.getMessage())
+      );
+    }
+    public static string FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S42_AwsCryptographicMaterialProvidersException__M7_message(Dafny.ISequence<char> value)
+    {
+      return FromDafny_N6_smithy__N3_api__S6_String(value);
+    }
+    public static Dafny.ISequence<char> ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S42_AwsCryptographicMaterialProvidersException__M7_message(string value)
+    {
+      return ToDafny_N6_smithy__N3_api__S6_String(value);
+    }
+    internal static AWS.Cryptography.MaterialProviders.IBranchKeyIdSupplier FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_BranchKeyIdSupplierReference(software.amazon.cryptography.materialproviders.internaldafny.types.IBranchKeyIdSupplier value)
+    {
+      // This is converting a reference type in a dependant module.
+      // Therefore it defers to the dependant module for conversion
+      return AWS.Cryptography.MaterialProviders.TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_BranchKeyIdSupplierReference(value);
+    }
+    internal static software.amazon.cryptography.materialproviders.internaldafny.types.IBranchKeyIdSupplier ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_BranchKeyIdSupplierReference(AWS.Cryptography.MaterialProviders.IBranchKeyIdSupplier value)
+    {
+      // This is converting a reference type in a dependant module.
+      // Therefore it defers to the dependant module for conversion
+      return new WrappedNativeWrapper_BranchKeyIdSupplier((BranchKeyIdSupplierBase)value);
+    }
+    public static AWS.Cryptography.MaterialProviders.CacheType FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType(software.amazon.cryptography.materialproviders.internaldafny.types._ICacheType value)
+    {
+      software.amazon.cryptography.materialproviders.internaldafny.types.CacheType concrete = (software.amazon.cryptography.materialproviders.internaldafny.types.CacheType)value;
+      var converted = new AWS.Cryptography.MaterialProviders.CacheType(); if (value.is_Default)
+      {
+        converted.Default = FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M7_Default(concrete.dtor_Default);
+        return converted;
+      }
+      if (value.is_No)
+      {
+        converted.No = FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M2_No(concrete.dtor_No);
+        return converted;
+      }
+      if (value.is_SingleThreaded)
+      {
+        converted.SingleThreaded = FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M14_SingleThreaded(concrete.dtor_SingleThreaded);
+        return converted;
+      }
+      if (value.is_MultiThreaded)
+      {
+        converted.MultiThreaded = FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M13_MultiThreaded(concrete.dtor_MultiThreaded);
+        return converted;
+      }
+      if (value.is_StormTracking)
+      {
+        converted.StormTracking = FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M13_StormTracking(concrete.dtor_StormTracking);
+        return converted;
+      }
+      if (value.is_Shared)
+      {
+        converted.Shared = FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType__M6_Shared(concrete.dtor_Shared);
+        return converted;
+      }
+      throw new System.ArgumentException("Invalid AWS.Cryptography.MaterialProviders.CacheType state");
+    }
     public static software.amazon.cryptography.materialproviders.internaldafny.types._ICacheType ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S9_CacheType(AWS.Cryptography.MaterialProviders.CacheType value)
     {
       value.Validate(); if (value.IsSetDefault())
@@ -715,16 +843,11 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
     }
     public static AWS.Cryptography.MaterialProviders.CreateAwsKmsEcdhKeyringInput FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput(software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsEcdhKeyringInput value)
     {
-      software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsEcdhKeyringInput concrete = (software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsEcdhKeyringInput)value; AWS.Cryptography.MaterialProviders.CreateAwsKmsEcdhKeyringInput converted = new AWS.Cryptography.MaterialProviders.CreateAwsKmsEcdhKeyringInput(); converted.KeyAgreementScheme = (AWS.Cryptography.MaterialProviders.KmsEcdhStaticConfigurations)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M18_KeyAgreementScheme(concrete._KeyAgreementScheme);
-      converted.CurveSpec = (AWS.Cryptography.Primitives.ECDHCurveSpec)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_curveSpec(concrete._curveSpec);
-      converted.KmsClient = (Amazon.KeyManagementService.IAmazonKeyManagementService)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_kmsClient(concrete._kmsClient);
-      if (concrete._grantTokens.is_Some) converted.GrantTokens = (System.Collections.Generic.List<string>)FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M11_grantTokens(concrete._grantTokens); return converted;
+      return value.is_None ? (AWS.Cryptography.MaterialProviders.IClientSupplier)null : FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S23_ClientSupplierReference(value.Extract());
     }
-    public static software.amazon.cryptography.materialproviders.internaldafny.types._ICreateAwsKmsEcdhKeyringInput ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput(AWS.Cryptography.MaterialProviders.CreateAwsKmsEcdhKeyringInput value)
+    public static Wrappers_Compile._IOption<software.amazon.cryptography.materialproviders.internaldafny.types.IClientSupplier> ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S38_CreateAwsKmsDiscoveryMultiKeyringInput__M14_clientSupplier(AWS.Cryptography.MaterialProviders.IClientSupplier value)
     {
-      value.Validate();
-      System.Collections.Generic.List<string> var_grantTokens = value.IsSetGrantTokens() ? value.GrantTokens : (System.Collections.Generic.List<string>)null;
-      return new software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsEcdhKeyringInput(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M18_KeyAgreementScheme(value.KeyAgreementScheme), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_curveSpec(value.CurveSpec), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_kmsClient(value.KmsClient), ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M11_grantTokens(var_grantTokens));
+      return value == null ? Wrappers_Compile.Option<software.amazon.cryptography.materialproviders.internaldafny.types.IClientSupplier>.create_None() : Wrappers_Compile.Option<software.amazon.cryptography.materialproviders.internaldafny.types.IClientSupplier>.create_Some(ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S23_ClientSupplierReference((AWS.Cryptography.MaterialProviders.IClientSupplier)value));
     }
     public static AWS.Cryptography.Primitives.ECDHCurveSpec FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S28_CreateAwsKmsEcdhKeyringInput__M9_curveSpec(software.amazon.cryptography.primitives.internaldafny.types._IECDHCurveSpec value)
     {

@@ -33,6 +33,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -74,6 +75,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -3728,12 +3730,13 @@ var Companion_BatchStatementError_ = CompanionStruct_BatchStatementError_{}
 type BatchStatementError_BatchStatementError struct {
 	Code    m_Wrappers.Option
 	Message m_Wrappers.Option
+	Item    m_Wrappers.Option
 }
 
 func (BatchStatementError_BatchStatementError) isBatchStatementError() {}
 
-func (CompanionStruct_BatchStatementError_) Create_BatchStatementError_(Code m_Wrappers.Option, Message m_Wrappers.Option) BatchStatementError {
-	return BatchStatementError{BatchStatementError_BatchStatementError{Code, Message}}
+func (CompanionStruct_BatchStatementError_) Create_BatchStatementError_(Code m_Wrappers.Option, Message m_Wrappers.Option, Item m_Wrappers.Option) BatchStatementError {
+	return BatchStatementError{BatchStatementError_BatchStatementError{Code, Message, Item}}
 }
 
 func (_this BatchStatementError) Is_BatchStatementError() bool {
@@ -3742,7 +3745,7 @@ func (_this BatchStatementError) Is_BatchStatementError() bool {
 }
 
 func (CompanionStruct_BatchStatementError_) Default() BatchStatementError {
-	return Companion_BatchStatementError_.Create_BatchStatementError_(m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
+	return Companion_BatchStatementError_.Create_BatchStatementError_(m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
 }
 
 func (_this BatchStatementError) Dtor_Code() m_Wrappers.Option {
@@ -3753,13 +3756,17 @@ func (_this BatchStatementError) Dtor_Message() m_Wrappers.Option {
 	return _this.Get_().(BatchStatementError_BatchStatementError).Message
 }
 
+func (_this BatchStatementError) Dtor_Item() m_Wrappers.Option {
+	return _this.Get_().(BatchStatementError_BatchStatementError).Item
+}
+
 func (_this BatchStatementError) String() string {
 	switch data := _this.Get_().(type) {
 	case nil:
 		return "null"
 	case BatchStatementError_BatchStatementError:
 		{
-			return "ComAmazonawsDynamodbTypes.BatchStatementError.BatchStatementError" + "(" + _dafny.String(data.Code) + ", " + _dafny.String(data.Message) + ")"
+			return "ComAmazonawsDynamodbTypes.BatchStatementError.BatchStatementError" + "(" + _dafny.String(data.Code) + ", " + _dafny.String(data.Message) + ", " + _dafny.String(data.Item) + ")"
 		}
 	default:
 		{
@@ -3773,7 +3780,7 @@ func (_this BatchStatementError) Equals(other BatchStatementError) bool {
 	case BatchStatementError_BatchStatementError:
 		{
 			data2, ok := other.Get_().(BatchStatementError_BatchStatementError)
-			return ok && data1.Code.Equals(data2.Code) && data1.Message.Equals(data2.Message)
+			return ok && data1.Code.Equals(data2.Code) && data1.Message.Equals(data2.Message) && data1.Item.Equals(data2.Item)
 		}
 	default:
 		{
@@ -4183,15 +4190,16 @@ type CompanionStruct_BatchStatementRequest_ struct {
 var Companion_BatchStatementRequest_ = CompanionStruct_BatchStatementRequest_{}
 
 type BatchStatementRequest_BatchStatementRequest struct {
-	Statement      _dafny.Sequence
-	Parameters     m_Wrappers.Option
-	ConsistentRead m_Wrappers.Option
+	Statement                           _dafny.Sequence
+	Parameters                          m_Wrappers.Option
+	ConsistentRead                      m_Wrappers.Option
+	ReturnValuesOnConditionCheckFailure m_Wrappers.Option
 }
 
 func (BatchStatementRequest_BatchStatementRequest) isBatchStatementRequest() {}
 
-func (CompanionStruct_BatchStatementRequest_) Create_BatchStatementRequest_(Statement _dafny.Sequence, Parameters m_Wrappers.Option, ConsistentRead m_Wrappers.Option) BatchStatementRequest {
-	return BatchStatementRequest{BatchStatementRequest_BatchStatementRequest{Statement, Parameters, ConsistentRead}}
+func (CompanionStruct_BatchStatementRequest_) Create_BatchStatementRequest_(Statement _dafny.Sequence, Parameters m_Wrappers.Option, ConsistentRead m_Wrappers.Option, ReturnValuesOnConditionCheckFailure m_Wrappers.Option) BatchStatementRequest {
+	return BatchStatementRequest{BatchStatementRequest_BatchStatementRequest{Statement, Parameters, ConsistentRead, ReturnValuesOnConditionCheckFailure}}
 }
 
 func (_this BatchStatementRequest) Is_BatchStatementRequest() bool {
@@ -4200,7 +4208,7 @@ func (_this BatchStatementRequest) Is_BatchStatementRequest() bool {
 }
 
 func (CompanionStruct_BatchStatementRequest_) Default() BatchStatementRequest {
-	return Companion_BatchStatementRequest_.Create_BatchStatementRequest_(_dafny.EmptySeq.SetString(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
+	return Companion_BatchStatementRequest_.Create_BatchStatementRequest_(_dafny.EmptySeq.SetString(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
 }
 
 func (_this BatchStatementRequest) Dtor_Statement() _dafny.Sequence {
@@ -4215,13 +4223,17 @@ func (_this BatchStatementRequest) Dtor_ConsistentRead() m_Wrappers.Option {
 	return _this.Get_().(BatchStatementRequest_BatchStatementRequest).ConsistentRead
 }
 
+func (_this BatchStatementRequest) Dtor_ReturnValuesOnConditionCheckFailure() m_Wrappers.Option {
+	return _this.Get_().(BatchStatementRequest_BatchStatementRequest).ReturnValuesOnConditionCheckFailure
+}
+
 func (_this BatchStatementRequest) String() string {
 	switch data := _this.Get_().(type) {
 	case nil:
 		return "null"
 	case BatchStatementRequest_BatchStatementRequest:
 		{
-			return "ComAmazonawsDynamodbTypes.BatchStatementRequest.BatchStatementRequest" + "(" + _dafny.String(data.Statement) + ", " + _dafny.String(data.Parameters) + ", " + _dafny.String(data.ConsistentRead) + ")"
+			return "ComAmazonawsDynamodbTypes.BatchStatementRequest.BatchStatementRequest" + "(" + _dafny.String(data.Statement) + ", " + _dafny.String(data.Parameters) + ", " + _dafny.String(data.ConsistentRead) + ", " + _dafny.String(data.ReturnValuesOnConditionCheckFailure) + ")"
 		}
 	default:
 		{
@@ -4235,7 +4247,7 @@ func (_this BatchStatementRequest) Equals(other BatchStatementRequest) bool {
 	case BatchStatementRequest_BatchStatementRequest:
 		{
 			data2, ok := other.Get_().(BatchStatementRequest_BatchStatementRequest)
-			return ok && data1.Statement.Equals(data2.Statement) && data1.Parameters.Equals(data2.Parameters) && data1.ConsistentRead.Equals(data2.ConsistentRead)
+			return ok && data1.Statement.Equals(data2.Statement) && data1.Parameters.Equals(data2.Parameters) && data1.ConsistentRead.Equals(data2.ConsistentRead) && data1.ReturnValuesOnConditionCheckFailure.Equals(data2.ReturnValuesOnConditionCheckFailure)
 		}
 	default:
 		{
@@ -8500,22 +8512,23 @@ type CompanionStruct_DeleteItemInput_ struct {
 var Companion_DeleteItemInput_ = CompanionStruct_DeleteItemInput_{}
 
 type DeleteItemInput_DeleteItemInput struct {
-	TableName                   _dafny.Sequence
-	Key                         _dafny.Map
-	Expected                    m_Wrappers.Option
-	ConditionalOperator         m_Wrappers.Option
-	ReturnValues                m_Wrappers.Option
-	ReturnConsumedCapacity      m_Wrappers.Option
-	ReturnItemCollectionMetrics m_Wrappers.Option
-	ConditionExpression         m_Wrappers.Option
-	ExpressionAttributeNames    m_Wrappers.Option
-	ExpressionAttributeValues   m_Wrappers.Option
+	TableName                           _dafny.Sequence
+	Key                                 _dafny.Map
+	Expected                            m_Wrappers.Option
+	ConditionalOperator                 m_Wrappers.Option
+	ReturnValues                        m_Wrappers.Option
+	ReturnConsumedCapacity              m_Wrappers.Option
+	ReturnItemCollectionMetrics         m_Wrappers.Option
+	ConditionExpression                 m_Wrappers.Option
+	ExpressionAttributeNames            m_Wrappers.Option
+	ExpressionAttributeValues           m_Wrappers.Option
+	ReturnValuesOnConditionCheckFailure m_Wrappers.Option
 }
 
 func (DeleteItemInput_DeleteItemInput) isDeleteItemInput() {}
 
-func (CompanionStruct_DeleteItemInput_) Create_DeleteItemInput_(TableName _dafny.Sequence, Key _dafny.Map, Expected m_Wrappers.Option, ConditionalOperator m_Wrappers.Option, ReturnValues m_Wrappers.Option, ReturnConsumedCapacity m_Wrappers.Option, ReturnItemCollectionMetrics m_Wrappers.Option, ConditionExpression m_Wrappers.Option, ExpressionAttributeNames m_Wrappers.Option, ExpressionAttributeValues m_Wrappers.Option) DeleteItemInput {
-	return DeleteItemInput{DeleteItemInput_DeleteItemInput{TableName, Key, Expected, ConditionalOperator, ReturnValues, ReturnConsumedCapacity, ReturnItemCollectionMetrics, ConditionExpression, ExpressionAttributeNames, ExpressionAttributeValues}}
+func (CompanionStruct_DeleteItemInput_) Create_DeleteItemInput_(TableName _dafny.Sequence, Key _dafny.Map, Expected m_Wrappers.Option, ConditionalOperator m_Wrappers.Option, ReturnValues m_Wrappers.Option, ReturnConsumedCapacity m_Wrappers.Option, ReturnItemCollectionMetrics m_Wrappers.Option, ConditionExpression m_Wrappers.Option, ExpressionAttributeNames m_Wrappers.Option, ExpressionAttributeValues m_Wrappers.Option, ReturnValuesOnConditionCheckFailure m_Wrappers.Option) DeleteItemInput {
+	return DeleteItemInput{DeleteItemInput_DeleteItemInput{TableName, Key, Expected, ConditionalOperator, ReturnValues, ReturnConsumedCapacity, ReturnItemCollectionMetrics, ConditionExpression, ExpressionAttributeNames, ExpressionAttributeValues, ReturnValuesOnConditionCheckFailure}}
 }
 
 func (_this DeleteItemInput) Is_DeleteItemInput() bool {
@@ -8524,7 +8537,7 @@ func (_this DeleteItemInput) Is_DeleteItemInput() bool {
 }
 
 func (CompanionStruct_DeleteItemInput_) Default() DeleteItemInput {
-	return Companion_DeleteItemInput_.Create_DeleteItemInput_(_dafny.EmptySeq.SetString(), _dafny.EmptyMap, m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
+	return Companion_DeleteItemInput_.Create_DeleteItemInput_(_dafny.EmptySeq.SetString(), _dafny.EmptyMap, m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
 }
 
 func (_this DeleteItemInput) Dtor_TableName() _dafny.Sequence {
@@ -8567,13 +8580,17 @@ func (_this DeleteItemInput) Dtor_ExpressionAttributeValues() m_Wrappers.Option 
 	return _this.Get_().(DeleteItemInput_DeleteItemInput).ExpressionAttributeValues
 }
 
+func (_this DeleteItemInput) Dtor_ReturnValuesOnConditionCheckFailure() m_Wrappers.Option {
+	return _this.Get_().(DeleteItemInput_DeleteItemInput).ReturnValuesOnConditionCheckFailure
+}
+
 func (_this DeleteItemInput) String() string {
 	switch data := _this.Get_().(type) {
 	case nil:
 		return "null"
 	case DeleteItemInput_DeleteItemInput:
 		{
-			return "ComAmazonawsDynamodbTypes.DeleteItemInput.DeleteItemInput" + "(" + _dafny.String(data.TableName) + ", " + _dafny.String(data.Key) + ", " + _dafny.String(data.Expected) + ", " + _dafny.String(data.ConditionalOperator) + ", " + _dafny.String(data.ReturnValues) + ", " + _dafny.String(data.ReturnConsumedCapacity) + ", " + _dafny.String(data.ReturnItemCollectionMetrics) + ", " + _dafny.String(data.ConditionExpression) + ", " + _dafny.String(data.ExpressionAttributeNames) + ", " + _dafny.String(data.ExpressionAttributeValues) + ")"
+			return "ComAmazonawsDynamodbTypes.DeleteItemInput.DeleteItemInput" + "(" + _dafny.String(data.TableName) + ", " + _dafny.String(data.Key) + ", " + _dafny.String(data.Expected) + ", " + _dafny.String(data.ConditionalOperator) + ", " + _dafny.String(data.ReturnValues) + ", " + _dafny.String(data.ReturnConsumedCapacity) + ", " + _dafny.String(data.ReturnItemCollectionMetrics) + ", " + _dafny.String(data.ConditionExpression) + ", " + _dafny.String(data.ExpressionAttributeNames) + ", " + _dafny.String(data.ExpressionAttributeValues) + ", " + _dafny.String(data.ReturnValuesOnConditionCheckFailure) + ")"
 		}
 	default:
 		{
@@ -8587,7 +8604,7 @@ func (_this DeleteItemInput) Equals(other DeleteItemInput) bool {
 	case DeleteItemInput_DeleteItemInput:
 		{
 			data2, ok := other.Get_().(DeleteItemInput_DeleteItemInput)
-			return ok && data1.TableName.Equals(data2.TableName) && data1.Key.Equals(data2.Key) && data1.Expected.Equals(data2.Expected) && data1.ConditionalOperator.Equals(data2.ConditionalOperator) && data1.ReturnValues.Equals(data2.ReturnValues) && data1.ReturnConsumedCapacity.Equals(data2.ReturnConsumedCapacity) && data1.ReturnItemCollectionMetrics.Equals(data2.ReturnItemCollectionMetrics) && data1.ConditionExpression.Equals(data2.ConditionExpression) && data1.ExpressionAttributeNames.Equals(data2.ExpressionAttributeNames) && data1.ExpressionAttributeValues.Equals(data2.ExpressionAttributeValues)
+			return ok && data1.TableName.Equals(data2.TableName) && data1.Key.Equals(data2.Key) && data1.Expected.Equals(data2.Expected) && data1.ConditionalOperator.Equals(data2.ConditionalOperator) && data1.ReturnValues.Equals(data2.ReturnValues) && data1.ReturnConsumedCapacity.Equals(data2.ReturnConsumedCapacity) && data1.ReturnItemCollectionMetrics.Equals(data2.ReturnItemCollectionMetrics) && data1.ConditionExpression.Equals(data2.ConditionExpression) && data1.ExpressionAttributeNames.Equals(data2.ExpressionAttributeNames) && data1.ExpressionAttributeValues.Equals(data2.ExpressionAttributeValues) && data1.ReturnValuesOnConditionCheckFailure.Equals(data2.ReturnValuesOnConditionCheckFailure)
 		}
 	default:
 		{
@@ -13122,18 +13139,19 @@ type CompanionStruct_ExecuteStatementInput_ struct {
 var Companion_ExecuteStatementInput_ = CompanionStruct_ExecuteStatementInput_{}
 
 type ExecuteStatementInput_ExecuteStatementInput struct {
-	Statement              _dafny.Sequence
-	Parameters             m_Wrappers.Option
-	ConsistentRead         m_Wrappers.Option
-	NextToken              m_Wrappers.Option
-	ReturnConsumedCapacity m_Wrappers.Option
-	Limit                  m_Wrappers.Option
+	Statement                           _dafny.Sequence
+	Parameters                          m_Wrappers.Option
+	ConsistentRead                      m_Wrappers.Option
+	NextToken                           m_Wrappers.Option
+	ReturnConsumedCapacity              m_Wrappers.Option
+	Limit                               m_Wrappers.Option
+	ReturnValuesOnConditionCheckFailure m_Wrappers.Option
 }
 
 func (ExecuteStatementInput_ExecuteStatementInput) isExecuteStatementInput() {}
 
-func (CompanionStruct_ExecuteStatementInput_) Create_ExecuteStatementInput_(Statement _dafny.Sequence, Parameters m_Wrappers.Option, ConsistentRead m_Wrappers.Option, NextToken m_Wrappers.Option, ReturnConsumedCapacity m_Wrappers.Option, Limit m_Wrappers.Option) ExecuteStatementInput {
-	return ExecuteStatementInput{ExecuteStatementInput_ExecuteStatementInput{Statement, Parameters, ConsistentRead, NextToken, ReturnConsumedCapacity, Limit}}
+func (CompanionStruct_ExecuteStatementInput_) Create_ExecuteStatementInput_(Statement _dafny.Sequence, Parameters m_Wrappers.Option, ConsistentRead m_Wrappers.Option, NextToken m_Wrappers.Option, ReturnConsumedCapacity m_Wrappers.Option, Limit m_Wrappers.Option, ReturnValuesOnConditionCheckFailure m_Wrappers.Option) ExecuteStatementInput {
+	return ExecuteStatementInput{ExecuteStatementInput_ExecuteStatementInput{Statement, Parameters, ConsistentRead, NextToken, ReturnConsumedCapacity, Limit, ReturnValuesOnConditionCheckFailure}}
 }
 
 func (_this ExecuteStatementInput) Is_ExecuteStatementInput() bool {
@@ -13142,7 +13160,7 @@ func (_this ExecuteStatementInput) Is_ExecuteStatementInput() bool {
 }
 
 func (CompanionStruct_ExecuteStatementInput_) Default() ExecuteStatementInput {
-	return Companion_ExecuteStatementInput_.Create_ExecuteStatementInput_(_dafny.EmptySeq.SetString(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
+	return Companion_ExecuteStatementInput_.Create_ExecuteStatementInput_(_dafny.EmptySeq.SetString(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
 }
 
 func (_this ExecuteStatementInput) Dtor_Statement() _dafny.Sequence {
@@ -13169,13 +13187,17 @@ func (_this ExecuteStatementInput) Dtor_Limit() m_Wrappers.Option {
 	return _this.Get_().(ExecuteStatementInput_ExecuteStatementInput).Limit
 }
 
+func (_this ExecuteStatementInput) Dtor_ReturnValuesOnConditionCheckFailure() m_Wrappers.Option {
+	return _this.Get_().(ExecuteStatementInput_ExecuteStatementInput).ReturnValuesOnConditionCheckFailure
+}
+
 func (_this ExecuteStatementInput) String() string {
 	switch data := _this.Get_().(type) {
 	case nil:
 		return "null"
 	case ExecuteStatementInput_ExecuteStatementInput:
 		{
-			return "ComAmazonawsDynamodbTypes.ExecuteStatementInput.ExecuteStatementInput" + "(" + _dafny.String(data.Statement) + ", " + _dafny.String(data.Parameters) + ", " + _dafny.String(data.ConsistentRead) + ", " + _dafny.String(data.NextToken) + ", " + _dafny.String(data.ReturnConsumedCapacity) + ", " + _dafny.String(data.Limit) + ")"
+			return "ComAmazonawsDynamodbTypes.ExecuteStatementInput.ExecuteStatementInput" + "(" + _dafny.String(data.Statement) + ", " + _dafny.String(data.Parameters) + ", " + _dafny.String(data.ConsistentRead) + ", " + _dafny.String(data.NextToken) + ", " + _dafny.String(data.ReturnConsumedCapacity) + ", " + _dafny.String(data.Limit) + ", " + _dafny.String(data.ReturnValuesOnConditionCheckFailure) + ")"
 		}
 	default:
 		{
@@ -13189,7 +13211,7 @@ func (_this ExecuteStatementInput) Equals(other ExecuteStatementInput) bool {
 	case ExecuteStatementInput_ExecuteStatementInput:
 		{
 			data2, ok := other.Get_().(ExecuteStatementInput_ExecuteStatementInput)
-			return ok && data1.Statement.Equals(data2.Statement) && data1.Parameters.Equals(data2.Parameters) && data1.ConsistentRead.Equals(data2.ConsistentRead) && data1.NextToken.Equals(data2.NextToken) && data1.ReturnConsumedCapacity.Equals(data2.ReturnConsumedCapacity) && data1.Limit.Equals(data2.Limit)
+			return ok && data1.Statement.Equals(data2.Statement) && data1.Parameters.Equals(data2.Parameters) && data1.ConsistentRead.Equals(data2.ConsistentRead) && data1.NextToken.Equals(data2.NextToken) && data1.ReturnConsumedCapacity.Equals(data2.ReturnConsumedCapacity) && data1.Limit.Equals(data2.Limit) && data1.ReturnValuesOnConditionCheckFailure.Equals(data2.ReturnValuesOnConditionCheckFailure)
 		}
 	default:
 		{
@@ -21673,14 +21695,15 @@ type CompanionStruct_ParameterizedStatement_ struct {
 var Companion_ParameterizedStatement_ = CompanionStruct_ParameterizedStatement_{}
 
 type ParameterizedStatement_ParameterizedStatement struct {
-	Statement  _dafny.Sequence
-	Parameters m_Wrappers.Option
+	Statement                           _dafny.Sequence
+	Parameters                          m_Wrappers.Option
+	ReturnValuesOnConditionCheckFailure m_Wrappers.Option
 }
 
 func (ParameterizedStatement_ParameterizedStatement) isParameterizedStatement() {}
 
-func (CompanionStruct_ParameterizedStatement_) Create_ParameterizedStatement_(Statement _dafny.Sequence, Parameters m_Wrappers.Option) ParameterizedStatement {
-	return ParameterizedStatement{ParameterizedStatement_ParameterizedStatement{Statement, Parameters}}
+func (CompanionStruct_ParameterizedStatement_) Create_ParameterizedStatement_(Statement _dafny.Sequence, Parameters m_Wrappers.Option, ReturnValuesOnConditionCheckFailure m_Wrappers.Option) ParameterizedStatement {
+	return ParameterizedStatement{ParameterizedStatement_ParameterizedStatement{Statement, Parameters, ReturnValuesOnConditionCheckFailure}}
 }
 
 func (_this ParameterizedStatement) Is_ParameterizedStatement() bool {
@@ -21689,7 +21712,7 @@ func (_this ParameterizedStatement) Is_ParameterizedStatement() bool {
 }
 
 func (CompanionStruct_ParameterizedStatement_) Default() ParameterizedStatement {
-	return Companion_ParameterizedStatement_.Create_ParameterizedStatement_(_dafny.EmptySeq.SetString(), m_Wrappers.Companion_Option_.Default())
+	return Companion_ParameterizedStatement_.Create_ParameterizedStatement_(_dafny.EmptySeq.SetString(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
 }
 
 func (_this ParameterizedStatement) Dtor_Statement() _dafny.Sequence {
@@ -21700,13 +21723,17 @@ func (_this ParameterizedStatement) Dtor_Parameters() m_Wrappers.Option {
 	return _this.Get_().(ParameterizedStatement_ParameterizedStatement).Parameters
 }
 
+func (_this ParameterizedStatement) Dtor_ReturnValuesOnConditionCheckFailure() m_Wrappers.Option {
+	return _this.Get_().(ParameterizedStatement_ParameterizedStatement).ReturnValuesOnConditionCheckFailure
+}
+
 func (_this ParameterizedStatement) String() string {
 	switch data := _this.Get_().(type) {
 	case nil:
 		return "null"
 	case ParameterizedStatement_ParameterizedStatement:
 		{
-			return "ComAmazonawsDynamodbTypes.ParameterizedStatement.ParameterizedStatement" + "(" + _dafny.String(data.Statement) + ", " + _dafny.String(data.Parameters) + ")"
+			return "ComAmazonawsDynamodbTypes.ParameterizedStatement.ParameterizedStatement" + "(" + _dafny.String(data.Statement) + ", " + _dafny.String(data.Parameters) + ", " + _dafny.String(data.ReturnValuesOnConditionCheckFailure) + ")"
 		}
 	default:
 		{
@@ -21720,7 +21747,7 @@ func (_this ParameterizedStatement) Equals(other ParameterizedStatement) bool {
 	case ParameterizedStatement_ParameterizedStatement:
 		{
 			data2, ok := other.Get_().(ParameterizedStatement_ParameterizedStatement)
-			return ok && data1.Statement.Equals(data2.Statement) && data1.Parameters.Equals(data2.Parameters)
+			return ok && data1.Statement.Equals(data2.Statement) && data1.Parameters.Equals(data2.Parameters) && data1.ReturnValuesOnConditionCheckFailure.Equals(data2.ReturnValuesOnConditionCheckFailure)
 		}
 	default:
 		{
@@ -23186,22 +23213,23 @@ type CompanionStruct_PutItemInput_ struct {
 var Companion_PutItemInput_ = CompanionStruct_PutItemInput_{}
 
 type PutItemInput_PutItemInput struct {
-	TableName                   _dafny.Sequence
-	Item                        _dafny.Map
-	Expected                    m_Wrappers.Option
-	ReturnValues                m_Wrappers.Option
-	ReturnConsumedCapacity      m_Wrappers.Option
-	ReturnItemCollectionMetrics m_Wrappers.Option
-	ConditionalOperator         m_Wrappers.Option
-	ConditionExpression         m_Wrappers.Option
-	ExpressionAttributeNames    m_Wrappers.Option
-	ExpressionAttributeValues   m_Wrappers.Option
+	TableName                           _dafny.Sequence
+	Item                                _dafny.Map
+	Expected                            m_Wrappers.Option
+	ReturnValues                        m_Wrappers.Option
+	ReturnConsumedCapacity              m_Wrappers.Option
+	ReturnItemCollectionMetrics         m_Wrappers.Option
+	ConditionalOperator                 m_Wrappers.Option
+	ConditionExpression                 m_Wrappers.Option
+	ExpressionAttributeNames            m_Wrappers.Option
+	ExpressionAttributeValues           m_Wrappers.Option
+	ReturnValuesOnConditionCheckFailure m_Wrappers.Option
 }
 
 func (PutItemInput_PutItemInput) isPutItemInput() {}
 
-func (CompanionStruct_PutItemInput_) Create_PutItemInput_(TableName _dafny.Sequence, Item _dafny.Map, Expected m_Wrappers.Option, ReturnValues m_Wrappers.Option, ReturnConsumedCapacity m_Wrappers.Option, ReturnItemCollectionMetrics m_Wrappers.Option, ConditionalOperator m_Wrappers.Option, ConditionExpression m_Wrappers.Option, ExpressionAttributeNames m_Wrappers.Option, ExpressionAttributeValues m_Wrappers.Option) PutItemInput {
-	return PutItemInput{PutItemInput_PutItemInput{TableName, Item, Expected, ReturnValues, ReturnConsumedCapacity, ReturnItemCollectionMetrics, ConditionalOperator, ConditionExpression, ExpressionAttributeNames, ExpressionAttributeValues}}
+func (CompanionStruct_PutItemInput_) Create_PutItemInput_(TableName _dafny.Sequence, Item _dafny.Map, Expected m_Wrappers.Option, ReturnValues m_Wrappers.Option, ReturnConsumedCapacity m_Wrappers.Option, ReturnItemCollectionMetrics m_Wrappers.Option, ConditionalOperator m_Wrappers.Option, ConditionExpression m_Wrappers.Option, ExpressionAttributeNames m_Wrappers.Option, ExpressionAttributeValues m_Wrappers.Option, ReturnValuesOnConditionCheckFailure m_Wrappers.Option) PutItemInput {
+	return PutItemInput{PutItemInput_PutItemInput{TableName, Item, Expected, ReturnValues, ReturnConsumedCapacity, ReturnItemCollectionMetrics, ConditionalOperator, ConditionExpression, ExpressionAttributeNames, ExpressionAttributeValues, ReturnValuesOnConditionCheckFailure}}
 }
 
 func (_this PutItemInput) Is_PutItemInput() bool {
@@ -23210,7 +23238,7 @@ func (_this PutItemInput) Is_PutItemInput() bool {
 }
 
 func (CompanionStruct_PutItemInput_) Default() PutItemInput {
-	return Companion_PutItemInput_.Create_PutItemInput_(_dafny.EmptySeq.SetString(), _dafny.EmptyMap, m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
+	return Companion_PutItemInput_.Create_PutItemInput_(_dafny.EmptySeq.SetString(), _dafny.EmptyMap, m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
 }
 
 func (_this PutItemInput) Dtor_TableName() _dafny.Sequence {
@@ -23253,13 +23281,17 @@ func (_this PutItemInput) Dtor_ExpressionAttributeValues() m_Wrappers.Option {
 	return _this.Get_().(PutItemInput_PutItemInput).ExpressionAttributeValues
 }
 
+func (_this PutItemInput) Dtor_ReturnValuesOnConditionCheckFailure() m_Wrappers.Option {
+	return _this.Get_().(PutItemInput_PutItemInput).ReturnValuesOnConditionCheckFailure
+}
+
 func (_this PutItemInput) String() string {
 	switch data := _this.Get_().(type) {
 	case nil:
 		return "null"
 	case PutItemInput_PutItemInput:
 		{
-			return "ComAmazonawsDynamodbTypes.PutItemInput.PutItemInput" + "(" + _dafny.String(data.TableName) + ", " + _dafny.String(data.Item) + ", " + _dafny.String(data.Expected) + ", " + _dafny.String(data.ReturnValues) + ", " + _dafny.String(data.ReturnConsumedCapacity) + ", " + _dafny.String(data.ReturnItemCollectionMetrics) + ", " + _dafny.String(data.ConditionalOperator) + ", " + _dafny.String(data.ConditionExpression) + ", " + _dafny.String(data.ExpressionAttributeNames) + ", " + _dafny.String(data.ExpressionAttributeValues) + ")"
+			return "ComAmazonawsDynamodbTypes.PutItemInput.PutItemInput" + "(" + _dafny.String(data.TableName) + ", " + _dafny.String(data.Item) + ", " + _dafny.String(data.Expected) + ", " + _dafny.String(data.ReturnValues) + ", " + _dafny.String(data.ReturnConsumedCapacity) + ", " + _dafny.String(data.ReturnItemCollectionMetrics) + ", " + _dafny.String(data.ConditionalOperator) + ", " + _dafny.String(data.ConditionExpression) + ", " + _dafny.String(data.ExpressionAttributeNames) + ", " + _dafny.String(data.ExpressionAttributeValues) + ", " + _dafny.String(data.ReturnValuesOnConditionCheckFailure) + ")"
 		}
 	default:
 		{
@@ -23273,7 +23305,7 @@ func (_this PutItemInput) Equals(other PutItemInput) bool {
 	case PutItemInput_PutItemInput:
 		{
 			data2, ok := other.Get_().(PutItemInput_PutItemInput)
-			return ok && data1.TableName.Equals(data2.TableName) && data1.Item.Equals(data2.Item) && data1.Expected.Equals(data2.Expected) && data1.ReturnValues.Equals(data2.ReturnValues) && data1.ReturnConsumedCapacity.Equals(data2.ReturnConsumedCapacity) && data1.ReturnItemCollectionMetrics.Equals(data2.ReturnItemCollectionMetrics) && data1.ConditionalOperator.Equals(data2.ConditionalOperator) && data1.ConditionExpression.Equals(data2.ConditionExpression) && data1.ExpressionAttributeNames.Equals(data2.ExpressionAttributeNames) && data1.ExpressionAttributeValues.Equals(data2.ExpressionAttributeValues)
+			return ok && data1.TableName.Equals(data2.TableName) && data1.Item.Equals(data2.Item) && data1.Expected.Equals(data2.Expected) && data1.ReturnValues.Equals(data2.ReturnValues) && data1.ReturnConsumedCapacity.Equals(data2.ReturnConsumedCapacity) && data1.ReturnItemCollectionMetrics.Equals(data2.ReturnItemCollectionMetrics) && data1.ConditionalOperator.Equals(data2.ConditionalOperator) && data1.ConditionExpression.Equals(data2.ConditionExpression) && data1.ExpressionAttributeNames.Equals(data2.ExpressionAttributeNames) && data1.ExpressionAttributeValues.Equals(data2.ExpressionAttributeValues) && data1.ReturnValuesOnConditionCheckFailure.Equals(data2.ReturnValuesOnConditionCheckFailure)
 		}
 	default:
 		{
@@ -33158,24 +33190,25 @@ type CompanionStruct_UpdateItemInput_ struct {
 var Companion_UpdateItemInput_ = CompanionStruct_UpdateItemInput_{}
 
 type UpdateItemInput_UpdateItemInput struct {
-	TableName                   _dafny.Sequence
-	Key                         _dafny.Map
-	AttributeUpdates            m_Wrappers.Option
-	Expected                    m_Wrappers.Option
-	ConditionalOperator         m_Wrappers.Option
-	ReturnValues                m_Wrappers.Option
-	ReturnConsumedCapacity      m_Wrappers.Option
-	ReturnItemCollectionMetrics m_Wrappers.Option
-	UpdateExpression            m_Wrappers.Option
-	ConditionExpression         m_Wrappers.Option
-	ExpressionAttributeNames    m_Wrappers.Option
-	ExpressionAttributeValues   m_Wrappers.Option
+	TableName                           _dafny.Sequence
+	Key                                 _dafny.Map
+	AttributeUpdates                    m_Wrappers.Option
+	Expected                            m_Wrappers.Option
+	ConditionalOperator                 m_Wrappers.Option
+	ReturnValues                        m_Wrappers.Option
+	ReturnConsumedCapacity              m_Wrappers.Option
+	ReturnItemCollectionMetrics         m_Wrappers.Option
+	UpdateExpression                    m_Wrappers.Option
+	ConditionExpression                 m_Wrappers.Option
+	ExpressionAttributeNames            m_Wrappers.Option
+	ExpressionAttributeValues           m_Wrappers.Option
+	ReturnValuesOnConditionCheckFailure m_Wrappers.Option
 }
 
 func (UpdateItemInput_UpdateItemInput) isUpdateItemInput() {}
 
-func (CompanionStruct_UpdateItemInput_) Create_UpdateItemInput_(TableName _dafny.Sequence, Key _dafny.Map, AttributeUpdates m_Wrappers.Option, Expected m_Wrappers.Option, ConditionalOperator m_Wrappers.Option, ReturnValues m_Wrappers.Option, ReturnConsumedCapacity m_Wrappers.Option, ReturnItemCollectionMetrics m_Wrappers.Option, UpdateExpression m_Wrappers.Option, ConditionExpression m_Wrappers.Option, ExpressionAttributeNames m_Wrappers.Option, ExpressionAttributeValues m_Wrappers.Option) UpdateItemInput {
-	return UpdateItemInput{UpdateItemInput_UpdateItemInput{TableName, Key, AttributeUpdates, Expected, ConditionalOperator, ReturnValues, ReturnConsumedCapacity, ReturnItemCollectionMetrics, UpdateExpression, ConditionExpression, ExpressionAttributeNames, ExpressionAttributeValues}}
+func (CompanionStruct_UpdateItemInput_) Create_UpdateItemInput_(TableName _dafny.Sequence, Key _dafny.Map, AttributeUpdates m_Wrappers.Option, Expected m_Wrappers.Option, ConditionalOperator m_Wrappers.Option, ReturnValues m_Wrappers.Option, ReturnConsumedCapacity m_Wrappers.Option, ReturnItemCollectionMetrics m_Wrappers.Option, UpdateExpression m_Wrappers.Option, ConditionExpression m_Wrappers.Option, ExpressionAttributeNames m_Wrappers.Option, ExpressionAttributeValues m_Wrappers.Option, ReturnValuesOnConditionCheckFailure m_Wrappers.Option) UpdateItemInput {
+	return UpdateItemInput{UpdateItemInput_UpdateItemInput{TableName, Key, AttributeUpdates, Expected, ConditionalOperator, ReturnValues, ReturnConsumedCapacity, ReturnItemCollectionMetrics, UpdateExpression, ConditionExpression, ExpressionAttributeNames, ExpressionAttributeValues, ReturnValuesOnConditionCheckFailure}}
 }
 
 func (_this UpdateItemInput) Is_UpdateItemInput() bool {
@@ -33184,7 +33217,7 @@ func (_this UpdateItemInput) Is_UpdateItemInput() bool {
 }
 
 func (CompanionStruct_UpdateItemInput_) Default() UpdateItemInput {
-	return Companion_UpdateItemInput_.Create_UpdateItemInput_(_dafny.EmptySeq.SetString(), _dafny.EmptyMap, m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
+	return Companion_UpdateItemInput_.Create_UpdateItemInput_(_dafny.EmptySeq.SetString(), _dafny.EmptyMap, m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default(), m_Wrappers.Companion_Option_.Default())
 }
 
 func (_this UpdateItemInput) Dtor_TableName() _dafny.Sequence {
@@ -33235,13 +33268,17 @@ func (_this UpdateItemInput) Dtor_ExpressionAttributeValues() m_Wrappers.Option 
 	return _this.Get_().(UpdateItemInput_UpdateItemInput).ExpressionAttributeValues
 }
 
+func (_this UpdateItemInput) Dtor_ReturnValuesOnConditionCheckFailure() m_Wrappers.Option {
+	return _this.Get_().(UpdateItemInput_UpdateItemInput).ReturnValuesOnConditionCheckFailure
+}
+
 func (_this UpdateItemInput) String() string {
 	switch data := _this.Get_().(type) {
 	case nil:
 		return "null"
 	case UpdateItemInput_UpdateItemInput:
 		{
-			return "ComAmazonawsDynamodbTypes.UpdateItemInput.UpdateItemInput" + "(" + _dafny.String(data.TableName) + ", " + _dafny.String(data.Key) + ", " + _dafny.String(data.AttributeUpdates) + ", " + _dafny.String(data.Expected) + ", " + _dafny.String(data.ConditionalOperator) + ", " + _dafny.String(data.ReturnValues) + ", " + _dafny.String(data.ReturnConsumedCapacity) + ", " + _dafny.String(data.ReturnItemCollectionMetrics) + ", " + _dafny.String(data.UpdateExpression) + ", " + _dafny.String(data.ConditionExpression) + ", " + _dafny.String(data.ExpressionAttributeNames) + ", " + _dafny.String(data.ExpressionAttributeValues) + ")"
+			return "ComAmazonawsDynamodbTypes.UpdateItemInput.UpdateItemInput" + "(" + _dafny.String(data.TableName) + ", " + _dafny.String(data.Key) + ", " + _dafny.String(data.AttributeUpdates) + ", " + _dafny.String(data.Expected) + ", " + _dafny.String(data.ConditionalOperator) + ", " + _dafny.String(data.ReturnValues) + ", " + _dafny.String(data.ReturnConsumedCapacity) + ", " + _dafny.String(data.ReturnItemCollectionMetrics) + ", " + _dafny.String(data.UpdateExpression) + ", " + _dafny.String(data.ConditionExpression) + ", " + _dafny.String(data.ExpressionAttributeNames) + ", " + _dafny.String(data.ExpressionAttributeValues) + ", " + _dafny.String(data.ReturnValuesOnConditionCheckFailure) + ")"
 		}
 	default:
 		{
@@ -33255,7 +33292,7 @@ func (_this UpdateItemInput) Equals(other UpdateItemInput) bool {
 	case UpdateItemInput_UpdateItemInput:
 		{
 			data2, ok := other.Get_().(UpdateItemInput_UpdateItemInput)
-			return ok && data1.TableName.Equals(data2.TableName) && data1.Key.Equals(data2.Key) && data1.AttributeUpdates.Equals(data2.AttributeUpdates) && data1.Expected.Equals(data2.Expected) && data1.ConditionalOperator.Equals(data2.ConditionalOperator) && data1.ReturnValues.Equals(data2.ReturnValues) && data1.ReturnConsumedCapacity.Equals(data2.ReturnConsumedCapacity) && data1.ReturnItemCollectionMetrics.Equals(data2.ReturnItemCollectionMetrics) && data1.UpdateExpression.Equals(data2.UpdateExpression) && data1.ConditionExpression.Equals(data2.ConditionExpression) && data1.ExpressionAttributeNames.Equals(data2.ExpressionAttributeNames) && data1.ExpressionAttributeValues.Equals(data2.ExpressionAttributeValues)
+			return ok && data1.TableName.Equals(data2.TableName) && data1.Key.Equals(data2.Key) && data1.AttributeUpdates.Equals(data2.AttributeUpdates) && data1.Expected.Equals(data2.Expected) && data1.ConditionalOperator.Equals(data2.ConditionalOperator) && data1.ReturnValues.Equals(data2.ReturnValues) && data1.ReturnConsumedCapacity.Equals(data2.ReturnConsumedCapacity) && data1.ReturnItemCollectionMetrics.Equals(data2.ReturnItemCollectionMetrics) && data1.UpdateExpression.Equals(data2.UpdateExpression) && data1.ConditionExpression.Equals(data2.ConditionExpression) && data1.ExpressionAttributeNames.Equals(data2.ExpressionAttributeNames) && data1.ExpressionAttributeValues.Equals(data2.ExpressionAttributeValues) && data1.ReturnValuesOnConditionCheckFailure.Equals(data2.ReturnValuesOnConditionCheckFailure)
 		}
 	default:
 		{

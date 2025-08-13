@@ -16,21 +16,14 @@ import (
 	m_AwsCryptographyKeyStoreTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
 	m_AwsCryptographyMaterialProvidersTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
 	m_AwsKmsDiscoveryKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsDiscoveryKeyring"
-	m_AwsKmsHierarchicalKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsHierarchicalKeyring"
 	m_AwsKmsKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsKeyring"
-	m_AwsKmsMrkAreUnique "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkAreUnique"
-	m_AwsKmsMrkDiscoveryKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkDiscoveryKeyring"
-	m_AwsKmsMrkKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkKeyring"
 	m_AwsKmsMrkMatchForDecrypt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkMatchForDecrypt"
-	m_AwsKmsRsaKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsRsaKeyring"
 	m_AwsKmsUtils "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsUtils"
-	m_CacheConstants "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CacheConstants"
 	m_CanonicalEncryptionContext "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CanonicalEncryptionContext"
 	m_Constants "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Constants"
 	m_CreateKeyStoreTable "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeyStoreTable"
 	m_CreateKeys "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeys"
 	m_DDBKeystoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/DDBKeystoreOperations"
-	m_DiscoveryMultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/DiscoveryMultiKeyring"
 	m_EcdhEdkWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/EcdhEdkWrapping"
 	m_EdkWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/EdkWrapping"
 	m_ErrorMessages "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/ErrorMessages"
@@ -41,18 +34,12 @@ import (
 	m_KeyStoreErrorMessages "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KeyStoreErrorMessages"
 	m_Keyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Keyring"
 	m_KmsArn "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KmsArn"
-	m_LocalCMC "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/LocalCMC"
 	m_MaterialWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MaterialWrapping"
 	m_Materials "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Materials"
-	m_MrkAwareDiscoveryMultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MrkAwareDiscoveryMultiKeyring"
-	m_MrkAwareStrictMultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MrkAwareStrictMultiKeyring"
-	m_MultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MultiKeyring"
+	m_RawAESKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/RawAESKeyring"
 	m_RawECDHKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/RawECDHKeyring"
-	m_StormTracker "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/StormTracker"
-	m_StormTrackingCMC "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/StormTrackingCMC"
-	m_StrictMultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/StrictMultiKeyring"
+	m_RawRSAKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/RawRSAKeyring"
 	m_Structure "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Structure"
-	m_SynchronizedLocalCMC "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/SynchronizedLocalCMC"
 	m_AtomicPrimitives "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AtomicPrimitives"
 	m_AwsCryptographyPrimitivesOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesOperations"
 	m_AwsCryptographyPrimitivesTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesTypes"
@@ -89,6 +76,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -109,6 +97,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -173,31 +162,18 @@ var _ m_KeyStore.Dummy__
 var _ m_AlgorithmSuites.Dummy__
 var _ m_Materials.Dummy__
 var _ m_Keyring.Dummy__
-var _ m_MultiKeyring.Dummy__
-var _ m_AwsKmsMrkAreUnique.Dummy__
-var _ m_Constants.Dummy__
-var _ m_MaterialWrapping.Dummy__
 var _ m_CanonicalEncryptionContext.Dummy__
+var _ m_MaterialWrapping.Dummy__
 var _ m_IntermediateKeyWrapping.Dummy__
 var _ m_EdkWrapping.Dummy__
 var _ m_ErrorMessages.Dummy__
-var _ m_AwsKmsKeyring.Dummy__
-var _ m_StrictMultiKeyring.Dummy__
-var _ m_AwsKmsDiscoveryKeyring.Dummy__
-var _ m_DiscoveryMultiKeyring.Dummy__
-var _ m_AwsKmsMrkDiscoveryKeyring.Dummy__
-var _ m_MrkAwareDiscoveryMultiKeyring.Dummy__
-var _ m_AwsKmsMrkKeyring.Dummy__
-var _ m_MrkAwareStrictMultiKeyring.Dummy__
-var _ m_LocalCMC.Dummy__
-var _ m_SynchronizedLocalCMC.Dummy__
-var _ m_StormTracker.Dummy__
-var _ m_StormTrackingCMC.Dummy__
-var _ m_CacheConstants.Dummy__
-var _ m_AwsKmsHierarchicalKeyring.Dummy__
-var _ m_AwsKmsRsaKeyring.Dummy__
+var _ m_RawAESKeyring.Dummy__
+var _ m_Constants.Dummy__
 var _ m_EcdhEdkWrapping.Dummy__
 var _ m_RawECDHKeyring.Dummy__
+var _ m_RawRSAKeyring.Dummy__
+var _ m_AwsKmsKeyring.Dummy__
+var _ m_AwsKmsDiscoveryKeyring.Dummy__
 
 type Dummy__ struct{}
 
@@ -249,9 +225,9 @@ func (_static *CompanionStruct_Default___) DeriveSharedSecret(client m_ComAmazon
 	_1_maybeDeriveSharedSecret = _out0
 	var _2_valueOrError0 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(m_ComAmazonawsKmsTypes.Companion_DeriveSharedSecretResponse_.Default())
 	_ = _2_valueOrError0
-	_2_valueOrError0 = (_1_maybeDeriveSharedSecret).MapFailure(func(coer117 func(m_ComAmazonawsKmsTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-		return func(arg118 interface{}) interface{} {
-			return coer117(arg118.(m_ComAmazonawsKmsTypes.Error))
+	_2_valueOrError0 = (_1_maybeDeriveSharedSecret).MapFailure(func(coer82 func(m_ComAmazonawsKmsTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+		return func(arg83 interface{}) interface{} {
+			return coer82(arg83.(m_ComAmazonawsKmsTypes.Error))
 		}
 	}(func(_3_e m_ComAmazonawsKmsTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error {
 		return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_ComAmazonawsKms_(_3_e)
@@ -354,16 +330,16 @@ var _ m_AwsCryptographyMaterialProvidersTypes.IKeyring = &AwsKmsEcdhKeyring{}
 var _ _dafny.TraitOffspring = &AwsKmsEcdhKeyring{}
 
 func (_this *AwsKmsEcdhKeyring) OnDecrypt(input m_AwsCryptographyMaterialProvidersTypes.OnDecryptInput) m_Wrappers.Result {
-	var _out9 m_Wrappers.Result
-	_ = _out9
-	_out9 = m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.OnDecrypt(_this, input)
-	return _out9
+	var _out6 m_Wrappers.Result
+	_ = _out6
+	_out6 = m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.OnDecrypt(_this, input)
+	return _out6
 }
 func (_this *AwsKmsEcdhKeyring) OnEncrypt(input m_AwsCryptographyMaterialProvidersTypes.OnEncryptInput) m_Wrappers.Result {
-	var _out9 m_Wrappers.Result
-	_ = _out9
-	_out9 = m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.OnEncrypt(_this, input)
-	return _out9
+	var _out6 m_Wrappers.Result
+	_ = _out6
+	_out6 = m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.OnEncrypt(_this, input)
+	return _out6
 }
 func (_this *AwsKmsEcdhKeyring) Ctor__(KeyAgreementScheme m_AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations, curveSpec m_AwsCryptographyPrimitivesTypes.ECDHCurveSpec, client m_ComAmazonawsKmsTypes.IKMSClient, grantTokens _dafny.Sequence, senderKmsKeyId m_Wrappers.Option, senderPublicKey m_Wrappers.Option, recipientPublicKey _dafny.Sequence, compressedSenderPublicKey m_Wrappers.Option, compressedRecipientPublicKey _dafny.Sequence, cryptoPrimitives *m_AtomicPrimitives.AtomicPrimitivesClient) {
 	{
@@ -445,9 +421,9 @@ func (_this *AwsKmsEcdhKeyring) OnEncrypt_k(input m_AwsCryptographyMaterialProvi
 		}
 		var _11_valueOrError5 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(m_UTF8.Companion_ValidUTF8Bytes_.Witness())
 		_ = _11_valueOrError5
-		_11_valueOrError5 = (m_UTF8.Encode(m_RawECDHKeyring.Companion_Default___.CurveSpecTypeToString((_this).CurveSpec()))).MapFailure(func(coer118 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-			return func(arg119 interface{}) interface{} {
-				return coer118(arg119.(_dafny.Sequence))
+		_11_valueOrError5 = (m_UTF8.Encode(m_RawECDHKeyring.Companion_Default___.CurveSpecTypeToString((_this).CurveSpec()))).MapFailure(func(coer83 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+			return func(arg84 interface{}) interface{} {
+				return coer83(arg84.(_dafny.Sequence))
 			}
 		}(m_AwsKmsUtils.Companion_Default___.WrapStringToError))
 		if (_11_valueOrError5).IsFailure() {
@@ -578,7 +554,7 @@ func (_this *AwsKmsEcdhKeyring) OnDecrypt_k(input m_AwsCryptographyMaterialProvi
 		var _5_edksToAttempt _dafny.Sequence
 		_ = _5_edksToAttempt
 		_5_edksToAttempt = (_4_valueOrError1).Extract().(_dafny.Sequence)
-		if (_dafny.IntOfUint32((_5_edksToAttempt).Cardinality())).Sign() == 0 {
+		if (uint64(0)) == (uint64((_5_edksToAttempt).Cardinality())) {
 			var _6_valueOrError2 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq.SetString())
 			_ = _6_valueOrError2
 			_6_valueOrError2 = m_ErrorMessages.Companion_Default___.IncorrectDataKeys((input).Dtor_encryptedDataKeys(), ((input).Dtor_materials()).Dtor_algorithmSuite(), _dafny.SeqOfString(""))
@@ -606,9 +582,9 @@ func (_this *AwsKmsEcdhKeyring) OnDecrypt_k(input m_AwsCryptographyMaterialProvi
 		_9_outcome = _out1
 		var _10_valueOrError3 m_Wrappers.Result = m_Wrappers.Result{}
 		_ = _10_valueOrError3
-		_10_valueOrError3 = (_9_outcome).MapFailure(func(coer119 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-			return func(arg120 interface{}) interface{} {
-				return coer119(arg120.(_dafny.Sequence))
+		_10_valueOrError3 = (_9_outcome).MapFailure(func(coer84 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+			return func(arg85 interface{}) interface{} {
+				return coer84(arg85.(_dafny.Sequence))
 			}
 		}(func(_11_errors _dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error {
 			return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_CollectionOfErrors_(_11_errors, _dafny.SeqOfString("No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."))
@@ -759,239 +735,232 @@ func (_this *DecryptSingleEncryptedDataKey) Invoke(edk interface{}) interface{} 
 		_ = edk
 		var res m_Wrappers.Result = m_Wrappers.Result{}
 		_ = res
-		var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-		_ = _0_valueOrError0
-		_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(m_UTF8.Companion_Default___.ValidUTF8Seq((edk).Dtor_keyProviderId()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Received invalid EDK provider id for AWS KMS ECDH Keyring")))
-		if (_0_valueOrError0).IsFailure() {
-			res = (_0_valueOrError0).PropagateFailure()
+		var _0_suite m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
+		_ = _0_suite
+		_0_suite = ((_this).Materials()).Dtor_algorithmSuite()
+		var _1_keyProviderId _dafny.Sequence
+		_ = _1_keyProviderId
+		_1_keyProviderId = (edk).Dtor_keyProviderId()
+		var _2_providerInfo _dafny.Sequence
+		_ = _2_providerInfo
+		_2_providerInfo = (edk).Dtor_keyProviderInfo()
+		var _3_ciphertext _dafny.Sequence
+		_ = _3_ciphertext
+		_3_ciphertext = (edk).Dtor_ciphertext()
+		var _4_valueOrError0 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
+		_ = _4_valueOrError0
+		_4_valueOrError0 = m_EdkWrapping.Companion_Default___.GetProviderWrappedMaterial(_3_ciphertext, _0_suite)
+		if (_4_valueOrError0).IsFailure() {
+			res = (_4_valueOrError0).PropagateFailure()
 			return res
 		}
-		var _1_suite m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo
-		_ = _1_suite
-		_1_suite = ((_this).Materials()).Dtor_algorithmSuite()
-		var _2_keyProviderId _dafny.Sequence
-		_ = _2_keyProviderId
-		_2_keyProviderId = (edk).Dtor_keyProviderId()
-		var _3_providerInfo _dafny.Sequence
-		_ = _3_providerInfo
-		_3_providerInfo = (edk).Dtor_keyProviderInfo()
-		var _4_ciphertext _dafny.Sequence
-		_ = _4_ciphertext
-		_4_ciphertext = (edk).Dtor_ciphertext()
-		var _5_valueOrError1 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
-		_ = _5_valueOrError1
-		_5_valueOrError1 = m_EdkWrapping.Companion_Default___.GetProviderWrappedMaterial(_4_ciphertext, _1_suite)
-		if (_5_valueOrError1).IsFailure() {
-			res = (_5_valueOrError1).PropagateFailure()
+		var _5_providerWrappedMaterial _dafny.Sequence
+		_ = _5_providerWrappedMaterial
+		_5_providerWrappedMaterial = (_4_valueOrError0).Extract().(_dafny.Sequence)
+		var _6_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+		_ = _6_valueOrError1
+		_6_valueOrError1 = m_Wrappers.Companion_Default___.Need(((uint64((_2_providerInfo).Cardinality())) <= (uint64(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__521__LEN()))) && (m_RawECDHKeyring.Companion_Default___.ValidProviderInfoLength(_2_providerInfo)), Companion_Default___.E(_dafny.SeqOfString("EDK ProviderInfo longer than expected")))
+		if (_6_valueOrError1).IsFailure() {
+			res = (_6_valueOrError1).PropagateFailure()
 			return res
 		}
-		var _6_providerWrappedMaterial _dafny.Sequence
-		_ = _6_providerWrappedMaterial
-		_6_providerWrappedMaterial = (_5_valueOrError1).Extract().(_dafny.Sequence)
-		var _7_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-		_ = _7_valueOrError2
-		_7_valueOrError2 = m_Wrappers.Companion_Default___.Need(((_dafny.IntOfUint32((_3_providerInfo).Cardinality())).Cmp(_dafny.IntOfUint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__521__LEN())) <= 0) && (m_RawECDHKeyring.Companion_Default___.ValidProviderInfoLength(_3_providerInfo)), Companion_Default___.E(_dafny.SeqOfString("EDK ProviderInfo longer than expected")))
-		if (_7_valueOrError2).IsFailure() {
-			res = (_7_valueOrError2).PropagateFailure()
+		var _7_keyringVersion uint8
+		_ = _7_keyringVersion
+		_7_keyringVersion = (_2_providerInfo).Select(uint32(uint32(0))).(uint8)
+		var _8_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+		_ = _8_valueOrError2
+		_8_valueOrError2 = m_Wrappers.Companion_Default___.Need(_dafny.Companion_Sequence_.Equal(_dafny.SeqOf(_7_keyringVersion), Companion_Default___.AWS__KMS__ECDH__KEYRING__VERSION()), Companion_Default___.E(_dafny.SeqOfString("Incorrect Keyring version found in provider info.")))
+		if (_8_valueOrError2).IsFailure() {
+			res = (_8_valueOrError2).PropagateFailure()
 			return res
 		}
-		var _8_keyringVersion uint8
-		_ = _8_keyringVersion
-		_8_keyringVersion = (_3_providerInfo).Select(0).(uint8)
-		var _9_valueOrError3 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-		_ = _9_valueOrError3
-		_9_valueOrError3 = m_Wrappers.Companion_Default___.Need(_dafny.Companion_Sequence_.Equal(_dafny.SeqOf(_8_keyringVersion), Companion_Default___.AWS__KMS__ECDH__KEYRING__VERSION()), Companion_Default___.E(_dafny.SeqOfString("Incorrect Keyring version found in provider info.")))
-		if (_9_valueOrError3).IsFailure() {
-			res = (_9_valueOrError3).PropagateFailure()
+		var _9_recipientPublicKeyLength uint32
+		_ = _9_recipientPublicKeyLength
+		_9_recipientPublicKeyLength = m_StandardLibrary_UInt.Companion_Default___.SeqToUInt32((_2_providerInfo).Subsequence(uint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPL__INDEX()), uint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPK__INDEX())))
+		var _10_recipientPublicKeyLengthIndex uint64
+		_ = _10_recipientPublicKeyLengthIndex
+		_10_recipientPublicKeyLengthIndex = (uint64(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPK__INDEX())) + (uint64(_9_recipientPublicKeyLength))
+		var _11_senderPublicKeyIndex uint64
+		_ = _11_senderPublicKeyIndex
+		_11_senderPublicKeyIndex = (_10_recipientPublicKeyLengthIndex) + (m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__PUBLIC__KEY__LEN())
+		var _12_valueOrError3 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+		_ = _12_valueOrError3
+		_12_valueOrError3 = m_Wrappers.Companion_Default___.Need(((_10_recipientPublicKeyLengthIndex)+(uint64(4))) < (uint64((_2_providerInfo).Cardinality())), Companion_Default___.E(_dafny.SeqOfString("Key Provider Info Serialization Error. Serialized length less than expected.")))
+		if (_12_valueOrError3).IsFailure() {
+			res = (_12_valueOrError3).PropagateFailure()
 			return res
 		}
-		var _10_recipientPublicKeyLength _dafny.Int
-		_ = _10_recipientPublicKeyLength
-		_10_recipientPublicKeyLength = _dafny.IntOfUint32(m_StandardLibrary_UInt.Companion_Default___.SeqToUInt32((_3_providerInfo).Subsequence(uint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPL__INDEX()), uint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPK__INDEX()))))
-		var _11_recipientPublicKeyLengthIndex _dafny.Int
-		_ = _11_recipientPublicKeyLengthIndex
-		_11_recipientPublicKeyLengthIndex = (_dafny.IntOfUint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPK__INDEX())).Plus(_10_recipientPublicKeyLength)
-		var _12_senderPublicKeyIndex _dafny.Int
-		_ = _12_senderPublicKeyIndex
-		_12_senderPublicKeyIndex = (_11_recipientPublicKeyLengthIndex).Plus(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__PUBLIC__KEY__LEN())
-		var _13_valueOrError4 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-		_ = _13_valueOrError4
-		_13_valueOrError4 = m_Wrappers.Companion_Default___.Need(((_11_recipientPublicKeyLengthIndex).Plus(_dafny.IntOfInt64(4))).Cmp(_dafny.IntOfUint32((_3_providerInfo).Cardinality())) < 0, Companion_Default___.E(_dafny.SeqOfString("Key Provider Info Serialization Error. Serialized length less than expected.")))
-		if (_13_valueOrError4).IsFailure() {
-			res = (_13_valueOrError4).PropagateFailure()
-			return res
-		}
-		var _14_providerInfoRecipientPublicKey _dafny.Sequence
-		_ = _14_providerInfoRecipientPublicKey
-		_14_providerInfoRecipientPublicKey = (_3_providerInfo).Subsequence(uint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPK__INDEX()), (_11_recipientPublicKeyLengthIndex).Uint32())
-		var _15_providerInfoSenderPublicKey _dafny.Sequence
-		_ = _15_providerInfoSenderPublicKey
-		_15_providerInfoSenderPublicKey = (_3_providerInfo).Drop((_12_senderPublicKeyIndex).Uint32())
-		var _16_valueOrError5 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
-		_ = _16_valueOrError5
+		var _13_providerInfoRecipientPublicKey _dafny.Sequence
+		_ = _13_providerInfoRecipientPublicKey
+		_13_providerInfoRecipientPublicKey = (_2_providerInfo).Subsequence(uint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPK__INDEX()), uint32(_10_recipientPublicKeyLengthIndex))
+		var _14_providerInfoSenderPublicKey _dafny.Sequence
+		_ = _14_providerInfoSenderPublicKey
+		_14_providerInfoSenderPublicKey = (_2_providerInfo).Drop(uint32(_11_senderPublicKeyIndex))
+		var _15_valueOrError4 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
+		_ = _15_valueOrError4
 		var _out0 m_Wrappers.Result
 		_ = _out0
-		_out0 = m_RawECDHKeyring.Companion_Default___.DecompressPublicKey(_15_providerInfoSenderPublicKey, (_this).CurveSpec(), (_this).CryptoPrimitives())
-		_16_valueOrError5 = _out0
-		if (_16_valueOrError5).IsFailure() {
-			res = (_16_valueOrError5).PropagateFailure()
+		_out0 = m_RawECDHKeyring.Companion_Default___.DecompressPublicKey(_14_providerInfoSenderPublicKey, (_this).CurveSpec(), (_this).CryptoPrimitives())
+		_15_valueOrError4 = _out0
+		if (_15_valueOrError4).IsFailure() {
+			res = (_15_valueOrError4).PropagateFailure()
 			return res
 		}
-		var _17_senderPublicKey _dafny.Sequence
-		_ = _17_senderPublicKey
-		_17_senderPublicKey = (_16_valueOrError5).Extract().(_dafny.Sequence)
-		var _18_valueOrError6 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
-		_ = _18_valueOrError6
+		var _16_senderPublicKey _dafny.Sequence
+		_ = _16_senderPublicKey
+		_16_senderPublicKey = (_15_valueOrError4).Extract().(_dafny.Sequence)
+		var _17_valueOrError5 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
+		_ = _17_valueOrError5
 		var _out1 m_Wrappers.Result
 		_ = _out1
-		_out1 = m_RawECDHKeyring.Companion_Default___.DecompressPublicKey(_14_providerInfoRecipientPublicKey, (_this).CurveSpec(), (_this).CryptoPrimitives())
-		_18_valueOrError6 = _out1
-		if (_18_valueOrError6).IsFailure() {
-			res = (_18_valueOrError6).PropagateFailure()
+		_out1 = m_RawECDHKeyring.Companion_Default___.DecompressPublicKey(_13_providerInfoRecipientPublicKey, (_this).CurveSpec(), (_this).CryptoPrimitives())
+		_17_valueOrError5 = _out1
+		if (_17_valueOrError5).IsFailure() {
+			res = (_17_valueOrError5).PropagateFailure()
 			return res
 		}
-		var _19_recipientPublicKey _dafny.Sequence
-		_ = _19_recipientPublicKey
-		_19_recipientPublicKey = (_18_valueOrError6).Extract().(_dafny.Sequence)
-		var _20_valueOrError7 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(false)
-		_ = _20_valueOrError7
+		var _18_recipientPublicKey _dafny.Sequence
+		_ = _18_recipientPublicKey
+		_18_recipientPublicKey = (_17_valueOrError5).Extract().(_dafny.Sequence)
+		var _19_valueOrError6 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(false)
+		_ = _19_valueOrError6
 		var _out2 m_Wrappers.Result
 		_ = _out2
-		_out2 = m_RawECDHKeyring.Companion_Default___.ValidatePublicKey((_this).CryptoPrimitives(), (_this).CurveSpec(), _17_senderPublicKey)
-		_20_valueOrError7 = _out2
-		if (_20_valueOrError7).IsFailure() {
-			res = (_20_valueOrError7).PropagateFailure()
+		_out2 = m_RawECDHKeyring.Companion_Default___.ValidatePublicKey((_this).CryptoPrimitives(), (_this).CurveSpec(), _16_senderPublicKey)
+		_19_valueOrError6 = _out2
+		if (_19_valueOrError6).IsFailure() {
+			res = (_19_valueOrError6).PropagateFailure()
 			return res
 		}
-		var _21___v0 bool
-		_ = _21___v0
-		_21___v0 = (_20_valueOrError7).Extract().(bool)
-		var _22_valueOrError8 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(false)
-		_ = _22_valueOrError8
+		var _20___v0 bool
+		_ = _20___v0
+		_20___v0 = (_19_valueOrError6).Extract().(bool)
+		var _21_valueOrError7 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(false)
+		_ = _21_valueOrError7
 		var _out3 m_Wrappers.Result
 		_ = _out3
-		_out3 = m_RawECDHKeyring.Companion_Default___.ValidatePublicKey((_this).CryptoPrimitives(), (_this).CurveSpec(), _19_recipientPublicKey)
-		_22_valueOrError8 = _out3
-		if (_22_valueOrError8).IsFailure() {
-			res = (_22_valueOrError8).PropagateFailure()
+		_out3 = m_RawECDHKeyring.Companion_Default___.ValidatePublicKey((_this).CryptoPrimitives(), (_this).CurveSpec(), _18_recipientPublicKey)
+		_21_valueOrError7 = _out3
+		if (_21_valueOrError7).IsFailure() {
+			res = (_21_valueOrError7).PropagateFailure()
 			return res
 		}
-		var _23___v1 bool
-		_ = _23___v1
-		_23___v1 = (_22_valueOrError8).Extract().(bool)
-		var _24_valueOrError9 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-		_ = _24_valueOrError9
-		_24_valueOrError9 = m_Wrappers.Companion_Default___.Need((m_ComAmazonawsKmsTypes.Companion_Default___.IsValid__PublicKeyType(_17_senderPublicKey)) && (m_ComAmazonawsKmsTypes.Companion_Default___.IsValid__PublicKeyType((_this).RecipientPublicKey())), Companion_Default___.E(_dafny.SeqOfString("Received serialized sender public key of incorrect length")))
-		if (_24_valueOrError9).IsFailure() {
-			res = (_24_valueOrError9).PropagateFailure()
+		var _22___v1 bool
+		_ = _22___v1
+		_22___v1 = (_21_valueOrError7).Extract().(bool)
+		var _23_valueOrError8 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+		_ = _23_valueOrError8
+		_23_valueOrError8 = m_Wrappers.Companion_Default___.Need((m_ComAmazonawsKmsTypes.Companion_Default___.IsValid__PublicKeyType(_16_senderPublicKey)) && (m_ComAmazonawsKmsTypes.Companion_Default___.IsValid__PublicKeyType((_this).RecipientPublicKey())), Companion_Default___.E(_dafny.SeqOfString("Received serialized sender public key of incorrect length")))
+		if (_23_valueOrError8).IsFailure() {
+			res = (_23_valueOrError8).PropagateFailure()
 			return res
 		}
-		var _25_sharedSecretPublicKey _dafny.Sequence = _dafny.EmptySeq
-		_ = _25_sharedSecretPublicKey
-		var _26_sharedSecretKmsKeyId _dafny.Sequence = _dafny.EmptySeq.SetString()
-		_ = _26_sharedSecretKmsKeyId
+		var _24_sharedSecretPublicKey _dafny.Sequence = _dafny.EmptySeq
+		_ = _24_sharedSecretPublicKey
+		var _25_sharedSecretKmsKeyId _dafny.Sequence = _dafny.EmptySeq.SetString()
+		_ = _25_sharedSecretKmsKeyId
 		var _source0 m_AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations = (_this).KeyAgreementScheme()
 		_ = _source0
 		{
 			{
 				if _source0.Is_KmsPublicKeyDiscovery() {
-					var _27_kmsPublicKeyDiscovery m_AwsCryptographyMaterialProvidersTypes.KmsPublicKeyDiscoveryInput = _source0.Get_().(m_AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery).KmsPublicKeyDiscovery
-					_ = _27_kmsPublicKeyDiscovery
+					var _26_kmsPublicKeyDiscovery m_AwsCryptographyMaterialProvidersTypes.KmsPublicKeyDiscoveryInput = _source0.Get_().(m_AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations_KmsPublicKeyDiscovery).KmsPublicKeyDiscovery
+					_ = _26_kmsPublicKeyDiscovery
 					{
-						var _28_valueOrError10 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.TupleOf())
-						_ = _28_valueOrError10
-						_28_valueOrError10 = m_AwsKmsUtils.Companion_Default___.ValidateKmsKeyId((_27_kmsPublicKeyDiscovery).Dtor_recipientKmsIdentifier())
-						if (_28_valueOrError10).IsFailure() {
-							res = (_28_valueOrError10).PropagateFailure()
+						var _27_valueOrError9 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.TupleOf())
+						_ = _27_valueOrError9
+						_27_valueOrError9 = m_AwsKmsUtils.Companion_Default___.ValidateKmsKeyId((_26_kmsPublicKeyDiscovery).Dtor_recipientKmsIdentifier())
+						if (_27_valueOrError9).IsFailure() {
+							res = (_27_valueOrError9).PropagateFailure()
 							return res
 						}
-						var _29___v2 _dafny.Tuple
-						_ = _29___v2
-						_29___v2 = (_28_valueOrError10).Extract().(_dafny.Tuple)
-						_25_sharedSecretPublicKey = _17_senderPublicKey
-						_26_sharedSecretKmsKeyId = (_27_kmsPublicKeyDiscovery).Dtor_recipientKmsIdentifier()
+						var _28___v2 _dafny.Tuple
+						_ = _28___v2
+						_28___v2 = (_27_valueOrError9).Extract().(_dafny.Tuple)
+						_24_sharedSecretPublicKey = _16_senderPublicKey
+						_25_sharedSecretKmsKeyId = (_26_kmsPublicKeyDiscovery).Dtor_recipientKmsIdentifier()
 					}
 					goto Lmatch0
 				}
 			}
 			{
-				var _30_kmsPrivateKeyToStaticPublicKey m_AwsCryptographyMaterialProvidersTypes.KmsPrivateKeyToStaticPublicKeyInput = _source0.Get_().(m_AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey).KmsPrivateKeyToStaticPublicKey
-				_ = _30_kmsPrivateKeyToStaticPublicKey
+				var _29_kmsPrivateKeyToStaticPublicKey m_AwsCryptographyMaterialProvidersTypes.KmsPrivateKeyToStaticPublicKeyInput = _source0.Get_().(m_AwsCryptographyMaterialProvidersTypes.KmsEcdhStaticConfigurations_KmsPrivateKeyToStaticPublicKey).KmsPrivateKeyToStaticPublicKey
+				_ = _29_kmsPrivateKeyToStaticPublicKey
 				{
-					var _31_valueOrError11 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.TupleOf())
-					_ = _31_valueOrError11
-					_31_valueOrError11 = m_AwsKmsUtils.Companion_Default___.ValidateKmsKeyId((_30_kmsPrivateKeyToStaticPublicKey).Dtor_senderKmsIdentifier())
-					if (_31_valueOrError11).IsFailure() {
-						res = (_31_valueOrError11).PropagateFailure()
+					var _30_valueOrError10 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.TupleOf())
+					_ = _30_valueOrError10
+					_30_valueOrError10 = m_AwsKmsUtils.Companion_Default___.ValidateKmsKeyId((_29_kmsPrivateKeyToStaticPublicKey).Dtor_senderKmsIdentifier())
+					if (_30_valueOrError10).IsFailure() {
+						res = (_30_valueOrError10).PropagateFailure()
 						return res
 					}
-					var _32___v3 _dafny.Tuple
-					_ = _32___v3
-					_32___v3 = (_31_valueOrError11).Extract().(_dafny.Tuple)
-					_26_sharedSecretKmsKeyId = (_30_kmsPrivateKeyToStaticPublicKey).Dtor_senderKmsIdentifier()
-					if _dafny.Companion_Sequence_.Equal((_30_kmsPrivateKeyToStaticPublicKey).Dtor_recipientPublicKey(), _19_recipientPublicKey) {
-						_25_sharedSecretPublicKey = _19_recipientPublicKey
+					var _31___v3 _dafny.Tuple
+					_ = _31___v3
+					_31___v3 = (_30_valueOrError10).Extract().(_dafny.Tuple)
+					_25_sharedSecretKmsKeyId = (_29_kmsPrivateKeyToStaticPublicKey).Dtor_senderKmsIdentifier()
+					if _dafny.Companion_Sequence_.Equal((_29_kmsPrivateKeyToStaticPublicKey).Dtor_recipientPublicKey(), _18_recipientPublicKey) {
+						_24_sharedSecretPublicKey = _18_recipientPublicKey
 					} else {
-						_25_sharedSecretPublicKey = _17_senderPublicKey
+						_24_sharedSecretPublicKey = _16_senderPublicKey
 					}
 				}
 			}
 			goto Lmatch0
 		}
 	Lmatch0:
-		var _33_valueOrError12 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+		var _32_valueOrError11 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+		_ = _32_valueOrError11
+		_32_valueOrError11 = m_Wrappers.Companion_Default___.Need(m_ComAmazonawsKmsTypes.Companion_Default___.IsValid__PublicKeyType(_24_sharedSecretPublicKey), Companion_Default___.E(_dafny.SeqOfString("Received Recipient Public Key of incorrect expected length")))
+		if (_32_valueOrError11).IsFailure() {
+			res = (_32_valueOrError11).PropagateFailure()
+			return res
+		}
+		var _33_valueOrError12 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
 		_ = _33_valueOrError12
-		_33_valueOrError12 = m_Wrappers.Companion_Default___.Need(m_ComAmazonawsKmsTypes.Companion_Default___.IsValid__PublicKeyType(_25_sharedSecretPublicKey), Companion_Default___.E(_dafny.SeqOfString("Received Recipient Public Key of incorrect expected length")))
+		var _out4 m_Wrappers.Result
+		_ = _out4
+		_out4 = Companion_Default___.DeriveSharedSecret((_this).Client(), _25_sharedSecretKmsKeyId, _24_sharedSecretPublicKey, (_this).GrantTokens())
+		_33_valueOrError12 = _out4
 		if (_33_valueOrError12).IsFailure() {
 			res = (_33_valueOrError12).PropagateFailure()
 			return res
 		}
-		var _34_valueOrError13 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
-		_ = _34_valueOrError13
-		var _out4 m_Wrappers.Result
-		_ = _out4
-		_out4 = Companion_Default___.DeriveSharedSecret((_this).Client(), _26_sharedSecretKmsKeyId, _25_sharedSecretPublicKey, (_this).GrantTokens())
-		_34_valueOrError13 = _out4
-		if (_34_valueOrError13).IsFailure() {
-			res = (_34_valueOrError13).PropagateFailure()
-			return res
-		}
-		var _35_sharedSecret _dafny.Sequence
-		_ = _35_sharedSecret
-		_35_sharedSecret = (_34_valueOrError13).Extract().(_dafny.Sequence)
-		var _36_ecdhUnwrap *m_EcdhEdkWrapping.EcdhUnwrap
-		_ = _36_ecdhUnwrap
+		var _34_sharedSecret _dafny.Sequence
+		_ = _34_sharedSecret
+		_34_sharedSecret = (_33_valueOrError12).Extract().(_dafny.Sequence)
+		var _35_ecdhUnwrap *m_EcdhEdkWrapping.EcdhUnwrap
+		_ = _35_ecdhUnwrap
 		var _nw0 *m_EcdhEdkWrapping.EcdhUnwrap = m_EcdhEdkWrapping.New_EcdhUnwrap_()
 		_ = _nw0
-		_nw0.Ctor__(_15_providerInfoSenderPublicKey, _14_providerInfoRecipientPublicKey, _35_sharedSecret, Companion_Default___.AWS__KMS__ECDH__KEYRING__VERSION(), (_this).CurveSpec(), (_this).CryptoPrimitives())
-		_36_ecdhUnwrap = _nw0
-		var _37_unwrapOutputRes m_Wrappers.Result
-		_ = _37_unwrapOutputRes
+		_nw0.Ctor__(_14_providerInfoSenderPublicKey, _13_providerInfoRecipientPublicKey, _34_sharedSecret, Companion_Default___.AWS__KMS__ECDH__KEYRING__VERSION(), (_this).CurveSpec(), (_this).CryptoPrimitives())
+		_35_ecdhUnwrap = _nw0
+		var _36_unwrapOutputRes m_Wrappers.Result
+		_ = _36_unwrapOutputRes
 		var _out5 m_Wrappers.Result
 		_ = _out5
-		_out5 = m_EdkWrapping.Companion_Default___.UnwrapEdkMaterial((edk).Dtor_ciphertext(), (_this).Materials(), _36_ecdhUnwrap)
-		_37_unwrapOutputRes = _out5
-		var _38_valueOrError14 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(m_EdkWrapping.Companion_UnwrapEdkMaterialOutput_.Default(m_EcdhEdkWrapping.Companion_EcdhUnwrapInfo_.Default()))
-		_ = _38_valueOrError14
-		_38_valueOrError14 = _37_unwrapOutputRes
-		if (_38_valueOrError14).IsFailure() {
-			res = (_38_valueOrError14).PropagateFailure()
+		_out5 = m_EdkWrapping.Companion_Default___.UnwrapEdkMaterial((edk).Dtor_ciphertext(), (_this).Materials(), _35_ecdhUnwrap)
+		_36_unwrapOutputRes = _out5
+		var _37_valueOrError13 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(m_EdkWrapping.Companion_UnwrapEdkMaterialOutput_.Default(m_EcdhEdkWrapping.Companion_EcdhUnwrapInfo_.Default()))
+		_ = _37_valueOrError13
+		_37_valueOrError13 = _36_unwrapOutputRes
+		if (_37_valueOrError13).IsFailure() {
+			res = (_37_valueOrError13).PropagateFailure()
 			return res
 		}
-		var _39_unwrapOutput m_EdkWrapping.UnwrapEdkMaterialOutput
-		_ = _39_unwrapOutput
-		_39_unwrapOutput = (_38_valueOrError14).Extract().(m_EdkWrapping.UnwrapEdkMaterialOutput)
-		var _40_valueOrError15 m_Wrappers.Result = m_Wrappers.Result{}
-		_ = _40_valueOrError15
-		_40_valueOrError15 = m_Materials.Companion_Default___.DecryptionMaterialsAddDataKey((_this).Materials(), (_39_unwrapOutput).Dtor_plaintextDataKey(), (_39_unwrapOutput).Dtor_symmetricSigningKey())
-		if (_40_valueOrError15).IsFailure() {
-			res = (_40_valueOrError15).PropagateFailure()
+		var _38_unwrapOutput m_EdkWrapping.UnwrapEdkMaterialOutput
+		_ = _38_unwrapOutput
+		_38_unwrapOutput = (_37_valueOrError13).Extract().(m_EdkWrapping.UnwrapEdkMaterialOutput)
+		var _39_valueOrError14 m_Wrappers.Result = m_Wrappers.Result{}
+		_ = _39_valueOrError14
+		_39_valueOrError14 = m_Materials.Companion_Default___.DecryptionMaterialsAddDataKey((_this).Materials(), (_38_unwrapOutput).Dtor_plaintextDataKey(), (_38_unwrapOutput).Dtor_symmetricSigningKey())
+		if (_39_valueOrError14).IsFailure() {
+			res = (_39_valueOrError14).PropagateFailure()
 			return res
 		}
-		var _41_result m_AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
-		_ = _41_result
-		_41_result = (_40_valueOrError15).Extract().(m_AwsCryptographyMaterialProvidersTypes.DecryptionMaterials)
-		res = m_Wrappers.Companion_Result_.Create_Success_(_41_result)
+		var _40_result m_AwsCryptographyMaterialProvidersTypes.DecryptionMaterials
+		_ = _40_result
+		_40_result = (_39_valueOrError14).Extract().(m_AwsCryptographyMaterialProvidersTypes.DecryptionMaterials)
+		res = m_Wrappers.Companion_Result_.Create_Success_(_40_result)
 		return res
 		return res
 	}
@@ -1119,14 +1088,14 @@ func (_this *OnDecryptEcdhDataKeyFilter) Invoke(edk interface{}) interface{} {
 		}
 		var _2_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 		_ = _2_valueOrError0
-		_2_valueOrError0 = m_Wrappers.Companion_Default___.Need(((_dafny.IntOfUint32((_0_providerInfo).Cardinality())).Cmp(_dafny.IntOfUint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__521__LEN())) <= 0) && (m_RawECDHKeyring.Companion_Default___.ValidProviderInfoLength(_0_providerInfo)), Companion_Default___.E(_dafny.SeqOfString("EDK ProviderInfo longer than expected")))
+		_2_valueOrError0 = m_Wrappers.Companion_Default___.Need(((uint64((_0_providerInfo).Cardinality())) <= (uint64(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__521__LEN()))) && (m_RawECDHKeyring.Companion_Default___.ValidProviderInfoLength(_0_providerInfo)), Companion_Default___.E(_dafny.SeqOfString("EDK ProviderInfo longer than expected")))
 		if (_2_valueOrError0).IsFailure() {
 			res = (_2_valueOrError0).PropagateFailure()
 			return res
 		}
 		var _3_keyringVersion uint8
 		_ = _3_keyringVersion
-		_3_keyringVersion = (_0_providerInfo).Select(0).(uint8)
+		_3_keyringVersion = (_0_providerInfo).Select(uint32(uint32(0))).(uint8)
 		var _4_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 		_ = _4_valueOrError1
 		_4_valueOrError1 = m_Wrappers.Companion_Default___.Need(_dafny.Companion_Sequence_.Equal(_dafny.SeqOf(_3_keyringVersion), Companion_Default___.AWS__KMS__ECDH__KEYRING__VERSION()), Companion_Default___.E(_dafny.SeqOfString("Incorrect Keyring version found in provider info.")))
@@ -1134,28 +1103,28 @@ func (_this *OnDecryptEcdhDataKeyFilter) Invoke(edk interface{}) interface{} {
 			res = (_4_valueOrError1).PropagateFailure()
 			return res
 		}
-		var _5_recipientPublicKeyLength _dafny.Int
+		var _5_recipientPublicKeyLength uint32
 		_ = _5_recipientPublicKeyLength
-		_5_recipientPublicKeyLength = _dafny.IntOfUint32(m_StandardLibrary_UInt.Companion_Default___.SeqToUInt32((_0_providerInfo).Subsequence(uint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPL__INDEX()), uint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPK__INDEX()))))
-		var _6_recipientPublicKeyLengthIndex _dafny.Int
+		_5_recipientPublicKeyLength = m_StandardLibrary_UInt.Companion_Default___.SeqToUInt32((_0_providerInfo).Subsequence(uint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPL__INDEX()), uint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPK__INDEX())))
+		var _6_recipientPublicKeyLengthIndex uint64
 		_ = _6_recipientPublicKeyLengthIndex
-		_6_recipientPublicKeyLengthIndex = (_dafny.IntOfUint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPK__INDEX())).Plus(_5_recipientPublicKeyLength)
-		var _7_senderPublicKeyIndex _dafny.Int
+		_6_recipientPublicKeyLengthIndex = (uint64(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPK__INDEX())) + (uint64(_5_recipientPublicKeyLength))
+		var _7_senderPublicKeyIndex uint64
 		_ = _7_senderPublicKeyIndex
-		_7_senderPublicKeyIndex = (_6_recipientPublicKeyLengthIndex).Plus(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__PUBLIC__KEY__LEN())
+		_7_senderPublicKeyIndex = (_6_recipientPublicKeyLengthIndex) + (m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__PUBLIC__KEY__LEN())
 		var _8_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 		_ = _8_valueOrError2
-		_8_valueOrError2 = m_Wrappers.Companion_Default___.Need(((_6_recipientPublicKeyLengthIndex).Plus(_dafny.IntOfInt64(4))).Cmp(_dafny.IntOfUint32((_0_providerInfo).Cardinality())) < 0, Companion_Default___.E(_dafny.SeqOfString("Key Provider Info Serialization Error. Serialized length less than expected.")))
+		_8_valueOrError2 = m_Wrappers.Companion_Default___.Need(((_6_recipientPublicKeyLengthIndex)+(uint64(4))) < (uint64((_0_providerInfo).Cardinality())), Companion_Default___.E(_dafny.SeqOfString("Key Provider Info Serialization Error. Serialized length less than expected.")))
 		if (_8_valueOrError2).IsFailure() {
 			res = (_8_valueOrError2).PropagateFailure()
 			return res
 		}
 		var _9_providerInfoRecipientPublicKey _dafny.Sequence
 		_ = _9_providerInfoRecipientPublicKey
-		_9_providerInfoRecipientPublicKey = (_0_providerInfo).Subsequence(uint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPK__INDEX()), (_6_recipientPublicKeyLengthIndex).Uint32())
+		_9_providerInfoRecipientPublicKey = (_0_providerInfo).Subsequence(uint32(m_Constants.Companion_Default___.ECDH__PROVIDER__INFO__RPK__INDEX()), uint32(_6_recipientPublicKeyLengthIndex))
 		var _10_providerInfoSenderPublicKey _dafny.Sequence
 		_ = _10_providerInfoSenderPublicKey
-		_10_providerInfoSenderPublicKey = (_0_providerInfo).Drop((_7_senderPublicKeyIndex).Uint32())
+		_10_providerInfoSenderPublicKey = (_0_providerInfo).Drop(uint32(_7_senderPublicKeyIndex))
 		if ((_this).KeyAgreementScheme()).Is_KmsPublicKeyDiscovery() {
 			res = m_Wrappers.Companion_Result_.Create_Success_(_dafny.Companion_Sequence_.Equal((_this).CompressedRecipientPublicKey(), _9_providerInfoRecipientPublicKey))
 			return res
