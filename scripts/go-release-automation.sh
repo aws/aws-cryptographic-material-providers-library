@@ -146,6 +146,7 @@ test_examples() {
   cd "$ROOT_DIR/releases/go/$RELEASE_DIR_NAME/examples" || { echo "Error: examples directory not found"; exit 1; }
   run_go_tools
   go run main.go
+  cd "$ROOT_DIR/releases/go/$RELEASE_DIR_NAME/" || { echo "Error: releases directory not found"; exit 1; }
 }
 
 run_go_tools() {
