@@ -23,7 +23,7 @@ jobs:
             # https://taskei.amazon.dev/tasks/CrypTool-5283
             # windows-latest,
             ubuntu-22.04,
-            macos-13,
+            macos-latest,
           ]
         language: [java, net, rust, python, go]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
@@ -212,7 +212,7 @@ jobs:
             # TODO just test on mac and ubuntu for now
             # windows-latest,
             ubuntu-22.04,
-            macos-13,
+            macos-latest,
           ]
         decrypting_language: [java, net, rust, python, go]
         dotnet-version: ["6.0.x"]
