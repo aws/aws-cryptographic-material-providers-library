@@ -138,6 +138,9 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       )
     );
 
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
+    //# If no Hierarchy-Version is provided,
+    //# then this operation MUST use `v1`.
     var hierarchyVersion : HierarchyVersion;
     if input.hierarchyVersion.None? {
       hierarchyVersion := HierarchyVersion.v1;
