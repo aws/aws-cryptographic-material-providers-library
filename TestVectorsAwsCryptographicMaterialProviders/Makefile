@@ -254,3 +254,14 @@ test_decrypt_encrypt_vectors_rust:
 
 test_decrypt_encrypt_vectors_go:
 	go -C runtimes/go/ImplementationFromDafny-go run ImplementationFromDafny.go decrypt --manifest-path=..
+
+# Fuzz Testing Command
+
+# Generate fuzzed test vectors and copy to specific language runtime
+# Usage in library_interop_tests.yml: make test_generate_fuzz_vectors_LANG LANG=python NUM_VECTORS=10
+test_generate_fuzz_vectors_%:
+	@echo "Generating fuzzed test vectors for $* runtime ($(NUM_VECTORS) vectors)"
+	cd dafny/TestVectorsAwsCryptographicMaterialProviders/test && python3 fuzz_generator.py --num-vectors $(NUM_VECTORS)
+	cd ../../../
+	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/manifest.json runtimes/$*/
+	cp dafny/TestVectorsAwsCryptographicMaterialProviders/test/keys.json runtimes/$*/
