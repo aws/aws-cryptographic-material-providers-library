@@ -324,7 +324,7 @@ def generate_fuzz_test_vectors(num_vectors) -> Tuple[Dict[str, Any], Dict[str, A
             # TODO: remove .example() usage.
             # Hypothesis is designed for property-based testing, so when using .example() it informs us that we should be using @given to actually test properties, not just generate examples.
             # But we're in a different use case, because we're essentially using Hypothesis as a sophisticated random data generator to create test vectors that will be evaluated by a different test system
-            # Warning surpressed so that it doesn't fill the output with this message: https://github.com/aws/aws-cryptographic-material-providers-library/pull/1630/files#r2226909207; it will paste that message 2000 times for 2000 test vectors, for e.g.
+            # Warning suppressed so that it doesn't fill the output with this message: https://github.com/aws/aws-cryptographic-material-providers-library/pull/1630/files#r2226909207; it will paste that message 2000 times for 2000 test vectors, for e.g.
             test_vector = fuzz_test_vector().example()
             test_id = str(uuid.uuid4())
             test_vectors[test_id] = test_vector
