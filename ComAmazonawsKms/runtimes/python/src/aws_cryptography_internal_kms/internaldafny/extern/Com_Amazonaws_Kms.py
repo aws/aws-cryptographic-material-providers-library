@@ -35,9 +35,9 @@ class default__(aws_cryptography_internal_kms.internaldafny.generated.Com_Amazon
                 boto_client = boto3.client("kms", config=boto_config)
             else:
                 boto_config = Config(user_agent_extra=user_agent_suffix)
-                boto_client = boto3.client("kms", config=boto_config)
                 # If no region is provided,
                 # boto_client will use the default region provided by boto3
+                boto_client = boto3.client("kms", config=boto_config)
                 region = boto_client.meta.region_name
         wrapped_client = KMSClientShim(boto_client, region)
         return Wrappers.Result_Success(wrapped_client)
