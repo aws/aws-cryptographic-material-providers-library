@@ -8,7 +8,9 @@ module StandardLibrary.String {
   import opened UInt
   import opened Sequence
   import opened MemoryMath
-  export provides Int2String, Base10Int2String, HasSubString, Wrappers, UInt, HasSubStringPos, SearchAndReplace, SearchAndReplacePos, SearchAndReplaceAll
+  export provides Int2String, Base10Int2String, HasSubString, Wrappers, UInt,
+                  HasSubStringPos, SearchAndReplace, SearchAndReplacePos, SearchAndReplaceAll,
+                  SearchAndReplacePosWhole, SearchAndReplaceAllWhole, AlphaNumeric, AlphaNumericUnder
 
   const Base10: seq<char> := ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
@@ -61,18 +63,8 @@ module StandardLibrary.String {
     returns (o : seq<T>)
     requires 0 < |old_str|
   {
-    var old_pos := HasSubString(source, old_str);
-    if old_pos.None? {
-      return source;
-    } else {
-      SequenceIsSafeBecauseItIsInMemory(source);
-      SequenceIsSafeBecauseItIsInMemory(old_str);
-      ValueIsSafeBecauseItIsInMemory(old_pos.value);
-      var pos : uint64 := old_pos.value as uint64;
-      var source_len : uint64 := |source| as uint64;
-      var old_str_len : uint64 := |old_str| as uint64;
-      return source[..pos] + new_str + source[pos+old_str_len..];
-    }
+    var x := SearchAndReplacePos(source, old_str, new_str, 0);
+    return x.0;
   }
 
   // Replace first occurrence of old_str after pos in source with new_str and return the result.
@@ -101,6 +93,81 @@ module StandardLibrary.String {
     }
   }
 
+  predicate method BadStart<T(==)>(source : seq<T>, pos : uint64, chars : seq<T>)
+    requires pos as nat <= |source|
+  {
+    if pos == 0 then
+      false
+    else
+      source[pos-1] in chars
+  }
+
+  predicate method BadEnd<T(==)>(source : seq<T>, pos : uint64, match_len : uint64, chars : seq<T>) {
+    SequenceIsSafeBecauseItIsInMemory(source);
+    var source_len : uint64 := |source| as uint64;
+    if Add(pos, match_len) >= source_len then
+      false
+    else
+      source[pos+match_len] in chars
+
+  }
+  predicate method BadMatch<T(==)>(source : seq<T>, pos : uint64, match_len : uint64, chars : seq<T>)
+    requires pos as nat <= |source|
+  {
+    BadStart(source, pos, chars) || BadEnd(source, pos, match_len, chars)
+  }
+
+  const AlphaNumeric      : string := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+  const AlphaNumericUnder : string := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+
+  // Replace first occurrence of old_str after pos in source with new_str and return the result.
+  // If old_str does not exist in source, the source is returned unchanged
+  // second value in output is None if old_str not found, otherwise it points just after the replaced value
+  // a match only counts if the character before or after is not in chars
+  method SearchAndReplacePosWhole<T(==)>(source: seq<T>, old_str: seq<T>, new_str: seq<T>, xpos : uint64, chars : seq<T>)
+    returns (o : (seq<T>, Option<uint64>))
+    requires xpos as nat <= |source|
+    requires 0 < |old_str|
+    ensures o.1.Some? ==> |o.0| - o.1.value as nat < |source| - xpos as nat
+    ensures o.1.Some? ==> o.1.value as nat <= |o.0|
+  {
+    SequenceIsSafeBecauseItIsInMemory(source);
+    SequenceIsSafeBecauseItIsInMemory(old_str);
+    var old_str_len : uint64 := |old_str| as uint64;
+    var pos : uint64 := xpos;
+
+    while pos < |source| as uint64 {
+      var old_pos := HasSubStringPos(source, old_str, pos);
+      if old_pos.None? {
+        return (source, None);
+      } else if BadMatch(source, old_pos.value, old_str_len, chars) {
+        pos := old_pos.value + 1;
+      } else {
+        SequenceIsSafeBecauseItIsInMemory(source);
+        SequenceIsSafeBecauseItIsInMemory(new_str);
+        var source_len : uint64 := |source| as uint64;
+        var new_str_len : uint64 := |new_str| as uint64;
+        o := (source[..old_pos.value] + new_str + source[old_pos.value+old_str_len..], Some(Add(old_pos.value, new_str_len)));
+        assert |o.0| - o.1.value as nat < |source| - pos as nat;
+        return o;
+      }
+    }
+    return (source, None); // not really needed, but Dafny is dumb
+  }
+
+  // Replace first occurrence of old_str after pos in source with new_str and return the result.
+  // If old_str does not exist in source, the source is returned unchanged
+  // second value in output is None if old_str not found, otherwise it points just after the replaced value
+  // a match only counts if the character before or after is not in chars
+  method SearchAndReplaceWhole<T(==)>(source: seq<T>, old_str: seq<T>, new_str: seq<T>, chars : seq<T>)
+    returns (o : (seq<T>, Option<uint64>))
+    requires 0 < |old_str|
+    ensures o.1.Some? ==> |o.0| - o.1.value as nat < |source| as nat
+    ensures o.1.Some? ==> o.1.value as nat <= |o.0|
+  {
+    o := SearchAndReplacePosWhole(source, old_str, new_str, 0, chars);
+  }
+
   // Replace all occurrences of old_str in source with new_str and return the result.
   // If old_str does not exist in source, the source is returned unchanged
   // safe to use if new_str contains old_str
@@ -124,6 +191,32 @@ module StandardLibrary.String {
       pos := res.1.value;
     }
   }
+
+  // Replace all occurrences of old_str in source with new_str and return the result.
+  // If old_str does not exist in source, the source is returned unchanged
+  // safe to use if new_str contains old_str
+  // a match only counts if the character before or after is not in chars
+  method SearchAndReplaceAllWhole<T(==)>(source_in: seq<T>, old_str: seq<T>, new_str: seq<T>, chars : seq<T>)
+    returns (o : seq<T>)
+    requires 0 < |old_str|
+  {
+    var pos : uint64 := 0;
+    var source := source_in;
+    while true
+      invariant pos as nat <= |source|
+      decreases |source| - pos as nat
+    {
+      var res := SearchAndReplacePosWhole(source, old_str, new_str, pos, chars);
+      if res.1.None? {
+        SequenceIsSafeBecauseItIsInMemory(source);
+        pos := |source| as uint64; // unneeded, but Dafny is dumb
+        return res.0;
+      }
+      source := res.0;
+      pos := res.1.value;
+    }
+  }
+
 
   /* Returns the index of a substring or None, if the substring is not in the string */
   method HasSubString<T(==)>(haystack: seq<T>, needle: seq<T>)
