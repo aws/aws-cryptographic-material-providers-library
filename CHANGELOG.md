@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.11.2](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.1...v1.11.2) (2025-08-14)
+
+### Maintenance -- All Languages
+
+* **dafny:** add new SearchAndReplaceWhole and friends ([#1680](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1680)) ([74e98c1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/74e98c10184c27bc57ba5b77386872466213f91f))
+
+### Maintenance -- Python
+
+* **python:** add user agent suffix to kms requests ([740fc32](https://github.com/aws/aws-cryptographic-material-providers-library/commit/740fc327d26a93595a61b6736f74a940fc8b60cd))
+* **python:** allow local testing ([#1651](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1651)) ([8b221c4](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8b221c41252d269e472b93e3a54e9ede06cf0adf))
+* **python:** exclude generated tests from project distribution ([#1627](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1627)) ([505eee0](https://github.com/aws/aws-cryptographic-material-providers-library/commit/505eee0072d6390e23d855fa303dde9eeb031706))
+* **python:** tests for OpaqueWithText ([#1656](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1656)) ([25e1219](https://github.com/aws/aws-cryptographic-material-providers-library/commit/25e121974106cab8386058be29a1072cb50bb193))
+
+### Maintenance -- Go
+
+* **go:** Release dynamodb Go module 0.2.1 ([#1671](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1671)) ([c82e136](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c82e136380e00a3a300f24df805d5a66d4a52a4e))
+* **go:** Release kms Go module 0.2.1 ([#1667](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1667)) ([dd8cdf1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/dd8cdf15dce8d918478cdeb8c81431318ef6eafd))
+* **go:** Release mpl Go module 0.2.1 ([#1672](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1672)) ([9bc43c0](https://github.com/aws/aws-cryptographic-material-providers-library/commit/9bc43c059fa820c298d8269b8fa316704c39703e))
+* **go:** Release primitives Go module 0.2.1 ([#1669](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1669)) ([dca265f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/dca265fbb3ad8818f53fe66af91bde496fe7c29b))
+* **go:** Release smithy-dafny-standard-library Go module 0.2.1  ([#1666](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1666)) ([fa3f98b](https://github.com/aws/aws-cryptographic-material-providers-library/commit/fa3f98b84cdd56be61d348c72d1b8701a17109a8))
+* **go:** remove create pull request step in go release workflow ([#1681](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1681)) ([7eafe88](https://github.com/aws/aws-cryptographic-material-providers-library/commit/7eafe8890ef7626adc04c591a3359c80d7097d47))
+* **go:** update Go release script for ESDK and DB-ESDK ([#1653](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1653)) ([ea64f20](https://github.com/aws/aws-cryptographic-material-providers-library/commit/ea64f204d18280ff7b30dfb17f5375e40bf0ff45))
+* **go:** update release script  ([#1676](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1676)) ([34f9689](https://github.com/aws/aws-cryptographic-material-providers-library/commit/34f96890eb966108e86fdda9840b17c916edd3c2))
+* **go:** Update release script to cd to right directory  ([#1679](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1679)) ([952c42f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/952c42f1c7cfad57cc9ea0115c2a0cb38164ead7))
+
+### Miscellaneous
+
+* bump smithy-dafny ([#1657](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1657)) ([e2fb76c](https://github.com/aws/aws-cryptographic-material-providers-library/commit/e2fb76cfaf5201dab2fcfc145b46a688d27b2f14))
+* **CI:** update slack notification to include link of GHA run  ([#1659](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1659)) ([c6e2c20](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c6e2c203ec976c5488e08c79e378bc4b34da4b4e))
+* update semantic-release to bump user agent version ([8a1faf8](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8a1faf855663149a70b908b085a97c5a9d6bdf91))
+
 ## [1.11.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.0...v1.11.1) (2025-07-29)
 
 This release is available in the following languages:
