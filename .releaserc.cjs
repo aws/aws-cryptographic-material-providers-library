@@ -372,6 +372,15 @@ module.exports = {
             ),
             countMatches: true,
           },
+
+          // Update the version in ComAmazonawsKms/src/Index.dfy DafnyUserAgentSuffix function
+          {
+            files: ["ComAmazonawsKms/src/Index.dfy"],
+            from: 'var version := ".*"',
+            to: 'var version := "${nextRelease.version}"',
+            results: [CheckResults("ComAmazonawsKms/src/Index.dfy")],
+            countMatches: true,
+          },
         ],
       },
     ],
@@ -389,6 +398,7 @@ module.exports = {
       {
         assets: [
           "CHANGELOG.md",
+          "ComAmazonawsKms/src/Index.dfy",
           ...Object.values(Runtimes).flatMap((r) => Object.keys(r)),
           ...Object.values(Runtimes.net).flatMap((r) => r.assemblyInfo),
           "**/runtimes/python/**/*.dtr",
