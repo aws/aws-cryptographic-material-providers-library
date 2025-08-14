@@ -138,6 +138,16 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       )
     );
 
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
+    //# If no Hierarchy-Version is provided,
+    //# then this operation MUST use `v1`.
+    var hierarchyVersion : HierarchyVersion;
+    if input.hierarchyVersion.None? {
+      hierarchyVersion := HierarchyVersion.v1;
+    } else {
+      hierarchyVersion := input.hierarchyVersion.value;
+    }
+
     var branchKeyIdentifier: string;
 
     if input.branchKeyIdentifier.None? {
@@ -154,7 +164,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       branchKeyIdentifier := input.branchKeyIdentifier.value;
     }
 
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //# - `timestamp`: a timestamp for the current time.
     //# This timestamp MUST be in ISO8601 format in UTC, to microsecond precision (e.g. “YYYY-MM-DDTHH:mm:ss.ssssssZ“)
     var timestamp? := Time.GetCurrentTimeStamp();
@@ -162,7 +172,7 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
     .MapFailure(e => Types.KeyStoreException(message := e));
 
     var maybeBranchKeyVersion := UUID.GenerateUUID();
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkey
     //# - `version`: a new guid. This guid MUST be [version 4 UUID](https://www.ietf.org/rfc/rfc4122.txt)
     var branchKeyVersion :- maybeBranchKeyVersion
     .MapFailure(e => Types.KeyStoreException(message := e));
@@ -191,18 +201,44 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
            ,
             Types.KeyStoreException( message := ErrorMessages.UTF8_ENCODING_ENCRYPTION_CONTEXT_ERROR));
 
-    output := CreateKeys.CreateBranchAndBeaconKeys(
-      branchKeyIdentifier,
-      map i <- encodedEncryptionContext :: i.0.value := i.1.value,
-      timestamp,
-      branchKeyVersion,
-      config.ddbTableName,
-      config.logicalKeyStoreName,
-      config.kmsConfiguration,
-      config.grantTokens,
-      config.kmsClient,
-      config.ddbClient
-    );
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+    //# If the `hierarchy-version` is `v1`,
+    //# the wrapped beacon key MUST be created according to [Wrapped Beacon Key Creation `v1`](#wrapped-beacon-key-creation-v1) and
+    //# the wrapped branch keys MUST be created according to
+    //# [Wrapped Branch Key Creation `v1`](#wrapped-branch-key-creation-v1);
+    if hierarchyVersion == HierarchyVersion.v1 {
+      output := CreateKeys.CreateBranchAndBeaconKeys(
+        branchKeyIdentifier,
+        map i <- encodedEncryptionContext :: i.0.value := i.1.value,
+        timestamp,
+        branchKeyVersion,
+        config.ddbTableName,
+        config.logicalKeyStoreName,
+        config.kmsConfiguration,
+        config.grantTokens,
+        config.kmsClient,
+        config.ddbClient
+      );
+    } else {
+      //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-and-beacon-key-creation
+      //# If the `hierarchy-version` is be `v2`,
+      //# the wrapped beacon Key MUST be created according to [Wrapped Beacon Key Creation `v2`](#wrapped-beacon-key-creation-v2) and
+      //# the wrapped branch keys MUST be created according to
+      //# [Wrapped Branch Key Creation `v2`](#wrapped-branch-key-creation-v2).
+      output := CreateKeys.CreateBranchAndBeaconKeysVersion2(
+        branchKeyIdentifier,
+        map i <- encodedEncryptionContext :: i.0.value := i.1.value,
+        timestamp,
+        branchKeyVersion,
+        config.ddbTableName,
+        config.logicalKeyStoreName,
+        config.kmsConfiguration,
+        config.grantTokens,
+        config.kmsClient,
+        config.ddbClient,
+        hierarchyVersion
+      );
+    }
   }
 
   predicate VersionKeyEnsuresPublicly(input: VersionKeyInput, output: Result<VersionKeyOutput, Error>)

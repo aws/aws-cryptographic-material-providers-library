@@ -12,7 +12,7 @@ index 95c9eba1..bcd537fb 100644
 +          // END MANUAL EDIT
              dafnyVal._ComAmazonawsKms
            );
-         case software.amazon.cryptography.keystore.internaldafny.types.Error_KeyStoreException dafnyVal:
+         case software.amazon.cryptography.keystore.internaldafny.types.Error_BranchKeyCiphertextException dafnyVal:
 @@ -755,7 +757,9 @@ namespace AWS.Cryptography.KeyStore
        {
          case "Com.Amazonaws.KMS":
