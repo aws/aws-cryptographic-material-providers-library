@@ -8,7 +8,7 @@ import (
 )
 
 // Definition of class MutableMap copied over from
-// https://github.com/robin-aws/dafny/blob/2a6f6db373ab09e16eb2aeb67c90cabfb8957907/Source/DafnyStandardLibraries/src/Std_Concurrent/Std_Concurrent.go
+// https://github.com/dafny-lang/dafny/blob/99327494b3f8b6e49b00824deb4cc2c25b375b05/Source/DafnyStandardLibraries/src/Std/ConcurrentExterns/Std_Concurrent/Std_Concurrent.go
 type MutableMap struct {
 	// Default implementation - synchronized Dafny map<K, V>,
 	// which is just a list of key-value pairs
