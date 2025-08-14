@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-cryptography-internal-kms"
-version = "1.11.1"
+version = "1.11.2"
 description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
@@ -13,7 +13,7 @@ include = ["src/aws_cryptography_internal_kms/internaldafny/generated/*.py"]
 [tool.poetry.dependencies]
 python = "^3.11.0"
 boto3 = "^1.35.42"
-aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
+aws-cryptography-internal-standard-library = "1.11.2"
 
 # Package testing
 
