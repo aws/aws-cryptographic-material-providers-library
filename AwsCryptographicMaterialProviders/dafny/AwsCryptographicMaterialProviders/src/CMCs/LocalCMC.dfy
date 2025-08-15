@@ -394,14 +394,13 @@ module {:options "/functionSyntax:4" } LocalCMC {
     {
       entryCapacity := entryCapacity';
       entryPruningTailSize := entryPruningTailSize';
-      cache := new MutableMap();
+      cache := new MutableMap((k: seq<uint8>, v: CacheEntry) => true, true);
       queue := new DoublyLinkedCacheEntryList();
 
       History := new Types.ICryptographicMaterialsCacheCallHistory();
 
       Modifies := { History, this };
       InternalModifies := { queue, cache, this };
-
     }
 
     ghost predicate GetCacheEntryEnsuresPublicly(input: Types.GetCacheEntryInput, output: Result<Types.GetCacheEntryOutput, Types.Error>)
