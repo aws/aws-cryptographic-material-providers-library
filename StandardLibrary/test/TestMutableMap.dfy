@@ -8,7 +8,7 @@ module TestMutableMap {
 
   method {:test} TestPerformanceScaling()
   {
-    var sizes := [10, 1000000000, 100000000000000000];
+    var sizes := [1, 10, 10000, 100000, 1000000, 1000000000, 100000000000000000];
     var i := 0;
     while i < |sizes| {
         TestForEachSize(sizes[i]);
