@@ -4,47 +4,25 @@ include "../../StandardLibrary/src/Index.dfy"
 module TestMutableMap {
   import opened DafnyLibraries
   import opened StandardLibrary.UInt
-
-  method {:test} TestPerformanceBaseline()
-  {
-    var testMap := new MutableMap();
-    var iterations := 100;
-    
-    var i := 0;
-    while i < iterations {
-      testMap.Put(i, i);
-      i := i + 1;
-    }
-    
-    expect testMap.Size() == iterations;
-    
-    i := 0;
-    while i < iterations {
-      expect testMap.HasKey(i);
-      i := i + 1;
-    }
-    
-    i := 0;
-    while i < iterations {
-      expect testMap.HasKey(i);
-      expect testMap.Select(i) == i;
-      i := i + 1;
-    }
-    
-    i := 0;
-    while i < iterations {
-      testMap.Remove(i);
-      i := i + 1;
-    }
-    
-    expect testMap.Size() == 0;
-  }
+  import Time
 
   method {:test} TestPerformanceScaling()
   {
-    TestMapOperations(10);
-    TestMapOperations(100);
-    TestMapOperations(1000);
+    var sizes := [10, 1000000000, 100000000000000000];
+    var i := 0;
+    while i < |sizes| {
+        TestForEachSize(sizes[i]);
+        i := i + 1;
+    }
+  }
+
+  method TestForEachSize(size: int)
+    requires size > 0
+  {
+    var time1 := Time.GetAbsoluteTime();
+    TestMapOperations(size);
+    print "Time taken for " , size , " items \n";
+    Time.PrintTimeSince(time1);
   }
 
   method TestMapOperations(size: int)
