@@ -402,6 +402,8 @@ module {:options "/functionSyntax:4" } LocalCMC {
       Modifies := { History, this };
       InternalModifies := { queue, cache, this };
 
+      new;
+      cache.Ctor__(true);
     }
 
     ghost predicate GetCacheEntryEnsuresPublicly(input: Types.GetCacheEntryInput, output: Result<Types.GetCacheEntryOutput, Types.Error>)
