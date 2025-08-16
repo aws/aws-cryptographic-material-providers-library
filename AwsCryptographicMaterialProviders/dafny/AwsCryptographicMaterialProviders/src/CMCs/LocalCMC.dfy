@@ -313,7 +313,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
   }
 
 
-  class LocalCMC extends Types.ICryptographicMaterialsCache {
+  class {:only} LocalCMC extends Types.ICryptographicMaterialsCache {
 
     ghost predicate ValidState()
       ensures ValidState() ==>

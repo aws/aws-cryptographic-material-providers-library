@@ -27,8 +27,10 @@ type MutableMap struct {
 	bytesKeys bool
 }
 
-func New_MutableMap_() *MutableMap {
-	return &MutableMap{}
+func New_MutableMap_(bytesKeys bool) *MutableMap {
+	return &MutableMap{
+		bytesKeys: bytesKeys,
+	}
 }
 
 type CompanionStruct_MutableMap_ struct {
