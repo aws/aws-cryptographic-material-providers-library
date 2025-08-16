@@ -428,7 +428,7 @@ module AwsKmsHierarchicalKeyring {
         && (SequenceIsSafeBecauseItIsInMemory(branchKeyId.value); 0 <= |branchKeyId.value| as uint64 < UINT32_LIMIT as uint64),
         E("Invalid Branch Key ID Length")
       );
-      // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#encryption-materials
+      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#encryption-materials
       //# When the hierarchical keyring receives an OnEncrypt request,
       //# the cache entry identifier MUST be calculated as the
       //# SHA-384 hash of the following byte strings, in the order listed:
@@ -494,7 +494,7 @@ module AwsKmsHierarchicalKeyring {
 
       var now := Time.GetCurrent();
 
-      // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#onencrypt
+      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#onencrypt
       //# If using a `Shared` cache across multiple Hierarchical Keyrings,
       //# different keyrings having the same `branchKey` can have different TTLs.
       //# In such a case, the expiry time in the cache is set according to the Keyring that populated the cache.
@@ -810,7 +810,7 @@ module AwsKmsHierarchicalKeyring {
         && (SequenceIsSafeBecauseItIsInMemory(branchKeyId.value); 0 <= |branchKeyId.value| as uint64 < UINT32_LIMIT as uint64),
         E("Invalid Branch Key ID Length")
       );
-      // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#decryption-materials
+      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#decryption-materials
       //# When the hierarchical keyring receives an OnDecrypt request,
       //# it MUST calculate the cache entry identifier as the
       //# SHA-384 hash of the following byte strings, in the order listed:
@@ -878,7 +878,7 @@ module AwsKmsHierarchicalKeyring {
 
       var now := Time.GetCurrent();
 
-      // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#ondecrypt
+      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#ondecrypt
       //# If using a `Shared` cache across multiple Hierarchical Keyrings,
       //# different keyrings having the same `branchKey` can have different TTLs.
       //# In such a case, the expiry time in the cache is set according to the Keyring that populated the cache.
