@@ -574,9 +574,13 @@ module AwsKmsKeyring {
       //# If OnDecrypt fails to successfully decrypt any [encrypted data key]
       //# (../structures.md#encrypted-data-key), then it MUST yield an error
       //# that includes all the collected errors.
-      .MapFailure(errors => Types.CollectionOfErrors(
-                      list := errors,
-                      message := "No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."));
+      .MapFailure(errors =>
+                    if |errors| == 1 then
+                      errors[0]
+                    else
+                      Types.CollectionOfErrors(
+                        list := errors,
+                        message := "No Configured KMS Key was able to decrypt the Data Key. The list of encountered Exceptions is available via `list`."));
 
       ghost var LastDecrypt := Last(client.History.Decrypt);
       assert LastDecrypt.output.Success?;
