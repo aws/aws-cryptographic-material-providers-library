@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../Model/AwsCryptographyKeyStoreTypes.dfy"
+include "./PrefixUtils.dfy"
 
 module {:options "/functionSyntax:4" } Structure {
   import opened Wrappers
@@ -10,6 +11,7 @@ module {:options "/functionSyntax:4" } Structure {
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
   import UTF8
+  import PrefixUtils
 
   //Attribute Names
   const BRANCH_KEY_IDENTIFIER_FIELD := "branch-key-id"
@@ -33,7 +35,6 @@ module {:options "/functionSyntax:4" } Structure {
   // BKC => Branch Key Context
   const BKC_DIGEST_LENGTH: uint8 := 48
 
-  // TODO-HV-2-FOLLOW : Introduce a Lemma that ensures none of these fields start with aws-crypto-ec
   const BRANCH_KEY_RESTRICTED_FIELD_NAMES := {
     BRANCH_KEY_IDENTIFIER_FIELD,
     TYPE_FIELD,
@@ -73,10 +74,28 @@ module {:options "/functionSyntax:4" } Structure {
     || s == MUTATION_INDEX_TYPE
   }
 
+  lemma NoRestrictedAttributeNameStartsWithPrefix()
+    ensures
+      forall
+        reserved <- BRANCH_KEY_RESTRICTED_FIELD_NAMES
+        ::
+          !( ENCRYPTION_CONTEXT_PREFIX <= reserved)
+  {
+    HierarchyVersionIsNotPrefixed();
+  }
+
+  lemma HierarchyVersionIsNotPrefixed()
+    ensures ENCRYPTION_CONTEXT_PREFIX[0] == 'a'
+            && HIERARCHY_VERSION[0] == 'h'
+            && "a" != "h"
+  {}
+
   type PrefixedEncryptionContext = m: map<string, string> | PrefixedEncryptionContext?(m) witness *
-  predicate PrefixedEncryptionContext?(m: map<string, string>) {
-    && m.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES
-    && forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX <= k
+  predicate PrefixedEncryptionContext?(m: map<string, string>): (output: bool)
+    ensures output ==> m.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES
+  {
+    NoRestrictedAttributeNameStartsWithPrefix();
+    forall k :: k in m.Keys ==> ENCRYPTION_CONTEXT_PREFIX <= k
   }
 
   predicate StringIsValidHierarchyVersion?(version: string)
@@ -427,7 +446,7 @@ module {:options "/functionSyntax:4" } Structure {
     var prefixKeys := set k <- encryptionContext.Keys | ENCRYPTION_CONTEXT_PREFIX <= k;
 
     // Dafny needs some help.
-    // Adding a fixed string
+    // Removing a fixed string
     // will not make any of the keys collide.
     assert forall k <- prefixKeys ::
         k == ENCRYPTION_CONTEXT_PREFIX + k[|ENCRYPTION_CONTEXT_PREFIX|..];
@@ -446,56 +465,7 @@ module {:options "/functionSyntax:4" } Structure {
     Success(map i <- encodedEncryptionContext :: i.0.value := i.1.value)
   }
 
-  /** Selects the key-value pairs prefixed with ENCRYPTION_CONTEXT_PREFIX **/
-  function SelectCustomEncryptionContextAsString(
-    encryptionContext: Types.EncryptionContextString
-  ): (output: Types.EncryptionContextString)
-    ensures forall k <- output
-              ::
-                (|k| > |ENCRYPTION_CONTEXT_PREFIX|)
-                && k[ .. |ENCRYPTION_CONTEXT_PREFIX|] == ENCRYPTION_CONTEXT_PREFIX
-                && (k in encryptionContext)
-                && encryptionContext[k] == output[k]
-    ensures BRANCH_KEY_RESTRICTED_FIELD_NAMES !! output.Keys
-  {
-    var customKeys
-      :=
-      set k <- encryptionContext
-          | ENCRYPTION_CONTEXT_PREFIX < k && (|k| > |ENCRYPTION_CONTEXT_PREFIX|)
-            && k[0] == ENCRYPTION_CONTEXT_PREFIX[0]
-            // //It really helps Dafny to have a specific check
-        ::
-          // assert HIERARCHY_VERSION != k by {assert k[0] != HIERARCHY_VERSION[0];}
-          k;
-    map i <- customKeys :: i := encryptionContext[i]
-  }
-
-  function ExtractCustomEncryptionContextAs(
-    encryptionContext: BranchKeyContext
-  ): (output: Types.EncryptionContextString)
-    ensures
-      forall k <- output
-        ::
-          && (ENCRYPTION_CONTEXT_PREFIX + k in encryptionContext)
-          && encryptionContext[ENCRYPTION_CONTEXT_PREFIX + k] == output[k]
-  {
-    // Dafny needs some help.
-    // Adding a fixed string
-    // will not make any of the keys collide.
-    assert forall k <- encryptionContext.Keys | ENCRYPTION_CONTEXT_PREFIX < k
-        ::
-          k == ENCRYPTION_CONTEXT_PREFIX + k[|ENCRYPTION_CONTEXT_PREFIX|..];
-
-    var defixedCustomEncryptionContext
-      := set k <- encryptionContext
-             | ENCRYPTION_CONTEXT_PREFIX < k
-           ::
-             (k[|ENCRYPTION_CONTEXT_PREFIX|..], encryptionContext[k]);
-
-    map i <- defixedCustomEncryptionContext :: i.0 := i.1
-  }
-
-  opaque function DecryptOnlyBranchKeyEncryptionContext(
+  function DecryptOnlyBranchKeyEncryptionContext(
     branchKeyId: string,
     branchKeyVersion: string,
     timestamp: string,
@@ -506,45 +476,71 @@ module {:options "/functionSyntax:4" } Structure {
   ): (output: map<string, string>)
     requires 0 < |branchKeyId|
     requires 0 < |branchKeyVersion|
+    // TODO: Rustan suggests replacing all of these post-conditions with the lambda
     ensures BranchKeyContext?(output)
     ensures BRANCH_KEY_TYPE_PREFIX < output[TYPE_FIELD]
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[KMS_FIELD] == kmsKeyArn
     ensures output[TABLE_FIELD] == logicalKeyStoreName
     ensures output[HIERARCHY_VERSION] == HierarchyVersionToString(hierarchyVersion)
-    ensures forall k <- encryptionContext
+    ensures forall k <- encryptionContext.Keys
               ::
                 && ENCRYPTION_CONTEXT_PREFIX + k in output
                 && output[ENCRYPTION_CONTEXT_PREFIX + k] == encryptionContext[k]
     ensures PrefixedEncryptionContext?(output - BRANCH_KEY_RESTRICTED_FIELD_NAMES)
   {
-    // Dafny needs some help.
-    // Adding a fixed string
-    // will not make any of the keys collide.
-    // However, this leaks a lot of complexity.
-    // This is why the function is now opaque.
-    // Otherwise things timeout
-    assert forall k <- encryptionContext.Keys
-        ::
-          && k == (ENCRYPTION_CONTEXT_PREFIX + k)[|ENCRYPTION_CONTEXT_PREFIX|..];
-    // TODO-HV-2-FOLLOW : Using a Match statement to set the HIERARCHY_VERSION has made Dafny
-    // doubt that the prefixed-EC is disjoint from the reserved words.
-    // While this is really interesting, we KNOW this is true, and I am not going to spend.
-    // I would like to make some tiny functions that handle just prefixing...
     var prefixedEncryptionContext :=
-      map k <- encryptionContext :: ENCRYPTION_CONTEXT_PREFIX + k := encryptionContext[k];
-    assume {:axiom} forall k :: k in prefixedEncryptionContext.Keys ==> ENCRYPTION_CONTEXT_PREFIX < k;
-    assume {:axiom} prefixedEncryptionContext.Keys !! BRANCH_KEY_RESTRICTED_FIELD_NAMES;
-    assert PrefixedEncryptionContext?(prefixedEncryptionContext);
-    prefixedEncryptionContext + map[
-      BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
-      TYPE_FIELD := BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
-      KEY_CREATE_TIME := timestamp,
-      TABLE_FIELD := logicalKeyStoreName,
-      KMS_FIELD := kmsKeyArn,
-      HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
-    ]
+      PrefixUtils.AddingPrefixToKeysOfMapDoesNotCreateCollisions(
+        prefix := ENCRYPTION_CONTEXT_PREFIX,
+        aMap := encryptionContext
+      );
+    var requiredFields :=
+      map[
+        BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
+        TYPE_FIELD := BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
+        KEY_CREATE_TIME := timestamp,
+        TABLE_FIELD := logicalKeyStoreName,
+        KMS_FIELD := kmsKeyArn,
+        HIERARCHY_VERSION := HierarchyVersionToString(hierarchyVersion)
+      ];
+    assert (forall k <- requiredFields.Keys :: k !in prefixedEncryptionContext)
+    by { NoRestrictedAttributeNameStartsWithPrefix(); }
+    var output := prefixedEncryptionContext + requiredFields;
+    output
   }
+
+  lemma AboutDecryptOnlyBranchKeyContext(
+    branchKeyId: string,
+    branchKeyVersion: string,
+    timestamp: string,
+    logicalKeyStoreName: string,
+    kmsKeyArn: string,
+    hierarchyVersion: Types.HierarchyVersion,
+    encryptionContext: map<string, string>
+  )
+    requires 0 < |branchKeyId|
+    requires 0 < |branchKeyVersion|
+    ensures var output := DecryptOnlyBranchKeyEncryptionContext(
+                            branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName,
+                            kmsKeyArn, hierarchyVersion, encryptionContext
+                          );
+            && BranchKeyContext?(output)
+  {
+    var output := DecryptOnlyBranchKeyEncryptionContext(
+      branchKeyId, branchKeyVersion, timestamp, logicalKeyStoreName,
+      kmsKeyArn, hierarchyVersion, encryptionContext
+    );
+    assert BRANCH_KEY_TYPE_PREFIX < output[TYPE_FIELD];
+    assert BRANCH_KEY_ACTIVE_VERSION_FIELD !in output;
+    assert output[KMS_FIELD] == kmsKeyArn;
+    assert output[TABLE_FIELD] == logicalKeyStoreName;
+    assert output[HIERARCHY_VERSION] == HierarchyVersionToString(hierarchyVersion);
+    assert forall k <- encryptionContext.Keys :: ENCRYPTION_CONTEXT_PREFIX + k in output;
+    assert forall k <- encryptionContext.Keys :: output[ENCRYPTION_CONTEXT_PREFIX + k] == encryptionContext[k];
+    assert PrefixedEncryptionContext?(output - BRANCH_KEY_RESTRICTED_FIELD_NAMES);
+    assert BranchKeyContext?(output);
+  }
+
 
   function ActiveBranchKeyEncryptionContext(
     decryptOnlyEncryptionContext: map<string, string>
