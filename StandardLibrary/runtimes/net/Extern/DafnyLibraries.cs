@@ -19,6 +19,8 @@ namespace DafnyLibraries
             m = new ConcurrentDictionary<K, V>();
         }
 
+        public void __ctor(bool bytesKeys) { }
+
         public IMap<K, V> content()
         {
             var keyPairs = new List<IPair<K, V>>();
