@@ -190,7 +190,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
       }
     }
 
-    method moveToFront(c: CacheEntry)
+    method {:vcs_split_on_every_assert} moveToFront(c: CacheEntry)
       requires c in Items
       requires exists i: nat | 0 <= i < |Items| :: c == Items[i]
       requires Invariant()
@@ -215,7 +215,10 @@ module {:options "/functionSyntax:4" } LocalCMC {
           tail := head;
         }
       }
-
+      assert |Items| > 0;
+      assert forall i: nat | 0 <= i < |Items| :: 
+      && Prev?(i, Items[i], Items)
+      && Next?(i, Items[i], Items);
       assert (head.Ptr? <==> tail.Ptr?);
     }
 
@@ -267,6 +270,10 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
       toRemove.next := NULL;
       toRemove.prev := NULL;
+
+      assert forall i: nat | 0 <= i < |Items| :: 
+      && Prev?(i, Items[i], Items)
+      && Next?(i, Items[i], Items);
     }
   }
 
@@ -313,7 +320,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
   }
 
 
-  class {:only} LocalCMC extends Types.ICryptographicMaterialsCache {
+  class LocalCMC extends Types.ICryptographicMaterialsCache {
 
     ghost predicate ValidState()
       ensures ValidState() ==>
@@ -401,6 +408,11 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
       Modifies := { History, this };
       InternalModifies := { queue, cache, this };
+    }
+
+    predicate isInjectiveMap<K, V(==)>(m : map<K, V>)
+    {
+      forall k1, k2 :: k1 in m && k2 in m && m[k1] == m[k2] ==> k1 == k2
     }
 
     ghost predicate GetCacheEntryEnsuresPublicly(input: Types.GetCacheEntryInput, output: Result<Types.GetCacheEntryOutput, Types.Error>)
@@ -536,6 +548,14 @@ module {:options "/functionSyntax:4" } LocalCMC {
       cache.Put(input.identifier, cell);
       InternalModifies := InternalModifies + {cell};
 
+      assert multiset(cache.Values()) == multiset(queue.Items) by {
+        assert cell in cache.Values();
+        assert cell in queue.Items;
+        assert multiset(old@CAN_ADD(cache.Values())) + multiset{cell} == multiset(cache.Values());
+        assert multiset(old@CAN_ADD(queue.Items)) + multiset{cell} == multiset(queue.Items);
+        assert multiset(old@CAN_ADD(cache.Values())) == multiset(old@CAN_ADD(queue.Items));
+      }
+
       output := Success(());
 
       forall k <- cache.Keys(), k' <- cache.Keys() | k != k' ensures cache.Select(k) != cache.Select(k') {
@@ -545,7 +565,18 @@ module {:options "/functionSyntax:4" } LocalCMC {
           assert old@CAN_ADD(cache.Select(k)) != old@CAN_ADD(cache.Select(k'));
         }
       }
+      assert |queue.Items| > 0; 
       assert  (forall c <- queue.Items :: c.identifier in cache.Keys() && cache.Select(c.identifier) == c);
+      assert cache.Size() as uint64 <= entryCapacity by {
+        if entryCapacity == old@CAN_ADD(cache.Size()) as uint64 {
+          // We evicted one entry before adding, so size should be same as before
+          assert cache.Size() == old@CAN_ADD(cache.Size());
+        } else {
+          // We didn't evict, so we added one entry
+          assert cache.Size() == old@CAN_ADD(cache.Size()) + 1;
+          assert old@CAN_ADD(cache.Size()) as uint64 < entryCapacity;
+        }
+      }
       assert Invariant();
     }
 
