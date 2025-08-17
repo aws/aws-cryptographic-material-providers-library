@@ -29,8 +29,9 @@ class MutableMap(smithy_dafny_standard_library.internaldafny.generated.DafnyLibr
 
     def content(self):
         return _dafny.Map(self.map)
-        
-    def __init__(self) -> None:
+    
+    # TODO: remove bytesKeys
+    def __init__(self, bytesKeys) -> None:
         self.map = dict()
         self.lock = Lock()
 
