@@ -12,12 +12,16 @@ public class MutableMap<K, V> implements DafnyLibraries.MutableMapTrait<K, V> {
 
   private ConcurrentHashMap<K, V> m;
 
+  // TODO: remove bytesKeys
   public MutableMap(
     dafny.TypeDescriptor<K> _td_K,
-    dafny.TypeDescriptor<V> _td_V
+    dafny.TypeDescriptor<V> _td_V,
+    boolean bytesKeys 
   ) {
     m = new ConcurrentHashMap<K, V>();
   }
+
+  public void __ctor(boolean bytesKeys) { }
 
   @Override
   public DafnyMap<K, V> content() {
