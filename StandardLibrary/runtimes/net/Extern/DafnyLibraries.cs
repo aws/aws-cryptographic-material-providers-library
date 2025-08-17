@@ -14,7 +14,8 @@ namespace DafnyLibraries
     public partial class MutableMap<K, V>
     {
         private ConcurrentDictionary<K, V> m;
-        public MutableMap()
+        // TODO: remove bytesKeys
+        public MutableMap(bool bytesKeys)
         {
             m = new ConcurrentDictionary<K, V>();
         }
