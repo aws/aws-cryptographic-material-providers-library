@@ -17,7 +17,7 @@ pub mod DafnyLibraries {
     }
 
     impl<K: ::dafny_runtime::DafnyTypeEq, V: ::dafny_runtime::DafnyTypeEq> MutableMap<K, V> {
-        pub fn _allocate_object() -> ::dafny_runtime::Object<Self> {
+        pub fn _allocate_object(bytesKeys: bool) -> ::dafny_runtime::Object<Self> {
             ::dafny_runtime::Object::new(MutableMap {
                 map: DashMap::new(),
             })
