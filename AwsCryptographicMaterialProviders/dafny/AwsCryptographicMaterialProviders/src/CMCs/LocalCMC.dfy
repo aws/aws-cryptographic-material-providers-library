@@ -415,11 +415,6 @@ module {:options "/functionSyntax:4" } LocalCMC {
       InternalModifies := { queue, cache, this };
     }
 
-    predicate isInjectiveMap<K, V(==)>(m : map<K, V>)
-    {
-      forall k1, k2 :: k1 in m && k2 in m && m[k1] == m[k2] ==> k1 == k2
-    }
-
     ghost predicate GetCacheEntryEnsuresPublicly(input: Types.GetCacheEntryInput, output: Result<Types.GetCacheEntryOutput, Types.Error>)
     {true}
 
