@@ -95,6 +95,7 @@ ALGORITHM_SUITES = [
 ]
 
 # Unicode strategies for maximum diversity
+# Complete subcategories coverage for each Unicode category; refer to the documentation for category descriptions: https://www.unicode.org/reports/tr44/#General_Category_Values
 unicode_strategies = [
     st.text(min_size=1, max_size=50),
     st.text(min_size=1, max_size=50, alphabet=st.characters(categories=['So', 'Sc', 'Sk', 'Sm'])), #Symbols
