@@ -14,7 +14,7 @@ namespace DafnyLibraries
     public partial class MutableMap<K, V>
     {
         private ConcurrentDictionary<K, V> m;
-        // TODO: remove bytesKeys
+        // TODO: remove bytesKey. This should be set using ctor. https://github.com/dafny-lang/dafny/issues/6333
         public MutableMap(bool bytesKeys)
         {
             m = new ConcurrentDictionary<K, V>();

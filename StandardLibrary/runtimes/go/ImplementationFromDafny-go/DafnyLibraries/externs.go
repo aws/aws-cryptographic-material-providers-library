@@ -27,6 +27,7 @@ type MutableMap struct {
 	bytesKeys bool
 }
 
+// TODO: remove bytesKey. This should be set using Ctor. https://github.com/dafny-lang/dafny/issues/6333
 func New_MutableMap_(bytesKeys bool) *MutableMap {
 	return &MutableMap{
 		bytesKeys: bytesKeys,
