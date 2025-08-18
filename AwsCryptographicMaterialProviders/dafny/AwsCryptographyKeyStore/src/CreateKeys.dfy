@@ -113,7 +113,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= type=implication
               //# If the `hierarchy-version` is `v1`,
               //# the wrapped Branch Keys, DECRYPT_ONLY and ACTIVE, MUST be created according to [Wrapped Beacon Key Creation `v1`](#wrapped-beacon-key-creation-v1);
-              && WrappedBranchKeyCreation?(
+              && WrappedBranchKeyCreationV1?(
                    Seq.Last(Seq.DropLast(kmsClient.History.GenerateDataKeyWithoutPlaintext)),
                    Seq.Last(kmsClient.History.ReEncrypt),
                    kmsClient,
@@ -864,6 +864,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       encryptionContext := encryptionContext
     );
     ghost var decryptOnlyKMSEnc := Seq.Last(kmsClient.History.Encrypt);
+    assert |decryptOnlyKMSEnc.input.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int;
     assert |kmsClient.History.GenerateDataKey| == |old(kmsClient.History.GenerateDataKey)| + 2;
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v2
@@ -963,6 +964,35 @@ module {:options "/functionSyntax:4" } CreateKeys {
       && !KMSKeystoreOperations.HasKeyId(kmsConfiguration)
       ==> output.Failure?
 
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v1
+//= type=implication
+//# This operation MUST call AWS DDB `GetItem`.
+
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v2
+//= type=implication
+//# This operation MUST call AWS DDB `GetItem`.
+
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+//= type=implication
+//# To get attributes in branch key item from the keystore
+//# this operation MUST call AWS DDB `GetItem`.
+    ensures output.Success? ==>
+      && |ddbClient.History.GetItem| == |old(ddbClient.History.GetItem)| + 1
+      && var getItem := Seq.Last(ddbClient.History.GetItem);
+      && getItem.input.Key
+         == map[
+              Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(input.branchKeyIdentifier),
+              Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.BRANCH_KEY_ACTIVE_TYPE)
+            ]
+      && getItem.output.Success?
+      && getItem.output.value.Item.Some?
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+//= type=implication
+//# All attributes in the AWS DynamoDB response item MUST be of type string,
+//# with the exception of hierarchy-version, which MUST be of type number,
+//# and `enc`, which MUST be of type binary.
+      && Structure.ActiveBranchKeyItem?(getItem.output.value.Item.value)
+
   {
     :- Need(
       && KMSKeystoreOperations.HasKeyId(kmsConfiguration)
@@ -1043,14 +1073,21 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires kmsClient.ValidState() && ddbClient.ValidState()
     modifies ddbClient.Modifies, kmsClient.Modifies
     ensures ddbClient.ValidState() && kmsClient.ValidState()
+    ensures ddbClient.History.GetItem == old(ddbClient.History.GetItem)
 
     ensures output.Success?
             ==>
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v1
+//= type=implication
+//# Every attribute except `enc` on the AWS DDB response item MUST be converted to a set of key value pairs
+//# which is the [branch key context](#branch-key-context).
+              && var oldActiveEncryptionContext := Structure.ToBranchKeyContext(oldActiveItem, logicalKeyStoreName);
+
               //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
               //= type=implication
               //# The `kms-arn` field of DDB response item MUST be [compatible with](#aws-key-arn-compatibility)
               //# the configured `KMS ARN` in the [AWS KMS Configuration](#aws-kms-configuration) for this keystore.
-              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, Structure.ToBranchKeyContext(oldActiveItem, logicalKeyStoreName)[Structure.KMS_FIELD])
+              && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveEncryptionContext[Structure.KMS_FIELD])
 
               && Structure.KMS_FIELD in oldActiveItem
               && KMSKeystoreOperations.Compatible?(kmsConfiguration, oldActiveItem[Structure.KMS_FIELD].S)
@@ -1071,7 +1108,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //# with a request constructed as follows:
               && var reEncryptInput := Seq.Last(Seq.DropLast(kmsClient.History.ReEncrypt)).input;
 
-              && reEncryptInput.SourceEncryptionContext == Some(Structure.ToBranchKeyContext(oldActiveItem, logicalKeyStoreName))
+              && reEncryptInput.SourceEncryptionContext == Some(oldActiveEncryptionContext)
 
               && KMSKeystoreOperations.OptCompatible?(kmsConfiguration, reEncryptInput.SourceKeyId)
 
@@ -1087,12 +1124,12 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
               && KMSKeystoreOperations.Compatible?(kmsConfiguration, reEncryptInput.DestinationKeyId)
 
-              && reEncryptInput.DestinationEncryptionContext == Some(Structure.ToBranchKeyContext(oldActiveItem, logicalKeyStoreName))
+              && reEncryptInput.DestinationEncryptionContext == Some(oldActiveEncryptionContext)
 
               && |kmsClient.History.GenerateDataKeyWithoutPlaintext| == |old(kmsClient.History.GenerateDataKeyWithoutPlaintext)| + 1
 
               && var decryptOnlyEncryptionContext := Structure.NewVersionFromActiveBranchKeyEncryptionContext(
-                                                       Structure.ToBranchKeyContext(oldActiveItem, logicalKeyStoreName),
+                                                       oldActiveEncryptionContext,
                                                        branchKeyVersion,
                                                        timestamp
                                                      );
@@ -1101,7 +1138,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
               //= type=implication
               //# If the `hierarchy-version` is `v1`,
               //# the wrapped Branch Keys, DECRYPT_ONLY and ACTIVE, MUST be created according to [Wrapped Beacon Key Creation `v1`](#wrapped-beacon-key-creation-v1);
-              && WrappedBranchKeyCreation?(
+              && WrappedBranchKeyCreationV1?(
                    Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext),
                    Seq.Last(kmsClient.History.ReEncrypt),
                    kmsClient,
@@ -1137,6 +1174,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                       //# the operation MUST use the GenerateDataKeyWithoutPlaintext result `CiphertextBlob`
                       //# as the wrapped DECRYPT_ONLY Branch Key.
                       Seq.Last(kmsClient.History.GenerateDataKeyWithoutPlaintext).output.value.CiphertextBlob.value)
+              && writeNewKey.TransactItems[0].Put.value.Item[Structure.KMS_FIELD] == oldActiveItem[Structure.KMS_FIELD]
 
               && writeNewKey.TransactItems[1].Put.Some?
               && writeNewKey.TransactItems[1].Put.value.Item
@@ -1148,6 +1186,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
                       //# the operation MUST use the ReEncrypt result `CiphertextBlob`
                       //# as the wrapped ACTIVE Branch Key.
                       Seq.Last(kmsClient.History.ReEncrypt).output.value.CiphertextBlob.value)
+              && writeNewKey.TransactItems[1].Put.value.Item[Structure.KMS_FIELD] == oldActiveItem[Structure.KMS_FIELD]
 
               && Seq.Last(ddbClient.History.TransactWriteItems).output.Success?
 
@@ -1227,6 +1266,7 @@ module {:options "/functionSyntax:4" } CreateKeys {
       decryptOnlyEncryptionContext,
       wrappedDecryptOnlyBranchKey.CiphertextBlob.value
     );
+
     var activeBranchKeyItem: Structure.ActiveBranchKeyItem := Structure.ToAttributeMap(
       activeEncryptionContext,
       wrappedActiveBranchKey.CiphertextBlob.value
@@ -1302,7 +1342,10 @@ module {:options "/functionSyntax:4" } CreateKeys {
     requires kmsClient.ValidState() && ddbClient.ValidState()
     modifies ddbClient.Modifies, kmsClient.Modifies
     ensures ddbClient.ValidState() && kmsClient.ValidState()
+    ensures ddbClient.History.GetItem == old(ddbClient.History.GetItem)
+
     ensures output.Success? ==>
+              && var activeItem := Structure.ToEncryptedHierarchicalKey(oldActiveItem, logicalKeyStoreName);
               && KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, oldActiveItem[Structure.KMS_FIELD].S)
               && KMSKeystoreOperations.Compatible?(kmsConfiguration, oldActiveItem[Structure.KMS_FIELD].S)
 
@@ -1315,9 +1358,10 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && old(kmsClient.History.Encrypt) < kmsClient.History.Encrypt
 
               && var kmsKeyArn := KMSKeystoreOperations.GetKeyId(kmsConfiguration);
-              && var activeItem := Structure.ToEncryptedHierarchicalKey(oldActiveItem, logicalKeyStoreName);
               && HvUtils.IsValidHV2EC?(activeItem.EncryptionContext)
               && KMSKeystoreOperations.GetKeyId(kmsConfiguration) == oldActiveItem[Structure.KMS_FIELD].S
+              && Structure.BranchKeyContext?(activeItem.EncryptionContext)
+              && HvUtils.IsValidHV2EC?(activeItem.EncryptionContext)
               && var ecToKMS := HvUtils.SelectKmsEncryptionContextForHv2(activeItem.EncryptionContext);
               && var gdkEvent := Seq.Last(kmsClient.History.GenerateDataKey);
               && var gdkInput := gdkEvent.input;
@@ -1335,6 +1379,10 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && KMS.IsValid_CiphertextType(activeItem.CiphertextBlob)
               && var kmsArnFromStorage := activeItem.KmsArn;
               && var decryptOutput := Seq.Last(kmsClient.History.Decrypt).output;
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+//= type=implication
+//# If the `hierarchy-version` is `v2`, the values on the AWS DDB response item MUST be authenticated according to
+//# [authenticating a keystore item for item with hierarchy version v2](#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v2).
               && KMSKeystoreOperations.AwsKmsBranchKeyDecryptionForHV2?(
                    activeItem.CiphertextBlob,
                    ecToKMS,
@@ -1347,6 +1395,11 @@ module {:options "/functionSyntax:4" } CreateKeys {
               && decryptOutput.Success?
               && var oldActiveMaterial := decryptOutput.value.Plaintext.value[Structure.BKC_DIGEST_LENGTH..];
 
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+//= type=implication
+//# If the `hierarchy-version` is `v2`,
+//# the wrapped Branch Keys, DECRYPT_ONLY and ACTIVE, MUST be created according to
+//# [Wrapped Branch Key Creation `v2`](#wrapped-branch-key-creation-v2).
               && WrappedBranchKeyVersionV2?(
                    kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 1],
                    kmsClient.History.Encrypt[|kmsClient.History.Encrypt| - 2],
@@ -1357,9 +1410,36 @@ module {:options "/functionSyntax:4" } CreateKeys {
                    grantTokens,
                    ecToKMS
                  )
+              && |ddbClient.History.TransactWriteItems| == |old(ddbClient.History.TransactWriteItems)| + 1
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+              //= type=implication
+              //# The operation MUST call Amazon DynamoDB TransactWriteItems with a request constructed as follows:
+              && var writeNewKey := Seq.Last(ddbClient.History.TransactWriteItems).input;
+
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+//= type=implication
+//# The `kms-arn` stored in the DDB table MUST NOT change as a result of this operation,
+//# even if the KeyStore is configured with a `KMS MRKey ARN` that does not exactly match the stored ARN.
+              && 2 == |writeNewKey.TransactItems|
+              && writeNewKey.TransactItems[0].Put.Some?
+              && Structure.KMS_FIELD in writeNewKey.TransactItems[0].Put.value.Item
+              && writeNewKey.TransactItems[0].Put.value.Item[Structure.KMS_FIELD] == oldActiveItem[Structure.KMS_FIELD]
+              && writeNewKey.TransactItems[1].Put.Some?
+              && Structure.KMS_FIELD in writeNewKey.TransactItems[1].Put.value.Item
+              && writeNewKey.TransactItems[1].Put.value.Item[Structure.KMS_FIELD] == oldActiveItem[Structure.KMS_FIELD]
+
+              && Seq.Last(ddbClient.History.TransactWriteItems).output.Success?
+
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+              //= type=implication
+              //# If DDB TransactWriteItems is successful, this operation MUST return a successful response containing no additional data.
               && output == Success(Types.VersionKeyOutput)
   {
+    // assume false;
+
     var activeItem := Structure.ToEncryptedHierarchicalKey(oldActiveItem, logicalKeyStoreName);
+    assert activeItem.EncryptionContext[Structure.KMS_FIELD] == oldActiveItem[Structure.KMS_FIELD].S;
 
     :- Need(
       HvUtils.IsValidHV2EC?(activeItem.EncryptionContext),
@@ -1401,7 +1481,10 @@ module {:options "/functionSyntax:4" } CreateKeys {
       branchKeyVersion,
       timestamp
     );
+    assert decryptOnlyEncryptionContext[Structure.KMS_FIELD] == oldActiveItem[Structure.KMS_FIELD].S;
+
     var activeEncryptionContext := Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext);
+    assert activeEncryptionContext[Structure.KMS_FIELD] == oldActiveItem[Structure.KMS_FIELD].S;
 
     var CryptoAndKms := KMSKeystoreOperations.CryptoAndKms(kmsConfiguration, crypto, grantTokens, kmsClient);
     var wrappedDecryptOnlyBranchKey :- KMSKeystoreOperations.packAndCallKMS(
@@ -1420,6 +1503,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
 
     var decryptOnlyItemMap := Structure.ToAttributeMap(decryptOnlyEncryptionContext, wrappedDecryptOnlyBranchKey.CiphertextBlob);
     var activeItemMap := Structure.ToAttributeMap(activeEncryptionContext, wrappedActiveBranchKey.CiphertextBlob);
+    assert activeItemMap[Structure.KMS_FIELD] == oldActiveItem[Structure.KMS_FIELD];
+    assert decryptOnlyItemMap[Structure.KMS_FIELD] == oldActiveItem[Structure.KMS_FIELD];
 
     var _ :- DDBKeystoreOperations.WriteNewBranchKeyVersionToKeystore(
       decryptOnlyItemMap,
@@ -1428,10 +1513,27 @@ module {:options "/functionSyntax:4" } CreateKeys {
       ddbClient
     );
 
+    assert |ddbClient.History.TransactWriteItems| == |old(ddbClient.History.TransactWriteItems)| + 1;
+    ghost var writeNewKey := Seq.Last(ddbClient.History.TransactWriteItems).input;
+    assert writeNewKey == DDB.TransactWriteItemsInput(
+           TransactItems := [
+            DDBKeystoreOperations.CreateTransactWritePutItem(decryptOnlyItemMap, ddbTableName, DDBKeystoreOperations.BRANCH_KEY_NOT_EXIST),
+             DDBKeystoreOperations.CreateTransactWritePutItem(activeItemMap, ddbTableName, DDBKeystoreOperations.BRANCH_KEY_EXISTS)
+           ],
+           ReturnConsumedCapacity := None,
+           ReturnItemCollectionMetrics := None,
+           ClientRequestToken := None
+         );
+
+      assert 2 == |writeNewKey.TransactItems|;
+      assert writeNewKey.TransactItems[0].Put.Some?;
+      assert writeNewKey.TransactItems[0].Put.value.Item[Structure.KMS_FIELD] == oldActiveItem[Structure.KMS_FIELD];
+      assert writeNewKey.TransactItems[1].Put.value.Item[Structure.KMS_FIELD] == oldActiveItem[Structure.KMS_FIELD];
+
     output := Success(Types.VersionKeyOutput());
   }
 
-  ghost predicate WrappedBranchKeyCreation?(
+  ghost predicate WrappedBranchKeyCreationV1?(
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
     //= type=implication
     //# The operation MUST call [AWS KMS API GenerateDataKeyWithoutPlaintext](https://docs.aws.amazon.com/kms/latest/APIReference/API_GenerateDataKeyWithoutPlaintext.html).
@@ -1478,6 +1580,10 @@ module {:options "/functionSyntax:4" } CreateKeys {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
     //= type=implication
     //# - `GrantTokens` MUST be this keystore's [grant tokens](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
+
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v1
+//= type=implication
+//# - `GrantTokens` MUST be the configured [grant tokens](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#grant_token).
     && decryptOnlyKmsInput.GrantTokens == Some(grantTokens)
     && generateHistory.output.Success?
     && generateHistory.output.value.CiphertextBlob.Some?
@@ -1506,16 +1612,28 @@ module {:options "/functionSyntax:4" } CreateKeys {
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
     //= type=implication
     //# - `CiphertextBlob` MUST be the wrapped DECRYPT_ONLY Branch Key.
+
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v1
+//= type=implication
+//# - `CiphertextBlob` MUST be the `enc` attribute value on the AWS DDB response item
     && activeInput.CiphertextBlob == generateHistory.output.value.CiphertextBlob.value
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
     //= type=implication
     //# - `SourceEncryptionContext` MUST be the [DECRYPT_ONLY branch key context for branch keys](#decrypt_only-branch-key-context).
+
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v1
+//= type=implication
+//# - `SourceEncryptionContext` MUST be the [branch key context](#branch-key-context) constructed above
     && activeInput.SourceEncryptionContext == Some(decryptOnlyEncryptionContext)
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#wrapped-branch-key-creation-v1
     //= type=implication
     //# - `DestinationEncryptionContext` MUST be the [ACTIVE branch key context for branch keys](#active-branch-key-context).
+
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#authenticating-a-branch-keystore-item-for-item-with-hierarchy-version-v1
+//= type=implication
+//# - `DestinationEncryptionContext` MUST be the [branch key context](#branch-key-context) constructed above
     && activeInput.DestinationEncryptionContext == Some(Structure.ActiveBranchKeyEncryptionContext(decryptOnlyEncryptionContext))
 
     && reEncryptHistory.output.Success?

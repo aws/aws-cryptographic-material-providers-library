@@ -155,12 +155,18 @@ module DDBKeystoreOperations {
     ensures ddbClient.ValidState()
 
     ensures
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+    //= type=implication
+    //# VersionKey MUST first get the active version for the branch key from the keystore
+    //# by calling AWS DDB `GetItem`
+    //# using the `branch-key-id` as the Partition Key and `"branch:ACTIVE"` value as the Sort Key.
       && |ddbClient.History.GetItem| == |old(ddbClient.History.GetItem)| + 1
       && Seq.Last(ddbClient.History.GetItem).input.Key
          == map[
               Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(branchKeyIdentifier),
               Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.BRANCH_KEY_ACTIVE_TYPE)
             ]
+
     ensures output.Success?
             ==>
               && output.value[Structure.BRANCH_KEY_IDENTIFIER_FIELD].S == branchKeyIdentifier

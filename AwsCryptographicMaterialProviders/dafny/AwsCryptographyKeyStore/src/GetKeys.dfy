@@ -459,6 +459,9 @@ module GetKeys {
     );
 
     // Verify the digest matches
+//= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+//# For authentication of attributes except for `enc` on AWS DDB response item in Hierarchy Version `v2`,
+//# the operation MUST match the first 48 bytes of `Plaintext` returned by AWS KMS Decrypt operation with SHA-384 Digest for the branch key of serialization of the [branch key context](#branch-key-context).
     if (bkcFromStorage != protectedMdDigest) {
       var e := Types.BranchKeyCiphertextException(
         message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED

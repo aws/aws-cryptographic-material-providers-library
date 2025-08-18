@@ -55,7 +55,6 @@ module {:options "/functionSyntax:4" } Structure {
     logicalKeyStoreName: string
   ): (output: EncryptedHierarchicalKey)
     requires BranchKeyItem?(item)
-    // ensures EncryptedHierarchicalKeyFromStorage?(output)
   {
     var EncryptionContext := map k <- item.Keys - {BRANCH_KEY_FIELD} + {TABLE_FIELD}
                                       // Working around https://github.com/dafny-lang/dafny/issues/5776
