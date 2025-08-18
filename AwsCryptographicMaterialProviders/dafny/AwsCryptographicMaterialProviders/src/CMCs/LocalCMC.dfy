@@ -344,7 +344,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
       && this in InternalModifies
       && queue in InternalModifies
       && cache in InternalModifies
-      // I want to say that `queue.Items` is somehow in InternalModifies
+                  // I want to say that `queue.Items` is somehow in InternalModifies
       && (forall i <- queue.Items :: i in InternalModifies)
       && Invariant()
     }
@@ -353,15 +353,15 @@ module {:options "/functionSyntax:4" } LocalCMC {
       reads this, queue, queue.Items, cache
     {
       && queue.Invariant()
-      // The cache is a cache of Cells, these Cells MUST be unique.
-      // The actual value that the Cell contains MAY be a duplicate.
-      // See the uniqueness comment on the DoublyLinkedList.Invariant.
+         // The cache is a cache of Cells, these Cells MUST be unique.
+         // The actual value that the Cell contains MAY be a duplicate.
+         // See the uniqueness comment on the DoublyLinkedList.Invariant.
       && MutableMapIsInjective(cache)
-      // Given that cache.Values and queue.Items are unique
-      // they MUST contain exactly the same elements.
+         // Given that cache.Values and queue.Items are unique
+         // they MUST contain exactly the same elements.
       && multiset(cache.Values()) == multiset(queue.Items)
-      // To remove the tail the key associated
-      // with the tail MUST be in the cache
+         // To remove the tail the key associated
+         // with the tail MUST be in the cache
       && (forall c <- queue.Items :: c.identifier in cache.Keys() && cache.Select(c.identifier) == c)
 
       && (ValueIsSafeBecauseItIsInMemory(cache.Size()); cache.Size() as uint64 <= entryCapacity)
