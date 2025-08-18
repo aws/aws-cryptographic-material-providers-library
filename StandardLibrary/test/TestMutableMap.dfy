@@ -29,7 +29,7 @@ module TestMutableMap {
   requires size > 0
 {
   // Explicitly parametrize with <seq<uint8>, int>
-  var testMap := new MutableMap((k: seq<uint8>, v: int) => true, true);
+  var testMap := new MutableMap((k: seq<uint8>, v: int) => true, false);
   var i := 0;
   while i < size {
     // Convert int -> seq<uint8> (just an example: single-byte sequence)
