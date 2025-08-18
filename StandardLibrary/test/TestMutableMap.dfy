@@ -26,28 +26,49 @@ module TestMutableMap {
   }
 
   method TestMapOperations(size: int)
-    requires size > 0
-  {
-    var testMap := new MutableMap();
-    
-    var i := 0;
-    while i < size {
-      testMap.Put(i, i);
-      i := i + 1;
-    }
-    
-    expect testMap.Size() == size;
-    
-    var tempI;
-    while i < size {
-      tempI := testMap.Select(i);
-      expect i == tempI;
-      i := i + 1;
-    }
-
-    while i < size {
-      testMap.Remove(i);
-      expect !testMap.HasKey(i);
-    }
+  requires size > 0
+{
+  // Explicitly parametrize with <seq<uint8>, int>
+  var testMap := new MutableMap((k: seq<uint8>, v: int) => true, true);
+  var i := 0;
+  while i < size {
+    // Convert int -> seq<uint8> (just an example: single-byte sequence)
+    var key := IntToBytes(i); 
+    testMap.Put(key, i);
+    i := i + 1;
   }
+  expect testMap.Size() == size;
+  // Reset loop
+  i := 0;
+  while i < size {
+    var key := IntToBytes(i);
+    var tempI := testMap.Select(key);
+    expect i == tempI;
+    i := i + 1;
+  }
+  i := 0;
+  while i < size {
+    var key := IntToBytes(i);
+    testMap.Remove(key);
+    expect !testMap.HasKey(key);
+    i := i + 1;
+  }
+}
+method IntToBytes(x: int) returns (bytes: seq<uint8>)
+  requires x >= 0
+  ensures |bytes| > 0
+{
+  var result := [];
+  var n := x;
+  while n > 0
+    decreases n
+  {
+    result := [(n % 256) as uint8] + result;
+    n := n / 256;
+  }
+  if |result| == 0 {
+    result := [(0) as uint8];
+  }
+  bytes := result;
+}
 }
