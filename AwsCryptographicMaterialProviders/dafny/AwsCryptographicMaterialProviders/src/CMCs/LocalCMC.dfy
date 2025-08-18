@@ -108,15 +108,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
       reads this, Items
     {
       // head and tail properties
-      && (0 == |Items| <==> head.Null? && tail.Null?)
-      && (0 < |Items| <==>
-          && head.Ptr?
-          && tail.Ptr?
-          && head.deref == Items[0]
-          && tail.deref == Items[|Items| - 1])
-      && (head.Ptr? <==> tail.Ptr?)
-      && (head.Ptr? ==> head.deref.prev.Null?)
-      && (tail.Ptr? ==> tail.deref.next.Null?)
+      HeadTailProperties()
          // Every Cell in the DoublyLinkedList MUST be unique.
          // Otherwise there would be loops in prev and next.
          // For a Cell at 4, next MUST point to 5 or Null?.
@@ -131,6 +123,19 @@ module {:options "/functionSyntax:4" } LocalCMC {
             && Prev?(i, Items[i], Items)
             && Next?(i, Items[i], Items)
          )
+    }
+
+    ghost predicate HeadTailProperties()
+      reads this, Items
+    {
+      (0 == |Items| <==> head.Null? && tail.Null?) &&
+      (0 < |Items| <==>
+        head.Ptr? && tail.Ptr? &&
+        head.deref == Items[0] &&
+        tail.deref == Items[|Items|-1]) &&
+      (head.Ptr? <==> tail.Ptr?) &&
+      (head.Ptr? ==> head.deref.prev.Null?) &&
+      (tail.Ptr? ==> tail.deref.next.Null?)
     }
 
     ghost predicate Prev?(i:nat, c: CacheEntry, Items' : seq<CacheEntry>)
