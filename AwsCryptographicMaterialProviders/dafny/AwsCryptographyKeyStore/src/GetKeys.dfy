@@ -152,6 +152,9 @@ module GetKeys {
               // = type=implication
               // # The operation MUST decrypt the EncryptedHierarchicalKey according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
               && var hv := activeItem.value[Structure.HIERARCHY_VERSION].N;
+              //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
+              //= type=implication
+              //# The operation MUST decrypt the branch key according to the [AWS KMS Branch Key Decryption](#aws-kms-branch-key-decryption) section.
               && ValidateKmsDecryption(encryptionContext, activeItem.value, kmsConfiguration, grantTokens, kmsClient, hv)
               && var decryptResponse := Seq.Last(kmsClient.History.Decrypt).output.value;
 
@@ -175,6 +178,10 @@ module GetKeys {
                    false
 
     ensures
+      //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
+      //= type=implication
+      //# The AWS DDB response MUST contain the fields defined in the [branch keystore record format](#record-format).
+
       //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
       //= type=implication
       //# If the record does not contain the defined fields, this operation MUST fail.
@@ -459,9 +466,9 @@ module GetKeys {
     );
 
     // Verify the digest matches
-//= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-//# For authentication of attributes except for `enc` on AWS DDB response item in Hierarchy Version `v2`,
-//# the operation MUST match the first 48 bytes of `Plaintext` returned by AWS KMS Decrypt operation with SHA-384 Digest for the branch key of serialization of the [branch key context](#branch-key-context).
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //# For authentication of attributes except for `enc` on AWS DDB response item in Hierarchy Version `v2`,
+    //# the operation MUST match the first 48 bytes of `Plaintext` returned by AWS KMS Decrypt operation with SHA-384 Digest for the branch key of serialization of the [branch key context](#branch-key-context).
     if (bkcFromStorage != protectedMdDigest) {
       var e := Types.BranchKeyCiphertextException(
         message := ErrorMessages.MD_DIGEST_SHA_NOT_MATCHED
