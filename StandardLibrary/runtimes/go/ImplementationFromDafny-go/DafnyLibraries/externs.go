@@ -27,7 +27,8 @@ type MutableMap struct {
 	bytesKeys bool
 }
 
-// TODO: remove bytesKey. This should be set using Ctor. https://github.com/dafny-lang/dafny/issues/6333
+// bytesKeys should be set using ctor but it does not because of Dafny bug
+// https://github.com/dafny-lang/dafny/issues/6333
 // This uses variadic parameters to make it backward compatible while adding the boolean parameter bytesKeys
 func New_MutableMap_(bytesKeys ...bool) *MutableMap {
 	useBytes := false
