@@ -28,9 +28,14 @@ type MutableMap struct {
 }
 
 // TODO: remove bytesKey. This should be set using Ctor. https://github.com/dafny-lang/dafny/issues/6333
-func New_MutableMap_(bytesKeys bool) *MutableMap {
+// This uses variadic parameters to make it backward compatible while adding the boolean parameter bytesKeys
+func New_MutableMap_(bytesKeys ...bool) *MutableMap {
+	useBytes := false
+	if len(bytesKeys) > 0 {
+		useBytes = bytesKeys[0]
+	}
 	return &MutableMap{
-		bytesKeys: bytesKeys,
+		bytesKeys: useBytes,
 	}
 }
 

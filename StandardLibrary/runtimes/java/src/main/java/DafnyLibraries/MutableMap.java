@@ -12,7 +12,14 @@ public class MutableMap<K, V> implements DafnyLibraries.MutableMapTrait<K, V> {
 
   private ConcurrentHashMap<K, V> m;
 
-  // TODO: remove bytesKey. This should be set using ctor. https://github.com/dafny-lang/dafny/issues/6333
+  public MutableMap(
+    dafny.TypeDescriptor<K> _td_K,
+    dafny.TypeDescriptor<V> _td_V
+  ) {
+    m = new ConcurrentHashMap<K, V>();
+  }
+
+  // TODO: This should be set using ctor. https://github.com/dafny-lang/dafny/issues/6333
   public MutableMap(
     dafny.TypeDescriptor<K> _td_K,
     dafny.TypeDescriptor<V> _td_V,
