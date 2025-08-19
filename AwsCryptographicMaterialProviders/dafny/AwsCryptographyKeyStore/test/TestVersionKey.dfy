@@ -364,7 +364,8 @@ module TestVersionKey {
       versionBranchKeyItem,
       activeBranchKeyItem,
       myBranchKeyStoreName,
-      ddbClient
+      ddbClient,
+      ComAmazonawsDynamodbTypes.AttributeValue.B([0])
     );
 
     expect output.Failure?;
@@ -396,7 +397,8 @@ module TestVersionKey {
       versionBranchKeyItem,
       activeBranchKeyItem,
       myBranchKeyStoreName,
-      ddbClient
+      ddbClient,
+      ComAmazonawsDynamodbTypes.AttributeValue.B([0])
     );
 
     expect output.Failure?;

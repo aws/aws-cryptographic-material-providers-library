@@ -1290,7 +1290,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
       decryptOnlyBranchKeyItem,
       activeBranchKeyItem,
       ddbTableName,
-      ddbClient
+      ddbClient,
+      oldActiveItem[Structure.BRANCH_KEY_FIELD]
     );
 
     assert && |ddbClient.History.TransactWriteItems| == |old(ddbClient.History.TransactWriteItems)| + 1;
@@ -1531,15 +1532,16 @@ module {:options "/functionSyntax:4" } CreateKeys {
       decryptOnlyItemMap,
       activeItemMap,
       ddbTableName,
-      ddbClient
+      ddbClient,
+      oldActiveItem[Structure.BRANCH_KEY_FIELD]
     );
 
     assert |ddbClient.History.TransactWriteItems| == |old(ddbClient.History.TransactWriteItems)| + 1;
     ghost var writeNewKey := Seq.Last(ddbClient.History.TransactWriteItems).input;
     assert writeNewKey == DDB.TransactWriteItemsInput(
                             TransactItems := [
-                              DDBKeystoreOperations.CreateTransactWritePutItem(decryptOnlyItemMap, ddbTableName, DDBKeystoreOperations.BRANCH_KEY_NOT_EXIST),
-                              DDBKeystoreOperations.CreateTransactWritePutItem(activeItemMap, ddbTableName, DDBKeystoreOperations.BRANCH_KEY_EXISTS)
+                              DDBKeystoreOperations.CreateTransactWritePutItemNotExist(decryptOnlyItemMap, ddbTableName),
+                              DDBKeystoreOperations.CreateTransactWritePutItemExists(activeItemMap, ddbTableName, oldActiveItem[Structure.BRANCH_KEY_FIELD])
                             ],
                             ReturnConsumedCapacity := None,
                             ReturnItemCollectionMetrics := None,

@@ -15,17 +15,25 @@ module DDBKeystoreOperations {
   import Structure
   import ErrorMessages = KeyStoreErrorMessages
 
-  const BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAME := "#BranchKeyIdentifierField"
+  const BRANCH_KEY_NOT_EXISTS_EXPRESSION_ATTRIBUTE_NAME := "#BranchKeyIdentifierField"
+  const BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAME := "#EncField"
+  const BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_VALUE_NAME := ":enc"
+  const BRANCH_KEY_NOT_EXISTS_EXPRESSION_ATTRIBUTE_NAMES
+    := map[
+         BRANCH_KEY_NOT_EXISTS_EXPRESSION_ATTRIBUTE_NAME := Structure.BRANCH_KEY_IDENTIFIER_FIELD
+       ]
   const BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAMES
     := map[
-         BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAME := Structure.BRANCH_KEY_IDENTIFIER_FIELD
+         BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAME := Structure.BRANCH_KEY_FIELD
        ]
-  const BRANCH_KEY_NOT_EXIST_CONDITION := "attribute_not_exists(" + BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAME + ")"
-  const BRANCH_KEY_EXISTS_CONDITION := "attribute_exists(" + BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAME + ")"
-
-  datatype ConditionExpression =
-    | BRANCH_KEY_NOT_EXIST
-    | BRANCH_KEY_EXISTS
+  function method GetBranchKeyExistsAttributeValues(val : DDB.AttributeValue) : DDB.ExpressionAttributeValueMap
+  {
+    map[
+      BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_VALUE_NAME := val
+    ]
+  }
+  const BRANCH_KEY_NOT_EXIST_CONDITION := "attribute_not_exists(" + BRANCH_KEY_NOT_EXISTS_EXPRESSION_ATTRIBUTE_NAME + ")"
+  const BRANCH_KEY_EXISTS_CONDITION := BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAME + " = " + BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_VALUE_NAME
 
   method WriteNewKeyToStore(
     versionBranchKeyItem: Structure.VersionBranchKeyItem,
@@ -48,9 +56,9 @@ module DDBKeystoreOperations {
       && |ddbClient.History.TransactWriteItems| == |old(ddbClient.History.TransactWriteItems)| + 1
       && DDB.TransactWriteItemsInput(
            TransactItems := [
-             CreateTransactWritePutItem(versionBranchKeyItem, tableName, BRANCH_KEY_NOT_EXIST),
-             CreateTransactWritePutItem(activeBranchKeyItem, tableName, BRANCH_KEY_NOT_EXIST),
-             CreateTransactWritePutItem(beaconKeyItem, tableName, BRANCH_KEY_NOT_EXIST)
+             CreateTransactWritePutItemNotExist(versionBranchKeyItem, tableName),
+             CreateTransactWritePutItemNotExist(activeBranchKeyItem, tableName),
+             CreateTransactWritePutItemNotExist(beaconKeyItem, tableName)
            ],
            ReturnConsumedCapacity := None,
            ReturnItemCollectionMetrics := None,
@@ -70,9 +78,9 @@ module DDBKeystoreOperations {
 
   {
     var items: DDB.TransactWriteItemList := [
-      CreateTransactWritePutItem(versionBranchKeyItem, tableName, BRANCH_KEY_NOT_EXIST),
-      CreateTransactWritePutItem(activeBranchKeyItem, tableName, BRANCH_KEY_NOT_EXIST),
-      CreateTransactWritePutItem(beaconKeyItem, tableName, BRANCH_KEY_NOT_EXIST)
+      CreateTransactWritePutItemNotExist(versionBranchKeyItem, tableName),
+      CreateTransactWritePutItemNotExist(activeBranchKeyItem, tableName),
+      CreateTransactWritePutItemNotExist(beaconKeyItem, tableName)
     ];
 
     var transactRequest := DDB.TransactWriteItemsInput(
@@ -93,7 +101,8 @@ module DDBKeystoreOperations {
     versionBranchKeyItem: Structure.VersionBranchKeyItem,
     activeBranchKeyItem: Structure.ActiveBranchKeyItem,
     tableName: DDB.TableName,
-    ddbClient: DDB.IDynamoDBClient
+    ddbClient: DDB.IDynamoDBClient,
+    enc : DDB.AttributeValue
   )
     returns (output: Result<DDB.TransactWriteItemsOutput, Types.Error>)
     requires
@@ -107,8 +116,8 @@ module DDBKeystoreOperations {
       && |ddbClient.History.TransactWriteItems| == |old(ddbClient.History.TransactWriteItems)| + 1
       && DDB.TransactWriteItemsInput(
            TransactItems := [
-             CreateTransactWritePutItem(versionBranchKeyItem, tableName, BRANCH_KEY_NOT_EXIST),
-             CreateTransactWritePutItem(activeBranchKeyItem, tableName, BRANCH_KEY_EXISTS)
+             CreateTransactWritePutItemNotExist(versionBranchKeyItem, tableName),
+             CreateTransactWritePutItemExists(activeBranchKeyItem, tableName, enc)
            ],
            ReturnConsumedCapacity := None,
            ReturnItemCollectionMetrics := None,
@@ -124,8 +133,8 @@ module DDBKeystoreOperations {
       && old(ddbClient.History.GetItem) == ddbClient.History.GetItem
   {
     var items: DDB.TransactWriteItemList := [
-      CreateTransactWritePutItem(versionBranchKeyItem, tableName,  BRANCH_KEY_NOT_EXIST),
-      CreateTransactWritePutItem(activeBranchKeyItem, tableName, BRANCH_KEY_EXISTS)
+      CreateTransactWritePutItemNotExist(versionBranchKeyItem, tableName),
+      CreateTransactWritePutItemExists(activeBranchKeyItem, tableName, enc)
     ];
 
     var transactRequest := DDB.TransactWriteItemsInput(
@@ -357,10 +366,9 @@ module DDBKeystoreOperations {
     output := Success(getItemResponse.Item.value);
   }
 
-  function method CreateTransactWritePutItem(
+  function method CreateTransactWritePutItemNotExist(
     item: DDB.AttributeMap,
-    tableName: DDB.TableName,
-    conditionExpression: ConditionExpression
+    tableName: DDB.TableName
   ): (output: DDB.TransactWriteItem)
   {
 
@@ -370,13 +378,30 @@ module DDBKeystoreOperations {
         DDB.Put(
           Item := item,
           TableName := tableName,
-          ConditionExpression := Some(
-            match conditionExpression
-            case BRANCH_KEY_NOT_EXIST() => BRANCH_KEY_NOT_EXIST_CONDITION
-            case BRANCH_KEY_EXISTS() => BRANCH_KEY_EXISTS_CONDITION
-          ),
-          ExpressionAttributeNames := Some(BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAMES),
+          ConditionExpression := Some(BRANCH_KEY_NOT_EXIST_CONDITION),
+          ExpressionAttributeNames := Some(BRANCH_KEY_NOT_EXISTS_EXPRESSION_ATTRIBUTE_NAMES),
           ExpressionAttributeValues := None,
+          ReturnValuesOnConditionCheckFailure := None)),
+      Delete := None,
+      Update := None
+    )
+  }
+  function method CreateTransactWritePutItemExists(
+    item: DDB.AttributeMap,
+    tableName: DDB.TableName,
+    enc : DDB.AttributeValue
+  ): (output: DDB.TransactWriteItem)
+  {
+
+    DDB.TransactWriteItem(
+      ConditionCheck := None,
+      Put := Some(
+        DDB.Put(
+          Item := item,
+          TableName := tableName,
+          ConditionExpression := Some(BRANCH_KEY_EXISTS_CONDITION),
+          ExpressionAttributeNames := Some(BRANCH_KEY_EXISTS_EXPRESSION_ATTRIBUTE_NAMES),
+          ExpressionAttributeValues := Some(GetBranchKeyExistsAttributeValues(enc)),
           ReturnValuesOnConditionCheckFailure := None)),
       Delete := None,
       Update := None
