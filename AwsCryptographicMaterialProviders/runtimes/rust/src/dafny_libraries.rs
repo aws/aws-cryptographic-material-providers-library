@@ -17,7 +17,8 @@ pub mod DafnyLibraries {
     }
 
     impl<K: ::dafny_runtime::DafnyTypeEq, V: ::dafny_runtime::DafnyTypeEq> MutableMap<K, V> {
-        // TODO: remove bytesKey. This should be set using Ctor. https://github.com/dafny-lang/dafny/issues/6333
+        // bytesKeys should be set using ctor but it does not because of Dafny bug
+        // https://github.com/dafny-lang/dafny/issues/6333
         pub fn _allocate_object(bytesKeys: bool) -> ::dafny_runtime::Object<Self> {
             ::dafny_runtime::Object::new(MutableMap {
                 map: DashMap::new(),

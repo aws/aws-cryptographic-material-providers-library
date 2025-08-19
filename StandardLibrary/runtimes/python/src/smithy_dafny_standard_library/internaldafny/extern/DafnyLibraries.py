@@ -30,8 +30,9 @@ class MutableMap(smithy_dafny_standard_library.internaldafny.generated.DafnyLibr
     def content(self):
         return _dafny.Map(self.map)
     
-    # TODO: remove bytesKey. This should be set using ctor. https://github.com/dafny-lang/dafny/issues/6333
-    def __init__(self, bytesKeys) -> None:
+    # bytesKeys should be set using ctor but it does not because of Dafny bug
+    # https://github.com/dafny-lang/dafny/issues/6333
+    def __init__(self, bytesKeys=False) -> None:
         self.map = dict()
         self.lock = Lock()
 
