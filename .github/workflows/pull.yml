@@ -62,7 +62,7 @@ jobs:
     secrets: inherit
   pr-ci-db-esdk-java-examples:
     needs: getVersions
-    uses: .github/workflows/test_dbesdk_examples.yml
+    uses: ./.github/workflows/test_dbesdk_examples.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   pr-ci-all-required:
