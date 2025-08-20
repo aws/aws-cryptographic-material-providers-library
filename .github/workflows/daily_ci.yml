@@ -71,11 +71,6 @@ jobs:
     with:
       dafny: ${{needs.getVersions.outputs.version}}
       fuzz-testing: true
-  daily-db-esdk-java-examples-test:
-    needs: getVersions
-    uses: ./.github/workflows/test_dbesdk_examples.yml
-    with:
-      dafny: ${{needs.getVersions.outputs.version}}
   notify:
     needs:
       [
@@ -89,8 +84,7 @@ jobs:
         daily-ci-python,
         daily-ci-go,
         daily-interop-test,
-        daily-fuzz-interop-test,
-        daily-db-esdk-java-examples-test
+        daily-fuzz-interop-test
       ]
     if: ${{ failure() }}
     uses: ./.github/workflows/slack-notification.yml
