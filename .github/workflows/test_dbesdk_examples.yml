@@ -49,20 +49,20 @@ jobs:
           distribution: "corretto"
           java-version: 11
 
-      # - name: Setup Dafny
-      #   uses: ./.github/actions/setup_dafny
-      #   with:
-      #     dafny-version: ${{ inputs.dafny }}
+      - name: Setup Dafny
+        uses: ./.github/actions/setup_dafny
+        with:
+          dafny-version: ${{ inputs.dafny }}
 
-      # - name: Install Smithy-Dafny codegen dependencies
-      #   uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+      - name: Install Smithy-Dafny codegen dependencies
+        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
-      # - name: Build and deploy development MPL
-      #   working-directory: ./AwsCryptographicMaterialProviders
-      #   run: |
-      #     CORES=$(node -e 'console.log(os.cpus().length)')
-      #     make build_java CORES=$CORES
-      #     make mvn_local_deploy
+      - name: Build and deploy development MPL
+        working-directory: ./AwsCryptographicMaterialProviders
+        run: |
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make build_java CORES=$CORES
+          make mvn_local_deploy
 
       - name: Update DB-ESDK to use released version and development MPL
         working-directory: ./dbesdk
@@ -71,13 +71,12 @@ jobs:
           DBESDK_VERSION=$(grep "projectJavaVersion=" project.properties | cut -d'=' -f2 | sed 's/-SNAPSHOT//')
           # Get MPL version from local build
           MPL_VERSION=$(grep "mplVersion=" ../project.properties | cut -d'=' -f2)
-          echo $MPL_VERSION
           # Update project.properties
           sed -i "s/projectJavaVersion=.*/projectJavaVersion=${DBESDK_VERSION}/g" project.properties
           sed -i "s/mplDependencyJavaVersion=.*/mplDependencyJavaVersion=${MPL_VERSION}/g" project.properties
+          cat project.properties
 
       - name: Test DB-ESDK Examples
         working-directory: ./dbesdk/Examples
         run: |
-          cat runtimes/java/DynamoDbEncryption/build.gradle.kts
           gradle -p runtimes/java/DynamoDbEncryption test
