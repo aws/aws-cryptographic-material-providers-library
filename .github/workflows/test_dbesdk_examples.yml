@@ -67,13 +67,10 @@ jobs:
       - name: Update DB-ESDK to use released version and development MPL
         working-directory: ./dbesdk
         run: |
-          set -e  # Exit on any error
-          set -x  # Print commands as they execute
-
           # Get latest released DB-ESDK version from project.properties
           DBESDK_VERSION=$(grep "projectJavaVersion=" project.properties | cut -d'=' -f2 | sed 's/-SNAPSHOT//')
           # Get MPL version from local build
-          MPL_VERSION=$(grep "version=" ../project.properties | cut -d'=' -f2)
+          MPL_VERSION=$(grep "mplVersion=" ../project.properties | cut -d'=' -f2)
           echo $MPL_VERSION
           # Update project.properties
           sed -i "s/projectJavaVersion=.*/projectJavaVersion=${DBESDK_VERSION}/g" project.properties
