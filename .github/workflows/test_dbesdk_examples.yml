@@ -73,8 +73,8 @@ jobs:
           # Get latest released DB-ESDK version from project.properties
           DBESDK_VERSION=$(grep "projectJavaVersion=" project.properties | cut -d'=' -f2 | sed 's/-SNAPSHOT//')
           # Get MPL version from local build
-          ls ..
           MPL_VERSION=$(grep "version=" ../project.properties | cut -d'=' -f2)
+          echo $MPL_VERSION
           # Update project.properties
           sed -i "s/projectJavaVersion=.*/projectJavaVersion=${DBESDK_VERSION}/g" project.properties
           sed -i "s/mplDependencyJavaVersion=.*/mplDependencyJavaVersion=${MPL_VERSION}/g" project.properties
