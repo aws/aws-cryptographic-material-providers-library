@@ -49,24 +49,27 @@ jobs:
           distribution: "corretto"
           java-version: 11
 
-      - name: Setup Dafny
-        uses: ./.github/actions/setup_dafny
-        with:
-          dafny-version: ${{ inputs.dafny }}
+      # - name: Setup Dafny
+      #   uses: ./.github/actions/setup_dafny
+      #   with:
+      #     dafny-version: ${{ inputs.dafny }}
 
-      - name: Install Smithy-Dafny codegen dependencies
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+      # - name: Install Smithy-Dafny codegen dependencies
+      #   uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
-      - name: Build and deploy development MPL
-        working-directory: ./AwsCryptographicMaterialProviders
-        run: |
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make build_java CORES=$CORES
-          make mvn_local_deploy
+      # - name: Build and deploy development MPL
+      #   working-directory: ./AwsCryptographicMaterialProviders
+      #   run: |
+      #     CORES=$(node -e 'console.log(os.cpus().length)')
+      #     make build_java CORES=$CORES
+      #     make mvn_local_deploy
 
       - name: Update DB-ESDK to use released version and development MPL
         working-directory: ./dbesdk
         run: |
+          set -e  # Exit on any error
+          set -x  # Print commands as they execute
+
           # Get latest released DB-ESDK version from project.properties
           DBESDK_VERSION=$(grep "projectJavaVersion=" project.properties | cut -d'=' -f2 | sed 's/-SNAPSHOT//')
           # Get MPL version from local build
