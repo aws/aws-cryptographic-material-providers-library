@@ -141,8 +141,9 @@ module {:options "/functionSyntax:4" } Structure {
     && (KEY_CREATE_TIME in m)
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-context
        //= type=implication
-       //# - MUST have a `hierarchy-version`
+       //# - MUST have a `hierarchy-version` key who's value is either "1" or "2"
     && (HIERARCHY_VERSION in m)
+    && StringIsValidHierarchyVersion?(m[HIERARCHY_VERSION])
        //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-context
        //= type=implication
        //# - MUST have a `tablename` key who's value is the logicalKeyStoreName
@@ -431,7 +432,13 @@ module {:options "/functionSyntax:4" } Structure {
     requires AwsArnParsing.ParseAwsKmsArn(kmsKeyArn).Success?
     requires KmsArn.ValidKmsArn?(kmsKeyArn)
     ensures BranchKeyContext?(output)
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#decrypt-only-branch-key-context
+    //= type=implication
+    //# The `type` value MUST store the branch key version formatted like `"branch:version:"` + `<version UUID>`.
     ensures BRANCH_KEY_TYPE_PREFIX < output[TYPE_FIELD]
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#decrypt-only-branch-key-context
+    //= type=implication
+    //# The DECRYPT_ONLY branch key context MUST NOT have a `version` key.
     ensures BRANCH_KEY_ACTIVE_VERSION_FIELD !in output
     ensures output[KMS_FIELD] == kmsKeyArn
     ensures output[TABLE_FIELD] == logicalKeyStoreName
@@ -450,6 +457,11 @@ module {:options "/functionSyntax:4" } Structure {
         ::
           k == (ENCRYPTION_CONTEXT_PREFIX + k)[|ENCRYPTION_CONTEXT_PREFIX|..];
 
+    // Beacuse Dafny is very stupid.
+    assert !("aws-crypto-ec:" <  "hierarchy-version") by {
+      assert "a" < "aws-crypto-ec:";
+      assert "h" < "hierarchy-version";
+    }
     map[
       BRANCH_KEY_IDENTIFIER_FIELD := branchKeyId,
       TYPE_FIELD := BRANCH_KEY_TYPE_PREFIX + branchKeyVersion,
@@ -512,7 +524,6 @@ module {:options "/functionSyntax:4" } Structure {
     - {BRANCH_KEY_ACTIVE_VERSION_FIELD}
   }
 
-
   type BranchKeyItem = m: DDB.AttributeMap | BranchKeyItem?(m) witness *
   //= aws-encryption-sdk-specification/framework/branch-key-store.md#record-format
   //= type=implication
@@ -526,6 +537,7 @@ module {:options "/functionSyntax:4" } Structure {
     && TYPE_FIELD in m && m[TYPE_FIELD].S?
     && KEY_CREATE_TIME in m && m[KEY_CREATE_TIME].S?
     && HIERARCHY_VERSION in m && m[HIERARCHY_VERSION].N?
+    && StringIsValidHierarchyVersion?(m[HIERARCHY_VERSION].N)
     && TABLE_FIELD !in m
     && KMS_FIELD in m && m[KMS_FIELD].S? && KMS.IsValid_KeyIdType(m[KMS_FIELD].S)
     && BRANCH_KEY_FIELD in m && m[BRANCH_KEY_FIELD].B?

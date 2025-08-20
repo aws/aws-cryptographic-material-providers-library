@@ -268,6 +268,9 @@ module GetKeys {
               && Seq.Last(ddbClient.History.GetItem).output.Success?
               && var versionItem := Seq.Last(ddbClient.History.GetItem).output.value.Item;
               && versionItem.Some?
+                 //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
+                 //= type=implication
+                 //# The AWS DDB response MUST contain the fields defined in the [branch keystore record format](#record-format).
               && Structure.VersionBranchKeyItem?(versionItem.value)
 
               // = aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
@@ -514,6 +517,9 @@ module GetKeys {
               && Seq.Last(ddbClient.History.GetItem).output.Success?
               && var beaconItem := Seq.Last(ddbClient.History.GetItem).output.value.Item;
               && beaconItem.Some?
+                 //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
+                 //= type=implication
+                 //# The AWS DDB response MUST contain the fields defined in the [branch keystore record format](#record-format).
               && Structure.BeaconKeyItem?(beaconItem.value)
 
               // = aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
@@ -775,6 +781,9 @@ module GetKeys {
 
     && if hv == Structure.HIERARCHY_VERSION_VALUE_2 then
 
+         //= aws-encryption-sdk-specification/framework/branch-key-store.md#branch-key-context
+         //= type=implication
+         //# - MUST NOT have any other keys apart from the ones mentioned above if `hierarchy-version` is "2"
          && HvUtils.IsValidHV2EC?(encryptionContext)
 
          && var ciphertextBlob := branchKeyItem[Structure.BRANCH_KEY_FIELD].B;
@@ -817,6 +826,9 @@ module GetKeys {
     modifies kmsClient.Modifies
     ensures kmsClient.ValidState()
 
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-encryption-context
+    //= type=implication
+    //# If the `hierarchy-version` is v1, AWS KMS encryption context MUST be same as [branch key context](#branch-key-context).
     requires Structure.BranchKeyContext?(encryptionContext)
     requires KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD])
     requires branchKeyItem == Structure.ToAttributeMap(encryptionContext, branchKeyItem[Structure.BRANCH_KEY_FIELD].B)

@@ -94,6 +94,9 @@ module {:options "/functionSyntax:4" } HierarchicalVersionUtils {
   ): (output: Structure.EncryptionContextString)
     requires Structure.BranchKeyContext?(branchKeyContext)
     requires IsValidHV2EC?(branchKeyContext)
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-encryption-context
+    //= type=implication
+    //# If the `hierarchy-version` is v2, AWS KMS encryption context MUST be the [encryption context from authenticated branch key context](#encryption-context-from-authenticated-branch-key-context) without any transformation.
     ensures forall k <- output ::
               exists originalKey ::
                 && originalKey in branchKeyContext
