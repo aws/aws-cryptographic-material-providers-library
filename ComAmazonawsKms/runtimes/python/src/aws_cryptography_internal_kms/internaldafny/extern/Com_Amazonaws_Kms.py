@@ -26,19 +26,23 @@ class default__(aws_cryptography_internal_kms.internaldafny.generated.Com_Amazon
     @staticmethod
     def KMSClient(boto_client = None, region = None):
         if boto_client is None:
-            # Generate user agent suffix: AwsCryptographicMPL/Python/{version}
-            runtime = _dafny.Seq("Python")
-            user_agent_suffix = _dafny.string_of(aws_cryptography_internal_kms.internaldafny.generated.Com_Amazonaws_Kms.default__.DafnyUserAgentSuffix(runtime))
-            
             if region is not None and region in get_available_aws_regions():
-                boto_config = Config(region_name=region, user_agent_extra=user_agent_suffix)
+                boto_config = Config(region_name=region)
                 boto_client = boto3.client("kms", config=boto_config)
             else:
-                boto_config = Config(user_agent_extra=user_agent_suffix)
                 # If no region is provided,
                 # boto_client will use the default region provided by boto3
-                boto_client = boto3.client("kms", config=boto_config)
+                boto_client = boto3.client("kms")
                 region = boto_client.meta.region_name
+
+        # Generate user agent suffix: AwsCryptographicMPL/Python/{version}
+        runtime = _dafny.Seq("Python")
+        user_agent_suffix = _dafny.string_of(aws_cryptography_internal_kms.internaldafny.generated.Com_Amazonaws_Kms.default__.DafnyUserAgentSuffix(runtime))
+        if boto_client.meta.config.user_agent_extra is None:
+            boto_client.meta.config.user_agent_extra = user_agent_suffix
+        elif user_agent_suffix not in boto_client.meta.config.user_agent_extra:
+            boto_client.meta.config.user_agent_extra += " " + user_agent_suffix
+
         wrapped_client = KMSClientShim(boto_client, region)
         return Wrappers.Result_Success(wrapped_client)
     
