@@ -32,8 +32,6 @@ jobs:
 
       - name: Checkout MPL
         uses: actions/checkout@v4
-        with:
-          path: mpl
 
       - run: git submodule update --init libraries
       - run: git submodule update --init --recursive smithy-dafny
