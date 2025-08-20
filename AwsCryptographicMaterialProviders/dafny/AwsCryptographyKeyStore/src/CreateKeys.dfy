@@ -892,6 +892,8 @@ module {:options "/functionSyntax:4" } CreateKeys {
     assert |bkEnc.input.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int;
 
     ghost var encryptOnlyKMSEnc := Seq.Last(kmsClient.History.Encrypt);
+    assert |encryptOnlyKMSEnc.input.Plaintext| == (Structure.BKC_DIGEST_LENGTH + Structure.AES_256_LENGTH) as int;
+    assert encryptOnlyKMSEnc.input.Plaintext[Structure.BKC_DIGEST_LENGTH..] == activePlaintextMaterial;
     ghost var kmsKeyArn := KMSKeystoreOperations.GetKeyId(kmsConfiguration);
     assert
       HV2EncryptionOfBranchKeyAreCorrect(
