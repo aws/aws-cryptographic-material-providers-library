@@ -60,6 +60,11 @@ jobs:
       dafny: ${{needs.getVersions.outputs.version}}
       fuzz-testing: true
     secrets: inherit
+  pr-ci-db-esdk-java-examples-test:
+    needs: getVersions
+    uses: ./.github/workflows/test_dbesdk_examples.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
   pr-ci-all-required:
     if: always()
     needs:
@@ -74,6 +79,7 @@ jobs:
       - pr-ci-rust
       - pr-interop-test
       - pr-fuzz-interop-test
+      - pr-ci-db-esdk-java-examples-test
     runs-on: ubuntu-22.04
     steps:
       - name: Verify all required jobs passed

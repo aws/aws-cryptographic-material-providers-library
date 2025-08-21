@@ -54,3 +54,8 @@ jobs:
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
+  pr-db-esdk-java-examples-test:
+    needs: getVersions
+    uses: ./.github/workflows/test_dbesdk_examples.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
