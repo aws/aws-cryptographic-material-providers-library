@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import software.amazon.cryptography.keystore.model.BeaconKeyMaterials;
+import software.amazon.cryptography.keystore.model.HierarchyVersion;
 import software.amazon.cryptography.materialproviders.ICryptographicMaterialsCache;
 import software.amazon.cryptography.materialproviders.MaterialProviders;
 import software.amazon.cryptography.materialproviders.model.CacheType;
@@ -96,6 +97,9 @@ public class MultiThreadedCMCTest {
           // because we are not testing the cryptography here.
           .beaconKey(cacheIdentifier)
           .encryptionContext(Collections.emptyMap())
+          .kmsArn("aaa")
+          .createTime("aaa")
+          .hierarchyVersion(HierarchyVersion.v1)
           .build()
       )
       .build();
@@ -282,6 +286,9 @@ public class MultiThreadedCMCTest {
           // because we are not testing the cryptography here.
           .beaconKey(cacheIdentifier)
           .encryptionContext(Collections.emptyMap())
+          .kmsArn("aaa")
+          .createTime("aaa")
+          .hierarchyVersion(HierarchyVersion.v1)
           .build()
       )
       .build();
