@@ -485,7 +485,7 @@ func (_this *StormTracker) Ctor__(cache m_AwsCryptographyMaterialProvidersTypes.
 		_ = _nw0
 		_nw0.Ctor__(uint64((cache).Dtor_entryCapacity()), uint64(((cache).Dtor_entryPruningTailSize()).UnwrapOr(int32(1)).(int32)))
 		(_this).Wrapped = _nw0
-		var _nw1 *m_DafnyLibraries.MutableMap = m_DafnyLibraries.New_MutableMap_()
+		var _nw1 *m_DafnyLibraries.MutableMap = m_DafnyLibraries.New_MutableMap_(true)
 		_ = _nw1
 		(_this).InFlight = _nw1
 		(_this).GracePeriod = _0_gracePeriod

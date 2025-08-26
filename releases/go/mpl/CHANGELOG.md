@@ -1,5 +1,22 @@
 # Changelog
 
+## [releases/go/mpl/v0.2.2] - 2025-08-26
+
+### Maintenance
+
+- _(go)_ Update release script (#1676)
+- _(go)_ Update release script to cd to right directory (#1679)
+- _(go)_ Remove create pull request step in go release workflow (#1681)
+- _(all languages)_ Add new SearchAndReplaceWhole and friends (#1680)
+- _(all languages)_ Add fuzz testing to MPL (#1622)
+- _(all languages)_ Optimize mutation map for O(1) performance in Go (#1687)
+- _(go)_ Add go 1.25 to CI (#1684)
+- _(go)_ Put back content() in mutable maps extern (#1694)
+- _(go)_ Release smithy-dafny-standard-library Go module 0.2.2 (#1696)
+- _(go)_ Release kms Go module 0.2.2 (#1697)
+- _(go)_ Release primitives Go module 0.2.2 (#1699)
+- _(go)_ Release dynamodb Go module 0.2.2 (#1698)
+
 ## [releases/go/mpl/v0.2.1] - 2025-08-06
 
 ### Fixes
