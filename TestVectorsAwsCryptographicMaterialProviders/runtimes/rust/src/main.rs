@@ -7,6 +7,11 @@
     unexpected_cfgs
 )]
 
+#![allow(warnings, unconditional_panic)]
+#![allow(nonstandard_style)]
+#![allow(clippy::never_loop)]
+#![allow(clippy::absurd_extreme_comparisons)]
+
 pub mod client;
 pub mod conversions;
 pub mod deps;

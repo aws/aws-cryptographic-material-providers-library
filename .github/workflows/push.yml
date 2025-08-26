@@ -7,52 +7,55 @@ on:
       - main
 
 jobs:
-  getVersion:
-    uses: ./.github/workflows/dafny_version.yaml
-  getVerifyVersion:
-    uses: ./.github/workflows/dafny_verify_version.yaml
+  getVersions:
+    uses: ./.github/workflows/dafny_versions.yaml
   push-ci-format:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_format.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   push-ci-codegen:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_codegen.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   push-ci-verification:
-    needs: getVerifyVersion
+    needs: getVersions
     uses: ./.github/workflows/library_dafny_verification.yml
     with:
-      dafny: ${{needs.getVerifyVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.verifyVersion}}
   push-ci-java:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_java_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   push-ci-net:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_net_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   push-ci-rust:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_rust_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.rustVersion}}
   push-ci-python:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_python_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   push-ci-go:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_go_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   pr-interop-test:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_interop_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
+  pr-db-esdk-java-examples-test:
+    needs: getVersions
+    uses: ./.github/workflows/test_dbesdk_examples.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}

@@ -4,10 +4,13 @@ include "../../libraries/src/Wrappers.dfy"
 include "Sequence.dfy"
 
 module StandardLibrary.String {
-  import Wrappers
+  import opened Wrappers
   import opened UInt
   import opened Sequence
-  export provides Int2String, Base10Int2String, HasSubString, Wrappers, UInt
+  import opened MemoryMath
+  export provides Int2String, Base10Int2String, HasSubString, Wrappers, UInt,
+                  HasSubStringPos, SearchAndReplace, SearchAndReplacePos, SearchAndReplaceAll,
+                  SearchAndReplacePosWhole, SearchAndReplaceAllWhole, AlphaNumeric, AlphaNumericUnder
 
   const Base10: seq<char> := ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
@@ -54,36 +57,230 @@ module StandardLibrary.String {
     Int2String(n, Base10)
   }
 
+  // Replace first occurrence of old_str in source with new_str and return the result.
+  // If old_str does not exist in source, the source is returned unchanged
+  method SearchAndReplace<T(==)>(source: seq<T>, old_str: seq<T>, new_str: seq<T>)
+    returns (o : seq<T>)
+    requires 0 < |old_str|
+  {
+    var x := SearchAndReplacePos(source, old_str, new_str, 0);
+    return x.0;
+  }
+
+  // Replace first occurrence of old_str after pos in source with new_str and return the result.
+  // If old_str does not exist in source, the source is returned unchanged
+  // second value in output is None if old_str not found, otherwise it points just after the replaced value
+  method SearchAndReplacePos<T(==)>(source: seq<T>, old_str: seq<T>, new_str: seq<T>, pos : uint64)
+    returns (o : (seq<T>, Option<uint64>))
+    requires pos as nat <= |source|
+    requires 0 < |old_str|
+    ensures o.1.Some? ==> |o.0| - o.1.value as nat < |source| - pos as nat
+    ensures o.1.Some? ==> o.1.value as nat <= |o.0|
+  {
+    var old_pos := HasSubStringPos(source, old_str, pos);
+    if old_pos.None? {
+      return (source, None);
+    } else {
+      SequenceIsSafeBecauseItIsInMemory(source);
+      SequenceIsSafeBecauseItIsInMemory(old_str);
+      SequenceIsSafeBecauseItIsInMemory(new_str);
+      var source_len : uint64 := |source| as uint64;
+      var old_str_len : uint64 := |old_str| as uint64;
+      var new_str_len : uint64 := |new_str| as uint64;
+      o := (source[..old_pos.value] + new_str + source[old_pos.value+old_str_len..], Some(Add(old_pos.value, new_str_len)));
+      assert |o.0| - o.1.value as nat < |source| - pos as nat;
+      return o;
+    }
+  }
+
+  predicate method BadStart<T(==)>(source : seq<T>, pos : uint64, chars : seq<T>)
+    requires pos as nat <= |source|
+  {
+    if pos == 0 then
+      false
+    else
+      source[pos-1] in chars
+  }
+
+  predicate method BadEnd<T(==)>(source : seq<T>, pos : uint64, match_len : uint64, chars : seq<T>) {
+    SequenceIsSafeBecauseItIsInMemory(source);
+    var source_len : uint64 := |source| as uint64;
+    if Add(pos, match_len) >= source_len then
+      false
+    else
+      source[pos+match_len] in chars
+
+  }
+  predicate method BadMatch<T(==)>(source : seq<T>, pos : uint64, match_len : uint64, chars : seq<T>)
+    requires pos as nat <= |source|
+  {
+    BadStart(source, pos, chars) || BadEnd(source, pos, match_len, chars)
+  }
+
+  const AlphaNumeric      : string := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+  const AlphaNumericUnder : string := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+
+  // Replace first occurrence of old_str after pos in source with new_str and return the result.
+  // If old_str does not exist in source, the source is returned unchanged
+  // second value in output is None if old_str not found, otherwise it points just after the replaced value
+  // a match only counts if the character before or after is not in chars
+  method SearchAndReplacePosWhole<T(==)>(source: seq<T>, old_str: seq<T>, new_str: seq<T>, xpos : uint64, chars : seq<T>)
+    returns (o : (seq<T>, Option<uint64>))
+    requires xpos as nat <= |source|
+    requires 0 < |old_str|
+    ensures o.1.Some? ==> |o.0| - o.1.value as nat < |source| - xpos as nat
+    ensures o.1.Some? ==> o.1.value as nat <= |o.0|
+  {
+    SequenceIsSafeBecauseItIsInMemory(source);
+    SequenceIsSafeBecauseItIsInMemory(old_str);
+    var old_str_len : uint64 := |old_str| as uint64;
+    var pos : uint64 := xpos;
+
+    while pos < |source| as uint64 {
+      var old_pos := HasSubStringPos(source, old_str, pos);
+      if old_pos.None? {
+        return (source, None);
+      } else if BadMatch(source, old_pos.value, old_str_len, chars) {
+        pos := old_pos.value + 1;
+      } else {
+        SequenceIsSafeBecauseItIsInMemory(source);
+        SequenceIsSafeBecauseItIsInMemory(new_str);
+        var source_len : uint64 := |source| as uint64;
+        var new_str_len : uint64 := |new_str| as uint64;
+        o := (source[..old_pos.value] + new_str + source[old_pos.value+old_str_len..], Some(Add(old_pos.value, new_str_len)));
+        assert |o.0| - o.1.value as nat < |source| - pos as nat;
+        return o;
+      }
+    }
+    return (source, None); // not really needed, but Dafny is dumb
+  }
+
+  // Replace first occurrence of old_str after pos in source with new_str and return the result.
+  // If old_str does not exist in source, the source is returned unchanged
+  // second value in output is None if old_str not found, otherwise it points just after the replaced value
+  // a match only counts if the character before or after is not in chars
+  method SearchAndReplaceWhole<T(==)>(source: seq<T>, old_str: seq<T>, new_str: seq<T>, chars : seq<T>)
+    returns (o : (seq<T>, Option<uint64>))
+    requires 0 < |old_str|
+    ensures o.1.Some? ==> |o.0| - o.1.value as nat < |source| as nat
+    ensures o.1.Some? ==> o.1.value as nat <= |o.0|
+  {
+    o := SearchAndReplacePosWhole(source, old_str, new_str, 0, chars);
+  }
+
+  // Replace all occurrences of old_str in source with new_str and return the result.
+  // If old_str does not exist in source, the source is returned unchanged
+  // safe to use if new_str contains old_str
+  method SearchAndReplaceAll<T(==)>(source_in: seq<T>, old_str: seq<T>, new_str: seq<T>)
+    returns (o : seq<T>)
+    requires 0 < |old_str|
+  {
+    var pos : uint64 := 0;
+    var source := source_in;
+    while true
+      invariant pos as nat <= |source|
+      decreases |source| - pos as nat
+    {
+      var res := SearchAndReplacePos(source, old_str, new_str, pos);
+      if res.1.None? {
+        SequenceIsSafeBecauseItIsInMemory(source);
+        pos := |source| as uint64;
+        return res.0;
+      }
+      source := res.0;
+      pos := res.1.value;
+    }
+  }
+
+  // Replace all occurrences of old_str in source with new_str and return the result.
+  // If old_str does not exist in source, the source is returned unchanged
+  // safe to use if new_str contains old_str
+  // a match only counts if the character before or after is not in chars
+  method SearchAndReplaceAllWhole<T(==)>(source_in: seq<T>, old_str: seq<T>, new_str: seq<T>, chars : seq<T>)
+    returns (o : seq<T>)
+    requires 0 < |old_str|
+  {
+    var pos : uint64 := 0;
+    var source := source_in;
+    while true
+      invariant pos as nat <= |source|
+      decreases |source| - pos as nat
+    {
+      var res := SearchAndReplacePosWhole(source, old_str, new_str, pos, chars);
+      if res.1.None? {
+        SequenceIsSafeBecauseItIsInMemory(source);
+        pos := |source| as uint64; // unneeded, but Dafny is dumb
+        return res.0;
+      }
+      source := res.0;
+      pos := res.1.value;
+    }
+  }
+
+
   /* Returns the index of a substring or None, if the substring is not in the string */
-  method HasSubString(haystack: string, needle: string)
-    returns (o: Wrappers.Option<nat>)
+  method HasSubString<T(==)>(haystack: seq<T>, needle: seq<T>)
+    returns (o: Option<nat>)
 
     ensures o.Some? ==>
               && o.value <= |haystack| - |needle| && haystack[o.value..(o.value + |needle|)] == needle
               && (forall i | 0 <= i < o.value :: haystack[i..][..|needle|] != needle)
 
-    ensures |haystack| < |needle| || |haystack| > (UINT64_MAX_LIMIT-1) ==> o.None?
+    ensures |haystack| < |needle| ==> o.None?
 
     ensures o.None? && |needle| <= |haystack| && |haystack| <= (UINT64_MAX_LIMIT-1) ==>
               (forall i | 0 <= i <= (|haystack|-|needle|) :: haystack[i..][..|needle|] != needle)
   {
-    if |haystack| < |needle| {
-      return Wrappers.None;
+    SequenceIsSafeBecauseItIsInMemory(haystack);
+    SequenceIsSafeBecauseItIsInMemory(needle);
+    if |haystack| as uint64 < |needle| as uint64 {
+      return None;
     }
 
-    // `-1` is needed because of how `limit` is calculated below
-    expect |haystack| <= (UINT64_MAX_LIMIT-1);
-
     var size : uint64 := |needle| as uint64;
-    var limit: uint64 := |haystack| as uint64 - size + 1;
+    var limit: uint64 := Add(|haystack| as uint64 - size, 1);
 
     for index := 0 to limit
       invariant forall i | 0 <= i < index :: haystack[i..][..size] != needle
     {
       if SequenceEqual(seq1 := haystack, seq2 := needle, start1 := index, start2 := 0, size := size) {
-        return Wrappers.Some(index as nat);
+        return Some(index as nat);
       }
     }
-    return Wrappers.None;
+    return None;
+  }
+
+  /* Returns the index of a substring or None, if the substring is not in the string */
+  method HasSubStringPos<T(==)>(haystack: seq<T>, needle: seq<T>, pos : uint64)
+    returns (o: Option<uint64>)
+    requires pos as nat <= |haystack|
+
+    ensures o.Some? ==>
+              && pos <= o.value
+              && o.value as nat <= |haystack| - |needle| && haystack[o.value..(o.value as nat + |needle|)] == needle
+              && (forall i | pos <= i < o.value :: haystack[i..][..|needle|] != needle)
+
+    ensures |haystack| - pos as nat < |needle| ==> o.None?
+
+    ensures o.None? && |needle| <= |haystack| && |haystack| <= (UINT64_MAX_LIMIT-1) ==>
+              (forall i | pos as nat <= i <= (|haystack|-|needle|) :: haystack[i..][..|needle|] != needle)
+  {
+    SequenceIsSafeBecauseItIsInMemory(haystack);
+    SequenceIsSafeBecauseItIsInMemory(needle);
+    if |haystack| as uint64 - pos < |needle| as uint64 {
+      return None;
+    }
+
+    var size : uint64 := |needle| as uint64;
+    var limit: uint64 := Add(|haystack| as uint64 - size, 1);
+
+    for index := pos to limit
+      invariant forall i | pos <= i < index :: haystack[i..][..size] != needle
+    {
+      if SequenceEqual(seq1 := haystack, seq2 := needle, start1 := index, start2 := 0, size := size) {
+        return Some(index);
+      }
+    }
+    return None;
   }
 }
