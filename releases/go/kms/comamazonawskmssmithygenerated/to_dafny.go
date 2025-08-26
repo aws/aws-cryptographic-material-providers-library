@@ -1597,6 +1597,10 @@ func Com_amazonaws_kms_CreateCustomKeyStoreRequest_CustomKeyStoreType_ToDafny(in
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomKeyStoreType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -1702,6 +1706,10 @@ func Com_amazonaws_kms_CreateCustomKeyStoreRequest_XksProxyConnectivity_ToDafny(
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_XksProxyConnectivityType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -1797,6 +1805,10 @@ func Com_amazonaws_kms_GrantOperationList_member_ToDafny(input types.GrantOperat
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_GrantOperation_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -1821,7 +1833,9 @@ func Com_amazonaws_kms_CreateGrantRequest_Constraints_ToDafny(input *types.Grant
 
 func Com_amazonaws_kms_GrantConstraints_EncryptionContextSubset_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(Com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), Com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -1858,7 +1872,9 @@ func Com_amazonaws_kms_EncryptionContextType_value_ToDafny(input string) dafny.S
 
 func Com_amazonaws_kms_GrantConstraints_EncryptionContextEquals_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(Com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), Com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -1986,6 +2002,10 @@ func Com_amazonaws_kms_CreateKeyRequest_KeyUsage_ToDafny(input types.KeyUsageTyp
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyUsageType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2007,6 +2027,10 @@ func Com_amazonaws_kms_CreateKeyRequest_CustomerMasterKeySpec_ToDafny(input type
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomerMasterKeySpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2028,6 +2052,10 @@ func Com_amazonaws_kms_CreateKeyRequest_KeySpec_ToDafny(input types.KeySpec) Wra
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeySpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2049,6 +2077,10 @@ func Com_amazonaws_kms_CreateKeyRequest_Origin_ToDafny(input types.OriginType) W
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_OriginType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2259,6 +2291,10 @@ func Com_amazonaws_kms_KeyMetadata_KeyUsage_ToDafny(input types.KeyUsageType) Wr
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyUsageType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2280,6 +2316,10 @@ func Com_amazonaws_kms_KeyMetadata_KeyState_ToDafny(input types.KeyState) Wrappe
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyState_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2333,6 +2373,10 @@ func Com_amazonaws_kms_KeyMetadata_Origin_ToDafny(input types.OriginType) Wrappe
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_OriginType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2384,6 +2428,10 @@ func Com_amazonaws_kms_KeyMetadata_ExpirationModel_ToDafny(input types.Expiratio
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_ExpirationModelType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2405,6 +2453,10 @@ func Com_amazonaws_kms_KeyMetadata_KeyManager_ToDafny(input types.KeyManagerType
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyManagerType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2426,6 +2478,10 @@ func Com_amazonaws_kms_KeyMetadata_CustomerMasterKeySpec_ToDafny(input types.Cus
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomerMasterKeySpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2447,6 +2503,10 @@ func Com_amazonaws_kms_KeyMetadata_KeySpec_ToDafny(input types.KeySpec) Wrappers
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeySpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2482,6 +2542,10 @@ func Com_amazonaws_kms_EncryptionAlgorithmSpecList_member_ToDafny(input types.En
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2517,6 +2581,10 @@ func Com_amazonaws_kms_SigningAlgorithmSpecList_member_ToDafny(input types.Signi
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2552,6 +2620,10 @@ func Com_amazonaws_kms_KeyAgreementAlgorithmSpecList_member_ToDafny(input types.
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyAgreementAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2591,6 +2663,10 @@ func Com_amazonaws_kms_MultiRegionConfiguration_MultiRegionKeyType_ToDafny(input
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MultiRegionKeyType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2695,6 +2771,10 @@ func Com_amazonaws_kms_MacAlgorithmSpecList_member_ToDafny(input types.MacAlgori
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2734,20 +2814,22 @@ func Com_amazonaws_kms_XksKeyConfigurationType_Id_ToDafny(input *string) Wrapper
 
 func Com_amazonaws_kms_DecryptRequest_CiphertextBlob_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
 func Com_amazonaws_kms_DecryptRequest_EncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(Com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), Com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -2793,6 +2875,10 @@ func Com_amazonaws_kms_DecryptRequest_EncryptionAlgorithm_ToDafny(input types.En
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2823,6 +2909,10 @@ func Com_amazonaws_kms_RecipientInfo_KeyEncryptionAlgorithm_ToDafny(input types.
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyEncryptionMechanism_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2838,14 +2928,14 @@ func Com_amazonaws_kms_RecipientInfo_KeyEncryptionAlgorithm_ToDafny(input types.
 
 func Com_amazonaws_kms_RecipientInfo_AttestationDocument_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -2875,14 +2965,14 @@ func Com_amazonaws_kms_DecryptResponse_KeyId_ToDafny(input *string) Wrappers.Opt
 
 func Com_amazonaws_kms_DecryptResponse_Plaintext_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -2894,6 +2984,10 @@ func Com_amazonaws_kms_DecryptResponse_EncryptionAlgorithm_ToDafny(input types.E
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -2909,14 +3003,14 @@ func Com_amazonaws_kms_DecryptResponse_EncryptionAlgorithm_ToDafny(input types.E
 
 func Com_amazonaws_kms_DecryptResponse_CiphertextForRecipient_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -2988,6 +3082,10 @@ func Com_amazonaws_kms_DeriveSharedSecretRequest_KeyAgreementAlgorithm_ToDafny(i
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyAgreementAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3003,14 +3101,14 @@ func Com_amazonaws_kms_DeriveSharedSecretRequest_KeyAgreementAlgorithm_ToDafny(i
 
 func Com_amazonaws_kms_DeriveSharedSecretRequest_PublicKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -3063,27 +3161,27 @@ func Com_amazonaws_kms_DeriveSharedSecretResponse_KeyId_ToDafny(input *string) W
 
 func Com_amazonaws_kms_DeriveSharedSecretResponse_SharedSecret_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_DeriveSharedSecretResponse_CiphertextForRecipient_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -3095,6 +3193,10 @@ func Com_amazonaws_kms_DeriveSharedSecretResponse_KeyAgreementAlgorithm_ToDafny(
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyAgreementAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3116,6 +3218,10 @@ func Com_amazonaws_kms_DeriveSharedSecretResponse_KeyOrigin_ToDafny(input types.
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_OriginType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3272,6 +3378,10 @@ func Com_amazonaws_kms_CustomKeyStoresListEntry_ConnectionState_ToDafny(input ty
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_ConnectionStateType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3293,6 +3403,10 @@ func Com_amazonaws_kms_CustomKeyStoresListEntry_ConnectionErrorCode_ToDafny(inpu
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_ConnectionErrorCodeType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3330,6 +3444,10 @@ func Com_amazonaws_kms_CustomKeyStoresListEntry_CustomKeyStoreType_ToDafny(input
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomKeyStoreType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3360,6 +3478,10 @@ func Com_amazonaws_kms_XksProxyConfigurationType_Connectivity_ToDafny(input type
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_XksProxyConnectivityType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3594,20 +3716,22 @@ func Com_amazonaws_kms_EncryptRequest_KeyId_ToDafny(input *string) dafny.Sequenc
 
 func Com_amazonaws_kms_EncryptRequest_Plaintext_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
 func Com_amazonaws_kms_EncryptRequest_EncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(Com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), Com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -3638,6 +3762,10 @@ func Com_amazonaws_kms_EncryptRequest_EncryptionAlgorithm_ToDafny(input types.En
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3662,14 +3790,14 @@ func Com_amazonaws_kms_EncryptRequest_DryRun_ToDafny(input *bool) Wrappers.Optio
 
 func Com_amazonaws_kms_EncryptResponse_CiphertextBlob_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -3696,6 +3824,10 @@ func Com_amazonaws_kms_EncryptResponse_EncryptionAlgorithm_ToDafny(input types.E
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3726,7 +3858,9 @@ func Com_amazonaws_kms_GenerateDataKeyRequest_KeyId_ToDafny(input *string) dafny
 
 func Com_amazonaws_kms_GenerateDataKeyRequest_EncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(Com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), Com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -3752,6 +3886,10 @@ func Com_amazonaws_kms_GenerateDataKeyRequest_KeySpec_ToDafny(input types.DataKe
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeySpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3799,27 +3937,27 @@ func Com_amazonaws_kms_GenerateDataKeyRequest_DryRun_ToDafny(input *bool) Wrappe
 
 func Com_amazonaws_kms_GenerateDataKeyResponse_CiphertextBlob_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GenerateDataKeyResponse_Plaintext_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -3840,20 +3978,22 @@ func Com_amazonaws_kms_GenerateDataKeyResponse_KeyId_ToDafny(input *string) Wrap
 
 func Com_amazonaws_kms_GenerateDataKeyResponse_CiphertextForRecipient_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GenerateDataKeyPairRequest_EncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(Com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), Com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -3885,6 +4025,10 @@ func Com_amazonaws_kms_GenerateDataKeyPairRequest_KeyPairSpec_ToDafny(input type
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeyPairSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -3932,40 +4076,40 @@ func Com_amazonaws_kms_GenerateDataKeyPairRequest_DryRun_ToDafny(input *bool) Wr
 
 func Com_amazonaws_kms_GenerateDataKeyPairResponse_PrivateKeyCiphertextBlob_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GenerateDataKeyPairResponse_PrivateKeyPlaintext_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GenerateDataKeyPairResponse_PublicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -3992,6 +4136,10 @@ func Com_amazonaws_kms_GenerateDataKeyPairResponse_KeyPairSpec_ToDafny(input typ
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeyPairSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4007,20 +4155,22 @@ func Com_amazonaws_kms_GenerateDataKeyPairResponse_KeyPairSpec_ToDafny(input typ
 
 func Com_amazonaws_kms_GenerateDataKeyPairResponse_CiphertextForRecipient_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest_EncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(Com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), Com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -4052,6 +4202,10 @@ func Com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest_KeyPairSpec_To
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeyPairSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4090,27 +4244,27 @@ func Com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextRequest_DryRun_ToDafny
 
 func Com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse_PrivateKeyCiphertextBlob_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse_PublicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4137,6 +4291,10 @@ func Com_amazonaws_kms_GenerateDataKeyPairWithoutPlaintextResponse_KeyPairSpec_T
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeyPairSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4167,7 +4325,9 @@ func Com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest_KeyId_ToDafny(inpu
 
 func Com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest_EncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(Com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), Com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -4184,6 +4344,10 @@ func Com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest_KeySpec_ToDafny(in
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_DataKeySpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4231,14 +4395,14 @@ func Com_amazonaws_kms_GenerateDataKeyWithoutPlaintextRequest_DryRun_ToDafny(inp
 
 func Com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse_CiphertextBlob_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4259,14 +4423,14 @@ func Com_amazonaws_kms_GenerateDataKeyWithoutPlaintextResponse_KeyId_ToDafny(inp
 
 func Com_amazonaws_kms_GenerateMacRequest_Message_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -4293,6 +4457,10 @@ func Com_amazonaws_kms_GenerateMacRequest_MacAlgorithm_ToDafny(input types.MacAl
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4331,14 +4499,14 @@ func Com_amazonaws_kms_GenerateMacRequest_DryRun_ToDafny(input *bool) Wrappers.O
 
 func Com_amazonaws_kms_GenerateMacResponse_Mac_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4350,6 +4518,10 @@ func Com_amazonaws_kms_GenerateMacResponse_MacAlgorithm_ToDafny(input types.MacA
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4413,27 +4585,27 @@ func Com_amazonaws_kms_GenerateRandomRequest_Recipient_ToDafny(input *types.Reci
 
 func Com_amazonaws_kms_GenerateRandomResponse_Plaintext_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GenerateRandomResponse_CiphertextForRecipient_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4598,6 +4770,10 @@ func Com_amazonaws_kms_GetParametersForImportRequest_WrappingAlgorithm_ToDafny(i
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_AlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4619,6 +4795,10 @@ func Com_amazonaws_kms_GetParametersForImportRequest_WrappingKeySpec_ToDafny(inp
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_WrappingKeySpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4649,27 +4829,27 @@ func Com_amazonaws_kms_GetParametersForImportResponse_KeyId_ToDafny(input *strin
 
 func Com_amazonaws_kms_GetParametersForImportResponse_ImportToken_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
 func Com_amazonaws_kms_GetParametersForImportResponse_PublicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4735,14 +4915,14 @@ func Com_amazonaws_kms_GetPublicKeyResponse_KeyId_ToDafny(input *string) Wrapper
 
 func Com_amazonaws_kms_GetPublicKeyResponse_PublicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -4754,6 +4934,10 @@ func Com_amazonaws_kms_GetPublicKeyResponse_CustomerMasterKeySpec_ToDafny(input 
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_CustomerMasterKeySpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4775,6 +4959,10 @@ func Com_amazonaws_kms_GetPublicKeyResponse_KeySpec_ToDafny(input types.KeySpec)
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeySpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4796,6 +4984,10 @@ func Com_amazonaws_kms_GetPublicKeyResponse_KeyUsage_ToDafny(input types.KeyUsag
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyUsageType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -4868,27 +5060,27 @@ func Com_amazonaws_kms_ImportKeyMaterialRequest_KeyId_ToDafny(input *string) daf
 
 func Com_amazonaws_kms_ImportKeyMaterialRequest_ImportToken_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
 func Com_amazonaws_kms_ImportKeyMaterialRequest_EncryptedKeyMaterial_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -4916,6 +5108,10 @@ func Com_amazonaws_kms_ImportKeyMaterialRequest_ExpirationModel_ToDafny(input ty
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_ExpirationModelType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5516,6 +5712,10 @@ func Com_amazonaws_kms_RotationsListEntry_RotationType_ToDafny(input types.Rotat
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_RotationType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5777,20 +5977,22 @@ func Com_amazonaws_kms_PutKeyPolicyRequest_BypassPolicyLockoutSafetyCheck_ToDafn
 
 func Com_amazonaws_kms_ReEncryptRequest_CiphertextBlob_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
 func Com_amazonaws_kms_ReEncryptRequest_SourceEncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(Com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), Com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -5831,7 +6033,9 @@ func Com_amazonaws_kms_ReEncryptRequest_DestinationKeyId_ToDafny(input *string) 
 
 func Com_amazonaws_kms_ReEncryptRequest_DestinationEncryptionContext_ToDafny(input map[string]string) Wrappers.Option {
 	return func() Wrappers.Option {
-
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
 		fieldValue := dafny.NewMapBuilder()
 		for key, val := range input {
 			fieldValue.Add(Com_amazonaws_kms_EncryptionContextType_key_ToDafny(key), Com_amazonaws_kms_EncryptionContextType_value_ToDafny(val))
@@ -5848,6 +6052,10 @@ func Com_amazonaws_kms_ReEncryptRequest_SourceEncryptionAlgorithm_ToDafny(input 
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5869,6 +6077,10 @@ func Com_amazonaws_kms_ReEncryptRequest_DestinationEncryptionAlgorithm_ToDafny(i
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5907,14 +6119,14 @@ func Com_amazonaws_kms_ReEncryptRequest_DryRun_ToDafny(input *bool) Wrappers.Opt
 
 func Com_amazonaws_kms_ReEncryptResponse_CiphertextBlob_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -5956,6 +6168,10 @@ func Com_amazonaws_kms_ReEncryptResponse_SourceEncryptionAlgorithm_ToDafny(input
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -5977,6 +6193,10 @@ func Com_amazonaws_kms_ReEncryptResponse_DestinationEncryptionAlgorithm_ToDafny(
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6295,6 +6515,10 @@ func Com_amazonaws_kms_ScheduleKeyDeletionResponse_KeyState_ToDafny(input types.
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_KeyState_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6334,14 +6558,14 @@ func Com_amazonaws_kms_SignRequest_KeyId_ToDafny(input *string) dafny.Sequence {
 
 func Com_amazonaws_kms_SignRequest_Message_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -6353,6 +6577,10 @@ func Com_amazonaws_kms_SignRequest_MessageType_ToDafny(input types.MessageType) 
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MessageType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6388,6 +6616,10 @@ func Com_amazonaws_kms_SignRequest_SigningAlgorithm_ToDafny(input types.SigningA
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6427,14 +6659,14 @@ func Com_amazonaws_kms_SignResponse_KeyId_ToDafny(input *string) Wrappers.Option
 
 func Com_amazonaws_kms_SignResponse_Signature_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
 	}()
 }
 
@@ -6446,6 +6678,10 @@ func Com_amazonaws_kms_SignResponse_SigningAlgorithm_ToDafny(input types.Signing
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6682,6 +6918,10 @@ func Com_amazonaws_kms_UpdateCustomKeyStoreRequest_XksProxyConnectivity_ToDafny(
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_XksProxyConnectivityType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6772,14 +7012,14 @@ func Com_amazonaws_kms_VerifyRequest_KeyId_ToDafny(input *string) dafny.Sequence
 
 func Com_amazonaws_kms_VerifyRequest_Message_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -6791,6 +7031,10 @@ func Com_amazonaws_kms_VerifyRequest_MessageType_ToDafny(input types.MessageType
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MessageType_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6806,14 +7050,14 @@ func Com_amazonaws_kms_VerifyRequest_MessageType_ToDafny(input types.MessageType
 
 func Com_amazonaws_kms_VerifyRequest_Signature_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -6825,6 +7069,10 @@ func Com_amazonaws_kms_VerifyRequest_SigningAlgorithm_ToDafny(input types.Signin
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6891,6 +7139,10 @@ func Com_amazonaws_kms_VerifyResponse_SigningAlgorithm_ToDafny(input types.Signi
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_SigningAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6906,14 +7158,14 @@ func Com_amazonaws_kms_VerifyResponse_SigningAlgorithm_ToDafny(input types.Signi
 
 func Com_amazonaws_kms_VerifyMacRequest_Message_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -6940,6 +7192,10 @@ func Com_amazonaws_kms_VerifyMacRequest_MacAlgorithm_ToDafny(input types.MacAlgo
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -6955,14 +7211,14 @@ func Com_amazonaws_kms_VerifyMacRequest_MacAlgorithm_ToDafny(input types.MacAlgo
 
 func Com_amazonaws_kms_VerifyMacRequest_Mac_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
+		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
 		for _, e := range input {
 			v = append(v, e)
 		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqFromArray(v, false)
 	}()
 }
 
@@ -7019,6 +7275,10 @@ func Com_amazonaws_kms_VerifyMacResponse_MacAlgorithm_ToDafny(input types.MacAlg
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				return Wrappers.Companion_Option_.Create_None_()
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_MacAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {

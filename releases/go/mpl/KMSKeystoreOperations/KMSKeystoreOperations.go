@@ -52,6 +52,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -71,6 +72,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -414,7 +416,7 @@ func (_static *CompanionStruct_Default___) DecryptKey(encryptionContext _dafny.M
 	_4_decryptResponse = (_2_valueOrError0).Extract().(m_ComAmazonawsKmsTypes.DecryptResponse)
 	var _5_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _5_valueOrError1
-	_5_valueOrError1 = m_Wrappers.Companion_Default___.Need((((_4_decryptResponse).Dtor_Plaintext()).Is_Some()) && ((_dafny.IntOfInt64(32)).Cmp(_dafny.IntOfUint32((((_4_decryptResponse).Dtor_Plaintext()).Dtor_value().(_dafny.Sequence)).Cardinality())) == 0), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(_dafny.SeqOfString("Invalid response from AWS KMS Decrypt: Key is not 32 bytes.")))
+	_5_valueOrError1 = m_Wrappers.Companion_Default___.Need((((_4_decryptResponse).Dtor_Plaintext()).Is_Some()) && ((uint64(32)) == (uint64((((_4_decryptResponse).Dtor_Plaintext()).Dtor_value().(_dafny.Sequence)).Cardinality()))), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(_dafny.SeqOfString("Invalid response from AWS KMS Decrypt: Key is not 32 bytes.")))
 	if (_5_valueOrError1).IsFailure() {
 		output = (_5_valueOrError1).PropagateFailure()
 		return output

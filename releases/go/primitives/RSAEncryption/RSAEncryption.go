@@ -40,6 +40,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -81,6 +82,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -164,7 +166,7 @@ func (_static *CompanionStruct_Default___) GetRSAKeyModulusLength(publicKey _daf
 	} else {
 		var _1_length uint32 = (_0_valueOrError0).Extract().(uint32)
 		_ = _1_length
-		var _2_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(((_dafny.IntOfInt64(81)).Cmp(_dafny.IntOfUint32(_1_length)) <= 0) && ((_dafny.IntOfUint32(_1_length)).Cmp(m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()) < 0), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Unsupported length for RSA modulus.")))
+		var _2_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(((uint64(81)) <= (uint64(_1_length))) && ((uint64(_1_length)) < ((m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()).Uint64())), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Unsupported length for RSA modulus.")))
 		_ = _2_valueOrError1
 		if (_2_valueOrError1).IsFailure() {
 			return (_2_valueOrError1).PropagateFailure()
@@ -178,7 +180,7 @@ func (_static *CompanionStruct_Default___) Decrypt(input m_AwsCryptographyPrimit
 	_ = output
 	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _0_valueOrError0
-	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(((_dafny.IntOfUint32(((input).Dtor_privateKey()).Cardinality())).Sign() == 1) && ((_dafny.IntOfUint32(((input).Dtor_cipherText()).Cardinality())).Sign() == 1), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("")))
+	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(((uint64(0)) < (uint64(((input).Dtor_privateKey()).Cardinality()))) && ((uint64(0)) < (uint64(((input).Dtor_cipherText()).Cardinality()))), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("")))
 	if (_0_valueOrError0).IsFailure() {
 		output = (_0_valueOrError0).PropagateFailure()
 		return output
@@ -194,7 +196,7 @@ func (_static *CompanionStruct_Default___) Encrypt(input m_AwsCryptographyPrimit
 	_ = output
 	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _0_valueOrError0
-	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(((_dafny.IntOfUint32(((input).Dtor_publicKey()).Cardinality())).Sign() == 1) && ((_dafny.IntOfUint32(((input).Dtor_plaintext()).Cardinality())).Sign() == 1), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("")))
+	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(((uint64(0)) < (uint64(((input).Dtor_publicKey()).Cardinality()))) && ((uint64(0)) < (uint64(((input).Dtor_plaintext()).Cardinality()))), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("")))
 	if (_0_valueOrError0).IsFailure() {
 		output = (_0_valueOrError0).PropagateFailure()
 		return output

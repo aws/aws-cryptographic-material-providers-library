@@ -31,6 +31,7 @@ get_release_dir_name() {
 run_release_script() {
   PROJECT_NAME=$1
   VERSION=$2
+  ROOT_DIR="$(git rev-parse --show-toplevel)" || { echo "Error: root directory not found"; exit 1; }
 
   echo "Starting Go release script for $PROJECT_NAME $VERSION"
 
@@ -71,7 +72,8 @@ run_release_script() {
   # Replacement directives are removed to get package from go pkg instead of local copy
   # We need to copy `go.mod` otherwise without it this script will not work in the first release because all the go tools used in this script works only when there is a `go.mod` in the directory. Removing replacement directives helps in automating copying of `go.mod`.
   echo "Removing all replace directives from go.mod..."
-  go mod edit -json | jq -r '.Replace[].Old.Path' | xargs -n1 go mod edit -dropreplace
+  # This expects the replaced package does not have a version
+  go mod edit -json | jq -r '.Replace[].Old.Path' | xargs -n1 go mod edit -dropreplace 
 
   # Get the mapped release directory name
   RELEASE_DIR_NAME=$(get_release_dir_name "$PROJECT_NAME")
@@ -83,7 +85,7 @@ run_release_script() {
     # ImplementationFromDafny.go: This file is for devlopment. Users is expected use API(s) from `*/api_client.go`
     # ImplementationFromDafny-go.dtr: This is the dafny translation record only needed for code generation
     # go.sum: This files will be updated by go mod tidy
-  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" --exclude="go.sum" ./ "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/"
+  rsync -av --exclude="ImplementationFromDafny.go" --exclude="ImplementationFromDafny-go.dtr" --exclude="go.sum" ./ "$ROOT_DIR/releases/go/$RELEASE_DIR_NAME/"
 
   case "$PROJECT_NAME" in
     "AwsEncryptionSDK"|"DynamoDbEncryption") copy_examples ;;
@@ -92,7 +94,7 @@ run_release_script() {
   # Run Go tools in releases directory
   echo "Running Go tools in releases/go/$RELEASE_DIR_NAME..."
 
-  cd "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/" || { echo "Error: releases directory not found"; exit 1; }
+  cd "$ROOT_DIR/releases/go/$RELEASE_DIR_NAME/" || { echo "Error: releases directory not found"; exit 1; }
 
   run_go_tools
 
@@ -100,13 +102,21 @@ run_release_script() {
     "AwsEncryptionSDK"|"DynamoDbEncryption") test_examples ;;
   esac
 
+  make -C "$ROOT_DIR" setup_prettier
+  make -C "$ROOT_DIR" format_java_misc
+
+  if grep -q "replace" go.mod; then
+    echo "Error: Found replace directives in go.mod files. Is this expected?"
+    exit 1
+  fi
+
   # Prepare for commit
   echo "creating a branch..."
 
   git checkout -b "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
   git add *
 
-  git commit -m "Release $RELEASE_DIR_NAME Go module ${VERSION}"
+  git commit -m "chore(go): Release $RELEASE_DIR_NAME Go module ${VERSION}"
   git push origin "golang-release-staging-branch/$RELEASE_DIR_NAME/${VERSION}"
 }
 
@@ -114,7 +124,7 @@ copy_examples() {
   local source_dir replace_pkg
   case "$PROJECT_NAME" in
     "AwsEncryptionSDK") 
-      source_dir="$PROJECT_NAME/runtimes/go/ImplementationFromDafny-go/examples"
+      source_dir="$PROJECT_NAME/runtimes/go/examples"
       replace_pkg="github.com/aws/aws-encryption-sdk/releases/go/encryption-sdk=../"
       ;;
     "DynamoDbEncryption") 
@@ -124,17 +134,19 @@ copy_examples() {
     *) return ;;
   esac
   
-  cd "$(git rev-parse --show-toplevel)/$source_dir"
+  cd "$ROOT_DIR/$source_dir"
+  run_go_tools
   echo "Removing all replace directives from go.mod and only adding replacement for ESDK/DB-ESDK"
   go mod edit -json | jq -r '.Replace[].Old.Path' | xargs -n1 go mod edit -dropreplace
   go mod edit -replace="$replace_pkg"
-  rsync -av --exclude="go.sum" ./ "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/examples"
+  rsync -av --exclude="go.sum" ./ "$ROOT_DIR/releases/go/$RELEASE_DIR_NAME/examples"
 }
 
 test_examples() {
-  cd "$(git rev-parse --show-toplevel)/releases/go/$RELEASE_DIR_NAME/examples" || { echo "Error: examples directory not found"; exit 1; }
+  cd "$ROOT_DIR/releases/go/$RELEASE_DIR_NAME/examples" || { echo "Error: examples directory not found"; exit 1; }
   run_go_tools
   go run main.go
+  cd "$ROOT_DIR/releases/go/$RELEASE_DIR_NAME/" || { echo "Error: releases directory not found"; exit 1; }
 }
 
 run_go_tools() {

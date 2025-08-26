@@ -36,6 +36,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -77,6 +78,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -127,21 +129,21 @@ func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 
 var _ _dafny.TraitOffspring = &Default__{}
 
-func (_static *CompanionStruct_Default___) Length(digestAlgorithm m_AwsCryptographyPrimitivesTypes.DigestAlgorithm) _dafny.Int {
+func (_static *CompanionStruct_Default___) Length(digestAlgorithm m_AwsCryptographyPrimitivesTypes.DigestAlgorithm) uint64 {
 	var _source0 m_AwsCryptographyPrimitivesTypes.DigestAlgorithm = digestAlgorithm
 	_ = _source0
 	{
 		if _source0.Is_SHA__512() {
-			return _dafny.IntOfInt64(64)
+			return uint64(64)
 		}
 	}
 	{
 		if _source0.Is_SHA__384() {
-			return _dafny.IntOfInt64(48)
+			return uint64(48)
 		}
 	}
 	{
-		return _dafny.IntOfInt64(32)
+		return uint64(32)
 	}
 }
 func (_static *CompanionStruct_Default___) Digest(input m_AwsCryptographyPrimitivesTypes.DigestInput) m_Wrappers.Result {
@@ -168,7 +170,7 @@ func (_static *CompanionStruct_Default___) Digest(input m_AwsCryptographyPrimiti
 	_3_value = (_2_valueOrError0).Extract().(_dafny.Sequence)
 	var _4_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _4_valueOrError1
-	_4_valueOrError1 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32((_3_value).Cardinality())).Cmp(Companion_Default___.Length(_0_digestAlgorithm)) == 0, m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Incorrect length digest from ExternDigest.")))
+	_4_valueOrError1 = m_Wrappers.Companion_Default___.Need((uint64((_3_value).Cardinality())) == (Companion_Default___.Length(_0_digestAlgorithm)), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Incorrect length digest from ExternDigest.")))
 	if (_4_valueOrError1).IsFailure() {
 		res = (_4_valueOrError1).PropagateFailure()
 		return res
