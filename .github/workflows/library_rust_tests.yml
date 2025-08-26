@@ -97,3 +97,11 @@ jobs:
         run: |
           make test_rust
           make test_rust_debug
+
+      - name: Test ${{ matrix.library }} Rust Fips
+        if: matrix.library == 'AwsCryptographyPrimitives' || matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'TestVectorsAwsCryptographicMaterialProviders'
+        shell: bash
+        working-directory: ./${{ matrix.library }}/runtimes/rust
+        run: |
+          cargo test --release --features fips -- --nocapture
+          cargo test --features fips -- --nocapture
