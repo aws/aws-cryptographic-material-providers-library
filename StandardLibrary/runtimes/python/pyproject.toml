@@ -18,7 +18,7 @@ include = [
 python = "^3.11.0"
 pytz = ">=2023.3.post1, <2026.0.0"
 # TODO: Longer-term, write something to pull this in from the project's project.properties file
-DafnyRuntimePython = {path = "dafnyruntimepython-4.10.1-py3-none-any.whl"}
+DafnyRuntimePython = "4.11.0"
 
 # Package testing
 
