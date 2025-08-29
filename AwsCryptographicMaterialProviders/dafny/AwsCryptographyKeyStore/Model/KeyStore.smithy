@@ -18,6 +18,9 @@ use com.amazonaws.dynamodb#DynamoDB_20120810
 
 use com.amazonaws.kms#TrentService
 
+use aws.cryptography.primitives#AwsCryptographicPrimitives
+use aws.cryptography.materialProviders#AwsCryptographicMaterialProviders
+
 
 @dafnyUtf8Bytes
 string Utf8Bytes
@@ -28,12 +31,16 @@ structure KmsClientReference {}
 @reference(service: DynamoDB_20120810)
 structure DdbClientReference {}
 
+@reference(service: AwsCryptographicPrimitives)
+structure PrimitivesReference {}
+
 @localService(
   sdkId: "KeyStore",
   config: KeyStoreConfig,
   dependencies: [
     DynamoDB_20120810,
-    TrentService
+    TrentService,
+    AwsCryptographicPrimitives
   ] 
 )
 service KeyStore {
@@ -59,8 +66,24 @@ service KeyStore {
     GetBranchKeyVersion,
     GetBeaconKey
   ],
-  errors: [KeyStoreException]
+  errors: [
+    KeyStoreException
+    BranchKeyCiphertextException
+  ]
 }
+
+@documentation("The identifier for the Branch Key.")
+string BranchKeyIdentifier
+
+@documentation("Timestamp in ISO 8601 format in UTC, to microsecond precision, that this Branch Key Item's Material was generated.")
+string CreateTime
+
+@documentation("Schema Version of the Branch Key. All items of the same Branch Key Identifier SHOULD have the same hierarchy-version. The hierarchy-version determines how the Branch Key Store protects and validates the branch key with KMS.")
+@enum([
+  { name: "v1", value: "1" },
+  { name: "v2", value: "2" }
+])
+string HierarchyVersion
 
 structure KeyStoreConfig {
 
@@ -180,7 +203,15 @@ structure CreateKeyStoreOutput {
 // One is the branch key, which is used in the hierarchical keyring
 // The second is a beacon key that is used as a root key to
 // derive different beacon keys per beacon.
-@javadoc("Create a new Branch Key in the Key Store. Additionally create a Beacon Key that is tied to this Branch Key.")
+@documentation(
+  "Create a new Branch Key in the Key Store. Additionally create a Beacon Key that is tied to this Branch Key.
+  This creates 3 items: the ACTIVE branch key item, the DECRYPT_ONLY for the ACTIVE branch key item, and the beacon key.
+  In DynamoDB, the sort-key for the ACTIVE branch key is 'branch:ACTIVE`; the sort-key for the decrypt_only is 'branch:version:<uuid>'; the sort-key for the beacon key is `beacon:ACTIVE'.
+  The active branch key and the decrypt_only items have the same AES-256 key.
+  The beacon key AES-256 is unqiue.
+  For Hierarchy Version 1, KMS is called 3 times; GenerateDataKeyWithoutPlaintext is called twice, ReEncrypt is called once.
+  For Hierarchy Version 2, KMS is called 5 times; GenerateDataKey follwed by Encrypt twice to create the ACTIVE branch key and decrypt_only. Another GenerateDataKey follwed by Encrypt creates the beacon key.
+  ")
 operation CreateKey {
   input: CreateKeyInput,
   output: CreateKeyOutput
@@ -197,6 +228,9 @@ structure CreateKeyInput {
 
   @javadoc("Custom encryption context for the Branch Key. Required if branchKeyIdentifier is set.")
   encryptionContext: EncryptionContext
+
+  @documentation("Optional. Defaults to v1.")
+  hierarchyVersion: HierarchyVersion
 }
 
 @javadoc("Outputs for Branch Key creation.")
@@ -210,7 +244,15 @@ structure CreateKeyOutput {
 // provided branchKeyIdentifier and rotate the "older" material 
 // on the key store under the branchKeyIdentifier. This operation MUST NOT
 // rotate the beacon key under the branchKeyIdentifier.
-@javadoc("Create a new ACTIVE version of an existing Branch Key in the Key Store, and set the previously ACTIVE version to DECRYPT_ONLY.")
+@javadoc(
+  "Rotates an exsisting Branch Key; this generates a fresh AES-256 key which all future encrypts will use for the Key Derivation Function, until VersionKey is executed again.
+   Rotation is accomplished by first authenticating the ACTIVE branch key item according to it's hierarchy-version with KMS.
+   Then, again using KMS, new material is generated and encrypted, creating a new ACTIVE and corresponding decrypt_only.
+   These two items are then writen to the DynamoDB table via a TransactionWriteItems;
+   this only overwrites the ACTIVE item, the corresponding decrypt_only is a new item.
+   This leaves all the previous decrypt_only items avabile to service decryption of previous rotations.
+   See Branch Key Store Developer Guide's 'Rotate your active branch key': https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/rotate-branch-key.html
+   ")
 operation VersionKey {
   input: VersionKeyInput,
   output: VersionKeyOutput
@@ -312,14 +354,17 @@ list GrantTokenList {
   member: String
 }
 
-//= aws-encryption-sdk-specification/framework/structures.md#structure-3
-//= type=implication
-//# This structure MUST include all of the following fields:
-//# 
-//# - [Branch Key](#branch-key)
-//# - [Branch Key Id](#branch-key-id)
-//# - [Branch Key Version](#branch-key-version)
-//# - [Encryption Context](#encryption-context-3)
+//XX= aws-encryption-sdk-specification/framework/structures.md#structure-3
+//XX= type=implication
+//XX# This structure MUST include all of the following fields:
+//XX# 
+//XX# - [Branch Key](#branch-key)
+//XX# - [Branch Key Id](#branch-key-id)
+//XX# - [Branch Key Version](#branch-key-version)
+//XX# - [Encryption Context](#encryption-context-3)
+//XX# - [KMS ARN](#kms-arn)
+//XX# - [Create Time](#create-time)
+//XX# - [Hierarchy Version](#hierarchy-version)
 structure BranchKeyMaterials {
     @required
     branchKeyIdentifier: String,
@@ -332,6 +377,16 @@ structure BranchKeyMaterials {
 
     @required
     branchKey: Secret,
+
+    @required
+    @documentation("The AWS KMS Key ARN used to protect this Branch Key.")
+    kmsArn: com.amazonaws.kms#KeyIdType
+
+    @required
+    createTime: CreateTime
+
+    @required
+    hierarchyVersion: HierarchyVersion
 }
 
 structure BeaconKeyMaterials {
@@ -355,6 +410,16 @@ structure BeaconKeyMaterials {
   beaconKey: Secret,
 
   hmacKeys: HmacKeyMap
+
+  @required
+  @documentation("The AWS KMS Key ARN used to protect this Branch Key.")
+  kmsArn: com.amazonaws.kms#KeyIdType
+
+  @required
+  createTime: CreateTime
+
+  @required
+  hierarchyVersion: HierarchyVersion
 }
 
 map HmacKeyMap {
@@ -377,4 +442,24 @@ map EncryptionContext {
 structure KeyStoreException {
   @required
   message: String,
+}
+
+@error("client")
+@documentation("
+The cipher-text or branch key materials incorporated into the cipher-text,
+such as the encryption context, is corrupted, missing, or otherwise invalid.
+For branch keys,
+the branch key materials is a combination of:
+- the encryption context
+- storage identifiers (partition key, sort key, logical name)
+- metadata that binds the Branch Key to encrypted data (version)
+- create-time
+- hierarchy-version
+
+If any of the above are modified without calling KMS,
+the branch key's cipher-text becomes invalid.
+")
+structure BranchKeyCiphertextException {
+  @required
+  message: String
 }

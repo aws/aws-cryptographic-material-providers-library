@@ -5,22 +5,63 @@
 from typing import Any, Dict, Optional, Union
 
 
+class HierarchyVersion:
+    """Schema Version of the Branch Key.
+
+    All items of the same Branch Key Identifier SHOULD have the same
+    hierarchy-version. The hierarchy-version determines how the Branch
+    Key Store protects and validates the branch key with KMS.
+    """
+
+    V1 = "1"
+
+    V2 = "2"
+
+    # This set contains every possible value known at the time this was generated. New
+    # values may be added in the future.
+    values = frozenset({"1", "2"})
+
+
 class BeaconKeyMaterials:
     beacon_key_identifier: str
     encryption_context: dict[str, str]
     beacon_key: Optional[bytes | bytearray]
     hmac_keys: Optional[dict[str, bytes | bytearray]]
+    kms_arn: str
+    create_time: str
+    hierarchy_version: str
 
     def __init__(
         self,
         *,
         beacon_key_identifier: str,
         encryption_context: dict[str, str],
+        kms_arn: str,
+        create_time: str,
+        hierarchy_version: str,
         beacon_key: Optional[bytes | bytearray] = None,
         hmac_keys: Optional[dict[str, bytes | bytearray]] = None,
     ):
+        """
+        :param kms_arn: The AWS KMS Key ARN used to protect this Branch Key.
+        :param create_time: Timestamp in ISO 8601 format in UTC, to microsecond
+        precision, that this Branch Key Item's Material was generated.
+        :param hierarchy_version: Schema Version of the Branch Key. All items of the
+        same Branch Key Identifier SHOULD have the same hierarchy-version. The
+        hierarchy-version determines how the Branch Key Store protects and validates the
+        branch key with KMS.
+        """
         self.beacon_key_identifier = beacon_key_identifier
         self.encryption_context = encryption_context
+        if (kms_arn is not None) and (len(kms_arn) < 1):
+            raise ValueError("The size of kms_arn must be greater than or equal to 1")
+
+        if (kms_arn is not None) and (len(kms_arn) > 2048):
+            raise ValueError("The size of kms_arn must be less than or equal to 2048")
+
+        self.kms_arn = kms_arn
+        self.create_time = create_time
+        self.hierarchy_version = hierarchy_version
         self.beacon_key = beacon_key
         self.hmac_keys = hmac_keys
 
@@ -29,6 +70,9 @@ class BeaconKeyMaterials:
         d: Dict[str, Any] = {
             "beacon_key_identifier": self.beacon_key_identifier,
             "encryption_context": self.encryption_context,
+            "kms_arn": self.kms_arn,
+            "create_time": self.create_time,
+            "hierarchy_version": self.hierarchy_version,
         }
 
         if self.beacon_key is not None:
@@ -45,6 +89,9 @@ class BeaconKeyMaterials:
         kwargs: Dict[str, Any] = {
             "beacon_key_identifier": d["beacon_key_identifier"],
             "encryption_context": d["encryption_context"],
+            "kms_arn": d["kms_arn"],
+            "create_time": d["create_time"],
+            "hierarchy_version": d["hierarchy_version"],
         }
 
         if "beacon_key" in d:
@@ -67,7 +114,16 @@ class BeaconKeyMaterials:
             result += f"beacon_key={repr(self.beacon_key)}, "
 
         if self.hmac_keys is not None:
-            result += f"hmac_keys={repr(self.hmac_keys)}"
+            result += f"hmac_keys={repr(self.hmac_keys)}, "
+
+        if self.kms_arn is not None:
+            result += f"kms_arn={repr(self.kms_arn)}, "
+
+        if self.create_time is not None:
+            result += f"create_time={repr(self.create_time)}, "
+
+        if self.hierarchy_version is not None:
+            result += f"hierarchy_version={repr(self.hierarchy_version)}"
 
         return result + ")"
 
@@ -79,6 +135,9 @@ class BeaconKeyMaterials:
             "encryption_context",
             "beacon_key",
             "hmac_keys",
+            "kms_arn",
+            "create_time",
+            "hierarchy_version",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
@@ -88,6 +147,9 @@ class BranchKeyMaterials:
     branch_key_version: str
     encryption_context: dict[str, str]
     branch_key: bytes | bytearray
+    kms_arn: str
+    create_time: str
+    hierarchy_version: str
 
     def __init__(
         self,
@@ -96,11 +158,32 @@ class BranchKeyMaterials:
         branch_key_version: str,
         encryption_context: dict[str, str],
         branch_key: bytes | bytearray,
+        kms_arn: str,
+        create_time: str,
+        hierarchy_version: str,
     ):
+        """
+        :param kms_arn: The AWS KMS Key ARN used to protect this Branch Key.
+        :param create_time: Timestamp in ISO 8601 format in UTC, to microsecond
+        precision, that this Branch Key Item's Material was generated.
+        :param hierarchy_version: Schema Version of the Branch Key. All items of the
+        same Branch Key Identifier SHOULD have the same hierarchy-version. The
+        hierarchy-version determines how the Branch Key Store protects and validates the
+        branch key with KMS.
+        """
         self.branch_key_identifier = branch_key_identifier
         self.branch_key_version = branch_key_version
         self.encryption_context = encryption_context
         self.branch_key = branch_key
+        if (kms_arn is not None) and (len(kms_arn) < 1):
+            raise ValueError("The size of kms_arn must be greater than or equal to 1")
+
+        if (kms_arn is not None) and (len(kms_arn) > 2048):
+            raise ValueError("The size of kms_arn must be less than or equal to 2048")
+
+        self.kms_arn = kms_arn
+        self.create_time = create_time
+        self.hierarchy_version = hierarchy_version
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the BranchKeyMaterials to a dictionary."""
@@ -109,6 +192,9 @@ class BranchKeyMaterials:
             "branch_key_version": self.branch_key_version,
             "encryption_context": self.encryption_context,
             "branch_key": self.branch_key,
+            "kms_arn": self.kms_arn,
+            "create_time": self.create_time,
+            "hierarchy_version": self.hierarchy_version,
         }
 
     @staticmethod
@@ -119,6 +205,9 @@ class BranchKeyMaterials:
             "branch_key_version": d["branch_key_version"],
             "encryption_context": d["encryption_context"],
             "branch_key": d["branch_key"],
+            "kms_arn": d["kms_arn"],
+            "create_time": d["create_time"],
+            "hierarchy_version": d["hierarchy_version"],
         }
 
         return BranchKeyMaterials(**kwargs)
@@ -135,7 +224,16 @@ class BranchKeyMaterials:
             result += f"encryption_context={repr(self.encryption_context)}, "
 
         if self.branch_key is not None:
-            result += f"branch_key={repr(self.branch_key)}"
+            result += f"branch_key={repr(self.branch_key)}, "
+
+        if self.kms_arn is not None:
+            result += f"kms_arn={repr(self.kms_arn)}, "
+
+        if self.create_time is not None:
+            result += f"create_time={repr(self.create_time)}, "
+
+        if self.hierarchy_version is not None:
+            result += f"hierarchy_version={repr(self.hierarchy_version)}"
 
         return result + ")"
 
@@ -147,6 +245,9 @@ class BranchKeyMaterials:
             "branch_key_version",
             "encryption_context",
             "branch_key",
+            "kms_arn",
+            "create_time",
+            "hierarchy_version",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
@@ -154,20 +255,24 @@ class BranchKeyMaterials:
 class CreateKeyInput:
     branch_key_identifier: Optional[str]
     encryption_context: Optional[dict[str, str]]
+    hierarchy_version: Optional[str]
 
     def __init__(
         self,
         *,
         branch_key_identifier: Optional[str] = None,
         encryption_context: Optional[dict[str, str]] = None,
+        hierarchy_version: Optional[str] = None,
     ):
         """
         :param branch_key_identifier: The identifier for the created Branch Key.
         :param encryption_context: Custom encryption context for the Branch Key.
         Required if branchKeyIdentifier is set.
+        :param hierarchy_version: Optional. Defaults to v1.
         """
         self.branch_key_identifier = branch_key_identifier
         self.encryption_context = encryption_context
+        self.hierarchy_version = hierarchy_version
 
     def as_dict(self) -> Dict[str, Any]:
         """Converts the CreateKeyInput to a dictionary."""
@@ -178,6 +283,9 @@ class CreateKeyInput:
 
         if self.encryption_context is not None:
             d["encryption_context"] = self.encryption_context
+
+        if self.hierarchy_version is not None:
+            d["hierarchy_version"] = self.hierarchy_version
 
         return d
 
@@ -192,6 +300,9 @@ class CreateKeyInput:
         if "encryption_context" in d:
             kwargs["encryption_context"] = d["encryption_context"]
 
+        if "hierarchy_version" in d:
+            kwargs["hierarchy_version"] = d["hierarchy_version"]
+
         return CreateKeyInput(**kwargs)
 
     def __repr__(self) -> str:
@@ -200,7 +311,10 @@ class CreateKeyInput:
             result += f"branch_key_identifier={repr(self.branch_key_identifier)}, "
 
         if self.encryption_context is not None:
-            result += f"encryption_context={repr(self.encryption_context)}"
+            result += f"encryption_context={repr(self.encryption_context)}, "
+
+        if self.hierarchy_version is not None:
+            result += f"hierarchy_version={repr(self.hierarchy_version)}"
 
         return result + ")"
 
@@ -210,6 +324,7 @@ class CreateKeyInput:
         attributes: list[str] = [
             "branch_key_identifier",
             "encryption_context",
+            "hierarchy_version",
         ]
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
