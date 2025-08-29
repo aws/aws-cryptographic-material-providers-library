@@ -11,7 +11,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   import opened UTF8
   import ComAmazonawsDynamodbTypes
   import ComAmazonawsKmsTypes
-    // Generic helpers for verification of mock/unit tests.
+  // Generic helpers for verification of mock/unit tests.
   datatype DafnyCallEvent<I, O> = DafnyCallEvent(input: I, output: O)
 
   // Begin Generated Types
@@ -69,7 +69,8 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly keyStoreName: ComAmazonawsDynamodbTypes.TableName ,
     nameonly logicalKeyStoreName: string ,
     nameonly grantTokens: GrantTokenList ,
-    nameonly kmsConfiguration: KMSConfiguration
+    nameonly kmsConfiguration: KMSConfiguration ,
+    nameonly requireConsistentReads: bool
   )
   type GrantTokenList = seq<string>
   type HmacKeyMap = map<string, Secret>
@@ -231,7 +232,8 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly id: Option<string> := Option.None ,
     nameonly grantTokens: Option<GrantTokenList> := Option.None ,
     nameonly ddbClient: Option<ComAmazonawsDynamodbTypes.IDynamoDBClient> := Option.None ,
-    nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> := Option.None
+    nameonly kmsClient: Option<ComAmazonawsKmsTypes.IKMSClient> := Option.None ,
+    nameonly requireConsistentReads: Option<bool> := Option.None
   )
   datatype KMSConfiguration =
     | kmsKeyArn(kmsKeyArn: ComAmazonawsKmsTypes.KeyIdType)
