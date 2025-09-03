@@ -945,27 +945,19 @@ func Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_send
 
 func Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_senderPublicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
 func Aws_cryptography_materialProviders_KmsPrivateKeyToStaticPublicKeyInput_recipientPublicKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -1478,14 +1470,10 @@ func Aws_cryptography_materialProviders_CreateAwsKmsMultiKeyringInput_grantToken
 
 func Aws_cryptography_materialProviders_CreateAwsKmsRsaKeyringInput_publicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
@@ -1625,14 +1613,10 @@ func Aws_cryptography_materialProviders_CreateRawAesKeyringInput_keyName_ToDafny
 
 func Aws_cryptography_materialProviders_CreateRawAesKeyringInput_wrappingKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -1691,14 +1675,10 @@ func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_PublicKeyDis
 
 func Aws_cryptography_materialProviders_PublicKeyDiscoveryInput_recipientStaticPrivateKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -1711,27 +1691,19 @@ func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_RawPrivateKe
 
 func Aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_senderStaticPrivateKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
 func Aws_cryptography_materialProviders_RawPrivateKeyToStaticPublicKeyInput_recipientPublicKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -1744,14 +1716,10 @@ func Aws_cryptography_materialProviders_RawEcdhStaticConfigurations_EphemeralPri
 
 func Aws_cryptography_materialProviders_EphemeralPrivateKeyToStaticPublicKeyInput_recipientPublicKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -1835,27 +1803,19 @@ func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_paddingScheme_T
 
 func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_publicKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
 func Aws_cryptography_materialProviders_CreateRawRsaKeyringInput_privateKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
@@ -1966,14 +1926,10 @@ func Aws_cryptography_materialProviders_AlgorithmSuiteId_DBE_ToDafny(input awscr
 
 func Aws_cryptography_materialProviders_AlgorithmSuiteInfo_binaryId_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -2363,40 +2319,28 @@ func Aws_cryptography_materialProviders_DecryptionMaterials_requiredEncryptionCo
 
 func Aws_cryptography_materialProviders_DecryptionMaterials_plaintextDataKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
 func Aws_cryptography_materialProviders_DecryptionMaterials_verificationKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
 func Aws_cryptography_materialProviders_DecryptionMaterials_symmetricSigningKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
@@ -2455,27 +2399,19 @@ func Aws_cryptography_materialProviders_EncryptedDataKey_keyProviderId_ToDafny(i
 
 func Aws_cryptography_materialProviders_EncryptedDataKey_keyProviderInfo_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
 func Aws_cryptography_materialProviders_EncryptedDataKey_ciphertext_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -2493,27 +2429,19 @@ func Aws_cryptography_materialProviders_EncryptionMaterials_requiredEncryptionCo
 
 func Aws_cryptography_materialProviders_EncryptionMaterials_plaintextDataKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
 func Aws_cryptography_materialProviders_EncryptionMaterials_signingKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
@@ -2533,27 +2461,19 @@ func Aws_cryptography_materialProviders_EncryptionMaterials_symmetricSigningKeys
 
 func Aws_cryptography_materialProviders_SymmetricSigningKeyList_member_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
 func Aws_cryptography_materialProviders_GetAlgorithmSuiteInfoInput_binaryId_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -2637,27 +2557,19 @@ func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_requi
 
 func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_signingKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
 func Aws_cryptography_materialProviders_InitializeEncryptionMaterialsInput_verificationKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
@@ -2851,27 +2763,19 @@ func Aws_cryptography_materialProviders_GetClientOutput_client_ToDafny(input *km
 
 func Aws_cryptography_materialProviders_DeleteCacheEntryInput_identifier_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
 func Aws_cryptography_materialProviders_GetCacheEntryInput_identifier_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -2965,14 +2869,10 @@ func Aws_cryptography_materialProviders_GetCacheEntryOutput_bytesUsed_ToDafny(in
 
 func Aws_cryptography_materialProviders_PutCacheEntryInput_identifier_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -3033,14 +2933,10 @@ func Aws_cryptography_materialProviders_PutCacheEntryInput_bytesUsed_ToDafny(inp
 
 func Aws_cryptography_materialProviders_UpdateUsageMetadataInput_identifier_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 

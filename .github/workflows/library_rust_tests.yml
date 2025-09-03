@@ -68,6 +68,12 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: ilammy/setup-nasm@v1
 
+      # Go is needed for aws-lc-FIPS
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ">=1.18"
+
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
@@ -97,3 +103,11 @@ jobs:
         run: |
           make test_rust
           make test_rust_debug
+
+      - name: Test ${{ matrix.library }} Rust Fips
+        if: matrix.library == 'AwsCryptographyPrimitives' || matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'TestVectorsAwsCryptographicMaterialProviders'
+        shell: bash
+        working-directory: ./${{ matrix.library }}/runtimes/rust
+        run: |
+          cargo test --release --features fips -- --nocapture
+          cargo test --features fips -- --nocapture

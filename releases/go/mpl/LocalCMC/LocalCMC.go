@@ -659,7 +659,7 @@ func (_this *LocalCMC) Ctor__(entryCapacity_k uint64, entryPruningTailSize_k uin
 	{
 		(_this)._entryCapacity = entryCapacity_k
 		(_this)._entryPruningTailSize = entryPruningTailSize_k
-		var _nw0 *m_DafnyLibraries.MutableMap = m_DafnyLibraries.New_MutableMap_()
+		var _nw0 *m_DafnyLibraries.MutableMap = m_DafnyLibraries.New_MutableMap_(true)
 		_ = _nw0
 		(_this).Cache = _nw0
 		var _nw1 *DoublyLinkedCacheEntryList = New_DoublyLinkedCacheEntryList_()

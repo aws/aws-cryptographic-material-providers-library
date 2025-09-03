@@ -49,6 +49,15 @@ func (_this *MutableMap) Equals(other *MutableMap) bool {
 	return _this == other
 }
 
+// If you use the returned value, and ALSO continue to modify the MutableMap
+// Then things might get weird. 
+func (_this *MutableMap) Content() _dafny.Map {
+	if (_this.bytesKeys == true) {
+		panic("To maintain compatibility with other runtimes, this method does not work when bytesKeys is true.");
+	}
+	return _this.dafnyInternal
+}
+
 func (_this *MutableMap) EqualsGeneric(x interface{}) bool {
 	other, ok := x.(*MutableMap)
 	return ok && _this.Equals(other)

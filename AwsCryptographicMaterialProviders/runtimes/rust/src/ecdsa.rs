@@ -55,8 +55,8 @@ pub mod Signature {
 
         fn get_nid(x: &ECDSASignatureAlgorithm) -> i32 {
             match x {
-                ECDSASignatureAlgorithm::ECDSA_P256 {} => aws_lc_sys::NID_X9_62_prime256v1,
-                ECDSASignatureAlgorithm::ECDSA_P384 {} => aws_lc_sys::NID_secp384r1,
+                ECDSASignatureAlgorithm::ECDSA_P256 {} => aws_lc_sys_impl::NID_X9_62_prime256v1,
+                ECDSASignatureAlgorithm::ECDSA_P384 {} => aws_lc_sys_impl::NID_secp384r1,
             }
         }
 
@@ -71,20 +71,20 @@ pub mod Signature {
             sec1_convert(
                 data,
                 get_nid(alg),
-                aws_lc_sys::point_conversion_form_t::POINT_CONVERSION_COMPRESSED,
+                aws_lc_sys_impl::point_conversion_form_t::POINT_CONVERSION_COMPRESSED,
             )
         }
 
         pub(crate) fn sec1_convert(
             data: &[u8],
             nid: i32,
-            form: aws_lc_sys::point_conversion_form_t,
+            form: aws_lc_sys_impl::point_conversion_form_t,
         ) -> Result<Vec<u8>, String> {
-            use aws_lc_sys::EC_GROUP_new_by_curve_name;
-            use aws_lc_sys::EC_POINT_free;
-            use aws_lc_sys::EC_POINT_new;
-            use aws_lc_sys::EC_POINT_oct2point;
-            use aws_lc_sys::EC_POINT_point2oct;
+            use aws_lc_sys_impl::EC_GROUP_new_by_curve_name;
+            use aws_lc_sys_impl::EC_POINT_free;
+            use aws_lc_sys_impl::EC_POINT_new;
+            use aws_lc_sys_impl::EC_POINT_oct2point;
+            use aws_lc_sys_impl::EC_POINT_point2oct;
             use std::ptr::null_mut;
 
             // no need to free ec_group
