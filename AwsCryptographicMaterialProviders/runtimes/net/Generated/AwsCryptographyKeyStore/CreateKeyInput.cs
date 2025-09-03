@@ -9,6 +9,7 @@ namespace AWS.Cryptography.KeyStore
   {
     private string _branchKeyIdentifier;
     private System.Collections.Generic.Dictionary<string, string> _encryptionContext;
+    private AWS.Cryptography.KeyStore.HierarchyVersion _hierarchyVersion;
     public string BranchKeyIdentifier
     {
       get { return this._branchKeyIdentifier; }
@@ -26,6 +27,15 @@ namespace AWS.Cryptography.KeyStore
     public bool IsSetEncryptionContext()
     {
       return this._encryptionContext != null;
+    }
+    public AWS.Cryptography.KeyStore.HierarchyVersion HierarchyVersion
+    {
+      get { return this._hierarchyVersion; }
+      set { this._hierarchyVersion = value; }
+    }
+    public bool IsSetHierarchyVersion()
+    {
+      return this._hierarchyVersion != null;
     }
     public void Validate()
     {
