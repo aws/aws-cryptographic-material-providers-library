@@ -88,12 +88,12 @@ jobs:
           distribution: "corretto"
           java-version: ${{matrix.java-versions}}
 
-      - name: Build ${{ matrix.library }} implementation
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make build_java CORES=$CORES
+      # - name: Build ${{ matrix.library }} implementation
+      #   working-directory: ./${{ matrix.library }}
+      #   run: |
+      #     # This works because `node` is installed by default on GHA runners
+      #     CORES=$(node -e 'console.log(os.cpus().length)')
+      #     make build_java CORES=$CORES
 
       - name: Test ${{ matrix.library }} on ${{matrix.java-versions}}
         working-directory: ./${{ matrix.library }}
