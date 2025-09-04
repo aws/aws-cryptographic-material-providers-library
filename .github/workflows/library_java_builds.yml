@@ -20,12 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         library: [
-            AwsCryptographyPrimitives,
-            ComAmazonawsKms,
-            ComAmazonawsDynamodb,
-            AwsCryptographicMaterialProviders,
-            # TestVectorsAwsCryptographicMaterialProviders,
-            StandardLibrary,
+            TestVectorsAwsCryptographicMaterialProviders,
           ]
         os: [
             # TODO just test on mac for now
@@ -33,7 +28,7 @@ jobs:
             ubuntu-22.04,
             macos-13,
           ]
-        java-versions: [8]
+        java-versions: [8, 11, 16, 17]
     runs-on: ${{ matrix.os }}
     permissions:
       id-token: write
@@ -80,6 +75,7 @@ jobs:
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make build_java CORES=$CORES
+          make mvn_local_deploy
       
       - name: Cache ~/.m2 repository
         shell: bash
