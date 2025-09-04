@@ -1,0 +1,93 @@
+# This workflow builds and caches the Java projects 
+name: Library Java Builds
+
+on:
+  workflow_call:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  testJava:
+    strategy:
+      fail-fast: false
+      matrix:
+        library: [
+            AwsCryptographyPrimitives,
+            ComAmazonawsKms,
+            ComAmazonawsDynamodb,
+            AwsCryptographicMaterialProviders,
+            # TestVectorsAwsCryptographicMaterialProviders,
+            StandardLibrary,
+          ]
+        os: [
+            # TODO just test on mac for now
+            # windows-latest,
+            ubuntu-22.04,
+            macos-13,
+          ]
+        java-versions: [8]
+    runs-on: ${{ matrix.os }}
+    permissions:
+      id-token: write
+      contents: read
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+
+      - uses: actions/checkout@v4
+      # The specification submodule is private so we don't have access, but we don't need
+      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
+      - run: git submodule update --init libraries
+      - run: git submodule update --init --recursive smithy-dafny
+
+      - name: Setup Dafny
+        uses: ./.github/actions/setup_dafny
+        with:
+          dafny-version: ${{ inputs.dafny }}
+
+      - name: Install Smithy-Dafny codegen dependencies
+        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+
+      - name: Regenerate code using smithy-dafny if necessary
+        if: ${{ inputs.regenerate-code }}
+        uses: ./.github/actions/polymorph_codegen
+        with:
+          dafny: ${{ env.DAFNY_VERSION }}
+          library: ${{ matrix.library }}
+          diff-generated-code: false
+
+      - name: Setup Java ${{matrix.java-versions}}
+        uses: actions/setup-java@v3
+        with:
+          distribution: "corretto"
+          java-version: ${{matrix.java-versions}}
+
+      - name: Build ${{ matrix.library }} implementation
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make build_java CORES=$CORES
+      
+      - name: Cache ~/.m2 repository
+        shell: bash
+        # uses: actions/cache@v4
+        # with:
+        #   path: ~/.m2/repository
+        #   key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        #   restore-keys: |
+        #     ${{ runner.os }}-maven-
+        run: |
+          ls -R ~/.m2

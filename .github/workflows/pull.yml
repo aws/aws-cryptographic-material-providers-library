@@ -7,6 +7,11 @@ on:
 jobs:
   getVersions:
     uses: ./.github/workflows/dafny_versions.yaml
+  pr-ci-cache-java-build:
+    needs: getVersions
+    uses: ./.github/workflows/library_java_builds.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
   # pr-ci-format:
   #   needs: getVersions
   #   uses: ./.github/workflows/library_format.yml
@@ -23,7 +28,7 @@ jobs:
   #   with:
   #     dafny: ${{needs.getVersions.outputs.verifyVersion}}
   pr-ci-java:
-    needs: getVersions
+    needs: pr-ci-cache-java-build
     uses: ./.github/workflows/library_java_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
