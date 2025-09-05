@@ -30,6 +30,10 @@ runs:
         python -m pip install --upgrade black
         python -m pip install --upgrade docformatter
 
+    - name: Install Go imports
+      run: |
+        go install golang.org/x/tools/cmd/goimports@latest
+
     # Without this the if-dafny-at-least command includes "Downloading ..." output
     - name: Arbitrary makefile target to force downloading Gradle
       shell: bash
