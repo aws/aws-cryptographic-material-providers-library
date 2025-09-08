@@ -292,7 +292,7 @@ func Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_FromDafny(input inte
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_keyStore_GetBeaconKeyInput_branchKeyIdentifier_FromDafny(input interface{}) string {
@@ -340,7 +340,7 @@ func Aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_FromDafny(input inte
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_keyStore_BeaconKeyMaterials_hmacKeys_FromDafny(input interface{}) map[string][]byte {
@@ -372,7 +372,7 @@ func Aws_cryptography_keyStore_HmacKeyMap_value_FromDafny(input interface{}) []b
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_keyStore_GetBranchKeyVersionInput_branchKeyIdentifier_FromDafny(input interface{}) string {

@@ -380,7 +380,7 @@ func Aws_cryptography_primitives_AESDecryptInput_key_FromDafny(input interface{}
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AESDecryptInput_cipherTxt_FromDafny(input interface{}) []byte {
@@ -388,7 +388,7 @@ func Aws_cryptography_primitives_AESDecryptInput_cipherTxt_FromDafny(input inter
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AESDecryptInput_authTag_FromDafny(input interface{}) []byte {
@@ -396,7 +396,7 @@ func Aws_cryptography_primitives_AESDecryptInput_authTag_FromDafny(input interfa
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AESDecryptInput_iv_FromDafny(input interface{}) []byte {
@@ -404,7 +404,7 @@ func Aws_cryptography_primitives_AESDecryptInput_iv_FromDafny(input interface{})
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AESDecryptInput_aad_FromDafny(input interface{}) []byte {
@@ -412,7 +412,7 @@ func Aws_cryptography_primitives_AESDecryptInput_aad_FromDafny(input interface{}
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AESDecryptOutput_plaintext_FromDafny(input interface{}) []byte {
@@ -420,7 +420,7 @@ func Aws_cryptography_primitives_AESDecryptOutput_plaintext_FromDafny(input inte
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AESEncryptInput_encAlg_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.AES_GCM {
@@ -434,7 +434,7 @@ func Aws_cryptography_primitives_AESEncryptInput_iv_FromDafny(input interface{})
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AESEncryptInput_key_FromDafny(input interface{}) []byte {
@@ -442,7 +442,7 @@ func Aws_cryptography_primitives_AESEncryptInput_key_FromDafny(input interface{}
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AESEncryptInput_msg_FromDafny(input interface{}) []byte {
@@ -450,7 +450,7 @@ func Aws_cryptography_primitives_AESEncryptInput_msg_FromDafny(input interface{}
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AESEncryptInput_aad_FromDafny(input interface{}) []byte {
@@ -458,7 +458,7 @@ func Aws_cryptography_primitives_AESEncryptInput_aad_FromDafny(input interface{}
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AESEncryptOutput_cipherText_FromDafny(input interface{}) []byte {
@@ -466,7 +466,7 @@ func Aws_cryptography_primitives_AESEncryptOutput_cipherText_FromDafny(input int
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AESEncryptOutput_authTag_FromDafny(input interface{}) []byte {
@@ -474,7 +474,7 @@ func Aws_cryptography_primitives_AESEncryptOutput_authTag_FromDafny(input interf
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AesKdfCtrInput_ikm_FromDafny(input interface{}) []byte {
@@ -482,7 +482,7 @@ func Aws_cryptography_primitives_AesKdfCtrInput_ikm_FromDafny(input interface{})
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AesKdfCtrInput_expectedLength_FromDafny(input interface{}) int32 {
@@ -496,7 +496,7 @@ func Aws_cryptography_primitives_AesKdfCtrInput_nonce_FromDafny(input interface{
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_AesKdfCtrOutput_okm_FromDafny(input interface{}) []byte {
@@ -504,7 +504,7 @@ func Aws_cryptography_primitives_AesKdfCtrOutput_okm_FromDafny(input interface{}
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_CompressPublicKeyInput_publicKey_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECCPublicKey {
@@ -515,7 +515,7 @@ func Aws_cryptography_primitives_ECCPublicKey_der_FromDafny(input interface{}) [
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_CompressPublicKeyInput_eccCurve_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec {
@@ -541,7 +541,7 @@ func Aws_cryptography_primitives_CompressPublicKeyOutput_compressedPublicKey_Fro
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_DecompressPublicKeyInput_compressedPublicKey_FromDafny(input interface{}) []byte {
@@ -549,7 +549,7 @@ func Aws_cryptography_primitives_DecompressPublicKeyInput_compressedPublicKey_Fr
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_DecompressPublicKeyInput_eccCurve_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec {
@@ -599,7 +599,7 @@ func Aws_cryptography_primitives_ECCPrivateKey_pem_FromDafny(input interface{}) 
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_DeriveSharedSecretInput_publicKey_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECCPublicKey {
@@ -610,7 +610,7 @@ func Aws_cryptography_primitives_DeriveSharedSecretOutput_sharedSecret_FromDafny
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_DigestInput_digestAlgorithm_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm {
@@ -636,7 +636,7 @@ func Aws_cryptography_primitives_DigestInput_message_FromDafny(input interface{}
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_DigestOutput_digest_FromDafny(input interface{}) []byte {
@@ -644,7 +644,7 @@ func Aws_cryptography_primitives_DigestOutput_digest_FromDafny(input interface{}
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_ECDSASignInput_signatureAlgorithm_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDSASignatureAlgorithm {
@@ -670,7 +670,7 @@ func Aws_cryptography_primitives_ECDSASignInput_signingKey_FromDafny(input inter
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_ECDSASignInput_message_FromDafny(input interface{}) []byte {
@@ -678,7 +678,7 @@ func Aws_cryptography_primitives_ECDSASignInput_message_FromDafny(input interfac
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_ECDSASignOutput_signature_FromDafny(input interface{}) []byte {
@@ -686,7 +686,7 @@ func Aws_cryptography_primitives_ECDSASignOutput_signature_FromDafny(input inter
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_ECDSAVerifyInput_signatureAlgorithm_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDSASignatureAlgorithm {
@@ -712,7 +712,7 @@ func Aws_cryptography_primitives_ECDSAVerifyInput_verificationKey_FromDafny(inpu
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_ECDSAVerifyInput_message_FromDafny(input interface{}) []byte {
@@ -720,7 +720,7 @@ func Aws_cryptography_primitives_ECDSAVerifyInput_message_FromDafny(input interf
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_ECDSAVerifyInput_signature_FromDafny(input interface{}) []byte {
@@ -728,7 +728,7 @@ func Aws_cryptography_primitives_ECDSAVerifyInput_signature_FromDafny(input inte
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_ECDSAVerifyOutput_success_FromDafny(input interface{}) bool {
@@ -817,7 +817,7 @@ func Aws_cryptography_primitives_GenerateECDSASignatureKeyOutput_verificationKey
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_GenerateECDSASignatureKeyOutput_signingKey_FromDafny(input interface{}) []byte {
@@ -825,7 +825,7 @@ func Aws_cryptography_primitives_GenerateECDSASignatureKeyOutput_signingKey_From
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_GenerateRandomBytesInput_length_FromDafny(input interface{}) int32 {
@@ -839,7 +839,7 @@ func Aws_cryptography_primitives_GenerateRandomBytesOutput_data_FromDafny(input 
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_GenerateRSAKeyPairInput_lengthBits_FromDafny(input interface{}) int32 {
@@ -864,7 +864,7 @@ func Aws_cryptography_primitives_RSAPublicKey_pem_FromDafny(input interface{}) [
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_GenerateRSAKeyPairOutput_privateKey_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.RSAPrivateKey {
@@ -883,7 +883,7 @@ func Aws_cryptography_primitives_RSAPrivateKey_pem_FromDafny(input interface{}) 
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_GetPublicKeyFromPrivateKeyInput_eccCurve_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec {
@@ -933,7 +933,7 @@ func Aws_cryptography_primitives_GetPublicKeyFromPrivateKeyOutput_publicKey_From
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_GetRSAKeyModulusLengthInput_publicKey_FromDafny(input interface{}) []byte {
@@ -941,7 +941,7 @@ func Aws_cryptography_primitives_GetRSAKeyModulusLengthInput_publicKey_FromDafny
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_GetRSAKeyModulusLengthOutput_length_FromDafny(input interface{}) int32 {
@@ -973,7 +973,7 @@ func Aws_cryptography_primitives_HkdfInput_salt_FromDafny(input interface{}) []b
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_HkdfInput_ikm_FromDafny(input interface{}) []byte {
@@ -981,7 +981,7 @@ func Aws_cryptography_primitives_HkdfInput_ikm_FromDafny(input interface{}) []by
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_HkdfInput_info_FromDafny(input interface{}) []byte {
@@ -989,7 +989,7 @@ func Aws_cryptography_primitives_HkdfInput_info_FromDafny(input interface{}) []b
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_HkdfInput_expectedLength_FromDafny(input interface{}) int32 {
@@ -1003,7 +1003,7 @@ func Aws_cryptography_primitives_HkdfOutput_okm_FromDafny(input interface{}) []b
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_HkdfExpandInput_digestAlgorithm_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm {
@@ -1029,7 +1029,7 @@ func Aws_cryptography_primitives_HkdfExpandInput_prk_FromDafny(input interface{}
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_HkdfExpandInput_info_FromDafny(input interface{}) []byte {
@@ -1037,7 +1037,7 @@ func Aws_cryptography_primitives_HkdfExpandInput_info_FromDafny(input interface{
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_HkdfExpandInput_expectedLength_FromDafny(input interface{}) int32 {
@@ -1051,7 +1051,7 @@ func Aws_cryptography_primitives_HkdfExpandOutput_okm_FromDafny(input interface{
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_HkdfExtractInput_digestAlgorithm_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm {
@@ -1077,7 +1077,7 @@ func Aws_cryptography_primitives_HkdfExtractInput_salt_FromDafny(input interface
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_HkdfExtractInput_ikm_FromDafny(input interface{}) []byte {
@@ -1085,7 +1085,7 @@ func Aws_cryptography_primitives_HkdfExtractInput_ikm_FromDafny(input interface{
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_HkdfExtractOutput_prk_FromDafny(input interface{}) []byte {
@@ -1093,7 +1093,7 @@ func Aws_cryptography_primitives_HkdfExtractOutput_prk_FromDafny(input interface
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_HMacInput_digestAlgorithm_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm {
@@ -1119,7 +1119,7 @@ func Aws_cryptography_primitives_HMacInput_key_FromDafny(input interface{}) []by
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_HMacInput_message_FromDafny(input interface{}) []byte {
@@ -1127,7 +1127,7 @@ func Aws_cryptography_primitives_HMacInput_message_FromDafny(input interface{}) 
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_HMacOutput_digest_FromDafny(input interface{}) []byte {
@@ -1135,7 +1135,7 @@ func Aws_cryptography_primitives_HMacOutput_digest_FromDafny(input interface{}) 
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_KdfCtrInput_digestAlgorithm_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.DigestAlgorithm {
@@ -1161,7 +1161,7 @@ func Aws_cryptography_primitives_KdfCtrInput_ikm_FromDafny(input interface{}) []
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_KdfCtrInput_expectedLength_FromDafny(input interface{}) int32 {
@@ -1175,7 +1175,7 @@ func Aws_cryptography_primitives_KdfCtrInput_purpose_FromDafny(input interface{}
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_KdfCtrInput_nonce_FromDafny(input interface{}) []byte {
@@ -1183,7 +1183,7 @@ func Aws_cryptography_primitives_KdfCtrInput_nonce_FromDafny(input interface{}) 
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_KdfCtrOutput_okm_FromDafny(input interface{}) []byte {
@@ -1191,7 +1191,7 @@ func Aws_cryptography_primitives_KdfCtrOutput_okm_FromDafny(input interface{}) [
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_ParsePublicKeyInput_publicKey_FromDafny(input interface{}) []byte {
@@ -1199,7 +1199,7 @@ func Aws_cryptography_primitives_ParsePublicKeyInput_publicKey_FromDafny(input i
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_ParsePublicKeyOutput_publicKey_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECCPublicKey {
@@ -1228,7 +1228,7 @@ func Aws_cryptography_primitives_RSADecryptInput_privateKey_FromDafny(input inte
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_RSADecryptInput_cipherText_FromDafny(input interface{}) []byte {
@@ -1236,7 +1236,7 @@ func Aws_cryptography_primitives_RSADecryptInput_cipherText_FromDafny(input inte
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_RSADecryptOutput_plaintext_FromDafny(input interface{}) []byte {
@@ -1244,7 +1244,7 @@ func Aws_cryptography_primitives_RSADecryptOutput_plaintext_FromDafny(input inte
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_RSAEncryptInput_padding_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.RSAPaddingMode {
@@ -1270,7 +1270,7 @@ func Aws_cryptography_primitives_RSAEncryptInput_publicKey_FromDafny(input inter
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_RSAEncryptInput_plaintext_FromDafny(input interface{}) []byte {
@@ -1278,7 +1278,7 @@ func Aws_cryptography_primitives_RSAEncryptInput_plaintext_FromDafny(input inter
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_RSAEncryptOutput_cipherText_FromDafny(input interface{}) []byte {
@@ -1286,7 +1286,7 @@ func Aws_cryptography_primitives_RSAEncryptOutput_cipherText_FromDafny(input int
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_ValidatePublicKeyInput_eccCurve_FromDafny(input interface{}) awscryptographyprimitivessmithygeneratedtypes.ECDHCurveSpec {
@@ -1312,7 +1312,7 @@ func Aws_cryptography_primitives_ValidatePublicKeyInput_publicKey_FromDafny(inpu
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_primitives_ValidatePublicKeyOutput_success_FromDafny(input interface{}) bool {
