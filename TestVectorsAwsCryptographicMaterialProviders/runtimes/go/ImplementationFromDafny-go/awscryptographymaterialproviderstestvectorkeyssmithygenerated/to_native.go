@@ -870,7 +870,7 @@ func Aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionInput_jso
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionOutput_keyDescription_FromDafny(input interface{}) awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription {
@@ -1036,7 +1036,7 @@ func Aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionOut
 		if input == nil {
 			return nil
 		}
-		return input.(dafny.Sequence).ToByteArray()
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_materialProvidersTestVectorKeys_KeyVectorException_message_FromDafny(input interface{}) string {
