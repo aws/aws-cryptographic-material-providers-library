@@ -31,6 +31,7 @@ impl crate::r#software::amazon::cryptography::services::kms::internaldafny::_def
         let shared_config = Self::AddUserAgentStringToConfig(&shared_config);
         shared_config
     }
+
     #[allow(non_snake_case)]
     pub fn KMSClientForRegion(region: &::dafny_runtime::Sequence<::dafny_runtime::DafnyCharUTF16>) -> ::dafny_runtime::Rc<crate::r#_Wrappers_Compile::Result<::dafny_runtime::Object<dyn crate::software::amazon::cryptography::services::kms::internaldafny::types::IKMSClient>, ::dafny_runtime::Rc<crate::software::amazon::cryptography::services::kms::internaldafny::types::Error>>>{
         let region =
@@ -99,8 +100,7 @@ impl crate::r#software::amazon::cryptography::services::kms::internaldafny::_def
                 region,
             );
         let any = dafny_runtime::cast_any_object!(kmsClient);
-        let client =
-            dafny_runtime::cast_object!(any, crate::client::Client);
+        let client = dafny_runtime::cast_object!(any, crate::client::Client);
         let flag = match client.as_ref().inner.config().region() {
             Some(r) => r.as_ref() == region,
             None => false,
