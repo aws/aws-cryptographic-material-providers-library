@@ -14,6 +14,7 @@ include "../../CMCs/StormTracker.dfy"
 include "../../CMCs/StormTrackingCMC.dfy"
 include "../../CMCs/LocalCMC.dfy"
 include "../../CMCs/SynchronizedLocalCMC.dfy"
+include "../../CMCs/CacheConstants.dfy"
 include "../../../Model/AwsCryptographyMaterialProvidersTypes.dfy"
 include "../../ErrorMessages.dfy"
 
@@ -21,6 +22,7 @@ module AwsKmsHierarchicalKeyring {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened AwsArnParsing
   import opened AwsKmsUtils
   import opened Seq
@@ -31,6 +33,7 @@ module AwsKmsHierarchicalKeyring {
   import SynchronizedLocalCMC
   import StormTracker
   import StormTrackingCMC
+  import opened CacheConstants
   import opened AlgorithmSuites
   import EdkWrapping
   import MaterialWrapping
@@ -50,7 +53,7 @@ module AwsKmsHierarchicalKeyring {
   import HKDF
   import HMAC
   import opened AESEncryption
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import ErrorMessages
 
   const BRANCH_KEY_STORE_GSI := "Active-Keys"
@@ -88,33 +91,16 @@ module AwsKmsHierarchicalKeyring {
   // Salt = 16, IV = 12, Version = 16, Authentication Tag = 16
   const EXPECTED_EDK_CIPHERTEXT_OVERHEAD := EDK_CIPHERTEXT_VERSION_INDEX + AES_256_ENC_TAG_LENGTH
 
-  // We add this axiom here because verifying the mutability of the share state of the
-  // cache. Dafny does not support concurrency and proving the state of mutable frames
-  // is complicated.
-  lemma {:axiom} verifyValidStateCache (cmc: Types.ICryptographicMaterialsCache) ensures cmc.ValidState()
-
-  method getEntry(cmc: Types.ICryptographicMaterialsCache, input: Types.GetCacheEntryInput) returns (res: Result<Types.GetCacheEntryOutput, Types.Error>)
-    requires cmc.ValidState()
-    ensures cmc.ValidState()
-    ensures cmc.GetCacheEntryEnsuresPublicly(input, res)
-    ensures unchanged(cmc.History)
+  // Checks if (time_now - cache creation time of the extracted cache entry) is less than the allowed
+  // TTL of the current Hierarchical Keyring calling the getEntry method from the cache.
+  // Mitigates risk if another Material Provider wrote the entry with a longer TTL.
+  predicate method cacheEntryWithinLimits(
+    creationTime: Types.PositiveLong,
+    now: Types.PositiveLong,
+    ttlSeconds: Types.PositiveLong
+  ): (output: bool)
   {
-    // Because of the mutable state of the cache you may not know if you have an entry in cache
-    // at this point in execution; assuming we have not modified it allows dafny to verify that it can get an entry.
-    assume {:axiom} cmc.Modifies == {};
-    res := cmc.GetCacheEntry(input);
-  }
-
-  method putEntry(cmc: Types.ICryptographicMaterialsCache, input: Types.PutCacheEntryInput) returns (res: Result<(), Types.Error>)
-    requires cmc.ValidState()
-    ensures cmc.ValidState()
-    ensures cmc.PutCacheEntryEnsuresPublicly(input, res)
-    ensures unchanged(cmc.History)
-  {
-    // Because of the mutable state of the cache you may not know if you have an entry in cache
-    // at this point in execution; assuming we have not modified it allows dafny to verify that it can put an entry.
-    assume {:axiom} cmc.Modifies == {};
-    res := cmc.PutCacheEntry(input);
+    now - creationTime <= ttlSeconds as Types.PositiveLong
   }
 
   //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#interface
@@ -127,8 +113,10 @@ module AwsKmsHierarchicalKeyring {
     const branchKeyIdSupplier: Option<Types.IBranchKeyIdSupplier>
     const keyStore: KeyStore.IKeyStoreClient
     const ttlSeconds: Types.PositiveLong
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     const cache: Types.ICryptographicMaterialsCache
+    const partitionIdBytes: seq<uint8>
+    const logicalKeyStoreNameBytes: seq<uint8>
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
@@ -136,12 +124,15 @@ module AwsKmsHierarchicalKeyring {
       && History in Modifies
       && keyStore.ValidState()
       && cryptoPrimitives.ValidState()
+      && cache.ValidState()
       && (branchKeyIdSupplier.Some? ==> branchKeyIdSupplier.value.ValidState())
       && keyStore.Modifies <= Modifies
       && cryptoPrimitives.Modifies <= Modifies
+      && cache.Modifies <= Modifies
       && (branchKeyIdSupplier.Some? ==> branchKeyIdSupplier.value.Modifies <= Modifies)
       && History !in keyStore.Modifies
       && History !in cryptoPrimitives.Modifies
+      && History !in cache.Modifies
       && (branchKeyIdSupplier.Some? ==> History !in branchKeyIdSupplier.value.Modifies)
       && (branchKeyIdSupplier.Some? || branchKeyId.Some?)
       && (branchKeyIdSupplier.None? || branchKeyId.None?)
@@ -163,10 +154,12 @@ module AwsKmsHierarchicalKeyring {
       ttlSeconds: Types.PositiveLong,
 
       cmc: Types.ICryptographicMaterialsCache,
-      cryptoPrimitives : Primitives.AtomicPrimitivesClient
+      partitionIdBytes: seq<uint8>,
+      logicalKeyStoreNameBytes: seq<uint8>,
+      cryptoPrimitives : AtomicPrimitives.AtomicPrimitivesClient
     )
       requires ttlSeconds >= 0
-      requires keyStore.ValidState() && cryptoPrimitives.ValidState()
+      requires keyStore.ValidState() && cryptoPrimitives.ValidState() && cmc.ValidState()
       requires branchKeyIdSupplier.Some? ==> branchKeyIdSupplier.value.ValidState()
       requires (branchKeyIdSupplier.Some? || branchKeyId.Some?)
       requires (branchKeyIdSupplier.None? || branchKeyId.None?)
@@ -174,23 +167,28 @@ module AwsKmsHierarchicalKeyring {
         && this.keyStore     == keyStore
         && this.branchKeyIdSupplier  == branchKeyIdSupplier
         && this.ttlSeconds   == ttlSeconds
+        && this.partitionIdBytes   == partitionIdBytes
+        && this.logicalKeyStoreNameBytes == logicalKeyStoreNameBytes
+        && this.cache == cmc
       ensures
         && ValidState()
         && fresh(this)
         && fresh(History)
         && var maybeSupplierModifies := if branchKeyIdSupplier.Some? then branchKeyIdSupplier.value.Modifies else {};
-        && fresh(Modifies - keyStore.Modifies - cryptoPrimitives.Modifies - maybeSupplierModifies)
+        && fresh(Modifies - keyStore.Modifies - cryptoPrimitives.Modifies - maybeSupplierModifies - cmc.Modifies)
     {
-      this.keyStore            := keyStore;
-      this.branchKeyId         := branchKeyId;
-      this.branchKeyIdSupplier := branchKeyIdSupplier;
-      this.ttlSeconds          := ttlSeconds;
-      this.cryptoPrimitives    := cryptoPrimitives;
-      this.cache               := cmc;
+      this.keyStore                 := keyStore;
+      this.branchKeyId              := branchKeyId;
+      this.branchKeyIdSupplier      := branchKeyIdSupplier;
+      this.ttlSeconds               := ttlSeconds;
+      this.cryptoPrimitives         := cryptoPrimitives;
+      this.cache                    := cmc;
+      this.partitionIdBytes         := partitionIdBytes;
+      this.logicalKeyStoreNameBytes := logicalKeyStoreNameBytes;
 
       History := new Types.IKeyringCallHistory();
       var maybeSupplierModifies := if branchKeyIdSupplier.Some? then branchKeyIdSupplier.value.Modifies else {};
-      Modifies := {History} + keyStore.Modifies + cryptoPrimitives.Modifies + maybeSupplierModifies;
+      Modifies := {History} + keyStore.Modifies + cryptoPrimitives.Modifies + maybeSupplierModifies + cmc.Modifies;
     }
 
     method GetBranchKeyId(context: Types.EncryptionContext) returns (ret: Result<string, Types.Error>)
@@ -210,7 +208,28 @@ module AwsKmsHierarchicalKeyring {
       }
     }
 
-    predicate OnEncryptEnsuresPublicly ( input: Types.OnEncryptInput , output: Result<Types.OnEncryptOutput, Types.Error> ) {true}
+    predicate OnEncryptEnsuresPublicly (
+      input: Types.OnEncryptInput ,
+      output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
+    {
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
+    }
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#onencrypt
     //= type=implication
@@ -224,12 +243,6 @@ module AwsKmsHierarchicalKeyring {
       ensures ValidState()
       ensures OnEncryptEnsuresPublicly(input, res)
       ensures unchanged(History)
-      ensures res.Success?
-              ==>
-                && Materials.ValidEncryptionMaterialsTransition(
-                  input.materials,
-                  res.value.materials
-                )
     {
       var materials := input.materials;
       var suite := materials.algorithmSuite;
@@ -322,7 +335,24 @@ module AwsKmsHierarchicalKeyring {
       }
     }
 
-    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> ) {true}
+    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
+    {
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
+    }
     method OnDecrypt'(input: Types.OnDecryptInput)
       returns (res: Result<Types.OnDecryptOutput, Types.Error>)
       requires ValidState()
@@ -332,11 +362,6 @@ module AwsKmsHierarchicalKeyring {
       ensures OnDecryptEnsuresPublicly(input, res)
       ensures unchanged(History)
 
-      ensures res.Success?
-              ==>
-                && Materials.DecryptionMaterialsTransitionIsValid(
-                  input.materials,
-                  res.value.materials)
     {
       var materials := input.materials;
       var suite := input.materials.algorithmSuite;
@@ -352,7 +377,8 @@ module AwsKmsHierarchicalKeyring {
       var filter := new OnDecryptHierarchyEncryptedDataKeyFilter(branchKeyIdForDecrypt);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      if (0 == |edksToAttempt|) {
+      SequenceIsSafeBecauseItIsInMemory(edksToAttempt);
+      if (0 == |edksToAttempt| as uint64) {
         var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(
             Types.AwsCryptographicMaterialProvidersException(
@@ -361,12 +387,14 @@ module AwsKmsHierarchicalKeyring {
       }
 
       var decryptClosure := new DecryptSingleEncryptedDataKey(
-        materials,
-        keyStore,
-        cryptoPrimitives,
-        branchKeyIdForDecrypt,
-        ttlSeconds,
-        cache
+        materials := materials,
+        keyStore := keyStore,
+        cryptoPrimitives := cryptoPrimitives,
+        branchKeyId := branchKeyIdForDecrypt,
+        ttlSeconds := ttlSeconds,
+        cache := cache,
+        partitionIdBytes := partitionIdBytes,
+        logicalKeyStoreNameBytes := logicalKeyStoreNameBytes
       );
 
       var outcome, attempts := ReduceToSuccess(
@@ -394,48 +422,63 @@ module AwsKmsHierarchicalKeyring {
     method GetActiveCacheId(
       branchKeyId: string,
       branchKeyIdUtf8: seq<uint8>,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     )
       returns (cacheId: Result<seq<uint8>, Types.Error>)
 
       requires cryptoPrimitives.ValidState()
       modifies cryptoPrimitives.Modifies
       ensures cryptoPrimitives.ValidState()
-      ensures cacheId.Success? ==> |cacheId.value| == 32
+      ensures cacheId.Success? ==> |cacheId.value| == 48
     {
+      SequenceIsSafeBecauseItIsInMemory(branchKeyId);
       :- Need(
-        && UTF8.Decode(branchKeyIdUtf8).MapFailure(WrapStringToError).Success?
-        && var branchKeyId := UTF8.Decode(branchKeyIdUtf8).MapFailure(WrapStringToError).value;
-        && 0 <= |branchKeyId| < UINT32_LIMIT,
+        && var branchKeyId := UTF8.Decode(branchKeyIdUtf8);
+        && branchKeyId.Success?
+        && (SequenceIsSafeBecauseItIsInMemory(branchKeyId.value); 0 <= |branchKeyId.value| as uint64 < UINT32_LIMIT as uint64),
         E("Invalid Branch Key ID Length")
       );
+      // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#encryption-materials
+      //# When the hierarchical keyring receives an OnEncrypt request,
+      //# the cache entry identifier MUST be calculated as the
+      //# SHA-384 hash of the following byte strings, in the order listed:
+      // (blank line for duvet)
+      //# - MUST be the Resource ID for the Hierarchical Keyring (0x02)
+      //# - MUST be the Scope ID for Encrypt (0x01)
+      //# - MUST be the Partition ID for the Hierarchical Keyring
+      //# - Resource Suffix
+      //#   - MUST be the UTF8 encoded Logical Key Store Name of the keystore for the Hierarchical Keyring
+      //#   - MUST be the UTF8 encoded branch-key-id
+      // (blank line for duvet)
+      //# All the above fields must be separated by a single NULL_BYTE `0x00`.
 
-      var branchKeyId := UTF8.Decode(branchKeyIdUtf8).value;
-      var lenBranchKey := UInt.UInt32ToSeq(|branchKeyId| as uint32);
+      var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
 
-      var hashAlgorithm := Crypto.DigestAlgorithm.SHA_512;
+      // Resource ID: Hierarchical Keyring [0x02]
+      var resourceId : seq<uint8> := RESOURCE_ID_HIERARCHICAL_KEYRING;
 
-      var maybeBranchKeyDigest := cryptoPrimitives
-      .Digest(Crypto.DigestInput(digestAlgorithm := hashAlgorithm, message := branchKeyIdUtf8));
-      var branchKeyDigest :- maybeBranchKeyDigest
-      .MapFailure(e => Types.AwsCryptographyPrimitives(AwsCryptographyPrimitives := e));
+      // Scope ID: Encryption [0x01]
+      var scopeId : seq<uint8> := SCOPE_ID_ENCRYPT;
 
-      var activeUtf8 :- UTF8.Encode(EXPRESSION_ATTRIBUTE_VALUE_STATUS_VALUE)
-      .MapFailure(WrapStringToError);
-      var identifier := lenBranchKey + branchKeyDigest + [0x00] + activeUtf8;
+      // Create the Suffix
+      var suffix : seq<uint8> := logicalKeyStoreNameBytes + NULL_BYTE + branchKeyIdUtf8;
+
+      // Append Resource Id, Scope Id, Partition Id, and Suffix to create the cache identifier
+      var identifier := resourceId + NULL_BYTE + scopeId + NULL_BYTE + partitionIdBytes + NULL_BYTE + suffix;
 
       var maybeCacheIdDigest := cryptoPrimitives
       .Digest(Crypto.DigestInput(digestAlgorithm := hashAlgorithm, message := identifier));
       var cacheDigest :- maybeCacheIdDigest
       .MapFailure(e => Types.AwsCryptographyPrimitives(AwsCryptographyPrimitives := e));
 
+      SequenceIsSafeBecauseItIsInMemory(cacheDigest);
       :- Need(
-        |cacheDigest| == Digest.Length(hashAlgorithm),
+        |cacheDigest| as uint64 == Digest.Length(hashAlgorithm) as uint64,
         Types.AwsCryptographicMaterialProvidersException(
           message := "Digest generated a message not equal to the expected length.")
       );
 
-      return Success(cacheDigest[0..32]);
+      return Success(cacheDigest);
     }
 
     method GetActiveHierarchicalMaterials(
@@ -445,17 +488,36 @@ module AwsKmsHierarchicalKeyring {
     )
       returns (material: Result<KeyStore.BranchKeyMaterials, Types.Error>)
       requires ValidState()
-      requires keyStore.ValidState()
-      modifies keyStore.Modifies
+      requires keyStore.ValidState() && cache.ValidState()
+      modifies keyStore.Modifies, cache.Modifies
       ensures ValidState()
-      ensures keyStore.ValidState()
+      ensures keyStore.ValidState() && cache.ValidState()
     {
       // call cache
       var getCacheInput := Types.GetCacheEntryInput(identifier := cacheId, bytesUsed := None);
-      verifyValidStateCache(cache);
-      var getCacheOutput := getEntry(cache, getCacheInput);
+      var getCacheOutput := cache.GetCacheEntry(getCacheInput);
 
-      if getCacheOutput.Failure? {
+      // If error is not EntryDoesNotExist, return Failure
+      if (getCacheOutput.Failure? && !getCacheOutput.error.EntryDoesNotExist?) {
+        return Failure(getCacheOutput.error);
+      }
+
+      var now := Time.GetCurrent();
+
+      // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#onencrypt
+      //# If using a `Shared` cache across multiple Hierarchical Keyrings,
+      //# different keyrings having the same `branchKey` can have different TTLs.
+      //# In such a case, the expiry time in the cache is set according to the Keyring that populated the cache.
+      //# There MUST be a check (cacheEntryWithinLimits) to make sure that for the cache entry found, who's TTL has NOT expired,
+      //# `time.now() - cacheEntryCreationTime <= ttlSeconds` is true and
+      //# valid for TTL of the Hierarchical Keyring getting the cache entry.
+      //# If this is NOT true, then we MUST treat the cache entry as expired.
+      if getCacheOutput.Failure? || !cacheEntryWithinLimits(
+           creationTime := getCacheOutput.value.creationTime,
+           now := now,
+           ttlSeconds := ttlSeconds
+         )
+      {
         var maybeGetActiveBranchKeyOutput := keyStore.GetActiveBranchKey(
           KeyStore.GetActiveBranchKeyInput(
             branchKeyIdentifier := branchKeyId
@@ -481,16 +543,14 @@ module AwsKmsHierarchicalKeyring {
           bytesUsed := None
         );
 
-        verifyValidStateCache(cache);
-        var _ :- putEntry(cache, putCacheEntryInput);
+        var putResult := cache.PutCacheEntry(putCacheEntryInput);
+        if (putResult.Failure? && !putResult.error.EntryAlreadyExists?) {
+          return Failure(putResult.error);
+        }
 
         return Success(branchKeyMaterials);
       } else {
-        :- Need(
-          && getCacheOutput.value.materials.BranchKey?
-          && getCacheOutput.value.materials == Types.Materials.BranchKey(getCacheOutput.value.materials.BranchKey),
-          E("Invalid Material Type.")
-        );
+        :- Need(getCacheOutput.value.materials.BranchKey?, E("Invalid Material Type."));
         return Success(getCacheOutput.value.materials.BranchKey);
       }
     }
@@ -500,7 +560,7 @@ module AwsKmsHierarchicalKeyring {
     branchKey: seq<uint8>,
     salt: seq<uint8>,
     purpose: Option<seq<uint8>>,
-    cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
   )
     returns (output: Result<seq<uint8>, Types.Error>)
 
@@ -574,7 +634,9 @@ module AwsKmsHierarchicalKeyring {
         && res.Success?
         && res.value
         ==>
-          edk.keyProviderId == PROVIDER_ID_HIERARCHY)
+          && edk.keyProviderId == PROVIDER_ID_HIERARCHY
+          && UTF8.ValidUTF8Seq(edk.keyProviderInfo)
+      )
     }
 
     method Invoke(edk: Types.EncryptedDataKey)
@@ -590,16 +652,14 @@ module AwsKmsHierarchicalKeyring {
         return Success(false);
       }
 
-      if !UTF8.ValidUTF8Seq(providerInfo) {
-        // The Keyring produces UTF8 keyProviderInfo.
-        // If an `aws-kms-hierarchy` encrypted data key's keyProviderInfo is not UTF8
-        // this is an error, not simply an EDK to filter out.
-        return Failure(E("Invalid encoding, provider info is not UTF8."));
-      }
+      // We filter out values that do not match,
+      // Therefore we know that this provider ID is UTF8 encoded
+      assert UTF8.ValidUTF8Seq(PROVIDER_ID_HIERARCHY);
+      assert providerId == PROVIDER_ID_HIERARCHY;
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#ondecrypt
       //# -- The deserialized key provider info MUST be UTF8 Decoded
-      var branchKeyId :- UTF8.Decode(providerInfo).MapFailure(WrapStringToError);
+      var branchKeyId :- UTF8.Decode(providerInfo).MapFailure(e => E("Invalid encoding, provider info is not UTF8."));
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#ondecrypt
       //#  MUST match this keyring's configured `Branch Key Identifier`.
@@ -615,20 +675,24 @@ module AwsKmsHierarchicalKeyring {
   {
     const materials: Materials.DecryptionMaterialsPendingPlaintextDataKey
     const keyStore: KeyStore.IKeyStoreClient
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     const branchKeyId: string
     const ttlSeconds: Types.PositiveLong
     const cache: Types.ICryptographicMaterialsCache
+    const partitionIdBytes: seq<uint8>
+    const logicalKeyStoreNameBytes: seq<uint8>
 
     constructor(
       materials: Materials.DecryptionMaterialsPendingPlaintextDataKey,
       keyStore: KeyStore.IKeyStoreClient,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient,
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient,
       branchKeyId: string,
       ttlSeconds: Types.PositiveLong,
-      cache: Types.ICryptographicMaterialsCache
+      cache: Types.ICryptographicMaterialsCache,
+      partitionIdBytes: seq<uint8>,
+      logicalKeyStoreNameBytes: seq<uint8>
     )
-      requires keyStore.ValidState() && cryptoPrimitives.ValidState()
+      requires keyStore.ValidState() && cryptoPrimitives.ValidState() && cache.ValidState()
       ensures
         && this.materials == materials
         && this.keyStore == keyStore
@@ -636,6 +700,8 @@ module AwsKmsHierarchicalKeyring {
         && this.branchKeyId == branchKeyId
         && this.ttlSeconds == ttlSeconds
         && this.cache == cache
+        && this.partitionIdBytes == partitionIdBytes
+        && this.logicalKeyStoreNameBytes == logicalKeyStoreNameBytes
       ensures Invariant()
     {
       this.materials := materials;
@@ -644,7 +710,9 @@ module AwsKmsHierarchicalKeyring {
       this.branchKeyId := branchKeyId;
       this.ttlSeconds := ttlSeconds;
       this.cache := cache;
-      Modifies := keyStore.Modifies + cryptoPrimitives.Modifies;
+      this.partitionIdBytes := partitionIdBytes;
+      this.logicalKeyStoreNameBytes := logicalKeyStoreNameBytes;
+      Modifies := keyStore.Modifies + cryptoPrimitives.Modifies + cache.Modifies;
     }
 
     predicate Invariant()
@@ -653,7 +721,8 @@ module AwsKmsHierarchicalKeyring {
     {
       && keyStore.ValidState()
       && cryptoPrimitives.ValidState()
-      && keyStore.Modifies + cryptoPrimitives.Modifies == Modifies
+      && cache.ValidState()
+      && keyStore.Modifies + cryptoPrimitives.Modifies + cache.Modifies == Modifies
     }
 
     predicate Ensures(
@@ -670,20 +739,23 @@ module AwsKmsHierarchicalKeyring {
         && Materials.DecryptionMaterialsTransitionIsValid(materials, res.value)
 
     }
+
+    predicate Requires(edk: Types.EncryptedDataKey){
+      && UTF8.ValidUTF8Seq(edk.keyProviderInfo)
+    }
     method Invoke(
       edk: Types.EncryptedDataKey,
       ghost attemptsState: seq<ActionInvoke<Types.EncryptedDataKey, Result<Materials.SealedDecryptionMaterials, Types.Error>>>
     ) returns (res: Result<Materials.SealedDecryptionMaterials, Types.Error>)
       requires Invariant()
+      requires Requires(edk)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
       ensures Ensures(edk, res, attemptsState)
     {
-      :- Need (
-        UTF8.ValidUTF8Seq(edk.keyProviderInfo),
-        Types.AwsCryptographicMaterialProvidersException(message := "Received invalid EDK provider info for Hierarchical Keyring")
-      );
+
+      assert UTF8.ValidUTF8Seq(edk.keyProviderId);
 
       var suite := materials.algorithmSuite;
       var keyProviderId := edk.keyProviderId;
@@ -691,8 +763,9 @@ module AwsKmsHierarchicalKeyring {
       var ciphertext := edk.ciphertext;
 
       var providerWrappedMaterial :- EdkWrapping.GetProviderWrappedMaterial(ciphertext, suite);
+      SequenceIsSafeBecauseItIsInMemory(providerWrappedMaterial);
       :- Need (
-        |providerWrappedMaterial| >= EDK_CIPHERTEXT_VERSION_INDEX as nat,
+        |providerWrappedMaterial| as uint64 >= EDK_CIPHERTEXT_VERSION_INDEX as uint64,
         Types.AwsCryptographicMaterialProvidersException(message := "Received EDK Ciphertext of incorrect length.")
       );
       var branchKeyVersionUuid := providerWrappedMaterial[EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX..EDK_CIPHERTEXT_VERSION_INDEX];
@@ -707,11 +780,11 @@ module AwsKmsHierarchicalKeyring {
 
       // We need to create a new client here so that we can reason about the state of the client
       // down the line. This is ok because the only state tracked is the client's history.
-      var maybeCrypto := Primitives.AtomicPrimitives();
+      var maybeCrypto := AtomicPrimitives.AtomicPrimitives();
       var cryptoPrimitivesX : Crypto.IAwsCryptographicPrimitivesClient :- maybeCrypto
       .MapFailure(e => Types.AwsCryptographyPrimitives(e));
-      assert cryptoPrimitivesX is Primitives.AtomicPrimitivesClient;
-      var cryptoPrimitives := cryptoPrimitivesX as Primitives.AtomicPrimitivesClient;
+      assert cryptoPrimitivesX is AtomicPrimitives.AtomicPrimitivesClient;
+      var cryptoPrimitives := cryptoPrimitivesX as AtomicPrimitives.AtomicPrimitivesClient;
 
       var kmsHierarchyUnwrap := new KmsHierarchyUnwrapKeyMaterial(
         branchKey,
@@ -735,34 +808,63 @@ module AwsKmsHierarchicalKeyring {
     method GetVersionCacheId(
       branchKeyIdUtf8: seq<uint8>, // The branch key as Bytes
       branchKeyVersion: string,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     )
       returns (cacheId: Result<seq<uint8>, Types.Error>)
-      ensures cacheId.Success? ==> |cacheId.value| == 32
+      ensures cacheId.Success? ==> |cacheId.value| == 48
     {
+      SequenceIsSafeBecauseItIsInMemory(branchKeyId);
       :- Need(
-        && UTF8.Decode(branchKeyIdUtf8).MapFailure(WrapStringToError).Success?
-        && var branchKeyId := UTF8.Decode(branchKeyIdUtf8).MapFailure(WrapStringToError).value;
-        && 0 <= |branchKeyId| < UINT32_LIMIT,
+        && var branchKeyId := UTF8.Decode(branchKeyIdUtf8);
+        && branchKeyId.Success?
+        && (SequenceIsSafeBecauseItIsInMemory(branchKeyId.value); 0 <= |branchKeyId.value| as uint64 < UINT32_LIMIT as uint64),
         E("Invalid Branch Key ID Length")
       );
+      // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#decryption-materials
+      //# When the hierarchical keyring receives an OnDecrypt request,
+      //# it MUST calculate the cache entry identifier as the
+      //# SHA-384 hash of the following byte strings, in the order listed:
+      // (blank line for duvet)
+      //# - MUST be the Resource ID for the Hierarchical Keyring (0x02)
+      //# - MUST be the Scope ID for Decrypt (0x02)
+      //# - MUST be the Partition ID for the Hierarchical Keyring
+      //# - Resource Suffix
+      //#   - MUST be the UTF8 encoded Logical Key Store Name of the keystore for the Hierarchical Keyring
+      //#   - MUST be the UTF8 encoded branch-key-id
+      //#   - MUST be the UTF8 encoded branch-key-version
+      // (blank line for duvet)
+      //# All the above fields must be separated by a single NULL_BYTE `0x00`.
 
-      var branchKeyId := UTF8.Decode(branchKeyIdUtf8).value;
-      var lenBranchKey := UInt.UInt32ToSeq(|branchKeyId| as uint32);
+      var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
+
+      // Resource ID: Hierarchical Keyring [0x02]
+      var resourceId : seq<uint8> := RESOURCE_ID_HIERARCHICAL_KEYRING;
+
+      // Scope ID: Decryption [0x02]
+      var scopeId : seq<uint8> := SCOPE_ID_DECRYPT;
+
+        // Convert branch key version into UTF8 bytes
       :- Need(
         UTF8.IsASCIIString(branchKeyVersion),
         E("Unable to represent as an ASCII string.")
       );
-      var versionBytes := UTF8.EncodeAscii(branchKeyVersion);
+      var versionBytes :- UTF8.Encode(branchKeyVersion).MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
 
-      var identifier := lenBranchKey + branchKeyIdUtf8 + [0x00 as uint8] + versionBytes;
+      // Create the suffix
+      var suffix : seq<uint8> := logicalKeyStoreNameBytes + NULL_BYTE + branchKeyIdUtf8 + NULL_BYTE + versionBytes;
+
+      // Append Resource Id, Scope Id, Partition Id, and Suffix to create the cache identifier
+      var identifier := resourceId + NULL_BYTE + scopeId + NULL_BYTE + partitionIdBytes + NULL_BYTE + suffix;
+
       var identifierDigestInput := Crypto.DigestInput(
-        digestAlgorithm := Crypto.DigestAlgorithm.SHA_512, message := identifier
+        digestAlgorithm := hashAlgorithm, message := identifier
       );
       var maybeCacheDigest := Digest.Digest(identifierDigestInput);
       var cacheDigest :- maybeCacheDigest.MapFailure(e => Types.AwsCryptographyPrimitives(e));
 
-      return Success(cacheDigest[0..32]);
+      assert |cacheDigest| == Digest.Length(hashAlgorithm) as nat;
+
+      return Success(cacheDigest);
     }
 
     method GetHierarchicalMaterialsVersion(
@@ -773,16 +875,33 @@ module AwsKmsHierarchicalKeyring {
     )
       returns (material: Result<KeyStore.BranchKeyMaterials, Types.Error>)
       requires Invariant()
-      requires keyStore.ValidState()
-      modifies keyStore.Modifies
-      ensures keyStore.ValidState()
+      requires keyStore.ValidState() && cache.ValidState()
+      modifies keyStore.Modifies, cache.Modifies
+      ensures keyStore.ValidState() && cache.ValidState()
     {
       // call cache
       var getCacheInput := Types.GetCacheEntryInput(identifier := cacheId, bytesUsed := None);
-      verifyValidStateCache(cache);
-      var getCacheOutput := getEntry(cache, getCacheInput);
+      var getCacheOutput := cache.GetCacheEntry(getCacheInput);
+      if (getCacheOutput.Failure? && !getCacheOutput.error.EntryDoesNotExist?) {
+        return Failure(getCacheOutput.error);
+      }
 
-      if getCacheOutput.Failure? {
+      var now := Time.GetCurrent();
+
+      // //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#ondecrypt
+      //# If using a `Shared` cache across multiple Hierarchical Keyrings,
+      //# different keyrings having the same `branchKey` can have different TTLs.
+      //# In such a case, the expiry time in the cache is set according to the Keyring that populated the cache.
+      //# There MUST be a check (cacheEntryWithinLimits) to make sure that for the cache entry found, who's TTL has NOT expired,
+      //# `time.now() - cacheEntryCreationTime <= ttlSeconds` is true and
+      //# valid for TTL of the Hierarchical Keyring getting the cache entry.
+      //# If this is NOT true, then we MUST treat the cache entry as expired.
+      if getCacheOutput.Failure? || !cacheEntryWithinLimits(
+           creationTime := getCacheOutput.value.creationTime,
+           now := now,
+           ttlSeconds := ttlSeconds
+         )
+      {
         var maybeGetBranchKeyVersionOutput := keyStore.GetBranchKeyVersion(
           KeyStore.GetBranchKeyVersionInput(
             branchKeyIdentifier := branchKeyId,
@@ -810,16 +929,14 @@ module AwsKmsHierarchicalKeyring {
           bytesUsed := None
         );
 
-        verifyValidStateCache(cache);
-        var _ :- putEntry(cache, putCacheEntryInput);
+        var putResult := cache.PutCacheEntry(putCacheEntryInput);
+        if (putResult.Failure? && !putResult.error.EntryAlreadyExists?) {
+          return Failure(putResult.error);
+        }
 
         return Success(branchKeyMaterials);
       } else {
-        :- Need(
-          && getCacheOutput.value.materials.BranchKey?
-          && getCacheOutput.value.materials == Types.Materials.BranchKey(getCacheOutput.value.materials.BranchKey),
-          E("Invalid Material Type.")
-        );
+        :- Need(getCacheOutput.value.materials.BranchKey?, E("Invalid Material Type."));
         return Success(getCacheOutput.value.materials.BranchKey);
       }
     }
@@ -834,13 +951,13 @@ module AwsKmsHierarchicalKeyring {
     const branchKey: seq<uint8>
     const branchKeyIdUtf8 : UTF8.ValidUTF8Bytes
     const branchKeyVersionAsBytes: seq<uint8>
-    const crypto: Primitives.AtomicPrimitivesClient
+    const crypto: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       branchKey: seq<uint8>,
       branchKeyIdUtf8: UTF8.ValidUTF8Bytes,
       branchKeyVersionAsBytes: seq<uint8>,
-      crypto: Primitives.AtomicPrimitivesClient
+      crypto: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires crypto.ValidState()
       ensures
@@ -884,7 +1001,7 @@ module AwsKmsHierarchicalKeyring {
         && var AESDecryptOutput := Seq.Last(crypto.History.AESDecrypt).output.value;
         && var wrappedMaterial := input.wrappedMaterial;
         && var aad := input.encryptionContext;
-        && var salt := wrappedMaterial[0..H_WRAP_SALT_LEN];
+        && var salt := wrappedMaterial[..H_WRAP_SALT_LEN];
         && var iv := wrappedMaterial[H_WRAP_SALT_LEN..EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX];
         && var branchKeyVersionUuid := wrappedMaterial[EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX..EDK_CIPHERTEXT_VERSION_INDEX];
         && var wrappedKey := wrappedMaterial[EDK_CIPHERTEXT_VERSION_INDEX..EDK_CIPHERTEXT_VERSION_INDEX + KeyLength];
@@ -907,6 +1024,7 @@ module AwsKmsHierarchicalKeyring {
       ghost attemptsState: seq<ActionInvoke<MaterialWrapping.UnwrapInput, Result<MaterialWrapping.UnwrapOutput<HierarchyUnwrapInfo>, Types.Error>>>
     ) returns (res: Result<MaterialWrapping.UnwrapOutput<HierarchyUnwrapInfo>, Types.Error>)
       requires Invariant()
+      requires Requires(input)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
@@ -920,19 +1038,20 @@ module AwsKmsHierarchicalKeyring {
 
       var KeyLength := AlgorithmSuites.GetEncryptKeyLength(suite);
 
+      SequenceIsSafeBecauseItIsInMemory(wrappedMaterial);
       :- Need (
         // Salt = 16, IV = 12, Version = 16, Authentication Tag = 16 + Encrypted Key Length
-        |wrappedMaterial| == EXPECTED_EDK_CIPHERTEXT_OVERHEAD as int + KeyLength as int,
+        |wrappedMaterial| as uint64 == EXPECTED_EDK_CIPHERTEXT_OVERHEAD as uint64 + KeyLength as uint64,
         Types.AwsCryptographicMaterialProvidersException(message := "Received EDK Ciphertext of incorrect length2.")
       );
 
-      var salt := wrappedMaterial[0..H_WRAP_SALT_LEN];
+      var salt := wrappedMaterial[..H_WRAP_SALT_LEN];
       var iv := wrappedMaterial[H_WRAP_SALT_LEN..EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX];
       var branchKeyVersionUuid := wrappedMaterial[EDK_CIPHERTEXT_BRANCH_KEY_VERSION_INDEX..EDK_CIPHERTEXT_VERSION_INDEX];
       var wrappedKey := wrappedMaterial[EDK_CIPHERTEXT_VERSION_INDEX.. EDK_CIPHERTEXT_VERSION_INDEX + KeyLength];
       var authTag := wrappedMaterial[EDK_CIPHERTEXT_VERSION_INDEX + KeyLength..];
 
-      var serializedEC :- CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext);
+      var serializedEC :- input.serializedEC;
       var wrappingAad := WrappingAad(branchKeyIdUtf8, branchKeyVersionAsBytes, serializedEC);
       var derivedBranchKey :- DeriveEncryptionKeyFromBranchKey(
         branchKey,
@@ -953,10 +1072,7 @@ module AwsKmsHierarchicalKeyring {
       );
       var unwrappedPdk :- maybeUnwrappedPdk.MapFailure(e => Types.AwsCryptographyPrimitives(AwsCryptographyPrimitives := e));
 
-      :- Need(
-        |unwrappedPdk| == AlgorithmSuites.GetEncryptKeyLength(input.algorithmSuite) as nat,
-        E("Invalid Key Length")
-      );
+      assert |unwrappedPdk| == AlgorithmSuites.GetEncryptKeyLength(input.algorithmSuite) as nat;
 
       var output := MaterialWrapping.UnwrapOutput(
         unwrappedMaterial := unwrappedPdk,
@@ -973,13 +1089,13 @@ module AwsKmsHierarchicalKeyring {
     const branchKey: seq<uint8>
     const branchKeyIdUtf8 : UTF8.ValidUTF8Bytes
     const branchKeyVersionAsBytes: seq<uint8>
-    const crypto: Primitives.AtomicPrimitivesClient
+    const crypto: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       branchKey: seq<uint8>,
       branchKeyIdUtf8 : UTF8.ValidUTF8Bytes,
       branchKeyVersionAsBytes: seq<uint8>,
-      crypto: Primitives.AtomicPrimitivesClient
+      crypto: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires crypto.ValidState()
       ensures
@@ -1022,6 +1138,7 @@ module AwsKmsHierarchicalKeyring {
       ghost attemptsState: seq<ActionInvoke<MaterialWrapping.GenerateAndWrapInput, Result<MaterialWrapping.GenerateAndWrapOutput<HierarchyWrapInfo>, Types.Error>>>
     ) returns (res: Result<MaterialWrapping.GenerateAndWrapOutput<HierarchyWrapInfo>, Types.Error>)
       requires Invariant()
+      requires Requires(input)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
@@ -1044,7 +1161,8 @@ module AwsKmsHierarchicalKeyring {
         MaterialWrapping.WrapInput(
           plaintextMaterial := pdk,
           algorithmSuite := input.algorithmSuite,
-          encryptionContext := input.encryptionContext
+          encryptionContext := input.encryptionContext,
+          serializedEC := input.serializedEC
         ), []);
 
       var output := MaterialWrapping.GenerateAndWrapOutput(
@@ -1063,13 +1181,13 @@ module AwsKmsHierarchicalKeyring {
     const branchKey: seq<uint8>
     const branchKeyIdUtf8 : UTF8.ValidUTF8Bytes
     const branchKeyVersionAsBytes: seq<uint8>
-    const crypto: Primitives.AtomicPrimitivesClient
+    const crypto: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       branchKey: seq<uint8>,
       branchKeyIdUtf8 : UTF8.ValidUTF8Bytes,
       branchKeyVersionAsBytes: seq<uint8>,
-      crypto: Primitives.AtomicPrimitivesClient
+      crypto: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires crypto.ValidState()
       ensures
@@ -1126,6 +1244,7 @@ module AwsKmsHierarchicalKeyring {
       ghost attemptsState: seq<ActionInvoke<MaterialWrapping.WrapInput, Result<MaterialWrapping.WrapOutput<HierarchyWrapInfo>, Types.Error>>>
     ) returns (res: Result<MaterialWrapping.WrapOutput<HierarchyWrapInfo>, Types.Error>)
       requires Invariant()
+      requires Requires(input)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
@@ -1146,7 +1265,7 @@ module AwsKmsHierarchicalKeyring {
       assert |crypto.History.GenerateRandomBytes| == old(|crypto.History.GenerateRandomBytes|) + 1;
       assert |saltAndNonce| == (H_WRAP_NONCE_LEN + H_WRAP_SALT_LEN) as int;
 
-      var salt := saltAndNonce[0..H_WRAP_SALT_LEN];
+      var salt := saltAndNonce[..H_WRAP_SALT_LEN];
       var nonce := saltAndNonce[H_WRAP_SALT_LEN..];
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-hierarchical-keyring.md#branch-key-wrapping-and-unwrapping-aad
@@ -1157,7 +1276,7 @@ module AwsKmsHierarchicalKeyring {
       //  1. [version](../structures.md#branch-key-version) as Bytes
       //  1. [encryption context](structures.md#encryption-context-1) from the input
       //     [encryption materials](../structures.md#encryption-materials) according to the [encryption context serialization specification](../structures.md#serialization).
-      var serializedEC :- CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext);
+      var serializedEC :- input.serializedEC;
       var wrappingAad := WrappingAad(branchKeyIdUtf8, branchKeyVersionAsBytes, serializedEC);
 
       var derivedBranchKey :- DeriveEncryptionKeyFromBranchKey(

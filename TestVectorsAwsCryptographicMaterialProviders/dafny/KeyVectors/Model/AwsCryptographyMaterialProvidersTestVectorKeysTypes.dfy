@@ -99,7 +99,8 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateTestVectorKeyringEnsuresPublicly(input, output)
       ensures History.CreateTestVectorKeyring == old(History.CreateTestVectorKeyring) + [DafnyCallEvent(input, output)]
 
@@ -119,7 +120,8 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateWrappedTestVectorKeyringEnsuresPublicly(input, output)
       ensures History.CreateWrappedTestVectorKeyring == old(History.CreateWrappedTestVectorKeyring) + [DafnyCallEvent(input, output)]
 
@@ -139,7 +141,8 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateWrappedTestVectorCmmEnsuresPublicly(input, output)
       ensures History.CreateWrappedTestVectorCmm == old(History.CreateWrappedTestVectorCmm) + [DafnyCallEvent(input, output)]
 
@@ -258,7 +261,16 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
     | CollectionOfErrors(list: seq<Error>, nameonly message: string)
       // The Opaque error, used for native, extern, wrapped or unknown errors
     | Opaque(obj: object)
-  type OpaqueError = e: Error | e.Opaque? witness *
+      // A better Opaque, with a visible string representation.
+    | OpaqueWithText(obj: object, objMessage : string)
+  type OpaqueError = e: Error | e.Opaque? || e.OpaqueWithText? witness *
+  // This dummy subset type is included to make sure Dafny
+  // always generates a _ExternBase___default.java class.
+  type DummySubsetType = x: int | IsDummySubsetType(x) witness 1
+  predicate method IsDummySubsetType(x: int) {
+    0 < x
+  }
+
 }
 abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService
 {
@@ -314,7 +326,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateTestVectorKeyringEnsuresPublicly(input, output)
       ensures History.CreateTestVectorKeyring == old(History.CreateTestVectorKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -339,7 +352,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateWrappedTestVectorKeyringEnsuresPublicly(input, output)
       ensures History.CreateWrappedTestVectorKeyring == old(History.CreateWrappedTestVectorKeyring) + [DafnyCallEvent(input, output)]
     {
@@ -364,7 +378,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysService
                && output.value.ValidState()
                && output.value.Modifies !! {History}
                && fresh(output.value)
-               && fresh ( output.value.Modifies - Modifies - {History} ) )
+               && fresh ( output.value.Modifies
+                          - Modifies - {History} ) )
       ensures CreateWrappedTestVectorCmmEnsuresPublicly(input, output)
       ensures History.CreateWrappedTestVectorCmm == old(History.CreateWrappedTestVectorCmm) + [DafnyCallEvent(input, output)]
     {
@@ -416,7 +431,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysOperations
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config) ) )
     ensures CreateTestVectorKeyringEnsuresPublicly(input, output)
 
 
@@ -436,7 +452,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysOperations
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config) ) )
     ensures CreateWrappedTestVectorKeyringEnsuresPublicly(input, output)
 
 
@@ -456,7 +473,8 @@ abstract module AbstractAwsCryptographyMaterialProvidersTestVectorKeysOperations
       && ( output.Success? ==>
              && output.value.ValidState()
              && fresh(output.value)
-             && fresh ( output.value.Modifies - ModifiesInternalConfig(config) ) )
+             && fresh ( output.value.Modifies
+                        - ModifiesInternalConfig(config) ) )
     ensures CreateWrappedTestVectorCmmEnsuresPublicly(input, output)
 
 

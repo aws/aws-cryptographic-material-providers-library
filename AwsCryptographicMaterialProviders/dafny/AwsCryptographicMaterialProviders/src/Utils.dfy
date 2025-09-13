@@ -4,7 +4,7 @@ include "../Model/AwsCryptographyMaterialProvidersTypes.dfy"
 
 module {:options "/functionSyntax:4" } Utils {
   import Crypto = AwsCryptographyPrimitivesTypes
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import Types = AwsCryptographyMaterialProvidersTypes
   import opened StandardLibrary
   import opened UInt = StandardLibrary.UInt
@@ -14,7 +14,7 @@ module {:options "/functionSyntax:4" } Utils {
   method {:vcs_split_on_every_assert} GetPublicKey(
     curveSpec: Crypto.ECDHCurveSpec,
     privateKey: Crypto.ECCPrivateKey,
-    crypto: Primitives.AtomicPrimitivesClient
+    crypto: AtomicPrimitives.AtomicPrimitivesClient
   ) returns (res: Result<seq<uint8>, Types.Error>)
     requires crypto.ValidState()
     modifies crypto.Modifies

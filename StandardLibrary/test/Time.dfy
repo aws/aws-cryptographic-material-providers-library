@@ -7,9 +7,25 @@ include "../src/Time.dfy"
 module {:options "/functionSyntax:4" } TestTime {
   import Time
 
+  method {:test} TestFormat() {
+    expect Time.FormatMilliDiff(123456, 123456) == "0.000";
+    expect Time.FormatMilliDiff(123456, 123457) == "0.001";
+    expect Time.FormatMilliDiff(123456, 123467) == "0.011";
+    expect Time.FormatMilliDiff(123456, 123567) == "0.111";
+    expect Time.FormatMilliDiff(123456, 124567) == "1.111";
+    expect Time.FormatMilliDiff(123456, 134567) == "11.111";
+    expect Time.FormatMilliDiff(123456, 234567) == "111.111";
+  }
+
   method {:test} TestNonDecreasing() {
     var t1 := Time.GetCurrent();
     var t2 := Time.GetCurrent();
+    expect t2 >= t1;
+  }
+
+  method {:test} TestNonDecreasingMilli() {
+    var t1 := Time.GetCurrentMilli();
+    var t2 := Time.GetCurrentMilli();
     expect t2 >= t1;
   }
 

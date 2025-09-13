@@ -11,7 +11,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
   import opened UInt = StandardLibrary.UInt
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes
   import Com.Amazonaws.Kms
   import AwsKmsRsaKeyring
@@ -341,7 +341,7 @@ module {:options "/functionSyntax:4" } TestAwsKmsEcdhKeyring {
   method {:test} TestKmsEcdhKeyringRecipientRawKeyEncryptDecryptSuccessSetSenderPublicKey()
   {
     var mpl :- expect MaterialProviders.MaterialProviders();
-    var primitives :- expect Primitives.AtomicPrimitives();
+    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
     var recipientKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(

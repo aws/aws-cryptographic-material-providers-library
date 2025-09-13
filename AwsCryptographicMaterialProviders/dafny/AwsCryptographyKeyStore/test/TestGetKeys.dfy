@@ -182,7 +182,7 @@ module TestGetKeys {
       Types.GetActiveBranchKeyInput(branchKeyIdentifier := WestBranchKey));
     expect badResult.Failure?;
     expect badResult.error.ComAmazonawsKms?;
-    expect badResult.error.ComAmazonawsKms.Opaque?;
+    expect badResult.error.ComAmazonawsKms.OpaqueWithText?;
     // it's an opaque error, so I can't test its contents
   }
 

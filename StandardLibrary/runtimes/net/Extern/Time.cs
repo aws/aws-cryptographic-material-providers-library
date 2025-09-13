@@ -3,6 +3,7 @@
 
 using System;
 using System.Numerics;
+using System.Diagnostics;
 using Microsoft.VisualBasic;
 using Wrappers_Compile;
 using ibyteseq = Dafny.ISequence<byte>;
@@ -19,6 +20,17 @@ namespace Time
         {
             var timespan = DateTime.Now - DateTime.MinValue;
             return (long)timespan.TotalSeconds;
+        }
+
+        public static long CurrentRelativeTimeMilli()
+        {
+            var timespan = DateTime.Now - DateTime.MinValue;
+            return (long)timespan.TotalMilliseconds;
+        }
+
+        public static long GetProcessCpuTimeMillis()
+        {
+            return (long)Process.GetCurrentProcess().TotalProcessorTime.TotalMilliseconds;
         }
 
         public static _IResult<icharseq, icharseq> GetCurrentTimeStamp()

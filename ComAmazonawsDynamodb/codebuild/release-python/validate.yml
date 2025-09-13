@@ -1,0 +1,52 @@
+version: 0.2
+
+# Validate that the released artifact is usable
+# by installing it from PyPI
+# then running tests from source against the published artifact.
+
+phases:
+  install:
+    commands:
+      - pip install "tox < 4.0"
+    runtime-versions:
+      python: latest
+      dotnet: 6.0
+  pre_build:
+    commands:
+      # Get Dafny
+      - export dafnyVersion=$(grep '^dafnyVersion=' project.properties | cut -d '=' -f 2)
+      - cd ..
+      - curl https://github.com/dafny-lang/dafny/releases/download/v$dafnyVersion/dafny-$dafnyVersion-x64-ubuntu-20.04.zip  -L -o dafny.zip
+      - unzip -qq dafny.zip && rm dafny.zip
+      - export PATH="$PWD/dafny:$PATH"
+      # Switch back to the main directory
+      - cd aws-cryptographic-material-providers-library
+      # Without this the if-dafny-at-least command includes "Downloading ..." output
+      - make -C StandardLibrary setup_net
+      # Check out tests for release commit
+      - git fetch --tags
+      - git checkout $COMMIT_ID
+      # Install test dependencies
+      - pyenv install --skip-existing 3.11
+      - pyenv local 3.11
+      - pip install "tox < 4.0"
+      - pip install pytest
+      # Install the published artifact from PyPI.
+      # The tests will use the installed package, not the local code.
+      # The actual test code must be from local, since we don't publish tests.
+      - pip install aws-cryptography-internal-dynamodb==$VERSION
+      # Get CI Creds to be able to call DDB
+      - TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "MPL-Python-Release")
+      - export TMP_ROLE
+      - export AWS_ACCESS_KEY_ID=$(echo "${TMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
+      - export AWS_SECRET_ACCESS_KEY=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
+      - export AWS_SESSION_TOKEN=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SessionToken')
+      - aws sts get-caller-identity
+  build:
+    commands:
+      - NUM_RETRIES=3
+      - cd ComAmazonawsDynamodb
+      # Transpile code (for tests)
+      - make transpile_only_test_python
+      - cd runtimes/python
+      - python -m pytest test/ -s -v

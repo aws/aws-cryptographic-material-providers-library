@@ -20,13 +20,13 @@ public class StormTrackingCache {
   private final int entryPruningTailSize;
 
   /**
-   * How many seconds before expiration should an attempt be made to refresh the materials.
+   * How much time before expiration should an attempt be made to refresh the materials.
    *   If zero, use a simple cache with no storm tracking.
    */
   private final int gracePeriod;
 
   /**
-   * How many seconds between attempts to refresh the materials.
+   * How much time between attempts to refresh the materials.
    */
   private final int graceInterval;
 
@@ -36,7 +36,7 @@ public class StormTrackingCache {
   private final int fanOut;
 
   /**
-   * How many seconds until an attempt to refresh the materials should be forgotten.
+   * How much time until an attempt to refresh the materials should be forgotten.
    */
   private final int inFlightTTL;
 
@@ -44,6 +44,13 @@ public class StormTrackingCache {
    * How many milliseconds should a thread sleep if fanOut is exceeded.
    */
   private final int sleepMilli;
+
+  /**
+   * The time unit for gracePeriod, graceInterval, and inFlightTTL.
+   *   The default is seconds.
+   *   If this is set to milliseconds, then these values will be treated as milliseconds.
+   */
+  private final TimeUnits timeUnits;
 
   protected StormTrackingCache(BuilderImpl builder) {
     this.entryCapacity = builder.entryCapacity();
@@ -53,6 +60,7 @@ public class StormTrackingCache {
     this.fanOut = builder.fanOut();
     this.inFlightTTL = builder.inFlightTTL();
     this.sleepMilli = builder.sleepMilli();
+    this.timeUnits = builder.timeUnits();
   }
 
   /**
@@ -70,7 +78,7 @@ public class StormTrackingCache {
   }
 
   /**
-   * @return How many seconds before expiration should an attempt be made to refresh the materials.
+   * @return How much time before expiration should an attempt be made to refresh the materials.
    *   If zero, use a simple cache with no storm tracking.
    */
   public int gracePeriod() {
@@ -78,7 +86,7 @@ public class StormTrackingCache {
   }
 
   /**
-   * @return How many seconds between attempts to refresh the materials.
+   * @return How much time between attempts to refresh the materials.
    */
   public int graceInterval() {
     return this.graceInterval;
@@ -92,7 +100,7 @@ public class StormTrackingCache {
   }
 
   /**
-   * @return How many seconds until an attempt to refresh the materials should be forgotten.
+   * @return How much time until an attempt to refresh the materials should be forgotten.
    */
   public int inFlightTTL() {
     return this.inFlightTTL;
@@ -103,6 +111,15 @@ public class StormTrackingCache {
    */
   public int sleepMilli() {
     return this.sleepMilli;
+  }
+
+  /**
+   * @return The time unit for gracePeriod, graceInterval, and inFlightTTL.
+   *   The default is seconds.
+   *   If this is set to milliseconds, then these values will be treated as milliseconds.
+   */
+  public TimeUnits timeUnits() {
+    return this.timeUnits;
   }
 
   public Builder toBuilder() {
@@ -135,24 +152,24 @@ public class StormTrackingCache {
     int entryPruningTailSize();
 
     /**
-     * @param gracePeriod How many seconds before expiration should an attempt be made to refresh the materials.
+     * @param gracePeriod How much time before expiration should an attempt be made to refresh the materials.
      *   If zero, use a simple cache with no storm tracking.
      */
     Builder gracePeriod(int gracePeriod);
 
     /**
-     * @return How many seconds before expiration should an attempt be made to refresh the materials.
+     * @return How much time before expiration should an attempt be made to refresh the materials.
      *   If zero, use a simple cache with no storm tracking.
      */
     int gracePeriod();
 
     /**
-     * @param graceInterval How many seconds between attempts to refresh the materials.
+     * @param graceInterval How much time between attempts to refresh the materials.
      */
     Builder graceInterval(int graceInterval);
 
     /**
-     * @return How many seconds between attempts to refresh the materials.
+     * @return How much time between attempts to refresh the materials.
      */
     int graceInterval();
 
@@ -167,12 +184,12 @@ public class StormTrackingCache {
     int fanOut();
 
     /**
-     * @param inFlightTTL How many seconds until an attempt to refresh the materials should be forgotten.
+     * @param inFlightTTL How much time until an attempt to refresh the materials should be forgotten.
      */
     Builder inFlightTTL(int inFlightTTL);
 
     /**
-     * @return How many seconds until an attempt to refresh the materials should be forgotten.
+     * @return How much time until an attempt to refresh the materials should be forgotten.
      */
     int inFlightTTL();
 
@@ -185,6 +202,20 @@ public class StormTrackingCache {
      * @return How many milliseconds should a thread sleep if fanOut is exceeded.
      */
     int sleepMilli();
+
+    /**
+     * @param timeUnits The time unit for gracePeriod, graceInterval, and inFlightTTL.
+     *   The default is seconds.
+     *   If this is set to milliseconds, then these values will be treated as milliseconds.
+     */
+    Builder timeUnits(TimeUnits timeUnits);
+
+    /**
+     * @return The time unit for gracePeriod, graceInterval, and inFlightTTL.
+     *   The default is seconds.
+     *   If this is set to milliseconds, then these values will be treated as milliseconds.
+     */
+    TimeUnits timeUnits();
 
     StormTrackingCache build();
   }
@@ -219,6 +250,8 @@ public class StormTrackingCache {
 
     private boolean _sleepMilliSet = false;
 
+    protected TimeUnits timeUnits;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(StormTrackingCache model) {
@@ -236,6 +269,7 @@ public class StormTrackingCache {
       this._inFlightTTLSet = true;
       this.sleepMilli = model.sleepMilli();
       this._sleepMilliSet = true;
+      this.timeUnits = model.timeUnits();
     }
 
     public Builder entryCapacity(int entryCapacity) {
@@ -306,6 +340,15 @@ public class StormTrackingCache {
 
     public int sleepMilli() {
       return this.sleepMilli;
+    }
+
+    public Builder timeUnits(TimeUnits timeUnits) {
+      this.timeUnits = timeUnits;
+      return this;
+    }
+
+    public TimeUnits timeUnits() {
+      return this.timeUnits;
     }
 
     public StormTrackingCache build() {

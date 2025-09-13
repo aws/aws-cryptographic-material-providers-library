@@ -339,8 +339,11 @@ structure CreateAwsKmsHierarchicalKeyringInput {
     @javadoc("How many seconds the Branch Key material is allowed to be reused within the local cache before it is re-retrieved from Amazon DynamoDB and re-authenticated with AWS KMS.")
     ttlSeconds: PositiveLong,
 
-    @javadoc("Which type of local cache to use.")
+    @documentation("Sets the type of cache for this Hierarchical Keyring. By providing an already initialized 'Shared' cache, users can determine the scope of the cache. That is, if the cache is shared across other Cryptographic Material Providers, for instance other Hierarchical Keyrings or Caching Cryptographic Materials Managers (Caching CMMs). If any other type of cache in the CacheType union is provided, the Hierarchical Keyring will initialize a cache of that type, to be used with only this Hierarchical Keyring. If not set, a DefaultCache is initialized to be used with only this Hierarchical Keyring with entryCapacity = 1000.")
     cache : CacheType
+
+    @documentation("Partition ID to distinguish Cryptographic Material Providers (i.e: Keyrings) writing to a cache. If the Partition ID is the same for two Hierarchical Keyrings (or another Material Provider), they can share the same cache entries in the cache.")
+    partitionId : String
 }
 
 // Raw

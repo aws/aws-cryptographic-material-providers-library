@@ -11,31 +11,31 @@ module Constants {
   import opened UInt = StandardLibrary.UInt
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes
 
-  const UINT32_TO_SEQ_LEN := 4
+  const UINT32_TO_SEQ_LEN : uint64 := 4
   const KDF_SALT_LEN: int32 := 32
   const KDF_EXPECTED_LEN: int32 := 64
-  const ECDH_COMMITMENT_KEY_LENGTH := 32
-  const ECDH_COMMITMENT_KEY_INDEX := 32
-  const ECDH_WRAPPED_KEY_MATERIAL_INDEX := 64
+  const ECDH_COMMITMENT_KEY_LENGTH : uint64 := 32
+  const ECDH_COMMITMENT_KEY_INDEX : uint64 := 32
+  const ECDH_WRAPPED_KEY_MATERIAL_INDEX : uint64 := 64
   const ECDH_KDF_STRING: string := "ecdh-key-derivation"
   const ECDH_KDF_PRF_STRING: string := "HMAC_SHA384"
-  const ECDH_KDF_DELIMETER: seq<uint8> := [0x00]
+  const ECDH_KDF_DELIMITER: seq<uint8> := [0x00]
 
   const ECDH_PROVIDER_INFO_256_LEN :uint32  := 75
   const ECDH_PROVIDER_INFO_384_LEN :uint32  := 107
   const ECDH_PROVIDER_INFO_521_LEN :uint32  := 143
   const ECDH_PROVIDER_INFO_RPL_INDEX := 1 as uint32
   const ECDH_PROVIDER_INFO_RPK_INDEX := ECDH_PROVIDER_INFO_RPL_INDEX + ECDH_PROVIDER_INFO_PUBLIC_KEY_LEN as uint32
-  const ECDH_PROVIDER_INFO_PUBLIC_KEY_LEN : int := 4
-  const ECDH_PUBLIC_KEY_LEN_ECC_NIST_256 := 91
-  const ECDH_PUBLIC_KEY_LEN_ECC_NIST_384 := 120
-  const ECDH_PUBLIC_KEY_LEN_ECC_NIST_521 := 158
+  const ECDH_PROVIDER_INFO_PUBLIC_KEY_LEN : uint64 := 4
+  const ECDH_PUBLIC_KEY_LEN_ECC_NIST_256 : uint64 := 91
+  const ECDH_PUBLIC_KEY_LEN_ECC_NIST_384 : uint64 := 120
+  const ECDH_PUBLIC_KEY_LEN_ECC_NIST_521 : uint64 := 158
 
-  const ECDH_PUBLIC_KEY_COMPRESSED_LEN_ECC_NIST_256 := 33
-  const ECDH_PUBLIC_KEY_COMPRESSED_LEN_ECC_NIST_384 := 49
-  const ECDH_PUBLIC_KEY_COMPRESSED_LEN_ECC_NIST_521 := 67
+  const ECDH_PUBLIC_KEY_COMPRESSED_LEN_ECC_NIST_256 : uint64 := 33
+  const ECDH_PUBLIC_KEY_COMPRESSED_LEN_ECC_NIST_384 : uint64 := 49
+  const ECDH_PUBLIC_KEY_COMPRESSED_LEN_ECC_NIST_521 : uint64 := 67
 
-  const CIPHERTEXT_WRAPPED_MATERIAL_INDEX := 68
+  const CIPHERTEXT_WRAPPED_MATERIAL_INDEX : uint64 := 68
   const ECDH_AES_256_ENC_KEY_LENGTH: int32 := 32
   const ECDH_AES_256_ENC_TAG_LENGTH: int32 := 16
   const ECDH_AES_256_ENC_IV_LENGTH: int32 := 12
@@ -68,16 +68,28 @@ module Constants {
     s
 
   // UTF-8 Encoded "aws-kms-ecdh"
-  const KMS_ECDH_PROVIDER_ID: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("aws-kms-ecdh");
+  const KMS_ECDH_PROVIDER_ID: UTF8.ValidUTF8Bytes :=
+    var s := [0x61, 0x77, 0x73, 0x2d, 0x6b, 0x6d, 0x73, 0x2d, 0x65, 0x63, 0x64, 0x68];
+    assert s == UTF8.EncodeAscii("aws-kms-ecdh");
+    s
 
   // UTF-8 Encoded "raw-ecdh"
-  const RAW_ECDH_PROVIDER_ID: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("raw-ecdh");
+  const RAW_ECDH_PROVIDER_ID : UTF8.ValidUTF8Bytes :=
+    var s := [0x72, 0x61, 0x77, 0x2d, 0x65, 0x63, 0x64, 0x68];
+    assert s == UTF8.EncodeAscii("raw-ecdh");
+    s
 
   // UTF-8 Encoded "HMAC_SHA384"
-  const ECDH_KDF_PRF_NAME: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("HMAC_SHA384");
+  const ECDH_KDF_PRF_NAME : UTF8.ValidUTF8Bytes :=
+    var s := [0x48, 0x4d, 0x41, 0x43, 0x5f, 0x53, 0x48, 0x41, 0x33, 0x38, 0x34];
+    assert s == UTF8.EncodeAscii("HMAC_SHA384");
+    s
 
   // UTF-8 Encoded "ecdh-key-derivation"
-  const ECDH_KDF_UTF8: UTF8.ValidUTF8Bytes := UTF8.EncodeAscii("ecdh-key-derivation");
+  const ECDH_KDF_UTF8 : UTF8.ValidUTF8Bytes :=
+    var s := [0x65, 0x63, 0x64, 0x68, 0x2d, 0x6b, 0x65, 0x79, 0x2d, 0x64, 0x65, 0x72, 0x69, 0x76, 0x61, 0x74, 0x69, 0x6f, 0x6e];
+    assert s == UTF8.EncodeAscii("ecdh-key-derivation");
+    s
 
   type AwsKmsEncryptedDataKey = edk: Types.EncryptedDataKey |
       && edk.keyProviderId == PROVIDER_ID

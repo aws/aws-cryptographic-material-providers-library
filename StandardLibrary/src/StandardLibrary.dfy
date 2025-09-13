@@ -2,21 +2,36 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../../libraries/src/Wrappers.dfy"
-include "UInt.dfy"
+include "MemoryMath.dfy"
 
 module StandardLibrary {
   import opened Wrappers
   import opened U = UInt
+  import opened MemoryMath
 
   lemma SeqTakeAppend<A>(s: seq<A>, i: int)
     requires 0 <= i < |s|
     ensures s[..i] + [s[i]] == s[..i + 1]
   {}
 
-  function method {:tailrecursion} Join<T>(ss: seq<seq<T>>, joiner: seq<T>): (s: seq<T>)
+  function Join<T>(ss: seq<seq<T>>, joiner: seq<T>): (s: seq<T>)
     requires 0 < |ss|
   {
     if |ss| == 1 then ss[0] else ss[0] + joiner + Join(ss[1..], joiner)
+  }
+  by method {
+    SequenceIsSafeBecauseItIsInMemory(ss);
+    var size := |ss| as uint64;
+    var result : seq<T>  := ss[size-1];
+    var i : uint64 := size - 1;
+    while i > 0
+      decreases i
+      invariant result == Join(ss[i..], joiner)
+    {
+      i := i - 1;
+      result := ss[i] + joiner + result;
+    }
+    return result;
   }
 
   function method {:tailrecursion} Split<T(==)>(s: seq<T>, delim: T): (res: seq<seq<T>>)
@@ -28,7 +43,7 @@ module StandardLibrary {
     decreases |s|
   {
     var i := FindIndexMatching(s, delim, 0);
-    if i.Some? then [s[..i.value]] + Split(s[(i.value + 1)..], delim) else [s]
+    if i.Some? then [s[..i.value]] + Split(s[Add(i.value, 1)..], delim) else [s]
   }
 
   // split on first occurrence of delim, which must exist
@@ -39,7 +54,7 @@ module StandardLibrary {
   {
     var i := FindIndexMatching(s, delim, 0);
     assert i.Some?;
-    (s[..i.value], s[(i.value + 1)..])
+    (s[..i.value], s[Add(i.value, 1)..])
   }
 
   // split on first occurrence of delim, return None if delim not present
@@ -49,7 +64,7 @@ module StandardLibrary {
     ensures res.Some? ==> !(delim in res.value.0)
   {
     var i :- FindIndexMatching(s, delim, 0);
-    Some((s[..i], s[(i + 1)..]))
+    Some((s[..i], s[Add(i, 1)..]))
   }
 
   lemma {:vcs_split_on_every_assert} WillSplitOnDelim<T>(s: seq<T>, delim: T, prefix: seq<T>)
@@ -62,8 +77,8 @@ module StandardLibrary {
       Split(s, delim);
     ==
       var i := FindIndexMatching(s, delim, 0);
-      if i.Some? then [s[..i.value]] + Split(s[i.value + 1..], delim) else [s];
-    ==  { FindIndexMatchingLocatesElem(s, delim, 0, |prefix|); assert FindIndexMatching(s, delim, 0).Some?; }
+      if i.Some? then [s[..i.value]] + Split(s[Add(i.value, 1)..], delim) else [s];
+    ==  { FindIndexMatchingLocatesElem(s, delim, 0, |prefix| as uint64); assert FindIndexMatching(s, delim, 0).Some?; }
       [s[..|prefix|]] + Split(s[|prefix| + 1..], delim);
     ==  { assert s[..|prefix|] == prefix; }
       [prefix] + Split(s[|prefix| + 1..], delim);
@@ -74,45 +89,47 @@ module StandardLibrary {
     requires delim !in s
     ensures Split(s, delim) == [s]
   {
+    SequenceIsSafeBecauseItIsInMemory(s);
     calc {
       Split(s, delim);
     ==
       var i := FindIndexMatching(s, delim, 0);
       if i.Some? then [s[..i.value]] + Split(s[i.value+1..], delim) else [s];
-    ==  { FindIndexMatchingLocatesElem(s, delim, 0, |s|); }
+    ==  { FindIndexMatchingLocatesElem(s, delim, 0, |s| as uint64); }
       [s];
     }
   }
 
-  lemma FindIndexMatchingLocatesElem<T>(s: seq<T>, c: T, start: nat, elemIndex: nat)
-    requires start <= elemIndex <= |s|
+  lemma FindIndexMatchingLocatesElem<T>(s: seq<T>, c: T, start: uint64, elemIndex: uint64)
+    requires start as nat <= elemIndex as nat <= |s|
     requires forall i :: start <= i < elemIndex ==> s[i] != c
-    requires elemIndex == |s| || s[elemIndex] == c
-    ensures FindIndexMatching(s, c, start) == if elemIndex == |s| then None else Some(elemIndex)
+    requires elemIndex as nat == |s| || s[elemIndex] == c
+    ensures FindIndexMatching(s, c, start) == if elemIndex as nat == |s| then None else Some(elemIndex)
     decreases elemIndex - start
   {}
 
-  function method FindIndexMatching<T(==)>(s: seq<T>, c: T, i: nat): (index: Option<nat>)
-    requires i <= |s|
-    ensures index.Some? ==>  i <= index.value < |s| && s[index.value] == c && c !in s[i..index.value]
+  function method FindIndexMatching<T(==)>(s: seq<T>, c: T, i: uint64): (index: Option<uint64>)
+    requires i as nat <= |s|
+    ensures index.Some? ==>  i as nat <= index.value as nat < |s| && s[index.value] == c && c !in s[i..index.value]
     ensures index.None? ==> c !in s[i..]
-    decreases |s| - i
+    decreases |s| - i as nat
   {
     FindIndex(s, x => x == c, i)
   }
 
-  function method {:tailrecursion} FindIndex<T>(s: seq<T>, f: T -> bool, i: nat): (index: Option<nat>)
-    requires i <= |s|
-    ensures index.Some? ==> i <= index.value < |s| && f(s[index.value]) && (forall j :: i <= j < index.value ==> !f(s[j]))
-    ensures index.None? ==> forall j :: i <= j < |s| ==> !f(s[j])
-    decreases |s| - i
+  function method {:tailrecursion} FindIndex<T>(s: seq<T>, f: T -> bool, i: uint64): (index: Option<uint64>)
+    requires i as nat <= |s|
+    ensures index.Some? ==> i as nat <= index.value as nat < |s| && f(s[index.value]) && (forall j :: i <= j < index.value ==> !f(s[j]))
+    ensures index.None? ==> forall j :: i as nat <= j < |s| ==> !f(s[j])
+    decreases |s| - i as nat
   {
-    if i == |s| then None
+    SequenceIsSafeBecauseItIsInMemory(s);
+    if i == |s| as uint64 then None
     else if f(s[i]) then Some(i)
     else FindIndex(s, f, i + 1)
   }
 
-  function method {:tailrecursion} Filter<T>(s: seq<T>, f: T -> bool): (res: seq<T>)
+  function Filter<T>(s: seq<T>, f: T -> bool): (res: seq<T>)
     ensures forall i :: 0 <= i < |s| && f(s[i]) ==> s[i] in res
     ensures forall i :: 0 <= i < |res| ==> res[i] in s && f(res[i])
     ensures |res| <= |s|
@@ -120,6 +137,21 @@ module StandardLibrary {
     if |s| == 0 then []
     else if f(s[0]) then [s[0]] + Filter(s[1..], f)
     else Filter(s[1..], f)
+  }
+  by method {
+    SequenceIsSafeBecauseItIsInMemory(s);
+    var result : seq<T>  := [];
+    var i : uint64 := |s| as uint64;
+    while i > 0
+      decreases i
+      invariant result == Filter(s[i..], f)
+    {
+      i := i - 1;
+      if f(s[i]) {
+        result := [s[i]] + result;
+      }
+    }
+    return result;
   }
 
   lemma FilterIsDistributive<T>(s: seq<T>, s': seq<T>, f: T -> bool)
@@ -152,8 +184,9 @@ module StandardLibrary {
     if a < b then a else b
   }
 
+  // If we make this `n: uint64` then Dafny produces bad code for Dotnet
   function method Fill<T>(value: T, n: nat): seq<T>
-    ensures |Fill(value, n)| == n
+    ensures |Fill(value, n)| == n as nat
     ensures forall i :: 0 <= i < n ==> Fill(value, n)[i] == value
   {
     seq(n, _ => value)
@@ -186,6 +219,8 @@ module StandardLibrary {
    *   - either:
    *      -- `a` has length `k` (that is, `a` is a prefix of `b`)
    *      -- `a[k]` is strictly less (using `less`) than `b[k]`
+   *
+   * This has ridiculously bad runtime performance, but fortunately we almost never use it
    */
 
   predicate method LexicographicLessOrEqual<T(==)>(a: seq<T>, b: seq<T>, less: (T, T) -> bool) {
@@ -333,9 +368,10 @@ module StandardLibrary {
    * SetToOrderedSequence(s, less) takes a set of T-strings and returns them as a sequence,
    * ordered by the lexicographic ordering whose underlying irreflexive ordering is "less".
    * The function is compilable, but will not exhibit enviable performance.
+   * It is ghost. ComputeSetToOrderedSequence2 should be used instead.
    */
 
-  function method {:tailrecursion} SetToOrderedSequence<T(!new,==)>(s: set<seq<T>>, less: (T, T) -> bool): (q: seq<seq<T>>)
+  function SetToOrderedSequence<T(!new)>(s: set<seq<T>>, less: (T, T) -> bool): (q: seq<seq<T>>)
     requires Trichotomous(less) && Transitive(less)
     ensures |s| == |q|
     ensures forall i :: 0 <= i < |q| ==> q[i] in s

@@ -16,6 +16,7 @@ module StandardLibrary.UInt {
   const UINT64_LIMIT := BoundedInts.UINT64_MAX as int + 1
   const INT32_MAX_LIMIT := BoundedInts.INT32_MAX as int
   const INT64_MAX_LIMIT := BoundedInts.INT64_MAX as int
+  const UINT64_MAX_LIMIT := BoundedInts.UINT64_MAX as int
 
   predicate method UInt8Less(a: uint8, b: uint8) { a < b }
 
@@ -40,6 +41,16 @@ module StandardLibrary.UInt {
   type seq64<T> = s: seq<T> | HasUint64Len(s)
   type Uint8Seq64 = seq64<uint8>
 
+  predicate method HasUint16Size(s: nat) {
+    s < UINT16_LIMIT
+  }
+  predicate method HasUint32Size(s: nat) {
+    s < UINT32_LIMIT
+  }
+  predicate method HasUint64Size(s: nat) {
+    s < UINT64_LIMIT
+  }
+
   function method UInt16ToSeq(x: uint16): (ret: seq<uint8>)
     ensures |ret| == 2
     ensures 0x100 * ret[0] as uint16 + ret[1] as uint16 == x
@@ -54,9 +65,68 @@ module StandardLibrary.UInt {
     ensures UInt16ToSeq(x) == s
     ensures x >= 0
   {
-    var x0 := s[0] as uint16 * 0x100;
-    x0 + s[1] as uint16
+    var x0 := s[0 as uint32] as uint16 * 0x100;
+    x0 + s[1 as uint32] as uint16
   }
+
+  function method SeqPosToUInt16(s: seq<uint8>, pos : uint64): (x: uint16)
+    requires HasUint64Len(s)
+    requires |s| >= pos as nat + 2
+    ensures UInt16ToSeq(x) == s[pos..pos+2]
+    ensures x >= 0
+  {
+    var x0 := s[pos] as uint16 * 0x100;
+    x0 + s[pos+1] as uint16
+  }
+
+  function method SeqPosToUInt32(s: seq<uint8>, pos : uint64): (x: uint32)
+    requires HasUint64Len(s)
+    requires |s| >= pos as nat + 4
+    ensures UInt32ToSeq(x) == s[pos..pos+4]
+  {
+    var x0 := s[pos] as uint32 * 0x100_0000;
+    var x1 := x0 + s[pos+1] as uint32 * 0x1_0000;
+    var x2 := x1 + s[pos+2] as uint32 * 0x100;
+    x2 + s[pos+3] as uint32
+  }
+
+  function method SeqPosToUInt64(s: seq<uint8>, pos : uint64): (x: uint64)
+    requires HasUint64Len(s)
+    requires pos as nat + 8 <= |s|
+    ensures UInt64ToSeq(x) == s[pos..pos+8]
+  {
+    var x0 := s[pos] as uint64 * 0x100_0000_0000_0000;
+    var x1 := x0 + s[pos+1] as uint64 * 0x1_0000_0000_0000;
+    var x2 := x1 + s[pos+2] as uint64 * 0x100_0000_0000;
+    var x3 := x2 + s[pos+3] as uint64 * 0x1_0000_0000;
+    var x4 := x3 + s[pos+4] as uint64 * 0x100_0000;
+    var x5 := x4 + s[pos+5] as uint64 * 0x1_0000;
+    var x6 := x5 + s[pos+6] as uint64 * 0x100;
+    var x := x6 + s[pos+7] as uint64;
+    assert x == SeqToUInt64(s[pos..pos+8]);
+    x
+  }
+
+  lemma SeqPosToUInt16Same(s: seq<uint8>, pos : uint64)
+    requires |s| < BoundedInts.UINT64_MAX as nat
+    requires |s| >= pos as nat + 2
+    ensures UInt16ToSeq(SeqPosToUInt16(s, pos)) == s[pos..pos+2]
+    ensures SeqToUInt16(s[pos..pos+2]) == SeqPosToUInt16(s, pos)
+  {}
+
+  lemma SeqPosToUInt32Same(s: seq<uint8>, pos : uint64)
+    requires |s| < BoundedInts.UINT64_MAX as nat
+    requires |s| >= pos as nat + 4
+    ensures UInt32ToSeq(SeqPosToUInt32(s, pos)) == s[pos..pos+4]
+    ensures SeqToUInt32(s[pos..pos+4]) == SeqPosToUInt32(s, pos)
+  {}
+
+  lemma SeqPosToUInt64Same(s: seq<uint8>, pos : uint64)
+    requires |s| < BoundedInts.UINT64_MAX as nat
+    requires |s| >= pos as nat + 8
+    ensures UInt64ToSeq(SeqPosToUInt64(s, pos)) == s[pos..pos+8]
+    ensures SeqToUInt64(s[pos..pos+8]) == SeqPosToUInt64(s, pos)
+  {}
 
   lemma UInt16SeqSerializeDeserialize(x: uint16)
     ensures SeqToUInt16(UInt16ToSeq(x)) == x
@@ -86,10 +156,10 @@ module StandardLibrary.UInt {
     requires |s| == 4
     ensures UInt32ToSeq(x) == s
   {
-    var x0 := s[0] as uint32 * 0x100_0000;
-    var x1 := x0 + s[1] as uint32 * 0x1_0000;
-    var x2 := x1 + s[2] as uint32 * 0x100;
-    x2 + s[3] as uint32
+    var x0 := s[0 as uint32] as uint32 * 0x100_0000;
+    var x1 := x0 + s[1 as uint32] as uint32 * 0x1_0000;
+    var x2 := x1 + s[2 as uint32] as uint32 * 0x100;
+    x2 + s[3 as uint32] as uint32
   }
 
   lemma UInt32SeqSerializeDeserialize(x: uint32)
@@ -134,14 +204,14 @@ module StandardLibrary.UInt {
     requires |s| == 8
     ensures UInt64ToSeq(x) == s
   {
-    var x0 := s[0] as uint64 * 0x100_0000_0000_0000;
-    var x1 := x0 + s[1] as uint64 * 0x1_0000_0000_0000;
-    var x2 := x1 + s[2] as uint64 * 0x100_0000_0000;
-    var x3 := x2 + s[3] as uint64 * 0x1_0000_0000;
-    var x4 := x3 + s[4] as uint64 * 0x100_0000;
-    var x5 := x4 + s[5] as uint64 * 0x1_0000;
-    var x6 := x5 + s[6] as uint64 * 0x100;
-    var x := x6 + s[7] as uint64;
+    var x0 := s[0 as uint32] as uint64 * 0x100_0000_0000_0000;
+    var x1 := x0 + s[1 as uint32] as uint64 * 0x1_0000_0000_0000;
+    var x2 := x1 + s[2 as uint32] as uint64 * 0x100_0000_0000;
+    var x3 := x2 + s[3 as uint32] as uint64 * 0x1_0000_0000;
+    var x4 := x3 + s[4 as uint32] as uint64 * 0x100_0000;
+    var x5 := x4 + s[5 as uint32] as uint64 * 0x1_0000;
+    var x6 := x5 + s[6 as uint32] as uint64 * 0x100;
+    var x := x6 + s[7 as uint32] as uint64;
     UInt64SeqSerialize(x, s);
     x
   }

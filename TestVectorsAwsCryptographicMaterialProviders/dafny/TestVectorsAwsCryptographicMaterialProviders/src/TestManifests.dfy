@@ -6,11 +6,12 @@ include "ParseJsonManifests.dfy"
 include "MplManifestOptions.dfy"
   // TODO it would be nice to have this included somehow...
 include "../../KeyVectors/src/Index.dfy"
+include "../../../../StandardLibrary/src/Time.dfy"
 
 module {:options "-functionSyntax:4"} TestManifests {
   import Types = AwsCryptographyMaterialProvidersTypes
   import opened Wrappers
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import TestVectors
   import FileIO
   import JSON.API
@@ -24,11 +25,22 @@ module {:options "-functionSyntax:4"} TestManifests {
   import KeyVectorsTypes = AwsCryptographyMaterialProvidersTestVectorKeysTypes
   import MplManifestOptions
   import CompleteVectors
+  import Time
+  import OsLang
+
+  function LogFileName() : string
+  {
+    if OsLang.GetOsShort() == "Windows" && OsLang.GetLanguageShort() == "Dotnet" then
+      "..\\..\\PerfLog.txt"
+    else
+      "../../PerfLog.txt"
+  }
 
   method StartEncrypt(op: MplManifestOptions.ManifestOptions)
     returns (output: Result<(), string>)
     requires op.Encrypt?
   {
+    var time := Time.GetAbsoluteTime();
     var encryptManifest :- GetManifest(op.manifestPath, "manifest.json");
     :- Need(encryptManifest.EncryptManifest?, "Not a encrypt manifest");
 
@@ -38,6 +50,7 @@ module {:options "-functionSyntax:4"} TestManifests {
 
     var _ :- CompleteVectors.WriteDecryptManifest(op, encryptManifest.keys, decryptVectors);
 
+    Time.PrintTimeSince(time);
     output := Success(());
   }
 
@@ -56,6 +69,7 @@ module {:options "-functionSyntax:4"} TestManifests {
 
     var decryptableTests: seq<(TestVectors.EncryptTest, Types.EncryptionMaterials)> := [];
 
+    var time := Time.GetAbsoluteTime();
     for i := 0 to |tests|
       invariant forall t <- tests :: t.cmm.ValidState()
     {
@@ -68,6 +82,8 @@ module {:options "-functionSyntax:4"} TestManifests {
         hasFailure := true;
       }
     }
+    var elapsed :=Time.TimeSince(time);
+    Time.PrintTimeLong(elapsed, "TestEncrypts", Some(LogFileName()));
 
     print "\n=================== Completed ", |tests|, " Encrypt Tests =================== \n\n";
 
@@ -79,6 +95,7 @@ module {:options "-functionSyntax:4"} TestManifests {
     returns (output: Result<(), string>)
     requires op.Decrypt?
   {
+    var time := Time.GetAbsoluteTime();
     var decryptManifest :- GetManifest(op.manifestPath, "manifest.json");
     :- Need(decryptManifest.DecryptManifest?, "Not a encrypt manifest");
 
@@ -87,6 +104,7 @@ module {:options "-functionSyntax:4"} TestManifests {
 
     TestDecrypts(decryptTests);
 
+    Time.PrintTimeSince(time);
     output := Success(());
   }
 
@@ -100,6 +118,7 @@ module {:options "-functionSyntax:4"} TestManifests {
 
     var hasFailure := false;
 
+    var time := Time.GetAbsoluteTime();
     for i := 0 to |tests|
       invariant forall t <- tests :: t.cmm.ValidState()
     {
@@ -108,6 +127,8 @@ module {:options "-functionSyntax:4"} TestManifests {
         hasFailure := true;
       }
     }
+    var elapsed := Time.TimeSince(time);
+    Time.PrintTimeLong(elapsed, "TestDecrypts", Some(LogFileName()));
     print "\n=================== Completed ", |tests|, " Decrypt Tests =================== \n\n";
 
     expect !hasFailure;
@@ -206,8 +227,7 @@ module {:options "-functionSyntax:4"} TestManifests {
               && fresh(manifestData.value.keys.Modifies)
               && manifestData.value.keys.ValidState()
   {
-    var decryptManifestBv :- FileIO.ReadBytesFromFile(manifestPath + manifestFileName);
-    var decryptManifestBytes := BvToBytes(decryptManifestBv);
+    var decryptManifestBytes :- FileIO.ReadBytesFromFile(manifestPath + manifestFileName);
     var manifestJson :- API.Deserialize(decryptManifestBytes)
     .MapFailure(( e: Errors.DeserializationError ) => e.ToString());
     :- Need(manifestJson.Object?, "Not a JSON object");

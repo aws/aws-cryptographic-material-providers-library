@@ -39,7 +39,7 @@ format_java_misc-check:
 	npx prettier --plugin=prettier-plugin-java . --check
 
 setup_prettier:
-	npm i --no-save prettier@3 prettier-plugin-java@2.5
+	npm i --no-save prettier@3.5.3 prettier-plugin-java@2.5
 
 polymorph_code_gen:
 	$(foreach PROJECT, $(PROJECTS), \
@@ -47,7 +47,7 @@ polymorph_code_gen:
 	) true
 
 setup_semantic_release:
-	npm i --no-save semantic-release @semantic-release/changelog semantic-release-replace-plugin @semantic-release/git
+	npm i --no-save semantic-release @semantic-release/changelog semantic-release-replace-plugin conventional-changelog-conventionalcommits @semantic-release/git @semantic-release/exec
 
 run_semantic_release:
 	npx semantic-release --no-ci

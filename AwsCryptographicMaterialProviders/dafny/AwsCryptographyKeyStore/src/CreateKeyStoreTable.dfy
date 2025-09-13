@@ -46,6 +46,7 @@ module CreateKeyStoreTable {
     requires DDB.IsValid_TableName(tableName)
     modifies ddbClient.Modifies
     ensures ddbClient.ValidState()
+    ensures res.Success? ==> DDB.IsValid_TableArn(res.Extract())
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkeystore
     //= type=implication
@@ -86,6 +87,7 @@ module CreateKeyStoreTable {
              && Seq.Last(ddbClient.History.CreateTable).output.Success?
              && Seq.Last(ddbClient.History.CreateTable).output.value.TableDescription.Some?
              && keyStoreHasExpectedConstruction?(Seq.Last(ddbClient.History.CreateTable).output.value.TableDescription.value)
+             && DDB.IsValid_TableArn(Seq.Last(ddbClient.History.CreateTable).output.value.TableDescription.value.TableArn.value)
              ==>
                && res.Success?
                && res.value == Seq.Last(ddbClient.History.CreateTable).output.value.TableDescription.value.TableArn.value
@@ -154,7 +156,8 @@ module CreateKeyStoreTable {
         } else {
           :- Need(
             && maybeCreateTableResponse.value.TableDescription.Some?
-            && keyStoreHasExpectedConstruction?(maybeCreateTableResponse.value.TableDescription.value),
+            && keyStoreHasExpectedConstruction?(maybeCreateTableResponse.value.TableDescription.value)
+            && DDB.IsValid_TableArn(maybeCreateTableResponse.value.TableDescription.value.TableArn.value),
             E("Configured table name does not conform to expected Key Store construction.")
           );
           //= aws-encryption-sdk-specification/framework/branch-key-store.md#createkeystore
@@ -173,7 +176,8 @@ module CreateKeyStoreTable {
       //# this operation MUST yield an error.
       :- Need(
         && maybeDescribeTableResponse.value.Table.Some?
-        && keyStoreHasExpectedConstruction?(maybeDescribeTableResponse.value.Table.value),
+        && keyStoreHasExpectedConstruction?(maybeDescribeTableResponse.value.Table.value)
+        && DDB.IsValid_TableArn(maybeDescribeTableResponse.value.Table.value.TableArn.value),
         E("Configured table name does not conform to expected Key Store construction.")
       );
       res := Success(maybeDescribeTableResponse.value.Table.value.TableArn.value);

@@ -11,6 +11,8 @@ include "../../AlgorithmSuites.dfy"
 
 module MrkAwareStrictMultiKeyring {
   import opened Wrappers
+  import opened StandardLibrary.MemoryMath
+  import opened StandardLibrary.UInt
   import Seq
   import Types = AwsCryptographyMaterialProvidersTypes
   import KMS = Types.ComAmazonawsKmsTypes
@@ -149,7 +151,8 @@ module MrkAwareStrictMultiKeyring {
 
     match awsKmsKeys {
       case Some(childIdentifiers) =>
-        for index := 0 to |childIdentifiers|
+        SequenceIsSafeBecauseItIsInMemory(childIdentifiers);
+        for index : uint64 := 0 to |childIdentifiers| as uint64
           invariant |awsKmsKeys.value[..index]| == |children|
           invariant fresh(MultiKeyring.GatherModifies(generatorKeyring, children) - clientSupplier.Modifies)
           invariant forall i | 0 <= i < |children|
@@ -186,8 +189,9 @@ module MrkAwareStrictMultiKeyring {
         children := [];
     }
 
+    SequenceIsSafeBecauseItIsInMemory(children);
     :- Need(
-      generatorKeyring.Some? || |children| > 0,
+      generatorKeyring.Some? || |children| as uint64 > 0,
       Types.AwsCryptographicMaterialProvidersException(
         message := "generatorKeyring or child Keyrings needed to create a multi keyring")
     );

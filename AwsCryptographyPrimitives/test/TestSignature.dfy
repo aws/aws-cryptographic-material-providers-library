@@ -5,9 +5,9 @@ include "../src/Index.dfy"
 include "../src/Signature.dfy"
 
 module TestSignature {
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened StandardLibrary.UInt
-  import Types = Aws.Cryptography.Primitives.Types
+  import Types = AwsCryptographyPrimitivesTypes
   import UTF8
   import opened Wrappers
   import Signature
@@ -21,7 +21,7 @@ module TestSignature {
   )
   {
     // The following is a declared postcondition of the KeyGen method:
-    expect |sigKeyPair.verificationKey| == Signature.FieldSize(alg);
+    expect |sigKeyPair.verificationKey| == Signature.FieldSize(alg) as nat;
   }
 
   method YCompression(alg: Types.ECDSASignatureAlgorithm, fieldSize: nat) {

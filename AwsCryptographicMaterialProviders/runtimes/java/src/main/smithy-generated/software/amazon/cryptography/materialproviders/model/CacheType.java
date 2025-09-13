@@ -4,6 +4,8 @@
 package software.amazon.cryptography.materialproviders.model;
 
 import java.util.Objects;
+import software.amazon.cryptography.materialproviders.CryptographicMaterialsCache;
+import software.amazon.cryptography.materialproviders.ICryptographicMaterialsCache;
 
 public class CacheType {
 
@@ -33,12 +35,18 @@ public class CacheType {
    */
   private final StormTrackingCache StormTracking;
 
+  /**
+   * Shared cache across multiple Hierarchical Keyrings. For this cache type, the user should provide an already constructed CryptographicMaterialsCache to the Hierarchical Keyring at initialization.
+   */
+  private final ICryptographicMaterialsCache Shared;
+
   protected CacheType(BuilderImpl builder) {
     this.Default = builder.Default();
     this.No = builder.No();
     this.SingleThreaded = builder.SingleThreaded();
     this.MultiThreaded = builder.MultiThreaded();
     this.StormTracking = builder.StormTracking();
+    this.Shared = builder.Shared();
   }
 
   /**
@@ -75,6 +83,13 @@ public class CacheType {
    */
   public StormTrackingCache StormTracking() {
     return this.StormTracking;
+  }
+
+  /**
+   * @return Shared cache across multiple Hierarchical Keyrings. For this cache type, the user should provide an already constructed CryptographicMaterialsCache to the Hierarchical Keyring at initialization.
+   */
+  public ICryptographicMaterialsCache Shared() {
+    return this.Shared;
   }
 
   public Builder toBuilder() {
@@ -138,6 +153,16 @@ public class CacheType {
      */
     StormTrackingCache StormTracking();
 
+    /**
+     * @param Shared Shared cache across multiple Hierarchical Keyrings. For this cache type, the user should provide an already constructed CryptographicMaterialsCache to the Hierarchical Keyring at initialization.
+     */
+    Builder Shared(ICryptographicMaterialsCache Shared);
+
+    /**
+     * @return Shared cache across multiple Hierarchical Keyrings. For this cache type, the user should provide an already constructed CryptographicMaterialsCache to the Hierarchical Keyring at initialization.
+     */
+    ICryptographicMaterialsCache Shared();
+
     CacheType build();
   }
 
@@ -153,6 +178,8 @@ public class CacheType {
 
     protected StormTrackingCache StormTracking;
 
+    protected ICryptographicMaterialsCache Shared;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(CacheType model) {
@@ -161,6 +188,7 @@ public class CacheType {
       this.SingleThreaded = model.SingleThreaded();
       this.MultiThreaded = model.MultiThreaded();
       this.StormTracking = model.StormTracking();
+      this.Shared = model.Shared();
     }
 
     public Builder Default(DefaultCache Default) {
@@ -208,6 +236,15 @@ public class CacheType {
       return this.StormTracking;
     }
 
+    public Builder Shared(ICryptographicMaterialsCache Shared) {
+      this.Shared = CryptographicMaterialsCache.wrap(Shared);
+      return this;
+    }
+
+    public ICryptographicMaterialsCache Shared() {
+      return this.Shared;
+    }
+
     public CacheType build() {
       if (!onlyOneNonNull()) {
         throw new IllegalArgumentException(
@@ -224,6 +261,7 @@ public class CacheType {
         this.SingleThreaded,
         this.MultiThreaded,
         this.StormTracking,
+        this.Shared,
       };
       boolean haveOneNonNull = false;
       for (Object o : allValues) {

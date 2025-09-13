@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "aws-cryptography-internal-dynamodb"
+version = "1.11.1"
+description = ""
+authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
+packages = [
+    { include = "aws_cryptography_internal_dynamodb", from = "src" }
+]
+# Include generated internaldafny files in package distributions,
+# even though they are not included in version control
+include = ["src/aws_cryptography_internal_dynamodb/internaldafny/generated/*.py"]
+
+[tool.poetry.dependencies]
+python = "^3.11.0"
+boto3 = "^1.35.42"
+aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
+# Package testing
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.0"
+
+# Package release
+
+[tool.poetry.group.release]
+optional = true
+
+[tool.poetry.group.release.dependencies]
+poetry = "1.8.3"
+twine = "5.1.1"
+wheel = "0.38.4"
+
+[build-system]
+requires = ["poetry-core<2.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -14,6 +14,7 @@ include "../ErrorMessages.dfy"
 module RawAESKeyring {
   import opened StandardLibrary
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened String = StandardLibrary.String
   import opened Actions
   import opened Wrappers
@@ -29,26 +30,27 @@ module RawAESKeyring {
   import EdkWrapping
   import ErrorMessages
 
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
 
-  const AUTH_TAG_LEN_LEN := 4
-  const IV_LEN_LEN       := 4
+  const AUTH_TAG_LEN_LEN := 4 as uint64
+  const IV_LEN_LEN       := 4 as uint64
 
   class RawAESKeyring
     extends
       Keyring.VerifiableInterface,
       Types.IKeyring
   {
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
     predicate ValidState()
       ensures ValidState() ==> History in Modifies
     {
+      SequenceIsSafeBecauseItIsInMemory(wrappingKey);
       && History in Modifies
       && cryptoPrimitives.Modifies <= Modifies
       && History !in cryptoPrimitives.Modifies
       && cryptoPrimitives.ValidState()
-      && |wrappingKey| == wrappingAlgorithm.keyLength as nat
+      && |wrappingKey| as uint64 == wrappingAlgorithm.keyLength as uint64
     }
 
     const keyNamespace: UTF8.ValidUTF8Bytes
@@ -81,7 +83,7 @@ module RawAESKeyring {
       name: UTF8.ValidUTF8Bytes,
       key: seq<uint8>,
       wrappingAlgorithm: Crypto.AES_GCM,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires |namespace| < UINT16_LIMIT
       requires |name| < UINT16_LIMIT
@@ -111,7 +113,28 @@ module RawAESKeyring {
 
     }
 
-    predicate OnEncryptEnsuresPublicly(input: Types.OnEncryptInput, output: Result<Types.OnEncryptOutput, Types.Error>) {true}
+    predicate OnEncryptEnsuresPublicly (
+      input: Types.OnEncryptInput ,
+      output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
+    {
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
+    }
 
     //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#onencrypt
     //= type=implication
@@ -125,12 +148,6 @@ module RawAESKeyring {
       ensures ValidState()
       ensures OnEncryptEnsuresPublicly(input, output)
       ensures unchanged(History)
-      ensures output.Success?
-              ==>
-                && Materials.ValidEncryptionMaterialsTransition(
-                  input.materials,
-                  output.value.materials
-                )
 
       // EDK created using expected AAD
       ensures output.Success?
@@ -231,7 +248,24 @@ module RawAESKeyring {
       }
     }
 
-    predicate OnDecryptEnsuresPublicly(input: Types.OnDecryptInput, output: Result<Types.OnDecryptOutput, Types.Error>){true}
+    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
+    {
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
+    }
 
     //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#ondecrypt
     //= type=implication
@@ -277,7 +311,7 @@ module RawAESKeyring {
                   && AESDecryptRequest.iv == GetIvFromProvInfo(edk.keyProviderInfo)
              )
           && AESDecryptRequest.aad == CanonicalEncryptionContext.EncryptionContextToAAD(input.materials.encryptionContext).value
-      // Can not prove this at this timbe because there may be wrapping involved.
+      // Can not prove this at this time because there may be wrapping involved.
       // && output.value.materials.plaintextDataKey.value
       //   == Seq.Last(cryptoPrimitives.History.AESDecrypt).output.value;
 
@@ -294,7 +328,8 @@ module RawAESKeyring {
         Types.AwsCryptographicMaterialProvidersException( message := "Keyring received decryption materials that already contain a plaintext data key."));
 
       var aad :- CanonicalEncryptionContext.EncryptionContextToAAD(input.materials.encryptionContext);
-      :- Need(|wrappingKey|== wrappingAlgorithm.keyLength as int,
+      SequenceIsSafeBecauseItIsInMemory(wrappingKey);
+      :- Need(|wrappingKey| as uint64 == wrappingAlgorithm.keyLength as uint64,
               Types.AwsCryptographicMaterialProvidersException( message := "The wrapping key does not match the wrapping algorithm"));
 
       var errors: seq<Types.Error> := [];
@@ -302,8 +337,9 @@ module RawAESKeyring {
       //# The keyring MUST perform the following actions on each encrypted data
       //# key](structures.md#encrypted-data-key) in the input encrypted data
       //# key list, serially, until it successfully decrypts one.
-      for i := 0 to |input.encryptedDataKeys|
-        invariant |errors| == i
+      SequenceIsSafeBecauseItIsInMemory(input.encryptedDataKeys);
+      for i : uint64 := 0 to |input.encryptedDataKeys| as uint64
+        invariant |errors| == i as nat
         invariant unchanged(History)
       {
         if ShouldDecryptEDK(input.encryptedDataKeys[i]) {
@@ -343,7 +379,7 @@ module RawAESKeyring {
           var extractedKeyProviderId :- UTF8.Decode(input.encryptedDataKeys[i].keyProviderId).MapFailure(e => Types.AwsCryptographicMaterialProvidersException( message := e ));
           errors := errors + [
             Types.AwsCryptographicMaterialProvidersException(
-              message := ErrorMessages.IncorrectRawDataKeys(Base10Int2String(i),
+              message := ErrorMessages.IncorrectRawDataKeys(Base10Int2String(i as nat),
                                                             "AESKeyring",
                                                             extractedKeyProviderId
               ))
@@ -374,40 +410,45 @@ module RawAESKeyring {
 
     predicate method ValidProviderInfo(info: seq<uint8>)
     {
-      && |info| == |keyName| + AUTH_TAG_LEN_LEN + IV_LEN_LEN + wrappingAlgorithm.ivLength as int
+      SequenceIsSafeBecauseItIsInMemory(info);
+      SequenceIsSafeBecauseItIsInMemory(keyName);
+      var keyname_size := |keyName| as uint64;
+      && |info| as uint64 == Add4(keyname_size, AUTH_TAG_LEN_LEN as uint64, IV_LEN_LEN as uint64, wrappingAlgorithm.ivLength as uint64)
          // The key name obtained from the encrypted data key's key provider information has a value equal to this keyring's key name.
-      && info[0..|keyName|] == keyName
+      && info[..keyname_size] == keyName
          //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#authentication-tag-length
          //= type=implication
          //# This value MUST match the authentication tag length of the keyring's
          //# configured wrapping algorithm
 
-      && SeqToUInt32(info[|keyName|..|keyName| + AUTH_TAG_LEN_LEN]) == 128
-      && SeqToUInt32(info[|keyName|..|keyName| + AUTH_TAG_LEN_LEN]) == wrappingAlgorithm.tagLength as uint32 * 8
-      && SeqToUInt32(info[|keyName| + AUTH_TAG_LEN_LEN .. |keyName| + AUTH_TAG_LEN_LEN + IV_LEN_LEN]) == wrappingAlgorithm.ivLength as uint32
+      && SeqToUInt32(info[keyname_size..keyname_size + AUTH_TAG_LEN_LEN as uint64]) == 128
+      && 128 == wrappingAlgorithm.tagLength as uint32 * 8
+      && SeqToUInt32(info[keyname_size + AUTH_TAG_LEN_LEN as uint64 .. keyname_size + AUTH_TAG_LEN_LEN as uint64 + IV_LEN_LEN as uint64]) == wrappingAlgorithm.ivLength as uint32
          //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#iv-length
          //= type=implication
          //# This value MUST match the IV length of the keyring's
          //# configured wrapping algorithm
-      && SeqToUInt32(info[|keyName| + AUTH_TAG_LEN_LEN .. |keyName| + AUTH_TAG_LEN_LEN + IV_LEN_LEN]) == 12
+      && SeqToUInt32(info[keyname_size + AUTH_TAG_LEN_LEN as uint64 .. keyname_size + AUTH_TAG_LEN_LEN as uint64 + IV_LEN_LEN as uint64]) == 12
     }
 
     function method GetIvFromProvInfo(info: seq<uint8>): seq<uint8>
       requires ValidProviderInfo(info)
     {
-      info[|keyName| + AUTH_TAG_LEN_LEN + IV_LEN_LEN ..]
+      SequenceIsSafeBecauseItIsInMemory(keyName);
+      info[|keyName| as uint64 + AUTH_TAG_LEN_LEN as uint64 + IV_LEN_LEN as uint64 ..]
     }
   }
 
   function method DeserializeEDKCiphertext(
     ciphertext: seq<uint8>,
-    tagLen: nat
+    tagLen: uint64
   ): ( encOutput: Crypto.AESEncryptOutput)
-    requires tagLen <= |ciphertext|
-    ensures |encOutput.authTag| == tagLen
+    requires tagLen as nat <= |ciphertext|
+    ensures |encOutput.authTag| == tagLen as nat
     ensures SerializeEDKCiphertext(encOutput) == ciphertext
   {
-    var encryptedKeyLength := |ciphertext| - tagLen as int;
+    SequenceIsSafeBecauseItIsInMemory(ciphertext);
+    var encryptedKeyLength := |ciphertext| as uint64 - tagLen;
     Crypto.AESEncryptOutput(
       cipherText := ciphertext[.. encryptedKeyLength],
       authTag := ciphertext[encryptedKeyLength ..])
@@ -418,13 +459,17 @@ module RawAESKeyring {
   }
 
   lemma EDKSerializeDeserialize(encOutput: Crypto.AESEncryptOutput)
-    ensures DeserializeEDKCiphertext(SerializeEDKCiphertext(encOutput), |encOutput.authTag|) == encOutput
-  {}
+    ensures HasUint64Len(encOutput.authTag) && DeserializeEDKCiphertext(SerializeEDKCiphertext(encOutput), |encOutput.authTag| as uint64) == encOutput
+  {
+    SequenceIsSafeBecauseItIsInMemory(encOutput.authTag);
+  }
 
-  lemma EDKDeserializeSerialze(ciphertext: seq<uint8>, tagLen: nat)
+  lemma EDKDeserializeSerialize(ciphertext: seq<uint8>, tagLen: nat)
     requires tagLen <= |ciphertext|
-    ensures SerializeEDKCiphertext(DeserializeEDKCiphertext(ciphertext, tagLen)) == ciphertext
-  {}
+    ensures HasUint64Size(tagLen) && SerializeEDKCiphertext(DeserializeEDKCiphertext(ciphertext, tagLen as uint64)) == ciphertext
+  {
+    SequenceIsSafeBecauseItIsInMemory(ciphertext);
+  }
 
   datatype AesUnwrapInfo = AesUnwrapInfo()
   datatype AesWrapInfo = AesWrapInfo( iv: seq<uint8> )
@@ -472,7 +517,8 @@ module RawAESKeyring {
              MaterialWrapping.WrapInput(
                plaintextMaterial := plaintextMaterial,
                algorithmSuite := input.algorithmSuite,
-               encryptionContext := input.encryptionContext
+               encryptionContext := input.encryptionContext,
+               serializedEC := input.serializedEC
              ),
              Success(MaterialWrapping.WrapOutput(
                        wrappedMaterial := res.value.wrappedMaterial,
@@ -509,7 +555,8 @@ module RawAESKeyring {
         MaterialWrapping.WrapInput(
           plaintextMaterial := plaintextMaterial,
           algorithmSuite := input.algorithmSuite,
-          encryptionContext := input.encryptionContext
+          encryptionContext := input.encryptionContext,
+          serializedEC := input.serializedEC
         ), []);
 
       res := Success(MaterialWrapping.GenerateAndWrapOutput(
@@ -531,12 +578,12 @@ module RawAESKeyring {
   {
     const wrappingKey: seq<uint8>
     const wrappingAlgorithm: Crypto.AES_GCM
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       wrappingKey: seq<uint8>,
       wrappingAlgorithm: Crypto.AES_GCM,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires cryptoPrimitives.ValidState()
       ensures
@@ -632,13 +679,13 @@ module RawAESKeyring {
     const wrappingKey: seq<uint8>
     const wrappingAlgorithm: Crypto.AES_GCM
     const iv: seq<uint8>
-    const cryptoPrimitives: Primitives.AtomicPrimitivesClient
+    const cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       wrappingKey: seq<uint8>,
       wrappingAlgorithm: Crypto.AES_GCM,
       iv: seq<uint8>,
-      cryptoPrimitives: Primitives.AtomicPrimitivesClient
+      cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires cryptoPrimitives.ValidState()
       requires |iv| == wrappingAlgorithm.ivLength as nat
@@ -681,7 +728,7 @@ module RawAESKeyring {
         && wrappingAlgorithm.tagLength as nat <= |input.wrappedMaterial|
         && var encryptionOutput := DeserializeEDKCiphertext(
                                      input.wrappedMaterial,
-                                     wrappingAlgorithm.tagLength as nat
+                                     wrappingAlgorithm.tagLength as uint64
                                    );
         && 0 < |cryptoPrimitives.History.AESDecrypt|
         && Seq.Last(cryptoPrimitives.History.AESDecrypt).output.Success?
@@ -707,12 +754,13 @@ module RawAESKeyring {
       ensures Ensures(input, res, attemptsState)
     {
       var aad :- CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext);
+      SequenceIsSafeBecauseItIsInMemory(input.wrappedMaterial);
       :- Need(
-        wrappingAlgorithm.tagLength as nat <= |input.wrappedMaterial|,
+        wrappingAlgorithm.tagLength as uint64 <= |input.wrappedMaterial| as uint64,
         Types.AwsCryptographicMaterialProvidersException( message := "Insufficient data to decrypt."));
       var encryptionOutput := DeserializeEDKCiphertext(
         input.wrappedMaterial,
-        wrappingAlgorithm.tagLength as nat
+        wrappingAlgorithm.tagLength as uint64
       );
       var maybePtKey := cryptoPrimitives
       .AESDecrypt(
@@ -727,7 +775,7 @@ module RawAESKeyring {
       );
       var ptKey :- maybePtKey.MapFailure(e => Types.AwsCryptographyPrimitives(AwsCryptographyPrimitives := e));
       :- Need(
-        GetEncryptKeyLength(input.algorithmSuite) as nat == |ptKey|,
+        GetEncryptKeyLength(input.algorithmSuite) as uint64 == |ptKey| as uint64,
         Types.AwsCryptographicMaterialProvidersException( message := "Plaintext Data Key is not the expected length"));
 
       return Success(MaterialWrapping.UnwrapOutput(

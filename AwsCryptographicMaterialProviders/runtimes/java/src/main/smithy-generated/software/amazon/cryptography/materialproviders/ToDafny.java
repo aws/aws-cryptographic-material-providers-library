@@ -65,6 +65,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Error;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_AwsCryptographicMaterialProvidersException;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_EntryAlreadyExists;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_EntryDoesNotExist;
+import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InFlightTTLExceeded;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfo;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfoOnDecrypt;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfoOnEncrypt;
@@ -108,6 +109,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Single
 import software.amazon.cryptography.materialproviders.internaldafny.types.StaticConfigurations;
 import software.amazon.cryptography.materialproviders.internaldafny.types.StormTrackingCache;
 import software.amazon.cryptography.materialproviders.internaldafny.types.SymmetricSignatureAlgorithm;
+import software.amazon.cryptography.materialproviders.internaldafny.types.TimeUnits;
 import software.amazon.cryptography.materialproviders.internaldafny.types.UpdateUsageMetadataInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.ValidDecryptionMaterialsTransitionInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.ValidEncryptionMaterialsTransitionInput;
@@ -118,6 +120,7 @@ import software.amazon.cryptography.materialproviders.model.CollectionOfErrors;
 import software.amazon.cryptography.materialproviders.model.DIRECT_KEY_WRAPPING;
 import software.amazon.cryptography.materialproviders.model.EntryAlreadyExists;
 import software.amazon.cryptography.materialproviders.model.EntryDoesNotExist;
+import software.amazon.cryptography.materialproviders.model.InFlightTTLExceeded;
 import software.amazon.cryptography.materialproviders.model.InvalidAlgorithmSuiteInfo;
 import software.amazon.cryptography.materialproviders.model.InvalidAlgorithmSuiteInfoOnDecrypt;
 import software.amazon.cryptography.materialproviders.model.InvalidAlgorithmSuiteInfoOnEncrypt;
@@ -126,6 +129,7 @@ import software.amazon.cryptography.materialproviders.model.InvalidDecryptionMat
 import software.amazon.cryptography.materialproviders.model.InvalidEncryptionMaterials;
 import software.amazon.cryptography.materialproviders.model.InvalidEncryptionMaterialsTransition;
 import software.amazon.cryptography.materialproviders.model.OpaqueError;
+import software.amazon.cryptography.materialproviders.model.OpaqueWithTextError;
 import software.amazon.cryptography.primitives.internaldafny.types.DigestAlgorithm;
 import software.amazon.cryptography.primitives.internaldafny.types.ECDHCurveSpec;
 import software.amazon.cryptography.primitives.internaldafny.types.ECDSASignatureAlgorithm;
@@ -145,6 +149,9 @@ public class ToDafny {
     }
     if (nativeValue instanceof EntryDoesNotExist) {
       return ToDafny.Error((EntryDoesNotExist) nativeValue);
+    }
+    if (nativeValue instanceof InFlightTTLExceeded) {
+      return ToDafny.Error((InFlightTTLExceeded) nativeValue);
     }
     if (nativeValue instanceof InvalidAlgorithmSuiteInfo) {
       return ToDafny.Error((InvalidAlgorithmSuiteInfo) nativeValue);
@@ -170,6 +177,9 @@ public class ToDafny {
     if (nativeValue instanceof OpaqueError) {
       return ToDafny.Error((OpaqueError) nativeValue);
     }
+    if (nativeValue instanceof OpaqueWithTextError) {
+      return ToDafny.Error((OpaqueWithTextError) nativeValue);
+    }
     if (nativeValue instanceof CollectionOfErrors) {
       return ToDafny.Error((CollectionOfErrors) nativeValue);
     }
@@ -178,6 +188,13 @@ public class ToDafny {
 
   public static Error Error(OpaqueError nativeValue) {
     return Error.create_Opaque(nativeValue.obj());
+  }
+
+  public static Error Error(OpaqueWithTextError nativeValue) {
+    return Error.create_OpaqueWithText(
+      nativeValue.obj(),
+      dafny.DafnySequence.asString(nativeValue.objMessage())
+    );
   }
 
   public static Error Error(CollectionOfErrors nativeValue) {
@@ -413,12 +430,25 @@ public class ToDafny {
           ToDafny.CacheType(nativeValue.cache())
         )
         : Option.create_None(CacheType._typeDescriptor());
+    Option<DafnySequence<? extends Character>> partitionId;
+    partitionId =
+      Objects.nonNull(nativeValue.partitionId())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.partitionId()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
     return new CreateAwsKmsHierarchicalKeyringInput(
       branchKeyId,
       branchKeyIdSupplier,
       keyStore,
       ttlSeconds,
-      cache
+      cache,
+      partitionId
     );
   }
 
@@ -1734,6 +1764,14 @@ public class ToDafny {
     inFlightTTL = (nativeValue.inFlightTTL());
     Integer sleepMilli;
     sleepMilli = (nativeValue.sleepMilli());
+    Option<TimeUnits> timeUnits;
+    timeUnits =
+      Objects.nonNull(nativeValue.timeUnits())
+        ? Option.create_Some(
+          TimeUnits._typeDescriptor(),
+          ToDafny.TimeUnits(nativeValue.timeUnits())
+        )
+        : Option.create_None(TimeUnits._typeDescriptor());
     return new StormTrackingCache(
       entryCapacity,
       entryPruningTailSize,
@@ -1741,7 +1779,8 @@ public class ToDafny {
       graceInterval,
       fanOut,
       inFlightTTL,
-      sleepMilli
+      sleepMilli,
+      timeUnits
     );
   }
 
@@ -1831,6 +1870,15 @@ public class ToDafny {
         nativeValue.message()
       );
     return new Error_EntryDoesNotExist(message);
+  }
+
+  public static Error Error(InFlightTTLExceeded nativeValue) {
+    DafnySequence<? extends Character> message;
+    message =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.message()
+      );
+    return new Error_InFlightTTLExceeded(message);
   }
 
   public static Error Error(InvalidAlgorithmSuiteInfo nativeValue) {
@@ -2086,6 +2134,29 @@ public class ToDafny {
     }
   }
 
+  public static TimeUnits TimeUnits(
+    software.amazon.cryptography.materialproviders.model.TimeUnits nativeValue
+  ) {
+    switch (nativeValue) {
+      case Seconds:
+        {
+          return TimeUnits.create_Seconds();
+        }
+      case Milliseconds:
+        {
+          return TimeUnits.create_Milliseconds();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.materialproviders.internaldafny.types.TimeUnits."
+          );
+        }
+    }
+  }
+
   public static AlgorithmSuiteId AlgorithmSuiteId(
     software.amazon.cryptography.materialproviders.model.AlgorithmSuiteId nativeValue
   ) {
@@ -2130,6 +2201,11 @@ public class ToDafny {
     if (Objects.nonNull(nativeValue.StormTracking())) {
       return CacheType.create_StormTracking(
         ToDafny.StormTrackingCache(nativeValue.StormTracking())
+      );
+    }
+    if (Objects.nonNull(nativeValue.Shared())) {
+      return CacheType.create_Shared(
+        ToDafny.CryptographicMaterialsCache(nativeValue.Shared())
       );
     }
     throw new IllegalArgumentException(

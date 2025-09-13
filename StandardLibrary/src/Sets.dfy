@@ -8,11 +8,11 @@ module {:extern "SortedSets"} SortedSets {
   import opened StandardLibrary
   import Seq
 
-  method {:extern "SetToOrderedSequence"} ComputeSetToOrderedSequence<T(==, !new)>(s: set<seq<T>>, less: (T, T) -> bool) returns (res: seq<seq<T>>)
+  method {:extern "SetToOrderedSequence"} {:axiom} ComputeSetToOrderedSequence<T(==, !new)>(s: set<seq<T>>, less: (T, T) -> bool) returns (res: seq<seq<T>>)
     requires Trichotomous(less) && Transitive(less)
     ensures res == SetToOrderedSequence(s, less)
 
-  function method {:extern "SetToOrderedSequence2"} ComputeSetToOrderedSequence2<T(==, !new)>(
+  function method {:extern "SetToOrderedSequence2"} {:axiom} ComputeSetToOrderedSequence2<T(==, !new)>(
     s: set<seq<T>>,
     less: (T, T) -> bool
   )
@@ -25,10 +25,12 @@ module {:extern "SortedSets"} SortedSets {
     ensures forall k <- s :: k in res
     ensures |res| == |s|
 
-  function method {:extern "SetToSequence"} ComputeSetToSequence<T(==, !new)>(
+  // This must be a method, not a function, because the results are not deterministic
+  // It might even return different results for the same input
+  method {:extern "SetToSequence"} {:axiom} ComputeSetToSequence<T(==, !new)>(
     s: set<T>
   )
-    : (res: seq<T>)
+    returns (res: seq<T>)
     ensures Seq.HasNoDuplicates(res)
     ensures forall k <- res :: k in s
     ensures forall k <- s :: k in res

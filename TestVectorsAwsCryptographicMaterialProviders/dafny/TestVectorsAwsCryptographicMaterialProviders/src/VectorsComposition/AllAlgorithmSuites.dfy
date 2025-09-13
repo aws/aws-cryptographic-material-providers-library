@@ -22,6 +22,7 @@ module {:options "-functionSyntax:4"} AllAlgorithmSuites {
   }
 
   const ESDKAlgorithmSuites := set id: Types.ESDKAlgorithmSuiteId :: AlgorithmSuites.GetESDKSuite(id)
+
   const DBEAlgorithmSuites := set id: Types.DBEAlgorithmSuiteId :: AlgorithmSuites.GetDBESuite(id)
 
   const AllAlgorithmSuites := ESDKAlgorithmSuites + DBEAlgorithmSuites

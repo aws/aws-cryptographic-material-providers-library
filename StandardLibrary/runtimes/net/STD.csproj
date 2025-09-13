@@ -5,7 +5,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IsPackable>true</IsPackable>
   
-    <Version>1.6.0</Version>
+    <Version>1.11.1</Version>
     
     <AssemblyName>AWS.Cryptography.Internal.StandardLibrary</AssemblyName>
     <PackageId>AWS.Cryptography.Internal.StandardLibrary</PackageId>
@@ -64,9 +64,6 @@
     <PackageReference Include="System.Collections.Immutable" Version="1.7.0" />
     <!-- Work around for dafny-lang/dafny/issues/1951; remove once resolved -->
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-    <Compile Include="..\..\..\libraries\src\FileIO\FileIO.cs">
-      <Link>FileIO.cs</Link>
-    </Compile>
 
     <Compile Include="Extern/**/*.cs" />
     <Compile Include="Generated/**/*.cs" />

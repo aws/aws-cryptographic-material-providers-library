@@ -5,7 +5,7 @@ include "../src/Index.dfy"
 include "../src/Digest.dfy"
 
 module TestAwsCryptographyPrimitivesHKDF {
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened Wrappers
   import opened StandardLibrary.UInt
   import Digest
@@ -14,7 +14,7 @@ module TestAwsCryptographyPrimitivesHKDF {
     // https://tools.ietf.org/html/rfc5869#appendix-A
     // A.1.  Test Case 1 Basic test case with SHA-256
 
-    var hash := Primitives.Types.SHA_256;
+    var hash := AtomicPrimitives.Types.SHA_256;
     var IKM := [
       11, 11, 11, 11, 11, 11, 11,
       11, 11, 11, 11, 11, 11, 11,
@@ -48,7 +48,7 @@ module TestAwsCryptographyPrimitivesHKDF {
     ];
 
     BasicExtractTest(
-      Primitives.Types.HkdfExtractInput(
+      AtomicPrimitives.Types.HkdfExtractInput(
         digestAlgorithm := hash,
         salt := Some(salt),
         ikm := IKM
@@ -57,7 +57,7 @@ module TestAwsCryptographyPrimitivesHKDF {
     );
 
     BasicExpandTest(
-      Primitives.Types.HkdfExpandInput(
+      AtomicPrimitives.Types.HkdfExpandInput(
         digestAlgorithm := hash,
         prk := PRK,
         info := info,
@@ -67,7 +67,7 @@ module TestAwsCryptographyPrimitivesHKDF {
     );
 
     BasicHkdfTest(
-      Primitives.Types.HkdfInput(
+      AtomicPrimitives.Types.HkdfInput(
         digestAlgorithm := hash,
         salt := Some(salt),
         ikm := IKM,
@@ -79,23 +79,23 @@ module TestAwsCryptographyPrimitivesHKDF {
   }
 
   method BasicExtractTest(
-    input: Primitives.Types.HkdfExtractInput,
+    input: AtomicPrimitives.Types.HkdfExtractInput,
     expectedPRK: seq<uint8>
   )
   {
-    var client :- expect Primitives.AtomicPrimitives();
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
 
     var output :- expect client.HkdfExtract(input);
-    expect |output| == Digest.Length(input.digestAlgorithm);
+    expect |output| == Digest.Length(input.digestAlgorithm) as nat;
     expect output == expectedPRK;
   }
 
   method BasicExpandTest(
-    input: Primitives.Types.HkdfExpandInput,
+    input: AtomicPrimitives.Types.HkdfExpandInput,
     expectedOKM: seq<uint8>
   )
   {
-    var client :- expect Primitives.AtomicPrimitives();
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
 
     var output :- expect client.HkdfExpand(input);
     expect |output| == input.expectedLength as nat;
@@ -103,11 +103,11 @@ module TestAwsCryptographyPrimitivesHKDF {
   }
 
   method BasicHkdfTest(
-    input: Primitives.Types.HkdfInput,
+    input: AtomicPrimitives.Types.HkdfInput,
     expectedOKM: seq<uint8>
   )
   {
-    var client :- expect Primitives.AtomicPrimitives();
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
 
     var output :- expect client.Hkdf(input);
     expect |output| == input.expectedLength as nat;

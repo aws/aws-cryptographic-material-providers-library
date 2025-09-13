@@ -4,14 +4,14 @@
 include "../src/Index.dfy"
 
 module TestAwsCryptographyPrimitivesHMacDigest {
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened StandardLibrary.UInt
   import Types = AwsCryptographyPrimitivesTypes
   import Digest
   import opened Wrappers
 
   method {:test} DigestTests() {
-    var client :- expect Primitives.AtomicPrimitives();
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
 
     HmacSHA_256(client);
     HmacSHA_384(client);
@@ -96,7 +96,7 @@ module TestAwsCryptographyPrimitivesHMacDigest {
 
     var output :- client.HMac(input);
 
-    :- Need(|output| == Digest.Length(input.digestAlgorithm), Types.AwsCryptographicPrimitivesError( message := "Error"));
+    :- Need(|output| == Digest.Length(input.digestAlgorithm) as nat, Types.AwsCryptographicPrimitivesError( message := "Error"));
     :- Need(output == expectedDigest, Types.AwsCryptographicPrimitivesError( message := "Error"));
 
     Success(())

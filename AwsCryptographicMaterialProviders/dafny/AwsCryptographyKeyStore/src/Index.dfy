@@ -6,8 +6,7 @@ include "AwsCryptographyKeyStoreOperations.dfy"
 include "ErrorMessages.dfy"
 include "KmsArn.dfy"
 
-module {:extern "software.amazon.cryptography.keystore.internaldafny"}
-  KeyStore refines AbstractAwsCryptographyKeyStoreService
+module {:extern "software.amazon.cryptography.keystore.internaldafny"} KeyStore refines AbstractAwsCryptographyKeyStoreService
 {
   import opened AwsKmsUtils
   import Operations = AwsCryptographyKeyStoreOperations

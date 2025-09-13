@@ -5,52 +5,82 @@ on:
   pull_request:
 
 jobs:
-  getVersion:
-    uses: ./.github/workflows/dafny_version.yaml
-  getVerifyVersion:
-    uses: ./.github/workflows/dafny_verify_version.yaml
+  getVersions:
+    uses: ./.github/workflows/dafny_versions.yaml
   pr-ci-format:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_format.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   pr-ci-codegen:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_codegen.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   pr-ci-verification:
-    needs: getVerifyVersion
+    needs: getVersions
     uses: ./.github/workflows/library_dafny_verification.yml
     with:
-      dafny: ${{needs.getVerifyVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.verifyVersion}}
   pr-ci-java:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_java_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
   pr-ci-net:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_net_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
+  pr-ci-rust:
+    needs: getVersions
+    uses: ./.github/workflows/library_rust_tests.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.rustVersion}}
+  pr-ci-python:
+    needs: getVersions
+    uses: ./.github/workflows/library_python_tests.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
+  pr-ci-go:
+    needs: getVersions
+    uses: ./.github/workflows/library_go_tests.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
   pr-interop-test:
-    needs: getVersion
+    needs: getVersions
     uses: ./.github/workflows/library_interop_tests.yml
     with:
-      dafny: ${{needs.getVersion.outputs.version}}
+      dafny: ${{needs.getVersions.outputs.version}}
+    secrets: inherit
+  pr-fuzz-interop-test:
+    needs: getVersions
+    uses: ./.github/workflows/library_interop_tests.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
+      fuzz-testing: true
+    secrets: inherit
+  pr-ci-db-esdk-java-examples-test:
+    needs: getVersions
+    uses: ./.github/workflows/test_dbesdk_examples.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
   pr-ci-all-required:
     if: always()
     needs:
-      - getVersion
-      - getVerifyVersion
+      - getVersions
       - pr-ci-format
       - pr-ci-codegen
       - pr-ci-verification
       - pr-ci-java
       - pr-ci-net
+      - pr-ci-python
+      - pr-ci-go
+      - pr-ci-rust
       - pr-interop-test
-    runs-on: ubuntu-latest
+      - pr-fuzz-interop-test
+      - pr-ci-db-esdk-java-examples-test
+    runs-on: ubuntu-22.04
     steps:
       - name: Verify all required jobs passed
         uses: re-actors/alls-green@release/v1

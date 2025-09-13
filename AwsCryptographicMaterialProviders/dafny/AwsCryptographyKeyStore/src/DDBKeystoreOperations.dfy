@@ -7,6 +7,7 @@ include "ErrorMessages.dfy"
 module DDBKeystoreOperations {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import Seq
   import Types = AwsCryptographyKeyStoreTypes
   import DDB = ComAmazonawsDynamodbTypes
@@ -196,8 +197,9 @@ module DDBKeystoreOperations {
     var getItemResponse :- maybeGetItem
     .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
 
+    OptionalMapIsSafeBecauseItIsInMemory(getItemResponse.Item);
     :- Need(
-      getItemResponse.Item.Some? && |getItemResponse.Item.value| >= 1,
+      getItemResponse.Item.Some? && |getItemResponse.Item.value| as uint64 >= 1,
       Types.KeyStoreException( message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY)
     );
 
@@ -263,8 +265,9 @@ module DDBKeystoreOperations {
     var getItemResponse :- maybeGetItem
     .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
 
+    OptionalMapIsSafeBecauseItIsInMemory(getItemResponse.Item);
     :- Need(
-      getItemResponse.Item.Some? && |getItemResponse.Item.value| >= 1,
+      getItemResponse.Item.Some? && |getItemResponse.Item.value| as uint64  >= 1,
       Types.KeyStoreException( message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY)
     );
 
@@ -333,8 +336,9 @@ module DDBKeystoreOperations {
     var getItemResponse :- maybeGetItem
     .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
 
+    OptionalMapIsSafeBecauseItIsInMemory(getItemResponse.Item);
     :- Need(
-      getItemResponse.Item.Some? && |getItemResponse.Item.value| >= 1,
+      getItemResponse.Item.Some? && |getItemResponse.Item.value| as uint64 >= 1,
       Types.KeyStoreException( message := ErrorMessages.NO_CORRESPONDING_BRANCH_KEY)
     );
 
@@ -350,7 +354,7 @@ module DDBKeystoreOperations {
   function method CreateTransactWritePutItem(
     item: DDB.AttributeMap,
     tableName: DDB.TableName,
-    ConditionExpression: ConditionExpression
+    conditionExpression: ConditionExpression
   ): (output: DDB.TransactWriteItem)
   {
 
@@ -361,7 +365,7 @@ module DDBKeystoreOperations {
           Item := item,
           TableName := tableName,
           ConditionExpression := Some(
-            match ConditionExpression
+            match conditionExpression
             case BRANCH_KEY_NOT_EXIST() => BRANCH_KEY_NOT_EXIST_CONDITION
             case BRANCH_KEY_EXISTS() => BRANCH_KEY_EXISTS_CONDITION
           ),

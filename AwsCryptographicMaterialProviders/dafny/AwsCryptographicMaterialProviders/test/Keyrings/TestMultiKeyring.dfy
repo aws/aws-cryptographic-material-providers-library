@@ -3,15 +3,17 @@
 
 include "../../src/Index.dfy"
 include "../TestUtils.dfy"
+include "../../../../../StandardLibrary/src/Time.dfy"
 
 module TestMultiKeyring {
   import opened Wrappers
   import TestUtils
   import UTF8
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import AwsCryptographyPrimitivesTypes
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes
+  import Time
 
   method getInputEncryptionMaterials(encryptionContext: Types.EncryptionContext) returns (res: Types.EncryptionMaterials) {
 
@@ -47,7 +49,7 @@ module TestMultiKeyring {
 
   method {:test} TestHappyCase()
   {
-
+    var time := Time.GetAbsoluteTime();
     var mpl :- expect MaterialProviders.MaterialProviders();
 
     var encryptionContext := TestUtils.SmallEncryptionContext(TestUtils.SmallEncryptionContextVariation.A);
@@ -99,6 +101,12 @@ module TestMultiKeyring {
     //# (structures.md#encryption-materials) returned by the last OnEncrypt
     //# call.
     expect |encryptionMaterialsOut.materials.encryptedDataKeys| == 2;
+
+    time := Time.PrintTimeSinceShortChained(time);
+    for i := 0 to 100 {
+      encryptionMaterialsOut :- expect multiKeyring.OnEncrypt(Types.OnEncryptInput(materials:=encryptionMaterials));
+    }
+    Time.PrintTimeSinceShort(time);
   }
 
   method {:test} TestChildKeyringFailureEncrypt() {

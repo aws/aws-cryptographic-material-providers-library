@@ -8,6 +8,7 @@ include "../../AwsArnParsing.dfy"
 module AwsKmsUtils {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened Actions
   import opened A = AwsKmsMrkMatchForDecrypt
   import opened AwsArnParsing
@@ -16,10 +17,21 @@ module AwsKmsUtils {
   import KMS = Types.ComAmazonawsKmsTypes
   import UTF8
 
+  function method OkForDecrypt(id : AwsKmsIdentifier, arn : string) : Outcome<Types.Error>
+  {
+    if !id.AwsKmsArnIdentifier? then
+      Fail(Types.AwsCryptographicMaterialProvidersException( message := "KeyID cannot be used for Decrypt : " + arn))
+    else if id.a.resource.resourceType != "key" then
+      Fail(Types.AwsCryptographicMaterialProvidersException( message := "Alias cannot be used for Decrypt : " + arn))
+    else
+      Pass
+  }
+
   function method StringifyEncryptionContext(utf8EncCtx: Types.EncryptionContext):
     (res: Result<KMS.EncryptionContextType, Types.Error>)
   {
-    if |utf8EncCtx| == 0 then Success(map[])
+    MapIsSafeBecauseItIsInMemory(utf8EncCtx);
+    if |utf8EncCtx| as uint64 == 0 then Success(map[])
     else
       var stringifyResults: map<UTF8.ValidUTF8Bytes, Result<(string, string), Types.Error>> :=
         map utf8Key | utf8Key in utf8EncCtx.Keys :: utf8Key := StringifyEncryptionContextPair(utf8Key, utf8EncCtx[utf8Key]);
@@ -61,14 +73,15 @@ module AwsKmsUtils {
     ensures res.Success? ==>
               && AwsArnParsing.ParseAwsKmsIdentifier(keyId).Success?
               && UTF8.IsASCIIString(keyId)
-              && 0 < |keyId| <= AwsArnParsing.MAX_AWS_KMS_IDENTIFIER_LENGTH
+              && 0 < |keyId| <= AwsArnParsing.MAX_AWS_KMS_IDENTIFIER_LENGTH as nat
   {
     var _ :- AwsArnParsing.ParseAwsKmsIdentifier(keyId).MapFailure(WrapStringToError);
 
     :- Need(UTF8.IsASCIIString(keyId),
             Types.AwsCryptographicMaterialProvidersException(
               message := "Key identifier is not ASCII"));
-    :- Need(0 < |keyId| <= AwsArnParsing.MAX_AWS_KMS_IDENTIFIER_LENGTH,
+    SequenceIsSafeBecauseItIsInMemory(keyId);
+    :- Need(0 < |keyId| as uint64 <= AwsArnParsing.MAX_AWS_KMS_IDENTIFIER_LENGTH,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Key identifier is too long"));
     Success(())
@@ -83,10 +96,12 @@ module AwsKmsUtils {
     ensures res.Success? && grantTokens.Some? ==> res.value == grantTokens.value
   {
     var tokens: Types.GrantTokenList := grantTokens.UnwrapOr([]);
-    :- Need(0 <= |tokens| <= 10,
+    SequenceIsSafeBecauseItIsInMemory(tokens);
+    :- Need(0 <= |tokens| as uint64 <= 10,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Grant token list can have no more than 10 tokens"));
-    :- Need(forall token | token in tokens :: 1 <= |token| <= 8192,
+    assume {:axiom} forall token <- tokens :: HasUint64Len(token);
+    :- Need(forall token | token in tokens :: 1 <= |token| as uint64 <= 8192,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Grant token list contains a grant token with invalid length"));
     Success(tokens)
@@ -114,7 +129,7 @@ module AwsKmsUtils {
               && getPublicKeyResponse.KeyUsage.value == KMS.KeyUsageType.KEY_AGREEMENT
               && getPublicKeyResponse.PublicKey.Some?
               && var publicKey := getPublicKeyResponse.PublicKey.value;
-              && KMS.IsValid_PublicKeyType(publicKey);
+              && KMS.IsValid_PublicKeyType(publicKey)
   {
     var getPublicKeyRequest := KMS.GetPublicKeyRequest(
       KeyId := awsKmsKey,
@@ -151,14 +166,16 @@ module AwsKmsUtils {
     var namespace :- UTF8.Encode(keyNamespace)
                      .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(
                                      message := "Key namespace could not be UTF8-encoded" + e ));
-    :- Need(|namespace| < UINT16_LIMIT,
+    SequenceIsSafeBecauseItIsInMemory(namespace);
+    :- Need(|namespace| as uint64 < UINT16_LIMIT as uint64,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Key namespace too long"));
 
     var name :- UTF8.Encode(keyName)
                 .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(
                                 message := "Key name could not be UTF8-encoded" + e ));
-    :- Need(|name| < UINT16_LIMIT,
+    SequenceIsSafeBecauseItIsInMemory(name);
+    :- Need(|name| as uint64 < UINT16_LIMIT as uint64,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Key name too long"));
 
@@ -172,13 +189,16 @@ module AwsKmsUtils {
               && (forall accountId | accountId in filter.accountIds :: |accountId| > 0)
               && |filter.partition| > 0
   {
-    :- Need(|filter.accountIds| > 0,
+    SequenceIsSafeBecauseItIsInMemory(filter.accountIds);
+    :- Need(|filter.accountIds| as uint64 > 0,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Discovery filter must have at least one account ID"));
-    :- Need(forall accountId | accountId in filter.accountIds :: |accountId| > 0,
+    assume {:axiom} forall accountId <- filter.accountIds :: HasUint64Len(accountId);
+    :- Need(forall accountId | accountId in filter.accountIds :: |accountId| as uint64 > 0,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Discovery filter account IDs cannot be blank"));
-    :- Need(|filter.partition| > 0,
+    SequenceIsSafeBecauseItIsInMemory(filter.partition);
+    :- Need(|filter.partition| as uint64 > 0,
             Types.AwsCryptographicMaterialProvidersException(
               message := "Discovery filter partition cannot be blank"));
     Success(())

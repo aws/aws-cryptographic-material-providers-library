@@ -11,6 +11,7 @@ include "../Keyrings/AwsKms/Constants.dfy"
 module {:options "/functionSyntax:4" } EcdhEdkWrapping {
   import opened StandardLibrary
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened Actions
   import opened Wrappers
   import opened MaterialWrapping
@@ -20,7 +21,7 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
   import opened AlgorithmSuites
   import PrimitiveTypes = AwsCryptographyPrimitivesTypes
   import Types = AwsCryptographyMaterialProvidersTypes
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import Materials
 
   datatype EcdhUnwrapInfo = EcdhUnwrapInfo()
@@ -34,7 +35,7 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
     const sharedSecret: seq<uint8>
     const keyringVersion: seq<uint8>
     const curveSpec: PrimitiveTypes.ECDHCurveSpec
-    const crypto: Primitives.AtomicPrimitivesClient
+    const crypto: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       senderPublicKey: seq<uint8>,
@@ -42,7 +43,7 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
       sharedSecret: seq<uint8>,
       keyringVersion: seq<uint8>,
       curveSpec: PrimitiveTypes.ECDHCurveSpec,
-      crypto: Primitives.AtomicPrimitivesClient
+      crypto: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires crypto.ValidState()
       ensures
@@ -104,24 +105,25 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
       var suite := input.algorithmSuite;
       var wrappedMaterial := input.wrappedMaterial;
       var aad := input.encryptionContext;
-
+      SequenceIsSafeBecauseItIsInMemory(wrappedMaterial);
       :- Need(
-        |wrappedMaterial| > CIPHERTEXT_WRAPPED_MATERIAL_INDEX,
-        E("Recieved ciphertext is shorter than expected.")
+        |wrappedMaterial| as uint64 > CIPHERTEXT_WRAPPED_MATERIAL_INDEX,
+        E("Received ciphertext is shorter than expected.")
       );
 
-      var KeyLength := AlgorithmSuites.GetEncryptKeyLength(suite) as int;
+      var KeyLength := AlgorithmSuites.GetEncryptKeyLength(suite);
 
+        // Can't cast |wrappedMaterial| as uint64 because Rust explodes
       :- Need (
-        |wrappedMaterial| > ECDH_WRAPPED_KEY_MATERIAL_INDEX + KeyLength,
-        Types.AwsCryptographicMaterialProvidersException(message := "Received EDK Ciphertext of incorrect length.")
+        |wrappedMaterial| > ECDH_WRAPPED_KEY_MATERIAL_INDEX as nat + KeyLength as nat,
+        Types.AwsCryptographicMaterialProvidersException(message := "Received EDK Ciphertext of incorrect length3.")
       );
 
-      var kdfNonce := wrappedMaterial[0..ECDH_COMMITMENT_KEY_INDEX];
+      var kdfNonce := wrappedMaterial[..ECDH_COMMITMENT_KEY_INDEX];
       var iv := seq(ECDH_AES_256_ENC_ALG.ivLength as nat, _ => 0); // IV is zero
       var commitmentKey := wrappedMaterial[ECDH_COMMITMENT_KEY_INDEX..ECDH_WRAPPED_KEY_MATERIAL_INDEX];
-      var wrappedKey := wrappedMaterial[ECDH_WRAPPED_KEY_MATERIAL_INDEX..ECDH_WRAPPED_KEY_MATERIAL_INDEX+KeyLength];
-      var authTag := wrappedMaterial[ECDH_WRAPPED_KEY_MATERIAL_INDEX+KeyLength..];
+      var wrappedKey := wrappedMaterial[ECDH_WRAPPED_KEY_MATERIAL_INDEX..ECDH_WRAPPED_KEY_MATERIAL_INDEX+KeyLength as uint64];
+      var authTag := wrappedMaterial[ECDH_WRAPPED_KEY_MATERIAL_INDEX+KeyLength as uint64..];
 
       var curveSpecUtf8 :- UTF8.Encode(
         CurveSpecTypeToString(this.curveSpec)
@@ -145,11 +147,11 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
         crypto
       );
 
-      var calculatedCommitmentKey: seq<uint8> := derivedKeyingMaterial[0..32];
-      var sharedKeyingMaterial: seq<uint8> := derivedKeyingMaterial[32..];
+      var calculatedCommitmentKey: seq<uint8> := derivedKeyingMaterial[..32 as uint32];
+      var sharedKeyingMaterial: seq<uint8> := derivedKeyingMaterial[32 as uint32..];
 
       :- Need(
-        |calculatedCommitmentKey| == |commitmentKey|,
+        |calculatedCommitmentKey| as uint64 == |commitmentKey| as uint64,
         E("Calculated commitment key length does NOT match expected commitment key length")
       );
 
@@ -188,9 +190,9 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
         )
       );
       var unwrappedPdk :- maybeUnwrappedPdk.MapFailure(e => Types.AwsCryptographyPrimitives(AwsCryptographyPrimitives := e));
-
+      SequenceIsSafeBecauseItIsInMemory(unwrappedPdk);
       :- Need(
-        |unwrappedPdk| == AlgorithmSuites.GetEncryptKeyLength(input.algorithmSuite) as nat,
+        |unwrappedPdk| as uint64 == AlgorithmSuites.GetEncryptKeyLength(input.algorithmSuite) as uint64,
         E("Invalid Key Length")
       );
 
@@ -211,8 +213,9 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
     {
       collectedCommitmentKey := [];
       var diff? := 0;
-      for i := 0 to |serializedCommitmentKey|
-        invariant |collectedCommitmentKey| == i
+      SequenceIsSafeBecauseItIsInMemory(serializedCommitmentKey);
+      for i : uint64 := 0 to |serializedCommitmentKey| as uint64
+        invariant |collectedCommitmentKey| == i as nat
         invariant forall j | 0 <= j < i :: collectedCommitmentKey[j] == calculatedCommitmentKey[j] as bv8 ^ serializedCommitmentKey[j] as bv8
       {
         diff? := diff? | (calculatedCommitmentKey[i] as bv8 ^ serializedCommitmentKey[i] as bv8);
@@ -228,12 +231,12 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
   {
     const sharedSecret: seq<uint8>
     const fixedInfo: seq<uint8>
-    const crypto: Primitives.AtomicPrimitivesClient
+    const crypto: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       sharedSecret: seq<uint8>,
       fixedInfo: seq<uint8>,
-      crypto: Primitives.AtomicPrimitivesClient
+      crypto: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires crypto.ValidState()
       ensures
@@ -299,7 +302,8 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
         MaterialWrapping.WrapInput(
           plaintextMaterial := pdk,
           algorithmSuite := input.algorithmSuite,
-          encryptionContext := input.encryptionContext
+          encryptionContext := input.encryptionContext,
+          serializedEC := input.serializedEC
         ), []);
 
       var output := MaterialWrapping.GenerateAndWrapOutput(
@@ -316,12 +320,12 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
   {
     const sharedSecret: seq<uint8>
     const fixedInfo: seq<uint8>
-    const crypto: Primitives.AtomicPrimitivesClient
+    const crypto: AtomicPrimitives.AtomicPrimitivesClient
 
     constructor(
       sharedSecret: seq<uint8>,
       fixedInfo: seq<uint8>,
-      crypto: Primitives.AtomicPrimitivesClient
+      crypto: AtomicPrimitives.AtomicPrimitivesClient
     )
       requires crypto.ValidState()
       ensures
@@ -413,10 +417,10 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-ecdh-keyring.md#onencrypt
       //# The keyring MUST use the first 32 bytes as the Commitment Key.
-      var commitmentKey: seq<uint8> := derivedKeyingMaterial[0..32];
+      var commitmentKey: seq<uint8> := derivedKeyingMaterial[..32 as uint32];
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-ecdh-keyring.md#onencrypt
       //# The keyring MUST use the last 32 bytes as the Shared Wrapping Key.
-      var sharedKeyingMaterial: seq<uint8> := derivedKeyingMaterial[32..];
+      var sharedKeyingMaterial: seq<uint8> := derivedKeyingMaterial[32 as uint32..];
 
       var iv := seq(ECDH_AES_256_ENC_ALG.ivLength as nat, _ => 0); // IV is zero
 
@@ -461,7 +465,7 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
     sharedSecret: seq<uint8>,
     fixedInfo: seq<uint8>,
     salt: seq<uint8>,
-    crypto: Primitives.AtomicPrimitivesClient
+    crypto: AtomicPrimitives.AtomicPrimitivesClient
   ) returns (res :Result<seq<uint8>, Types.Error>)
     requires crypto.ValidState()
     modifies crypto.Modifies
@@ -525,45 +529,45 @@ module {:options "/functionSyntax:4" } EcdhEdkWrapping {
             //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#key-derivation
             //= type=implication
             //# - MUST use a null byte concatenating all the fixed info fields.
-            ECDH_KDF_DELIMETER +
+            ECDH_KDF_DELIMITER +
             //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#key-derivation
             //= type=implication
             //# - MUST be the UTF8 encoded string of the configured curve specification
             curveSpecUtf8 +
-            ECDH_KDF_DELIMETER +
+            ECDH_KDF_DELIMITER +
             //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#key-derivation
             //= type=implication
             //# - MUST be the UTF8 encoded string of the configured Key Derivation Method used
             ECDH_KDF_PRF_NAME +
-            ECDH_KDF_DELIMETER +
+            ECDH_KDF_DELIMITER +
             //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#key-derivation
             //= type=implication
             //# - MUST be A concatenation of the static public keys used by the parties
             //#  in the format of sender followed by receiver
             senderPublicKey +
             recipientPublicKey +
-            ECDH_KDF_DELIMETER +
+            ECDH_KDF_DELIMITER +
             //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#key-derivation
             //= type=implication
             //# - MUST use the keyring version found in the key provider information.
             keyringVersion +
-            ECDH_KDF_DELIMETER +
+            ECDH_KDF_DELIMITER +
             //= aws-encryption-sdk-specification/framework/key-agreement-schemas.md#key-derivation
             //= type=implication
             //# - MUST be The canonicalized encryption context found in the [encryption materials](structures.md#encryption-materials)
             canonicalizedEC
   {
     ecdhKeyDerivationUtf8 +
-    ECDH_KDF_DELIMETER +
+    ECDH_KDF_DELIMITER +
     curveSpecUtf8 +
-    ECDH_KDF_DELIMETER +
+    ECDH_KDF_DELIMITER +
     ECDH_KDF_PRF_NAME +
-    ECDH_KDF_DELIMETER +
+    ECDH_KDF_DELIMITER +
     senderPublicKey +
     recipientPublicKey +
-    ECDH_KDF_DELIMETER +
+    ECDH_KDF_DELIMITER +
     keyringVersion +
-    ECDH_KDF_DELIMETER +
+    ECDH_KDF_DELIMITER +
     canonicalizedEC
   }
 

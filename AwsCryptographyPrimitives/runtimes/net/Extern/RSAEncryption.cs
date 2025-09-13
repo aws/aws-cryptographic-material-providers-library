@@ -99,7 +99,6 @@ namespace RSAEncryption
         // key and returns the AsymmetricKeyParameter for that public key, encoded using UTF-8
         private static AsymmetricKeyParameter GetPublicKeyFromByteSeq(ibyteseq key)
         {
-            AsymmetricKeyParameter keyParam;
             using (var stringReader = new StringReader(Encoding.UTF8.GetString(key.CloneAsArray())))
             {
                 return (AsymmetricKeyParameter)new PemReader(stringReader).ReadObject();

@@ -3,6 +3,7 @@
 
 include "../src/StandardLibrary.dfy"
 include "../src/Sets.dfy"
+include "../src/Time.dfy"
   // Just to make sure we don't conflict with dafny-lang/libraries' Sets.dfy
 include "../../libraries/src/Collections/Sets/Sets.dfy"
 
@@ -17,6 +18,7 @@ module TestComputeSetToOrderedSequenceUInt8Less {
   import opened StandardLibrary
   import opened UInt = StandardLibrary.UInt
   import opened SortedSets
+  import Time
 
   predicate method UInt8Greater(x : uint8, y : uint8) {
     y < x
@@ -82,12 +84,15 @@ module TestComputeSetToOrderedSequenceUInt8Less {
   }
 
   method {:test} TestSetToOrderedSequenceManyItems() {
+    var time := Time.GetAbsoluteTime();
     var a := set x:uint16 | 0 <= x < 0xFFFF :: UInt16ToSeq(x);
+    time := Time.PrintTimeSinceShortChained(time);
     var output := ComputeSetToOrderedSequence(a, UInt8Less);
     var output2 := ComputeSetToOrderedSequence2(a, UInt8Less);
     var expected : seq<seq<uint8>> := seq(0xFFFF, i requires 0 <= i < 0xFFFF => UInt16ToSeq(i as uint16));
     expect output == expected;
     expect output2 == expected;
+    Time.PrintTimeSinceShort(time);
   }
 
 }

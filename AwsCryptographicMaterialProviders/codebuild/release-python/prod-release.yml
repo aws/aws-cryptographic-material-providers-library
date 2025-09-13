@@ -1,0 +1,75 @@
+version: 0.2
+
+env:
+  variables:
+    BRANCH: "main"
+  secrets-manager:
+    TWINE_USERNAME: PyPiAPIToken:username
+    TWINE_PASSWORD: PyPiAPIToken:password
+
+phases:
+  install:
+    commands:
+      - pip install "tox < 4.0"
+      - pip install --upgrade pip
+    runtime-versions:
+      python: latest
+      dotnet: 6.0
+  pre_build:
+    commands:
+      # Get Dafny
+      - export dafnyVersion=$(grep '^dafnyVersion=' project.properties | cut -d '=' -f 2)
+      - cd ..
+      - curl https://github.com/dafny-lang/dafny/releases/download/v$dafnyVersion/dafny-$dafnyVersion-x64-ubuntu-20.04.zip  -L -o dafny.zip
+      - unzip -qq dafny.zip && rm dafny.zip
+      - export PATH="$PWD/dafny:$PATH"
+      # Switch back to the main directory
+      - cd aws-cryptographic-material-providers-library
+      # Without this the if-dafny-at-least command includes "Downloading ..." output
+      - make -C StandardLibrary setup_net
+      # Assert that project version is the expected released version
+      - git fetch --tags
+      - git checkout $COMMIT_ID
+      - FOUND_VERSION=$(sed -n 's/version = "\(.*\)"/\1/p' AwsCryptographicMaterialProviders/runtimes/python/pyproject.toml)
+      # Assert we are not releasing "aws-cryptographic-material-providers==10.0.0" to prod PyPI.
+      # A bad release has already been uploaded under this name/version to prod PyPI.
+      # This release has been deleted.
+      # Prod PyPI does not allow re-uploading a release under the same name/version.
+      - |
+        if expr ${FOUND_VERSION} == "10.0.0"; then
+          echo "Cannot release version 10.0.0"
+          exit 1;
+        fi
+      - |
+        if expr ${FOUND_VERSION} != ${VERSION}; then
+          echo "pyproject.toml version (${FOUND_VERSION}) does not match expected version (${VERSION}), stopping"
+          exit 1;
+        fi
+      - cd AwsCryptographicMaterialProviders
+      # Build Dafny source code
+      - make transpile_python
+  build:
+    commands:
+      - cd runtimes/python/
+      # Install poetry
+      # https://python-poetry.org/docs/#installing-manually
+      - pip install poetry
+      # Install project dependencies with release dependencies
+      - poetry install --with release
+      # Build whl/sdist, upload to PyPI
+      - tox -e release
+
+batch:
+  fast-fail: true
+  build-graph:
+    - identifier: release_to_prod
+      env:
+        image: aws/codebuild/standard:7.0
+    - identifier: validate_prod_release
+      depend-on:
+        - release_to_prod
+      buildspec: AwsCryptographicMaterialProviders/codebuild/release-python/validate.yml
+      env:
+        variables:
+          PIP_INDEX_URL: https://pypi.python.org/simple/
+        image: aws/codebuild/standard:7.0

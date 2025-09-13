@@ -19,6 +19,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Error_
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_CollectionOfErrors;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_EntryAlreadyExists;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_EntryDoesNotExist;
+import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InFlightTTLExceeded;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfo;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfoOnDecrypt;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidAlgorithmSuiteInfoOnEncrypt;
@@ -27,6 +28,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Error_
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterials;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_InvalidEncryptionMaterialsTransition;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error_Opaque;
+import software.amazon.cryptography.materialproviders.internaldafny.types.Error_OpaqueWithText;
 import software.amazon.cryptography.materialproviders.internaldafny.types.IAwsCryptographicMaterialProvidersClient;
 import software.amazon.cryptography.materialproviders.model.AesWrappingAlg;
 import software.amazon.cryptography.materialproviders.model.AlgorithmSuiteId;
@@ -83,6 +85,7 @@ import software.amazon.cryptography.materialproviders.model.GetEncryptionMateria
 import software.amazon.cryptography.materialproviders.model.GetEncryptionMaterialsOutput;
 import software.amazon.cryptography.materialproviders.model.HKDF;
 import software.amazon.cryptography.materialproviders.model.IDENTITY;
+import software.amazon.cryptography.materialproviders.model.InFlightTTLExceeded;
 import software.amazon.cryptography.materialproviders.model.InitializeDecryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.InitializeEncryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.IntermediateKeyWrapping;
@@ -107,6 +110,7 @@ import software.amazon.cryptography.materialproviders.model.OnDecryptOutput;
 import software.amazon.cryptography.materialproviders.model.OnEncryptInput;
 import software.amazon.cryptography.materialproviders.model.OnEncryptOutput;
 import software.amazon.cryptography.materialproviders.model.OpaqueError;
+import software.amazon.cryptography.materialproviders.model.OpaqueWithTextError;
 import software.amazon.cryptography.materialproviders.model.PaddingScheme;
 import software.amazon.cryptography.materialproviders.model.PublicKeyDiscoveryInput;
 import software.amazon.cryptography.materialproviders.model.PutCacheEntryInput;
@@ -117,6 +121,7 @@ import software.amazon.cryptography.materialproviders.model.SingleThreadedCache;
 import software.amazon.cryptography.materialproviders.model.StaticConfigurations;
 import software.amazon.cryptography.materialproviders.model.StormTrackingCache;
 import software.amazon.cryptography.materialproviders.model.SymmetricSignatureAlgorithm;
+import software.amazon.cryptography.materialproviders.model.TimeUnits;
 import software.amazon.cryptography.materialproviders.model.UpdateUsageMetadataInput;
 import software.amazon.cryptography.materialproviders.model.ValidDecryptionMaterialsTransitionInput;
 import software.amazon.cryptography.materialproviders.model.ValidEncryptionMaterialsTransitionInput;
@@ -128,6 +133,17 @@ public class ToNative {
   public static OpaqueError Error(Error_Opaque dafnyValue) {
     OpaqueError.Builder nativeBuilder = OpaqueError.builder();
     nativeBuilder.obj(dafnyValue.dtor_obj());
+    return nativeBuilder.build();
+  }
+
+  public static OpaqueWithTextError Error(Error_OpaqueWithText dafnyValue) {
+    OpaqueWithTextError.Builder nativeBuilder = OpaqueWithTextError.builder();
+    nativeBuilder.obj(dafnyValue.dtor_obj());
+    nativeBuilder.objMessage(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_objMessage()
+      )
+    );
     return nativeBuilder.build();
   }
 
@@ -172,6 +188,18 @@ public class ToNative {
 
   public static EntryDoesNotExist Error(Error_EntryDoesNotExist dafnyValue) {
     EntryDoesNotExist.Builder nativeBuilder = EntryDoesNotExist.builder();
+    nativeBuilder.message(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_message()
+      )
+    );
+    return nativeBuilder.build();
+  }
+
+  public static InFlightTTLExceeded Error(
+    Error_InFlightTTLExceeded dafnyValue
+  ) {
+    InFlightTTLExceeded.Builder nativeBuilder = InFlightTTLExceeded.builder();
     nativeBuilder.message(
       software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
         dafnyValue.dtor_message()
@@ -283,6 +311,9 @@ public class ToNative {
     if (dafnyValue.is_EntryDoesNotExist()) {
       return ToNative.Error((Error_EntryDoesNotExist) dafnyValue);
     }
+    if (dafnyValue.is_InFlightTTLExceeded()) {
+      return ToNative.Error((Error_InFlightTTLExceeded) dafnyValue);
+    }
     if (dafnyValue.is_InvalidAlgorithmSuiteInfo()) {
       return ToNative.Error((Error_InvalidAlgorithmSuiteInfo) dafnyValue);
     }
@@ -314,6 +345,9 @@ public class ToNative {
     }
     if (dafnyValue.is_Opaque()) {
       return ToNative.Error((Error_Opaque) dafnyValue);
+    }
+    if (dafnyValue.is_OpaqueWithText()) {
+      return ToNative.Error((Error_OpaqueWithText) dafnyValue);
     }
     if (dafnyValue.is_CollectionOfErrors()) {
       return ToNative.Error((Error_CollectionOfErrors) dafnyValue);
@@ -472,6 +506,13 @@ public class ToNative {
     if (dafnyValue.dtor_cache().is_Some()) {
       nativeBuilder.cache(
         ToNative.CacheType(dafnyValue.dtor_cache().dtor_value())
+      );
+    }
+    if (dafnyValue.dtor_partitionId().is_Some()) {
+      nativeBuilder.partitionId(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_partitionId().dtor_value()
+        )
       );
     }
     return nativeBuilder.build();
@@ -1425,6 +1466,11 @@ public class ToNative {
     nativeBuilder.fanOut((dafnyValue.dtor_fanOut()));
     nativeBuilder.inFlightTTL((dafnyValue.dtor_inFlightTTL()));
     nativeBuilder.sleepMilli((dafnyValue.dtor_sleepMilli()));
+    if (dafnyValue.dtor_timeUnits().is_Some()) {
+      nativeBuilder.timeUnits(
+        ToNative.TimeUnits(dafnyValue.dtor_timeUnits().dtor_value())
+      );
+    }
     return nativeBuilder.build();
   }
 
@@ -1631,6 +1677,21 @@ public class ToNative {
     );
   }
 
+  public static TimeUnits TimeUnits(
+    software.amazon.cryptography.materialproviders.internaldafny.types.TimeUnits dafnyValue
+  ) {
+    if (dafnyValue.is_Seconds()) {
+      return TimeUnits.Seconds;
+    }
+    if (dafnyValue.is_Milliseconds()) {
+      return TimeUnits.Milliseconds;
+    }
+    throw new IllegalArgumentException(
+      "No entry of software.amazon.cryptography.materialproviders.model.TimeUnits matches the input : " +
+      dafnyValue
+    );
+  }
+
   public static AlgorithmSuiteId AlgorithmSuiteId(
     software.amazon.cryptography.materialproviders.internaldafny.types.AlgorithmSuiteId dafnyValue
   ) {
@@ -1667,6 +1728,11 @@ public class ToNative {
     if (dafnyValue.is_StormTracking()) {
       nativeBuilder.StormTracking(
         ToNative.StormTrackingCache(dafnyValue.dtor_StormTracking())
+      );
+    }
+    if (dafnyValue.is_Shared()) {
+      nativeBuilder.Shared(
+        ToNative.CryptographicMaterialsCache(dafnyValue.dtor_Shared())
       );
     }
     return nativeBuilder.build();

@@ -6,6 +6,7 @@ include "../Model/AwsCryptographyPrimitivesTypes.dfy"
 module Random {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import ExternRandom
   import Types = AwsCryptographyPrimitivesTypes
 
@@ -14,9 +15,10 @@ module Random {
     ensures res.Success? ==> |res.value| == i as int
   {
     var value :- ExternRandom.GenerateBytes(i);
+    SequenceIsSafeBecauseItIsInMemory(value);
 
     :- Need(
-      |value| == i as int,
+      |value| as uint64 == i as uint64,
       Types.AwsCryptographicPrimitivesError(message := "Incorrect length from ExternRandom.")
     );
 

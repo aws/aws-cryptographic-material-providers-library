@@ -18,7 +18,7 @@ var props = Properties().apply {
 var dafnyVersion = props.getProperty("dafnyVersion")
 
 group = "software.amazon.cryptography"
-version = "1.6.0"
+version = props.getProperty("mplVersion")
 description = "AWS Cryptographic Material Providers Library"
 
 java {
@@ -71,7 +71,7 @@ dependencies {
 
     // Dafny dependencies
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
-    implementation("software.amazon.smithy.dafny:conversion:0.1")
+    implementation("software.amazon.smithy.dafny:conversion:0.1.1")
 
     // sdk dependencies
     implementation(platform("software.amazon.awssdk:bom:2.26.3"))
@@ -184,8 +184,8 @@ nexusPublishing {
     // https://github.com/gradle-nexus/publish-plugin/
     repositories {
         sonatype {
-            nexusUrl.set(uri("https://aws.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://aws.oss.sonatype.org/content/repositories/snapshots/"))
+            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
             username.set(System.getenv("SONA_USERNAME"))
             password.set(System.getenv("SONA_PASSWORD"))
         }
@@ -226,7 +226,7 @@ tasks.test {
 
     testLogging {
         lifecycle {
-            events = mutableSetOf(org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED, org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED, org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED)
+            events = mutableSetOf(org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED, org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED)
             exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
             showExceptions = true
             showCauses = true

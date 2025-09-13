@@ -1,0 +1,95 @@
+version: 0.2
+
+# Validate that the released artifact is usable
+# by installing it from PyPI
+# then running tests from source against the published artifact.
+
+# For the MPL package, which has the ESDK as a downstream dependency,
+# also validate that the released artifact is usable by the ESDK
+# by downloading the ESDK from source
+# and running tests with the newly published MPL artifact.
+
+phases:
+  install:
+    commands:
+      - pip install "tox < 4.0"
+    runtime-versions:
+      python: latest
+      dotnet: 6.0
+  pre_build:
+    commands:
+      # Get Dafny
+      - export dafnyVersion=$(grep '^dafnyVersion=' project.properties | cut -d '=' -f 2)
+      - cd ..
+      - curl https://github.com/dafny-lang/dafny/releases/download/v$dafnyVersion/dafny-$dafnyVersion-x64-ubuntu-20.04.zip  -L -o dafny.zip
+      - unzip -qq dafny.zip && rm dafny.zip
+      - export PATH="$PWD/dafny:$PATH"
+      # Switch back to the main directory
+      - cd aws-cryptographic-material-providers-library
+      # Without this the if-dafny-at-least command includes "Downloading ..." output
+      - make -C StandardLibrary setup_net
+      # Check out tests for release commit
+      - git fetch --tags
+      - git checkout $COMMIT_ID
+      # Install test dependencies
+      - pyenv install --skip-existing 3.11
+      - pyenv local 3.11
+      - pip install "tox < 4.0"
+      - pip install pytest
+      # Install the published artifact from PyPI.
+      # The tests will use the installed package, not the local code.
+      # The actual test code must be from local, since we don't publish tests.
+      - pip install aws-cryptographic-material-providers==$VERSION
+      # Install ESDK-Python, override its requirements to force use of the just-published MPL version
+      - git clone -b master https://github.com/aws/aws-encryption-sdk-python.git
+      - cd aws-encryption-sdk-python
+      - sed -i "s/aws-cryptographic-material-providers.*/aws-cryptographic-material-providers==$VERSION/" requirements_mpl.txt
+      - cd ..
+      # Get CI Creds to be able to call KMS and DDB
+      - TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "MPL-Python-Release")
+      - export TMP_ROLE
+      - export AWS_ACCESS_KEY_ID=$(echo "${TMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
+      - export AWS_SECRET_ACCESS_KEY=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
+      - export AWS_SESSION_TOKEN=$(echo "${TMP_ROLE}" | jq -r '.Credentials.SessionToken')
+      - aws sts get-caller-identity
+  build:
+    commands:
+      - NUM_RETRIES=3
+      # First, run tests with the published package
+      - cd AwsCryptographicMaterialProviders
+      - make transpile_only_test_python
+      - cd runtimes/python
+      - python -m pytest test/ -s -v
+      # Then, run ESDK local tests with the new MPL artifact installed
+      - cd ../../../aws-encryption-sdk-python
+      - |
+        while [ $NUM_RETRIES -gt 0 ]
+        do
+          tox -e py311-local-mpl
+          if [ $? -eq 0 ]; then
+            break
+          fi
+          NUM_RETRIES=$((NUM_RETRIES-1))
+          if [ $NUM_RETRIES -eq 0 ]; then
+            echo "All validation attempts failed, stopping"
+            exit 1;
+          else
+            echo "Validation failed, retrying in 60 seconds; will retry $NUM_RETRIES more times" && sleep 60
+          fi
+        done
+      # Then, MPL-only local tests with the MPL installed
+      - |
+        while [ $NUM_RETRIES -gt 0 ]
+        do
+          tox -e py311-mpllocal-mpl
+          if [ $? -eq 0 ]; then
+            break
+          fi
+          NUM_RETRIES=$((NUM_RETRIES-1))
+          if [ $NUM_RETRIES -eq 0 ]; then
+            echo "All validation attempts failed, stopping"
+            exit 1;
+          else
+            echo "Validation failed, retrying in 60 seconds; will retry $NUM_RETRIES more times" && sleep 60
+          fi
+        done

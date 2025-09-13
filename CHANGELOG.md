@@ -1,5 +1,262 @@
 # Changelog
 
+## [1.11.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.0...v1.11.1) (2025-07-29)
+
+This release is available in the following languages:
+
+- Python
+
+### Maintenance -- All Languages
+
+- **dafny:** add Rust and Go to supported languages ([#1492](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1492)) ([87ab402](https://github.com/aws/aws-cryptographic-material-providers-library/commit/87ab40233096739f2aa709fdcd948ce7452c7d04))
+- **dafny:** append our user agent in KMS client ([#1564](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1564)) ([03d03ac](https://github.com/aws/aws-cryptographic-material-providers-library/commit/03d03ac1f3591885bcc583efb988602ed129c3c5))
+- **dafny:** remove negative test for codebuild runner ([#1603](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1603)) ([8b45e40](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8b45e40e9fa081e277837946e53836b308429ee8))
+
+### Maintenance -- Python
+
+- **python:** Updated pytz version range to include 2025 releases ([#1603](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1641)) ([1aced27](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1aced27699de7aebcb6d4513a9e72c604c7ce855))
+
+### Maintenance -- Go
+
+- **go:** automate changelog for Go release ([#1607](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1607)) ([f9eb8e0](https://github.com/aws/aws-cryptographic-material-providers-library/commit/f9eb8e0169139946ca46a7a4f0e30abdff7f976e))
+- **go:** update go test matrix and clean up setup ([#1625](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1625)) ([6baa15c](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6baa15ca499603dc4fe5501542d6f45b80d2c244))
+
+### Maintenance -- Rust
+
+- **rust:** update for new version of clippy ([#1606](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1606)) ([ec013f6](https://github.com/aws/aws-cryptographic-material-providers-library/commit/ec013f6ba85d62ab41db48fec92baca85625e4b9))
+
+### Miscellaneous
+
+- 5 instead of 25 interop decrypt processes ([#1620](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1620)) ([d82696b](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d82696b520681eaabd8f9a6c76bd9a208de4d6ac))
+- allow local testing for python ([#1598](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1598)) ([cbfa209](https://github.com/aws/aws-cryptographic-material-providers-library/commit/cbfa209c0b9453fe633a3047e3dcd5db0e7fa728))
+- bump credentials to 2 hours, for python ([#1621](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1621)) ([69991da](https://github.com/aws/aws-cryptographic-material-providers-library/commit/69991da9a26e4422dfdeb8fc95a87a46b0bb3ccc))
+- **cfn:** add trusted policy for optools mpl-python roles ([#1602](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1602)) ([436d939](https://github.com/aws/aws-cryptographic-material-providers-library/commit/436d93951038e4107b36bf1f4cb3a0a5fb870577))
+- **CI:** fix daily CI and add slack notification to it ([#1647](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1647)) ([c546646](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c546646a719b54f880a8aeccc6a6489fcf332070))
+- **CI:** send slack message on new GHI ([#1632](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1632)) ([e80b7ae](https://github.com/aws/aws-cryptographic-material-providers-library/commit/e80b7aeaf691e956b6177aa24633681dcfe7a7ba))
+- **CI:** Test Rust on Dafny prerelease in nightly build ([#1623](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1623)) ([92070bc](https://github.com/aws/aws-cryptographic-material-providers-library/commit/92070bc128da94a24cfb84cc1fdd50f8ce5623f7))
+- **CI:** update to not trigger workflow on PR comments ([#1640](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1640)) ([c62e8cf](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c62e8cf0bf6b3efa0ae479a57b08ca91ef0306b6))
+- **deps:** bump slackapi/slack-github-action from 2.1.0 to 2.1.1 in /.github/workflows ([#1638](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1638)) ([40b643f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/40b643f9b95e325131a99c7ac5227d0851927980))
+- **Go:** Add Go release script and workflow to run it ([#1562](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1562)) ([1c563bd](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1c563bdf8985f4c79b376929faa61496964dc69c))
+
+## [1.11.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.10.1...v1.11.0) (2025-06-17)
+
+This release is available in the following languages:
+
+- Java
+- Python
+
+### Fixes -- All Languages
+
+- **dafny:** bump Dafny libraries for JSON fix ([#1517](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1517)) ([d8679e5](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d8679e517ae3bc3b074325f849b5cb6c252c8f18))
+
+### Maintenance -- All Languages
+
+- **dafny:** BK fix to extract encryption context for branch key materials ([#1523](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1523)) ([95856ac](https://github.com/aws/aws-cryptographic-material-providers-library/commit/95856acd01ad26460a09eb171f2793a3109bfdbd))
+- **dafny:** don't recalculate RSA key on every decrypt ([#1448](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1448)) ([f318912](https://github.com/aws/aws-cryptographic-material-providers-library/commit/f318912eb419140c8e1cb4694b9bf69c3e239967))
+- **dafny:** Make HasSubString generic ([#1549](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1549)) ([6a1017f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6a1017f5f87f39bb8eace9e92704bb2b64b16e65))
+- **dafny:** more using uint64 instead of nat ([#1490](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1490)) ([571e3c5](https://github.com/aws/aws-cryptographic-material-providers-library/commit/571e3c564f1989e3c3df1fd765f4939326bc0893))
+- **dafny:** store privateKey in RawRSAKeyring because some Java code needs it ([#1450](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1450)) ([1c29322](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1c293223efb2bc9643a45e482daf37a87eeae197))
+- **dafny:** support for memory size constraints ([#1481](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1481)) ([8d2c2b5](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8d2c2b5d4e20f89d7bfad75fcd4d149894d390f3))
+- **dafny:** update UInt and MemoryMath as needed for DB-ESDK ([#1488](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1488)) ([49e596b](https://github.com/aws/aws-cryptographic-material-providers-library/commit/49e596b1cd8ce446d0b82074ff48ba0406aa8995))
+
+### Maintenance -- Java
+
+- **java:** migrate to Nexus Central for Maven publishing ([#1553](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1553)) ([7d2fcd3](https://github.com/aws/aws-cryptographic-material-providers-library/commit/7d2fcd392eb31f023669e309ab9fc557394e932b))
+
+### Maintenance -- Go
+
+- **go:** implement missing MutableMap::content() ([#1519](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1519)) ([f033b91](https://github.com/aws/aws-cryptographic-material-providers-library/commit/f033b915701eaa53d97019af61b96a51fed43483))
+- **go:** remove print statements from testLotsOfAdding ([#1468](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1468)) ([594383c](https://github.com/aws/aws-cryptographic-material-providers-library/commit/594383c6fa1ed9bb286290a0b67814953c88eef0))
+
+### Maintenance -- Rust
+
+- **rust:** remove print statements from testLotsOfAdding ([#1469](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1469)) ([9cf1dce](https://github.com/aws/aws-cryptographic-material-providers-library/commit/9cf1dce985d86d83d393e46b7e78697ebda85d90))
+- **rust:** update smithy-dafny, use small-int feature ([#1437](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1437)) ([515995e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/515995e68400e56fc720412fe355e6965715136e))
+
+### Miscellaneous
+
+- add MemoryMath to Index.dfy ([#1484](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1484)) ([3196e7d](https://github.com/aws/aws-cryptographic-material-providers-library/commit/3196e7d1e51fd6f1f31fca6d90c1c01d437ae830))
+- add MPL CI to principal of KmsKeyForRobbieOnly ([#1528](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1528)) ([527f69d](https://github.com/aws/aws-cryptographic-material-providers-library/commit/527f69d7c0eb2070406051047dcefbabadc374e4))
+- bump smithy-dafny to latest ([#1375](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1375)) ([d3e7916](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d3e79168a23381973fab90e0c11e5ec0fb8a37fd))
+- CFN for Restricted EC ([#1522](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1522)) ([391fa4c](https://github.com/aws/aws-cryptographic-material-providers-library/commit/391fa4c1163b6722752169181219408660cc9e09))
+- CFN for two new roles to prove prefixing/defixing behavior ([#1538](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1538)) ([e810e7d](https://github.com/aws/aws-cryptographic-material-providers-library/commit/e810e7da19c5242435eb8b9c2a922c56d3a6a966))
+- CFN KMS GDK for HV-2 ([#1464](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1464)) ([cfbaa58](https://github.com/aws/aws-cryptographic-material-providers-library/commit/cfbaa58f8976c5d7ff5351c4957b9539fcac7e54))
+- **CI:** Allow local testing ([#1371](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1371)) ([fe18948](https://github.com/aws/aws-cryptographic-material-providers-library/commit/fe189489ee0e21b3d12944673a9a1de756ee0bc9))
+- **CI:** Fix nightly build (mostly) ([#1540](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1540)) ([362ffc1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/362ffc1c8b5adb84af58e783dc5ef696ca103643))
+- **CI:** Fix nightly build workflow ([#1541](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1541)) ([48d69eb](https://github.com/aws/aws-cryptographic-material-providers-library/commit/48d69ebeda1e5167f26ebe8f87a51addab3d9afb))
+- Create KMS keys for HV1 & HV2 branch keys ([#1419](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1419)) ([2f0696d](https://github.com/aws/aws-cryptographic-material-providers-library/commit/2f0696dbd06e471f4b0bedea7239ec86ff39a79e))
+- Create Static Key Store table for storing static branch keys ([#1456](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1456)) ([96b8058](https://github.com/aws/aws-cryptographic-material-providers-library/commit/96b80589406a71503d2e87d2cff8968ac95abd71))
+- **dafny:** add tests for multiple utf8 ec entries ([#1424](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1424)) ([131ae58](https://github.com/aws/aws-cryptographic-material-providers-library/commit/131ae583de02cb8352f8a96d69a9e1c84fea7338))
+- **dafny:** restore static test branch key id ([#1404](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1404)) ([377de79](https://github.com/aws/aws-cryptographic-material-providers-library/commit/377de796f001ae21f69ac0e10f57709d0e6fa1ef))
+- **deps:** Extend supported pyca version range ([#1556](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1556)) ([89f47aa](https://github.com/aws/aws-cryptographic-material-providers-library/commit/89f47aa50a98e211a1cb669f8d7294e340f07723))
+- improve performance ([#1286](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1286)) ([d808fd8](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d808fd88df92acf64fb9ca0e7c652d72e05fa50a))
+- install polymorph dependencies in github workflows ([#1514](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1514)) ([eb68525](https://github.com/aws/aws-cryptographic-material-providers-library/commit/eb68525d9430ea4dcc355e7f17bef7bafe069035))
+- **Python:** bump pyca to 44.0 ([#1555](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1555)) ([4f4cd87](https://github.com/aws/aws-cryptographic-material-providers-library/commit/4f4cd87c5bea38d523aac00947d6678b5ea2b3a0))
+- resolve rust warning ([#1394](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1394)) ([e2fe1a4](https://github.com/aws/aws-cryptographic-material-providers-library/commit/e2fe1a4fc79d62c434bdbf72f8713b18ce74071a))
+- specify language in commits ([#1382](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1382)) ([ccd56cf](https://github.com/aws/aws-cryptographic-material-providers-library/commit/ccd56cfae7c784e3c852d1f4bcc0b7127525f7d8))
+
+## [1.10.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.10.0...v1.10.1) (2025-03-27)
+
+This release is available in the following languages:
+
+- Java
+
+### Maintenance -- All Languages
+
+- **dafny:** update ddb model ([#1357](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1357)) ([8f68a3e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8f68a3ec0e07dfdad9d25376412617dc4932aa0a))
+
+### Maintenance -- Java
+
+- **java:** harden LocalCMCTests.java ([#1365](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1365)) ([c0deb24](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c0deb245a2c8562c8adc6f6fce66e42c8bee8118))
+
+### Miscellaneous
+
+- add proper sleep handling in StormTracker for Python and .NET ([#1369](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1369)) ([77fd007](https://github.com/aws/aws-cryptographic-material-providers-library/commit/77fd007ecac4347087340fd74d56805ae57d3704))
+- **CI:** Allow local testing ([#1358](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1358)) ([5ecb410](https://github.com/aws/aws-cryptographic-material-providers-library/commit/5ecb410c3e79d5e986a98281a952bdd3807412a2))
+
+## [1.10.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.9.0...v1.10.0) (2025-03-24)
+
+This release is available in the following languages:
+
+- Python
+
+### Miscellaneous -- Python
+
+- **deps:** extend supported version of pytz library ([#1333](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1333)) ([6f6876a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6f6876aea8be186555e6430e039f4a6c6883c5d5))
+
+### Miscellaneous
+
+- clarify InFlightTTLExceeded exception ([#1169](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1169)) ([d1c42a6](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d1c42a6840a7846934b6e9124b170ef710cf2aba))
+- fix typos in documentation ([#1326](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1326)) ([7f59a7e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/7f59a7e073f2abe9effa89f7818ceb50bea9df26))
+- let fileio deal in uint8 instead of bv8 ([#1347](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1347)) ([80e28f3](https://github.com/aws/aws-cryptographic-material-providers-library/commit/80e28f3f7816e99ed22120cca6a81628a3ae4892))
+
+# [1.9.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.8.0...v1.9.0) (2025-02-03)
+
+This release is available in the following languages:
+
+- Java
+
+### Bug Fixes
+
+- CI ([d9e2a1e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d9e2a1e673a5a81ff030b45b6a66ead35040484f))
+- DafnyLibraries.FileIO extern ([b150c48](https://github.com/aws/aws-cryptographic-material-providers-library/commit/b150c48a0570407dc0462c6e91929ff18a92897c))
+- ECDH ValidatePublicKey err msg ([34a48fc](https://github.com/aws/aws-cryptographic-material-providers-library/commit/34a48fcde591a5aef53ec29a44e11885efcea8ea))
+- for test vectors, use SetToSequenceSorted ([#1034](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1034)) ([21ad206](https://github.com/aws/aws-cryptographic-material-providers-library/commit/21ad206c54de90276ff4c8a23311731e66ab2a73))
+- **GHW:** check-files apply to PR, not to diff b/w HEAD and branch ([#1075](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1075)) ([1f53a92](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1f53a92481e89ae7656acb5240919ed161abe74d))
+- improve golang externs ([#1133](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1133)) ([b6ee16e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/b6ee16e47ae44d5af140dd5b934870f21565aa18))
+- **Java:** Improve Collection of Errors string ([#1056](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1056)) ([9e195a1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/9e195a1960fa18e1dc6efd0c9057c2ec6aed8e11))
+- line breaks ([21536c7](https://github.com/aws/aws-cryptographic-material-providers-library/commit/21536c79fba4c31671bf02fd0cd56dad7e2d624e))
+- PR comments ([798214b](https://github.com/aws/aws-cryptographic-material-providers-library/commit/798214b474edbecca6907054d3635f6f9903f6d6))
+- PR comments ([a21c0b3](https://github.com/aws/aws-cryptographic-material-providers-library/commit/a21c0b38b7ac184697b98524e9fe93ac974c9a3a))
+- PR comments ([7dd95bc](https://github.com/aws/aws-cryptographic-material-providers-library/commit/7dd95bc8656f51d70529253691036ee10cc6b53a))
+- PR comments ([eed0d87](https://github.com/aws/aws-cryptographic-material-providers-library/commit/eed0d87ec161af904f57f229436bd731f465795d))
+- PR comments ([435515e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/435515eba9fbd3e457520aebfc1a26a968ab7a57))
+- re-enable aes_gcm_192 ([#1143](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1143)) ([23650a9](https://github.com/aws/aws-cryptographic-material-providers-library/commit/23650a9c6e1c897455e2d59d15b7d7a2c5a07cdd))
+- region ([5930ae4](https://github.com/aws/aws-cryptographic-material-providers-library/commit/5930ae44e17014e660132298ffd37528b711e3be))
+- region ([e3454b5](https://github.com/aws/aws-cryptographic-material-providers-library/commit/e3454b5a7fbf3c462ed56507133521a362ff89b1))
+- remove [@sensitive](https://github.com/sensitive) from smithy models ([#1123](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1123)) ([c939f3a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c939f3a6608aea60d1d3c2d6aa64ceef969457c2))
+- repo rename ([#1218](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1218)) ([c2f003c](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c2f003cb679b9282981b539bbe50102e0952cb97))
+- revert pyproject.toml drop ([b5dbb5c](https://github.com/aws/aws-cryptographic-material-providers-library/commit/b5dbb5c83d0cc1c13676694c721dc160087e2ba9))
+- rust code used for testing must be allowed dead code ([#1148](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1148)) ([5997919](https://github.com/aws/aws-cryptographic-material-providers-library/commit/59979192a51ef5b1864ac36d57925d55eb562fa2))
+- SetToSequence should be a method, not a function ([#1035](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1035)) ([1169bc8](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1169bc8ef34ebfe3937ea3be8acf7a187ef1517a))
+- smithy-dafny ([#1136](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1136)) ([6005777](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6005777e8157a1273a4293ac3b1c135d25140a47))
+
+### Features
+
+- Adds CI ([511ed35](https://github.com/aws/aws-cryptographic-material-providers-library/commit/511ed358751c846fca46e111001841f7dd7f3bf6))
+- check in polymorph go generated code ([#1137](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1137)) ([d0fefbf](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d0fefbf2a6a363a7aa6940ce7a45eb8e395654f0))
+- Check-in polymorph generated code ([bfc7cb9](https://github.com/aws/aws-cryptographic-material-providers-library/commit/bfc7cb9f5645544d956a1c500a686c133196eb02))
+- ddb Go externs ([1e3737b](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1e3737b2f6294e9399f19ac9fd7377f8b0e526f7))
+- **ddb:** Go release v0.0.1 ([#1201](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1201)) ([5293bfd](https://github.com/aws/aws-cryptographic-material-providers-library/commit/5293bfd755952b243a57c9cb7e6718d807e09d9a))
+- **ddb:** Go release v0.0.3 ([#1210](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1210)) ([983f553](https://github.com/aws/aws-cryptographic-material-providers-library/commit/983f553337954a97db43e2c8cfb8bfa3378db345))
+- **Go:** Go module rename ([#1196](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1196)) ([b0876ac](https://github.com/aws/aws-cryptographic-material-providers-library/commit/b0876ace8d4882dbee77887712469f799015e9dc))
+- kms externs for Go ([2d1f6d1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/2d1f6d1da826433c566c4ce4d5ff53d7f7ab1bdc))
+- **kms:** Go release v0.0.1 ([#1199](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1199)) ([9c80544](https://github.com/aws/aws-cryptographic-material-providers-library/commit/9c80544bbfeac5547915aa93795f9b79eac7db6b))
+- mpl externs ([#1105](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1105)) ([29bc52e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/29bc52eccca8dcb5cbce8c90563b8461b9ba0454))
+- **mpl:** Go release v0.0.1 ([#1211](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1211)) ([4508ab8](https://github.com/aws/aws-cryptographic-material-providers-library/commit/4508ab84bd6017e7db6f353d2195b93ac30761c9))
+- Primitives CI ([ce6e942](https://github.com/aws/aws-cryptographic-material-providers-library/commit/ce6e9421a0632beae2fe554f258d0243ec4b99c3))
+- Primitives for Go ([8066826](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8066826b3b17b2355af4d8bf94dab54325932ae6))
+- **primitives:** Go release v0.0.1 ([#1203](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1203)) ([6bf0bbe](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6bf0bbe25650da820c4133e1d1b1bce813d33a9e))
+- StandardLibrary for Go ([587b57e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/587b57ee5ec341c9961e0d1689dfb26b1a271055))
+- StandardLibrary for Go ([94b4fd0](https://github.com/aws/aws-cryptographic-material-providers-library/commit/94b4fd0e9f8a491103c5b9ca0b0c8ab892dd580e))
+- StandardLibrary for Go ([6ce1ce3](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6ce1ce32f65955fea922eb9237ee813fa5536eb8))
+- **StdLib:** Go v0.0.1 release ([#1195](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1195)) ([95e54bf](https://github.com/aws/aws-cryptographic-material-providers-library/commit/95e54bf5ab4a5881f04f11a00aae074c7810add3))
+
+# [1.8.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.4...v1.8.0) (2024-11-19)
+
+This release is available in the following languages:
+
+- Java
+
+### Bug Fixes
+
+- Drop SelectOpt from MutableMap ([bdb6509](https://github.com/aws/aws-cryptographic-material-providers-library/commit/bdb65098881245dfed0f2251bd654313e31b1b89))
+- Externs ([0bc1f96](https://github.com/aws/aws-cryptographic-material-providers-library/commit/0bc1f961462dd9e3821fea438e3067d543adab9c))
+- formatting ([b608ab8](https://github.com/aws/aws-cryptographic-material-providers-library/commit/b608ab88e155bdb23e21f8b3f0f75116b58b182d))
+- **Python-Release:** Run validate tests from release commit ([41c0c94](https://github.com/aws/aws-cryptographic-material-providers-library/commit/41c0c94aac165addcef6e75bc7bad5c1dffa16ac))
+- **Python:** CMCs release lock for unhandled runtime exceptions ([#979](https://github.com/aws/aws-cryptographic-material-providers-library/issues/979)) ([1510b77](https://github.com/aws/aws-cryptographic-material-providers-library/commit/1510b772550646b6e1f26df5b0e6e96b3e48a6e3))
+- **Python:** return error on interrupted sleep ([#1003](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1003)) ([405cf37](https://github.com/aws/aws-cryptographic-material-providers-library/commit/405cf37a20ffe8c36f49eccc95a7482ee97d3f7b))
+- remove input and output traits on DynamoDB operations ([#1012](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1012)) ([8377acf](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8377acfbd505236ca9bb58f21f95cfc5122d1cf9))
+- return error on interrupted sleep ([#993](https://github.com/aws/aws-cryptographic-material-providers-library/issues/993)) ([f49460a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/f49460a569ea03778db3d1856a54b7d9b53fb9e6))
+- rust CI ([42e39cc](https://github.com/aws/aws-cryptographic-material-providers-library/commit/42e39cc8e64b18387b738746457924bcf5dd47e9))
+
+### Features
+
+- **Rust:** Interop test vectors; bump Dafny to 4.9.0 ([#1004](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1004)) ([a505a30](https://github.com/aws/aws-cryptographic-material-providers-library/commit/a505a304f7cf7ed2490498af85c703dc85faf7ab))
+- Storm cache supports millisecond resolution ([#1011](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1011)) ([6f09d5d](https://github.com/aws/aws-cryptographic-material-providers-library/commit/6f09d5d23ecd76658e6d90b23e15ce5daade5bd2))
+
+# [1.7.4](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.3...v1.7.4) (2024-11-06)
+
+This release is available in the following languages:
+
+- Python
+
+### Bug Fixes
+
+- **Python:** Support Python 3.13 ([#953](https://github.com/aws/aws-cryptographic-material-providers-library/issues/953)) ([000baed](https://github.com/aws/aws-cryptographic-material-providers-library/commit/000baedfab341670952449837541c88ea5cf1dba))
+
+## [1.7.3](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.2...v1.7.3) (2024-10-31)
+
+This release is available in the following languages:
+
+- Python
+
+### Bug Fixes
+
+- python time externs should return integers ([#898](https://github.com/aws/aws-cryptographic-material-providers-library/issues/898)) ([56b9b67](https://github.com/aws/aws-cryptographic-material-providers-library/commit/56b9b6745eee5782bcec3f3e51f5b27a5ffe223e))
+
+## [1.7.2](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.1...v1.7.2) (2024-10-22)
+
+This release is available in the following languages:
+
+- Python
+
+### Bug Fixes
+
+- Move Java helper methods out of extern class ([#855](https://github.com/aws/aws-cryptographic-material-providers-library/issues/855)) ([61fddf8](https://github.com/aws/aws-cryptographic-material-providers-library/commit/61fddf8359749e9fd7f5c3151cfaf1c6c0bca747))
+- Smithy-Dafny update for separated classes and unions ([#806](https://github.com/aws/aws-cryptographic-material-providers-library/issues/806)) ([4b7cc5f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/4b7cc5f368e6a878d5e003484e88a33a0f2bb6d3))
+- variable name collision fix for Go ([ceaec06](https://github.com/aws/aws-cryptographic-material-providers-library/commit/ceaec06cd4a670659e8329d879558081a2401e2d))
+
+# [1.7.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.7.0...v1.7.1) (2024-10-11)
+
+This release is available in the following languages:
+
+- Python
+
+This is the first release for the Python implementation of the AWS Cryptographic Material Providers Library. ([#805](https://github.com/aws/aws-cryptographic-material-providers-library/issues/805)) ([cfb2f7e](https://github.com/aws/aws-cryptographic-material-providers-library/commit/cfb2f7e06c406b3f3ddb506a6356382737b53746))
+
+### Bug Fixes
+
+- **H-Keyring:** if getCache returns Error not EntryDoesNotExist, raise error ([#846](https://github.com/aws/aws-cryptographic-material-providers-library/issues/846)) ([3413fcb](https://github.com/aws/aws-cryptographic-material-providers-library/commit/3413fcbc889e2c31fb753ff3eca852c1d5db1140))
+- **H-Keyring:** if putCache throws EntryAlreadyExists, swallow ([#856](https://github.com/aws/aws-cryptographic-material-providers-library/issues/856)) ([d01a182
+  ](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d01a182b5e62010f44616dacd6730aa873dec4c7))
+
+# [1.7.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.6.0...v1.7.0) (2024-09-23)
+
+### Features
+
+- **HierarchyKeyring; CMC:** Shared cache across Hierarchy Keyrings ([#747](https://github.com/aws/aws-cryptographic-material-providers-library/issues/747)) ([d4709e9](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d4709e91fe05180ea13712cf657373515493a3f1))
+
 # [1.6.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.5.1...v1.6.0) (2024-09-10)
 
 ### Bug Fixes

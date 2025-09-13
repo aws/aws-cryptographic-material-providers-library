@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "aws-cryptography-internal-mpl-testvectors"
+version = "0.1.0"
+description = ""
+authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
+packages = [
+    { include = "aws_cryptography_materialproviders_test_vectors", from = "src" }
+]
+# Include generated internaldafny files in package distributions,
+# even though they are not included in version control
+include = ["**/internaldafny/generated/*.py"]
+
+[tool.poetry.dependencies]
+python = "^3.11.0"
+aws-cryptographic-material-providers = { path = "../../../AwsCryptographicMaterialProviders/runtimes/python", develop = false}
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core<2.0.0"]
+build-backend = "poetry.core.masonry.api"

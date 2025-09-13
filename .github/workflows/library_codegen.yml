@@ -25,7 +25,12 @@ jobs:
         # Note dotnet is only used for formatting generated code
         # in this workflow
         dotnet-version: ["6.0.x"]
-        os: [ubuntu-latest]
+        # Note python is only used for formatting generated code
+        # in this workflow.
+        # The workflow installs black and docformatter and runs them on generated code.
+        python-version: [3.11]
+        go-version: [1.23]
+        os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -48,7 +53,7 @@ jobs:
       # and to translate version strings such as "nightly-latest"
       # to an actual DAFNY_VERSION.
       - name: Setup Dafny
-        uses: dafny-lang/setup-dafny-action@v1.7.0
+        uses: ./.github/actions/setup_dafny
         with:
           dafny-version: ${{ inputs.dafny }}
 
@@ -57,14 +62,19 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Setup Java 17 for codegen
-        uses: actions/setup-java@v3
+      - name: Install Go
+        uses: actions/setup-go@v5
         with:
-          distribution: "corretto"
-          java-version: "17"
+          go-version: ${{ matrix.go-version }}
 
-      - name: Install Smithy-Dafny codegen dependencies
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+      - name: Install Go imports
+        shell: bash
+        run: |
+          go install golang.org/x/tools/cmd/goimports@latest
+
+      # even though we just installed dotnet 6, maybe dotnet 8 is out there somewhere
+      - name: Create temporary global.json
+        run: echo '{"sdk":{"rollForward":"latestFeature","version":"6.0.0"}}' > ./global.json
 
       - uses: ./.github/actions/polymorph_codegen
         with:

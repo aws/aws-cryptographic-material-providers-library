@@ -11,7 +11,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
   import UTF8
   import ComAmazonawsKmsTypes
   import Com.Amazonaws.Kms
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import AwsCryptographyPrimitivesTypes
   import MaterialProviders
   import Types = AwsCryptographyMaterialProvidersTypes
@@ -28,7 +28,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
 
   method {:test} TestRawEcdhDiscoveryOnEncryptFailure() {
     var mpl :- expect MaterialProviders.MaterialProviders();
-    var primitives :- expect Primitives.AtomicPrimitives();
+    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
     var keypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
@@ -71,7 +71,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
 
   method {:test} TestRawEcdhEphemeralOnDecryptFailure() {
     var mpl :- expect MaterialProviders.MaterialProviders();
-    var primitives :- expect Primitives.AtomicPrimitives();
+    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
     var keypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
@@ -115,7 +115,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
 
   method {:test} TestRawEcdhKeyringEphemeralDecryptOwnMessageFailure() {
     var mpl :- expect MaterialProviders.MaterialProviders();
-    var primitives :- expect Primitives.AtomicPrimitives();
+    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
     var keypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
@@ -179,7 +179,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
 
   method {:test} TestRawEcdhKeyringStaticSuccess() {
     var mpl :- expect MaterialProviders.MaterialProviders();
-    var primitives :- expect Primitives.AtomicPrimitives();
+    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
     var senderKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
@@ -248,7 +248,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
 
   method {:test} TestTwoRawEcdhKeyringStaticSuccess() {
     var mpl :- expect MaterialProviders.MaterialProviders();
-    var primitives :- expect Primitives.AtomicPrimitives();
+    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
     var senderKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
@@ -329,7 +329,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
 
   method {:test} TestTwoEcdhKeyringStaticSuccess() {
     var mpl :- expect MaterialProviders.MaterialProviders();
-    var primitives :- expect Primitives.AtomicPrimitives();
+    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
     var senderKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(
@@ -418,7 +418,7 @@ module {:options "/functionSyntax:4" } TestRawECDHKeyring {
 
   method {:test} TestRawEcdhKeyringEncryptDecryptSuccessDBESDKSuite() {
     var mpl :- expect MaterialProviders.MaterialProviders();
-    var primitives :- expect Primitives.AtomicPrimitives();
+    var primitives :- expect AtomicPrimitives.AtomicPrimitives();
 
     var senderKeypair :- expect primitives.GenerateECCKeyPair(
       PrimitiveTypes.GenerateECCKeyPairInput(

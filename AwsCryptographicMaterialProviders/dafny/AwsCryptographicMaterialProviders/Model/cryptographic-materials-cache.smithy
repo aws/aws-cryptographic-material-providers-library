@@ -8,6 +8,7 @@ use aws.polymorph#javadoc
 @range(min: 1)
 integer CountingNumber
 
+@smithy.api#suppress(["MutableLocalStateTrait"])
 @aws.polymorph#mutableLocalState
 @aws.polymorph#extendable
 resource CryptographicMaterialsCache {
@@ -50,6 +51,11 @@ structure PutCacheEntryInput {
 operation GetCacheEntry {
   input: GetCacheEntryInput,
   output: GetCacheEntryOutput,
+  errors: [
+    InFlightTTLExceeded
+    EntryDoesNotExist
+    //Technically, numerous other errors, depending on the implementation
+  ]
 }
 
 structure GetCacheEntryInput {
@@ -114,6 +120,7 @@ structure UpdateUsageMetadataInput {
 }
 
 @error("client")
+@documentation("The requested element is not in the cache; AWS Crypto Tools intends to deprecate this for a non-error control scheme.")
 structure EntryDoesNotExist {
   @required
   message: String,
@@ -121,6 +128,25 @@ structure EntryDoesNotExist {
 
 @error("client")
 structure EntryAlreadyExists {
+  @required
+  message: String,
+}
+
+@error("client")
+@documentation(
+"Thrown if a request is waiting for longer than `inflightTTL`.
+The Storm Tracking Cache protects against unbounded parallelism.
+The Storm Tracking Cache will only work `fanOut` number of concurrent requests.
+As requests are completed,
+queued requests are worked.
+If a request is not worked in less than `inflightTTL`,
+this exception is thrown.
+
+Note that this exception does NOT imply that the material requested
+is invalid or unreachable;
+it only implies that the cache had more requests to handle than it could
+with the given `fanOut` and `inflightTTL` constraints.")
+structure InFlightTTLExceeded {
   @required
   message: String,
 }
@@ -189,12 +215,12 @@ structure StormTrackingCache {
   entryPruningTailSize: CountingNumber,
 
   @required
-  @javadoc("How many seconds before expiration should an attempt be made to refresh the materials.
+  @javadoc("How much time before expiration should an attempt be made to refresh the materials.
   If zero, use a simple cache with no storm tracking.")
   gracePeriod: CountingNumber,
 
   @required
-  @javadoc("How many seconds between attempts to refresh the materials.")
+  @javadoc("How much time between attempts to refresh the materials.")
   graceInterval: CountingNumber,
 
   @required
@@ -202,20 +228,39 @@ structure StormTrackingCache {
   fanOut: CountingNumber,
 
   @required
-  @javadoc("How many seconds until an attempt to refresh the materials should be forgotten.")
+  @javadoc("How much time until an attempt to refresh the materials should be forgotten.")
   inFlightTTL: CountingNumber,
 
   @required
   @javadoc("How many milliseconds should a thread sleep if fanOut is exceeded.")
   sleepMilli: CountingNumber,
+
+  @javadoc("The time unit for gracePeriod, graceInterval, and inFlightTTL.
+  The default is seconds.
+  If this is set to milliseconds, then these values will be treated as milliseconds.")
+  timeUnits: TimeUnits
 }
+
+@enum([
+  {
+    name: "Seconds",
+    value: "Seconds",
+  },
+  {
+    name: "Milliseconds",
+    value: "Milliseconds",
+  },
+])
+string TimeUnits
 
 union CacheType {
   Default : DefaultCache,
   No: NoCache,
   SingleThreaded: SingleThreadedCache,
   MultiThreaded: MultiThreadedCache,
-  StormTracking: StormTrackingCache
+  StormTracking: StormTrackingCache,
+  @documentation("Shared cache across multiple Hierarchical Keyrings. For this cache type, the user should provide an already constructed CryptographicMaterialsCache to the Hierarchical Keyring at initialization.")
+  Shared: CryptographicMaterialsCacheReference
 }
 
 structure CreateCryptographicMaterialsCacheInput {

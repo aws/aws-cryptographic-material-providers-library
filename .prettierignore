@@ -1,11 +1,17 @@
 # Submodules that take care of their own specifications
 aws-encryption-sdk-specification
 libraries
+smithy-dafny
 
 # Runtime build objects
 */runtimes/java/build/*
 */runtimes/net/obj/*
 */runtimes/net/bin/*
+*/runtimes/rust/target/*
+*/runtimes/python/.tox/*
+
+# Net has lots of odd files
+*/runtimes/net/*
 
 # Dafny generated java
 */runtimes/java/src/*/dafny-generated/*
@@ -13,6 +19,7 @@ libraries
 # The manifest files
 test.json
 keys.json
+manifest.json
 
 # The smithy model files
 model.json

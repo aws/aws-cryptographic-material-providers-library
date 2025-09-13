@@ -5,13 +5,13 @@ include "../src/Index.dfy"
 include "../src/Digest.dfy"
 
 module TestAwsCryptographyPrimitivesDigest {
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened StandardLibrary.UInt
   import Digest
 
   method {:test} DigestTests() {
     BasicDigestTest(
-      digestAlgorithm := Primitives.Types.SHA_256,
+      digestAlgorithm := AtomicPrimitives.Types.SHA_256,
       // The string "asdf" as bytes
       message := [ 97, 115, 100, 102 ],
       expectedDigest := [
@@ -23,7 +23,7 @@ module TestAwsCryptographyPrimitivesDigest {
     );
 
     BasicDigestTest(
-      digestAlgorithm := Primitives.Types.SHA_384,
+      digestAlgorithm := AtomicPrimitives.Types.SHA_384,
       // The string "asdf" as bytes
       message := [ 97, 115, 100, 102 ],
       expectedDigest := [
@@ -37,7 +37,7 @@ module TestAwsCryptographyPrimitivesDigest {
     );
 
     BasicDigestTest(
-      digestAlgorithm := Primitives.Types.SHA_512,
+      digestAlgorithm := AtomicPrimitives.Types.SHA_512,
       // The string "asdf" as bytes
       message := [ 97, 115, 100, 102 ],
       expectedDigest := [
@@ -53,20 +53,20 @@ module TestAwsCryptographyPrimitivesDigest {
   }
 
   method BasicDigestTest(
-    nameonly digestAlgorithm: Primitives.Types.DigestAlgorithm,
+    nameonly digestAlgorithm: AtomicPrimitives.Types.DigestAlgorithm,
     nameonly message: seq<uint8>,
     nameonly expectedDigest: seq<uint8>
   )
   {
-    var client :- expect Primitives.AtomicPrimitives();
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
 
-    var input := Primitives.Types.DigestInput(
+    var input := AtomicPrimitives.Types.DigestInput(
       digestAlgorithm := digestAlgorithm,
       message := message
     );
 
     var output :- expect client.Digest(input);
-    expect |output| == Digest.Length(digestAlgorithm);
+    expect |output| == Digest.Length(digestAlgorithm) as nat;
     expect output == expectedDigest;
   }
 }

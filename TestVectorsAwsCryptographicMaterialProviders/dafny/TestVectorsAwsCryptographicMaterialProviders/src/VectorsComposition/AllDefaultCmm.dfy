@@ -16,6 +16,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
   import TestVectors
   import KeyVectorsTypes = AwsCryptographyMaterialProvidersTestVectorKeysTypes
   import Types = AwsCryptographyMaterialProvidersTypes
+  import opened UInt = StandardLibrary.UInt
 
   const StaticNotPlaintextDataKey
     := KeyVectorsTypes.Static(KeyVectorsTypes.StaticKeyring(
@@ -55,6 +56,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
   const a := UTF8.Encode("a").value
   const b := UTF8.Encode("b").value
   const c := UTF8.Encode("c").value
+  const d : seq<uint8> := [0xf0, 0x90, 0x80, 0x82] // "𐀂" as utf8
 
   // Dafny has trouble with complex operations on maps in Java
   // by decomposing this outside the set comprehension
@@ -92,7 +94,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
           encryptDescription := RawAesKeyring,
           decryptDescription := RawAesKeyring,
           encryptionContext := encryptionContext,
-          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)),
+          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, b) => a < b)),
           reproducedEncryptionContext := Some(reproducedEncryptionContext)
         )
 
@@ -127,7 +129,7 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
           encryptDescription := RawAesKeyring,
           decryptDescription := RawAesKeyring,
           encryptionContext := encryptionContext,
-          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToSequence(requiredEncryptionContextKeys)),
+          requiredEncryptionContextKeys := Some(SortedSets.ComputeSetToOrderedSequence2(requiredEncryptionContextKeys, (a, b) => a < b)),
           reproducedEncryptionContext := Some(reproducedEncryptionContext)
         )
 
@@ -141,6 +143,14 @@ module {:options "-functionSyntax:4"} AllDefaultCmm {
       encryptDescription := StaticPlaintextDataKey,
       decryptDescription := StaticPlaintextDataKey,
       encryptionContext := map[]
+    ),
+    TestVectors.PositiveEncryptKeyringVector(
+      name := "SurrogatePair Encryption Context Test",
+      commitmentPolicy := AllAlgorithmSuites.GetCompatibleCommitmentPolicy(StaticAlgorithmSuite),
+      algorithmSuite := StaticAlgorithmSuite,
+      encryptDescription := RawAesKeyring,
+      decryptDescription := RawAesKeyring,
+      encryptionContext := map[d := d]
     ),
     TestVectors.NegativeEncryptKeyringVector(
       name := "Missing plaintext data key on decrypt",

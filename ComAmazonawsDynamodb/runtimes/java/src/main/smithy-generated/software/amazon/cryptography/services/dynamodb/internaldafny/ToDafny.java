@@ -43,6 +43,8 @@ import software.amazon.awssdk.services.dynamodb.model.DeleteBackupRequest;
 import software.amazon.awssdk.services.dynamodb.model.DeleteBackupResponse;
 import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.DeleteItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.DeleteResourcePolicyRequest;
+import software.amazon.awssdk.services.dynamodb.model.DeleteResourcePolicyResponse;
 import software.amazon.awssdk.services.dynamodb.model.DeleteTableRequest;
 import software.amazon.awssdk.services.dynamodb.model.DeleteTableResponse;
 import software.amazon.awssdk.services.dynamodb.model.DescribeBackupRequest;
@@ -85,6 +87,8 @@ import software.amazon.awssdk.services.dynamodb.model.ExportTableToPointInTimeRe
 import software.amazon.awssdk.services.dynamodb.model.ExportTableToPointInTimeResponse;
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.GetResourcePolicyRequest;
+import software.amazon.awssdk.services.dynamodb.model.GetResourcePolicyResponse;
 import software.amazon.awssdk.services.dynamodb.model.GlobalTableAlreadyExistsException;
 import software.amazon.awssdk.services.dynamodb.model.GlobalTableNotFoundException;
 import software.amazon.awssdk.services.dynamodb.model.IdempotentParameterMismatchException;
@@ -113,9 +117,12 @@ import software.amazon.awssdk.services.dynamodb.model.ListTablesResponse;
 import software.amazon.awssdk.services.dynamodb.model.ListTagsOfResourceRequest;
 import software.amazon.awssdk.services.dynamodb.model.ListTagsOfResourceResponse;
 import software.amazon.awssdk.services.dynamodb.model.PointInTimeRecoveryUnavailableException;
+import software.amazon.awssdk.services.dynamodb.model.PolicyNotFoundException;
 import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughputExceededException;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.PutItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.PutResourcePolicyRequest;
+import software.amazon.awssdk.services.dynamodb.model.PutResourcePolicyResponse;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 import software.amazon.awssdk.services.dynamodb.model.ReplicaAlreadyExistsException;
@@ -151,12 +158,15 @@ import software.amazon.awssdk.services.dynamodb.model.UpdateGlobalTableSettingsR
 import software.amazon.awssdk.services.dynamodb.model.UpdateGlobalTableSettingsResponse;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemResponse;
+import software.amazon.awssdk.services.dynamodb.model.UpdateKinesisStreamingDestinationRequest;
+import software.amazon.awssdk.services.dynamodb.model.UpdateKinesisStreamingDestinationResponse;
 import software.amazon.awssdk.services.dynamodb.model.UpdateTableReplicaAutoScalingRequest;
 import software.amazon.awssdk.services.dynamodb.model.UpdateTableReplicaAutoScalingResponse;
 import software.amazon.awssdk.services.dynamodb.model.UpdateTableRequest;
 import software.amazon.awssdk.services.dynamodb.model.UpdateTableResponse;
 import software.amazon.awssdk.services.dynamodb.model.UpdateTimeToLiveRequest;
 import software.amazon.awssdk.services.dynamodb.model.UpdateTimeToLiveResponse;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.ApproximateCreationDateTimePrecision;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ArchivalSummary;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.AttributeAction;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.AttributeDefinition;
@@ -218,6 +228,8 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Delete
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteReplicaAction;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteReplicationGroupMemberAction;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteRequest;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteResourcePolicyInput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteResourcePolicyOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteTableInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DeleteTableOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DescribeBackupInput;
@@ -249,6 +261,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Descri
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DestinationStatus;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DisableKinesisStreamingDestinationInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.DisableKinesisStreamingDestinationOutput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.EnableKinesisStreamingConfiguration;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.EnableKinesisStreamingDestinationInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.EnableKinesisStreamingDestinationOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Endpoint;
@@ -272,6 +285,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ItemCollectionSizeLimitExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_LimitExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_PointInTimeRecoveryUnavailableException;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_PolicyNotFoundException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ProvisionedThroughputExceededException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ReplicaAlreadyExistsException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Error_ReplicaNotFoundException;
@@ -295,10 +309,14 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Export
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ExportSummary;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ExportTableToPointInTimeInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ExportTableToPointInTimeOutput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.ExportType;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.ExportViewType;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.FailureException;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Get;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GetItemInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GetItemOutput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.GetResourcePolicyInput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.GetResourcePolicyOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GlobalSecondaryIndex;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GlobalSecondaryIndexAutoScalingUpdate;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.GlobalSecondaryIndexDescription;
@@ -314,6 +332,7 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Import
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ImportTableDescription;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ImportTableInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ImportTableOutput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.IncrementalExportSpecification;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.IndexStatus;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.InputCompressionType;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.InputFormat;
@@ -342,6 +361,8 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.ListTa
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.LocalSecondaryIndex;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.LocalSecondaryIndexDescription;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.LocalSecondaryIndexInfo;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.OnDemandThroughput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.OnDemandThroughputOverride;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.ParameterizedStatement;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.PointInTimeRecoveryDescription;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.PointInTimeRecoverySpecification;
@@ -355,6 +376,8 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Put;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.PutItemInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.PutItemOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.PutRequest;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.PutResourcePolicyInput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.PutResourcePolicyOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.QueryInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.QueryOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.Replica;
@@ -425,6 +448,9 @@ import software.amazon.cryptography.services.dynamodb.internaldafny.types.Update
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateGlobalTableSettingsOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateItemInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateItemOutput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateKinesisStreamingConfiguration;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateKinesisStreamingDestinationInput;
+import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateKinesisStreamingDestinationOutput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateReplicationGroupMemberAction;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateTableInput;
 import software.amazon.cryptography.services.dynamodb.internaldafny.types.UpdateTableOutput;
@@ -1376,7 +1402,36 @@ public class ToDafny {
         : Option.create_None(
           DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
         );
-    return new BatchStatementError(code, message);
+    Option<
+      DafnyMap<
+        ? extends DafnySequence<? extends Character>,
+        ? extends AttributeValue
+      >
+    > item;
+    item =
+      (Objects.nonNull(nativeValue.item()) && nativeValue.item().size() > 0)
+        ? Option.create_Some(
+          TypeDescriptor.referenceWithInitializer(
+            dafny.DafnyMap.class,
+            () ->
+              dafny.DafnyMap.<
+                dafny.DafnySequence<? extends Character>,
+                AttributeValue
+              >empty()
+          ),
+          ToDafny.AttributeMap(nativeValue.item())
+        )
+        : Option.create_None(
+          TypeDescriptor.referenceWithInitializer(
+            dafny.DafnyMap.class,
+            () ->
+              dafny.DafnyMap.<
+                dafny.DafnySequence<? extends Character>,
+                AttributeValue
+              >empty()
+          )
+        );
+    return new BatchStatementError(code, message, item);
   }
 
   public static BatchStatementRequest BatchStatementRequest(
@@ -1406,7 +1461,26 @@ public class ToDafny {
           (nativeValue.consistentRead())
         )
         : Option.create_None(TypeDescriptor.BOOLEAN);
-    return new BatchStatementRequest(statement, parameters, consistentRead);
+    Option<
+      ReturnValuesOnConditionCheckFailure
+    > returnValuesOnConditionCheckFailure;
+    returnValuesOnConditionCheckFailure =
+      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
+        ? Option.create_Some(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
+          ToDafny.ReturnValuesOnConditionCheckFailure(
+            nativeValue.returnValuesOnConditionCheckFailure()
+          )
+        )
+        : Option.create_None(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor()
+        );
+    return new BatchStatementRequest(
+      statement,
+      parameters,
+      consistentRead,
+      returnValuesOnConditionCheckFailure
+    );
   }
 
   public static BatchStatementResponse BatchStatementResponse(
@@ -2104,11 +2178,20 @@ public class ToDafny {
           ToDafny.ProvisionedThroughput(nativeValue.provisionedThroughput())
         )
         : Option.create_None(ProvisionedThroughput._typeDescriptor());
+    Option<OnDemandThroughput> onDemandThroughput;
+    onDemandThroughput =
+      Objects.nonNull(nativeValue.onDemandThroughput())
+        ? Option.create_Some(
+          OnDemandThroughput._typeDescriptor(),
+          ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
+        )
+        : Option.create_None(OnDemandThroughput._typeDescriptor());
     return new CreateGlobalSecondaryIndexAction(
       indexName,
       keySchema,
       projection,
-      provisionedThroughput
+      provisionedThroughput,
+      onDemandThroughput
     );
   }
 
@@ -2180,6 +2263,16 @@ public class ToDafny {
           )
         )
         : Option.create_None(ProvisionedThroughputOverride._typeDescriptor());
+    Option<OnDemandThroughputOverride> onDemandThroughputOverride;
+    onDemandThroughputOverride =
+      Objects.nonNull(nativeValue.onDemandThroughputOverride())
+        ? Option.create_Some(
+          OnDemandThroughputOverride._typeDescriptor(),
+          ToDafny.OnDemandThroughputOverride(
+            nativeValue.onDemandThroughputOverride()
+          )
+        )
+        : Option.create_None(OnDemandThroughputOverride._typeDescriptor());
     Option<
       DafnySequence<? extends ReplicaGlobalSecondaryIndex>
     > globalSecondaryIndexes;
@@ -2211,6 +2304,7 @@ public class ToDafny {
       regionName,
       kMSMasterKeyId,
       provisionedThroughputOverride,
+      onDemandThroughputOverride,
       globalSecondaryIndexes,
       tableClassOverride
     );
@@ -2303,6 +2397,34 @@ public class ToDafny {
           ToDafny.TableClass(nativeValue.tableClass())
         )
         : Option.create_None(TableClass._typeDescriptor());
+    Option<Boolean> deletionProtectionEnabled;
+    deletionProtectionEnabled =
+      Objects.nonNull(nativeValue.deletionProtectionEnabled())
+        ? Option.create_Some(
+          TypeDescriptor.BOOLEAN,
+          (nativeValue.deletionProtectionEnabled())
+        )
+        : Option.create_None(TypeDescriptor.BOOLEAN);
+    Option<DafnySequence<? extends Character>> resourcePolicy;
+    resourcePolicy =
+      Objects.nonNull(nativeValue.resourcePolicy())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.resourcePolicy()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    Option<OnDemandThroughput> onDemandThroughput;
+    onDemandThroughput =
+      Objects.nonNull(nativeValue.onDemandThroughput())
+        ? Option.create_Some(
+          OnDemandThroughput._typeDescriptor(),
+          ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
+        )
+        : Option.create_None(OnDemandThroughput._typeDescriptor());
     return new CreateTableInput(
       attributeDefinitions,
       tableName,
@@ -2314,7 +2436,10 @@ public class ToDafny {
       streamSpecification,
       sSESpecification,
       tags,
-      tableClass
+      tableClass,
+      deletionProtectionEnabled,
+      resourcePolicy,
+      onDemandThroughput
     );
   }
 
@@ -2637,6 +2762,20 @@ public class ToDafny {
             AttributeValue._typeDescriptor()
           )
         );
+    Option<
+      ReturnValuesOnConditionCheckFailure
+    > returnValuesOnConditionCheckFailure;
+    returnValuesOnConditionCheckFailure =
+      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
+        ? Option.create_Some(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
+          ToDafny.ReturnValuesOnConditionCheckFailure(
+            nativeValue.returnValuesOnConditionCheckFailure()
+          )
+        )
+        : Option.create_None(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor()
+        );
     return new DeleteItemInput(
       tableName,
       key,
@@ -2647,7 +2786,8 @@ public class ToDafny {
       returnItemCollectionMetrics,
       conditionExpression,
       expressionAttributeNames,
-      expressionAttributeValues
+      expressionAttributeValues,
+      returnValuesOnConditionCheckFailure
     );
   }
 
@@ -2738,6 +2878,47 @@ public class ToDafny {
     > key;
     key = ToDafny.Key(nativeValue.key());
     return new DeleteRequest(key);
+  }
+
+  public static DeleteResourcePolicyInput DeleteResourcePolicyInput(
+    DeleteResourcePolicyRequest nativeValue
+  ) {
+    DafnySequence<? extends Character> resourceArn;
+    resourceArn =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.resourceArn()
+      );
+    Option<DafnySequence<? extends Character>> expectedRevisionId;
+    expectedRevisionId =
+      Objects.nonNull(nativeValue.expectedRevisionId())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.expectedRevisionId()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    return new DeleteResourcePolicyInput(resourceArn, expectedRevisionId);
+  }
+
+  public static DeleteResourcePolicyOutput DeleteResourcePolicyOutput(
+    DeleteResourcePolicyResponse nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> revisionId;
+    revisionId =
+      Objects.nonNull(nativeValue.revisionId())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.revisionId()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    return new DeleteResourcePolicyOutput(revisionId);
   }
 
   public static DeleteTableInput DeleteTableInput(
@@ -3249,7 +3430,25 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.streamArn()
       );
-    return new DisableKinesisStreamingDestinationInput(tableName, streamArn);
+    Option<
+      EnableKinesisStreamingConfiguration
+    > enableKinesisStreamingConfiguration;
+    enableKinesisStreamingConfiguration =
+      Objects.nonNull(nativeValue.enableKinesisStreamingConfiguration())
+        ? Option.create_Some(
+          EnableKinesisStreamingConfiguration._typeDescriptor(),
+          ToDafny.EnableKinesisStreamingConfiguration(
+            nativeValue.enableKinesisStreamingConfiguration()
+          )
+        )
+        : Option.create_None(
+          EnableKinesisStreamingConfiguration._typeDescriptor()
+        );
+    return new DisableKinesisStreamingDestinationInput(
+      tableName,
+      streamArn,
+      enableKinesisStreamingConfiguration
+    );
   }
 
   public static DisableKinesisStreamingDestinationOutput DisableKinesisStreamingDestinationOutput(
@@ -3287,10 +3486,47 @@ public class ToDafny {
           ToDafny.DestinationStatus(nativeValue.destinationStatus())
         )
         : Option.create_None(DestinationStatus._typeDescriptor());
+    Option<
+      EnableKinesisStreamingConfiguration
+    > enableKinesisStreamingConfiguration;
+    enableKinesisStreamingConfiguration =
+      Objects.nonNull(nativeValue.enableKinesisStreamingConfiguration())
+        ? Option.create_Some(
+          EnableKinesisStreamingConfiguration._typeDescriptor(),
+          ToDafny.EnableKinesisStreamingConfiguration(
+            nativeValue.enableKinesisStreamingConfiguration()
+          )
+        )
+        : Option.create_None(
+          EnableKinesisStreamingConfiguration._typeDescriptor()
+        );
     return new DisableKinesisStreamingDestinationOutput(
       tableName,
       streamArn,
-      destinationStatus
+      destinationStatus,
+      enableKinesisStreamingConfiguration
+    );
+  }
+
+  public static EnableKinesisStreamingConfiguration EnableKinesisStreamingConfiguration(
+    software.amazon.awssdk.services.dynamodb.model.EnableKinesisStreamingConfiguration nativeValue
+  ) {
+    Option<
+      ApproximateCreationDateTimePrecision
+    > approximateCreationDateTimePrecision;
+    approximateCreationDateTimePrecision =
+      Objects.nonNull(nativeValue.approximateCreationDateTimePrecision())
+        ? Option.create_Some(
+          ApproximateCreationDateTimePrecision._typeDescriptor(),
+          ToDafny.ApproximateCreationDateTimePrecision(
+            nativeValue.approximateCreationDateTimePrecision()
+          )
+        )
+        : Option.create_None(
+          ApproximateCreationDateTimePrecision._typeDescriptor()
+        );
+    return new EnableKinesisStreamingConfiguration(
+      approximateCreationDateTimePrecision
     );
   }
 
@@ -3307,7 +3543,25 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.streamArn()
       );
-    return new EnableKinesisStreamingDestinationInput(tableName, streamArn);
+    Option<
+      EnableKinesisStreamingConfiguration
+    > enableKinesisStreamingConfiguration;
+    enableKinesisStreamingConfiguration =
+      Objects.nonNull(nativeValue.enableKinesisStreamingConfiguration())
+        ? Option.create_Some(
+          EnableKinesisStreamingConfiguration._typeDescriptor(),
+          ToDafny.EnableKinesisStreamingConfiguration(
+            nativeValue.enableKinesisStreamingConfiguration()
+          )
+        )
+        : Option.create_None(
+          EnableKinesisStreamingConfiguration._typeDescriptor()
+        );
+    return new EnableKinesisStreamingDestinationInput(
+      tableName,
+      streamArn,
+      enableKinesisStreamingConfiguration
+    );
   }
 
   public static EnableKinesisStreamingDestinationOutput EnableKinesisStreamingDestinationOutput(
@@ -3345,10 +3599,25 @@ public class ToDafny {
           ToDafny.DestinationStatus(nativeValue.destinationStatus())
         )
         : Option.create_None(DestinationStatus._typeDescriptor());
+    Option<
+      EnableKinesisStreamingConfiguration
+    > enableKinesisStreamingConfiguration;
+    enableKinesisStreamingConfiguration =
+      Objects.nonNull(nativeValue.enableKinesisStreamingConfiguration())
+        ? Option.create_Some(
+          EnableKinesisStreamingConfiguration._typeDescriptor(),
+          ToDafny.EnableKinesisStreamingConfiguration(
+            nativeValue.enableKinesisStreamingConfiguration()
+          )
+        )
+        : Option.create_None(
+          EnableKinesisStreamingConfiguration._typeDescriptor()
+        );
     return new EnableKinesisStreamingDestinationOutput(
       tableName,
       streamArn,
-      destinationStatus
+      destinationStatus,
+      enableKinesisStreamingConfiguration
     );
   }
 
@@ -3427,13 +3696,28 @@ public class ToDafny {
       Objects.nonNull(nativeValue.limit())
         ? Option.create_Some(TypeDescriptor.INT, (nativeValue.limit()))
         : Option.create_None(TypeDescriptor.INT);
+    Option<
+      ReturnValuesOnConditionCheckFailure
+    > returnValuesOnConditionCheckFailure;
+    returnValuesOnConditionCheckFailure =
+      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
+        ? Option.create_Some(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
+          ToDafny.ReturnValuesOnConditionCheckFailure(
+            nativeValue.returnValuesOnConditionCheckFailure()
+          )
+        )
+        : Option.create_None(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor()
+        );
     return new ExecuteStatementInput(
       statement,
       parameters,
       consistentRead,
       nextToken,
       returnConsumedCapacity,
-      limit
+      limit,
+      returnValuesOnConditionCheckFailure
     );
   }
 
@@ -3861,6 +4145,24 @@ public class ToDafny {
       Objects.nonNull(nativeValue.itemCount())
         ? Option.create_Some(TypeDescriptor.LONG, (nativeValue.itemCount()))
         : Option.create_None(TypeDescriptor.LONG);
+    Option<ExportType> exportType;
+    exportType =
+      Objects.nonNull(nativeValue.exportType())
+        ? Option.create_Some(
+          ExportType._typeDescriptor(),
+          ToDafny.ExportType(nativeValue.exportType())
+        )
+        : Option.create_None(ExportType._typeDescriptor());
+    Option<IncrementalExportSpecification> incrementalExportSpecification;
+    incrementalExportSpecification =
+      Objects.nonNull(nativeValue.incrementalExportSpecification())
+        ? Option.create_Some(
+          IncrementalExportSpecification._typeDescriptor(),
+          ToDafny.IncrementalExportSpecification(
+            nativeValue.incrementalExportSpecification()
+          )
+        )
+        : Option.create_None(IncrementalExportSpecification._typeDescriptor());
     return new ExportDescription(
       exportArn,
       exportStatus,
@@ -3880,7 +4182,9 @@ public class ToDafny {
       failureMessage,
       exportFormat,
       billedSizeBytes,
-      itemCount
+      itemCount,
+      exportType,
+      incrementalExportSpecification
     );
   }
 
@@ -3919,7 +4223,15 @@ public class ToDafny {
           ToDafny.ExportStatus(nativeValue.exportStatus())
         )
         : Option.create_None(ExportStatus._typeDescriptor());
-    return new ExportSummary(exportArn, exportStatus);
+    Option<ExportType> exportType;
+    exportType =
+      Objects.nonNull(nativeValue.exportType())
+        ? Option.create_Some(
+          ExportType._typeDescriptor(),
+          ToDafny.ExportType(nativeValue.exportType())
+        )
+        : Option.create_None(ExportType._typeDescriptor());
+    return new ExportSummary(exportArn, exportStatus, exportType);
   }
 
   public static ExportTableToPointInTimeInput ExportTableToPointInTimeInput(
@@ -4011,6 +4323,24 @@ public class ToDafny {
           ToDafny.ExportFormat(nativeValue.exportFormat())
         )
         : Option.create_None(ExportFormat._typeDescriptor());
+    Option<ExportType> exportType;
+    exportType =
+      Objects.nonNull(nativeValue.exportType())
+        ? Option.create_Some(
+          ExportType._typeDescriptor(),
+          ToDafny.ExportType(nativeValue.exportType())
+        )
+        : Option.create_None(ExportType._typeDescriptor());
+    Option<IncrementalExportSpecification> incrementalExportSpecification;
+    incrementalExportSpecification =
+      Objects.nonNull(nativeValue.incrementalExportSpecification())
+        ? Option.create_Some(
+          IncrementalExportSpecification._typeDescriptor(),
+          ToDafny.IncrementalExportSpecification(
+            nativeValue.incrementalExportSpecification()
+          )
+        )
+        : Option.create_None(IncrementalExportSpecification._typeDescriptor());
     return new ExportTableToPointInTimeInput(
       tableArn,
       exportTime,
@@ -4020,7 +4350,9 @@ public class ToDafny {
       s3Prefix,
       s3SseAlgorithm,
       s3SseKmsKeyId,
-      exportFormat
+      exportFormat,
+      exportType,
+      incrementalExportSpecification
     );
   }
 
@@ -4300,6 +4632,47 @@ public class ToDafny {
     return new GetItemOutput(item, consumedCapacity);
   }
 
+  public static GetResourcePolicyInput GetResourcePolicyInput(
+    GetResourcePolicyRequest nativeValue
+  ) {
+    DafnySequence<? extends Character> resourceArn;
+    resourceArn =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.resourceArn()
+      );
+    return new GetResourcePolicyInput(resourceArn);
+  }
+
+  public static GetResourcePolicyOutput GetResourcePolicyOutput(
+    GetResourcePolicyResponse nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> policy;
+    policy =
+      Objects.nonNull(nativeValue.policy())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.policy()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    Option<DafnySequence<? extends Character>> revisionId;
+    revisionId =
+      Objects.nonNull(nativeValue.revisionId())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.revisionId()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    return new GetResourcePolicyOutput(policy, revisionId);
+  }
+
   public static GlobalSecondaryIndex GlobalSecondaryIndex(
     software.amazon.awssdk.services.dynamodb.model.GlobalSecondaryIndex nativeValue
   ) {
@@ -4320,11 +4693,20 @@ public class ToDafny {
           ToDafny.ProvisionedThroughput(nativeValue.provisionedThroughput())
         )
         : Option.create_None(ProvisionedThroughput._typeDescriptor());
+    Option<OnDemandThroughput> onDemandThroughput;
+    onDemandThroughput =
+      Objects.nonNull(nativeValue.onDemandThroughput())
+        ? Option.create_Some(
+          OnDemandThroughput._typeDescriptor(),
+          ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
+        )
+        : Option.create_None(OnDemandThroughput._typeDescriptor());
     return new GlobalSecondaryIndex(
       indexName,
       keySchema,
       projection,
-      provisionedThroughput
+      provisionedThroughput,
+      onDemandThroughput
     );
   }
 
@@ -4460,6 +4842,14 @@ public class ToDafny {
         : Option.create_None(
           DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
         );
+    Option<OnDemandThroughput> onDemandThroughput;
+    onDemandThroughput =
+      Objects.nonNull(nativeValue.onDemandThroughput())
+        ? Option.create_Some(
+          OnDemandThroughput._typeDescriptor(),
+          ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
+        )
+        : Option.create_None(OnDemandThroughput._typeDescriptor());
     return new GlobalSecondaryIndexDescription(
       indexName,
       keySchema,
@@ -4469,7 +4859,8 @@ public class ToDafny {
       provisionedThroughput,
       indexSizeBytes,
       itemCount,
-      indexArn
+      indexArn,
+      onDemandThroughput
     );
   }
 
@@ -4543,11 +4934,20 @@ public class ToDafny {
           ToDafny.ProvisionedThroughput(nativeValue.provisionedThroughput())
         )
         : Option.create_None(ProvisionedThroughput._typeDescriptor());
+    Option<OnDemandThroughput> onDemandThroughput;
+    onDemandThroughput =
+      Objects.nonNull(nativeValue.onDemandThroughput())
+        ? Option.create_Some(
+          OnDemandThroughput._typeDescriptor(),
+          ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
+        )
+        : Option.create_None(OnDemandThroughput._typeDescriptor());
     return new GlobalSecondaryIndexInfo(
       indexName,
       keySchema,
       projection,
-      provisionedThroughput
+      provisionedThroughput,
+      onDemandThroughput
     );
   }
 
@@ -5151,6 +5551,48 @@ public class ToDafny {
     return new ImportTableOutput(importTableDescription);
   }
 
+  public static IncrementalExportSpecification IncrementalExportSpecification(
+    software.amazon.awssdk.services.dynamodb.model.IncrementalExportSpecification nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> exportFromTime;
+    exportFromTime =
+      Objects.nonNull(nativeValue.exportFromTime())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.exportFromTime()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    Option<DafnySequence<? extends Character>> exportToTime;
+    exportToTime =
+      Objects.nonNull(nativeValue.exportToTime())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.exportToTime()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    Option<ExportViewType> exportViewType;
+    exportViewType =
+      Objects.nonNull(nativeValue.exportViewType())
+        ? Option.create_Some(
+          ExportViewType._typeDescriptor(),
+          ToDafny.ExportViewType(nativeValue.exportViewType())
+        )
+        : Option.create_None(ExportViewType._typeDescriptor());
+    return new IncrementalExportSpecification(
+      exportFromTime,
+      exportToTime,
+      exportViewType
+    );
+  }
+
   public static InputFormatOptions InputFormatOptions(
     software.amazon.awssdk.services.dynamodb.model.InputFormatOptions nativeValue
   ) {
@@ -5547,10 +5989,25 @@ public class ToDafny {
         : Option.create_None(
           DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
         );
+    Option<
+      ApproximateCreationDateTimePrecision
+    > approximateCreationDateTimePrecision;
+    approximateCreationDateTimePrecision =
+      Objects.nonNull(nativeValue.approximateCreationDateTimePrecision())
+        ? Option.create_Some(
+          ApproximateCreationDateTimePrecision._typeDescriptor(),
+          ToDafny.ApproximateCreationDateTimePrecision(
+            nativeValue.approximateCreationDateTimePrecision()
+          )
+        )
+        : Option.create_None(
+          ApproximateCreationDateTimePrecision._typeDescriptor()
+        );
     return new KinesisDataStreamDestination(
       streamArn,
       destinationStatus,
-      destinationStatusDescription
+      destinationStatusDescription,
+      approximateCreationDateTimePrecision
     );
   }
 
@@ -6263,6 +6720,42 @@ public class ToDafny {
     );
   }
 
+  public static OnDemandThroughput OnDemandThroughput(
+    software.amazon.awssdk.services.dynamodb.model.OnDemandThroughput nativeValue
+  ) {
+    Option<Long> maxReadRequestUnits;
+    maxReadRequestUnits =
+      Objects.nonNull(nativeValue.maxReadRequestUnits())
+        ? Option.create_Some(
+          TypeDescriptor.LONG,
+          (nativeValue.maxReadRequestUnits())
+        )
+        : Option.create_None(TypeDescriptor.LONG);
+    Option<Long> maxWriteRequestUnits;
+    maxWriteRequestUnits =
+      Objects.nonNull(nativeValue.maxWriteRequestUnits())
+        ? Option.create_Some(
+          TypeDescriptor.LONG,
+          (nativeValue.maxWriteRequestUnits())
+        )
+        : Option.create_None(TypeDescriptor.LONG);
+    return new OnDemandThroughput(maxReadRequestUnits, maxWriteRequestUnits);
+  }
+
+  public static OnDemandThroughputOverride OnDemandThroughputOverride(
+    software.amazon.awssdk.services.dynamodb.model.OnDemandThroughputOverride nativeValue
+  ) {
+    Option<Long> maxReadRequestUnits;
+    maxReadRequestUnits =
+      Objects.nonNull(nativeValue.maxReadRequestUnits())
+        ? Option.create_Some(
+          TypeDescriptor.LONG,
+          (nativeValue.maxReadRequestUnits())
+        )
+        : Option.create_None(TypeDescriptor.LONG);
+    return new OnDemandThroughputOverride(maxReadRequestUnits);
+  }
+
   public static ParameterizedStatement ParameterizedStatement(
     software.amazon.awssdk.services.dynamodb.model.ParameterizedStatement nativeValue
   ) {
@@ -6282,7 +6775,25 @@ public class ToDafny {
         : Option.create_None(
           DafnySequence._typeDescriptor(AttributeValue._typeDescriptor())
         );
-    return new ParameterizedStatement(statement, parameters);
+    Option<
+      ReturnValuesOnConditionCheckFailure
+    > returnValuesOnConditionCheckFailure;
+    returnValuesOnConditionCheckFailure =
+      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
+        ? Option.create_Some(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
+          ToDafny.ReturnValuesOnConditionCheckFailure(
+            nativeValue.returnValuesOnConditionCheckFailure()
+          )
+        )
+        : Option.create_None(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor()
+        );
+    return new ParameterizedStatement(
+      statement,
+      parameters,
+      returnValuesOnConditionCheckFailure
+    );
   }
 
   public static DafnySequence<
@@ -6732,6 +7243,20 @@ public class ToDafny {
             AttributeValue._typeDescriptor()
           )
         );
+    Option<
+      ReturnValuesOnConditionCheckFailure
+    > returnValuesOnConditionCheckFailure;
+    returnValuesOnConditionCheckFailure =
+      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
+        ? Option.create_Some(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
+          ToDafny.ReturnValuesOnConditionCheckFailure(
+            nativeValue.returnValuesOnConditionCheckFailure()
+          )
+        )
+        : Option.create_None(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor()
+        );
     return new PutItemInput(
       tableName,
       item,
@@ -6742,7 +7267,8 @@ public class ToDafny {
       conditionalOperator,
       conditionExpression,
       expressionAttributeNames,
-      expressionAttributeValues
+      expressionAttributeValues,
+      returnValuesOnConditionCheckFailure
     );
   }
 
@@ -6825,6 +7351,65 @@ public class ToDafny {
     > item;
     item = ToDafny.PutItemInputAttributeMap(nativeValue.item());
     return new PutRequest(item);
+  }
+
+  public static PutResourcePolicyInput PutResourcePolicyInput(
+    PutResourcePolicyRequest nativeValue
+  ) {
+    DafnySequence<? extends Character> resourceArn;
+    resourceArn =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.resourceArn()
+      );
+    DafnySequence<? extends Character> policy;
+    policy =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.policy()
+      );
+    Option<DafnySequence<? extends Character>> expectedRevisionId;
+    expectedRevisionId =
+      Objects.nonNull(nativeValue.expectedRevisionId())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.expectedRevisionId()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    Option<Boolean> confirmRemoveSelfResourceAccess;
+    confirmRemoveSelfResourceAccess =
+      Objects.nonNull(nativeValue.confirmRemoveSelfResourceAccess())
+        ? Option.create_Some(
+          TypeDescriptor.BOOLEAN,
+          (nativeValue.confirmRemoveSelfResourceAccess())
+        )
+        : Option.create_None(TypeDescriptor.BOOLEAN);
+    return new PutResourcePolicyInput(
+      resourceArn,
+      policy,
+      expectedRevisionId,
+      confirmRemoveSelfResourceAccess
+    );
+  }
+
+  public static PutResourcePolicyOutput PutResourcePolicyOutput(
+    PutResourcePolicyResponse nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> revisionId;
+    revisionId =
+      Objects.nonNull(nativeValue.revisionId())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.revisionId()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    return new PutResourcePolicyOutput(revisionId);
   }
 
   public static QueryInput QueryInput(QueryRequest nativeValue) {
@@ -7421,6 +8006,16 @@ public class ToDafny {
           )
         )
         : Option.create_None(ProvisionedThroughputOverride._typeDescriptor());
+    Option<OnDemandThroughputOverride> onDemandThroughputOverride;
+    onDemandThroughputOverride =
+      Objects.nonNull(nativeValue.onDemandThroughputOverride())
+        ? Option.create_Some(
+          OnDemandThroughputOverride._typeDescriptor(),
+          ToDafny.OnDemandThroughputOverride(
+            nativeValue.onDemandThroughputOverride()
+          )
+        )
+        : Option.create_None(OnDemandThroughputOverride._typeDescriptor());
     Option<
       DafnySequence<? extends ReplicaGlobalSecondaryIndexDescription>
     > globalSecondaryIndexes;
@@ -7467,6 +8062,7 @@ public class ToDafny {
       replicaStatusPercentProgress,
       kMSMasterKeyId,
       provisionedThroughputOverride,
+      onDemandThroughputOverride,
       globalSecondaryIndexes,
       replicaInaccessibleDateTime,
       replicaTableClassSummary
@@ -7505,9 +8101,20 @@ public class ToDafny {
           )
         )
         : Option.create_None(ProvisionedThroughputOverride._typeDescriptor());
+    Option<OnDemandThroughputOverride> onDemandThroughputOverride;
+    onDemandThroughputOverride =
+      Objects.nonNull(nativeValue.onDemandThroughputOverride())
+        ? Option.create_Some(
+          OnDemandThroughputOverride._typeDescriptor(),
+          ToDafny.OnDemandThroughputOverride(
+            nativeValue.onDemandThroughputOverride()
+          )
+        )
+        : Option.create_None(OnDemandThroughputOverride._typeDescriptor());
     return new ReplicaGlobalSecondaryIndex(
       indexName,
-      provisionedThroughputOverride
+      provisionedThroughputOverride,
+      onDemandThroughputOverride
     );
   }
 
@@ -7650,9 +8257,20 @@ public class ToDafny {
           )
         )
         : Option.create_None(ProvisionedThroughputOverride._typeDescriptor());
+    Option<OnDemandThroughputOverride> onDemandThroughputOverride;
+    onDemandThroughputOverride =
+      Objects.nonNull(nativeValue.onDemandThroughputOverride())
+        ? Option.create_Some(
+          OnDemandThroughputOverride._typeDescriptor(),
+          ToDafny.OnDemandThroughputOverride(
+            nativeValue.onDemandThroughputOverride()
+          )
+        )
+        : Option.create_None(OnDemandThroughputOverride._typeDescriptor());
     return new ReplicaGlobalSecondaryIndexDescription(
       indexName,
-      provisionedThroughputOverride
+      provisionedThroughputOverride,
+      onDemandThroughputOverride
     );
   }
 
@@ -8216,6 +8834,14 @@ public class ToDafny {
           )
         )
         : Option.create_None(ProvisionedThroughput._typeDescriptor());
+    Option<OnDemandThroughput> onDemandThroughputOverride;
+    onDemandThroughputOverride =
+      Objects.nonNull(nativeValue.onDemandThroughputOverride())
+        ? Option.create_Some(
+          OnDemandThroughput._typeDescriptor(),
+          ToDafny.OnDemandThroughput(nativeValue.onDemandThroughputOverride())
+        )
+        : Option.create_None(OnDemandThroughput._typeDescriptor());
     Option<SSESpecification> sSESpecificationOverride;
     sSESpecificationOverride =
       Objects.nonNull(nativeValue.sseSpecificationOverride())
@@ -8231,6 +8857,7 @@ public class ToDafny {
       globalSecondaryIndexOverride,
       localSecondaryIndexOverride,
       provisionedThroughputOverride,
+      onDemandThroughputOverride,
       sSESpecificationOverride
     );
   }
@@ -8349,6 +8976,14 @@ public class ToDafny {
           )
         )
         : Option.create_None(ProvisionedThroughput._typeDescriptor());
+    Option<OnDemandThroughput> onDemandThroughputOverride;
+    onDemandThroughputOverride =
+      Objects.nonNull(nativeValue.onDemandThroughputOverride())
+        ? Option.create_Some(
+          OnDemandThroughput._typeDescriptor(),
+          ToDafny.OnDemandThroughput(nativeValue.onDemandThroughputOverride())
+        )
+        : Option.create_None(OnDemandThroughput._typeDescriptor());
     Option<SSESpecification> sSESpecificationOverride;
     sSESpecificationOverride =
       Objects.nonNull(nativeValue.sseSpecificationOverride())
@@ -8367,6 +9002,7 @@ public class ToDafny {
       globalSecondaryIndexOverride,
       localSecondaryIndexOverride,
       provisionedThroughputOverride,
+      onDemandThroughputOverride,
       sSESpecificationOverride
     );
   }
@@ -8798,6 +9434,14 @@ public class ToDafny {
     ProvisionedThroughput provisionedThroughput;
     provisionedThroughput =
       ToDafny.ProvisionedThroughput(nativeValue.provisionedThroughput());
+    Option<OnDemandThroughput> onDemandThroughput;
+    onDemandThroughput =
+      Objects.nonNull(nativeValue.onDemandThroughput())
+        ? Option.create_Some(
+          OnDemandThroughput._typeDescriptor(),
+          ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
+        )
+        : Option.create_None(OnDemandThroughput._typeDescriptor());
     Option<Long> itemCount;
     itemCount =
       Objects.nonNull(nativeValue.itemCount())
@@ -8819,6 +9463,7 @@ public class ToDafny {
       keySchema,
       tableCreationDateTime,
       provisionedThroughput,
+      onDemandThroughput,
       itemCount,
       billingMode
     );
@@ -9098,6 +9743,14 @@ public class ToDafny {
           ToDafny.ProvisionedThroughput(nativeValue.provisionedThroughput())
         )
         : Option.create_None(ProvisionedThroughput._typeDescriptor());
+    Option<OnDemandThroughput> onDemandThroughput;
+    onDemandThroughput =
+      Objects.nonNull(nativeValue.onDemandThroughput())
+        ? Option.create_Some(
+          OnDemandThroughput._typeDescriptor(),
+          ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
+        )
+        : Option.create_None(OnDemandThroughput._typeDescriptor());
     Option<SSESpecification> sSESpecification;
     sSESpecification =
       Objects.nonNull(nativeValue.sseSpecification())
@@ -9125,6 +9778,7 @@ public class ToDafny {
       keySchema,
       billingMode,
       provisionedThroughput,
+      onDemandThroughput,
       sSESpecification,
       globalSecondaryIndexes
     );
@@ -9369,6 +10023,22 @@ public class ToDafny {
           ToDafny.TableClassSummary(nativeValue.tableClassSummary())
         )
         : Option.create_None(TableClassSummary._typeDescriptor());
+    Option<Boolean> deletionProtectionEnabled;
+    deletionProtectionEnabled =
+      Objects.nonNull(nativeValue.deletionProtectionEnabled())
+        ? Option.create_Some(
+          TypeDescriptor.BOOLEAN,
+          (nativeValue.deletionProtectionEnabled())
+        )
+        : Option.create_None(TypeDescriptor.BOOLEAN);
+    Option<OnDemandThroughput> onDemandThroughput;
+    onDemandThroughput =
+      Objects.nonNull(nativeValue.onDemandThroughput())
+        ? Option.create_Some(
+          OnDemandThroughput._typeDescriptor(),
+          ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
+        )
+        : Option.create_None(OnDemandThroughput._typeDescriptor());
     return new TableDescription(
       attributeDefinitions,
       tableName,
@@ -9391,7 +10061,9 @@ public class ToDafny {
       restoreSummary,
       sSEDescription,
       archivalSummary,
-      tableClassSummary
+      tableClassSummary,
+      deletionProtectionEnabled,
+      onDemandThroughput
     );
   }
 
@@ -9935,12 +10607,26 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
         nativeValue.indexName()
       );
-    ProvisionedThroughput provisionedThroughput;
+    Option<ProvisionedThroughput> provisionedThroughput;
     provisionedThroughput =
-      ToDafny.ProvisionedThroughput(nativeValue.provisionedThroughput());
+      Objects.nonNull(nativeValue.provisionedThroughput())
+        ? Option.create_Some(
+          ProvisionedThroughput._typeDescriptor(),
+          ToDafny.ProvisionedThroughput(nativeValue.provisionedThroughput())
+        )
+        : Option.create_None(ProvisionedThroughput._typeDescriptor());
+    Option<OnDemandThroughput> onDemandThroughput;
+    onDemandThroughput =
+      Objects.nonNull(nativeValue.onDemandThroughput())
+        ? Option.create_Some(
+          OnDemandThroughput._typeDescriptor(),
+          ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
+        )
+        : Option.create_None(OnDemandThroughput._typeDescriptor());
     return new UpdateGlobalSecondaryIndexAction(
       indexName,
-      provisionedThroughput
+      provisionedThroughput,
+      onDemandThroughput
     );
   }
 
@@ -10253,6 +10939,20 @@ public class ToDafny {
             AttributeValue._typeDescriptor()
           )
         );
+    Option<
+      ReturnValuesOnConditionCheckFailure
+    > returnValuesOnConditionCheckFailure;
+    returnValuesOnConditionCheckFailure =
+      Objects.nonNull(nativeValue.returnValuesOnConditionCheckFailure())
+        ? Option.create_Some(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor(),
+          ToDafny.ReturnValuesOnConditionCheckFailure(
+            nativeValue.returnValuesOnConditionCheckFailure()
+          )
+        )
+        : Option.create_None(
+          ReturnValuesOnConditionCheckFailure._typeDescriptor()
+        );
     return new UpdateItemInput(
       tableName,
       key,
@@ -10265,7 +10965,8 @@ public class ToDafny {
       updateExpression,
       conditionExpression,
       expressionAttributeNames,
-      expressionAttributeValues
+      expressionAttributeValues,
+      returnValuesOnConditionCheckFailure
     );
   }
 
@@ -10325,6 +11026,119 @@ public class ToDafny {
     );
   }
 
+  public static UpdateKinesisStreamingConfiguration UpdateKinesisStreamingConfiguration(
+    software.amazon.awssdk.services.dynamodb.model.UpdateKinesisStreamingConfiguration nativeValue
+  ) {
+    Option<
+      ApproximateCreationDateTimePrecision
+    > approximateCreationDateTimePrecision;
+    approximateCreationDateTimePrecision =
+      Objects.nonNull(nativeValue.approximateCreationDateTimePrecision())
+        ? Option.create_Some(
+          ApproximateCreationDateTimePrecision._typeDescriptor(),
+          ToDafny.ApproximateCreationDateTimePrecision(
+            nativeValue.approximateCreationDateTimePrecision()
+          )
+        )
+        : Option.create_None(
+          ApproximateCreationDateTimePrecision._typeDescriptor()
+        );
+    return new UpdateKinesisStreamingConfiguration(
+      approximateCreationDateTimePrecision
+    );
+  }
+
+  public static UpdateKinesisStreamingDestinationInput UpdateKinesisStreamingDestinationInput(
+    UpdateKinesisStreamingDestinationRequest nativeValue
+  ) {
+    DafnySequence<? extends Character> tableName;
+    tableName =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.tableName()
+      );
+    DafnySequence<? extends Character> streamArn;
+    streamArn =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.streamArn()
+      );
+    Option<
+      UpdateKinesisStreamingConfiguration
+    > updateKinesisStreamingConfiguration;
+    updateKinesisStreamingConfiguration =
+      Objects.nonNull(nativeValue.updateKinesisStreamingConfiguration())
+        ? Option.create_Some(
+          UpdateKinesisStreamingConfiguration._typeDescriptor(),
+          ToDafny.UpdateKinesisStreamingConfiguration(
+            nativeValue.updateKinesisStreamingConfiguration()
+          )
+        )
+        : Option.create_None(
+          UpdateKinesisStreamingConfiguration._typeDescriptor()
+        );
+    return new UpdateKinesisStreamingDestinationInput(
+      tableName,
+      streamArn,
+      updateKinesisStreamingConfiguration
+    );
+  }
+
+  public static UpdateKinesisStreamingDestinationOutput UpdateKinesisStreamingDestinationOutput(
+    UpdateKinesisStreamingDestinationResponse nativeValue
+  ) {
+    Option<DafnySequence<? extends Character>> tableName;
+    tableName =
+      Objects.nonNull(nativeValue.tableName())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.tableName()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    Option<DafnySequence<? extends Character>> streamArn;
+    streamArn =
+      Objects.nonNull(nativeValue.streamArn())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.streamArn()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    Option<DestinationStatus> destinationStatus;
+    destinationStatus =
+      Objects.nonNull(nativeValue.destinationStatus())
+        ? Option.create_Some(
+          DestinationStatus._typeDescriptor(),
+          ToDafny.DestinationStatus(nativeValue.destinationStatus())
+        )
+        : Option.create_None(DestinationStatus._typeDescriptor());
+    Option<
+      UpdateKinesisStreamingConfiguration
+    > updateKinesisStreamingConfiguration;
+    updateKinesisStreamingConfiguration =
+      Objects.nonNull(nativeValue.updateKinesisStreamingConfiguration())
+        ? Option.create_Some(
+          UpdateKinesisStreamingConfiguration._typeDescriptor(),
+          ToDafny.UpdateKinesisStreamingConfiguration(
+            nativeValue.updateKinesisStreamingConfiguration()
+          )
+        )
+        : Option.create_None(
+          UpdateKinesisStreamingConfiguration._typeDescriptor()
+        );
+    return new UpdateKinesisStreamingDestinationOutput(
+      tableName,
+      streamArn,
+      destinationStatus,
+      updateKinesisStreamingConfiguration
+    );
+  }
+
   public static UpdateReplicationGroupMemberAction UpdateReplicationGroupMemberAction(
     software.amazon.awssdk.services.dynamodb.model.UpdateReplicationGroupMemberAction nativeValue
   ) {
@@ -10355,6 +11169,16 @@ public class ToDafny {
           )
         )
         : Option.create_None(ProvisionedThroughputOverride._typeDescriptor());
+    Option<OnDemandThroughputOverride> onDemandThroughputOverride;
+    onDemandThroughputOverride =
+      Objects.nonNull(nativeValue.onDemandThroughputOverride())
+        ? Option.create_Some(
+          OnDemandThroughputOverride._typeDescriptor(),
+          ToDafny.OnDemandThroughputOverride(
+            nativeValue.onDemandThroughputOverride()
+          )
+        )
+        : Option.create_None(OnDemandThroughputOverride._typeDescriptor());
     Option<
       DafnySequence<? extends ReplicaGlobalSecondaryIndex>
     > globalSecondaryIndexes;
@@ -10386,6 +11210,7 @@ public class ToDafny {
       regionName,
       kMSMasterKeyId,
       provisionedThroughputOverride,
+      onDemandThroughputOverride,
       globalSecondaryIndexes,
       tableClassOverride
     );
@@ -10484,6 +11309,22 @@ public class ToDafny {
           ToDafny.TableClass(nativeValue.tableClass())
         )
         : Option.create_None(TableClass._typeDescriptor());
+    Option<Boolean> deletionProtectionEnabled;
+    deletionProtectionEnabled =
+      Objects.nonNull(nativeValue.deletionProtectionEnabled())
+        ? Option.create_Some(
+          TypeDescriptor.BOOLEAN,
+          (nativeValue.deletionProtectionEnabled())
+        )
+        : Option.create_None(TypeDescriptor.BOOLEAN);
+    Option<OnDemandThroughput> onDemandThroughput;
+    onDemandThroughput =
+      Objects.nonNull(nativeValue.onDemandThroughput())
+        ? Option.create_Some(
+          OnDemandThroughput._typeDescriptor(),
+          ToDafny.OnDemandThroughput(nativeValue.onDemandThroughput())
+        )
+        : Option.create_None(OnDemandThroughput._typeDescriptor());
     return new UpdateTableInput(
       attributeDefinitions,
       tableName,
@@ -10493,7 +11334,9 @@ public class ToDafny {
       streamSpecification,
       sSESpecification,
       replicaUpdates,
-      tableClass
+      tableClass,
+      deletionProtectionEnabled,
+      onDemandThroughput
     );
   }
 
@@ -10694,7 +11537,36 @@ public class ToDafny {
         : Option.create_None(
           DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
         );
-    return new Error_ConditionalCheckFailedException(message);
+    Option<
+      DafnyMap<
+        ? extends DafnySequence<? extends Character>,
+        ? extends AttributeValue
+      >
+    > item;
+    item =
+      (Objects.nonNull(nativeValue.item()) && nativeValue.item().size() > 0)
+        ? Option.create_Some(
+          TypeDescriptor.referenceWithInitializer(
+            dafny.DafnyMap.class,
+            () ->
+              dafny.DafnyMap.<
+                dafny.DafnySequence<? extends Character>,
+                AttributeValue
+              >empty()
+          ),
+          ToDafny.AttributeMap(nativeValue.item())
+        )
+        : Option.create_None(
+          TypeDescriptor.referenceWithInitializer(
+            dafny.DafnyMap.class,
+            () ->
+              dafny.DafnyMap.<
+                dafny.DafnySequence<? extends Character>,
+                AttributeValue
+              >empty()
+          )
+        );
+    return new Error_ConditionalCheckFailedException(message, item);
   }
 
   public static Error Error(ContinuousBackupsUnavailableException nativeValue) {
@@ -10957,6 +11829,22 @@ public class ToDafny {
     return new Error_PointInTimeRecoveryUnavailableException(message);
   }
 
+  public static Error Error(PolicyNotFoundException nativeValue) {
+    Option<DafnySequence<? extends Character>> message;
+    message =
+      Objects.nonNull(nativeValue.getMessage())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.getMessage()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    return new Error_PolicyNotFoundException(message);
+  }
+
   public static Error Error(
     ProvisionedThroughputExceededException nativeValue
   ) {
@@ -11160,6 +12048,29 @@ public class ToDafny {
           DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
         );
     return new Error_TransactionInProgressException(message);
+  }
+
+  public static ApproximateCreationDateTimePrecision ApproximateCreationDateTimePrecision(
+    software.amazon.awssdk.services.dynamodb.model.ApproximateCreationDateTimePrecision nativeValue
+  ) {
+    switch (nativeValue) {
+      case MILLISECOND:
+        {
+          return ApproximateCreationDateTimePrecision.create_MILLISECOND();
+        }
+      case MICROSECOND:
+        {
+          return ApproximateCreationDateTimePrecision.create_MICROSECOND();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.services.dynamodb.internaldafny.types.ApproximateCreationDateTimePrecision."
+          );
+        }
+    }
   }
 
   public static AttributeAction AttributeAction(
@@ -11551,6 +12462,10 @@ public class ToDafny {
         {
           return DestinationStatus.create_ENABLE__FAILED();
         }
+      case UPDATING:
+        {
+          return DestinationStatus.create_UPDATING();
+        }
       default:
         {
           throw new RuntimeException(
@@ -11607,6 +12522,52 @@ public class ToDafny {
             "Cannot convert " +
             nativeValue +
             " to software.amazon.cryptography.services.dynamodb.internaldafny.types.ExportStatus."
+          );
+        }
+    }
+  }
+
+  public static ExportType ExportType(
+    software.amazon.awssdk.services.dynamodb.model.ExportType nativeValue
+  ) {
+    switch (nativeValue) {
+      case FULL_EXPORT:
+        {
+          return ExportType.create_FULL__EXPORT();
+        }
+      case INCREMENTAL_EXPORT:
+        {
+          return ExportType.create_INCREMENTAL__EXPORT();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.services.dynamodb.internaldafny.types.ExportType."
+          );
+        }
+    }
+  }
+
+  public static ExportViewType ExportViewType(
+    software.amazon.awssdk.services.dynamodb.model.ExportViewType nativeValue
+  ) {
+    switch (nativeValue) {
+      case NEW_IMAGE:
+        {
+          return ExportViewType.create_NEW__IMAGE();
+        }
+      case NEW_AND_OLD_IMAGES:
+        {
+          return ExportViewType.create_NEW__AND__OLD__IMAGES();
+        }
+      default:
+        {
+          throw new RuntimeException(
+            "Cannot convert " +
+            nativeValue +
+            " to software.amazon.cryptography.services.dynamodb.internaldafny.types.ExportViewType."
           );
         }
     }
@@ -12254,6 +13215,16 @@ public class ToDafny {
     }
   }
 
+  public static ApproximateCreationDateTimePrecision ApproximateCreationDateTimePrecision(
+    String nativeValue
+  ) {
+    return ApproximateCreationDateTimePrecision(
+      software.amazon.awssdk.services.dynamodb.model.ApproximateCreationDateTimePrecision.fromValue(
+        nativeValue
+      )
+    );
+  }
+
   public static AttributeAction AttributeAction(String nativeValue) {
     return AttributeAction(
       software.amazon.awssdk.services.dynamodb.model.AttributeAction.fromValue(
@@ -12369,6 +13340,22 @@ public class ToDafny {
   public static ExportStatus ExportStatus(String nativeValue) {
     return ExportStatus(
       software.amazon.awssdk.services.dynamodb.model.ExportStatus.fromValue(
+        nativeValue
+      )
+    );
+  }
+
+  public static ExportType ExportType(String nativeValue) {
+    return ExportType(
+      software.amazon.awssdk.services.dynamodb.model.ExportType.fromValue(
+        nativeValue
+      )
+    );
+  }
+
+  public static ExportViewType ExportViewType(String nativeValue) {
+    return ExportViewType(
+      software.amazon.awssdk.services.dynamodb.model.ExportViewType.fromValue(
         nativeValue
       )
     );
@@ -12564,7 +13551,10 @@ public class ToDafny {
     // An un-modeled Service Error is different from a Java Heap Exhaustion error.
     // In the future, Smithy-Dafny MAY allow for this distinction.
     // Which would allow Dafny developers to treat the two differently.
-    return Error.create_Opaque(nativeValue);
+    return Error.create_OpaqueWithText(
+      nativeValue,
+      dafny.DafnySequence.asString(nativeValue.getMessage())
+    );
   }
 
   public static Error Error(Exception nativeValue) {
@@ -12573,7 +13563,10 @@ public class ToDafny {
     // An un-modeled Service Error is different from a Java Heap Exhaustion error.
     // In the future, Smithy-Dafny MAY allow for this distinction.
     // Which would allow Dafny developers to treat the two differently.
-    return Error.create_Opaque(nativeValue);
+    return Error.create_OpaqueWithText(
+      nativeValue,
+      dafny.DafnySequence.asString(nativeValue.getMessage())
+    );
   }
 
   public static IDynamoDBClient DynamoDB_20120810(DynamoDbClient nativeValue) {

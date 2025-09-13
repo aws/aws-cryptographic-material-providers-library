@@ -5,7 +5,7 @@ include "../src/Index.dfy"
 include "../src/Digest.dfy"
 
 module TestAwsCryptographyPrimitivesAES {
-  import Aws.Cryptography.Primitives
+  import AtomicPrimitives
   import opened Wrappers
   import opened StandardLibrary.UInt
   import Digest
@@ -33,8 +33,8 @@ module TestAwsCryptographyPrimitivesAES {
     // d.final()
 
     BasicAESDecryptTest(
-      Primitives.Types.AESDecryptInput(
-        encAlg := Primitives.Types.AES_GCM(
+      AtomicPrimitives.Types.AESDecryptInput(
+        encAlg := AtomicPrimitives.Types.AES_GCM(
           keyLength := 32 as int32,
           tagLength := 16 as int32,
           ivLength := 12 as int32
@@ -67,8 +67,8 @@ module TestAwsCryptographyPrimitivesAES {
 
   method {:test} AESEncryptTests() {
     BasicAESEncryptTest(
-      Primitives.Types.AESEncryptInput(
-        encAlg := Primitives.Types.AES_GCM(
+      AtomicPrimitives.Types.AESEncryptInput(
+        encAlg := AtomicPrimitives.Types.AES_GCM(
           keyLength := 32 as int32,
           tagLength := 16 as int32,
           ivLength := 12 as int32
@@ -92,23 +92,23 @@ module TestAwsCryptographyPrimitivesAES {
   }
 
   method BasicAESDecryptTest(
-    input: Primitives.Types.AESDecryptInput,
+    input: AtomicPrimitives.Types.AESDecryptInput,
     expectedOutput: seq<uint8>
   )
   {
-    var client :- expect Primitives.AtomicPrimitives();
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
     var output :- expect client.AESDecrypt(input);
     expect output == expectedOutput;
   }
 
   method BasicAESEncryptTest(
-    input: Primitives.Types.AESEncryptInput
+    input: AtomicPrimitives.Types.AESEncryptInput
   )
   {
-    var client :- expect Primitives.AtomicPrimitives();
+    var client :- expect AtomicPrimitives.AtomicPrimitives();
     var output :- expect client.AESEncrypt(input);
 
-    var decryptInput := Primitives.Types.AESDecryptInput(
+    var decryptInput := AtomicPrimitives.Types.AESDecryptInput(
       encAlg := input.encAlg,
       key := input.key,
       cipherTxt := output.cipherText,

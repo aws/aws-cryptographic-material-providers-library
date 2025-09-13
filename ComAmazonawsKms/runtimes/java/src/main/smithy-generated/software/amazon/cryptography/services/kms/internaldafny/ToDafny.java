@@ -2300,13 +2300,11 @@ public class ToDafny {
 
   public static DafnySequence<
     ? extends KeyAgreementAlgorithmSpec
-    // BEGIN MANUAL EDIT
   > KeyAgreementAlgorithmSpecList(
     List<
       software.amazon.awssdk.services.kms.model.KeyAgreementAlgorithmSpec
     > nativeValue
   ) {
-    // END MANUAL EDIT
     return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
       nativeValue,
       software.amazon.cryptography.services.kms.internaldafny.ToDafny::KeyAgreementAlgorithmSpec,
@@ -2896,9 +2894,7 @@ public class ToDafny {
   }
 
   public static DafnySequence<? extends MacAlgorithmSpec> MacAlgorithmSpecList(
-    // BEGIN MANUAL EDIT
     List<software.amazon.awssdk.services.kms.model.MacAlgorithmSpec> nativeValue
-    // END MANUAL EDIT
   ) {
     return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
       nativeValue,
@@ -4649,9 +4645,7 @@ public class ToDafny {
         {
           return AlgorithmSpec.create_RSA__AES__KEY__WRAP__SHA__256();
         }
-      // BEGIN MANUAL EDIT
       case SM2_PKE:
-        // END MANUAL EDIT
         {
           return AlgorithmSpec.create_SM2PKE();
         }
@@ -5458,9 +5452,7 @@ public class ToDafny {
         {
           return SigningAlgorithmSpec.create_ECDSA__SHA__512();
         }
-      // BEGIN MANUAL EDIT
       case SM2_DSA:
-        // END MANUAL EDIT
         {
           return SigningAlgorithmSpec.create_SM2DSA();
         }
@@ -5735,7 +5727,10 @@ public class ToDafny {
     // An un-modeled Service Error is different from a Java Heap Exhaustion error.
     // In the future, Smithy-Dafny MAY allow for this distinction.
     // Which would allow Dafny developers to treat the two differently.
-    return Error.create_Opaque(nativeValue);
+    return Error.create_OpaqueWithText(
+      nativeValue,
+      dafny.DafnySequence.asString(nativeValue.getMessage())
+    );
   }
 
   public static Error Error(Exception nativeValue) {
@@ -5744,7 +5739,10 @@ public class ToDafny {
     // An un-modeled Service Error is different from a Java Heap Exhaustion error.
     // In the future, Smithy-Dafny MAY allow for this distinction.
     // Which would allow Dafny developers to treat the two differently.
-    return Error.create_Opaque(nativeValue);
+    return Error.create_OpaqueWithText(
+      nativeValue,
+      dafny.DafnySequence.asString(nativeValue.getMessage())
+    );
   }
 
   public static IKMSClient TrentService(KmsClient nativeValue) {

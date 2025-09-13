@@ -7,10 +7,48 @@ include "../../../../../libraries/src/MutableMap/MutableMap.dfy"
 module {:options "/functionSyntax:4" } LocalCMC {
   import opened Wrappers
   import opened StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened DafnyLibraries
   import Time
   import Types = AwsCryptographyMaterialProvidersTypes
   import Seq
+
+  // This limits the visibility of the LocalCMC
+  // Doing this ensures that the smithy-dafny `axiom`
+  // added because the Types.ICryptographicMaterialsCache
+  // has the @aws.polymorph#mutableLocalState trait added in the smithy model
+  // can not leak and create unsoundness.
+  export
+    // This shows that LocalCMC extends Types.ICryptographicMaterialsCache
+    // as well as revealing the constructors spec.
+    reveals LocalCMC
+    provides
+      // These are dependent types that are needed
+      Types,
+      Wrappers,
+      DafnyLibraries,
+      CacheEntry,
+      UInt,
+
+      // These are the implementations of the trait
+      LocalCMC.GetCacheEntry',
+      LocalCMC.PutCacheEntry',
+      LocalCMC.DeleteCacheEntry',
+      LocalCMC.UpdateUsageMetadata',
+      LocalCMC.GetCacheEntryEnsuresPublicly,
+      LocalCMC.PutCacheEntryEnsuresPublicly,
+      LocalCMC.DeleteCacheEntryEnsuresPublicly,
+      LocalCMC.UpdateUsageMetadataEnsuresPublicly,
+      LocalCMC.ValidState,
+      LocalCMC.InternalValidState,
+      LocalCMC.GetCacheEntryWithTime,
+
+      // These are internal details
+      // that come from the constructor
+      // or the delete operation.
+      LocalCMC.InternalDeleteCacheEntry?,
+      LocalCMC.entryCapacity,
+      LocalCMC.entryPruningTailSize
 
   datatype Ref<T> =
     | Ptr(deref: T)
@@ -70,29 +108,34 @@ module {:options "/functionSyntax:4" } LocalCMC {
       reads this, Items
     {
       // head and tail properties
-      && (0 == |Items| <==> head.Null? && tail.Null?)
-      && (0 < |Items| <==>
-          && head.Ptr?
-          && tail.Ptr?
-          && head.deref == Items[0]
-          && tail.deref == Items[|Items| - 1])
-      && (head.Ptr? <==> tail.Ptr?)
-      && (head.Ptr? ==> head.deref.prev.Null?)
-      && (tail.Ptr? ==> tail.deref.next.Null?)
-         // Every Cell in the DoublyLinkedList MUST be unique.
-         // Otherwise there would be loops in prev and next.
-         // For a Cell at 4, next MUST point to 5 or Null?.
-         // So if a Cell exists as 4 and 7
-         // then it's next would need to point to _both_ 5 and 8.
+      HeadTailProperties()
+      // Every Cell in the DoublyLinkedList MUST be unique.
+      // Otherwise there would be loops in prev and next.
+      // For a Cell at 4, next MUST point to 5 or Null?.
+      // So if a Cell exists as 4 and 7
+      // then it's next would need to point to _both_ 5 and 8.
       && (forall v <- Items :: multiset(Items)[v] == 1)
-         // Proving order is easier by being more specific
-         // and breaking up prev and next.
-         // Order means Cell 4 point to 3 and 5
-         // in prev and next respectively.
+      // Proving order is easier by being more specific
+      // and breaking up prev and next.
+      // Order means Cell 4 point to 3 and 5
+      // in prev and next respectively.
       && (forall i: nat | 0 <= i < |Items| ::
             && Prev?(i, Items[i], Items)
             && Next?(i, Items[i], Items)
-         )
+      )
+    }
+
+    ghost predicate HeadTailProperties()
+      reads this, Items
+    {
+      (0 == |Items| <==> head.Null? && tail.Null?) &&
+      (0 < |Items| <==>
+       head.Ptr? && tail.Ptr? &&
+       head.deref == Items[0] &&
+       tail.deref == Items[|Items|-1]) &&
+      (head.Ptr? <==> tail.Ptr?) &&
+      (head.Ptr? ==> head.deref.prev.Null?) &&
+      (tail.Ptr? ==> tail.deref.next.Null?)
     }
 
     ghost predicate Prev?(i:nat, c: CacheEntry, Items' : seq<CacheEntry>)
@@ -152,7 +195,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
       }
     }
 
-    method moveToFront(c: CacheEntry)
+    method {:vcs_split_on_every_assert} moveToFront(c: CacheEntry)
       requires c in Items
       requires exists i: nat | 0 <= i < |Items| :: c == Items[i]
       requires Invariant()
@@ -177,7 +220,10 @@ module {:options "/functionSyntax:4" } LocalCMC {
           tail := head;
         }
       }
-
+      assert |Items| > 0;
+      assert forall i: nat | 0 <= i < |Items| ::
+          && Prev?(i, Items[i], Items)
+          && Next?(i, Items[i], Items);
       assert (head.Ptr? <==> tail.Ptr?);
     }
 
@@ -229,6 +275,10 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
       toRemove.next := NULL;
       toRemove.prev := NULL;
+
+      assert forall i: nat | 0 <= i < |Items| ::
+          && Prev?(i, Items[i], Items)
+          && Next?(i, Items[i], Items);
     }
   }
 
@@ -278,15 +328,24 @@ module {:options "/functionSyntax:4" } LocalCMC {
   class LocalCMC extends Types.ICryptographicMaterialsCache {
 
     ghost predicate ValidState()
-      reads this`Modifies, Modifies - {History}
-      ensures ValidState() ==> History in Modifies
+      ensures ValidState() ==>
+                && History in Modifies
+                && this in Modifies
     {
       && History in Modifies
       && this in Modifies
-      && queue in Modifies
-      && cache in Modifies
-                  // I want to say that `queue.Items` is somehow in Modifies
-      && (forall i <- queue.Items :: i in Modifies)
+    }
+
+    ghost predicate InternalValidState()
+      reads this`InternalModifies, InternalModifies
+      ensures InternalValidState() ==> History !in InternalModifies
+    {
+      && History !in InternalModifies
+      && this in InternalModifies
+      && queue in InternalModifies
+      && cache in InternalModifies
+                  // I want to say that `queue.Items` is somehow in InternalModifies
+      && (forall i <- queue.Items :: i in InternalModifies)
       && Invariant()
     }
 
@@ -305,7 +364,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
          // with the tail MUST be in the cache
       && (forall c <- queue.Items :: c.identifier in cache.Keys() && cache.Select(c.identifier) == c)
 
-      && cache.Size() <= entryCapacity
+      && (ValueIsSafeBecauseItIsInMemory(cache.Size()); cache.Size() as uint64 <= entryCapacity)
     }
 
     var queue: DoublyLinkedCacheEntryList
@@ -314,14 +373,14 @@ module {:options "/functionSyntax:4" } LocalCMC {
     //= type=implication
     //# The local CMC MUST accept entry capacity values between zero
     //# and an implementation-defined maximum, inclusive.
-    const entryCapacity: nat
+    const entryCapacity: uint64
     //= aws-encryption-sdk-specification/framework/local-cryptographic-materials-cache.md#entry-pruning-tail-size
     //= type=implication
     //# The _entry pruning tail size_
     //# is the number of least recently used entries that the local CMC
     //# MUST check during [pruning](#pruning)
     //# for TTL-expired entries to evict.
-    const entryPruningTailSize: nat
+    const entryPruningTailSize: uint64
 
     //= aws-encryption-sdk-specification/framework/local-cryptographic-materials-cache.md#initialization
     //= type=implication
@@ -333,24 +392,27 @@ module {:options "/functionSyntax:4" } LocalCMC {
     //#
     //# - [Entry Pruning Tail Size](#entry-pruning-tail-size)
     constructor(
-      entryCapacity': nat,
-      entryPruningTailSize': nat := 1
+      entryCapacity': uint64,
+      entryPruningTailSize': uint64 := 1
     )
       requires entryPruningTailSize' >= 1
       ensures
         && entryCapacity == entryCapacity'
         && entryPruningTailSize == entryPruningTailSize'
         && ValidState()
+        && InternalValidState()
         && fresh(this.Modifies)
+        && fresh(this.InternalModifies)
     {
       entryCapacity := entryCapacity';
       entryPruningTailSize := entryPruningTailSize';
-      cache := new MutableMap();
+      cache := new MutableMap((k: seq<uint8>, v: CacheEntry) => true, true);
       queue := new DoublyLinkedCacheEntryList();
 
       History := new Types.ICryptographicMaterialsCacheCallHistory();
 
-      Modifies := { History, queue, cache, this };
+      Modifies := { History, this };
+      InternalModifies := { queue, cache, this };
     }
 
     ghost predicate GetCacheEntryEnsuresPublicly(input: Types.GetCacheEntryInput, output: Result<Types.GetCacheEntryOutput, Types.Error>)
@@ -358,13 +420,13 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
     method GetCacheEntry'(input: Types.GetCacheEntryInput)
       returns (output: Result<Types.GetCacheEntryOutput, Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
       ensures GetCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
-      ensures Modifies <= old(Modifies)
+      ensures InternalModifies <= old(InternalModifies)
     {
       var now := Time.GetCurrent();
       output := GetCacheEntryWithTime(input, now);
@@ -372,13 +434,14 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
     method GetCacheEntryWithTime(input: Types.GetCacheEntryInput, now : Types.PositiveLong)
       returns (output: Result<Types.GetCacheEntryOutput, Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
       ensures GetCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
-      ensures Modifies <= old(Modifies)
+      ensures InternalModifies <= old(InternalModifies)
+      ensures output.Success? ==> now <= output.value.expiryTime
     {
       if cache.HasKey(input.identifier) {
         var entry := cache.Select(input.identifier);
@@ -424,13 +487,13 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
     method {:vcs_split_on_every_assert} PutCacheEntry'(input: Types.PutCacheEntryInput)
       returns (output: Result<(), Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
       ensures PutCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
-      ensures fresh(Modifies - old(Modifies))
+      ensures fresh(InternalModifies - old(InternalModifies))
     {
 
       if entryCapacity == 0 {
@@ -455,7 +518,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
       //= aws-encryption-sdk-specification/framework/local-cryptographic-materials-cache.md#entry-capacity
       //# The local CMC MUST NOT store more entries than this value,
       //# except temporarily while performing a Put Cache Entry operation.
-      if entryCapacity == cache.Size() {
+      if entryCapacity == cache.Size() as uint64 {
         assert 0 < |multiset(cache.Values())|;
         assert queue.tail.deref.identifier in cache.Keys();
         var _ :- DeleteCacheEntry'(Types.DeleteCacheEntryInput(
@@ -483,7 +546,15 @@ module {:options "/functionSyntax:4" } LocalCMC {
       //# the local CMC MAY store more entries than the entry capacity.
       queue.pushCell(cell);
       cache.Put(input.identifier, cell);
-      Modifies := Modifies + {cell};
+      InternalModifies := InternalModifies + {cell};
+
+      assert multiset(cache.Values()) == multiset(queue.Items) by {
+        assert cell in cache.Values();
+        assert cell in queue.Items;
+        assert multiset(old@CAN_ADD(cache.Values())) + multiset{cell} == multiset(cache.Values());
+        assert multiset(old@CAN_ADD(queue.Items)) + multiset{cell} == multiset(queue.Items);
+        assert multiset(old@CAN_ADD(cache.Values())) == multiset(old@CAN_ADD(queue.Items));
+      }
 
       output := Success(());
 
@@ -494,30 +565,46 @@ module {:options "/functionSyntax:4" } LocalCMC {
           assert old@CAN_ADD(cache.Select(k)) != old@CAN_ADD(cache.Select(k'));
         }
       }
+      assert |queue.Items| > 0;
       assert  (forall c <- queue.Items :: c.identifier in cache.Keys() && cache.Select(c.identifier) == c);
+      assert cache.Size() as uint64 <= entryCapacity by {
+        if entryCapacity == old@CAN_ADD(cache.Size()) as uint64 {
+          // We evicted one entry before adding, so size should be same as before
+          assert cache.Size() == old@CAN_ADD(cache.Size());
+        } else {
+          // We didn't evict, so we added one entry
+          assert cache.Size() == old@CAN_ADD(cache.Size()) + 1;
+          assert old@CAN_ADD(cache.Size()) as uint64 < entryCapacity;
+        }
+      }
       assert Invariant();
     }
 
     ghost predicate DeleteCacheEntryEnsuresPublicly(input: Types.DeleteCacheEntryInput, output: Result<(), Types.Error>)
     {true}
 
+    twostate predicate InternalDeleteCacheEntry?(input: Types.DeleteCacheEntryInput, new output: Result<(), Types.Error>)
+      requires InternalValidState()
+      reads InternalModifies
+    {
+      && input.identifier !in cache.Keys()
+      && (input.identifier in old(cache.Keys())
+          ==>
+            && (old(cache.Select(input.identifier)) !in queue.Items
+                && cache.Size() == old(cache.Size()) - 1
+                && old(cache.Keys()) - {input.identifier} == cache.Keys()))
+    }
+
     method {:vcs_split_on_every_assert} DeleteCacheEntry'(input: Types.DeleteCacheEntryInput)
       returns (output: Result<(), Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
       ensures DeleteCacheEntryEnsuresPublicly(input, output)
       ensures unchanged(History)
-      ensures input.identifier !in cache.Keys()
-      ensures Modifies <= old(Modifies)
-      ensures
-        && input.identifier in old(cache.Keys())
-        ==>
-          // && output.Success?
-          && (old(cache.Select(input.identifier)) !in queue.Items
-              && cache.Size() == old(cache.Size()) - 1
-              && old(cache.Keys()) - {input.identifier} == cache.Keys())
+      ensures InternalModifies <= old(InternalModifies)
+      ensures InternalDeleteCacheEntry?(input, output)
     {
       if cache.HasKey(input.identifier) {
         assert input.identifier in cache.Keys();
@@ -532,14 +619,15 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
         assert MutableMapIsInjective(cache) by {
           // Since the map values are themselves heap objects, we need to check that they too are unchanged
-          assert forall k <- cache.Keys() :: old(allocated(cache.Select(k))) && unchanged(cache.Select(k));
+          assert forall k <- cache.Keys() :: old(allocated(cache.Select(k)));
+          assert forall k <- cache.Keys() :: unchanged(cache.Select(k));
           assert MutableMapIsInjective(old@CAN_REMOVE(cache));
 
           assert MutableMapContains(old@CAN_REMOVE(cache), cache);
           LemmaMutableMapContainsPreservesInjectivity(old@CAN_REMOVE(cache), cache);
         }
         assert |cache.Keys()| == |old@CAN_REMOVE(cache.Keys())| - 1;
-        assert cache.Size() <= old@CAN_REMOVE(cache.Size()) <= entryCapacity;
+        assert cache.Size() as uint64 <= old@CAN_REMOVE(cache.Size()) as uint64 <= entryCapacity;
         queue.remove(cell);
         assert multiset(cache.Values()) == multiset(queue.Items) by {
           var cacheMultiset := multiset(cache.Values());
@@ -548,7 +636,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
           assert cell !in cacheMultiset;
           assert cell !in queueMultiset;
         }
-        Modifies := Modifies - {cell};
+        InternalModifies := InternalModifies - {cell};
       }
 
       output := Success(());
@@ -559,11 +647,11 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
     method UpdateUsageMetadata'(input: Types.UpdateUsageMetadataInput)
       returns (output: Result<(), Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      decreases Modifies - {History}
-      ensures ValidState()
-      ensures Modifies <= old(Modifies)
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
+      ensures InternalModifies <= old(InternalModifies)
     {
       if cache.HasKey(input.identifier) {
         var cell := cache.Select(input.identifier);
@@ -595,12 +683,12 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
     method pruning(now : Types.PositiveLong)
       returns (output: Result<(), Types.Error>)
-      requires ValidState()
-      modifies Modifies - {History}
-      ensures ValidState()
-      // ensures |cache| <= |old(cache)|
+      requires InternalValidState()
+      modifies InternalModifies
+      decreases InternalModifies
+      ensures InternalValidState()
       ensures unchanged(History)
-      ensures Modifies <= old(Modifies)
+      ensures InternalModifies <= old(InternalModifies)
     {
       //= aws-encryption-sdk-specification/framework/local-cryptographic-materials-cache.md#pruning
       //# To prune TTL-expired cache entries,
@@ -608,8 +696,8 @@ module {:options "/functionSyntax:4" } LocalCMC {
       //# among the `N` least recently used entries,
       //# where `N` is the [Entry Pruning Tail Size](#entry-pruning-tail-size).
       for i := 0 to entryPruningTailSize
-        invariant ValidState()
-        invariant Modifies <= old(Modifies)
+        invariant InternalValidState()
+        invariant InternalModifies <= old(InternalModifies)
       {
         if queue.tail.Ptr? {
           if queue.tail.deref.expiryTime < now {
