@@ -35,3 +35,4 @@ func CurrentRelativeTimeMilli() int64 {
 func (CompanionStruct_Default___) GetProcessCpuTimeMillis() int64 {
 	return GetProcessCpuTimeMillis()
 }
+
