@@ -6,6 +6,7 @@ include "../Model/AwsCryptographyMaterialProvidersTypes.dfy"
 module CanonicalEncryptionContext {
   import opened StandardLibrary
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import Types = AwsCryptographyMaterialProvidersTypes
   import opened Wrappers
   import Seq
@@ -24,11 +25,12 @@ module CanonicalEncryptionContext {
   ):
     (res: Result<seq<uint8>, Types.Error>)
   {
-    :- Need(|encryptionContext| < UINT16_LIMIT,
+    MapIsSafeBecauseItIsInMemory(encryptionContext);
+    :- Need(|encryptionContext| as uint64 < UINT16_LIMIT as uint64,
             Types.AwsCryptographicMaterialProvidersException( message := "Encryption Context is too large" ));
     var keys := SortedSets.ComputeSetToOrderedSequence2(encryptionContext.Keys, UInt.UInt8Less);
 
-    if |keys| == 0 then
+    if |keys| as uint16 == 0 then
       Success([])
     else
       var KeyIntoPairBytes := k

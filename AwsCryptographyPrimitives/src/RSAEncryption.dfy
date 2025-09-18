@@ -6,6 +6,7 @@ include "../Model/AwsCryptographyPrimitivesTypes.dfy"
 module {:extern "RSAEncryption"} RSAEncryption {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import Types = AwsCryptographyPrimitivesTypes
 
   method GenerateKeyPair(lengthBits: Types.RSAModulusLengthBitsToGenerate)
@@ -20,7 +21,7 @@ module {:extern "RSAEncryption"} RSAEncryption {
     : (res: Result<Types.RSAModulusLengthBits, Types.Error>)
   {
     var length :- GetRSAKeyModulusLengthExtern(publicKey);
-    :- Need(81 <= length as int < INT32_MAX_LIMIT,
+    :- Need(81 <= length as uint64 < INT32_MAX_LIMIT as uint64,
             Types.AwsCryptographicPrimitivesError(message := "Unsupported length for RSA modulus."));
     Success(length as int32)
   }
@@ -28,23 +29,27 @@ module {:extern "RSAEncryption"} RSAEncryption {
   method Decrypt(input: Types.RSADecryptInput)
     returns (output: Result<seq<uint8>, Types.Error>)
   {
-    :- Need(0 < |input.privateKey| && 0 < |input.cipherText|, Types.AwsCryptographicPrimitivesError( message := ""));
+    SequenceIsSafeBecauseItIsInMemory(input.privateKey);
+    SequenceIsSafeBecauseItIsInMemory(input.cipherText);
+    :- Need(0 < |input.privateKey| as uint64 && 0 < |input.cipherText| as uint64, Types.AwsCryptographicPrimitivesError( message := ""));
     output := DecryptExtern(input.padding, input.privateKey, input.cipherText);
   }
 
   method Encrypt(input: Types.RSAEncryptInput)
     returns (output: Result<seq<uint8>, Types.Error>)
   {
-    :- Need(0 < |input.publicKey| && 0 < |input.plaintext|, Types.AwsCryptographicPrimitivesError( message := ""));
+    SequenceIsSafeBecauseItIsInMemory(input.publicKey);
+    SequenceIsSafeBecauseItIsInMemory(input.plaintext);
+    :- Need(0 < |input.publicKey| as uint64 && 0 < |input.plaintext| as uint64, Types.AwsCryptographicPrimitivesError( message := ""));
     output := EncryptExtern(input.padding, input.publicKey, input.plaintext);
   }
 
-  method {:extern "RSAEncryption.RSA", "GenerateKeyPairExtern"} GenerateKeyPairExtern(lengthBits: Types.RSAModulusLengthBitsToGenerate)
+  method {:extern "RSAEncryption.RSA", "GenerateKeyPairExtern"} {:axiom} GenerateKeyPairExtern(lengthBits: Types.RSAModulusLengthBitsToGenerate)
     returns (publicKey: seq<uint8>, privateKey: seq<uint8>)
     ensures |publicKey| > 0
     ensures |privateKey| > 0
 
-  function method {:extern "RSAEncryption.RSA", "GetRSAKeyModulusLengthExtern"} GetRSAKeyModulusLengthExtern(publicKey: seq<uint8>)
+  function method {:extern "RSAEncryption.RSA", "GetRSAKeyModulusLengthExtern"} {:axiom} GetRSAKeyModulusLengthExtern(publicKey: seq<uint8>)
     : (length: Result<uint32, Types.Error>)
 
   method {:extern "RSAEncryption.RSA", "DecryptExtern"} DecryptExtern(padding: Types.RSAPaddingMode, privateKey: seq<uint8>,

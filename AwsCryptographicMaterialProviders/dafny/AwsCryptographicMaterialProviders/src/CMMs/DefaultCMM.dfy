@@ -13,6 +13,7 @@ include "../Keyrings/MultiKeyring.dfy"
 module DefaultCMM {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import AlgorithmSuites
   import Materials
   import CMM
@@ -89,8 +90,8 @@ module DefaultCMM {
     }
 
     // The following are requirements for the CMM interface.
-    // However they are requirments of intent
-    // rather than something that can be verified programaticly.
+    // However they are requirements of intent
+    // rather than something that can be verified programmatically.
     // The configured keyring could violate these properties.
     // This is why these are listed as exception and not implications.
     // 
@@ -328,8 +329,8 @@ module DefaultCMM {
     }
 
     // The following are requirements for the CMM interface.
-    // However they are requirments of intent
-    // rather than something that can be verified programaticly.
+    // However they are requirements of intent
+    // rather than something that can be verified programmatically.
     // The configured keyring could violate these properties.
     // This is why these are listed as exception and not implications.
     //
@@ -465,12 +466,13 @@ module DefaultCMM {
         var keysSet := input.reproducedEncryptionContext.value.Keys;
         ghost var keysSet' := keysSet;
         var keysSeq := SortedSets.ComputeSetToSequence(keysSet);
-        var i := 0;
-        while i < |keysSeq|
+        var i : uint64 := 0;
+        SequenceIsSafeBecauseItIsInMemory(keysSeq);
+        while i < |keysSeq| as uint64
           invariant Seq.HasNoDuplicates(keysSeq)
-          invariant forall j | 0 <= j < i && i < |keysSeq| :: keysSeq[j] !in keysSet'
-          invariant forall j | i <= j < |keysSeq| :: keysSeq[j] in keysSet'
-          invariant |keysSet'| == |keysSeq| - i
+          invariant forall j | 0 <= j < i as nat && i as nat < |keysSeq| :: keysSeq[j] !in keysSet'
+          invariant forall j | i as nat <= j < |keysSeq| :: keysSeq[j] in keysSet'
+          invariant |keysSet'| == |keysSeq| - i as nat
           invariant forall key
                       |
                       && key in input.reproducedEncryptionContext.value
@@ -490,7 +492,7 @@ module DefaultCMM {
           }
           keysSet' := keysSet' - {key};
           i := i + 1;
-          assert forall j | i <= j < |keysSeq| :: keysSeq[j] in keysSet' by {
+          assert forall j | i as nat <= j < |keysSeq| :: keysSeq[j] in keysSet' by {
             reveal Seq.HasNoDuplicates();
           }
         }

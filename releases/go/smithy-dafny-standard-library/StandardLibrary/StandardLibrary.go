@@ -25,6 +25,7 @@ import (
 	m_Seq "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq"
 	m_Seq_MergeSort "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq_MergeSort"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -65,6 +66,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 
@@ -105,33 +107,35 @@ func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 var _ _dafny.TraitOffspring = &Default__{}
 
 func (_static *CompanionStruct_Default___) Join(ss _dafny.Sequence, joiner _dafny.Sequence) _dafny.Sequence {
-	var _0___accumulator _dafny.Sequence = _dafny.SeqOf()
-	_ = _0___accumulator
-	goto TAIL_CALL_START
-TAIL_CALL_START:
-	if (_dafny.IntOfUint32((ss).Cardinality())).Cmp(_dafny.One) == 0 {
-		return _dafny.Companion_Sequence_.Concatenate(_0___accumulator, (ss).Select(0).(_dafny.Sequence))
-	} else {
-		_0___accumulator = _dafny.Companion_Sequence_.Concatenate(_0___accumulator, _dafny.Companion_Sequence_.Concatenate((ss).Select(0).(_dafny.Sequence), joiner))
-		var _in0 _dafny.Sequence = (ss).Drop(1)
-		_ = _in0
-		var _in1 _dafny.Sequence = joiner
-		_ = _in1
-		ss = _in0
-		joiner = _in1
-		goto TAIL_CALL_START
+	var s _dafny.Sequence = _dafny.EmptySeq
+	_ = s
+	var _0_size uint64
+	_ = _0_size
+	_0_size = uint64((ss).Cardinality())
+	var _1_result _dafny.Sequence
+	_ = _1_result
+	_1_result = (ss).Select(uint32((_0_size) - (func() uint64 { return (uint64(1)) })())).(_dafny.Sequence)
+	var _2_i uint64
+	_ = _2_i
+	_2_i = (_0_size) - (func() uint64 { return (uint64(1)) })()
+	for (_2_i) > (uint64(0)) {
+		_2_i = (_2_i) - (func() uint64 { return (uint64(1)) })()
+		_1_result = _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate((ss).Select(uint32(_2_i)).(_dafny.Sequence), joiner), _1_result)
 	}
+	s = _1_result
+	return s
+	return s
 }
 func (_static *CompanionStruct_Default___) Split(s _dafny.Sequence, delim interface{}) _dafny.Sequence {
 	var _0___accumulator _dafny.Sequence = _dafny.SeqOf()
 	_ = _0___accumulator
 	goto TAIL_CALL_START
 TAIL_CALL_START:
-	var _1_i m_Wrappers.Option = Companion_Default___.FindIndexMatching(s, delim, _dafny.Zero)
+	var _1_i m_Wrappers.Option = Companion_Default___.FindIndexMatching(s, delim, uint64(0))
 	_ = _1_i
 	if (_1_i).Is_Some() {
-		_0___accumulator = _dafny.Companion_Sequence_.Concatenate(_0___accumulator, _dafny.SeqOf((s).Take(((_1_i).Dtor_value().(_dafny.Int)).Uint32())))
-		var _in0 _dafny.Sequence = (s).Drop((((_1_i).Dtor_value().(_dafny.Int)).Plus(_dafny.One)).Uint32())
+		_0___accumulator = _dafny.Companion_Sequence_.Concatenate(_0___accumulator, _dafny.SeqOf((s).Take(uint32((_1_i).Dtor_value().(uint64)))))
+		var _in0 _dafny.Sequence = (s).Drop(uint32(m_StandardLibrary_MemoryMath.Companion_Default___.Add((_1_i).Dtor_value().(uint64), uint64(1))))
 		_ = _in0
 		var _in1 interface{} = delim
 		_ = _in1
@@ -143,22 +147,22 @@ TAIL_CALL_START:
 	}
 }
 func (_static *CompanionStruct_Default___) SplitOnce(s _dafny.Sequence, delim interface{}) _dafny.Tuple {
-	var _0_i m_Wrappers.Option = Companion_Default___.FindIndexMatching(s, delim, _dafny.Zero)
+	var _0_i m_Wrappers.Option = Companion_Default___.FindIndexMatching(s, delim, uint64(0))
 	_ = _0_i
-	return _dafny.TupleOf((s).Take(((_0_i).Dtor_value().(_dafny.Int)).Uint32()), (s).Drop((((_0_i).Dtor_value().(_dafny.Int)).Plus(_dafny.One)).Uint32()))
+	return _dafny.TupleOf((s).Take(uint32((_0_i).Dtor_value().(uint64))), (s).Drop(uint32(m_StandardLibrary_MemoryMath.Companion_Default___.Add((_0_i).Dtor_value().(uint64), uint64(1)))))
 }
 func (_static *CompanionStruct_Default___) SplitOnce_q(s _dafny.Sequence, delim interface{}) m_Wrappers.Option {
-	var _0_valueOrError0 m_Wrappers.Option = Companion_Default___.FindIndexMatching(s, delim, _dafny.Zero)
+	var _0_valueOrError0 m_Wrappers.Option = Companion_Default___.FindIndexMatching(s, delim, uint64(0))
 	_ = _0_valueOrError0
 	if (_0_valueOrError0).IsFailure() {
 		return (_0_valueOrError0).PropagateFailure()
 	} else {
-		var _1_i _dafny.Int = (_0_valueOrError0).Extract().(_dafny.Int)
+		var _1_i uint64 = (_0_valueOrError0).Extract().(uint64)
 		_ = _1_i
-		return m_Wrappers.Companion_Option_.Create_Some_(_dafny.TupleOf((s).Take((_1_i).Uint32()), (s).Drop(((_1_i).Plus(_dafny.One)).Uint32())))
+		return m_Wrappers.Companion_Option_.Create_Some_(_dafny.TupleOf((s).Take(uint32(_1_i)), (s).Drop(uint32(m_StandardLibrary_MemoryMath.Companion_Default___.Add(_1_i, uint64(1))))))
 	}
 }
-func (_static *CompanionStruct_Default___) FindIndexMatching(s _dafny.Sequence, c interface{}, i _dafny.Int) m_Wrappers.Option {
+func (_static *CompanionStruct_Default___) FindIndexMatching(s _dafny.Sequence, c interface{}, i uint64) m_Wrappers.Option {
 	return Companion_Default___.FindIndex(s, func(coer17 func(interface{}) bool) func(interface{}) bool {
 		return func(arg18 interface{}) bool {
 			return coer17(arg18)
@@ -169,19 +173,19 @@ func (_static *CompanionStruct_Default___) FindIndexMatching(s _dafny.Sequence, 
 		}
 	})(c)), i)
 }
-func (_static *CompanionStruct_Default___) FindIndex(s _dafny.Sequence, f func(interface{}) bool, i _dafny.Int) m_Wrappers.Option {
+func (_static *CompanionStruct_Default___) FindIndex(s _dafny.Sequence, f func(interface{}) bool, i uint64) m_Wrappers.Option {
 	goto TAIL_CALL_START
 TAIL_CALL_START:
-	if (i).Cmp(_dafny.IntOfUint32((s).Cardinality())) == 0 {
+	if (i) == (uint64((s).Cardinality())) {
 		return m_Wrappers.Companion_Option_.Create_None_()
-	} else if (f)((s).Select((i).Uint32()).(interface{})) {
+	} else if (f)((s).Select(uint32(i)).(interface{})) {
 		return m_Wrappers.Companion_Option_.Create_Some_(i)
 	} else {
 		var _in0 _dafny.Sequence = s
 		_ = _in0
 		var _in1 func(interface{}) bool = f
 		_ = _in1
-		var _in2 _dafny.Int = (i).Plus(_dafny.One)
+		var _in2 uint64 = (i) + (uint64(1))
 		_ = _in2
 		s = _in0
 		f = _in1
@@ -190,30 +194,23 @@ TAIL_CALL_START:
 	}
 }
 func (_static *CompanionStruct_Default___) Filter(s _dafny.Sequence, f func(interface{}) bool) _dafny.Sequence {
-	var _0___accumulator _dafny.Sequence = _dafny.SeqOf()
-	_ = _0___accumulator
-	goto TAIL_CALL_START
-TAIL_CALL_START:
-	if (_dafny.IntOfUint32((s).Cardinality())).Sign() == 0 {
-		return _dafny.Companion_Sequence_.Concatenate(_0___accumulator, _dafny.SeqOf())
-	} else if (f)((s).Select(0).(interface{})) {
-		_0___accumulator = _dafny.Companion_Sequence_.Concatenate(_0___accumulator, _dafny.SeqOf((s).Select(0).(interface{})))
-		var _in0 _dafny.Sequence = (s).Drop(1)
-		_ = _in0
-		var _in1 func(interface{}) bool = f
-		_ = _in1
-		s = _in0
-		f = _in1
-		goto TAIL_CALL_START
-	} else {
-		var _in2 _dafny.Sequence = (s).Drop(1)
-		_ = _in2
-		var _in3 func(interface{}) bool = f
-		_ = _in3
-		s = _in2
-		f = _in3
-		goto TAIL_CALL_START
+	var res _dafny.Sequence = _dafny.EmptySeq
+	_ = res
+	var _0_result _dafny.Sequence
+	_ = _0_result
+	_0_result = _dafny.SeqOf()
+	var _1_i uint64
+	_ = _1_i
+	_1_i = uint64((s).Cardinality())
+	for (_1_i) > (uint64(0)) {
+		_1_i = (_1_i) - (func() uint64 { return (uint64(1)) })()
+		if (f)((s).Select(uint32(_1_i)).(interface{})) {
+			_0_result = _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOf((s).Select(uint32(_1_i)).(interface{})), _0_result)
+		}
 	}
+	res = _0_result
+	return res
+	return res
 }
 func (_static *CompanionStruct_Default___) Min(a _dafny.Int, b _dafny.Int) _dafny.Int {
 	if (a).Cmp(b) < 0 {
@@ -280,51 +277,13 @@ func (_static *CompanionStruct_Default___) LexicographicLessOrEqualAux(a _dafny.
 		return !(((_0_i).Sign() != -1) && ((_0_i).Cmp(lengthOfCommonPrefix) < 0)) || (_dafny.AreEqual((a).Select((_0_i).Uint32()).(interface{}), (b).Select((_0_i).Uint32()).(interface{})))
 	}))) && (((lengthOfCommonPrefix).Cmp(_dafny.IntOfUint32((a).Cardinality())) == 0) || (((lengthOfCommonPrefix).Cmp(_dafny.IntOfUint32((b).Cardinality())) < 0) && ((less)((a).Select((lengthOfCommonPrefix).Uint32()).(interface{}), (b).Select((lengthOfCommonPrefix).Uint32()).(interface{})))))
 }
-func (_static *CompanionStruct_Default___) SetToOrderedSequence(s _dafny.Set, less func(interface{}, interface{}) bool) _dafny.Sequence {
-	var _0___accumulator _dafny.Sequence = _dafny.SeqOf()
-	_ = _0___accumulator
-	goto TAIL_CALL_START
-TAIL_CALL_START:
-	var _pat_let_tv0 = s
-	_ = _pat_let_tv0
-	var _pat_let_tv1 = less
-	_ = _pat_let_tv1
-	if (s).Equals(_dafny.SetOf()) {
-		return _dafny.Companion_Sequence_.Concatenate(_0___accumulator, _dafny.SeqOf())
-	} else {
-		return func(_let_dummy_0 int) _dafny.Sequence {
-			var _1_a _dafny.Sequence = _dafny.EmptySeq
-			_ = _1_a
-			{
-				for _iter1 := _dafny.Iterate((s).Elements()); ; {
-					_assign_such_that_0, _ok1 := _iter1()
-					if !_ok1 {
-						break
-					}
-					_1_a = interface{}(_assign_such_that_0).(_dafny.Sequence)
-					if ((s).Contains(_1_a)) && (Companion_Default___.IsMinimum(_1_a, s, func(coer20 func(interface{}, interface{}) bool) func(interface{}, interface{}) bool {
-						return func(arg22 interface{}, arg23 interface{}) bool {
-							return coer20(arg22, arg23)
-						}
-					}(less))) {
-						goto L_ASSIGN_SUCH_THAT_0
-					}
-				}
-				panic("assign-such-that search produced no value")
-				goto L_ASSIGN_SUCH_THAT_0
-			}
-		L_ASSIGN_SUCH_THAT_0:
-			return _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOf(_1_a), Companion_Default___.SetToOrderedSequence((_pat_let_tv0).Difference(_dafny.SetOf(_1_a)), _pat_let_tv1))
-		}(0)
-	}
-}
 func (_static *CompanionStruct_Default___) IsMinimum(a _dafny.Sequence, s _dafny.Set, less func(interface{}, interface{}) bool) bool {
 	return ((s).Contains(a)) && (_dafny.Quantifier((s).Elements(), true, func(_forall_var_0 _dafny.Sequence) bool {
 		var _0_z _dafny.Sequence
 		_0_z = interface{}(_forall_var_0).(_dafny.Sequence)
-		return !((s).Contains(_0_z)) || (Companion_Default___.LexicographicLessOrEqual(a, _0_z, func(coer21 func(interface{}, interface{}) bool) func(interface{}, interface{}) bool {
-			return func(arg24 interface{}, arg25 interface{}) bool {
-				return coer21(arg24, arg25)
+		return !((s).Contains(_0_z)) || (Companion_Default___.LexicographicLessOrEqual(a, _0_z, func(coer20 func(interface{}, interface{}) bool) func(interface{}, interface{}) bool {
+			return func(arg22 interface{}, arg23 interface{}) bool {
+				return coer20(arg22, arg23)
 			}
 		}(less)))
 	}))

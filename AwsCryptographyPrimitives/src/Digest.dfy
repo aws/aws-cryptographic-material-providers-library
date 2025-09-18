@@ -6,11 +6,12 @@ include "../Model/AwsCryptographyPrimitivesTypes.dfy"
 module Digest {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import Types = AwsCryptographyPrimitivesTypes
   import ExternDigest
 
   // Hash length in octets (bytes), e.g. GetHashLength(SHA_256) ==> 256 bits = 32 bytes ==> n = 32
-  function method Length(digestAlgorithm: Types.DigestAlgorithm): nat
+  function method Length(digestAlgorithm: Types.DigestAlgorithm): uint64
   {
     match digestAlgorithm
     case SHA_512() => 64
@@ -20,12 +21,13 @@ module Digest {
 
   method Digest(input: Types.DigestInput)
     returns (res: Result<seq<uint8>, Types.Error>)
-    ensures res.Success? ==> |res.value| == Length(input.digestAlgorithm)
+    ensures res.Success? ==> |res.value| == Length(input.digestAlgorithm) as nat
   {
     var DigestInput(digestAlgorithm, message) := input;
     var value :- ExternDigest.Digest(digestAlgorithm, message);
+    SequenceIsSafeBecauseItIsInMemory(value);
     :- Need(
-      |value| == Length(digestAlgorithm),
+      |value| as uint64 == Length(digestAlgorithm),
       Types.AwsCryptographicPrimitivesError(message := "Incorrect length digest from ExternDigest.")
     );
     return Success(value);

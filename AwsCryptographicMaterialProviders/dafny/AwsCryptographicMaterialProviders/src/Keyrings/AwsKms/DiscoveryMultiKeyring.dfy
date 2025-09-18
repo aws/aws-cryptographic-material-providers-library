@@ -11,6 +11,8 @@ include "../../AlgorithmSuites.dfy"
 
 module DiscoveryMultiKeyring {
   import opened Wrappers
+  import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import Seq
   import Types = AwsCryptographyMaterialProvidersTypes
   import KMS = Types.ComAmazonawsKmsTypes
@@ -89,15 +91,15 @@ module DiscoveryMultiKeyring {
                && (discoveryFilter.Some? ==> c.discoveryFilter == discoveryFilter)
                && (grantTokens.Some? ==> c.grantTokens == grantTokens.value)
   {
-
-    :- Need(|regions| > 0, Types.AwsCryptographicMaterialProvidersException(
+    SequenceIsSafeBecauseItIsInMemory(regions);
+    :- Need(|regions| as uint64 > 0, Types.AwsCryptographicMaterialProvidersException(
               message := "No regions passed."));
     :- Need(Seq.IndexOfOption(regions, "").None?, Types.AwsCryptographicMaterialProvidersException(
               message := "Empty string is not a valid region."));
 
     var children : seq<AwsKmsDiscoveryKeyring.AwsKmsDiscoveryKeyring> := [];
-
-    for i := 0 to |regions|
+    SequenceIsSafeBecauseItIsInMemory(regions);
+    for i : uint64 := 0 to |regions| as uint64
       invariant |regions[..i]| == |children|
       invariant fresh(MultiKeyring.GatherModifies(None, children) - clientSupplier.Modifies)
       invariant forall i | 0 <= i < |children|

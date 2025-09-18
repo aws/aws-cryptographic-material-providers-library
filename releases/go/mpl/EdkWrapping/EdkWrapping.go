@@ -15,11 +15,9 @@ import (
 	m_AwsCryptographyKeyStoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreOperations"
 	m_AwsCryptographyKeyStoreTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
 	m_AwsCryptographyMaterialProvidersTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
-	m_AwsKmsMrkAreUnique "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkAreUnique"
 	m_AwsKmsMrkMatchForDecrypt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkMatchForDecrypt"
 	m_AwsKmsUtils "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsUtils"
 	m_CanonicalEncryptionContext "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CanonicalEncryptionContext"
-	m_Constants "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Constants"
 	m_CreateKeyStoreTable "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeyStoreTable"
 	m_CreateKeys "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeys"
 	m_DDBKeystoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/DDBKeystoreOperations"
@@ -32,7 +30,6 @@ import (
 	m_KmsArn "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KmsArn"
 	m_MaterialWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MaterialWrapping"
 	m_Materials "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Materials"
-	m_MultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MultiKeyring"
 	m_Structure "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Structure"
 	m_AtomicPrimitives "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AtomicPrimitives"
 	m_AwsCryptographyPrimitivesOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesOperations"
@@ -70,6 +67,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -89,6 +87,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -153,11 +152,8 @@ var _ m_KeyStore.Dummy__
 var _ m_AlgorithmSuites.Dummy__
 var _ m_Materials.Dummy__
 var _ m_Keyring.Dummy__
-var _ m_MultiKeyring.Dummy__
-var _ m_AwsKmsMrkAreUnique.Dummy__
-var _ m_Constants.Dummy__
-var _ m_MaterialWrapping.Dummy__
 var _ m_CanonicalEncryptionContext.Dummy__
+var _ m_MaterialWrapping.Dummy__
 var _ m_IntermediateKeyWrapping.Dummy__
 
 type Dummy__ struct{}
@@ -211,7 +207,7 @@ func (_static *CompanionStruct_Default___) WrapEdkMaterial(encryptionMaterials m
 		_ = _1_valueOrError1
 		var _out0 interface{}
 		_ = _out0
-		_out0 = (wrap).Invoke(m_MaterialWrapping.Companion_WrapInput_.Create_WrapInput_(((encryptionMaterials).Dtor_plaintextDataKey()).Dtor_value().(_dafny.Sequence), (encryptionMaterials).Dtor_algorithmSuite(), (encryptionMaterials).Dtor_encryptionContext()))
+		_out0 = (wrap).Invoke(m_MaterialWrapping.Companion_WrapInput_.Create_WrapInput_(((encryptionMaterials).Dtor_plaintextDataKey()).Dtor_value().(_dafny.Sequence), (encryptionMaterials).Dtor_algorithmSuite(), (encryptionMaterials).Dtor_encryptionContext(), m_CanonicalEncryptionContext.Companion_Default___.EncryptionContextToAAD((encryptionMaterials).Dtor_encryptionContext())))
 		_1_valueOrError1 = _out0.(m_Wrappers.Result)
 		if (_1_valueOrError1).IsFailure() {
 			ret = (_1_valueOrError1).PropagateFailure()
@@ -243,7 +239,7 @@ func (_static *CompanionStruct_Default___) WrapEdkMaterial(encryptionMaterials m
 		_ = _5_valueOrError3
 		var _out2 interface{}
 		_ = _out2
-		_out2 = (generateAndWrap).Invoke(m_MaterialWrapping.Companion_GenerateAndWrapInput_.Create_GenerateAndWrapInput_((encryptionMaterials).Dtor_algorithmSuite(), (encryptionMaterials).Dtor_encryptionContext()))
+		_out2 = (generateAndWrap).Invoke(m_MaterialWrapping.Companion_GenerateAndWrapInput_.Create_GenerateAndWrapInput_((encryptionMaterials).Dtor_algorithmSuite(), (encryptionMaterials).Dtor_encryptionContext(), m_CanonicalEncryptionContext.Companion_Default___.EncryptionContextToAAD((encryptionMaterials).Dtor_encryptionContext())))
 		_5_valueOrError3 = _out2.(m_Wrappers.Result)
 		if (_5_valueOrError3).IsFailure() {
 			ret = (_5_valueOrError3).PropagateFailure()
@@ -296,7 +292,7 @@ func (_static *CompanionStruct_Default___) UnwrapEdkMaterial(wrappedMaterial _da
 		_ = _1_valueOrError1
 		var _out0 interface{}
 		_ = _out0
-		_out0 = (unwrap).Invoke(m_MaterialWrapping.Companion_UnwrapInput_.Create_UnwrapInput_(wrappedMaterial, (decryptionMaterials).Dtor_algorithmSuite(), (decryptionMaterials).Dtor_encryptionContext()))
+		_out0 = (unwrap).Invoke(m_MaterialWrapping.Companion_UnwrapInput_.Create_UnwrapInput_(wrappedMaterial, (decryptionMaterials).Dtor_algorithmSuite(), (decryptionMaterials).Dtor_encryptionContext(), m_CanonicalEncryptionContext.Companion_Default___.EncryptionContextToAAD((decryptionMaterials).Dtor_encryptionContext())))
 		_1_valueOrError1 = _out0.(m_Wrappers.Result)
 		if (_1_valueOrError1).IsFailure() {
 			ret = (_1_valueOrError1).PropagateFailure()
@@ -310,7 +306,7 @@ func (_static *CompanionStruct_Default___) UnwrapEdkMaterial(wrappedMaterial _da
 	} else if (((decryptionMaterials).Dtor_algorithmSuite()).Dtor_edkWrapping()).Is_IntermediateKeyWrapping() {
 		var _3_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 		_ = _3_valueOrError2
-		_3_valueOrError2 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32((wrappedMaterial).Cardinality())).Cmp(_dafny.IntOfInt32((((((decryptionMaterials).Dtor_algorithmSuite()).Dtor_encrypt()).Dtor_AES__GCM()).Dtor_keyLength())+(((((decryptionMaterials).Dtor_algorithmSuite()).Dtor_encrypt()).Dtor_AES__GCM()).Dtor_tagLength()))) >= 0, m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Invalid material for Intermediate Unwrapping")))
+		_3_valueOrError2 = m_Wrappers.Companion_Default___.Need((uint64((wrappedMaterial).Cardinality())) >= (uint64((((((decryptionMaterials).Dtor_algorithmSuite()).Dtor_encrypt()).Dtor_AES__GCM()).Dtor_keyLength())+(((((decryptionMaterials).Dtor_algorithmSuite()).Dtor_encrypt()).Dtor_AES__GCM()).Dtor_tagLength()))), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Invalid material for Intermediate Unwrapping")))
 		if (_3_valueOrError2).IsFailure() {
 			ret = (_3_valueOrError2).PropagateFailure()
 			return ret

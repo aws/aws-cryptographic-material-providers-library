@@ -7,6 +7,11 @@
     unexpected_cfgs
 )]
 
+#![allow(warnings, unconditional_panic)]
+#![allow(nonstandard_style)]
+#![allow(clippy::never_loop)]
+#![allow(clippy::absurd_extreme_comparisons)]
+
 pub mod client;
 pub mod conversions;
 pub mod deps;
@@ -15,6 +20,13 @@ pub mod operation;
 pub mod types;
 pub mod validation;
 pub mod wrapped;
+
+#[cfg(feature = "fips")]
+use aws_lc_fips_sys as aws_lc_sys_impl;
+
+#[cfg(not(feature = "fips"))]
+use aws_lc_sys as aws_lc_sys_impl;
+
 
 pub(crate) mod standard_library_conversions;
 pub(crate) mod standard_library_externs;

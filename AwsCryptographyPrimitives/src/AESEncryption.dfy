@@ -6,6 +6,7 @@ include "../Model/AwsCryptographyPrimitivesTypes.dfy"
 module {:extern "AESEncryption"} AESEncryption {
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import Types = AwsCryptographyPrimitivesTypes
 
   // The following are used to tie plaintext and ciphertext with the AAD that was used to produce them.
@@ -24,14 +25,16 @@ module {:extern "AESEncryption"} AESEncryption {
     ensures |encArt.authTag| == encAlg.tagLength as int
   {
     assert |s| - encAlg.tagLength as int <= |s|;
+    SequenceIsSafeBecauseItIsInMemory(s);
 
-    var cipherText := s[.. |s| - encAlg.tagLength as int];
-    var authTag := s[|s| - encAlg.tagLength as int ..];
+    var pivot_point := |s| as uint64 - encAlg.tagLength as uint64;
+    var cipherText := s[..pivot_point];
+    var authTag := s[pivot_point..];
 
     Types.AESEncryptOutput(cipherText := cipherText, authTag := authTag)
   }
 
-  method {:extern "AESEncryption.AES_GCM", "AESEncryptExtern"} AESEncryptExtern(
+  method {:extern "AESEncryption.AES_GCM", "AESEncryptExtern"} {:axiom} AESEncryptExtern(
     encAlg: Types.AES_GCM,
     iv: seq<uint8>,
     key: seq<uint8>,
@@ -56,10 +59,11 @@ module {:extern "AESEncryption"} AESEncryption {
     // This is useful information to have to prove correctness
     ensures res.Success? ==> |res.value.authTag| == input.encAlg.tagLength as nat
   {
-
+    SequenceIsSafeBecauseItIsInMemory(input.iv);
+    SequenceIsSafeBecauseItIsInMemory(input.key);
     :- Need(
-      && |input.iv| == input.encAlg.ivLength as int
-      && |input.key| == input.encAlg.keyLength as int,
+      && |input.iv| as uint64 == input.encAlg.ivLength as uint64
+      && |input.key| as uint64  == input.encAlg.keyLength as uint64 ,
       Types.AwsCryptographicPrimitivesError(message := "Request does not match algorithm.")
     );
 
@@ -67,19 +71,22 @@ module {:extern "AESEncryption"} AESEncryption {
 
     var value :- AESEncryptExtern(encAlg, iv, key, msg, aad);
 
+    SequenceIsSafeBecauseItIsInMemory(value.cipherText);
+    SequenceIsSafeBecauseItIsInMemory(value.authTag);
+    SequenceIsSafeBecauseItIsInMemory(msg);
     :- Need(
-      |value.cipherText| == |msg|,
+      |value.cipherText| as uint64 == |msg| as uint64,
       Types.AwsCryptographicPrimitivesError(message := "AESEncrypt did not return cipherText of expected length")
     );
     :- Need(
-      |value.authTag| == encAlg.tagLength as int,
+      |value.authTag| as uint64 == encAlg.tagLength as uint64,
       Types.AwsCryptographicPrimitivesError(message := "AESEncryption did not return valid tag")
     );
 
     return Success(value);
   }
 
-  method {:extern "AESEncryption.AES_GCM", "AESDecryptExtern"} AESDecryptExtern(
+  method {:extern "AESEncryption.AES_GCM", "AESDecryptExtern"} {:axiom} AESDecryptExtern(
     encAlg: Types.AES_GCM,
     key: seq<uint8>,
     cipherTxt: seq<uint8>,
@@ -104,18 +111,23 @@ module {:extern "AESEncryption"} AESEncryption {
     ensures res.Success? ==> CiphertextGeneratedWithPlaintext(input.cipherTxt, res.value)
     ensures res.Success? ==> DecryptedWithKey(input.key, res.value)
   {
+    SequenceIsSafeBecauseItIsInMemory(input.iv);
+    SequenceIsSafeBecauseItIsInMemory(input.key);
+    SequenceIsSafeBecauseItIsInMemory(input.authTag);
     :- Need(
-      && |input.key| == input.encAlg.keyLength as int
-      && |input.iv| == input.encAlg.ivLength as int
-      && |input.authTag| == input.encAlg.tagLength as int,
+      && |input.key| as uint64 == input.encAlg.keyLength as uint64
+      && |input.iv| as uint64 == input.encAlg.ivLength as uint64
+      && |input.authTag| as uint64 == input.encAlg.tagLength as uint64,
       Types.AwsCryptographicPrimitivesError(message := "Request does not match algorithm.")
     );
 
     var AESDecryptInput(encAlg, key, cipherTxt, authTag, iv, aad) := input;
     var value :- AESDecryptExtern(encAlg, key, cipherTxt, authTag, iv, aad);
 
+    SequenceIsSafeBecauseItIsInMemory(value);
+    SequenceIsSafeBecauseItIsInMemory(cipherTxt);
     :- Need(
-      |cipherTxt| == |value|,
+      |cipherTxt| as uint64 == |value| as uint64,
       Types.AwsCryptographicPrimitivesError(message := "AESDecrypt did not return plaintext of expected length")
     );
 

@@ -16,6 +16,7 @@ module AwsKmsDiscoveryKeyring {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened Actions
   import opened Constants
   import AlgorithmSuites
@@ -242,12 +243,13 @@ module AwsKmsDiscoveryKeyring {
       var edkFilter : AwsKmsEncryptedDataKeyFilter := new AwsKmsEncryptedDataKeyFilter(discoveryFilter);
       var matchingEdks :- Actions.FilterWithResult(edkFilter, encryptedDataKeys);
 
-      // Next we convert the input Types.EncrypteDataKeys into Constant.AwsKmsEdkHelpers,
+      // Next we convert the input Types.EncryptDataKeys into Constant.AwsKmsEdkHelpers,
       // which makes them slightly easier to work with.
       var edkTransform : AwsKmsEncryptedDataKeyTransformer := new AwsKmsEncryptedDataKeyTransformer();
       var edksToAttempt, parts :- Actions.DeterministicFlatMapWithResult(edkTransform, matchingEdks);
 
-      if (0 == |edksToAttempt|) {
+      SequenceIsSafeBecauseItIsInMemory(edksToAttempt);
+      if (0 == |edksToAttempt| as uint64) {
         var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(
             Types.AwsCryptographicMaterialProvidersException(
