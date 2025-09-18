@@ -6,4 +6,4 @@ require github.com/dafny-lang/DafnyRuntimeGo/v4 v4.10.1
 
 require github.com/google/uuid v1.6.0
 
-require golang.org/x/sys v0.36.0 // indirect
+require golang.org/x/sys v0.36.0
