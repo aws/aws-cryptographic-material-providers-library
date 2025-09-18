@@ -14,6 +14,7 @@ include "IntermediateKeyWrapping.dfy"
 module EdkWrapping {
   import opened StandardLibrary
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened Actions
   import opened Wrappers
   import opened MaterialWrapping
@@ -339,8 +340,9 @@ module EdkWrapping {
     } else if (decryptionMaterials.algorithmSuite.edkWrapping.IntermediateKeyWrapping?) {
       // Unwrap the EDK Ciphertext using the EdkWrapping method,
       // and obtain both the pdk and a symmetric signing key
-      :- Need(|wrappedMaterial| >= (decryptionMaterials.algorithmSuite.encrypt.AES_GCM.keyLength +
-                                    decryptionMaterials.algorithmSuite.encrypt.AES_GCM.tagLength) as int,
+      SequenceIsSafeBecauseItIsInMemory(wrappedMaterial);
+      :- Need(|wrappedMaterial| as uint64 >= (decryptionMaterials.algorithmSuite.encrypt.AES_GCM.keyLength +
+                                              decryptionMaterials.algorithmSuite.encrypt.AES_GCM.tagLength) as uint64,
               Types.AwsCryptographicMaterialProvidersException(
                 message := "Invalid material for Intermediate Unwrapping"));
 

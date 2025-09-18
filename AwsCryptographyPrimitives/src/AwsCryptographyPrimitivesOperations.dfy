@@ -44,7 +44,7 @@ module AwsCryptographyPrimitivesOperations refines AbstractAwsCryptographyPrimit
 
   predicate DigestEnsuresPublicly(input: DigestInput, output: Result<seq<uint8>, Error>)
   {
-    output.Success? ==> |output.value| == D.Length(input.digestAlgorithm)
+    output.Success? ==> |output.value| == D.Length(input.digestAlgorithm) as nat
   }
 
   method Digest ( config: InternalConfig,  input: DigestInput )

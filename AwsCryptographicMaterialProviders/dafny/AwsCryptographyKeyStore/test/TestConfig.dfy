@@ -118,7 +118,7 @@ module TestConfig {
     // create and use us-east-2 Keystore and Branch Key
     // Assert call to get Branch Key ID succeeds.
     // As long as tests are run NOT in us-east-2,
-    // this prooves that the DDB Client used the region
+    // this proves that the DDB Client used the region
     // from the KMS Key ARN to initialize the DDB Client
 
     var keyStoreConfig := Types.KeyStoreConfig(
@@ -145,7 +145,7 @@ module TestConfig {
     // create and use us-east-2 Keystore and Branch Key
     // Assert call to get Branch Key ID succeeds.
     // As long as tests are run NOT in us-east-2,
-    // this prooves that the DDB Client used the region
+    // this proves that the DDB Client used the region
     // from the KMS Key ARN to initialize the DDB Client
     keyStoreConfig := Types.KeyStoreConfig(
       id := None,
@@ -178,7 +178,7 @@ module TestConfig {
     // create and use us-east-2 Keystore and Branch Key
     // Assert call to get Branch Key ID FAILS.
     // As long as tests are run NOT in us-east-2,
-    // this prooves that the DDB Client used the region
+    // this proves that the DDB Client used the region
     // from the KMS Key ARN to initialize the DDB Client
     keyStoreConfig := Types.KeyStoreConfig(
       id := None,

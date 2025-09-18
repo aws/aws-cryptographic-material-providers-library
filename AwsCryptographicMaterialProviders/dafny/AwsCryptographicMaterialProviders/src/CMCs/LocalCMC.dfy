@@ -7,6 +7,7 @@ include "../../../../../libraries/src/MutableMap/MutableMap.dfy"
 module {:options "/functionSyntax:4" } LocalCMC {
   import opened Wrappers
   import opened StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened DafnyLibraries
   import Time
   import Types = AwsCryptographyMaterialProvidersTypes
@@ -107,29 +108,34 @@ module {:options "/functionSyntax:4" } LocalCMC {
       reads this, Items
     {
       // head and tail properties
-      && (0 == |Items| <==> head.Null? && tail.Null?)
-      && (0 < |Items| <==>
-          && head.Ptr?
-          && tail.Ptr?
-          && head.deref == Items[0]
-          && tail.deref == Items[|Items| - 1])
-      && (head.Ptr? <==> tail.Ptr?)
-      && (head.Ptr? ==> head.deref.prev.Null?)
-      && (tail.Ptr? ==> tail.deref.next.Null?)
-         // Every Cell in the DoublyLinkedList MUST be unique.
-         // Otherwise there would be loops in prev and next.
-         // For a Cell at 4, next MUST point to 5 or Null?.
-         // So if a Cell exists as 4 and 7
-         // then it's next would need to point to _both_ 5 and 8.
+      HeadTailProperties()
+      // Every Cell in the DoublyLinkedList MUST be unique.
+      // Otherwise there would be loops in prev and next.
+      // For a Cell at 4, next MUST point to 5 or Null?.
+      // So if a Cell exists as 4 and 7
+      // then it's next would need to point to _both_ 5 and 8.
       && (forall v <- Items :: multiset(Items)[v] == 1)
-         // Proving order is easier by being more specific
-         // and breaking up prev and next.
-         // Order means Cell 4 point to 3 and 5
-         // in prev and next respectively.
+      // Proving order is easier by being more specific
+      // and breaking up prev and next.
+      // Order means Cell 4 point to 3 and 5
+      // in prev and next respectively.
       && (forall i: nat | 0 <= i < |Items| ::
             && Prev?(i, Items[i], Items)
             && Next?(i, Items[i], Items)
-         )
+      )
+    }
+
+    ghost predicate HeadTailProperties()
+      reads this, Items
+    {
+      (0 == |Items| <==> head.Null? && tail.Null?) &&
+      (0 < |Items| <==>
+       head.Ptr? && tail.Ptr? &&
+       head.deref == Items[0] &&
+       tail.deref == Items[|Items|-1]) &&
+      (head.Ptr? <==> tail.Ptr?) &&
+      (head.Ptr? ==> head.deref.prev.Null?) &&
+      (tail.Ptr? ==> tail.deref.next.Null?)
     }
 
     ghost predicate Prev?(i:nat, c: CacheEntry, Items' : seq<CacheEntry>)
@@ -189,7 +195,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
       }
     }
 
-    method moveToFront(c: CacheEntry)
+    method {:vcs_split_on_every_assert} moveToFront(c: CacheEntry)
       requires c in Items
       requires exists i: nat | 0 <= i < |Items| :: c == Items[i]
       requires Invariant()
@@ -214,7 +220,10 @@ module {:options "/functionSyntax:4" } LocalCMC {
           tail := head;
         }
       }
-
+      assert |Items| > 0;
+      assert forall i: nat | 0 <= i < |Items| ::
+          && Prev?(i, Items[i], Items)
+          && Next?(i, Items[i], Items);
       assert (head.Ptr? <==> tail.Ptr?);
     }
 
@@ -266,6 +275,10 @@ module {:options "/functionSyntax:4" } LocalCMC {
 
       toRemove.next := NULL;
       toRemove.prev := NULL;
+
+      assert forall i: nat | 0 <= i < |Items| ::
+          && Prev?(i, Items[i], Items)
+          && Next?(i, Items[i], Items);
     }
   }
 
@@ -351,7 +364,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
          // with the tail MUST be in the cache
       && (forall c <- queue.Items :: c.identifier in cache.Keys() && cache.Select(c.identifier) == c)
 
-      && cache.Size() <= entryCapacity
+      && (ValueIsSafeBecauseItIsInMemory(cache.Size()); cache.Size() as uint64 <= entryCapacity)
     }
 
     var queue: DoublyLinkedCacheEntryList
@@ -360,14 +373,14 @@ module {:options "/functionSyntax:4" } LocalCMC {
     //= type=implication
     //# The local CMC MUST accept entry capacity values between zero
     //# and an implementation-defined maximum, inclusive.
-    const entryCapacity: nat
+    const entryCapacity: uint64
     //= aws-encryption-sdk-specification/framework/local-cryptographic-materials-cache.md#entry-pruning-tail-size
     //= type=implication
     //# The _entry pruning tail size_
     //# is the number of least recently used entries that the local CMC
     //# MUST check during [pruning](#pruning)
     //# for TTL-expired entries to evict.
-    const entryPruningTailSize: nat
+    const entryPruningTailSize: uint64
 
     //= aws-encryption-sdk-specification/framework/local-cryptographic-materials-cache.md#initialization
     //= type=implication
@@ -379,8 +392,8 @@ module {:options "/functionSyntax:4" } LocalCMC {
     //#
     //# - [Entry Pruning Tail Size](#entry-pruning-tail-size)
     constructor(
-      entryCapacity': nat,
-      entryPruningTailSize': nat := 1
+      entryCapacity': uint64,
+      entryPruningTailSize': uint64 := 1
     )
       requires entryPruningTailSize' >= 1
       ensures
@@ -393,14 +406,13 @@ module {:options "/functionSyntax:4" } LocalCMC {
     {
       entryCapacity := entryCapacity';
       entryPruningTailSize := entryPruningTailSize';
-      cache := new MutableMap();
+      cache := new MutableMap((k: seq<uint8>, v: CacheEntry) => true, true);
       queue := new DoublyLinkedCacheEntryList();
 
       History := new Types.ICryptographicMaterialsCacheCallHistory();
 
       Modifies := { History, this };
       InternalModifies := { queue, cache, this };
-
     }
 
     ghost predicate GetCacheEntryEnsuresPublicly(input: Types.GetCacheEntryInput, output: Result<Types.GetCacheEntryOutput, Types.Error>)
@@ -506,7 +518,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
       //= aws-encryption-sdk-specification/framework/local-cryptographic-materials-cache.md#entry-capacity
       //# The local CMC MUST NOT store more entries than this value,
       //# except temporarily while performing a Put Cache Entry operation.
-      if entryCapacity == cache.Size() {
+      if entryCapacity == cache.Size() as uint64 {
         assert 0 < |multiset(cache.Values())|;
         assert queue.tail.deref.identifier in cache.Keys();
         var _ :- DeleteCacheEntry'(Types.DeleteCacheEntryInput(
@@ -536,6 +548,14 @@ module {:options "/functionSyntax:4" } LocalCMC {
       cache.Put(input.identifier, cell);
       InternalModifies := InternalModifies + {cell};
 
+      assert multiset(cache.Values()) == multiset(queue.Items) by {
+        assert cell in cache.Values();
+        assert cell in queue.Items;
+        assert multiset(old@CAN_ADD(cache.Values())) + multiset{cell} == multiset(cache.Values());
+        assert multiset(old@CAN_ADD(queue.Items)) + multiset{cell} == multiset(queue.Items);
+        assert multiset(old@CAN_ADD(cache.Values())) == multiset(old@CAN_ADD(queue.Items));
+      }
+
       output := Success(());
 
       forall k <- cache.Keys(), k' <- cache.Keys() | k != k' ensures cache.Select(k) != cache.Select(k') {
@@ -545,7 +565,18 @@ module {:options "/functionSyntax:4" } LocalCMC {
           assert old@CAN_ADD(cache.Select(k)) != old@CAN_ADD(cache.Select(k'));
         }
       }
+      assert |queue.Items| > 0;
       assert  (forall c <- queue.Items :: c.identifier in cache.Keys() && cache.Select(c.identifier) == c);
+      assert cache.Size() as uint64 <= entryCapacity by {
+        if entryCapacity == old@CAN_ADD(cache.Size()) as uint64 {
+          // We evicted one entry before adding, so size should be same as before
+          assert cache.Size() == old@CAN_ADD(cache.Size());
+        } else {
+          // We didn't evict, so we added one entry
+          assert cache.Size() == old@CAN_ADD(cache.Size()) + 1;
+          assert old@CAN_ADD(cache.Size()) as uint64 < entryCapacity;
+        }
+      }
       assert Invariant();
     }
 
@@ -596,7 +627,7 @@ module {:options "/functionSyntax:4" } LocalCMC {
           LemmaMutableMapContainsPreservesInjectivity(old@CAN_REMOVE(cache), cache);
         }
         assert |cache.Keys()| == |old@CAN_REMOVE(cache.Keys())| - 1;
-        assert cache.Size() <= old@CAN_REMOVE(cache.Size()) <= entryCapacity;
+        assert cache.Size() as uint64 <= old@CAN_REMOVE(cache.Size()) as uint64 <= entryCapacity;
         queue.remove(cell);
         assert multiset(cache.Values()) == multiset(queue.Items) by {
           var cacheMultiset := multiset(cache.Values());

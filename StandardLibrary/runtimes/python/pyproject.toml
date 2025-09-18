@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-cryptography-internal-standard-library"
-version = "1.10.1"
+version = "1.11.1"
 description = ""
 authors = ["AWS Crypto Tools <aws-crypto-tools@amazon.com>"]
 packages = [
@@ -11,12 +11,12 @@ packages = [
 # Include generated internaldafny files in package distributions,
 # even though they are not included in version control
 include = [
-    "**/internaldafny/generated/*.py",
+    "src/smithy_dafny_standard_library/internaldafny/generated/*.py",
 ]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
-pytz = ">=2023.3.post1, <2025.0.0"
+pytz = ">=2023.3.post1, <2026.0.0"
 # TODO: Longer-term, write something to pull this in from the project's project.properties file
 DafnyRuntimePython = "4.9.0"
 

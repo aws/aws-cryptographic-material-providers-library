@@ -13,6 +13,11 @@ on:
         required: false
         default: false
         type: boolean
+      fuzz-testing:
+        description: "Use fuzzed test vectors instead of regular test vectors"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   generateEncryptVectors:
@@ -44,6 +49,7 @@ jobs:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: InterOpTests
+          role-duration-seconds: 7200
 
       - uses: actions/checkout@v4
         with:
@@ -78,6 +84,10 @@ jobs:
           pip install --upgrade tox
           pip install poetry
 
+      - name: Install hypothesis for fuzz testing
+        if: ${{ inputs.fuzz-testing }}
+        run: pip install hypothesis
+
       - name: Setup Rust Toolchain for GitHub CI
         if: matrix.language == 'rust'
         uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
@@ -109,11 +119,14 @@ jobs:
         with:
           dafny-version: ${{ inputs.dafny }}
 
+      - name: Install Smithy-Dafny codegen dependencies
+        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+
       - name: Regenerate code using smithy-dafny if necessary
         if: ${{ inputs.regenerate-code }}
         uses: ./.github/actions/polymorph_codegen
         with:
-          dafny: ${{ inputs.dafny }}
+          dafny: ${{ env.DAFNY_VERSION }}
           library: ${{ matrix.library }}
           diff-generated-code: false
 
@@ -144,10 +157,6 @@ jobs:
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_python
-
-      - name: Install Smithy-Dafny codegen dependencies
-        if: matrix.language == 'rust'
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
       # We do not check in Rust polymorph code
       - name: Run make polymorph_rust
@@ -190,7 +199,13 @@ jobs:
 
       - name: Create Manifests
         working-directory: ./${{ matrix.library }}
-        run: make test_generate_vectors_${{ matrix.language }}
+        run: |
+          if [ "${{ inputs.fuzz-testing }}" = "true" ]; then
+            echo "Generating fuzzed test vectors"
+            make test_generate_fuzz_vectors_${{ matrix.language }} NUM_VECTORS=2000
+          else
+            make test_generate_vectors_${{ matrix.language }}
+          fi
 
       - name: Create Encrypt Manifests
         working-directory: ./${{ matrix.library }}
@@ -199,7 +214,7 @@ jobs:
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}
+          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json
 
   testInteroperablity:
@@ -214,7 +229,6 @@ jobs:
             ubuntu-22.04,
             macos-13,
           ]
-        encrypting_language: [java, net, rust, python, go]
         decrypting_language: [java, net, rust, python, go]
         dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
@@ -233,6 +247,7 @@ jobs:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: InterOpTests
+          role-duration-seconds: 7200
 
       - uses: actions/checkout@v4
         with:
@@ -298,11 +313,14 @@ jobs:
         with:
           dafny-version: ${{ inputs.dafny }}
 
+      - name: Install Smithy-Dafny codegen dependencies
+        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+
       - name: Regenerate code using smithy-dafny if necessary
         if: ${{ inputs.regenerate-code }}
         uses: ./.github/actions/polymorph_codegen
         with:
-          dafny: ${{ inputs.dafny }}
+          dafny: ${{ env.DAFNY_VERSION }}
           library: ${{ matrix.library }}
           diff-generated-code: false
 
@@ -333,10 +351,6 @@ jobs:
           # This works because `node` is installed by default on GHA runners
           CORES=$(node -e 'console.log(os.cpus().length)')
           make transpile_python
-
-      - name: Install Smithy-Dafny codegen dependencies
-        if: matrix.decrypting_language == 'rust'
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
       # TODO: Remove this after checking in Rust polymorph code
       - name: Run make polymorph_rust
@@ -371,12 +385,52 @@ jobs:
         run: |
           make purge_polymorph_code
 
-      - name: Download Encrypt Manifest Artifact
+      - name: Download Encrypt Manifest Artifact Java
         uses: actions/download-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.encrypting_language}}
+          name: ${{matrix.os}}_vector_artifact_java${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
-      - name: Decrypt Encrypt Manifest
+      - name: Decrypt Encrypt Manifest Java
+        working-directory: ./${{ matrix.library }}
+        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+
+      - name: Download Encrypt Manifest Artifact Net
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{matrix.os}}_vector_artifact_net${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Net
+        working-directory: ./${{ matrix.library }}
+        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+
+      - name: Download Encrypt Manifest Artifact Rust
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{matrix.os}}_vector_artifact_rust${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Rust
+        working-directory: ./${{ matrix.library }}
+        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+
+      - name: Download Encrypt Manifest Artifact Python
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{matrix.os}}_vector_artifact_python${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Python
+        working-directory: ./${{ matrix.library }}
+        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+
+      - name: Download Encrypt Manifest Artifact Go
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{matrix.os}}_vector_artifact_go${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Go
         working-directory: ./${{ matrix.library }}
         run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}

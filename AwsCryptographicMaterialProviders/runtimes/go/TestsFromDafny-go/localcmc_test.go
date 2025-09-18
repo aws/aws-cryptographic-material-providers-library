@@ -122,7 +122,6 @@ func testLotsOfAdding(cache awscryptographymaterialproviderssmithygeneratedtypes
 		if op.Materials.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey).Value.BeaconKeyIdentifier != beaconKeyIdentifier {
 			return fmt.Errorf("beacon key identifier mismatch: %s != %s", op.Materials.(*awscryptographymaterialproviderssmithygeneratedtypes.MaterialsMemberBeaconKey).Value.BeaconKeyIdentifier, beaconKeyIdentifier)
 		}
-		fmt.Printf("Cache hit with beacon key identifier %s \n", beaconKeyIdentifier)
 	}
 	return nil
 }
