@@ -1,7 +1,6 @@
 package _Time
 
 import (
-	"syscall"
 	"time"
 
 	"github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Wrappers"
@@ -35,13 +34,4 @@ func CurrentRelativeTimeMilli() int64 {
 
 func (CompanionStruct_Default___) GetProcessCpuTimeMillis() int64 {
 	return GetProcessCpuTimeMillis()
-}
-
-func GetProcessCpuTimeMillis() int64 {
-	var usage syscall.Rusage
-	err := syscall.Getrusage(syscall.RUSAGE_SELF, &usage)
-	if err != nil {
-		return 0
-	}
-	return (usage.Utime.Nano() + usage.Stime.Nano()) / 1000000
 }
