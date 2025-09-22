@@ -869,14 +869,10 @@ func Aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_forOper
 
 func Aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionInput_json_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -976,14 +972,10 @@ func Aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionInp
 
 func Aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionOutput_json_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
