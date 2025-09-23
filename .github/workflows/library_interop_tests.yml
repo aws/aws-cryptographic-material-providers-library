@@ -111,7 +111,7 @@ jobs:
         if: matrix.language == 'rust'
         uses: ./.github/actions/setup_dafny
         with:
-          dafny-version: 4.10
+          dafny-version: 4.10.0
 
       - name: Setup Dafny Not Rust
         if: matrix.language != 'rust'
@@ -305,7 +305,7 @@ jobs:
         if: matrix.decrypting_language == 'rust'
         uses: ./.github/actions/setup_dafny
         with:
-          dafny-version: 4.10
+          dafny-version: 4.10.0
 
       - name: Setup Dafny 2 Not Rust
         if: matrix.decrypting_language != 'rust'
