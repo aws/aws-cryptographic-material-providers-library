@@ -25,6 +25,6 @@ runs:
         dotnet-version: "9.0.x"
 
     - name: Setup Dafny with setup-dafny action
-      uses: dafny-lang/setup-dafny-action@v1.8.0
+      uses: dafny-lang/setup-dafny-action@v1.9.1
       with:
         dafny-version: ${{ inputs.dafny-version }}

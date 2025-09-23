@@ -358,14 +358,10 @@ func Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_ToDafny(inpu
 
 func Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -414,14 +410,10 @@ func Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_ToDafny(inpu
 
 func Aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
@@ -450,14 +442,10 @@ func Aws_cryptography_keyStore_HmacKeyMap_key_ToDafny(input string) dafny.Sequen
 
 func Aws_cryptography_keyStore_HmacKeyMap_value_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 

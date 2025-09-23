@@ -21,6 +21,13 @@ pub mod types;
 pub mod validation;
 pub mod wrapped;
 
+#[cfg(feature = "fips")]
+use aws_lc_fips_sys as aws_lc_sys_impl;
+
+#[cfg(not(feature = "fips"))]
+use aws_lc_sys as aws_lc_sys_impl;
+
+
 pub(crate) mod standard_library_conversions;
 pub(crate) mod standard_library_externs;
 pub use client::Client;
