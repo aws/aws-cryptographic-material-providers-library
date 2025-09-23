@@ -4,7 +4,7 @@
 include "TestVectors.dfy"
 include "ParseJsonManifests.dfy"
 include "MplManifestOptions.dfy"
-  // TODO it would be nice to have this included somehow...
+// TODO it would be nice to have this included somehow...
 include "../../KeyVectors/src/Index.dfy"
 include "../../../../StandardLibrary/src/Time.dfy"
 

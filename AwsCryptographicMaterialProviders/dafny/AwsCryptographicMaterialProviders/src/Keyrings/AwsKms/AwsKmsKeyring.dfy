@@ -171,10 +171,10 @@ module AwsKmsKeyring {
           && var maybeStringifiedEncCtx := StringifyEncryptionContext(input.materials.encryptionContext);
           && maybeStringifiedEncCtx.Success?
           && 0 < |client.History.GenerateDataKey|
-             //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#onencrypt
-             //= type=implication
-             //# If the keyring calls AWS KMS GenerateDataKeys, it MUST use the
-             //# configured AWS KMS client to make the call.
+          //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#onencrypt
+          //= type=implication
+          //# If the keyring calls AWS KMS GenerateDataKeys, it MUST use the
+          //# configured AWS KMS client to make the call.
           && Last(client.History.GenerateDataKey).input
              //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#onencrypt
              //= type=implication
@@ -228,12 +228,12 @@ module AwsKmsKeyring {
           && KMS.IsValid_CiphertextType(maybeProviderWrappedMaterial.value)
           && |client.History.GenerateDataKey| > 0
           && Last(client.History.GenerateDataKey).output.Success?
-             //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#onencrypt
-             //= type=implication
-             //# If the Generate Data Key call succeeds, OnEncrypt MUST verify that
-             //# the response `Plaintext` length matches the specification of the
-             //# [algorithm suite](../algorithm-suites.md)'s Key Derivation Input
-             //# Length field.
+          //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#onencrypt
+          //= type=implication
+          //# If the Generate Data Key call succeeds, OnEncrypt MUST verify that
+          //# the response `Plaintext` length matches the specification of the
+          //# [algorithm suite](../algorithm-suites.md)'s Key Derivation Input
+          //# Length field.
           && AlgorithmSuites.GetEncryptKeyLength(algSuite) as int == |res.value.materials.plaintextDataKey.value|
           && (
                exists returnedKeyId, kmsPlaintext
@@ -245,8 +245,8 @@ module AwsKmsKeyring {
                               Plaintext := Some(kmsPlaintext))
                       && (res.value.materials.algorithmSuite.edkWrapping.DIRECT_KEY_WRAPPING?
                           ==> kmsPlaintext == res.value.materials.plaintextDataKey.value)
-                         // If using Intermediate Key wrapping, the plaintext will either be
-                         // the intermediate key, or the input pdk
+                      // If using Intermediate Key wrapping, the plaintext will either be
+                      // the intermediate key, or the input pdk
                     )
              )
 
@@ -265,10 +265,10 @@ module AwsKmsKeyring {
           && StringifyEncryptionContext(input.materials.encryptionContext).Success?
           && var stringifiedEncCtx := StringifyEncryptionContext(input.materials.encryptionContext).Extract();
           && 0 < |client.History.Encrypt|
-             //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#onencrypt
-             //= type=implication
-             //# The keyring MUST call [AWS KMS Encrypt]
-             //# (https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html) using the configured AWS KMS client.
+          //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#onencrypt
+          //= type=implication
+          //# The keyring MUST call [AWS KMS Encrypt]
+          //# (https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html) using the configured AWS KMS client.
           && Last(client.History.Encrypt).input
              //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#onencrypt
              //= type=implication
@@ -447,13 +447,13 @@ module AwsKmsKeyring {
           && var maybeStringifiedEncCtx := StringifyEncryptionContext(input.materials.encryptionContext);
           && maybeStringifiedEncCtx.Success?
           && 0 < |client.History.Decrypt|
-             //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
-             //= type=implication
-             //# - The length of the response’s `Plaintext` MUST equal the
-             //# [key derivation input length](../algorithm-suites.md#key-derivation-input-length)
-             //# specified by the [algorithm suite](../algorithm-suites.md)
-             //# included in the input [decryption materials]
-             //# (../structures.md#decryption-materials).
+          //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
+          //= type=implication
+          //# - The length of the response’s `Plaintext` MUST equal the
+          //# [key derivation input length](../algorithm-suites.md#key-derivation-input-length)
+          //# specified by the [algorithm suite](../algorithm-suites.md)
+          //# included in the input [decryption materials]
+          //# (../structures.md#decryption-materials).
           && AlgorithmSuites.GetEncryptKeyLength(input.materials.algorithmSuite) as nat == |res.value.materials.plaintextDataKey.value|
           && var LastDecrypt := Last(client.History.Decrypt);
           && LastDecrypt.output.Success?
@@ -470,12 +470,12 @@ module AwsKmsKeyring {
                    && maybeWrappedMaterial.Success?
                    && edk.keyProviderId == PROVIDER_ID
                    && KMS.IsValid_CiphertextType(maybeWrappedMaterial.value)
-                      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
-                      //= type=implication
-                      //# When calling [AWS KMS Decrypt]
-                      //# (https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html),
-                      //# the keyring MUST call with a request constructed
-                      //# as follows:
+                   //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
+                   //= type=implication
+                   //# When calling [AWS KMS Decrypt]
+                   //# (https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html),
+                   //# the keyring MUST call with a request constructed
+                   //# as follows:
                    && KMS.DecryptRequest(
                         //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
                         //= type=implication
@@ -506,16 +506,16 @@ module AwsKmsKeyring {
                       //# Decrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html)
                       //# with the configured AWS KMS client.
                       == LastDecrypt.input
-                      //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
-                      //= type=implication
-                      //# - The `KeyId` field in the response MUST equal the configured AWS
-                      //# KMS key identifier.
+                   //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
+                   //= type=implication
+                   //# - The `KeyId` field in the response MUST equal the configured AWS
+                   //# KMS key identifier.
                    && LastDecrypt.output.value.KeyId == Some(awsKmsKey)
              )
-             //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
-             //= type=implication
-             //# - MUST immediately return the modified [decryption materials]
-             //# (../structures.md#decryption-materials).
+          //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
+          //= type=implication
+          //# - MUST immediately return the modified [decryption materials]
+          //# (../structures.md#decryption-materials).
           && (
                input.materials.algorithmSuite.edkWrapping.DIRECT_KEY_WRAPPING?
                ==>

@@ -197,10 +197,10 @@ module {:options "/functionSyntax:4" }  StormTracker {
       ensures
         output ==>
           && result.expiryTime < 0x20C49BA5E353F7
-             // The + 1 comes because (now / 1000) * 1000 <= now
-             // Consider (5001 / 1000) <= 5
-             // (5001 / 1000) == 5
-             // but 5 * 1000 < 5001
+          // The + 1 comes because (now / 1000) * 1000 <= now
+          // Consider (5001 / 1000) <= 5
+          // (5001 / 1000) == 5
+          // but 5 * 1000 < 5001
           && (result.expiryTime  * 1000) - gracePeriod <= now < (result.expiryTime + 1) * 1000
     {
       // This is just showing where this constant comes from

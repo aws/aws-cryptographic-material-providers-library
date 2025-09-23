@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 include "../Model/AwsCryptographyMaterialProvidersTestVectorKeysTypes.dfy"
-  // Yes, this is reaching across.
-  // ideally all these functions would exist in the STD Library.
+// Yes, this is reaching across.
+// ideally all these functions would exist in the STD Library.
 include "../../TestVectorsAwsCryptographicMaterialProviders/src/LibraryIndex.dfy"
 include "../../TestVectorsAwsCryptographicMaterialProviders/src/JSONHelpers.dfy"
 include "KeyDescription.dfy"
