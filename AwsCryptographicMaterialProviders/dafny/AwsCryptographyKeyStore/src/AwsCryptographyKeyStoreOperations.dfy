@@ -180,11 +180,11 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
                 && i.0.Success?
                 && i.1.Success?
                 && DDB.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + i.0.value)
-                   // Dafny requires that I *prove* that k == Encode(Decode(k))
-                   // Since UTF8 can be lossy in some implementations
-                   // this is the simplest...
-                   // A prove that ValidUTF8Seq(i) ==> Decode(i).Success?
-                   // would improve the situation
+                // Dafny requires that I *prove* that k == Encode(Decode(k))
+                // Since UTF8 can be lossy in some implementations
+                // this is the simplest...
+                // A prove that ValidUTF8Seq(i) ==> Decode(i).Success?
+                // would improve the situation
                 && var encoded := UTF8.Encode(i.0.value);
                 && encoded.Success?
                 && i.2 == encoded.value

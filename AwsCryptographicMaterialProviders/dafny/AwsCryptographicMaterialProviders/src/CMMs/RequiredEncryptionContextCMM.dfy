@@ -230,11 +230,11 @@ module RequiredEncryptionContextCMM {
       && (output.Success?
           ==>
             && Materials.DecryptionMaterialsWithPlaintextDataKey(output.value.decryptionMaterials))
-         //= aws-encryption-sdk-specification/framework/cmm-interface.md#decrypt-materials
-         //= type=implication
-         //# - All key-value pairs that exist in [Reproduced Encryption Context](structures.md#encryption-context)
-         //# but do not exist in encryption context on the [decrypt materials request](#decrypt-materials-request)
-         //# SHOULD be appended to the decryption materials.
+      //= aws-encryption-sdk-specification/framework/cmm-interface.md#decrypt-materials
+      //= type=implication
+      //# - All key-value pairs that exist in [Reproduced Encryption Context](structures.md#encryption-context)
+      //# but do not exist in encryption context on the [decrypt materials request](#decrypt-materials-request)
+      //# SHOULD be appended to the decryption materials.
       && (output.Success? ==> CMM.EncryptionContextComplete(input, output.value.decryptionMaterials))
     }
 

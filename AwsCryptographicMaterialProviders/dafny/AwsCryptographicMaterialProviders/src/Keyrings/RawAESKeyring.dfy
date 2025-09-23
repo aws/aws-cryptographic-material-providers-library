@@ -414,20 +414,20 @@ module RawAESKeyring {
       SequenceIsSafeBecauseItIsInMemory(keyName);
       var keyname_size := |keyName| as uint64;
       && |info| as uint64 == Add4(keyname_size, AUTH_TAG_LEN_LEN as uint64, IV_LEN_LEN as uint64, wrappingAlgorithm.ivLength as uint64)
-         // The key name obtained from the encrypted data key's key provider information has a value equal to this keyring's key name.
+      // The key name obtained from the encrypted data key's key provider information has a value equal to this keyring's key name.
       && info[..keyname_size] == keyName
-         //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#authentication-tag-length
-         //= type=implication
-         //# This value MUST match the authentication tag length of the keyring's
-         //# configured wrapping algorithm
+      //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#authentication-tag-length
+      //= type=implication
+      //# This value MUST match the authentication tag length of the keyring's
+      //# configured wrapping algorithm
 
       && SeqToUInt32(info[keyname_size..keyname_size + AUTH_TAG_LEN_LEN as uint64]) == 128
       && 128 == wrappingAlgorithm.tagLength as uint32 * 8
       && SeqToUInt32(info[keyname_size + AUTH_TAG_LEN_LEN as uint64 .. keyname_size + AUTH_TAG_LEN_LEN as uint64 + IV_LEN_LEN as uint64]) == wrappingAlgorithm.ivLength as uint32
-         //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#iv-length
-         //= type=implication
-         //# This value MUST match the IV length of the keyring's
-         //# configured wrapping algorithm
+      //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#iv-length
+      //= type=implication
+      //# This value MUST match the IV length of the keyring's
+      //# configured wrapping algorithm
       && SeqToUInt32(info[keyname_size + AUTH_TAG_LEN_LEN as uint64 .. keyname_size + AUTH_TAG_LEN_LEN as uint64 + IV_LEN_LEN as uint64]) == 12
     }
 
