@@ -4,7 +4,7 @@
 include "../src/StandardLibrary.dfy"
 include "../src/Sets.dfy"
 include "../src/Time.dfy"
-  // Just to make sure we don't conflict with dafny-lang/libraries' Sets.dfy
+// Just to make sure we don't conflict with dafny-lang/libraries' Sets.dfy
 include "../../libraries/src/Collections/Sets/Sets.dfy"
 
 // This function is commonly used for sorting

@@ -104,11 +104,11 @@ Not Future Directions :
 */
 
 include "../../libraries/src/Wrappers.dfy"
-  //include "../../../../submodules/MaterialProviders/libraries/src/Collections/Sequences/Seq.dfy"
+//include "../../../../submodules/MaterialProviders/libraries/src/Collections/Sequences/Seq.dfy"
 
 module {:options "-functionSyntax:4"} GetOpt {
   import opened Wrappers
-    // import Seq, replace when repaired
+  // import Seq, replace when repaired
 
   method Example(args : seq<string>) returns (output : Result<bool, string>)
     requires 0 < |args|

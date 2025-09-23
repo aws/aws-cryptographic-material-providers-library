@@ -3,7 +3,7 @@
 
 include "../src/StandardLibrary.dfy"
 include "../src/Sets.dfy"
-  // Just to make sure we don't conflict with dafny-lang/libraries' Sets.dfy
+// Just to make sure we don't conflict with dafny-lang/libraries' Sets.dfy
 include "../../libraries/src/Collections/Sets/Sets.dfy"
 
 

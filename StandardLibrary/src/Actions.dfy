@@ -349,14 +349,14 @@ module Actions {
       if res.Success? then
         && Last(attemptsState).output.Success?
         && Last(attemptsState).output.value == res.value
-           // This is the engine that can be used to hoist proof obligations
+        // This is the engine that can be used to hoist proof obligations
         && action.Ensures(
              Last(attemptsState).input,
              Last(attemptsState).output,
              DropLast(attemptsState))
-           // Attempts are made until there is a success
-           // so attempts will be made up of failures
-           // with one final Success at the end.
+        // Attempts are made until there is a success
+        // so attempts will be made up of failures
+        // with one final Success at the end.
         && forall i
              | 0 <= i < |DropLast(attemptsState)|
              :: attemptsState[i].output.Failure?
