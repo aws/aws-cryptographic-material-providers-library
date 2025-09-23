@@ -24,8 +24,8 @@ jobs:
           # Normalize by removing `.postN` if present
           normalized_dafny_runtime_python_version=$(echo "$dafny_runtime_python_version" | sed 's/\.post[0-9]*$//')
 
-          # Extract the version from project.properties
-          dafny_version=$(grep -oP 'dafnyVersion=\K[^\s]+' project.properties)
+          # Extract the Dafny Runtime Python Version from project.properties
+          dafny_version=$(grep -oP 'dafnyRuntimePythonVersion=\K[^\s]+' project.properties)
 
           # Check if the versions match
           if [ "$normalized_dafny_runtime_python_version" != "$dafny_version" ]; then
