@@ -1,6 +1,7 @@
 # Checks that DafnyRuntimePython version in StandardLibrary's pyproject.toml
 # matches the Dafny version in project.properties.
-# Also enforces review of dafnyRuntimePythonVersion when dafnyVersion is changed.
+# .toml is static and cannot load this automatically.
+# This must be bumped manually.
 name: Check DafnyRuntimePython Version Consistency
 
 on:
