@@ -1,7 +1,6 @@
 # Checks that DafnyRuntimePython version in StandardLibrary's pyproject.toml
 # matches the Dafny version in project.properties.
-# .toml is static and cannot load this automatically.
-# This must be bumped manually.
+# Also enforces review of dafnyRuntimePythonVersion when dafnyVersion is changed.
 name: Check DafnyRuntimePython Version Consistency
 
 on:
@@ -16,6 +15,33 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # TODO: Remove this entire step when dafnyRuntimePythonVersion is deleted from project.properties
+      - name: Enforce dafnyVersion review (PR only)
+        if: github.event_name == 'pull_request'
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          
+          # Check if dafnyVersion was changed
+          if git diff "$BASE_SHA" "$HEAD_SHA" -- project.properties | grep -q "^[+-]dafnyVersion="; then
+            # Check if dafnyRuntimePythonVersion was also changed
+            if ! git diff "$BASE_SHA" "$HEAD_SHA" -- project.properties | grep -q "^[+-]dafnyRuntimePythonVersion="; then
+              echo "ERROR: dafnyVersion was changed but dafnyRuntimePythonVersion was not reviewed."
+              echo ""
+              echo "Required action (choose one):"
+              echo "1. PREFERRED: Delete the dafnyRuntimePythonVersion line entirely if the new Dafny version is compatible"
+              echo "2. Update dafnyRuntimePythonVersion to a compatible version"
+              echo "3. Keep the same value but add a comment explaining why (e.g., '# Keeping 4.11.0 due to compatibility issues')"
+              echo ""
+              echo "This ensures conscious review of the temporary Python runtime workaround."
+              echo "NOTE: When dafnyRuntimePythonVersion is removed, also remove this enforcement step."
+              exit 1
+            fi
+          fi
+
       - name: Validate DafnyRuntimePython Version Consistency
         run: |
           # Extract the version from pyproject.toml
