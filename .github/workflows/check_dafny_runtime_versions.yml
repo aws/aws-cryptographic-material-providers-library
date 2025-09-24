@@ -24,7 +24,7 @@ jobs:
         run: |
           BASE_SHA="${{ github.event.pull_request.base.sha }}"
           HEAD_SHA="${{ github.event.pull_request.head.sha }}"
-          
+
           # Check if dafnyVersion was changed
           if git diff "$BASE_SHA" "$HEAD_SHA" -- project.properties | grep -q "^[+-]dafnyVersion="; then
             # Check if dafnyRuntimePythonVersion was also changed
