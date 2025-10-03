@@ -63,7 +63,7 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Install Go
-        uses: actions/setup-python@v6
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.go-version }}
 
