@@ -65,7 +65,7 @@ jobs:
 
       - name: Setup .NET OpenSSL on Mac
         if: matrix.os == 'macos-14'
-        run |
+        run: |
           brew install openssl@3
           echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
 
