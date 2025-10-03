@@ -24,7 +24,7 @@ version = props.getProperty("mplVersion")
 description = "TestAwsCryptographicMaterialProviders"
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(11))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(8))
     sourceSets["main"].java {
         srcDir("src/main/java")
         srcDir("src/main/dafny-generated")
