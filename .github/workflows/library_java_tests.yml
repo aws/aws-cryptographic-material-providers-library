@@ -33,7 +33,7 @@ jobs:
             ubuntu-22.04,
             macos-14,
           ]
-        java-versions: [8, 11, 17, 25]
+        java-versions: [8, 11, 17, 19]
     runs-on: ${{ matrix.os }}
     permissions:
       id-token: write

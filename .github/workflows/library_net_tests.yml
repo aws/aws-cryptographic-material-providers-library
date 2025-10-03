@@ -68,7 +68,8 @@ jobs:
         run: |
           brew install openssl@3
           echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
-          echo "DOTNET_CRYPTO_ENGINE_ADAPTER=System.Security.Cryptography.Algorithms.Managed" >> $GITHUB_ENV
+          echo "DOTNET_SYSTEM_SECURITY_CRYPTOGRAPHY_OPENSSL_OVERRIDE_VERSION_CHECK=1" >> $GITHUB_ENV
+          echo "DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0" >> $GITHUB_ENV
 
       - name: Setup Dafny
         uses: ./.github/actions/setup_dafny
