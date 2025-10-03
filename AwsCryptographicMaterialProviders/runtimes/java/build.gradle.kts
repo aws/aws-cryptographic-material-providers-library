@@ -22,7 +22,7 @@ version = props.getProperty("mplVersion")
 description = "AWS Cryptographic Material Providers Library"
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(11))
     sourceSets["main"].java {
         mainSourceSet()
     }
