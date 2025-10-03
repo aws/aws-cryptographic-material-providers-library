@@ -34,7 +34,7 @@ if (!caPasswordString.isNullOrBlank()) {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(11))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(8))
     sourceSets["main"].java {
         srcDir("src/main/java")
         srcDir("src/main/dafny-generated")

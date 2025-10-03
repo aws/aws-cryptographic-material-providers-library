@@ -20,7 +20,7 @@ version = "1.0-SNAPSHOT"
 description = "ComAmazonawsKms"
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(11))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(8))
     sourceSets["main"].java {
         srcDir("src/main/java")
         srcDir("src/main/dafny-generated")
