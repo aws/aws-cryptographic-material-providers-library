@@ -71,6 +71,7 @@ jobs:
         run: |
           brew install openssl@3
           echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
+          echo "DOTNET_CRYPTO_ENGINE_ADAPTER=System.Security.Cryptography.Algorithms.Managed" >> $GITHUB_ENV
 
       # Setup Java in Rust is needed for running polymorph
       - name: Setup Java 17
@@ -275,6 +276,7 @@ jobs:
         run: |
           brew install openssl@3
           echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
+          echo "DOTNET_CRYPTO_ENGINE_ADAPTER=System.Security.Cryptography.Algorithms.Managed" >> $GITHUB_ENV
 
       # Setup Java in Rust is needed for running polymorph
       - name: Setup Java 17
