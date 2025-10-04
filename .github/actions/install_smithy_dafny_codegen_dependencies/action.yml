@@ -9,7 +9,7 @@ runs:
   using: "composite"
   steps:
     - name: Install Smithy-Dafny codegen dependencies
-      uses: Wandalen/wretry.action@1
+      uses: Wandalen/wretry.action@master
       with:
         attempt_limit: 3
         attempt_delay: 30
