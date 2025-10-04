@@ -6,6 +6,7 @@
 name: "Install Smithy-Dafny codegen dependencies"
 description: "Install Java package dependencies required to run Smithy-Dafny codegen"
 runs:
+  using: "composite"
   steps:
     - name: Install Smithy-Dafny codegen dependencies
       uses: Wandalen/wretry.action@1
