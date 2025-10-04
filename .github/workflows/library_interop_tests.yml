@@ -66,13 +66,6 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Setup .NET OpenSSL on Mac
-        if: matrix.os == 'macos-14' && matrix.language == 'net'
-        run: |
-          brew install openssl@3
-          echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
-          echo "DOTNET_CRYPTO_ENGINE_ADAPTER=System.Security.Cryptography.Algorithms.Managed" >> $GITHUB_ENV
-
       # We need both Java 8 and Java 17
       - name: Setup Java 8
         if: matrix.language == 'java'
@@ -272,13 +265,6 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-
-      - name: Setup .NET OpenSSL on Mac
-        if: matrix.os == 'macos-14' && matrix.decrypting_language == 'net'
-        run: |
-          brew install openssl@3
-          echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
-          echo "DOTNET_CRYPTO_ENGINE_ADAPTER=System.Security.Cryptography.Algorithms.Managed" >> $GITHUB_ENV
 
       - name: Setup Java 8
         if: matrix.decrypting_language == 'java'

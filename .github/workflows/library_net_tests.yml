@@ -63,14 +63,6 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Setup .NET OpenSSL on Mac
-        if: matrix.os == 'macos-14'
-        run: |
-          brew install openssl@3
-          echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
-          echo "DOTNET_SYSTEM_SECURITY_CRYPTOGRAPHY_OPENSSL_OVERRIDE_VERSION_CHECK=1" >> $GITHUB_ENV
-          echo "DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0" >> $GITHUB_ENV
-
       - name: Setup Dafny
         uses: ./.github/actions/setup_dafny
         with:
