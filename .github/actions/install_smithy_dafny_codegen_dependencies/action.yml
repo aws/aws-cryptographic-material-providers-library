@@ -8,8 +8,8 @@ description: "Install Java package dependencies required to run Smithy-Dafny cod
 runs:
   steps:
     - name: Install Smithy-Dafny codegen dependencies
-    uses: Wandalen/wretry.action@1
-      with:
-        attempt_limit: 3
-        attempt_delay: 30
-        action: ./.github/actions/codegen_dependencies
+      uses: Wandalen/wretry.action@1
+        with:
+          attempt_limit: 3
+          attempt_delay: 30
+          action: ./.github/actions/codegen_dependencies
