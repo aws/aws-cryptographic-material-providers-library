@@ -17,6 +17,7 @@ runs:
     - name: Install smithy-dafny-codegen dependencies locally
       uses: nick-fields/retry@v3
       with:
+        timeout_minutes: 60
         retry_wait_seconds: 30
         max_attempts: 3
         shell: bash
@@ -47,6 +48,7 @@ runs:
     - name: Arbitrary makefile target to force downloading Gradle
       uses: nick-fields/retry@v3
       with:
+        timeout_minutes: 60
         retry_wait_seconds: 30
         max_attempts: 3
         shell: bash
