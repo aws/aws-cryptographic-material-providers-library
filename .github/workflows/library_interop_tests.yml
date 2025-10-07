@@ -28,7 +28,7 @@ jobs:
             # https://taskei.amazon.dev/tasks/CrypTool-5283
             # windows-latest,
             ubuntu-22.04,
-            macos-13,
+            macos-14,
           ]
         language: [java, net, rust, python, go]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
@@ -62,20 +62,35 @@ jobs:
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         if: matrix.language == 'net'
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Setup .NET OpenSSL on Mac
+        if: matrix.os == 'macos-14' && matrix.language == 'net'
+        run: |
+          brew install openssl@3
+          echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
+          echo "DOTNET_CRYPTO_ENGINE_ADAPTER=System.Security.Cryptography.Algorithms.Managed" >> $GITHUB_ENV
+
+      # We need both Java 8 and Java 17
+      - name: Setup Java 8
+        if: matrix.language == 'java'
+        uses: actions/setup-java@v5
+        with:
+          distribution: "corretto"
+          java-version: 8
 
       # Setup Java in Rust is needed for running polymorph
       - name: Setup Java 17
         if: matrix.language == 'java' || matrix.language == 'rust'
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v5
         with:
           distribution: "corretto"
           java-version: 17
 
       - name: Setup Python for running tests
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: 3.11
           architecture: x64
@@ -90,14 +105,14 @@ jobs:
 
       - name: Setup Rust Toolchain for GitHub CI
         if: matrix.language == 'rust'
-        uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt
 
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
-          go-version: "1.23"
+          go-version: "1.24"
 
       - name: Install Go imports
         run: |
@@ -191,12 +206,6 @@ jobs:
         run: |
           make purge_polymorph_code
 
-      - name: Setup gradle
-        if: matrix.language == 'java'
-        uses: gradle/gradle-build-action@v2
-        with:
-          gradle-version: 7.2
-
       - name: Create Manifests
         working-directory: ./${{ matrix.library }}
         run: |
@@ -227,7 +236,7 @@ jobs:
             # TODO just test on mac and ubuntu for now
             # windows-latest,
             ubuntu-22.04,
-            macos-13,
+            macos-14,
           ]
         decrypting_language: [java, net, rust, python, go]
         dotnet-version: ["6.0.x"]
@@ -260,20 +269,34 @@ jobs:
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         if: matrix.decrypting_language == 'net'
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Setup .NET OpenSSL on Mac
+        if: matrix.os == 'macos-14' && matrix.decrypting_language == 'net'
+        run: |
+          brew install openssl@3
+          echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
+          echo "DOTNET_CRYPTO_ENGINE_ADAPTER=System.Security.Cryptography.Algorithms.Managed" >> $GITHUB_ENV
+
+      - name: Setup Java 8
+        if: matrix.decrypting_language == 'java'
+        uses: actions/setup-java@v5
+        with:
+          distribution: "corretto"
+          java-version: 8
 
       # Setup Java in Rust is needed for running polymorph
       - name: Setup Java 17
         if: matrix.decrypting_language == 'java' || matrix.decrypting_language == 'rust'
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v5
         with:
           distribution: "corretto"
           java-version: 17
 
       - name: Setup Python for running tests
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: 3.11
           architecture: x64
@@ -284,14 +307,14 @@ jobs:
 
       - name: Setup Rust Toolchain for GitHub CI
         if: matrix.decrypting_language == 'rust'
-        uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt
 
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
-          go-version: "1.23"
+          go-version: "1.24"
 
       - name: Install Go imports
         run: |

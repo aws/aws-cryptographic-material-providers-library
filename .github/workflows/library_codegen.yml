@@ -29,7 +29,7 @@ jobs:
         # in this workflow.
         # The workflow installs black and docformatter and runs them on generated code.
         python-version: [3.11]
-        go-version: [1.23]
+        go-version: [1.24]
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     defaults:
@@ -58,12 +58,12 @@ jobs:
           dafny-version: ${{ inputs.dafny }}
 
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Install Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.go-version }}
 
