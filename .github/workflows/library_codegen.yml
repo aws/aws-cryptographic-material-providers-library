@@ -29,7 +29,7 @@ jobs:
         # in this workflow.
         # The workflow installs black and docformatter and runs them on generated code.
         python-version: [3.11]
-        go-version: [1.24]
+        go-version: [1.23]
         os: [ubuntu-22.04]
     runs-on: ${{ matrix.os }}
     defaults:
