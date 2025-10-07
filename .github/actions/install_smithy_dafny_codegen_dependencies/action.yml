@@ -7,6 +7,8 @@ name: "Install Smithy-Dafny codegen dependencies"
 description: "Install Java package dependencies required to run Smithy-Dafny codegen"
 runs:
   using: "composite"
+  retry:
+    max-attempts: 3
   steps:
     - name: Setup Java 17 for codegen
       uses: actions/setup-java@v5
