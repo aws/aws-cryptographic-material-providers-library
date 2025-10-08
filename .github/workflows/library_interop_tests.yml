@@ -116,7 +116,7 @@ jobs:
 
       - name: Install Go imports
         run: |
-          go install golang.org/x/tools/cmd/goimports@latest
+          go install golang.org/x/tools/cmd/goimports@v0.36.0
 
       - name: Setup NASM for Windows in Rust (aws-lc-sys)
         if: matrix.language == 'rust' && matrix.os == 'windows-latest'
@@ -318,7 +318,7 @@ jobs:
 
       - name: Install Go imports
         run: |
-          go install golang.org/x/tools/cmd/goimports@latest
+          go install golang.org/x/tools/cmd/goimports@v0.36.0
 
       - name: Setup NASM for Windows in Rust (aws-lc-sys)
         if: matrix.decrypting_language == 'rust' && matrix.os == 'windows-latest'
