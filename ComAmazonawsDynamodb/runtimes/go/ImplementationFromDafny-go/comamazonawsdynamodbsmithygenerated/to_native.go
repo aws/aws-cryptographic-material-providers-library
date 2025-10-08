@@ -2139,12 +2139,7 @@ func Com_amazonaws_dynamodb_AttributeValue_B_FromDafny(input interface{}) []byte
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
-		}
-		return b
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Com_amazonaws_dynamodb_AttributeValue_SS_FromDafny(input interface{}) []string {
@@ -2216,12 +2211,7 @@ func Com_amazonaws_dynamodb_BinarySetAttributeValue_member_FromDafny(input inter
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
-		}
-		return b
+		return dafny.ToByteArray(input.(dafny.Sequence).(dafny.Sequence))
 	}()
 }
 func Com_amazonaws_dynamodb_AttributeValue_M_FromDafny(input interface{}) map[string]types.AttributeValue {
