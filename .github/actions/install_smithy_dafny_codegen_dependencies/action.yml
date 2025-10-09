@@ -15,9 +15,13 @@ runs:
         java-version: "17"
 
     - name: Install smithy-dafny-codegen dependencies locally
-      shell: bash
-      run: |
-        make -C smithy-dafny mvn_local_deploy_polymorph_dependencies
+      uses: nick-fields/retry@v3
+      with:
+        timeout_minutes: 60
+        retry_wait_seconds: 30
+        max_attempts: 3
+        shell: bash
+        command: make -C smithy-dafny mvn_local_deploy_polymorph_dependencies
 
     - name: Setup Python, black, and docformatter for code formatting
       uses: actions/setup-python@v6
@@ -33,15 +37,19 @@ runs:
     - name: Install Go
       uses: actions/setup-go@v6
       with:
-        go-version: "1.24"
+        go-version: "1.23"
 
     - name: Install Go imports
       shell: bash
       run: |
-        go install golang.org/x/tools/cmd/goimports@latest
+        go install golang.org/x/tools/cmd/goimports@v0.36.0
 
     # Without this the if-dafny-at-least command includes "Downloading ..." output
     - name: Arbitrary makefile target to force downloading Gradle
-      shell: bash
-      run: |
-        make -C StandardLibrary setup_net
+      uses: nick-fields/retry@v3
+      with:
+        timeout_minutes: 60
+        retry_wait_seconds: 30
+        max_attempts: 3
+        shell: bash
+        command: make -C StandardLibrary setup_net
