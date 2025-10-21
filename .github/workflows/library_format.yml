@@ -14,6 +14,9 @@ on:
         default: false
         type: boolean
 
+permissions:
+  contents: read
+
 jobs:
   format_projects:
     # Don't run the nightly build on forks
