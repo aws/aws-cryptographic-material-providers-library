@@ -2,7 +2,7 @@ module github.com/aws/aws-cryptographic-material-providers-library/releases/go/p
 
 go 1.23.0
 
-replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives v0.2.2 => ../ImplementationFromDafny-go
+replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives => ../ImplementationFromDafny-go
 
 require github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.2.2
 
