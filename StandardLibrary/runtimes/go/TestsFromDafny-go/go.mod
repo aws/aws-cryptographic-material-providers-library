@@ -6,7 +6,7 @@ replace github.com/aws/aws-cryptographic-material-providers-library/releases/go/
 
 require (
 	github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.2.2
-	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.11.1
+	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.11.2
 )
 
 require github.com/google/uuid v1.6.0 // indirect

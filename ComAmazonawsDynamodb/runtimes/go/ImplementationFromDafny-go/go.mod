@@ -8,7 +8,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.28.10
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.39.2
 	github.com/aws/smithy-go v1.22.1
-	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.11.1
+	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.11.2
 )
 
 require (

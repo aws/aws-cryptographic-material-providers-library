@@ -9,7 +9,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.27.36
 	github.com/aws/aws-sdk-go-v2/service/kms v1.36.0
 	github.com/aws/smithy-go v1.21.0
-	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.11.1
+	github.com/dafny-lang/DafnyRuntimeGo/v4 v4.11.2
 )
 
 require (
