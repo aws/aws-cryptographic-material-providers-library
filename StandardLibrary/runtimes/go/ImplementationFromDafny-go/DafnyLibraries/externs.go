@@ -50,10 +50,10 @@ func (_this *MutableMap) Equals(other *MutableMap) bool {
 }
 
 // If you use the returned value, and ALSO continue to modify the MutableMap
-// Then things might get weird. 
+// Then things might get weird.
 func (_this *MutableMap) Content() _dafny.Map {
-	if (_this.bytesKeys == true) {
-		panic("To maintain compatibility with other runtimes, this method does not work when bytesKeys is true.");
+	if _this.bytesKeys == true {
+		panic("To maintain compatibility with other runtimes, this method does not work when bytesKeys is true.")
 	}
 	return _this.dafnyInternal
 }
