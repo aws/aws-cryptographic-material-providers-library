@@ -1,5 +1,12 @@
 # Changelog
 
+## [releases/go/mpl/v0.2.3] - 2025-10-23
+
+### Maintenance
+
+- _(all languages)_ Bump setup_dafny (#1712)
+- _(go)_ Test with go 1.23 (#1737)
+
 ## [releases/go/mpl/v0.2.2] - 2025-08-25
 
 ### Maintenance
