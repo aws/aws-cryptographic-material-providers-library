@@ -1,11 +1,10 @@
 # Changelog
 
-## [releases/go/mpl/v0.2.3] - 2025-10-23
+## [releases/go/smithy-dafny-standard-library/v0.3.0] - 2025-10-23
 
-### Maintenance
+### Performance
 
-- _(all languages)_ Bump setup_dafny (#1712)
-- _(go)_ Test with go 1.23 (#1737)
+- Improved Dafny Go Array performance
 
 ## [releases/go/mpl/v0.2.2] - 2025-08-25
 
