@@ -2,6 +2,6 @@ module github.com/aws/aws-cryptographic-material-providers-library/releases/go/p
 
 go 1.23.0
 
-require github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.2.2
+require github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library v0.3.0
 
-require github.com/dafny-lang/DafnyRuntimeGo/v4 v4.10.1
+require github.com/dafny-lang/DafnyRuntimeGo/v4 v4.11.2
