@@ -3,11 +3,14 @@
 # Do not modify this file. This file is machine generated, and any changes to it will be overwritten.
 
 from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes import (
+    HierarchyVersion_v1,
+    HierarchyVersion_v2,
     KMSConfiguration_discovery,
     KMSConfiguration_kmsKeyArn,
     KMSConfiguration_kmsMRKeyArn,
     KMSConfiguration_mrDiscovery,
 )
+import aws_cryptographic_material_providers.internaldafny.generated.module_
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy
 import aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models
 
@@ -22,6 +25,17 @@ def aws_cryptography_keystore_CreateKeyStoreInput(dafny_input):
     return (
         aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.models.CreateKeyStoreInput()
     )
+
+
+def aws_cryptography_keystore_HierarchyVersion(dafny_input):
+    if isinstance(dafny_input, HierarchyVersion_v1):
+        return "1"
+
+    elif isinstance(dafny_input, HierarchyVersion_v2):
+        return "2"
+
+    else:
+        raise ValueError(f"No recognized enum value in enum type: {dafny_input=}")
 
 
 def aws_cryptography_keystore_CreateKeyInput(dafny_input):
@@ -46,6 +60,15 @@ def aws_cryptography_keystore_CreateKeyInput(dafny_input):
                 }
             )
             if (dafny_input.encryptionContext.is_Some)
+            else None
+        ),
+        hierarchy_version=(
+            (
+                aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_HierarchyVersion(
+                    dafny_input.hierarchyVersion.value
+                )
+            )
+            if (dafny_input.hierarchyVersion.is_Some)
             else None
         ),
     )
@@ -188,6 +211,15 @@ def aws_cryptography_keystore_BranchKeyMaterials(dafny_input):
             for (key, value) in dafny_input.encryptionContext.items
         },
         branch_key=bytes(dafny_input.branchKey),
+        kms_arn=b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.kmsArn).decode(
+            "utf-16-be"
+        ),
+        create_time=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.createTime
+        ).decode("utf-16-be"),
+        hierarchy_version=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_HierarchyVersion(
+            dafny_input.hierarchyVersion
+        ),
     )
 
 
@@ -232,6 +264,15 @@ def aws_cryptography_keystore_BeaconKeyMaterials(dafny_input):
             )
             if (dafny_input.hmacKeys.is_Some)
             else None
+        ),
+        kms_arn=b"".join(ord(c).to_bytes(2, "big") for c in dafny_input.kmsArn).decode(
+            "utf-16-be"
+        ),
+        create_time=b"".join(
+            ord(c).to_bytes(2, "big") for c in dafny_input.createTime
+        ).decode("utf-16-be"),
+        hierarchy_version=aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_HierarchyVersion(
+            dafny_input.hierarchyVersion
         ),
     )
 
@@ -306,3 +347,11 @@ def aws_cryptography_keystore_KeyStoreConfig(dafny_input):
             else None
         ),
     )
+
+
+def aws_cryptography_keystore_PrimitivesReference(dafny_input):
+    from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.client import (
+        AwsCryptographicPrimitives,
+    )
+
+    return AwsCryptographicPrimitives(config=None, dafny_client=dafny_input)

@@ -2643,6 +2643,9 @@ func Aws_cryptography_materialProviders_Materials_BranchKey_FromDafny(input inte
 		BranchKeyVersion:  awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKeyVersion()),
 		EncryptionContext: awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_encryptionContext()),
 		BranchKey:         awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKey()),
+		KmsArn:            awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BranchKeyMaterials_kmsArn_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_kmsArn()),
+		CreateTime:        awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BranchKeyMaterials_createTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_createTime()),
+		HierarchyVersion:  awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BranchKeyMaterials_hierarchyVersion_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_hierarchyVersion()),
 	}
 }
 func Aws_cryptography_materialProviders_Materials_BeaconKey_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.BeaconKeyMaterials {
@@ -2650,6 +2653,9 @@ func Aws_cryptography_materialProviders_Materials_BeaconKey_FromDafny(input inte
 		EncryptionContext: awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_encryptionContext()),
 		BeaconKey:         awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_beaconKey().UnwrapOr(nil)),
 		HmacKeys:          awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BeaconKeyMaterials_hmacKeys_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_hmacKeys().UnwrapOr(nil)),
+		KmsArn:            awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BeaconKeyMaterials_kmsArn_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_kmsArn()),
+		CreateTime:        awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BeaconKeyMaterials_createTime_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_createTime()),
+		HierarchyVersion:  awscryptographykeystoresmithygenerated.Aws_cryptography_keyStore_BeaconKeyMaterials_hierarchyVersion_FromDafny(input.(AwsCryptographyKeyStoreTypes.BeaconKeyMaterials).Dtor_hierarchyVersion()),
 	}
 }
 func Aws_cryptography_materialProviders_GetCacheEntryOutput_creationTime_FromDafny(input interface{}) int64 {
