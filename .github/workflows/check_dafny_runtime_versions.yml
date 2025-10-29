@@ -16,6 +16,33 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # TODO: Remove this entire step when dafnyRuntimePythonVersion is deleted from project.properties
+      - name: Enforce dafnyVersion review (PR only)
+        if: github.event_name == 'pull_request'
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+
+          # Check if dafnyVersion was changed
+          if git diff "$BASE_SHA" "$HEAD_SHA" -- project.properties | grep -q "^[+-]dafnyVersion="; then
+            # Check if dafnyRuntimePythonVersion was also changed
+            if ! git diff "$BASE_SHA" "$HEAD_SHA" -- project.properties | grep -q "^[+-]dafnyRuntimePythonVersion="; then
+              echo "ERROR: dafnyVersion was changed but dafnyRuntimePythonVersion was not reviewed."
+              echo ""
+              echo "Required action (choose one):"
+              echo "1. PREFERRED: Delete the dafnyRuntimePythonVersion line entirely if the new Dafny version is compatible"
+              echo "2. Update dafnyRuntimePythonVersion to a compatible version"
+              echo "3. Keep the same value but add a comment explaining why (e.g., '# Keeping 4.11.0 due to compatibility issues')"
+              echo ""
+              echo "This ensures conscious review of the temporary Python runtime workaround."
+              echo "NOTE: When dafnyRuntimePythonVersion is removed, also remove this enforcement step."
+              exit 1
+            fi
+          fi
+
       - name: Validate DafnyRuntimePython Version Consistency
         run: |
           # Extract the version from pyproject.toml
@@ -24,8 +51,8 @@ jobs:
           # Normalize by removing `.postN` if present
           normalized_dafny_runtime_python_version=$(echo "$dafny_runtime_python_version" | sed 's/\.post[0-9]*$//')
 
-          # Extract the version from project.properties
-          dafny_version=$(grep -oP 'dafnyVersion=\K[^\s]+' project.properties)
+          # Extract the Dafny Runtime Python Version from project.properties
+          dafny_version=$(grep -oP 'dafnyRuntimePythonVersion=\K[^\s]+' project.properties)
 
           # Check if the versions match
           if [ "$normalized_dafny_runtime_python_version" != "$dafny_version" ]; then
