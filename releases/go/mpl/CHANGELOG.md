@@ -1,5 +1,11 @@
 # Changelog
 
+## [releases/go/mpl/v0.3.0] - 2025-10-28
+
+### Performance
+
+- Improved Dafny Go Array performance
+
 ## [releases/go/mpl/v0.2.2] - 2025-08-26
 
 ### Maintenance
