@@ -28,8 +28,7 @@ impl crate::r#software::amazon::cryptography::services::kms::internaldafny::_def
             )),
         };
 
-        let shared_config = Self::AddUserAgentStringToConfig(&shared_config);
-        shared_config
+        Self::AddUserAgentStringToConfig(&shared_config)
     }
 
     #[allow(non_snake_case)]
@@ -45,7 +44,7 @@ impl crate::r#software::amazon::cryptography::services::kms::internaldafny::_def
             .region(Region::new(region))
             .build();
         let inner = aws_sdk_kms::Client::new(&shared_config);
-        let client = crate::deps::com_amazonaws_kms::client::Client { inner };
+        let client = KmsClient { inner };
         let dafny_client = ::dafny_runtime::upcast_object()(::dafny_runtime::object::new(client));
         dafny_runtime::Rc::new(crate::r#_Wrappers_Compile::Result::Success {
             value: dafny_client,
@@ -55,8 +54,8 @@ impl crate::r#software::amazon::cryptography::services::kms::internaldafny::_def
     #[allow(non_snake_case)]
     pub fn KMSClient() -> ::dafny_runtime::Rc<crate::r#_Wrappers_Compile::Result<::dafny_runtime::Object<dyn crate::software::amazon::cryptography::services::kms::internaldafny::types::IKMSClient>, ::dafny_runtime::Rc<crate::software::amazon::cryptography::services::kms::internaldafny::types::Error>>>{
         let shared_config = &Self::CreateSdkConfig();
-        let inner = aws_sdk_kms::Client::new(&shared_config);
-        let client = crate::deps::com_amazonaws_kms::client::Client { inner };
+        let inner = aws_sdk_kms::Client::new(shared_config);
+        let client = KmsClient { inner };
         let dafny_client = ::dafny_runtime::upcast_object()(::dafny_runtime::object::new(client));
         dafny_runtime::Rc::new(crate::r#_Wrappers_Compile::Result::Success {
             value: dafny_client,
@@ -65,7 +64,7 @@ impl crate::r#software::amazon::cryptography::services::kms::internaldafny::_def
 
     #[allow(non_snake_case)]
     fn AddUserAgentStringToConfig(sdkConfig: &SdkConfig) -> SdkConfig {
-        let runtime = format!("Rust");
+        let runtime = "Rust".to_string();
         let runtime_msg = dafny_runtime::dafny_runtime_conversions::unicode_chars_false::string_to_dafny_string(&runtime);
         // sadly rust doesn't allow for '/' in the app name which the dafny function adds
         // so we will replace '/' with '-' which is allowed 
@@ -76,19 +75,18 @@ impl crate::r#software::amazon::cryptography::services::kms::internaldafny::_def
         // To update the user agent string we take the application name and update it.
         let current_app_name = sdkConfig.app_name()
             .map(|app_name| app_name.to_string())
-            .unwrap_or_else(|| "".to_string());
+            .unwrap_or_default();
         let new_app_name =  if current_app_name.is_empty() {
-            format!("{}", replaced_user_agent_string)
+            replaced_user_agent_string.to_string()
         } else { 
             format!("{} {} ", current_app_name, replaced_user_agent_string)
         };
         let app_name = AppName::new(new_app_name)
             .expect("Valid app name");
-        let sdkConfig = sdkConfig
+        sdkConfig
             .to_builder()
             .app_name(app_name)
-            .build();
-        sdkConfig
+            .build()
     }
     #[allow(non_snake_case)]
     pub fn RegionMatch(
@@ -101,7 +99,7 @@ impl crate::r#software::amazon::cryptography::services::kms::internaldafny::_def
             );
         let any = dafny_runtime::cast_any_object!(kmsClient);
         let client =
-            dafny_runtime::cast_object!(any, crate::deps::com_amazonaws_kms::client::Client);
+            dafny_runtime::cast_object!(any, KmsClient);
         let flag = match client.as_ref().inner.config().region() {
             Some(r) => r.as_ref() == region,
             None => false,
