@@ -76,6 +76,7 @@ pub(crate) use crate::implementation_from_dafny::UUID;
 pub(crate) use crate::implementation_from_dafny::_StormTracker_Compile;
 pub(crate) use crate::implementation_from_dafny::_LocalCMC_Compile;
 pub(crate) use crate::implementation_from_dafny::_TestWrappedMaterialProvidersMain_Compile;
+pub(crate) use crate::deps::com_amazonaws_kms::client::Client as KmsClient;
 
 fn main2() {
     let args: Vec<String> = std::env::args().collect();
