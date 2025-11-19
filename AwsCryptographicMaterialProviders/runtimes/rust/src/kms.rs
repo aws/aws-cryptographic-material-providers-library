@@ -44,7 +44,7 @@ impl crate::r#software::amazon::cryptography::services::kms::internaldafny::_def
             .region(Region::new(region))
             .build();
         let inner = aws_sdk_kms::Client::new(&shared_config);
-        let client = KmsClient { inner };
+        let client = crate::KmsClient { inner };
         let dafny_client = ::dafny_runtime::upcast_object()(::dafny_runtime::object::new(client));
         dafny_runtime::Rc::new(crate::r#_Wrappers_Compile::Result::Success {
             value: dafny_client,
@@ -55,7 +55,7 @@ impl crate::r#software::amazon::cryptography::services::kms::internaldafny::_def
     pub fn KMSClient() -> ::dafny_runtime::Rc<crate::r#_Wrappers_Compile::Result<::dafny_runtime::Object<dyn crate::software::amazon::cryptography::services::kms::internaldafny::types::IKMSClient>, ::dafny_runtime::Rc<crate::software::amazon::cryptography::services::kms::internaldafny::types::Error>>>{
         let shared_config = &Self::CreateSdkConfig();
         let inner = aws_sdk_kms::Client::new(shared_config);
-        let client = KmsClient { inner };
+        let client = crate::KmsClient { inner };
         let dafny_client = ::dafny_runtime::upcast_object()(::dafny_runtime::object::new(client));
         dafny_runtime::Rc::new(crate::r#_Wrappers_Compile::Result::Success {
             value: dafny_client,
@@ -99,7 +99,7 @@ impl crate::r#software::amazon::cryptography::services::kms::internaldafny::_def
             );
         let any = dafny_runtime::cast_any_object!(kmsClient);
         let client =
-            dafny_runtime::cast_object!(any, KmsClient);
+            dafny_runtime::cast_object!(any, crate::KmsClient);
         let flag = match client.as_ref().inner.config().region() {
             Some(r) => r.as_ref() == region,
             None => false,
