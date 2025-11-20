@@ -46,7 +46,7 @@ jobs:
           git config --global core.longpaths true
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
