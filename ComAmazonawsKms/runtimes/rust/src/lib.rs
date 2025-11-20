@@ -24,7 +24,7 @@ pub(crate) mod time;
 pub(crate) mod uuid;
 pub(crate) use crate::implementation_from_dafny::UTF8;
 pub(crate) mod concurrent_call;
-//pub(crate) mod dafny_libraries;
+pub(crate) use crate::client::Client as KmsClient;
 
 pub(crate) use crate::implementation_from_dafny::DafnyLibraries;
 pub(crate) use crate::implementation_from_dafny::ConcurrentCall;
