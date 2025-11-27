@@ -29,7 +29,8 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"} KeyStore 
       id := None,
       grantTokens := None,
       kmsClient := None,
-      ddbClient := None
+      ddbClient := None,
+      requireConsistentReads := Some(false)
     )
   }
 
@@ -178,7 +179,8 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny"} KeyStore 
       kmsConfiguration := config.kmsConfiguration,
       grantTokens := grantTokens.value,
       kmsClient := kmsClient,
-      ddbClient := ddbClient
+      ddbClient := ddbClient,
+      requireConsistentReads := config.requireConsistentReads.UnwrapOr(false)
       )
     );
     return Success(client);
