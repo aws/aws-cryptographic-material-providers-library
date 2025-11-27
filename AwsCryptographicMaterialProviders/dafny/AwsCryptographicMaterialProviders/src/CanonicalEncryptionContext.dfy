@@ -11,6 +11,7 @@ module CanonicalEncryptionContext {
   import opened Wrappers
   import Seq
   import SortedSets
+  import AtomicPrimitives
 
   //= aws-encryption-sdk-specification/framework/raw-aes-keyring.md#onencrypt
   //# The keyring MUST attempt to serialize the [encryption materials']
@@ -47,4 +48,51 @@ module CanonicalEncryptionContext {
       var allBytes := UInt16ToSeq(|keys| as uint16) + Seq.Flatten(pairsBytes);
       Success(allBytes)
   }
+
+  method EncryptionContextDigest(
+    crypto: AtomicPrimitives.AtomicPrimitivesClient,
+    encryptionContext: Types.EncryptionContext
+  )
+    returns (output: Result<seq<uint8>, string>)
+    requires crypto.ValidState()
+    modifies crypto.Modifies
+    ensures crypto.ValidState()
+    // We tried to collapse all of this post condition into a common predicate.
+    // We failed; we will have to copy and paste it.
+    // @texastony thinks reason is that is very difficult to keep track of the input.
+    ensures
+      && output.Success?
+      ==>
+        && var content? := EncryptionContextToAAD(encryptionContext);
+        && content?.Success?
+        && |crypto.History.Digest| == |old(crypto.History.Digest)| + 1
+        && old(crypto.History.Digest) < crypto.History.Digest
+        && var digestEvent := Seq.Last(crypto.History.Digest);
+        && digestEvent.input.digestAlgorithm == AtomicPrimitives.Types.SHA_384
+        && digestEvent.input.message == content?.value
+        && digestEvent.output.Success?
+        && |digestEvent.output.value| == 48 // 384 bits / 8 bits per byte == 48 bytes
+        && digestEvent.output.value == output.value
+  {
+    var canonicalEC :- EncryptionContextToAAD(encryptionContext).MapFailure(e => "Could not SHA-384 Content.");
+
+    var DigestInput := AtomicPrimitives.Types.DigestInput(
+      digestAlgorithm := AtomicPrimitives.Types.SHA_384,
+      message := canonicalEC
+    );
+    var maybeDigest := crypto.Digest(DigestInput);
+    var digest :- maybeDigest.MapFailure(e => "Could not SHA-384 Content.");
+
+    // The digest is not truncated.
+    // There is an impact on the key size.
+    // See: https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html
+    // This is not safe to do for 1024 keys,
+    // but AWS KMS does not support these keys.
+    // Further we use SHA_384 to save a little on size
+    // and avoid even the possibility of length extension.
+    // Though length extension does not matter in this situation,
+    // because a decryptor already has access to the key.
+    return Success(digest);
+  }
+
 }

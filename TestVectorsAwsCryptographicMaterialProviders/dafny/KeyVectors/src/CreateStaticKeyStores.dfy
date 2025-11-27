@@ -74,7 +74,10 @@ module {:options "-functionSyntax:4"} CreateStaticKeyStores {
                             branchKeyIdentifier := input.branchKeyIdentifier,
                             branchKeyVersion := staticKeyMaterial.branchKeyVersion,
                             branchKey := staticKeyMaterial.branchKey,
-                            encryptionContext := map[]
+                            encryptionContext := map[],
+                            kmsArn := "KeyId",
+                            createTime := "CreateTime",
+                            hierarchyVersion := HierarchyVersion.v1
                           )
                         ));
 
@@ -102,7 +105,10 @@ module {:options "-functionSyntax:4"} CreateStaticKeyStores {
                             branchKeyIdentifier := input.branchKeyIdentifier,
                             branchKeyVersion := staticKeyMaterial.branchKeyVersion,
                             branchKey := staticKeyMaterial.branchKey,
-                            encryptionContext := map[]
+                            encryptionContext := map[],
+                            kmsArn := "KeyId",
+                            createTime := "CreateTime",
+                            hierarchyVersion := HierarchyVersion.v1
                           )
                         ));
       History.GetBranchKeyVersion := History.GetBranchKeyVersion + [DafnyCallEvent(input, output)];
@@ -130,7 +136,10 @@ module {:options "-functionSyntax:4"} CreateStaticKeyStores {
                             beaconKeyIdentifier := input.branchKeyIdentifier,
                             beaconKey := Some(staticKeyMaterial.beaconKey),
                             hmacKeys := None,
-                            encryptionContext := map[]
+                            encryptionContext := map[],
+                            kmsArn := "KeyId",
+                            createTime := "CreateTime",
+                            hierarchyVersion := HierarchyVersion.v1
                           )));
       History.GetBeaconKey := History.GetBeaconKey + [DafnyCallEvent(input, output)];
     }

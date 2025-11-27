@@ -24,6 +24,13 @@ module TestVersionKey {
 
   method {:test} TestVersionKey()
   {
+    TestVersionKeyInner(None);
+    TestVersionKeyInner(Some(Types.HierarchyVersion.v1));
+    TestVersionKeyInner(Some(Types.HierarchyVersion.v2));
+  }
+
+  method TestVersionKeyInner(hierarchyVersion : Option<Types.HierarchyVersion>)
+  {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
@@ -46,7 +53,8 @@ module TestVersionKey {
     // when running in different runtimes
     var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(
                                                    branchKeyIdentifier := None,
-                                                   encryptionContext := None
+                                                   encryptionContext := None,
+                                                   hierarchyVersion := hierarchyVersion
                                                  ));
 
     var oldActiveResult :- expect keyStore.GetActiveBranchKey(
@@ -93,6 +101,13 @@ module TestVersionKey {
 
   method {:test} TestVersionKeyWithEC()
   {
+    TestVersionKeyWithECInner(None);
+    TestVersionKeyWithECInner(Some(Types.HierarchyVersion.v1));
+    TestVersionKeyWithECInner(Some(Types.HierarchyVersion.v2));
+  }
+
+  method TestVersionKeyWithECInner(hierarchyVersion : Option<Types.HierarchyVersion>)
+  {
     var kmsClient :- expect KMS.KMSClient();
     var ddbClient :- expect DDB.DynamoDBClient();
     var kmsConfig := Types.KMSConfiguration.kmsKeyArn(keyArn);
@@ -123,7 +138,8 @@ module TestVersionKey {
 
     var branchKeyId :- expect keyStore.CreateKey(Types.CreateKeyInput(
                                                    branchKeyIdentifier := Some(id),
-                                                   encryptionContext := Some(encryptionContext)
+                                                   encryptionContext := Some(encryptionContext),
+                                                   hierarchyVersion := hierarchyVersion
                                                  ));
 
     expect branchKeyId.branchKeyIdentifier == id;
@@ -186,16 +202,23 @@ module TestVersionKey {
     expect getBranchKeyVersionResult.branchKeyMaterials.branchKey != newActiveResult.branchKeyMaterials.branchKey;
     // We expect that the custom EC is consistent across all versions of a Branch Key
     // Which makes this a test for:
-    //= aws-encryption-sdk-specification/framework/branch-key-store.md#versionkey
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#writing-branch-key-and-beacon-key-to-branch-key-store-table
     //= type=test
-    //# - Every key-value pair of the custom [encryption context](./structures.md#encryption-context-3) that is associated with the branch key
-    //# MUST be added with an Attribute Name of `aws-crypto-ec:` + the Key and Attribute Value (S) of the value.
+    //# - Every key-value pair in the input `encryption-context`
+    //#   MUST be added with an Attribute Name of `aws-crypto-ec:` + the Key and Attribute Value (S) of the value.
     expect matEC == customEC;
     expect mat2EC == customEC;
     expect mat3EC == customEC;
   }
 
   method {:test} TestMrkVersionKey()
+  {
+    TestMrkVersionKeyInner(None);
+    TestMrkVersionKeyInner(Some(Types.HierarchyVersion.v1));
+    TestMrkVersionKeyInner(Some(Types.HierarchyVersion.v2));
+  }
+
+  method TestMrkVersionKeyInner(hierarchyVersion : Option<Types.HierarchyVersion>)
   {
     var ddbClient :- expect DDB.DynamoDBClient();
 
@@ -326,6 +349,7 @@ module TestVersionKey {
       "",
       "",
       keyArn,
+      Types.HierarchyVersion.v1,
       map[]
     );
 
@@ -340,7 +364,8 @@ module TestVersionKey {
       versionBranchKeyItem,
       activeBranchKeyItem,
       myBranchKeyStoreName,
-      ddbClient
+      ddbClient,
+      ComAmazonawsDynamodbTypes.AttributeValue.B([0])
     );
 
     expect output.Failure?;
@@ -357,6 +382,7 @@ module TestVersionKey {
       "",
       "",
       keyArn,
+      Types.HierarchyVersion.v1,
       map[]
     );
 
@@ -371,7 +397,8 @@ module TestVersionKey {
       versionBranchKeyItem,
       activeBranchKeyItem,
       myBranchKeyStoreName,
-      ddbClient
+      ddbClient,
+      ComAmazonawsDynamodbTypes.AttributeValue.B([0])
     );
 
     expect output.Failure?;

@@ -7,6 +7,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     CreateKeyOutput_CreateKeyOutput as DafnyCreateKeyOutput,
     CreateKeyStoreOutput_CreateKeyStoreOutput as DafnyCreateKeyStoreOutput,
     Error,
+    Error_BranchKeyCiphertextException,
     Error_KeyStoreException,
     GetActiveBranchKeyOutput_GetActiveBranchKeyOutput as DafnyGetActiveBranchKeyOutput,
     GetBeaconKeyOutput_GetBeaconKeyOutput as DafnyGetBeaconKeyOutput,
@@ -20,6 +21,8 @@ from typing import Any
 
 from .dafny_protocol import DafnyResponse
 from .errors import (
+    AwsCryptographicPrimitives,
+    BranchKeyCiphertextException,
     CollectionOfErrors,
     ComAmazonawsDynamodb,
     ComAmazonawsKms,
@@ -33,6 +36,9 @@ from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.s
 )
 from aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
+)
+from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.deserialize import (
+    _deserialize_error as aws_cryptography_primitives_deserialize_error,
 )
 
 from .config import Config
@@ -113,8 +119,16 @@ def _deserialize_error(error: Error) -> ServiceError:
             message=_dafny.string_of(error.message),
             list=[_deserialize_error(dafny_e) for dafny_e in error.list],
         )
+    elif error.is_BranchKeyCiphertextException:
+        return BranchKeyCiphertextException(message=_dafny.string_of(error.message))
     elif error.is_KeyStoreException:
         return KeyStoreException(message=_dafny.string_of(error.message))
+    elif error.is_AwsCryptographyPrimitives:
+        return AwsCryptographicPrimitives(
+            aws_cryptography_primitives_deserialize_error(
+                error.AwsCryptographyPrimitives
+            )
+        )
     elif error.is_ComAmazonawsKms:
         if hasattr(error.ComAmazonawsKms, "objMessage"):
             return ComAmazonawsKms(

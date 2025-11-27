@@ -12,6 +12,9 @@ from aws_cryptography_internal_dynamodb.smithygenerated.com_amazonaws_dynamodb.s
 from aws_cryptography_internal_kms.smithygenerated.com_amazonaws_kms.shim import (
     _sdk_error_to_dafny_error as com_amazonaws_kms_sdk_error_to_dafny_error,
 )
+from aws_cryptography_primitives.smithygenerated.aws_cryptography_primitives.errors import (
+    _smithy_error_to_dafny_error as aws_cryptography_primitives_smithy_error_to_dafny_error,
+)
 from typing import Any, Dict, Generic, List, Literal, TypeVar
 
 
@@ -38,6 +41,70 @@ class UnknownApiError(ApiError[Literal["Unknown"]]):
     """Error representing any unknown api errors."""
 
     code: Literal["Unknown"] = "Unknown"
+
+
+class BranchKeyCiphertextException(ApiError[Literal["BranchKeyCiphertextException"]]):
+    code: Literal["BranchKeyCiphertextException"] = "BranchKeyCiphertextException"
+    message: str
+
+    def __init__(
+        self,
+        *,
+        message: str,
+    ):
+        """The cipher-text or branch key materials incorporated into the
+        cipher-text, such as the encryption context, is corrupted, missing, or
+        otherwise invalid. For branch keys,
+
+        the branch key materials is a combination of:
+        - the encryption
+        context
+        - storage identifiers (partition key, sort key, logical name)
+        - metadata
+        that binds the Branch Key to encrypted data (version)
+        - create-time
+        -
+        hierarchy-version
+
+        If any of the above are modified without calling KMS,
+        the
+        branch key's cipher-text becomes invalid.
+
+        :param message: A message associated with the specific error.
+        """
+        super().__init__(message)
+
+    def as_dict(self) -> Dict[str, Any]:
+        """Converts the BranchKeyCiphertextException to a dictionary."""
+        return {
+            "message": self.message,
+            "code": self.code,
+        }
+
+    @staticmethod
+    def from_dict(d: Dict[str, Any]) -> "BranchKeyCiphertextException":
+        """Creates a BranchKeyCiphertextException from a dictionary."""
+        kwargs: Dict[str, Any] = {
+            "message": d["message"],
+        }
+
+        return BranchKeyCiphertextException(**kwargs)
+
+    def __repr__(self) -> str:
+        result = "BranchKeyCiphertextException("
+        if self.message is not None:
+            result += f"message={repr(self.message)}"
+
+        return result + ")"
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, BranchKeyCiphertextException):
+            return False
+        attributes: list[str] = [
+            "message",
+            "message",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
 class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
@@ -84,6 +151,11 @@ class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
         return all(getattr(self, a) == getattr(other, a) for a in attributes)
 
 
+class BranchKeyCiphertextException(ApiError[Literal["BranchKeyCiphertextException"]]):
+    code: Literal["BranchKeyCiphertextException"] = "BranchKeyCiphertextException"
+    message: str
+
+
 class KeyStoreException(ApiError[Literal["KeyStoreException"]]):
     code: Literal["KeyStoreException"] = "KeyStoreException"
     message: str
@@ -95,6 +167,10 @@ class ComAmazonawsDynamodb(ApiError[Literal["ComAmazonawsDynamodb"]]):
 
 class ComAmazonawsKms(ApiError[Literal["ComAmazonawsKms"]]):
     ComAmazonawsKms: Any
+
+
+class AwsCryptographicPrimitives(ApiError[Literal["AwsCryptographicPrimitives"]]):
+    AwsCryptographicPrimitives: Any
 
 
 class CollectionOfErrors(ApiError[Literal["CollectionOfErrors"]]):
@@ -261,6 +337,14 @@ def _smithy_error_to_dafny_error(e: ServiceError):
     Dafny error."""
     if isinstance(
         e,
+        aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.BranchKeyCiphertextException,
+    ):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_BranchKeyCiphertextException(
+            message=_dafny.Seq(e.message)
+        )
+
+    if isinstance(
+        e,
         aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors.KeyStoreException,
     ):
         return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_KeyStoreException(
@@ -275,6 +359,11 @@ def _smithy_error_to_dafny_error(e: ServiceError):
     if isinstance(e, ComAmazonawsKms):
         return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_ComAmazonawsKms(
             com_amazonaws_kms_sdk_error_to_dafny_error(e.message)
+        )
+
+    if isinstance(e, AwsCryptographicPrimitives):
+        return aws_cryptographic_material_providers.internaldafny.generated.AwsCryptographyKeyStoreTypes.Error_AwsCryptographyPrimitives(
+            aws_cryptography_primitives_smithy_error_to_dafny_error(e.message)
         )
 
     if isinstance(e, CollectionOfErrors):
