@@ -1,0 +1,26 @@
+# This workflow performs interoperability tests across the supported runtimes of the MPL and collects metrics.
+name: Metrics Interoperability Tests
+
+on:
+  workflow_call:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
+      fuzz-testing:
+        description: "Use fuzzed test vectors instead of regular test vectors"
+        required: false
+        default: false
+        type: boolean
+jobs:
+  Hello-World-Job:
+    runs-on:
+      - codebuild-AWS-MPL-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - run: echo "Hello World!"
