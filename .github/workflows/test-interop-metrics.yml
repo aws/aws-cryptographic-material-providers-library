@@ -21,6 +21,6 @@ on:
 jobs:
   Hello-World-Job:
     runs-on:
-      - codebuild-AWS-MPL-${{ github.run_id }}-${{ github.run_attempt }}
+      - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - run: echo "Hello World!"
