@@ -23,16 +23,12 @@ jobs:
     strategy:
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
-        os: [
-            # https://taskei.amazon.dev/tasks/CrypTool-5283
-            # windows-latest,
-            ubuntu-22.04,
-            macos-14,
-          ]
         language: [java, net, rust, python, go]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
+    runs-on: 
+      - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
+        image:ubuntu-7.0
     permissions:
       id-token: write
       contents: read
@@ -64,13 +60,6 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-
-      - name: Setup .NET OpenSSL on Mac
-        if: matrix.os == 'macos-14' && matrix.language == 'net'
-        run: |
-          brew install openssl@3
-          echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
-          echo "DOTNET_CRYPTO_ENGINE_ADAPTER=System.Security.Cryptography.Algorithms.Managed" >> $GITHUB_ENV
 
       # We need both Java 8 and Java 17
       - name: Setup Java 8
@@ -116,10 +105,6 @@ jobs:
       - name: Install Go imports
         run: |
           go install golang.org/x/tools/cmd/goimports@v0.36.0
-
-      - name: Setup NASM for Windows in Rust (aws-lc-sys)
-        if: matrix.language == 'rust' && matrix.os == 'windows-latest'
-        uses: ilammy/setup-nasm@v1
 
       - name: Setup Dafny Rust
         if: matrix.language == 'rust'
@@ -222,7 +207,7 @@ jobs:
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json
 
   testInteroperablity:
@@ -231,15 +216,9 @@ jobs:
       fail-fast: false
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
-        os: [
-            # TODO just test on mac and ubuntu for now
-            # windows-latest,
-            ubuntu-22.04,
-            macos-14,
-          ]
         decrypting_language: [java, net, rust, python, go]
         dotnet-version: ["6.0.x"]
-    runs-on: ${{ matrix.os }}
+    runs-on: codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
     permissions:
       id-token: write
       contents: read
@@ -271,13 +250,6 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-
-      - name: Setup .NET OpenSSL on Mac
-        if: matrix.os == 'macos-14' && matrix.decrypting_language == 'net'
-        run: |
-          brew install openssl@3
-          echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
-          echo "DOTNET_CRYPTO_ENGINE_ADAPTER=System.Security.Cryptography.Algorithms.Managed" >> $GITHUB_ENV
 
       - name: Setup Java 8
         if: matrix.decrypting_language == 'java'
@@ -318,10 +290,6 @@ jobs:
       - name: Install Go imports
         run: |
           go install golang.org/x/tools/cmd/goimports@v0.36.0
-
-      - name: Setup NASM for Windows in Rust (aws-lc-sys)
-        if: matrix.decrypting_language == 'rust' && matrix.os == 'windows-latest'
-        uses: ilammy/setup-nasm@v1
 
       - name: Setup Dafny 2 Rust
         if: matrix.decrypting_language == 'rust'
@@ -410,7 +378,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Java
         uses: actions/download-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_java${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: vector_artifact_java${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Java
@@ -420,7 +388,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Net
         uses: actions/download-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_net${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: vector_artifact_net${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Net
@@ -430,7 +398,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Rust
         uses: actions/download-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_rust${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: vector_artifact_rust${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Rust
@@ -440,7 +408,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Python
         uses: actions/download-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_python${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: vector_artifact_python${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Python
@@ -450,7 +418,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Go
         uses: actions/download-artifact@v4
         with:
-          name: ${{matrix.os}}_vector_artifact_go${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: vector_artifact_go${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Go
