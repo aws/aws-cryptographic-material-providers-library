@@ -27,13 +27,16 @@ jobs:
         os: [
             # https://taskei.amazon.dev/tasks/CrypTool-5283
             # windows-latest,
-            ubuntu-22.04,
-            macos-14,
+            # ubuntu-22.04,
+            # macos-14,
+            # ubuntu container
+            AWS-MPL,
+            # macOS
           ]
         language: [java, net, rust, python, go]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
-    runs-on: ${{ matrix.os }}
+    runs-on: codebuild-${{ matrix.os }}-${{ github.run_id }}-${{ github.run_attempt }}
     permissions:
       id-token: write
       contents: read
@@ -235,12 +238,13 @@ jobs:
         os: [
             # TODO just test on mac and ubuntu for now
             # windows-latest,
-            ubuntu-22.04,
-            macos-14,
+            # ubuntu-22.04,
+            # macos-14,
+            AWS-MPL
           ]
         decrypting_language: [java, net, rust, python, go]
         dotnet-version: ["6.0.x"]
-    runs-on: ${{ matrix.os }}
+    runs-on: codebuild-${{ matrix.os }}-${{ github.run_id }}-${{ github.run_attempt }}
     permissions:
       id-token: write
       contents: read
