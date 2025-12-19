@@ -218,7 +218,9 @@ jobs:
         library: [TestVectorsAwsCryptographicMaterialProviders]
         decrypting_language: [java, net, rust, python, go]
         dotnet-version: ["6.0.x"]
-    runs-on: codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
+    runs-on: 
+      - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
+        image:ubuntu-7.0
     permissions:
       id-token: write
       contents: read
