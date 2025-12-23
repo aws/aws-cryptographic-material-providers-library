@@ -29,6 +29,7 @@ jobs:
     runs-on: 
       - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
         image:ubuntu-7.0
+        buildspec-override:true
     permissions:
       id-token: write
       contents: read
@@ -221,6 +222,7 @@ jobs:
     runs-on: 
       - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
         image:ubuntu-7.0
+        buildspec-override:true
     permissions:
       id-token: write
       contents: read

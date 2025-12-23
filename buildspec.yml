@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo "Install phase - runs before GitHub Actions"
+  pre_build:
+    commands:
+      - echo "Pre-build phase"
+  post_build:
+    commands:
+      - echo "Post-build phase - runs after GitHub Actions steps"
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'dist'  # or your build output directory
+  name: my-build-artifacts
