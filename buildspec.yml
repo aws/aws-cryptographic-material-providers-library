@@ -12,5 +12,5 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: $(if [ "$LANGUAGE" = "java" ]; then echo "TestVectorsAwsCryptographicMaterialProviders/runtimes/java"; elif [ "$LANGUAGE" = "net" ]; then echo "TestVectorsAwsCryptographicMaterialProviders/runtimes/net"; elif [ "$LANGUAGE" = "rust" ]; then echo "TestVectorsAwsCryptographicMaterialProviders/runtimes/rust"; elif [ "$LANGUAGE" = "python" ]; then echo "TestVectorsAwsCryptographicMaterialProviders/runtimes/python"; elif [ "$LANGUAGE" = "go" ]; then echo "TestVectorsAwsCryptographicMaterialProviders/runtimes/go"; fi)
-  name: ${LANGUAGE}-build-artifacts-${CODEBUILD_BUILD_NUMBER}
+  base-directory: "TestVectorsAwsCryptographicMaterialProviders/runtimes/"
+  name: build-artifacts-${CODEBUILD_BUILD_NUMBER}
