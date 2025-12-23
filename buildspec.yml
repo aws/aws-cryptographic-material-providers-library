@@ -12,5 +12,5 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: "TestVectorsAwsCryptographicMaterialProviders/runtimes/"
+  base-directory: './'
   name: build-artifacts-${CODEBUILD_BUILD_NUMBER}
