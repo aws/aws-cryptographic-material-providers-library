@@ -30,6 +30,8 @@ jobs:
       - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
         image:ubuntu-7.0
         buildspec-override:true
+    env:
+      LANGUAGE: ${{ matrix.language }}
     permissions:
       id-token: write
       contents: read
@@ -223,6 +225,8 @@ jobs:
       - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
         image:ubuntu-7.0
         buildspec-override:true
+    env:
+      LANGUAGE: ${{ matrix.decrypting_language }}
     permissions:
       id-token: write
       contents: read
