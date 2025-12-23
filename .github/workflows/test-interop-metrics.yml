@@ -205,7 +205,19 @@ jobs:
 
       - name: Create Encrypt Manifests
         working-directory: ./${{ matrix.library }}
-        run: make test_encrypt_vectors_${{ matrix.language }}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          LOG_FILE="encrypt_${{ matrix.language }}_${TIMESTAMP}.log"
+          make test_encrypt_vectors_${{ matrix.language }} | tee "$LOG_FILE"
+
+      - name: Upload Encrypt Manifest Logs to S3
+        working-directory: ./${{ matrix.library }}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          LOG_FILE="encrypt_${{ matrix.language }}_${TIMESTAMP}.log"
+          if [ -f "$LOG_FILE" ]; then
+            aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/encrypt-manifests/ || echo "Failed to upload encrypt log to S3, continuing..."
+          fi
 
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
@@ -391,7 +403,19 @@ jobs:
 
       - name: Decrypt Encrypt Manifest Java
         working-directory: ./${{ matrix.library }}
-        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_java_${TIMESTAMP}.log"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} | tee "$LOG_FILE"
+
+      - name: Upload Java Decrypt Logs to S3
+        working-directory: ./${{ matrix.library }}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_java_${TIMESTAMP}.log"
+          if [ -f "$LOG_FILE" ]; then
+            aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/ || echo "Failed to upload Java decrypt log to S3, continuing..."
+          fi
 
       - name: Download Encrypt Manifest Artifact Net
         uses: actions/download-artifact@v4
@@ -401,7 +425,19 @@ jobs:
 
       - name: Decrypt Encrypt Manifest Net
         working-directory: ./${{ matrix.library }}
-        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_net_${TIMESTAMP}.log"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} | tee "$LOG_FILE"
+
+      - name: Upload Net Decrypt Logs to S3
+        working-directory: ./${{ matrix.library }}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_net_${TIMESTAMP}.log"
+          if [ -f "$LOG_FILE" ]; then
+            aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/ || echo "Failed to upload Net decrypt log to S3, continuing..."
+          fi
 
       - name: Download Encrypt Manifest Artifact Rust
         uses: actions/download-artifact@v4
@@ -411,7 +447,19 @@ jobs:
 
       - name: Decrypt Encrypt Manifest Rust
         working-directory: ./${{ matrix.library }}
-        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_rust_${TIMESTAMP}.log"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} | tee "$LOG_FILE"
+
+      - name: Upload Rust Decrypt Logs to S3
+        working-directory: ./${{ matrix.library }}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_rust_${TIMESTAMP}.log"
+          if [ -f "$LOG_FILE" ]; then
+            aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/ || echo "Failed to upload Rust decrypt log to S3, continuing..."
+          fi
 
       - name: Download Encrypt Manifest Artifact Python
         uses: actions/download-artifact@v4
@@ -421,7 +469,19 @@ jobs:
 
       - name: Decrypt Encrypt Manifest Python
         working-directory: ./${{ matrix.library }}
-        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_python_${TIMESTAMP}.log"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} | tee "$LOG_FILE"
+
+      - name: Upload Python Decrypt Logs to S3
+        working-directory: ./${{ matrix.library }}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_python_${TIMESTAMP}.log"
+          if [ -f "$LOG_FILE" ]; then
+            aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/ || echo "Failed to upload Python decrypt log to S3, continuing..."
+          fi
 
       - name: Download Encrypt Manifest Artifact Go
         uses: actions/download-artifact@v4
@@ -431,4 +491,16 @@ jobs:
 
       - name: Decrypt Encrypt Manifest Go
         working-directory: ./${{ matrix.library }}
-        run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_go_${TIMESTAMP}.log"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} | tee "$LOG_FILE"
+
+      - name: Upload Go Decrypt Logs to S3
+        working-directory: ./${{ matrix.library }}
+        run: |
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_go_${TIMESTAMP}.log"
+          if [ -f "$LOG_FILE" ]; then
+            aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/ || echo "Failed to upload Go decrypt log to S3, continuing..."
+          fi
