@@ -29,7 +29,6 @@ jobs:
     runs-on: 
       - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
         image:ubuntu-7.0
-        buildspec-override:true
     env:
       LANGUAGE: ${{ matrix.language }}
     permissions:
@@ -213,11 +212,10 @@ jobs:
       - name: Upload Encrypt Manifest Logs to S3
         working-directory: ./${{ matrix.library }}
         run: |
+          cat $LOG_FILE
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="encrypt_${{ matrix.language }}_${TIMESTAMP}.log"
-          if [ -f "$LOG_FILE" ]; then
-            aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/encrypt-manifests/ || echo "Failed to upload encrypt log to S3, continuing..."
-          fi
+          aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/encrypt-manifests/
 
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
@@ -236,7 +234,6 @@ jobs:
     runs-on: 
       - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
         image:ubuntu-7.0
-        buildspec-override:true
     env:
       LANGUAGE: ${{ matrix.decrypting_language }}
     permissions:
@@ -413,9 +410,7 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_java_${TIMESTAMP}.log"
-          if [ -f "$LOG_FILE" ]; then
-            aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/ || echo "Failed to upload Java decrypt log to S3, continuing..."
-          fi
+          aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
 
       - name: Download Encrypt Manifest Artifact Net
         uses: actions/download-artifact@v4
@@ -435,9 +430,7 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_net_${TIMESTAMP}.log"
-          if [ -f "$LOG_FILE" ]; then
-            aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/ || echo "Failed to upload Net decrypt log to S3, continuing..."
-          fi
+          aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
 
       - name: Download Encrypt Manifest Artifact Rust
         uses: actions/download-artifact@v4
@@ -457,9 +450,7 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_rust_${TIMESTAMP}.log"
-          if [ -f "$LOG_FILE" ]; then
-            aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/ || echo "Failed to upload Rust decrypt log to S3, continuing..."
-          fi
+          aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
 
       - name: Download Encrypt Manifest Artifact Python
         uses: actions/download-artifact@v4
@@ -479,9 +470,7 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_python_${TIMESTAMP}.log"
-          if [ -f "$LOG_FILE" ]; then
-            aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/ || echo "Failed to upload Python decrypt log to S3, continuing..."
-          fi
+          aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
 
       - name: Download Encrypt Manifest Artifact Go
         uses: actions/download-artifact@v4
@@ -501,6 +490,4 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_go_${TIMESTAMP}.log"
-          if [ -f "$LOG_FILE" ]; then
-            aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/ || echo "Failed to upload Go decrypt log to S3, continuing..."
-          fi
+          aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
