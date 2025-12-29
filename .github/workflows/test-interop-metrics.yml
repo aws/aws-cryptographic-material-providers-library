@@ -221,14 +221,12 @@ jobs:
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
 
-          # Read log file and upload to CloudWatch
           TIMESTAMP=$(date +%s%3N)
-          LOG_CONTENT=$(cat $LOG_FILE | jq -Rs .)
-
-          aws logs put-log-events \
-            --log-group-name "$LOG_GROUP" \
-            --log-stream-name "$LOG_STREAM" \
-            --log-events timestamp=$TIMESTAMP,message=$LOG_CONTENT
+          jq -Rs --arg ts "$TIMESTAMP" '[{timestamp: ($ts | tonumber), message: .}]' "$LOG_FILE" \
+            | aws logs put-log-events \
+              --log-group-name "$LOG_GROUP" \
+              --log-stream-name "$LOG_STREAM" \
+              --log-events file:///dev/stdin
 
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
@@ -429,14 +427,12 @@ jobs:
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
 
-          # Read log file and upload to CloudWatch
           TIMESTAMP=$(date +%s%3N)
-          LOG_CONTENT=$(cat $LOG_FILE | jq -Rs .)
-
-          aws logs put-log-events \
-            --log-group-name "$LOG_GROUP" \
-            --log-stream-name "$LOG_STREAM" \
-            --log-events timestamp=$TIMESTAMP,message=$LOG_CONTENT
+          jq -Rs --arg ts "$TIMESTAMP" '[{timestamp: ($ts | tonumber), message: .}]' "$LOG_FILE" \
+            | aws logs put-log-events \
+              --log-group-name "$LOG_GROUP" \
+              --log-stream-name "$LOG_STREAM" \
+              --log-events file:///dev/stdin
 
       - name: Download Encrypt Manifest Artifact Net
         uses: actions/download-artifact@v4
@@ -462,14 +458,12 @@ jobs:
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
 
-          # Read log file and upload to CloudWatch
           TIMESTAMP=$(date +%s%3N)
-          LOG_CONTENT=$(cat $LOG_FILE | jq -Rs .)
-
-          aws logs put-log-events \
-            --log-group-name "$LOG_GROUP" \
-            --log-stream-name "$LOG_STREAM" \
-            --log-events timestamp=$TIMESTAMP,message=$LOG_CONTENT
+          jq -Rs --arg ts "$TIMESTAMP" '[{timestamp: ($ts | tonumber), message: .}]' "$LOG_FILE" \
+            | aws logs put-log-events \
+              --log-group-name "$LOG_GROUP" \
+              --log-stream-name "$LOG_STREAM" \
+              --log-events file:///dev/stdin
 
       - name: Download Encrypt Manifest Artifact Rust
         uses: actions/download-artifact@v4
@@ -495,14 +489,12 @@ jobs:
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
 
-          # Read log file and upload to CloudWatch
           TIMESTAMP=$(date +%s%3N)
-          LOG_CONTENT=$(cat $LOG_FILE | jq -Rs .)
-
-          aws logs put-log-events \
-            --log-group-name "$LOG_GROUP" \
-            --log-stream-name "$LOG_STREAM" \
-            --log-events timestamp=$TIMESTAMP,message=$LOG_CONTENT
+          jq -Rs --arg ts "$TIMESTAMP" '[{timestamp: ($ts | tonumber), message: .}]' "$LOG_FILE" \
+            | aws logs put-log-events \
+              --log-group-name "$LOG_GROUP" \
+              --log-stream-name "$LOG_STREAM" \
+              --log-events file:///dev/stdin
 
       - name: Download Encrypt Manifest Artifact Python
         uses: actions/download-artifact@v4
@@ -528,14 +520,12 @@ jobs:
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
 
-          # Read log file and upload to CloudWatch
           TIMESTAMP=$(date +%s%3N)
-          LOG_CONTENT=$(cat $LOG_FILE | jq -Rs .)
-
-          aws logs put-log-events \
-            --log-group-name "$LOG_GROUP" \
-            --log-stream-name "$LOG_STREAM" \
-            --log-events timestamp=$TIMESTAMP,message=$LOG_CONTENT
+          jq -Rs --arg ts "$TIMESTAMP" '[{timestamp: ($ts | tonumber), message: .}]' "$LOG_FILE" \
+            | aws logs put-log-events \
+              --log-group-name "$LOG_GROUP" \
+              --log-stream-name "$LOG_STREAM" \
+              --log-events file:///dev/stdin
 
       - name: Download Encrypt Manifest Artifact Go
         uses: actions/download-artifact@v4
@@ -561,11 +551,9 @@ jobs:
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
 
-          # Read log file and upload to CloudWatch
           TIMESTAMP=$(date +%s%3N)
-          LOG_CONTENT=$(cat $LOG_FILE | jq -Rs .)
-
-          aws logs put-log-events \
-            --log-group-name "$LOG_GROUP" \
-            --log-stream-name "$LOG_STREAM" \
-            --log-events timestamp=$TIMESTAMP,message=$LOG_CONTENT
+          jq -Rs --arg ts "$TIMESTAMP" '[{timestamp: ($ts | tonumber), message: .}]' "$LOG_FILE" \
+            | aws logs put-log-events \
+              --log-group-name "$LOG_GROUP" \
+              --log-stream-name "$LOG_STREAM" \
+              --log-events file:///dev/stdin
