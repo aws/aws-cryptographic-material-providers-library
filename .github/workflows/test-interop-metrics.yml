@@ -18,6 +18,9 @@ on:
         required: false
         default: false
         type: boolean
+env:
+  TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+
 jobs:
   generateEncryptVectors:
     strategy:
@@ -205,7 +208,6 @@ jobs:
       - name: Create Encrypt Manifests
         working-directory: ./${{ matrix.library }}
         run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="encrypt_${{ matrix.language }}_${TIMESTAMP}.log"
           make test_encrypt_vectors_${{ matrix.language }} > "$LOG_FILE"
           ls
@@ -214,7 +216,6 @@ jobs:
         working-directory: ./${{ matrix.library }}
         run: |
           cat $LOG_FILE
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="encrypt_${{ matrix.language }}_${TIMESTAMP}.log"
           aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/encrypt-manifests/
 
@@ -402,14 +403,12 @@ jobs:
       - name: Decrypt Encrypt Manifest Java
         working-directory: ./${{ matrix.library }}
         run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_java_${TIMESTAMP}.log"
           make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
       - name: Upload Java Decrypt Logs to S3
         working-directory: ./${{ matrix.library }}
         run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_java_${TIMESTAMP}.log"
           aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
 
@@ -422,14 +421,12 @@ jobs:
       - name: Decrypt Encrypt Manifest Net
         working-directory: ./${{ matrix.library }}
         run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_net_${TIMESTAMP}.log"
           make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
       - name: Upload Net Decrypt Logs to S3
         working-directory: ./${{ matrix.library }}
         run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_net_${TIMESTAMP}.log"
           aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
 
@@ -442,14 +439,12 @@ jobs:
       - name: Decrypt Encrypt Manifest Rust
         working-directory: ./${{ matrix.library }}
         run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_rust_${TIMESTAMP}.log"
           make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
       - name: Upload Rust Decrypt Logs to S3
         working-directory: ./${{ matrix.library }}
         run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_rust_${TIMESTAMP}.log"
           aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
 
@@ -462,14 +457,12 @@ jobs:
       - name: Decrypt Encrypt Manifest Python
         working-directory: ./${{ matrix.library }}
         run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_python_${TIMESTAMP}.log"
           make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
       - name: Upload Python Decrypt Logs to S3
         working-directory: ./${{ matrix.library }}
         run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_python_${TIMESTAMP}.log"
           aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
 
@@ -482,13 +475,11 @@ jobs:
       - name: Decrypt Encrypt Manifest Go
         working-directory: ./${{ matrix.library }}
         run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_go_${TIMESTAMP}.log"
           make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
       - name: Upload Go Decrypt Logs to S3
         working-directory: ./${{ matrix.library }}
         run: |
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_go_${TIMESTAMP}.log"
           aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
