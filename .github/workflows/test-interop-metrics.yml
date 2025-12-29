@@ -220,13 +220,38 @@ jobs:
           aws logs create-log-stream \
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
-
-          TIMESTAMP=$(date +%s%3N)
-          jq -Rs --arg ts "$TIMESTAMP" '[{timestamp: ($ts | tonumber), message: .}]' "$LOG_FILE" \
-            | aws logs put-log-events \
-              --log-group-name "$LOG_GROUP" \
-              --log-stream-name "$LOG_STREAM" \
-              --log-events file:///dev/stdin
+          
+          TIMESTAMP=$(date +%s)000
+          jq -Rs --arg ts "$TIMESTAMP" '
+            split("
+            ") |
+            map(select(startswith("TestEncrypts") or startswith("Clock Time"))) |
+            map(
+              if startswith("TestEncrypts") then
+                split(" ") | {
+                  timestamp: ($ts | tonumber),
+                  type: "test_execution",
+                  testName: .,
+                  os: .,
+                  language: .,
+                  time1: (. | tonumber),
+                  time2: (. | tonumber)
+                }
+              elif startswith("Clock Time") then
+                {
+                  timestamp: ($ts | tonumber),
+                  type: "summary",
+                  clockTime: (split("Clock Time : ") | split(" CPU") | tonumber),
+                  cpuTime: (split("CPU Time : ") | tonumber)
+                }
+              else. end
+            )
+          ' "$LOG_FILE" > filtered_logs.json
+          
+          aws logs put-log-events \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" \
+            --log-events file://filtered_logs.json
 
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
