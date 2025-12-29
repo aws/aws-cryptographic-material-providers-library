@@ -208,6 +208,7 @@ jobs:
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="encrypt_${{ matrix.language }}_${TIMESTAMP}.log"
           make test_encrypt_vectors_${{ matrix.language }} > "$LOG_FILE"
+          ls
 
       - name: Upload Encrypt Manifest Logs to S3
         working-directory: ./${{ matrix.library }}
