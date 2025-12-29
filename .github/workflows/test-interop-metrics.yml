@@ -207,7 +207,7 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="encrypt_${{ matrix.language }}_${TIMESTAMP}.log"
-          make test_encrypt_vectors_${{ matrix.language }} | tee "$LOG_FILE"
+          make test_encrypt_vectors_${{ matrix.language }} > "$LOG_FILE"
 
       - name: Upload Encrypt Manifest Logs to S3
         working-directory: ./${{ matrix.library }}
@@ -403,7 +403,7 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_java_${TIMESTAMP}.log"
-          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} | tee "$LOG_FILE"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
       - name: Upload Java Decrypt Logs to S3
         working-directory: ./${{ matrix.library }}
@@ -423,7 +423,7 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_net_${TIMESTAMP}.log"
-          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} | tee "$LOG_FILE"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
       - name: Upload Net Decrypt Logs to S3
         working-directory: ./${{ matrix.library }}
@@ -443,7 +443,7 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_rust_${TIMESTAMP}.log"
-          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} | tee "$LOG_FILE"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
       - name: Upload Rust Decrypt Logs to S3
         working-directory: ./${{ matrix.library }}
@@ -463,7 +463,7 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_python_${TIMESTAMP}.log"
-          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} | tee "$LOG_FILE"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
       - name: Upload Python Decrypt Logs to S3
         working-directory: ./${{ matrix.library }}
@@ -483,7 +483,7 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d_%H%M%S)
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_go_${TIMESTAMP}.log"
-          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} | tee "$LOG_FILE"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
       - name: Upload Go Decrypt Logs to S3
         working-directory: ./${{ matrix.library }}
