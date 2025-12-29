@@ -208,14 +208,25 @@ jobs:
         run: |
           LOG_FILE="encrypt_${{ matrix.language }}_${{ github.run_id }}.log"
           make test_encrypt_vectors_${{ matrix.language }} > "$LOG_FILE"
-          ls
-
-      - name: Upload Encrypt Manifest Logs to S3
-        working-directory: ./${{ matrix.library }}
+      
+      - name: Upload logs to CloudWatch
         run: |
-          cat $LOG_FILE
-          LOG_FILE="encrypt_${{ matrix.language }}_${{ github.run_id }}.log"
-          aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/encrypt-manifests/
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="encrypt/${{ matrix.language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
+          # Read log file and upload to CloudWatch
+          TIMESTAMP=$(date +%s%3N)
+          LOG_CONTENT=$(cat $LOG_FILE | jq -Rs .)
+
+          aws logs put-log-events \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" \
+            --log-events timestamp=$TIMESTAMP,message=$LOG_CONTENT
 
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
@@ -404,11 +415,24 @@ jobs:
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_java_${{ github.run_id }}.log"
           make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
-      - name: Upload Java Decrypt Logs to S3
-        working-directory: ./${{ matrix.library }}
+      - name: Upload logs to CloudWatch
         run: |
-          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_java_${{ github.run_id }}.log"
-          aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="decrypt_java/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
+          # Read log file and upload to CloudWatch
+          TIMESTAMP=$(date +%s%3N)
+          LOG_CONTENT=$(cat $LOG_FILE | jq -Rs .)
+
+          aws logs put-log-events \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" \
+            --log-events timestamp=$TIMESTAMP,message=$LOG_CONTENT
 
       - name: Download Encrypt Manifest Artifact Net
         uses: actions/download-artifact@v4
@@ -422,11 +446,24 @@ jobs:
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_net_${{ github.run_id }}.log"
           make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
-      - name: Upload Net Decrypt Logs to S3
-        working-directory: ./${{ matrix.library }}
+      - name: Upload logs to CloudWatch
         run: |
-          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_net_${{ github.run_id }}.log"
-          aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="decrypt_net/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
+          # Read log file and upload to CloudWatch
+          TIMESTAMP=$(date +%s%3N)
+          LOG_CONTENT=$(cat $LOG_FILE | jq -Rs .)
+
+          aws logs put-log-events \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" \
+            --log-events timestamp=$TIMESTAMP,message=$LOG_CONTENT
 
       - name: Download Encrypt Manifest Artifact Rust
         uses: actions/download-artifact@v4
@@ -440,11 +477,24 @@ jobs:
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_rust_${{ github.run_id }}.log"
           make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
-      - name: Upload Rust Decrypt Logs to S3
-        working-directory: ./${{ matrix.library }}
+      - name: Upload logs to CloudWatch
         run: |
-          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_rust_${{ github.run_id }}.log"
-          aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="decrypt_rust/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
+          # Read log file and upload to CloudWatch
+          TIMESTAMP=$(date +%s%3N)
+          LOG_CONTENT=$(cat $LOG_FILE | jq -Rs .)
+
+          aws logs put-log-events \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" \
+            --log-events timestamp=$TIMESTAMP,message=$LOG_CONTENT
 
       - name: Download Encrypt Manifest Artifact Python
         uses: actions/download-artifact@v4
@@ -458,11 +508,24 @@ jobs:
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_python_${{ github.run_id }}.log"
           make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
-      - name: Upload Python Decrypt Logs to S3
-        working-directory: ./${{ matrix.library }}
+      - name: Upload logs to CloudWatch
         run: |
-          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_python_${{ github.run_id }}.log"
-          aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="decrypt_python/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
+          # Read log file and upload to CloudWatch
+          TIMESTAMP=$(date +%s%3N)
+          LOG_CONTENT=$(cat $LOG_FILE | jq -Rs .)
+
+          aws logs put-log-events \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" \
+            --log-events timestamp=$TIMESTAMP,message=$LOG_CONTENT
 
       - name: Download Encrypt Manifest Artifact Go
         uses: actions/download-artifact@v4
@@ -476,8 +539,21 @@ jobs:
           LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_go_${{ github.run_id }}.log"
           make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
 
-      - name: Upload Go Decrypt Logs to S3
-        working-directory: ./${{ matrix.library }}
+      - name: Upload logs to CloudWatch
         run: |
-          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_go_${{ github.run_id }}.log"
-          aws s3 cp "$LOG_FILE" s3://aws-mpl-metrics-artifacts/runs/${{ github.run_id }}/decrypt-manifests/
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="decrypt_go/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
+          # Read log file and upload to CloudWatch
+          TIMESTAMP=$(date +%s%3N)
+          LOG_CONTENT=$(cat $LOG_FILE | jq -Rs .)
+
+          aws logs put-log-events \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" \
+            --log-events timestamp=$TIMESTAMP,message=$LOG_CONTENT
