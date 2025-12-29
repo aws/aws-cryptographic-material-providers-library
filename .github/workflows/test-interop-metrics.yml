@@ -212,6 +212,7 @@ jobs:
       - name: Upload logs to CloudWatch
         working-directory: ./${{ matrix.library }}
         run: |
+          LOG_FILE="encrypt_${{ matrix.language }}_${{ github.run_id }}.log"
           LOG_GROUP="aws-mpl-gha-test-vector-metrics"
           LOG_STREAM="encrypt/${{ matrix.language }}/${{ github.workflow }}/${{ github.run_id }}"
 
@@ -419,6 +420,7 @@ jobs:
       - name: Upload logs to CloudWatch
         working-directory: ./${{ matrix.library }}
         run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_java_${{ github.run_id }}.log"
           LOG_GROUP="aws-mpl-gha-test-vector-metrics"
           LOG_STREAM="decrypt_java/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
 
@@ -451,6 +453,7 @@ jobs:
       - name: Upload logs to CloudWatch
         working-directory: ./${{ matrix.library }}
         run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_net_${{ github.run_id }}.log"
           LOG_GROUP="aws-mpl-gha-test-vector-metrics"
           LOG_STREAM="decrypt_net/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
 
@@ -483,6 +486,7 @@ jobs:
       - name: Upload logs to CloudWatch
         working-directory: ./${{ matrix.library }}
         run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_rust_${{ github.run_id }}.log"
           LOG_GROUP="aws-mpl-gha-test-vector-metrics"
           LOG_STREAM="decrypt_rust/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
 
@@ -515,6 +519,7 @@ jobs:
       - name: Upload logs to CloudWatch
         working-directory: ./${{ matrix.library }}
         run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_python_${{ github.run_id }}.log"
           LOG_GROUP="aws-mpl-gha-test-vector-metrics"
           LOG_STREAM="decrypt_python/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
 
@@ -547,6 +552,7 @@ jobs:
       - name: Upload logs to CloudWatch
         working-directory: ./${{ matrix.library }}
         run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_go_${{ github.run_id }}.log"
           LOG_GROUP="aws-mpl-gha-test-vector-metrics"
           LOG_STREAM="decrypt_go/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
 
