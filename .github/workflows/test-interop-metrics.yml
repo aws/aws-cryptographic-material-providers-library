@@ -215,7 +215,7 @@ jobs:
           LOG_FILE="encrypt_${{ matrix.language }}_${{ github.run_id }}.log"
           UPLOAD_FILE="encrypt_${{matrix.language}}_filtered_logs.json"
           TIMESTAMP=$(date +%s%3N)
-          jq -Rs --arg ts "$TIMESTAMP" '                                                                                                                                                       ─╯
+          jq -Rs --arg ts "$TIMESTAMP" '
             [
               split("\n") | .[] |
               select(startswith("TestEncrypts")) |
