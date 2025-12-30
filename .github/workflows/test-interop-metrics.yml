@@ -3,6 +3,9 @@
 name: Daily Metrics Collection
 
 on:
+  pull_request:
+    paths:
+    	- ".github/workflows/test-interop-metrics.yml"
   schedule:
     - cron: "00 09 * * *"
   workflow_dispatch:
