@@ -450,7 +450,24 @@ jobs:
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
 
           TIMESTAMP=$(date +%s%3N)
-          jq -Rs --arg ts "$TIMESTAMP" '[{timestamp: ($ts | tonumber), message: .}]' "$LOG_FILE" \
+          jq -Rs --arg ts "$TIMESTAMP" '
+            [
+              split("\n") | .[] |
+              select(startswith("TestDecrypts")) |
+              split(" ") | map(select(. != "")) as $parts |
+              {
+                timestamp: ($ts | tonumber),
+                message: ({
+                  testName: $parts[0],
+                  os: $parts[1],
+                  encryptingLanguage: "Java"
+                  decryptingLanguage: $parts[2],
+                  clockTime: ($parts[3] | tonumber),
+                  cpuTime: ($parts[4] | tonumber)
+                } | tostring)
+              }
+            ]
+          ' $LOG_FILE \
             | aws logs put-log-events \
               --log-group-name "$LOG_GROUP" \
               --log-stream-name "$LOG_STREAM" \
@@ -481,7 +498,24 @@ jobs:
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
 
           TIMESTAMP=$(date +%s%3N)
-          jq -Rs --arg ts "$TIMESTAMP" '[{timestamp: ($ts | tonumber), message: .}]' "$LOG_FILE" \
+          jq -Rs --arg ts "$TIMESTAMP" '
+            [
+              split("\n") | .[] |
+              select(startswith("TestDecrypts")) |
+              split(" ") | map(select(. != "")) as $parts |
+              {
+                timestamp: ($ts | tonumber),
+                message: ({
+                  testName: $parts[0],
+                  os: $parts[1],
+                  encryptingLanguage: "Dotnet"
+                  decryptingLanguage: $parts[2],
+                  clockTime: ($parts[3] | tonumber),
+                  cpuTime: ($parts[4] | tonumber)
+                } | tostring)
+              }
+            ]
+          ' $LOG_FILE \
             | aws logs put-log-events \
               --log-group-name "$LOG_GROUP" \
               --log-stream-name "$LOG_STREAM" \
@@ -512,7 +546,24 @@ jobs:
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
 
           TIMESTAMP=$(date +%s%3N)
-          jq -Rs --arg ts "$TIMESTAMP" '[{timestamp: ($ts | tonumber), message: .}]' "$LOG_FILE" \
+          jq -Rs --arg ts "$TIMESTAMP" '
+            [
+              split("\n") | .[] |
+              select(startswith("TestDecrypts")) |
+              split(" ") | map(select(. != "")) as $parts |
+              {
+                timestamp: ($ts | tonumber),
+                message: ({
+                  testName: $parts[0],
+                  os: $parts[1],
+                  encryptingLanguage: "Rust"
+                  decryptingLanguage: $parts[2],
+                  clockTime: ($parts[3] | tonumber),
+                  cpuTime: ($parts[4] | tonumber)
+                } | tostring)
+              }
+            ]
+          ' $LOG_FILE \
             | aws logs put-log-events \
               --log-group-name "$LOG_GROUP" \
               --log-stream-name "$LOG_STREAM" \
@@ -543,7 +594,24 @@ jobs:
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
 
           TIMESTAMP=$(date +%s%3N)
-          jq -Rs --arg ts "$TIMESTAMP" '[{timestamp: ($ts | tonumber), message: .}]' "$LOG_FILE" \
+          jq -Rs --arg ts "$TIMESTAMP" '
+            [
+              split("\n") | .[] |
+              select(startswith("TestDecrypts")) |
+              split(" ") | map(select(. != "")) as $parts |
+              {
+                timestamp: ($ts | tonumber),
+                message: ({
+                  testName: $parts[0],
+                  os: $parts[1],
+                  encryptingLanguage: "Python"
+                  decryptingLanguage: $parts[2],
+                  clockTime: ($parts[3] | tonumber),
+                  cpuTime: ($parts[4] | tonumber)
+                } | tostring)
+              }
+            ]
+          ' $LOG_FILE \
             | aws logs put-log-events \
               --log-group-name "$LOG_GROUP" \
               --log-stream-name "$LOG_STREAM" \
@@ -574,7 +642,24 @@ jobs:
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
 
           TIMESTAMP=$(date +%s%3N)
-          jq -Rs --arg ts "$TIMESTAMP" '[{timestamp: ($ts | tonumber), message: .}]' "$LOG_FILE" \
+          jq -Rs --arg ts "$TIMESTAMP" '
+            [
+              split("\n") | .[] |
+              select(startswith("TestDecrypts")) |
+              split(" ") | map(select(. != "")) as $parts |
+              {
+                timestamp: ($ts | tonumber),
+                message: ({
+                  testName: $parts[0],
+                  os: $parts[1],
+                  encryptingLanguage: "Go"
+                  decryptingLanguage: $parts[2],
+                  clockTime: ($parts[3] | tonumber),
+                  cpuTime: ($parts[4] | tonumber)
+                } | tostring)
+              }
+            ]
+          ' $LOG_FILE \
             | aws logs put-log-events \
               --log-group-name "$LOG_GROUP" \
               --log-stream-name "$LOG_STREAM" \
