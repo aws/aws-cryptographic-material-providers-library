@@ -12,7 +12,8 @@ on:
     inputs:
       dafny:
         description: "The Dafny version to run"
-        required: true
+        required: false
+        default: "4.9.0"
         type: string
       regenerate-code:
         description: "Regenerate code using smithy-dafny"
