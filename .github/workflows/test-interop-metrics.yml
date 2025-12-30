@@ -460,7 +460,7 @@ jobs:
                 message: ({
                   testName: $parts[0],
                   os: $parts[1],
-                  encryptingLanguage: "Java"
+                  encryptingLanguage: "Java",
                   decryptingLanguage: $parts[2],
                   clockTime: ($parts[3] | tonumber),
                   cpuTime: ($parts[4] | tonumber)
@@ -508,7 +508,7 @@ jobs:
                 message: ({
                   testName: $parts[0],
                   os: $parts[1],
-                  encryptingLanguage: "Dotnet"
+                  encryptingLanguage: "Dotnet",
                   decryptingLanguage: $parts[2],
                   clockTime: ($parts[3] | tonumber),
                   cpuTime: ($parts[4] | tonumber)
@@ -556,7 +556,7 @@ jobs:
                 message: ({
                   testName: $parts[0],
                   os: $parts[1],
-                  encryptingLanguage: "Rust"
+                  encryptingLanguage: "Rust",
                   decryptingLanguage: $parts[2],
                   clockTime: ($parts[3] | tonumber),
                   cpuTime: ($parts[4] | tonumber)
@@ -604,7 +604,7 @@ jobs:
                 message: ({
                   testName: $parts[0],
                   os: $parts[1],
-                  encryptingLanguage: "Python"
+                  encryptingLanguage: "Python",
                   decryptingLanguage: $parts[2],
                   clockTime: ($parts[3] | tonumber),
                   cpuTime: ($parts[4] | tonumber)
@@ -652,7 +652,7 @@ jobs:
                 message: ({
                   testName: $parts[0],
                   os: $parts[1],
-                  encryptingLanguage: "Go"
+                  encryptingLanguage: "Go",
                   decryptingLanguage: $parts[2],
                   clockTime: ($parts[3] | tonumber),
                   cpuTime: ($parts[4] | tonumber)
