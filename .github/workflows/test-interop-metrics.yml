@@ -221,31 +221,24 @@ jobs:
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
           
-          TIMESTAMP=$(date +%s)000
           jq -Rs --arg ts "$TIMESTAMP" '
             split("
             ") |
-            map(select(startswith("TestEncrypts") or startswith("Clock Time"))) |
-            map(
-              if startswith("TestEncrypts") then
-                split(" ") | {
-                  timestamp: ($ts | tonumber),
-                  type: "test_execution",
-                  testName: .,
-                  os: .,
-                  language: .,
-                  time1: (. | tonumber),
-                  time2: (. | tonumber)
-                }
-              elif startswith("Clock Time") then
-                {
-                  timestamp: ($ts | tonumber),
-                  type: "summary",
-                  clockTime: (split("Clock Time : ") | split(" CPU") | tonumber),
-                  cpuTime: (split("CPU Time : ") | tonumber)
-                }
-              else. end
-            )
+              map(select(startswith("TestEncrypts"))) |
+              map(
+                if startswith("TestEncrypts") then
+                  [scan("\\S+")] as $parts |
+                    {
+                      timestamp: ($ts | tonumber),
+                      type: "test_execution",
+                      testName: $parts[0],
+                      os: $parts[1],
+                      language: $parts[2],
+                      clockTime: ($parts[3] | tonumber),
+                      cpuTime: ($parts[4] | tonumber)
+                    }
+                else empty end
+              )
           ' "$LOG_FILE" > filtered_logs.json
           
           aws logs put-log-events \
