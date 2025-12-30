@@ -227,16 +227,15 @@ jobs:
               map(select(startswith("TestEncrypts"))) |
               map(
                 if startswith("TestEncrypts") then
-                  [scan("\\S+")] as $parts |
-                    {
-                      timestamp: ($ts | tonumber),
-                      type: "test_execution",
-                      testName: $parts[0],
-                      os: $parts[1],
-                      language: $parts[2],
-                      clockTime: ($parts[3] | tonumber),
-                      cpuTime: ($parts[4] | tonumber)
-                    }
+                  (split(" ") | map(select(. != "")) as $parts |
+                  {
+                    timestamp: ($ts | tonumber),
+                    testName: $parts[0],
+                    os: $parts[1],
+                    language: $parts[2],
+                    clockTime: ($parts[3] | tonumber),
+                    cpuTime: ($parts[4] | tonumber)
+                  })
                 else empty end
               )
           ' "$LOG_FILE" > filtered_logs.json
