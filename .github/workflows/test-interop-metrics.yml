@@ -27,7 +27,7 @@ jobs:
         language: [java, net, rust, python, go]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
         dotnet-version: ["6.0.x"]
-    runs-on: 
+    runs-on:
       - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
         image:ubuntu-7.0
     env:
@@ -264,7 +264,7 @@ jobs:
         library: [TestVectorsAwsCryptographicMaterialProviders]
         decrypting_language: [java, net, rust, python, go]
         dotnet-version: ["6.0.x"]
-    runs-on: 
+    runs-on:
       - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
         image:ubuntu-7.0
     env:
