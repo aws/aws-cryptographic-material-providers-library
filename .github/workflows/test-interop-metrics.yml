@@ -220,7 +220,7 @@ jobs:
           aws logs create-log-stream \
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
-          
+          cat $LOG_FILE 
           jq -Rs --arg ts "$TIMESTAMP" '
             split("
             ") |
