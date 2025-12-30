@@ -9,6 +9,7 @@ on:
   schedule:
     - cron: "00 09 * * *"
   workflow_dispatch:
+  workflow_call:
     inputs:
       dafny:
         description: "The Dafny version to run"
