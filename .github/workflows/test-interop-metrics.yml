@@ -1,6 +1,6 @@
 # This workflow collects metrics from the TestVector project and uploads
 # them to AWS CloudWatch
-name: Daily Metrics Collection 
+name: Daily Metrics Collection
 
 on:
   schedule:
