@@ -208,20 +208,14 @@ jobs:
         run: |
           LOG_FILE="encrypt_${{ matrix.language }}_${{ github.run_id }}.log"
           make test_encrypt_vectors_${{ matrix.language }} > "$LOG_FILE"
-      
-      - name: Upload logs to CloudWatch
+
+      - name: Parse and Format Logs
         working-directory: ./${{ matrix.library }}
         run: |
           LOG_FILE="encrypt_${{ matrix.language }}_${{ github.run_id }}.log"
-          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
-          LOG_STREAM="encrypt/${{ matrix.language }}/${{ github.workflow }}/${{ github.run_id }}"
-
-          # Create log stream (ignore if exists)
-          aws logs create-log-stream \
-            --log-group-name "$LOG_GROUP" \
-            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
-
-          jq -Rs --arg ts "$TIMESTAMP" '
+          UPLOAD_FILE="encrypt_${{matrix.language}}_filtered_logs.json"
+          TIMESTAMP=$(date +%s%3N)
+          jq -Rs --arg ts "$TIMESTAMP" '                                                                                                                                                       ─╯
             [
               split("\n") | .[] |
               select(startswith("TestEncrypts")) |
@@ -235,11 +229,24 @@ jobs:
                 cpuTime: ($parts[4] | tonumber)
               }
             ]
-          ' "$LOG_FILE" > filtered_logs.json
+          ' $LOG_FILE > $UPLOAD_FILE
+
+      - name: Upload logs to CloudWatch
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="encrypt_${{matrix.language}}_filtered_logs.json"
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="encrypt/${{ matrix.language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
           aws logs put-log-events \
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" \
-            --log-events file://filtered_logs.json
+            --log-events file://$LOG_FILE
 
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v4
