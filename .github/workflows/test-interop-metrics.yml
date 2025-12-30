@@ -9,13 +9,7 @@ on:
   schedule:
     - cron: "00 09 * * *"
   workflow_dispatch:
-  workflow_call:
     inputs:
-      dafny:
-        description: "The Dafny version to run"
-        required: false
-        default: 4.9.0
-        type: string
       regenerate-code:
         description: "Regenerate code using smithy-dafny"
         required: false
@@ -127,7 +121,7 @@ jobs:
         if: matrix.language != 'rust'
         uses: ./.github/actions/setup_dafny
         with:
-          dafny-version: ${{ inputs.dafny }}
+          dafny-version: 4.9.0
 
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
