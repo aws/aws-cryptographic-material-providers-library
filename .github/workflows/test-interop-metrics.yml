@@ -222,11 +222,13 @@ jobs:
               split(" ") | map(select(. != "")) as $parts |
               {
                 timestamp: ($ts | tonumber),
-                testName: $parts[0],
-                os: $parts[1],
-                language: $parts[2],
-                clockTime: ($parts[3] | tonumber),
-                cpuTime: ($parts[4] | tonumber)
+                message: ({
+                  testName: $parts[0],
+                  os: $parts[1],
+                  language: $parts[2],
+                  clockTime: ($parts[3] | tonumber),
+                  cpuTime: ($parts[4] | tonumber)
+                } | tostring)
               }
             ]
           ' $LOG_FILE > $UPLOAD_FILE
