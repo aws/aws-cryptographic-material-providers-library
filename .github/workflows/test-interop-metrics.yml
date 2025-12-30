@@ -1,8 +1,11 @@
-# This workflow performs interoperability tests across the supported runtimes of the MPL and collects metrics.
-name: Metrics Interoperability Tests
+# This workflow collects metrics from the TestVector project and uploads
+# them to AWS CloudWatch
+name: Daily Metrics Collection 
 
 on:
-  workflow_call:
+  schedule:
+    - cron: "00 09 * * *"
+  workflow_dispatch:
     inputs:
       dafny:
         description: "The Dafny version to run"
