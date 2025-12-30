@@ -220,9 +220,10 @@ jobs:
           aws logs create-log-stream \
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" 2>/dev/null || true
-          cat $LOG_FILE 
+
           jq -Rs --arg ts "$TIMESTAMP" '
-            split("\n") | .[] |
+            [
+              split("\n") | .[] |
               select(startswith("TestEncrypts")) |
               split(" ") | map(select(. != "")) as $parts |
               {
@@ -233,8 +234,8 @@ jobs:
                 clockTime: ($parts[3] | tonumber),
                 cpuTime: ($parts[4] | tonumber)
               }
+            ]
           ' "$LOG_FILE" > filtered_logs.json
-          cat filtered_logs.json 
           aws logs put-log-events \
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" \
