@@ -240,7 +240,7 @@ jobs:
                 else empty end
               )
           ' "$LOG_FILE" > filtered_logs.json
-          
+          cat filtered_logs.json 
           aws logs put-log-events \
             --log-group-name "$LOG_GROUP" \
             --log-stream-name "$LOG_STREAM" \
