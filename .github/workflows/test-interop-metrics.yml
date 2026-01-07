@@ -1,0 +1,668 @@
+# This workflow collects metrics from the TestVector project and uploads
+# them to AWS CloudWatch
+name: Daily Metrics Collection
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/test-interop-metrics.yml"
+  schedule:
+    - cron: "00 09 * * *"
+  workflow_dispatch:
+    inputs:
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
+      fuzz-testing:
+        description: "Use fuzzed test vectors instead of regular test vectors"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  generateEncryptVectors:
+    strategy:
+      matrix:
+        library: [TestVectorsAwsCryptographicMaterialProviders]
+        language: [java, net, rust, python, go]
+        # https://taskei.amazon.dev/tasks/CrypTool-5284
+        dotnet-version: ["6.0.x"]
+    runs-on:
+      - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
+        image:ubuntu-7.0
+    env:
+      LANGUAGE: ${{ matrix.language }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+
+      # Test Vectors need to call KMS
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: InterOpTests
+          role-duration-seconds: 7200
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: "true"
+      - name: Init Submodules
+        shell: bash
+        run: |
+          git submodule update --init --recursive smithy-dafny
+
+      # Set up runtimes
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        if: matrix.language == 'net'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      # We need both Java 8 and Java 17
+      - name: Setup Java 8
+        if: matrix.language == 'java'
+        uses: actions/setup-java@v5
+        with:
+          distribution: "corretto"
+          java-version: 8
+
+      # Setup Java in Rust is needed for running polymorph
+      - name: Setup Java 17
+        if: matrix.language == 'java' || matrix.language == 'rust'
+        uses: actions/setup-java@v5
+        with:
+          distribution: "corretto"
+          java-version: 17
+
+      - name: Setup Python for running tests
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.11
+          architecture: x64
+      - run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade tox
+          pip install poetry
+
+      - name: Install hypothesis for fuzz testing
+        if: ${{ inputs.fuzz-testing }}
+        run: pip install hypothesis
+
+      - name: Setup Rust Toolchain for GitHub CI
+        if: matrix.language == 'rust'
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.23"
+
+      - name: Install Go imports
+        run: |
+          go install golang.org/x/tools/cmd/goimports@v0.36.0
+
+      - name: Setup Dafny Rust
+        if: matrix.language == 'rust'
+        uses: ./.github/actions/setup_dafny
+        with:
+          dafny-version: 4.10.0
+
+      - name: Setup Dafny Not Rust
+        if: matrix.language != 'rust'
+        uses: ./.github/actions/setup_dafny
+        with:
+          dafny-version: 4.9.0
+
+      - name: Install Smithy-Dafny codegen dependencies
+        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+
+      - name: Regenerate code using smithy-dafny if necessary
+        if: ${{ inputs.regenerate-code }}
+        uses: ./.github/actions/polymorph_codegen
+        with:
+          dafny: ${{ env.DAFNY_VERSION }}
+          library: ${{ matrix.library }}
+          diff-generated-code: false
+
+      # Build implementation for each runtime
+      - name: Build ${{ matrix.library }} implementation in Java
+        if: matrix.language == 'java'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make build_java CORES=$CORES
+
+      - name: Build ${{ matrix.library }} implementation in .NET
+        if: matrix.language == 'net'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make transpile_net
+
+      - name: Build ${{ matrix.library }} implementation in Python
+        if: matrix.language == 'python'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make transpile_python
+
+      # We do not check in Rust polymorph code
+      - name: Run make polymorph_rust
+        if: matrix.language == 'rust'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make polymorph_rust
+
+      - name: Build ${{ matrix.library }} implementation in Rust
+        if: matrix.language == 'rust'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
+
+      - name: Build ${{ matrix.library }} implementation in Go
+        if: matrix.language == 'go'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make transpile_go
+
+      # TODO: Remove this after Go polymorph does not generate unwanted duplicate code.
+      - name: Purge polymorph code in Go
+        if: matrix.language == 'go'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make purge_polymorph_code
+
+      - name: Create Manifests
+        working-directory: ./${{ matrix.library }}
+        run: |
+          if [ "${{ inputs.fuzz-testing }}" = "true" ]; then
+            echo "Generating fuzzed test vectors"
+            make test_generate_fuzz_vectors_${{ matrix.language }} NUM_VECTORS=2000
+          else
+            make test_generate_vectors_${{ matrix.language }}
+          fi
+
+      - name: Create Encrypt Manifests
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="encrypt_${{ matrix.language }}_${{ github.run_id }}.log"
+          make test_encrypt_vectors_${{ matrix.language }} > "$LOG_FILE"
+
+      - name: Parse and Format Logs
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="encrypt_${{ matrix.language }}_${{ github.run_id }}.log"
+          UPLOAD_FILE="encrypt_${{matrix.language}}_filtered_logs.json"
+          TIMESTAMP=$(date +%s%3N)
+          jq -Rs --arg ts "$TIMESTAMP" '
+            [
+              split("\n") | .[] |
+              select(startswith("TestEncrypts")) |
+              split(" ") | map(select(. != "")) as $parts |
+              {
+                timestamp: ($ts | tonumber),
+                message: ({
+                  testName: $parts[0],
+                  os: $parts[1],
+                  language: $parts[2],
+                  clockTime: ($parts[3] | tonumber),
+                  cpuTime: ($parts[4] | tonumber)
+                } | tostring)
+              }
+            ]
+          ' $LOG_FILE > $UPLOAD_FILE
+
+      - name: Upload logs to CloudWatch
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="encrypt_${{matrix.language}}_filtered_logs.json"
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="encrypt/${{ matrix.language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
+          aws logs put-log-events \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" \
+            --log-events file://$LOG_FILE
+
+      - name: Upload Encrypt Manifest and keys.json files
+        uses: actions/upload-artifact@v4
+        with:
+          name: vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json
+
+  testInteroperablity:
+    needs: generateEncryptVectors
+    strategy:
+      fail-fast: false
+      matrix:
+        library: [TestVectorsAwsCryptographicMaterialProviders]
+        decrypting_language: [java, net, rust, python, go]
+        dotnet-version: ["6.0.x"]
+    runs-on:
+      - codebuild-AWS-MPL-Metrics-${{ github.run_id }}-${{ github.run_attempt }}
+        image:ubuntu-7.0
+    env:
+      LANGUAGE: ${{ matrix.decrypting_language }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+
+      # KMS and MPL tests need to use credentials which can call KMS
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: InterOpTests
+          role-duration-seconds: 7200
+
+      - uses: actions/checkout@v4
+        with:
+          submodules: "true"
+      - name: Init Submodules
+        shell: bash
+        run: |
+          git submodule update --init --recursive smithy-dafny
+
+      # Set up runtimes
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        if: matrix.decrypting_language == 'net'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Setup Java 8
+        if: matrix.decrypting_language == 'java'
+        uses: actions/setup-java@v5
+        with:
+          distribution: "corretto"
+          java-version: 8
+
+      # Setup Java in Rust is needed for running polymorph
+      - name: Setup Java 17
+        if: matrix.decrypting_language == 'java' || matrix.decrypting_language == 'rust'
+        uses: actions/setup-java@v5
+        with:
+          distribution: "corretto"
+          java-version: 17
+
+      - name: Setup Python for running tests
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.11
+          architecture: x64
+      - run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade tox
+          pip install poetry
+
+      - name: Setup Rust Toolchain for GitHub CI
+        if: matrix.decrypting_language == 'rust'
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.23"
+
+      - name: Install Go imports
+        run: |
+          go install golang.org/x/tools/cmd/goimports@v0.36.0
+
+      - name: Setup Dafny 2 Rust
+        if: matrix.decrypting_language == 'rust'
+        uses: ./.github/actions/setup_dafny
+        with:
+          dafny-version: 4.10.0
+
+      - name: Setup Dafny 2 Not Rust
+        if: matrix.decrypting_language != 'rust'
+        uses: ./.github/actions/setup_dafny
+        with:
+          dafny-version: 4.9.0
+
+      - name: Install Smithy-Dafny codegen dependencies
+        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+
+      - name: Regenerate code using smithy-dafny if necessary
+        if: ${{ inputs.regenerate-code }}
+        uses: ./.github/actions/polymorph_codegen
+        with:
+          dafny: ${{ env.DAFNY_VERSION }}
+          library: ${{ matrix.library }}
+          diff-generated-code: false
+
+      # Build implementation for each runtime
+      - name: Build ${{ matrix.library }} implementation in Java
+        if: matrix.decrypting_language == 'java'
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make build_java CORES=$CORES
+
+      - name: Build ${{ matrix.library }} implementation in .NET
+        if: matrix.decrypting_language == 'net'
+        working-directory: ./${{ matrix.library }}
+        shell: bash
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make transpile_net
+
+      - name: Build ${{ matrix.library }} implementation in Python
+        if: matrix.decrypting_language == 'python'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make transpile_python
+
+      # TODO: Remove this after checking in Rust polymorph code
+      - name: Run make polymorph_rust
+        if: matrix.decrypting_language == 'rust'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make polymorph_rust
+
+      - name: Build ${{ matrix.library }} implementation in Rust
+        if: matrix.decrypting_language == 'rust'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
+
+      - name: Build ${{ matrix.library }} implementation in Go
+        if: matrix.decrypting_language == 'go'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make transpile_go
+
+      # TODO: Remove this after Go polymorph does not generate unwanted duplicate code.
+      - name: Purge polymorph code in Go
+        if: matrix.decrypting_language == 'go'
+        shell: bash
+        working-directory: ./${{ matrix.library }}
+        run: |
+          make purge_polymorph_code
+
+      - name: Download Encrypt Manifest Artifact Java
+        uses: actions/download-artifact@v4
+        with:
+          name: vector_artifact_java${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Java
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_java_${{ github.run_id }}.log"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
+
+      - name: Upload logs to CloudWatch
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_java_${{ github.run_id }}.log"
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="decrypt_java/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
+          TIMESTAMP=$(date +%s%3N)
+          jq -Rs --arg ts "$TIMESTAMP" '
+            [
+              split("\n") | .[] |
+              select(startswith("TestDecrypts")) |
+              split(" ") | map(select(. != "")) as $parts |
+              {
+                timestamp: ($ts | tonumber),
+                message: ({
+                  testName: $parts[0],
+                  os: $parts[1],
+                  encryptingLanguage: "Java",
+                  decryptingLanguage: $parts[2],
+                  clockTime: ($parts[3] | tonumber),
+                  cpuTime: ($parts[4] | tonumber)
+                } | tostring)
+              }
+            ]
+          ' $LOG_FILE \
+            | aws logs put-log-events \
+              --log-group-name "$LOG_GROUP" \
+              --log-stream-name "$LOG_STREAM" \
+              --log-events file:///dev/stdin
+
+      - name: Download Encrypt Manifest Artifact Net
+        uses: actions/download-artifact@v4
+        with:
+          name: vector_artifact_net${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Net
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_net_${{ github.run_id }}.log"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
+
+      - name: Upload logs to CloudWatch
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_net_${{ github.run_id }}.log"
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="decrypt_net/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
+          TIMESTAMP=$(date +%s%3N)
+          jq -Rs --arg ts "$TIMESTAMP" '
+            [
+              split("\n") | .[] |
+              select(startswith("TestDecrypts")) |
+              split(" ") | map(select(. != "")) as $parts |
+              {
+                timestamp: ($ts | tonumber),
+                message: ({
+                  testName: $parts[0],
+                  os: $parts[1],
+                  encryptingLanguage: "Dotnet",
+                  decryptingLanguage: $parts[2],
+                  clockTime: ($parts[3] | tonumber),
+                  cpuTime: ($parts[4] | tonumber)
+                } | tostring)
+              }
+            ]
+          ' $LOG_FILE \
+            | aws logs put-log-events \
+              --log-group-name "$LOG_GROUP" \
+              --log-stream-name "$LOG_STREAM" \
+              --log-events file:///dev/stdin
+
+      - name: Download Encrypt Manifest Artifact Rust
+        uses: actions/download-artifact@v4
+        with:
+          name: vector_artifact_rust${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Rust
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_rust_${{ github.run_id }}.log"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
+
+      - name: Upload logs to CloudWatch
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_rust_${{ github.run_id }}.log"
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="decrypt_rust/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
+          TIMESTAMP=$(date +%s%3N)
+          jq -Rs --arg ts "$TIMESTAMP" '
+            [
+              split("\n") | .[] |
+              select(startswith("TestDecrypts")) |
+              split(" ") | map(select(. != "")) as $parts |
+              {
+                timestamp: ($ts | tonumber),
+                message: ({
+                  testName: $parts[0],
+                  os: $parts[1],
+                  encryptingLanguage: "Rust",
+                  decryptingLanguage: $parts[2],
+                  clockTime: ($parts[3] | tonumber),
+                  cpuTime: ($parts[4] | tonumber)
+                } | tostring)
+              }
+            ]
+          ' $LOG_FILE \
+            | aws logs put-log-events \
+              --log-group-name "$LOG_GROUP" \
+              --log-stream-name "$LOG_STREAM" \
+              --log-events file:///dev/stdin
+
+      - name: Download Encrypt Manifest Artifact Python
+        uses: actions/download-artifact@v4
+        with:
+          name: vector_artifact_python${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Python
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_python_${{ github.run_id }}.log"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
+
+      - name: Upload logs to CloudWatch
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_python_${{ github.run_id }}.log"
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="decrypt_python/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
+          TIMESTAMP=$(date +%s%3N)
+          jq -Rs --arg ts "$TIMESTAMP" '
+            [
+              split("\n") | .[] |
+              select(startswith("TestDecrypts")) |
+              split(" ") | map(select(. != "")) as $parts |
+              {
+                timestamp: ($ts | tonumber),
+                message: ({
+                  testName: $parts[0],
+                  os: $parts[1],
+                  encryptingLanguage: "Python",
+                  decryptingLanguage: $parts[2],
+                  clockTime: ($parts[3] | tonumber),
+                  cpuTime: ($parts[4] | tonumber)
+                } | tostring)
+              }
+            ]
+          ' $LOG_FILE \
+            | aws logs put-log-events \
+              --log-group-name "$LOG_GROUP" \
+              --log-stream-name "$LOG_STREAM" \
+              --log-events file:///dev/stdin
+
+      - name: Download Encrypt Manifest Artifact Go
+        uses: actions/download-artifact@v4
+        with:
+          name: vector_artifact_go${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
+
+      - name: Decrypt Encrypt Manifest Go
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_go_${{ github.run_id }}.log"
+          make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}} > "$LOG_FILE"
+
+      - name: Upload logs to CloudWatch
+        working-directory: ./${{ matrix.library }}
+        run: |
+          LOG_FILE="decrypt_${{ matrix.decrypting_language }}_from_go_${{ github.run_id }}.log"
+          LOG_GROUP="aws-mpl-gha-test-vector-metrics"
+          LOG_STREAM="decrypt_go/${{ matrix.decrypting_language }}/${{ github.workflow }}/${{ github.run_id }}"
+
+          # Create log stream (ignore if exists)
+          aws logs create-log-stream \
+            --log-group-name "$LOG_GROUP" \
+            --log-stream-name "$LOG_STREAM" 2>/dev/null || true
+
+          TIMESTAMP=$(date +%s%3N)
+          jq -Rs --arg ts "$TIMESTAMP" '
+            [
+              split("\n") | .[] |
+              select(startswith("TestDecrypts")) |
+              split(" ") | map(select(. != "")) as $parts |
+              {
+                timestamp: ($ts | tonumber),
+                message: ({
+                  testName: $parts[0],
+                  os: $parts[1],
+                  encryptingLanguage: "Go",
+                  decryptingLanguage: $parts[2],
+                  clockTime: ($parts[3] | tonumber),
+                  cpuTime: ($parts[4] | tonumber)
+                } | tostring)
+              }
+            ]
+          ' $LOG_FILE \
+            | aws logs put-log-events \
+              --log-group-name "$LOG_GROUP" \
+              --log-stream-name "$LOG_STREAM" \
+              --log-events file:///dev/stdin
