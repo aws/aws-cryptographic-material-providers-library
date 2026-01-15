@@ -9,4 +9,4 @@ edition = "2021"
 chrono = "0.4.42"
 cpu-time = "1.0.0"
 dafny_runtime = { path = "../../../smithy-dafny/TestModels/dafny-dependencies/dafny_runtime_rust", features = ["sync","small-int"]}
-uuid = { version = "1.18.1", features = ["v4"] }
+uuid = { version = "1.19.0", features = ["v4"] }
