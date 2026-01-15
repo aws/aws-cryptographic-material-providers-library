@@ -51,7 +51,7 @@ jobs:
           role-session-name: InterOpTests
           role-duration-seconds: 7200
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: "true"
       - name: Init Submodules
@@ -258,7 +258,7 @@ jobs:
           role-session-name: InterOpTests
           role-duration-seconds: 7200
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: "true"
       - name: Init Submodules
