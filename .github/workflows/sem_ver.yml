@@ -14,7 +14,7 @@ jobs:
       - name: Support longpaths on Git checkout
         run: |
           git config --global core.longpaths true
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       # We only pull in the submodules we need to build the library
       - run: git submodule update --init libraries
 
@@ -48,7 +48,7 @@ jobs:
 
       # Test to see if we can setup semantic release
       - name: Test Semantic Release Installation
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: main
       - run: |
