@@ -31,13 +31,13 @@ jobs:
           role-session-name: MPL-DBESDK-Examples-Test
 
       - name: Checkout MPL
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - run: git submodule update --init libraries
       - run: git submodule update --init --recursive smithy-dafny
 
       - name: Checkout DB-ESDK
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: aws/aws-database-encryption-sdk-dynamodb
           path: dbesdk
