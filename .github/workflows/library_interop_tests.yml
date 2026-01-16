@@ -44,14 +44,14 @@ jobs:
 
       # Test Vectors need to call KMS
       - name: Configure AWS Credentials for Tests
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: InterOpTests
           role-duration-seconds: 7200
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: "true"
       - name: Init Submodules
@@ -221,7 +221,7 @@ jobs:
         run: make test_encrypt_vectors_${{ matrix.language }}
 
       - name: Upload Encrypt Manifest and keys.json files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{matrix.os}}_vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json
@@ -251,14 +251,14 @@ jobs:
 
       # KMS and MPL tests need to use credentials which can call KMS
       - name: Configure AWS Credentials for Tests
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: InterOpTests
           role-duration-seconds: 7200
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: "true"
       - name: Init Submodules
@@ -409,7 +409,7 @@ jobs:
           make purge_polymorph_code
 
       - name: Download Encrypt Manifest Artifact Java
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: ${{matrix.os}}_vector_artifact_java${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
@@ -419,7 +419,7 @@ jobs:
         run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
 
       - name: Download Encrypt Manifest Artifact Net
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: ${{matrix.os}}_vector_artifact_net${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
@@ -429,7 +429,7 @@ jobs:
         run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
 
       - name: Download Encrypt Manifest Artifact Rust
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: ${{matrix.os}}_vector_artifact_rust${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
@@ -439,7 +439,7 @@ jobs:
         run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
 
       - name: Download Encrypt Manifest Artifact Python
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: ${{matrix.os}}_vector_artifact_python${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
@@ -449,7 +449,7 @@ jobs:
         run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
 
       - name: Download Encrypt Manifest Artifact Go
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: ${{matrix.os}}_vector_artifact_go${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}

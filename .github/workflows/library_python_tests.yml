@@ -51,13 +51,13 @@ jobs:
           git config --global core.longpaths true
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: PythonTests
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # The specification submodule is private so we don't have access, but we don't need
       # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
