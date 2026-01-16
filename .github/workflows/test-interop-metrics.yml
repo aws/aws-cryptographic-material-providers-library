@@ -253,7 +253,7 @@ jobs:
             --log-events file://$LOG_FILE
 
       - name: Upload Encrypt Manifest and keys.json files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json

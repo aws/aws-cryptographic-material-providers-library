@@ -221,7 +221,7 @@ jobs:
         run: make test_encrypt_vectors_${{ matrix.language }}
 
       - name: Upload Encrypt Manifest and keys.json files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{matrix.os}}_vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json
