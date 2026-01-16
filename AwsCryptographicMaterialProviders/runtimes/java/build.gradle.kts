@@ -74,15 +74,15 @@ dependencies {
     implementation("software.amazon.smithy.dafny:conversion:0.1.1")
 
     // sdk dependencies
-    implementation(platform("software.amazon.awssdk:bom:2.26.3"))
+    implementation(platform("software.amazon.awssdk:bom:2.31.48"))
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:kms")
 
     // BC
-    implementation("org.bouncycastle:bcprov-jdk18on:1.78.1")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.83")
 
     // https://mvnrepository.com/artifact/org.testng/testng
-    testImplementation("org.testng:testng:7.5")
+    testImplementation("org.testng:testng:7.11.0")
 }
 
 publishing {
