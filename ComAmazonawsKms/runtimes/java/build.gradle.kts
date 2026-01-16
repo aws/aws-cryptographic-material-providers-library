@@ -67,7 +67,7 @@ dependencies {
     implementation(platform("software.amazon.awssdk:bom:2.31.48"))
     implementation("software.amazon.awssdk:kms")
     implementation("software.amazon.awssdk:apache-client")
-    testImplementation("org.testng:testng:7.11.0")
+    testImplementation("org.testng:testng:7.5")
 }
 
 publishing {
