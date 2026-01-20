@@ -274,6 +274,23 @@ Resources:
               AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
             Action: "kms:*"
             Resource: "*"
+          - Effect: Allow
+            Principal:
+              AWS:
+                # These are hard coded, which means this template will fail to bootstrap.
+                # To bootstrap, remove this allow block, and then put it back in subsequent deployment
+                - !Sub "arn:aws:iam::${AWS::AccountId}:role/GitHub-CI-${ProjectName}-Role-${AWS::Region}"
+                - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
+            Action:
+              - kms:Encrypt
+              - kms:Decrypt
+            Resource: "*"
+            Condition:
+              StringEquals:
+                kms:EncryptionContext:type:
+                  - branch:MUTATION_COMMITMENT
+                  - branch:MUTATION_INDEX
+
   EccP256:
     Type: "AWS::KMS::Key"
     Properties:
