@@ -89,7 +89,7 @@ jobs:
         daily-interop-test,
         daily-fuzz-interop-test,
       ]
-    if: ${{ failure() }}
+    if: ${{ failure() && github.event_name == 'schedule' }}
     uses: ./.github/workflows/slack-notification.yml
     with:
       message: "Daily CI failed on `${{ github.repository }}`. View run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
