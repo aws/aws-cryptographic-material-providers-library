@@ -4,7 +4,10 @@ name: Daily CI
 on:
   schedule:
     - cron: "00 15 * * 1-5"
-
+  pull_request:
+    paths:
+      .github/workflows/daily_ci.yml
+      
 jobs:
   getVersions:
     # Don't run the cron builds on forks
@@ -86,7 +89,7 @@ jobs:
         daily-interop-test,
         daily-fuzz-interop-test,
       ]
-    if: ${{ failure() }}
+    if: ${{ failure() && github.event_name == 'schedule' }}
     uses: ./.github/workflows/slack-notification.yml
     with:
       message: "Daily CI failed on `${{ github.repository }}`. View run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
