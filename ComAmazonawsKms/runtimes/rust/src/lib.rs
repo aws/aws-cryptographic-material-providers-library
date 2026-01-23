@@ -17,6 +17,7 @@ pub(crate) mod implementation_from_dafny;
 pub(crate) use crate::implementation_from_dafny::r#_Wrappers_Compile;
 
 pub(crate) mod dafny_libraries;
+pub(crate) mod escape;
 pub(crate) mod kms;
 pub(crate) mod oslang;
 pub(crate) mod sets;
