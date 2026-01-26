@@ -28,7 +28,7 @@ jobs:
       verifyVersion: ${{ steps.read_property.outputs.dafnyVerifyVersion }}
       rustVersion: ${{ steps.read_property.outputs.dafnyRustVersion }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Read version from Properties-file
         id: read_property
         uses: christian-draeger/read-properties@1.1.1

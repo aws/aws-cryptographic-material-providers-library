@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Validate DafnyRuntimePython Version Consistency
         run: |
           # Extract the version from pyproject.toml

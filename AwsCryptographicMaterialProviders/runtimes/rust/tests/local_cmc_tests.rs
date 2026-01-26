@@ -28,15 +28,15 @@ impl<T: std::fmt::Debug> From<T> for BoxError {
 }
 
 pub mod local_cmc_tests {
-    use aws_mpl_rs::client as mpl_client;
-    use aws_mpl_rs::deps::aws_cryptography_keyStore::types::BeaconKeyMaterials;
-    use aws_mpl_rs::operation::get_cache_entry::GetCacheEntryOutput;
-    use aws_mpl_rs::types::cryptographic_materials_cache::CryptographicMaterialsCacheRef;
-    use aws_mpl_rs::types::error::Error;
-    use aws_mpl_rs::types::material_providers_config::MaterialProvidersConfig;
-    use aws_mpl_rs::types::CacheType;
-    use aws_mpl_rs::types::DefaultCache;
-    use aws_mpl_rs::types::Materials;
+    use aws_mpl_legacy::client as mpl_client;
+    use aws_mpl_legacy::deps::aws_cryptography_keyStore::types::BeaconKeyMaterials;
+    use aws_mpl_legacy::operation::get_cache_entry::GetCacheEntryOutput;
+    use aws_mpl_legacy::types::cryptographic_materials_cache::CryptographicMaterialsCacheRef;
+    use aws_mpl_legacy::types::error::Error;
+    use aws_mpl_legacy::types::material_providers_config::MaterialProvidersConfig;
+    use aws_mpl_legacy::types::CacheType;
+    use aws_mpl_legacy::types::DefaultCache;
+    use aws_mpl_legacy::types::Materials;
     use chrono::Utc;
     use futures::stream::StreamExt;
     use rand::{rng, Rng};
