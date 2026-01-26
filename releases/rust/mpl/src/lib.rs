@@ -23,6 +23,7 @@ pub mod client;
 pub mod conversions;
 pub mod deps;
 pub mod error;
+pub mod escape;
 pub mod operation;
 pub mod types;
 pub mod validation;
@@ -58,6 +59,7 @@ pub mod storm_tracker;
 pub mod time;
 pub mod uuid;
 
+pub(crate) use crate::deps::com_amazonaws_dynamodb::client::Client as DdbClient;
 pub(crate) use crate::deps::com_amazonaws_kms::client::Client as KmsClient;
 pub(crate) use crate::implementation_from_dafny::r#_Wrappers_Compile;
 pub(crate) use crate::implementation_from_dafny::software;

@@ -7,14 +7,14 @@ edition = "2021"
 
 [dependencies]
 aws-config = "1.8.12"
-aws-lc-rs = {version = "1.15.2"}
-aws-lc-sys = { version = "0.35", optional = true }
+aws-lc-rs = {version = "1.15.4"}
+aws-lc-sys = { version = "0.37", optional = true }
 aws-lc-fips-sys = { version = "0.13", optional = true }
-aws-sdk-dynamodb = "1.101.0"
-aws-sdk-kms = "1.97.0"
-aws-smithy-runtime-api = {version = "1.9.3", features = ["client"] }
-aws-smithy-types = "1.3.5"
-chrono = "0.4.42"
+aws-sdk-dynamodb = "1.103.0"
+aws-sdk-kms = "1.98.0"
+aws-smithy-runtime-api = {version = "1.10.0", features = ["client"] }
+aws-smithy-types = "1.3.6"
+chrono = "0.4.43"
 cpu-time = "1.0.0"
 dafny_runtime = { path = "../../../smithy-dafny/TestModels/dafny-dependencies/dafny_runtime_rust", features = ["sync","small-int"]}
 dashmap = "6.1.0"
