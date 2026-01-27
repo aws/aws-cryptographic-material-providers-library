@@ -18,6 +18,7 @@ pub(crate) use crate::implementation_from_dafny::r#_Wrappers_Compile;
 
 pub(crate) mod dafny_libraries;
 pub(crate) mod ddb;
+pub(crate) mod escape;
 pub(crate) mod oslang;
 pub(crate) mod sets;
 pub(crate) mod time;
@@ -31,3 +32,4 @@ pub(crate) use crate::implementation_from_dafny::ConcurrentCall;
 pub(crate) use crate::implementation_from_dafny::Time;
 pub(crate) use crate::implementation_from_dafny::UUID;
 pub(crate) use crate::implementation_from_dafny::software;
+pub(crate) use crate::client::Client as DdbClient;
