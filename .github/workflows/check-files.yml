@@ -5,6 +5,8 @@ name: Check Release Files
 on:
   pull_request:
 
+  pull_request_review:
+
 jobs:
   require-approvals:
     runs-on: ubuntu-22.04
