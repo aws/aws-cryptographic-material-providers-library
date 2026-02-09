@@ -52,8 +52,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="../../../AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj" />
-      <ProjectReference Include="../../../ComAmazonawsKms/runtimes/net/AWS-KMS.csproj" />
+      <PackageReference Include="AWS.Cryptography.MaterialProviders" Version="[1.11.2]" />
+      <!-- <ProjectReference Include="../../../AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj" /> -->
+      <!-- <ProjectReference Include="../../../ComAmazonawsKms/runtimes/net/AWS-KMS.csproj" /> -->
     </ItemGroup>
 
     <!--
