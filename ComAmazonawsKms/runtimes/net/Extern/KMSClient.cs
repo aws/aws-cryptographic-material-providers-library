@@ -120,7 +120,12 @@ namespace software.amazon.cryptography.services.kms.internaldafny
             private static void AddUserAgent(IExecutionContext executionContext)
             {
                 var request = executionContext.RequestContext.Request;
-                request.Headers[AWSSDKUtils.UserAgentHeader] += UserAgentSuffix;
+                // Try and add User-Agent header
+                if (!request.Headers.TryAdd(AWSSDKUtils.UserAgentHeader, UserAgentSuffix))
+                {
+                    // Create new User-Agent header
+                    request.Headers[AWSSDKUtils.UserAgentHeader] = UserAgentSuffix;
+                }
             }
         }
     }
