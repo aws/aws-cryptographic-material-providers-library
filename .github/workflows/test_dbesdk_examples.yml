@@ -84,6 +84,27 @@ jobs:
           sed -i "s/mplDependencyJavaVersion=.*/mplDependencyJavaVersion=${MPL_VERSION}/g" project.properties
           cat project.properties
 
+      - name: Build DB-ESDK if SNAPSHOT version
+        working-directory: ./dbesdk/DynamoDbEncryption
+        run: |
+          # Get the DB-ESDK version from project.properties
+          DBESDK_VERSION=$(grep "projectJavaVersion=" ../project.properties | cut -d'=' -f2)
+          
+          # Check if it's a SNAPSHOT version
+          if [[ $DBESDK_VERSION == *"-SNAPSHOT"* ]]; then
+            echo "Detected SNAPSHOT version: $DBESDK_VERSION"
+            echo "Building DB-ESDK from source..."
+            
+            # Build DB-ESDK Java runtime
+            CORES=$(node -e 'console.log(os.cpus().length)')
+            make build_java CORES=$CORES
+            
+            echo "DB-ESDK build completed successfully"
+          else
+            echo "Using released version: $DBESDK_VERSION"
+            echo "Skipping build - will use published artifacts"
+          fi
+
       - name: Test DB-ESDK Examples
         working-directory: ./dbesdk/Examples
         run: |

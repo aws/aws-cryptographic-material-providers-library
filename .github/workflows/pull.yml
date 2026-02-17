@@ -83,8 +83,7 @@ jobs:
       - pr-ci-rust
       - pr-interop-test
       - pr-fuzz-interop-test
-      # Comment oui for now. See its workflow file for details.
-      # - pr-ci-db-esdk-java-examples-test
+      - pr-ci-db-esdk-java-examples-test
     runs-on: ubuntu-22.04
     steps:
       - name: Verify all required jobs passed
