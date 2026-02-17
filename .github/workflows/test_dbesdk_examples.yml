@@ -69,7 +69,7 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make build_java CORES=$CORES
           make mvn_local_deploy
-
+      
       - name: Update DB-ESDK to use released version and development MPL
         working-directory: ./dbesdk
         run: |
@@ -78,7 +78,9 @@ jobs:
           # Get MPL version from local build
           MPL_VERSION=$(grep "mplVersion=" ../project.properties | cut -d'=' -f2)
           # Update project.properties
-          sed -i "s/projectJavaVersion=.*/projectJavaVersion=${DBESDK_VERSION}/g" project.properties
+          # At least for Java we cannot assume this as the latest published dafny version _may_ not be the latest
+          # java version, for now commenting this out.
+          # sed -i "s/projectJavaVersion=.*/projectJavaVersion=${DBESDK_VERSION}/g" project.properties
           sed -i "s/mplDependencyJavaVersion=.*/mplDependencyJavaVersion=${MPL_VERSION}/g" project.properties
           cat project.properties
 
