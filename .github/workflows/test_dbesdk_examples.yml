@@ -69,7 +69,7 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make build_java CORES=$CORES
           make mvn_local_deploy
-      
+
       - name: Update DB-ESDK to use released version and development MPL
         working-directory: ./dbesdk
         run: |
