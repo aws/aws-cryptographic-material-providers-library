@@ -9,7 +9,7 @@ This release is available in the following languages:
 
 ### NOTE
 
-This Library is **NOT** impacted by CVE-2026-26007.
+This library is **NOT** impacted by CVE-2026-26007. This library does not use SECT curves.
 
 ### Fixes -- DotNet
 
