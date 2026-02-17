@@ -5,6 +5,7 @@
 This release is available in the following languages:
 
 - DotNet
+- Python
 
 ### Fixes -- DotNet
 
@@ -21,6 +22,7 @@ This release is available in the following languages:
 - **python:** add user agent suffix to kms requests ([#1686](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1686)) ([b69aaf2](https://github.com/aws/aws-cryptographic-material-providers-library/commit/b69aaf25d5f63ce833a07b852f4a0df3a82c477b))
 - **python:** exclude generated tests from project distribution ([#1627](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1627)) ([505eee0](https://github.com/aws/aws-cryptographic-material-providers-library/commit/505eee0072d6390e23d855fa303dde9eeb031706))
 - **python:** tests for OpaqueWithText ([#1656](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1656)) ([25e1219](https://github.com/aws/aws-cryptographic-material-providers-library/commit/25e121974106cab8386058be29a1072cb50bb193))
+- **python**: bump cryptography upperbound to <47 due to CVE-2026-26007
 
 ### Maintenance -- Go
 
