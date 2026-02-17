@@ -89,7 +89,7 @@ jobs:
         run: |
           # Get the DB-ESDK version from project.properties
           DBESDK_VERSION=$(grep "projectJavaVersion=" ../project.properties | cut -d'=' -f2)
-          
+
           # Check if it's a SNAPSHOT version
           if [[ $DBESDK_VERSION == *"-SNAPSHOT"* ]]; then
             echo "Detected SNAPSHOT version: $DBESDK_VERSION"
