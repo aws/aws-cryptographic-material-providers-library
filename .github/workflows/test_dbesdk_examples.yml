@@ -98,6 +98,7 @@ jobs:
             # Build DB-ESDK Java runtime
             CORES=$(node -e 'console.log(os.cpus().length)')
             make build_java CORES=$CORES
+            make mvn_local_deploy
             
             echo "DB-ESDK build completed successfully"
           else
