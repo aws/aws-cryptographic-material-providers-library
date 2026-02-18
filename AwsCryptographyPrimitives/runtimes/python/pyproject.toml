@@ -13,7 +13,7 @@ include = ["src/aws_cryptography_primitives/internaldafny/generated/*.py"]
 [tool.poetry.dependencies]
 python = "^3.11.0"
 aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
-cryptography = ">=43.0.1, <46"
+cryptography = ">=43.0.1, <47"
 
 # Package testing
 
