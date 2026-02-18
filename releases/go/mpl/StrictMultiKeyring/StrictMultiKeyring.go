@@ -15,15 +15,23 @@ import (
 	m_AwsCryptographyKeyStoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreOperations"
 	m_AwsCryptographyKeyStoreTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
 	m_AwsCryptographyMaterialProvidersTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
+	m_AwsKmsDiscoveryKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsDiscoveryKeyring"
+	m_AwsKmsEcdhKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsEcdhKeyring"
+	m_AwsKmsHierarchicalKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsHierarchicalKeyring"
 	m_AwsKmsKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsKeyring"
 	m_AwsKmsMrkAreUnique "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkAreUnique"
+	m_AwsKmsMrkDiscoveryKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkDiscoveryKeyring"
+	m_AwsKmsMrkKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkKeyring"
 	m_AwsKmsMrkMatchForDecrypt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkMatchForDecrypt"
+	m_AwsKmsRsaKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsRsaKeyring"
 	m_AwsKmsUtils "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsUtils"
+	m_CacheConstants "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CacheConstants"
 	m_CanonicalEncryptionContext "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CanonicalEncryptionContext"
 	m_Constants "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Constants"
 	m_CreateKeyStoreTable "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeyStoreTable"
 	m_CreateKeys "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeys"
 	m_DDBKeystoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/DDBKeystoreOperations"
+	m_EcdhEdkWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/EcdhEdkWrapping"
 	m_EdkWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/EdkWrapping"
 	m_ErrorMessages "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/ErrorMessages"
 	m_GetKeys "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/GetKeys"
@@ -33,10 +41,17 @@ import (
 	m_KeyStoreErrorMessages "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KeyStoreErrorMessages"
 	m_Keyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Keyring"
 	m_KmsArn "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KmsArn"
+	m_LocalCMC "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/LocalCMC"
 	m_MaterialWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MaterialWrapping"
 	m_Materials "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Materials"
 	m_MultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MultiKeyring"
+	m_RawAESKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/RawAESKeyring"
+	m_RawECDHKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/RawECDHKeyring"
+	m_RawRSAKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/RawRSAKeyring"
+	m_StormTracker "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/StormTracker"
+	m_StormTrackingCMC "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/StormTrackingCMC"
 	m_Structure "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Structure"
+	m_SynchronizedLocalCMC "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/SynchronizedLocalCMC"
 	m_AtomicPrimitives "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AtomicPrimitives"
 	m_AwsCryptographyPrimitivesOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesOperations"
 	m_AwsCryptographyPrimitivesTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesTypes"
@@ -73,6 +88,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -92,6 +108,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -156,15 +173,30 @@ var _ m_KeyStore.Dummy__
 var _ m_AlgorithmSuites.Dummy__
 var _ m_Materials.Dummy__
 var _ m_Keyring.Dummy__
-var _ m_MultiKeyring.Dummy__
-var _ m_AwsKmsMrkAreUnique.Dummy__
-var _ m_Constants.Dummy__
-var _ m_MaterialWrapping.Dummy__
 var _ m_CanonicalEncryptionContext.Dummy__
+var _ m_MaterialWrapping.Dummy__
 var _ m_IntermediateKeyWrapping.Dummy__
 var _ m_EdkWrapping.Dummy__
 var _ m_ErrorMessages.Dummy__
+var _ m_RawAESKeyring.Dummy__
+var _ m_Constants.Dummy__
+var _ m_EcdhEdkWrapping.Dummy__
+var _ m_RawECDHKeyring.Dummy__
+var _ m_RawRSAKeyring.Dummy__
 var _ m_AwsKmsKeyring.Dummy__
+var _ m_AwsKmsDiscoveryKeyring.Dummy__
+var _ m_AwsKmsEcdhKeyring.Dummy__
+var _ m_LocalCMC.Dummy__
+var _ m_SynchronizedLocalCMC.Dummy__
+var _ m_StormTracker.Dummy__
+var _ m_StormTrackingCMC.Dummy__
+var _ m_CacheConstants.Dummy__
+var _ m_AwsKmsHierarchicalKeyring.Dummy__
+var _ m_AwsKmsMrkDiscoveryKeyring.Dummy__
+var _ m_AwsKmsMrkKeyring.Dummy__
+var _ m_AwsKmsRsaKeyring.Dummy__
+var _ m_MultiKeyring.Dummy__
+var _ m_AwsKmsMrkAreUnique.Dummy__
 
 type Dummy__ struct{}
 
@@ -226,13 +258,13 @@ func (_static *CompanionStruct_Default___) StrictMultiKeyring(generator m_Wrappe
 Lmatch0:
 	var _2_valueOrError0 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
 	_ = _2_valueOrError0
-	_2_valueOrError0 = (m_Seq.Companion_Default___.MapWithResult(func(coer59 func(_dafny.Sequence) m_Wrappers.Result) func(interface{}) m_Wrappers.Result {
-		return func(arg60 interface{}) m_Wrappers.Result {
-			return coer59(arg60.(_dafny.Sequence))
+	_2_valueOrError0 = (m_Seq.Companion_Default___.MapWithResult(func(coer117 func(_dafny.Sequence) m_Wrappers.Result) func(interface{}) m_Wrappers.Result {
+		return func(arg118 interface{}) m_Wrappers.Result {
+			return coer117(arg118.(_dafny.Sequence))
 		}
-	}(m_AwsArnParsing.Companion_Default___.IsAwsKmsIdentifierString), _0_allStrings)).MapFailure(func(coer60 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-		return func(arg61 interface{}) interface{} {
-			return coer60(arg61.(_dafny.Sequence))
+	}(m_AwsArnParsing.Companion_Default___.IsAwsKmsIdentifierString), _0_allStrings)).MapFailure(func(coer118 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+		return func(arg119 interface{}) interface{} {
+			return coer118(arg119.(_dafny.Sequence))
 		}
 	}(m_AwsKmsUtils.Companion_Default___.WrapStringToError))
 	if (_2_valueOrError0).IsFailure() {
@@ -253,9 +285,9 @@ Lmatch0:
 				_ = _5_generatorIdentifier
 				var _6_valueOrError1 m_Wrappers.Result = m_Wrappers.Result{}
 				_ = _6_valueOrError1
-				_6_valueOrError1 = (m_AwsArnParsing.Companion_Default___.IsAwsKmsIdentifierString(_5_generatorIdentifier)).MapFailure(func(coer61 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-					return func(arg62 interface{}) interface{} {
-						return coer61(arg62.(_dafny.Sequence))
+				_6_valueOrError1 = (m_AwsArnParsing.Companion_Default___.IsAwsKmsIdentifierString(_5_generatorIdentifier)).MapFailure(func(coer119 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+					return func(arg120 interface{}) interface{} {
+						return coer119(arg120.(_dafny.Sequence))
 					}
 				}(m_AwsKmsUtils.Companion_Default___.WrapStringToError))
 				if (_6_valueOrError1).IsFailure() {
@@ -307,17 +339,17 @@ Lmatch1:
 			if _source2.Is_Some() {
 				var _13_childIdentifiers _dafny.Sequence = _source2.Get_().(m_Wrappers.Option_Some).Value.(_dafny.Sequence)
 				_ = _13_childIdentifiers
-				var _hi0 _dafny.Int = _dafny.IntOfUint32((_13_childIdentifiers).Cardinality())
+				var _hi0 uint64 = uint64((_13_childIdentifiers).Cardinality())
 				_ = _hi0
-				for _14_index := _dafny.Zero; _14_index.Cmp(_hi0) < 0; _14_index = _14_index.Plus(_dafny.One) {
+				for _14_index := uint64(0); _14_index < _hi0; _14_index++ {
 					var _15_childIdentifier _dafny.Sequence
 					_ = _15_childIdentifier
-					_15_childIdentifier = (_13_childIdentifiers).Select((_14_index).Uint32()).(_dafny.Sequence)
+					_15_childIdentifier = (_13_childIdentifiers).Select(uint32(_14_index)).(_dafny.Sequence)
 					var _16_valueOrError3 m_Wrappers.Result = m_Wrappers.Result{}
 					_ = _16_valueOrError3
-					_16_valueOrError3 = (m_AwsArnParsing.Companion_Default___.IsAwsKmsIdentifierString(_15_childIdentifier)).MapFailure(func(coer62 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-						return func(arg63 interface{}) interface{} {
-							return coer62(arg63.(_dafny.Sequence))
+					_16_valueOrError3 = (m_AwsArnParsing.Companion_Default___.IsAwsKmsIdentifierString(_15_childIdentifier)).MapFailure(func(coer120 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+						return func(arg121 interface{}) interface{} {
+							return coer120(arg121.(_dafny.Sequence))
 						}
 					}(m_AwsKmsUtils.Companion_Default___.WrapStringToError))
 					if (_16_valueOrError3).IsFailure() {
@@ -362,7 +394,7 @@ Lmatch1:
 Lmatch2:
 	var _22_valueOrError5 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _22_valueOrError5
-	_22_valueOrError5 = m_Wrappers.Companion_Default___.Need(((_4_generatorKeyring).Is_Some()) || ((_dafny.IntOfUint32((_12_children).Cardinality())).Sign() == 1), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("generatorKeyring or child Keryings needed to create a multi keyring")))
+	_22_valueOrError5 = m_Wrappers.Companion_Default___.Need(((_4_generatorKeyring).Is_Some()) || ((uint64((_12_children).Cardinality())) > (uint64(0))), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("generatorKeyring or child Keryings needed to create a multi keyring")))
 	if (_22_valueOrError5).IsFailure() {
 		output = (_22_valueOrError5).PropagateFailure()
 		return output

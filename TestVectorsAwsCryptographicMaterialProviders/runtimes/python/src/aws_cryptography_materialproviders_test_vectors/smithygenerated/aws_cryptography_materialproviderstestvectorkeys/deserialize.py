@@ -15,7 +15,13 @@ import aws_cryptography_materialproviders_test_vectors.smithygenerated.aws_crypt
 from typing import Any
 
 from .dafny_protocol import DafnyResponse
-from .errors import CollectionOfErrors, KeyVectorException, OpaqueError, ServiceError
+from .errors import (
+    CollectionOfErrors,
+    KeyVectorException,
+    OpaqueError,
+    OpaqueWithTextError,
+    ServiceError,
+)
 
 from .config import Config
 
@@ -71,7 +77,9 @@ def _deserialize_error(error: Error) -> ServiceError:
     if error.is_Opaque:
         return OpaqueError(obj=error.obj)
     elif error.is_OpaqueWithText:
-        return OpaqueErrorWithText(obj=error.obj, obj_message=error.objMessage)
+        return OpaqueWithTextError(
+            obj=error.obj, obj_message=_dafny.string_of(error.objMessage)
+        )
     elif error.is_CollectionOfErrors:
         return CollectionOfErrors(
             message=_dafny.string_of(error.message),

@@ -18,7 +18,7 @@ jobs:
 
   go-release:
     needs: get-dafny-version
-    runs-on: macos-13
+    runs-on: macos-14
     permissions:
       contents: write
       pull-requests: write
@@ -31,7 +31,7 @@ jobs:
 
       # KMS and MPL tests need to use credentials which can call KMS
       - name: Configure AWS Credentials for Tests
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         if: github.event.inputs.project-name == 'ComAmazonawsKms' || github.event.inputs.project-name == 'ComAmazonawsDynamodb' || github.event.inputs.project-name == 'AwsCryptographicMaterialProviders'
         with:
           aws-region: us-west-2
@@ -39,7 +39,7 @@ jobs:
           role-session-name: GoReleaseTest
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -54,13 +54,13 @@ jobs:
           dafny-version: ${{ needs.get-dafny-version.outputs.version }}
 
       - name: Install Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: "1.23"
 
       - name: Install Go imports
         run: |
-          go install golang.org/x/tools/cmd/goimports@latest
+          go install golang.org/x/tools/cmd/goimports@v0.36.0
 
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
@@ -87,28 +87,7 @@ jobs:
           chmod +x ./scripts/go-release-automation.sh
           ./scripts/go-release-automation.sh run_release_script ${{ github.event.inputs.project-name }} ${{ github.event.inputs.version }}
 
-      - name: Create Pull Request
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: print diff between development and release directory
         run: |
-          PROJECT_NAME="${{ github.event.inputs.project-name }}"
-          VERSION="${{ github.event.inputs.version }}"
-
-          # Get the release directory name using the sourced function
-          RELEASE_DIR_NAME="${{ steps.release-dir.outputs.releaseDirName }}"
-
-          BRANCH_NAME="golang-release-staging-branch/$RELEASE_DIR_NAME/$VERSION"
-
           DIFF_FILES=$(diff -qr $PROJECT_NAME/runtimes/go/ImplementationFromDafny-go releases/go/$RELEASE_DIR_NAME || true)
-
-          # Create PR using GitHub CLI
-          gh pr create \
-            --title "chore(go): Release $RELEASE_DIR_NAME Go module $VERSION" \
-            --body "This PR was automatically created by the Go Release Automation workflow. It releases version $VERSION of the $RELEASE_DIR_NAME Go module. The diff between $PROJECT_NAME/runtimes/go/ImplementationFromDafny-go and releases/go/$RELEASE_DIR_NAME is below: 
-
-          $DIFF_FILES
-            " \
-            --base main \
-            --head "$BRANCH_NAME" \
-            --label "golang" \
-            --draft
+          echo $DIFF_FILES

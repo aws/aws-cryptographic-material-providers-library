@@ -8,6 +8,9 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: read
+
 jobs:
   code-generation:
     strategy:
@@ -43,7 +46,7 @@ jobs:
         run: |
           git config --global core.longpaths true
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # The specification submodule is private so we don't have access, but we don't need
       # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
@@ -58,19 +61,19 @@ jobs:
           dafny-version: ${{ inputs.dafny }}
 
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Install Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.go-version }}
 
       - name: Install Go imports
         shell: bash
         run: |
-          go install golang.org/x/tools/cmd/goimports@latest
+          go install golang.org/x/tools/cmd/goimports@v0.36.0
 
       # even though we just installed dotnet 6, maybe dotnet 8 is out there somewhere
       - name: Create temporary global.json

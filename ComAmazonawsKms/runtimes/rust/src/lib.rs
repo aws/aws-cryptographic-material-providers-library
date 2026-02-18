@@ -17,6 +17,7 @@ pub(crate) mod implementation_from_dafny;
 pub(crate) use crate::implementation_from_dafny::r#_Wrappers_Compile;
 
 pub(crate) mod dafny_libraries;
+pub(crate) mod escape;
 pub(crate) mod kms;
 pub(crate) mod oslang;
 pub(crate) mod sets;
@@ -24,7 +25,7 @@ pub(crate) mod time;
 pub(crate) mod uuid;
 pub(crate) use crate::implementation_from_dafny::UTF8;
 pub(crate) mod concurrent_call;
-//pub(crate) mod dafny_libraries;
+pub(crate) use crate::client::Client as KmsClient;
 
 pub(crate) use crate::implementation_from_dafny::DafnyLibraries;
 pub(crate) use crate::implementation_from_dafny::ConcurrentCall;

@@ -31,9 +31,9 @@ jobs:
             # TODO just test on mac for now
             # windows-latest,
             ubuntu-22.04,
-            macos-13,
+            macos-14,
           ]
-        java-versions: [8, 11, 16, 17]
+        java-versions: [8, 11, 17, 19]
     runs-on: ${{ matrix.os }}
     permissions:
       id-token: write
@@ -47,14 +47,14 @@ jobs:
           git config --global core.longpaths true
       # KMS and MPL tests need to use credentials which can call KMS
       - name: Configure AWS Credentials for Tests
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         if: matrix.library == 'ComAmazonawsKms' || matrix.library == 'ComAmazonawsDynamodb' || matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'TestVectorsAwsCryptographicMaterialProviders'
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: JavaTests
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # The specification submodule is private so we don't have access, but we don't need
       # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
@@ -82,8 +82,15 @@ jobs:
       #     arguments: copyKeysJSON
       #     build-root-directory: ./TestVectorsAwsCryptographicMaterialProviders/runtimes/java
 
+      - name: Setup Java 8, for complex reasons
+        if: ${{matrix.java-versions}} != 8
+        uses: actions/setup-java@v5
+        with:
+          distribution: "corretto"
+          java-version: 8
+
       - name: Setup Java ${{matrix.java-versions}}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v5
         with:
           distribution: "corretto"
           java-version: ${{matrix.java-versions}}

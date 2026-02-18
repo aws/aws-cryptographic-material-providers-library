@@ -13,6 +13,11 @@ on:
         required: false
         default: false
         type: boolean
+      fuzz-testing:
+        description: "Use fuzzed test vectors instead of regular test vectors"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   generateEncryptVectors:
@@ -23,7 +28,7 @@ jobs:
             # https://taskei.amazon.dev/tasks/CrypTool-5283
             # windows-latest,
             ubuntu-22.04,
-            macos-13,
+            macos-14,
           ]
         language: [java, net, rust, python, go]
         # https://taskei.amazon.dev/tasks/CrypTool-5284
@@ -39,14 +44,14 @@ jobs:
 
       # Test Vectors need to call KMS
       - name: Configure AWS Credentials for Tests
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: InterOpTests
           role-duration-seconds: 7200
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: "true"
       - name: Init Submodules
@@ -57,20 +62,35 @@ jobs:
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         if: matrix.language == 'net'
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Setup .NET OpenSSL on Mac
+        if: matrix.os == 'macos-14' && matrix.language == 'net'
+        run: |
+          brew install openssl@3
+          echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
+          echo "DOTNET_CRYPTO_ENGINE_ADAPTER=System.Security.Cryptography.Algorithms.Managed" >> $GITHUB_ENV
+
+      # We need both Java 8 and Java 17
+      - name: Setup Java 8
+        if: matrix.language == 'java'
+        uses: actions/setup-java@v5
+        with:
+          distribution: "corretto"
+          java-version: 8
 
       # Setup Java in Rust is needed for running polymorph
       - name: Setup Java 17
         if: matrix.language == 'java' || matrix.language == 'rust'
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v5
         with:
           distribution: "corretto"
           java-version: 17
 
       - name: Setup Python for running tests
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: 3.11
           architecture: x64
@@ -79,20 +99,24 @@ jobs:
           pip install --upgrade tox
           pip install poetry
 
+      - name: Install hypothesis for fuzz testing
+        if: ${{ inputs.fuzz-testing }}
+        run: pip install hypothesis
+
       - name: Setup Rust Toolchain for GitHub CI
         if: matrix.language == 'rust'
-        uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt
 
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: "1.23"
 
       - name: Install Go imports
         run: |
-          go install golang.org/x/tools/cmd/goimports@latest
+          go install golang.org/x/tools/cmd/goimports@v0.36.0
 
       - name: Setup NASM for Windows in Rust (aws-lc-sys)
         if: matrix.language == 'rust' && matrix.os == 'windows-latest'
@@ -102,7 +126,7 @@ jobs:
         if: matrix.language == 'rust'
         uses: ./.github/actions/setup_dafny
         with:
-          dafny-version: nightly-2025-01-30-7db1e5f
+          dafny-version: 4.10.0
 
       - name: Setup Dafny Not Rust
         if: matrix.language != 'rust'
@@ -182,24 +206,24 @@ jobs:
         run: |
           make purge_polymorph_code
 
-      - name: Setup gradle
-        if: matrix.language == 'java'
-        uses: gradle/gradle-build-action@v2
-        with:
-          gradle-version: 7.2
-
       - name: Create Manifests
         working-directory: ./${{ matrix.library }}
-        run: make test_generate_vectors_${{ matrix.language }}
+        run: |
+          if [ "${{ inputs.fuzz-testing }}" = "true" ]; then
+            echo "Generating fuzzed test vectors"
+            make test_generate_fuzz_vectors_${{ matrix.language }} NUM_VECTORS=2000
+          else
+            make test_generate_vectors_${{ matrix.language }}
+          fi
 
       - name: Create Encrypt Manifests
         working-directory: ./${{ matrix.library }}
         run: make test_encrypt_vectors_${{ matrix.language }}
 
       - name: Upload Encrypt Manifest and keys.json files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}
+          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json
 
   testInteroperablity:
@@ -212,7 +236,7 @@ jobs:
             # TODO just test on mac and ubuntu for now
             # windows-latest,
             ubuntu-22.04,
-            macos-13,
+            macos-14,
           ]
         decrypting_language: [java, net, rust, python, go]
         dotnet-version: ["6.0.x"]
@@ -227,14 +251,14 @@ jobs:
 
       # KMS and MPL tests need to use credentials which can call KMS
       - name: Configure AWS Credentials for Tests
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-region: us-west-2
           role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
           role-session-name: InterOpTests
           role-duration-seconds: 7200
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: "true"
       - name: Init Submodules
@@ -245,20 +269,34 @@ jobs:
       # Set up runtimes
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
         if: matrix.decrypting_language == 'net'
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Setup .NET OpenSSL on Mac
+        if: matrix.os == 'macos-14' && matrix.decrypting_language == 'net'
+        run: |
+          brew install openssl@3
+          echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
+          echo "DOTNET_CRYPTO_ENGINE_ADAPTER=System.Security.Cryptography.Algorithms.Managed" >> $GITHUB_ENV
+
+      - name: Setup Java 8
+        if: matrix.decrypting_language == 'java'
+        uses: actions/setup-java@v5
+        with:
+          distribution: "corretto"
+          java-version: 8
 
       # Setup Java in Rust is needed for running polymorph
       - name: Setup Java 17
         if: matrix.decrypting_language == 'java' || matrix.decrypting_language == 'rust'
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v5
         with:
           distribution: "corretto"
           java-version: 17
 
       - name: Setup Python for running tests
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: 3.11
           architecture: x64
@@ -269,18 +307,18 @@ jobs:
 
       - name: Setup Rust Toolchain for GitHub CI
         if: matrix.decrypting_language == 'rust'
-        uses: actions-rust-lang/setup-rust-toolchain@v1.10.1
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt
 
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: "1.23"
 
       - name: Install Go imports
         run: |
-          go install golang.org/x/tools/cmd/goimports@latest
+          go install golang.org/x/tools/cmd/goimports@v0.36.0
 
       - name: Setup NASM for Windows in Rust (aws-lc-sys)
         if: matrix.decrypting_language == 'rust' && matrix.os == 'windows-latest'
@@ -290,7 +328,7 @@ jobs:
         if: matrix.decrypting_language == 'rust'
         uses: ./.github/actions/setup_dafny
         with:
-          dafny-version: nightly-2025-01-30-7db1e5f
+          dafny-version: 4.10.0
 
       - name: Setup Dafny 2 Not Rust
         if: matrix.decrypting_language != 'rust'
@@ -371,9 +409,9 @@ jobs:
           make purge_polymorph_code
 
       - name: Download Encrypt Manifest Artifact Java
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
-          name: ${{matrix.os}}_vector_artifact_java
+          name: ${{matrix.os}}_vector_artifact_java${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Java
@@ -381,9 +419,9 @@ jobs:
         run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
 
       - name: Download Encrypt Manifest Artifact Net
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
-          name: ${{matrix.os}}_vector_artifact_net
+          name: ${{matrix.os}}_vector_artifact_net${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Net
@@ -391,9 +429,9 @@ jobs:
         run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
 
       - name: Download Encrypt Manifest Artifact Rust
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
-          name: ${{matrix.os}}_vector_artifact_rust
+          name: ${{matrix.os}}_vector_artifact_rust${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Rust
@@ -401,9 +439,9 @@ jobs:
         run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
 
       - name: Download Encrypt Manifest Artifact Python
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
-          name: ${{matrix.os}}_vector_artifact_python
+          name: ${{matrix.os}}_vector_artifact_python${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Python
@@ -411,9 +449,9 @@ jobs:
         run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
 
       - name: Download Encrypt Manifest Artifact Go
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
-          name: ${{matrix.os}}_vector_artifact_go
+          name: ${{matrix.os}}_vector_artifact_go${{ inputs.fuzz-testing && '_fuzz' || '' }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Go

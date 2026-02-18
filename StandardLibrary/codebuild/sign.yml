@@ -15,6 +15,7 @@ phases:
       - export PATH="$PWD/dafny:$PATH"
       # Switch back to the main directory
       - cd aws-cryptographic-material-providers-library
+      - make -C StandardLibrary mvn_local_deploy_polymorph_dependencies
   pre_build:
     commands:
       # - TMP_ROLE=$(aws sts assume-role --role-arn "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2" --role-session-name "CB-TestVectorResources")

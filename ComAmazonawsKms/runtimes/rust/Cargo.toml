@@ -2,18 +2,17 @@
 name = "aws-mpl-kms"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.80.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-aws-config = "1.5.15"
-aws-sdk-kms = "1.51.0"
-aws-smithy-runtime-api = "1.7.3"
-aws-smithy-types = "1.2.12"
-chrono = "0.4.39"
+aws-config = "1.8.12"
+aws-sdk-kms = "1.98.0"
+aws-smithy-runtime-api = "1.10.0"
+aws-smithy-types = "1.3.6"
+chrono = "0.4.43"
 cpu-time = "1.0.0"
 dafny_runtime = { path = "../../../smithy-dafny/TestModels/dafny-dependencies/dafny_runtime_rust", features = ["sync","small-int"]}
 dashmap = "6.1.0"
-tokio = {version = "1.43.0", features = ["full"] }
-uuid = { version = "1.12.1", features = ["v4"] }
+tokio = {version = "1.49.0", features = ["full"] }
+uuid = { version = "1.19.0", features = ["v4"] }

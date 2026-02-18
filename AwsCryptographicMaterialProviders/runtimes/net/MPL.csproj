@@ -5,7 +5,7 @@
       <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
       <IsPackable>true</IsPackable>
       
-      <Version>1.11.0</Version>
+      <Version>1.11.2</Version>
       
       <AssemblyName>AWS.Cryptography.MaterialProviders</AssemblyName>
       <PackageId>AWS.Cryptography.MaterialProviders</PackageId>
@@ -57,7 +57,6 @@
 
     <ItemGroup>
         <PackageReference Include="DafnyRuntime" Version="[4.2.0,$(DafnyVersion)]" />
-        <PackageReference Include="BouncyCastle.Cryptography" Version="2.3.1" />
         <ProjectReference Include="../../../AwsCryptographyPrimitives/runtimes/net/Crypto.csproj" />
         <ProjectReference Include="../../../ComAmazonawsDynamodb/runtimes/net/ComAmazonawsDynamodb.csproj" />
         <ProjectReference Include="../../../ComAmazonawsKms/runtimes/net/AWS-KMS.csproj" />
@@ -68,7 +67,7 @@
         -->
         <PackageReference Include="System.Collections.Immutable" Version="1.7.0" />
         <!-- Work around for dafny-lang/dafny/issues/1951; remove once resolved -->
-        <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+        <PackageReference Include="System.ValueTuple" Version="4.6.1" />
 
         <Compile Include="Extern/**/*.cs" />
         <Compile Include="Generated/**/*.cs" />
