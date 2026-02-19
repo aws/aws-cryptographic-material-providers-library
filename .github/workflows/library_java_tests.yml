@@ -47,7 +47,7 @@ jobs:
           git config --global core.longpaths true
       # KMS and MPL tests need to use credentials which can call KMS
       - name: Configure AWS Credentials for Tests
-        uses: aws-actions/configure-aws-credentials@v5
+        uses: aws-actions/configure-aws-credentials@v6
         if: matrix.library == 'ComAmazonawsKms' || matrix.library == 'ComAmazonawsDynamodb' || matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'TestVectorsAwsCryptographicMaterialProviders'
         with:
           aws-region: us-west-2
