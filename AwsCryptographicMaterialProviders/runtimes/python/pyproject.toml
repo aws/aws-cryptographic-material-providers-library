@@ -13,10 +13,10 @@ readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
-aws-cryptography-internal-standard-library = "1.11.2"
-aws-cryptography-internal-kms = "1.11.2"
-aws-cryptography-internal-dynamodb = "1.11.2"
-aws-cryptography-internal-primitives = "1.11.2"
+aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
+aws-cryptography-internal-kms = {path = "../../../ComAmazonawsKms/runtimes/python"}
+aws-cryptography-internal-dynamodb = {path = "../../../ComAmazonawsDynamodb/runtimes/python"}
+aws-cryptography-internal-primitives = {path = "../../../AwsCryptographyPrimitives/runtimes/python"}
 
 # Package testing
 
