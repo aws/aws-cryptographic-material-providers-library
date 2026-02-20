@@ -56,20 +56,12 @@ jobs:
           library: ${{ matrix.library }}
           diff-generated-code: false
 
-      - name: Setup Java 8, for complex reasons
-        if: ${{matrix.java-versions != 8 }}
-        uses: actions/setup-java@v5
-        with:
-          distribution: "corretto"
-          java-version: 8
-          cache: 'gradle'
-
       - name: Setup Java ${{matrix.java-versions}}
         uses: actions/setup-java@v5
         with:
           distribution: "corretto"
           java-version: ${{matrix.java-versions}}
-          cache: 'gradle'
+          cache: 'maven'
 
       - name: Build ${{ matrix.library }} implementation
         working-directory: ./${{ matrix.library }}
@@ -170,15 +162,15 @@ jobs:
         with:
           distribution: "corretto"
           java-version: 8
-          cache: 'gradle'
+          cache: 'maven'
 
       - name: Setup Java ${{matrix.java-versions}}
         uses: actions/setup-java@v5
         with:
           distribution: "corretto"
           java-version: ${{matrix.java-versions}}
-          cache: 'gradle'
-          
+          cache: 'maven'
+
       - uses: actions/download-artifact@v7
         with:
           name: ${{matrix.library}}-generated-code-java-${{github.sha}}
