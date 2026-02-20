@@ -45,6 +45,13 @@ jobs:
         with:
           dafny-version: ${{ inputs.dafny }}
 
+      - name: Cache local Maven repository
+        uses: actions/cache@v5
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: maven-
+
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
@@ -155,6 +162,13 @@ jobs:
         uses: ./.github/actions/setup_dafny
         with:
           dafny-version: ${{ inputs.dafny }}
+      
+      - name: Cache local Maven repository
+        uses: actions/cache@v5
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: maven-
 
       - name: Setup Java 8, for complex reasons
         if: ${{matrix.java-versions != 8 }}
@@ -162,14 +176,12 @@ jobs:
         with:
           distribution: "corretto"
           java-version: 8
-          cache: 'maven'
 
       - name: Setup Java ${{matrix.java-versions}}
         uses: actions/setup-java@v5
         with:
           distribution: "corretto"
           java-version: ${{matrix.java-versions}}
-          cache: 'maven'
 
       - uses: actions/download-artifact@v7
         with:
