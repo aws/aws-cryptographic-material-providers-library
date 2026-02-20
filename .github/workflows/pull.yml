@@ -26,50 +26,39 @@ jobs:
     uses: ./.github/workflows/library_dafny_verification.yml
     with:
       dafny: ${{needs.getVersions.outputs.verifyVersion}}
-  pr-ci-build:
-    needs: getVersions
-    uses: ./.github/workflows/library-ci-build.yml
-    with:
-      dafny: ${{needs.getVersions.outputs.verifyVersion}}
   pr-ci-java:
     needs:
       - getVersions
-      - pr-ci-build
     uses: ./.github/workflows/library_java_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   pr-ci-net:
     needs:
       - getVersions
-      - pr-ci-build
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   pr-ci-rust:
     needs:
       - getVersions
-      - pr-ci-build
     uses: ./.github/workflows/library_rust_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.rustVersion}}
   pr-ci-python:
     needs:
       - getVersions
-      - pr-ci-build
     uses: ./.github/workflows/library_python_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   pr-ci-go:
     needs:
       - getVersions
-      - pr-ci-build
     uses: ./.github/workflows/library_go_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   pr-interop-test:
     needs:
       - getVersions
-      - pr-ci-build
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
@@ -77,7 +66,6 @@ jobs:
   pr-fuzz-interop-test:
     needs:
       - getVersions
-      - pr-ci-build
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
@@ -86,7 +74,6 @@ jobs:
   pr-ci-db-esdk-java-examples-test:
     needs:
       - getVersions
-      - pr-ci-build
     uses: ./.github/workflows/test_dbesdk_examples.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
@@ -97,7 +84,6 @@ jobs:
       - pr-ci-format
       - pr-ci-codegen
       - pr-ci-verification
-      - pr-ci-build
       - pr-ci-java
       - pr-ci-net
       - pr-ci-python
