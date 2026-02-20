@@ -79,35 +79,35 @@ jobs:
       - name: Upload TestVector Build Artifacts
         uses: actions/upload-artifact@v6
         with:
-            name: TestVectorsAwsCryptographicMaterialProviders-generated-code-java
+            name: TestVectorsAwsCryptographicMaterialProviders-generated-code-java-${{github.sha}}
             path: TestVectorsAwsCryptographicMaterialProviders/runtimes/java/
 
       - name: Upload MPL Build Artifacts
         uses: actions/upload-artifact@v6
         with:
-            name: AwsCryptographicMaterialProviders-generated-code-java
+            name: AwsCryptographicMaterialProviders-generated-code-java-${{github.sha}}
             path: AwsCryptographicMaterialProviders/runtimes/java/
 
       - name: Upload Primitives Build Artifacts
         uses: actions/upload-artifact@v6
         with:
-            name: AwsCryptographyPrimitives-generated-code-java
+            name: AwsCryptographyPrimitives-generated-code-java-${{github.sha}}
             path: AwsCryptographyPrimitives/runtimes/java/
 
       - name: Upload KMS Build Artifacts
         uses: actions/upload-artifact@v6
         with:
-            name: ComAmazonawsKms-generated-code-java
+            name: ComAmazonawsKms-generated-code-java-${{github.sha}}
             path: ComAmazonawsKms/runtimes/java/
 
       - name: Upload DDB Build Artifacts
         uses: actions/upload-artifact@v6
         with:
-            name: ComAmazonawsDynamodb-generated-code-java
+            name: ComAmazonawsDynamodb-generated-code-java-${{github.sha}}
             path: ComAmazonawsDynamodb/runtimes/java/
 
       - name: Upload STD Build Artifacts
         uses: actions/upload-artifact@v6
         with:
-            name: StandardLibrary-generated-code-java
+            name: StandardLibrary-generated-code-java-${{github.sha}}
             path: StandardLibrary/runtimes/java/
