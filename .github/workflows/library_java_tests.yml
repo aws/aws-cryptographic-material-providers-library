@@ -78,6 +78,42 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make build_java CORES=$CORES
 
+      - name: Upload TestVector Build Artifacts
+        uses: actions/upload-artifact@v6
+        with:
+            name: TestVectorsAwsCryptographicMaterialProviders-generated-code-java-${{github.sha}}
+            path: TestVectorsAwsCryptographicMaterialProviders/runtimes/java/
+
+      - name: Upload MPL Build Artifacts
+        uses: actions/upload-artifact@v6
+        with:
+            name: AwsCryptographicMaterialProviders-generated-code-java-${{github.sha}}
+            path: AwsCryptographicMaterialProviders/runtimes/java/
+
+      - name: Upload Primitives Build Artifacts
+        uses: actions/upload-artifact@v6
+        with:
+            name: AwsCryptographyPrimitives-generated-code-java-${{github.sha}}
+            path: AwsCryptographyPrimitives/runtimes/java/
+
+      - name: Upload KMS Build Artifacts
+        uses: actions/upload-artifact@v6
+        with:
+            name: ComAmazonawsKms-generated-code-java-${{github.sha}}
+            path: ComAmazonawsKms/runtimes/java/
+
+      - name: Upload DDB Build Artifacts
+        uses: actions/upload-artifact@v6
+        with:
+            name: ComAmazonawsDynamodb-generated-code-java-${{github.sha}}
+            path: ComAmazonawsDynamodb/runtimes/java/
+
+      - name: Upload STD Build Artifacts
+        uses: actions/upload-artifact@v6
+        with:
+            name: StandardLibrary-generated-code-java-${{github.sha}}
+            path: StandardLibrary/runtimes/java/
+
   testJava:
     needs: buildJava
     strategy:
@@ -142,6 +178,11 @@ jobs:
           distribution: "corretto"
           java-version: ${{matrix.java-versions}}
           cache: 'gradle'
+          
+      - uses: actions/download-artifact@v7
+        with:
+          name: ${{matrix.library}}-generated-code-java-${{github.sha}}
+          path: ${{matrix.library}}/runtimes/java/
 
       - name: Build ${{ matrix.library }} Test implementation
         working-directory: ./${{ matrix.library }}
