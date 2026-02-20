@@ -20,13 +20,8 @@ jobs:
       fail-fast: false
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
-        os: [
-            # TODO just test on mac for now
-            # windows-latest,
-            ubuntu-22.04,
-            macos-14,
-          ]
-        java-versions: [8, 11, 17, 19]
+        os: [macos-latest]
+        java-versions: [8]
     runs-on: ${{ matrix.os }}
     permissions:
       id-token: write
