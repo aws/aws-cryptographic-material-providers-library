@@ -190,9 +190,7 @@ jobs:
       - name: Build ${{ matrix.library }} Test implementation
         working-directory: ./${{ matrix.library }}
         run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_test_java CORES=$CORES
+          make transpile_test_java
 
       - name: Test ${{ matrix.library }} on ${{matrix.java-versions}}
         working-directory: ./${{ matrix.library }}
