@@ -15,7 +15,7 @@ on:
         type: boolean
 
 jobs:
-  testJava:
+  buildJava:
     strategy:
       fail-fast: false
       matrix:
