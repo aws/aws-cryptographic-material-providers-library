@@ -27,45 +27,53 @@ jobs:
     with:
       dafny: ${{needs.getVersions.outputs.verifyVersion}}
   pr-ci-java:
-    needs: getVersions
+    needs:
+      - getVersions
     uses: ./.github/workflows/library_java_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   pr-ci-net:
-    needs: getVersions
+    needs:
+      - getVersions
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   pr-ci-rust:
-    needs: getVersions
+    needs:
+      - getVersions
     uses: ./.github/workflows/library_rust_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.rustVersion}}
   pr-ci-python:
-    needs: getVersions
+    needs:
+      - getVersions
     uses: ./.github/workflows/library_python_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   pr-ci-go:
-    needs: getVersions
+    needs:
+      - getVersions
     uses: ./.github/workflows/library_go_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
   pr-interop-test:
-    needs: getVersions
+    needs:
+      - getVersions
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
     secrets: inherit
   pr-fuzz-interop-test:
-    needs: getVersions
+    needs:
+      - getVersions
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
       fuzz-testing: true
     secrets: inherit
   pr-ci-db-esdk-java-examples-test:
-    needs: getVersions
+    needs:
+      - getVersions
     uses: ./.github/workflows/test_dbesdk_examples.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
