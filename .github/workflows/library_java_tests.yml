@@ -182,6 +182,9 @@ jobs:
           distribution: "corretto"
           java-version: ${{matrix.java-versions}}
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+
       - uses: actions/download-artifact@v7
         with:
           name: ${{matrix.library}}-generated-code-java-${{github.sha}}
