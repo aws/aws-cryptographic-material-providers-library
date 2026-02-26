@@ -48,6 +48,7 @@ import software.amazon.cryptography.materialproviders.model.CreateAwsKmsMrkKeyri
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsMrkMultiKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsMultiKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsRsaKeyringInput;
+import software.amazon.cryptography.materialproviders.model.CreateCachingCMMInput;
 import software.amazon.cryptography.materialproviders.model.CreateCryptographicMaterialsCacheInput;
 import software.amazon.cryptography.materialproviders.model.CreateDefaultClientSupplierInput;
 import software.amazon.cryptography.materialproviders.model.CreateDefaultCryptographicMaterialsManagerInput;
@@ -709,6 +710,29 @@ public class ToNative {
       nativeBuilder.grantTokens(
         ToNative.GrantTokenList(dafnyValue.dtor_grantTokens().dtor_value())
       );
+    }
+    return nativeBuilder.build();
+  }
+
+  public static CreateCachingCMMInput CreateCachingCMMInput(
+      software.amazon.cryptography.materialproviders.internaldafny.types.CreateCachingCMMInput dafnyValue) {
+    CreateCachingCMMInput.Builder nativeBuilder = CreateCachingCMMInput.builder();
+    nativeBuilder.underlyingCMC(ToNative.CryptographicMaterialsCache(dafnyValue.dtor_underlyingCMC()));
+    nativeBuilder.cacheLimitTtlSeconds((dafnyValue.dtor_cacheLimitTtlSeconds()));
+    if (dafnyValue.dtor_underlyingCMM().is_Some()) {
+      nativeBuilder.underlyingCMM(ToNative.CryptographicMaterialsManager(dafnyValue.dtor_underlyingCMM().dtor_value()));
+    }
+    if (dafnyValue.dtor_keyring().is_Some()) {
+      nativeBuilder.keyring(ToNative.Keyring(dafnyValue.dtor_keyring().dtor_value()));
+    }
+    if (dafnyValue.dtor_partitionKey().is_Some()) {
+      nativeBuilder.partitionKey(software.amazon.smithy.dafny.conversion.ToNative.Simple.DafnyUtf8Bytes(dafnyValue.dtor_partitionKey().dtor_value()));
+    }
+    if (dafnyValue.dtor_limitBytes().is_Some()) {
+      nativeBuilder.limitBytes((dafnyValue.dtor_limitBytes().dtor_value()));
+    }
+    if (dafnyValue.dtor_limitMessages().is_Some()) {
+      nativeBuilder.limitMessages((dafnyValue.dtor_limitMessages().dtor_value()));
     }
     return nativeBuilder.build();
   }

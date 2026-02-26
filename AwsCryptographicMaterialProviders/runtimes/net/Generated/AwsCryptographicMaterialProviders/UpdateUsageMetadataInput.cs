@@ -8,7 +8,7 @@ namespace AWS.Cryptography.MaterialProviders
   public class UpdateUsageMetadataInput
   {
     private System.IO.MemoryStream _identifier;
-    private int? _bytesUsed;
+    private long? _bytesUsed;
     public System.IO.MemoryStream Identifier
     {
       get { return this._identifier; }
@@ -18,7 +18,7 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return this._identifier != null;
     }
-    public int BytesUsed
+    public long BytesUsed
     {
       get { return this._bytesUsed.GetValueOrDefault(); }
       set { this._bytesUsed = value; }
