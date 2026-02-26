@@ -13,6 +13,7 @@ module KdfCtr {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import UTF8
   import Types = AwsCryptographyPrimitivesTypes
   import HMAC
@@ -29,13 +30,15 @@ module KdfCtr {
     ensures output.Success? ==> |output.value| == input.expectedLength as nat
   {
     // currently only SHA 256 and SHA 384 are allowed
+    SequenceIsSafeBecauseItIsInMemory(input.ikm);
+    OptionalSequenceIsSafeBecauseItIsInMemory(input.nonce);
     :- Need(
       && (input.digestAlgorithm == Types.DigestAlgorithm.SHA_256 || input.digestAlgorithm == Types.DigestAlgorithm.SHA_384)
-      && (|input.ikm| == 32 || |input.ikm| == 48 || |input.ikm| == 66)
+      && (|input.ikm| as uint64 == 32 || |input.ikm| as uint64 == 48 || |input.ikm| as uint64 == 66)
       && input.nonce.Some?
-      && (|input.nonce.value| == 16 || |input.nonce.value| == 32)
+      && (|input.nonce.value| as uint64 == 16 || |input.nonce.value| as uint64 == 32)
       && (input.expectedLength == 32 || input.expectedLength == 64)
-      && 0 < ((input.expectedLength as int) * 8) as int < INT32_MAX_LIMIT,
+      && 0 < (input.expectedLength * 8) as uint64 < INT32_MAX_LIMIT as uint64,
       Types.AwsCryptographicPrimitivesError(message := "Kdf in Counter Mode input is invalid.")
     );
 
@@ -45,9 +48,11 @@ module KdfCtr {
     var okm := [];
 
     // Compute length in bits of the input going into the PRF.
-    var internalLength : uint32 := (4 + |SEPARATION_INDICATOR| + 4) as uint32;
+    var internalLength : uint32 := (4 + |SEPARATION_INDICATOR| as uint64 + 4) as uint32;
+    SequenceIsSafeBecauseItIsInMemory(label_);
+    SequenceIsSafeBecauseItIsInMemory(info);
     :- Need(
-      && internalLength as int + |label_| + |info| < INT32_MAX_LIMIT,
+      && Add3(internalLength as uint64,|label_| as uint64, |info| as uint64)  < INT32_MAX_LIMIT  as uint64 ,
       Types.AwsCryptographicPrimitivesError(message:= "Input Length exceeds INT32_MAX_LIMIT")
     );
 
@@ -55,8 +60,9 @@ module KdfCtr {
     var lengthBits : seq<uint8> := UInt.UInt32ToSeq((input.expectedLength * 8) as uint32);
     var explicitInfo := label_ + SEPARATION_INDICATOR + info + lengthBits;
 
+    SequenceIsSafeBecauseItIsInMemory(explicitInfo);
     :- Need(
-      4 + |explicitInfo| < INT32_MAX_LIMIT,
+      4 + |explicitInfo| as uint64 < INT32_MAX_LIMIT as uint64,
       Types.AwsCryptographicPrimitivesError(message := "PRF input length exceeds INT32_MAX_LIMIT.")
     );
 
@@ -72,8 +78,8 @@ module KdfCtr {
       && length > 0
       && 4 + |explicitInfo| < INT32_MAX_LIMIT
       && (digestAlgorithm == Types.DigestAlgorithm.SHA_256 || digestAlgorithm == Types.DigestAlgorithm.SHA_384)
-      && length as int + Digest.Length(Types.DigestAlgorithm.SHA_256) < INT32_MAX_LIMIT - 1
-      && length as int + Digest.Length(Types.DigestAlgorithm.SHA_384) < INT32_MAX_LIMIT - 1
+      && length as int + Digest.Length(Types.DigestAlgorithm.SHA_256) as int < INT32_MAX_LIMIT - 1
+      && length as int + Digest.Length(Types.DigestAlgorithm.SHA_384) as int < INT32_MAX_LIMIT - 1
     ensures output.Success? ==> |output.value| == length as int
   {
     var hmac :- HMAC.HMac.Build(digestAlgorithm);
@@ -87,7 +93,7 @@ module KdfCtr {
     // Counter "i"
     var i : seq<uint8> := UInt.UInt32ToSeq(COUNTER_START_VALUE);
 
-    for iteration := 1 to iterations + 1
+    for iteration : uint64 := 1 to Add(iterations as uint64, 1)
       invariant |i| == 4
       invariant hmac.GetKey() == ikm
     {
@@ -103,8 +109,9 @@ module KdfCtr {
       i :- Increment(i);
     }
 
+    SequenceIsSafeBecauseItIsInMemory(buffer);
     :- Need(
-      |buffer| >= length as int,
+      |buffer| as uint64 >= length as uint64,
       Types.AwsCryptographicPrimitivesError(message := "Failed to derive key of requested length")
     );
 
@@ -117,14 +124,14 @@ module KdfCtr {
   {
     // increments the counter x which represents the number of iterations
     // as a bit sequence
-    if x[3] < 255 then
-      Success([x[0], x[1], x[2], x[3]+1])
-    else if x[2] < 255 then
-      Success([x[0], x[1], x[2]+1, 0])
-    else if x[1] < 255 then
-      Success([x[0], x[1]+1, 0, 0])
-    else if x[0] < 255 then
-      Success([x[0]+1, 0, 0, 0])
+    if x[3 as uint32] < 255 then
+      Success([x[0 as uint32], x[1 as uint32], x[2 as uint32], x[3 as uint32]+1])
+    else if x[2 as uint32] < 255 then
+      Success([x[0 as uint32], x[1 as uint32], x[2 as uint32]+1, 0])
+    else if x[1 as uint32] < 255 then
+      Success([x[0 as uint32], x[1 as uint32]+1, 0, 0])
+    else if x[0 as uint32] < 255 then
+      Success([x[0 as uint32]+1, 0, 0, 0])
     else
       Failure(Types.AwsCryptographicPrimitivesError(message := "Unable to derive key material; may have exceeded limit."))
   }

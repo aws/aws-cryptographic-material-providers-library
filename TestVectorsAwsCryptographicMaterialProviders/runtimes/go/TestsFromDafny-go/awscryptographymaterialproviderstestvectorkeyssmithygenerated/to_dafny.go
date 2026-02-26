@@ -294,6 +294,10 @@ func Aws_cryptography_materialProvidersTestVectorKeys_RawRSA_padding_ToDafny(inp
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTypes.CompanionStruct_PaddingScheme_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -487,6 +491,10 @@ func Aws_cryptography_materialProvidersTestVectorKeys_KmsRsaKeyring_encryptionAl
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(ComAmazonawsKmsTypes.CompanionStruct_EncryptionAlgorithmSpec_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -718,7 +726,7 @@ func Aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextC
 func Aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextCMM_requiredEncryptionContextKeys_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0)
+		var fieldValue []interface{} = make([]interface{}, 0, len(input))
 		for _, val := range input {
 			element := awscryptographymaterialproviderssmithygenerated.Aws_cryptography_materialProviders_EncryptionContextKeys_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -730,7 +738,7 @@ func Aws_cryptography_materialProvidersTestVectorKeys_RequiredEncryptionContextC
 func Aws_cryptography_materialProvidersTestVectorKeys_MultiKeyring_childKeyrings_ToDafny(input []awscryptographymaterialproviderstestvectorkeyssmithygeneratedtypes.KeyDescription) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0)
+		var fieldValue []interface{} = make([]interface{}, 0, len(input))
 		for _, val := range input {
 			element := Aws_cryptography_materialProvidersTestVectorKeys_KeyDescriptionList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -842,6 +850,10 @@ func Aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_forOper
 			if enumVal == input {
 				break
 			}
+			if index == len(input.Values()) {
+				panic("Input value did not found in enum values")
+			}
+
 		}
 		var enum interface{}
 		for allEnums, i := dafny.Iterate(AwsCryptographyMaterialProvidersTestVectorKeysTypes.CompanionStruct_CmmOperation_{}.AllSingletonConstructors()), 0; i < index; i++ {
@@ -857,14 +869,10 @@ func Aws_cryptography_materialProvidersTestVectorKeys_TestVectorCmmInput_forOper
 
 func Aws_cryptography_materialProvidersTestVectorKeys_GetKeyDescriptionInput_json_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -964,14 +972,10 @@ func Aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionInp
 
 func Aws_cryptography_materialProvidersTestVectorKeys_SerializeKeyDescriptionOutput_json_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 

@@ -15,6 +15,7 @@ phases:
       - export PATH="$PWD/dafny:$PATH"
       # Switch back to the main directory
       - cd aws-cryptographic-material-providers-library
+      - make -C StandardLibrary mvn_local_deploy_polymorph_dependencies
   pre_build:
     commands:
       - cd AwsCryptographicMaterialProviders

@@ -2,29 +2,26 @@
 name = "aws-mpl-test-vectors"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.80.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[features]
-wrapped-client = []
-
 [dependencies]
-aws-config = "1.5.15"
-aws-lc-rs = "=1.12.2"
-aws-lc-sys = "=0.25.1"
-aws-sdk-dynamodb = "1.55.0"
-aws-sdk-kms = "1.51.0"
-aws-smithy-runtime-api = {version = "1.7.3", features = ["client"] }
-aws-smithy-types = "1.2.12"
-chrono = "0.4.39"
+aws-config = "1.8.12"
+aws-lc-rs = {version = "1.15.4"}
+aws-lc-sys = { version = "0.37", optional = true }
+aws-lc-fips-sys = { version = "0.13", optional = true }
+aws-sdk-dynamodb = "1.103.0"
+aws-sdk-kms = "1.98.0"
+aws-smithy-runtime-api = {version = "1.10.0", features = ["client"] }
+aws-smithy-types = "1.3.6"
+chrono = "0.4.43"
 cpu-time = "1.0.0"
-dafny_runtime = { path = "../../../smithy-dafny/TestModels/dafny-dependencies/dafny_runtime_rust", features = ["sync"]}
+dafny_runtime = { path = "../../../smithy-dafny/TestModels/dafny-dependencies/dafny_runtime_rust", features = ["sync","small-int"]}
 dashmap = "6.1.0"
-pem = "3.0.4"
-tokio = {version = "1.43.0", features = ["full"] }
-uuid = { version = "1.12.1", features = ["v4"] }
-ring = "0.17.9"
+pem = "3.0.6"
+tokio = {version = "1.49.0", features = ["full"] }
+uuid = { version = "1.19.0", features = ["v4"] }
+ring = "0.17.14"
 
 [dev-dependencies]
 aws-mpl-test-vectors = { path = ".", features = ["wrapped-client"] }
@@ -32,3 +29,9 @@ aws-mpl-test-vectors = { path = ".", features = ["wrapped-client"] }
 [[bin]]
 name = "test-vectors"
 path = "src/main.rs"
+
+[features]
+wrapped-client = []
+fips = ["aws-lc-rs/fips", "dep:aws-lc-fips-sys"]
+non-fips = ["aws-lc-rs/aws-lc-sys", "dep:aws-lc-sys"]
+default = ["non-fips"]

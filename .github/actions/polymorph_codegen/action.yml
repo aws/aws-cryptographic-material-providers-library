@@ -46,12 +46,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Setup Java 17 for codegen
-      uses: actions/setup-java@v3
-      with:
-        distribution: "corretto"
-        java-version: "17"
-
     - name: Install Smithy-Dafny codegen dependencies
       uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
@@ -103,7 +97,7 @@ runs:
       run: |
         make polymorph_go
 
-    - name: Check regenerated code against commited code
+    - name: Check regenerated code against committed code
       # Composite action inputs seem to not actually support booleans properly for some reason
       if: inputs.diff-generated-code == 'true'
       working-directory: ./${{ inputs.library }}

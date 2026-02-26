@@ -6,6 +6,17 @@
     non_camel_case_types
 )]
 
+#![allow(warnings, unconditional_panic)]
+#![allow(nonstandard_style)]
+#![allow(clippy::never_loop)]
+#![allow(clippy::absurd_extreme_comparisons)]
+
+#[cfg(feature = "fips")]
+use aws_lc_fips_sys as aws_lc_sys_impl;
+
+#[cfg(not(feature = "fips"))]
+use aws_lc_sys as aws_lc_sys_impl;
+
 pub mod client;
 pub mod conversions;
 pub mod error;

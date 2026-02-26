@@ -14,6 +14,10 @@ Parameters:
     Type: String
     Description: Key Store DynamoDB Table Name
     Default: KeyStoreDdbTable
+  KeyStoreStaticTable:
+    Type: String
+    Description: Key Store Static Table Name
+    Default: KeyStoreStaticTable
   ProjectName:
     Type: String
     Description: A prefix that will be applied to any names
@@ -103,6 +107,42 @@ Resources:
           Projection:
             ProjectionType: "ALL"
 
+  # Static Key Store table for storing static branch keys
+  KeyStoreTestStaticTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "branch-key-id"
+          AttributeType: "S"
+        - AttributeName: "type"
+          AttributeType: "S"
+      BillingMode: PAY_PER_REQUEST
+      KeySchema:
+        - AttributeName: "branch-key-id"
+          KeyType: "HASH"
+        - AttributeName: "type"
+          KeyType: "RANGE"
+      TableName: !Ref KeyStoreStaticTable
+
+  StaticKeyStoreTableReadOnly:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      Description: "Allow Read-Only access to Static Key Store Table"
+      ManagedPolicyName: !Sub "${ProjectName}-DDB-${KeyStoreStaticTable}-ReadOnly-${AWS::Region}"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:DescribeTable
+              - dynamodb:GetItem
+              - dynamodb:Query
+              - dynamodb:BatchGetItem
+              - dynamodb:Scan
+            Resource:
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreStaticTable}"
+              - !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${KeyStoreStaticTable}/index/*"
+
   # This policy SHOULD be given to:
   #  - aws/private-aws-encryption-sdk-dafny-staging
   #  - ToolsDevelopment
@@ -161,6 +201,65 @@ Resources:
               AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
             Action: "kms:*"
             Resource: "*"
+
+  KmsKeyForHV1ReEncryptStrategy:
+    Type: "AWS::KMS::Key"
+    Properties:
+      Description: KMS Key for GitHub Action Workflow for HV1 Only Branch Keys
+      Enabled: true
+      KeyPolicy:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action: "kms:*"
+            Resource: "*"
+
+  KmsKeyForHV2Only:
+    Type: "AWS::KMS::Key"
+    Properties:
+      Description: KMS Key for GitHub Action Workflow for HV2 Only Branch Keys
+      Enabled: true
+      KeyPolicy:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action: "kms:*"
+            Resource: "*"
+
+  KmsKeyForRobbieOnly:
+    Type: "AWS::KMS::Key"
+    Properties:
+      Description: KMS Key allows HV2 Only if Robbie is an EC Key
+      Enabled: true
+      KeyPolicy:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"
+            Action: "kms:*"
+            Resource: "*"
+          - Effect: Allow
+            Principal:
+              AWS:
+                - !GetAtt GitHubCIRole.Arn
+                - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
+                - "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2"
+            Action:
+              - kms:GenerateDataKey
+              - kms:Encrypt
+              - kms:Decrypt
+            Resource: "*"
+            Condition:
+              StringEquals:
+                "kms:EncryptionContext:Robbie": "Is a Dog."
+              ForAllValues:StringEquals:
+                "kms:EncryptionContextKeys":
+                  - "Robbie"
 
   KeyStoreAdminSystemKeyKmsSymEnc:
     Type: "AWS::KMS::Key"
@@ -230,6 +329,7 @@ Resources:
               "Action": [
                 "kms:Decrypt",
                 "kms:Encrypt",
+                "kms:GenerateDataKey",
                 "kms:GenerateDataKeyWithoutPlaintext",
                 "kms:ReEncrypt*",
                 "kms:DescribeKey",
@@ -245,11 +345,24 @@ Resources:
             {
               "Effect": "Allow",
               "Action": [
-                "kms:Decrypt",
-                "kms:Encrypt"
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKeyWithoutPlaintext",
+                "kms:Decrypt"
               ],
               "Resource": [
-                "arn:aws:kms:*:${AWS::AccountId}:key/${KeyStoreAdminSystemKeyKmsSymEnc}"
+                "arn:aws:kms:*:${AWS::AccountId}:key/${KmsKeyForHV1ReEncryptStrategy}"
+              ]
+            }, 
+            {
+              "Effect": "Allow",
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:GenerateDataKey"
+              ],
+              "Resource": [
+                "arn:aws:kms:*:${AWS::AccountId}:key/${KeyStoreAdminSystemKeyKmsSymEnc}",
+                "arn:aws:kms:*:${AWS::AccountId}:key/${KmsKeyForHV2Only}"
               ]
             },            
             {
@@ -331,6 +444,7 @@ Resources:
         - !Ref RSAKMSUsage
         - "arn:aws:iam::370957321024:policy/PolymorphTestModels-DDB-ReadWriteDelete-us-west-2"
         - !Ref HierarchicalKeyringTestTableUsage
+        - !Ref StaticKeyStoreTableReadOnly
       AssumeRolePolicyDocument: !Sub |
         {
           "Version": "2012-10-17",   
@@ -421,6 +535,98 @@ Resources:
                   - "kms:ListGrant"
                   - "kms:RevokeGrant"
                 Resource: !Sub "arn:aws:kms:*:${AWS::AccountId}:key/${HierarchicalGitHubKMSKeyIDTwo}"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub "arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com"
+            Action: "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: "sts.amazonaws.com"
+              StringLike:
+                token.actions.githubusercontent.com:sub:
+                  - "repo:aws/private-aws-encryption-sdk-dafny-staging:*"
+                  - "repo:aws/aws-encryption-sdk-dafny:*"
+                  - "repo:aws/aws-cryptographic-material-providers-library:*"
+                  - "repo:aws/private-aws-cryptographic-material-providers-library-dafny-staging:*"
+          - Effect: Allow
+            Principal:
+              AWS:
+                - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
+                - "arn:aws:iam::648638458147:role/AVP-14101"
+                - !GetAtt GitHubCIRole.Arn
+                - "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2"
+            Action: "sts:AssumeRole"
+
+  KMSHV1WithPrefixedRobbie:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "KMS-HV1-With-Prefixed-Robbie"
+      Description: "Restrict to Encryption Context that contains Robbie Is a Dog."
+      Policies:
+        - PolicyName: Prefix-Robbie-Must-Exist
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "kms:Decrypt"
+                  - "kms:Encrypt"
+                  - "kms:GenerateDataKeyWithoutPlaintext"
+                  - "kms:ReEncrypt*"
+                Resource: "*"
+                Condition:
+                  StringEquals:
+                    "kms:EncryptionContext:aws-crypto-ec:Robbie": "Is a Dog."
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Sub "arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com"
+            Action: "sts:AssumeRoleWithWebIdentity"
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: "sts.amazonaws.com"
+              StringLike:
+                token.actions.githubusercontent.com:sub:
+                  - "repo:aws/private-aws-encryption-sdk-dafny-staging:*"
+                  - "repo:aws/aws-encryption-sdk-dafny:*"
+                  - "repo:aws/aws-cryptographic-material-providers-library:*"
+                  - "repo:aws/private-aws-cryptographic-material-providers-library-dafny-staging:*"
+          - Effect: Allow
+            Principal:
+              AWS:
+                - !Sub "arn:aws:iam::${AWS::AccountId}:role/ToolsDevelopment"
+                - "arn:aws:iam::648638458147:role/AVP-14101"
+                - !GetAtt GitHubCIRole.Arn
+                - "arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2"
+            Action: "sts:AssumeRole"
+
+  KMSHV2OnlyRobbie:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: "KMS-HV2-Robbie-Only"
+      Description: "Restrict to only Encryption Context that IS Robbie Is a Dog."
+      Policies:
+        - PolicyName: Only-Robbie
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "kms:Decrypt"
+                  - "kms:Encrypt"
+                  - "kms:GenerateDataKey"
+                Resource: "*"
+                Condition:
+                  StringEquals:
+                    "kms:EncryptionContext:Robbie": "Is a Dog."
+                  ForAllValues:StringEquals:
+                    "kms:EncryptionContextKeys":
+                      - "Robbie"
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:

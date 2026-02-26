@@ -17,6 +17,7 @@ module AwsKmsMrkKeyring {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened AwsArnParsing
   import opened AwsKmsUtils
   import opened AwsKmsKeyring
@@ -70,7 +71,7 @@ module AwsKmsMrkKeyring {
       //# valid-aws-kms-identifier).
       requires ParseAwsKmsIdentifier(awsKmsKey).Success?
       requires UTF8.IsASCIIString(awsKmsKey)
-      requires 0 < |awsKmsKey| <= MAX_AWS_KMS_IDENTIFIER_LENGTH
+      requires 0 < |awsKmsKey| <= MAX_AWS_KMS_IDENTIFIER_LENGTH as nat
       requires client.ValidState()
       ensures
         && this.client      == client
@@ -88,7 +89,28 @@ module AwsKmsMrkKeyring {
       Modifies := {History} + client.Modifies;
     }
 
-    predicate OnEncryptEnsuresPublicly ( input: Types.OnEncryptInput , output: Result<Types.OnEncryptOutput, Types.Error> ) {true}
+    predicate OnEncryptEnsuresPublicly (
+      input: Types.OnEncryptInput ,
+      output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
+    {
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
+    }
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-keyring.md#onencrypt
     //= type=implication
@@ -102,12 +124,6 @@ module AwsKmsMrkKeyring {
       ensures ValidState()
       ensures unchanged(History)
       ensures OnEncryptEnsuresPublicly(input, output)
-      ensures output.Success?
-              ==>
-                && Materials.ValidEncryptionMaterialsTransition(
-                  input.materials,
-                  output.value.materials
-                )
 
       ensures StringifyEncryptionContext(input.materials.encryptionContext).Failure?
               ==>
@@ -355,7 +371,8 @@ module AwsKmsMrkKeyring {
           None;
 
       var providerInfo :- UTF8.Encode(kmsKeyArn).MapFailure(WrapStringToError);
-      :- Need(|providerInfo| < UINT16_LIMIT,
+      SequenceIsSafeBecauseItIsInMemory(providerInfo);
+      :- Need(|providerInfo| as uint64 < UINT16_LIMIT as uint64,
               Types.AwsCryptographicMaterialProvidersException(
                 message := "Invalid response from AWS KMS GenerateDataKey: Key ID too long."));
 
@@ -388,7 +405,24 @@ module AwsKmsMrkKeyring {
       }
     }
 
-    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> ) {true}
+    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
+    {
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
+    }
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-mrk-keyring.md#ondecrypt
     //= type=implication
@@ -486,7 +520,8 @@ module AwsKmsMrkKeyring {
       var filter := new AwsKmsUtils.OnDecryptMrkAwareEncryptedDataKeyFilter(awsKmsArn, PROVIDER_ID);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      if (0 == |edksToAttempt|) {
+      SequenceIsSafeBecauseItIsInMemory(edksToAttempt);
+      if (0 == |edksToAttempt| as uint64) {
         var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(
             Types.AwsCryptographicMaterialProvidersException(
@@ -604,6 +639,10 @@ module AwsKmsMrkKeyring {
                    == res.value.plaintextDataKey)
             && Last(client.History.Decrypt).output.value.KeyId == Some(awsKmsKey)
       )
+    }
+
+    predicate Requires(edk: Types.EncryptedDataKey){
+      true
     }
 
     method Invoke(

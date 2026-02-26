@@ -9,7 +9,19 @@
     non_camel_case_types
 )]
 
+#![allow(warnings, unconditional_panic)]
+#![allow(nonstandard_style)]
+#![allow(clippy::never_loop)]
+#![allow(clippy::absurd_extreme_comparisons)]
+
+#[cfg(feature = "fips")]
+use aws_lc_fips_sys as aws_lc_sys_impl;
+
+#[cfg(not(feature = "fips"))]
+use aws_lc_sys as aws_lc_sys_impl;
+
 pub mod client;
+pub mod escape;
 pub mod conversions;
 pub mod deps;
 pub mod error;
@@ -21,8 +33,8 @@ pub(crate) mod standard_library_conversions;
 pub(crate) mod standard_library_externs;
 pub use client::Client;
 
-pub use crate::deps::aws_cryptography_primitives;
 pub use crate::deps::aws_cryptography_keyStore;
+pub use crate::deps::aws_cryptography_primitives;
 pub use crate::deps::com_amazonaws_dynamodb;
 pub use crate::deps::com_amazonaws_kms;
 
@@ -57,9 +69,11 @@ pub(crate) use crate::implementation_from_dafny::ExternDigest;
 pub(crate) use crate::implementation_from_dafny::ExternRandom;
 pub(crate) use crate::implementation_from_dafny::Signature;
 pub(crate) use crate::implementation_from_dafny::Time;
+pub(crate) use crate::implementation_from_dafny::_LocalCMC_Compile;
+pub(crate) use crate::implementation_from_dafny::_StormTracker_Compile;
 pub(crate) use crate::implementation_from_dafny::ECDH;
 pub(crate) use crate::implementation_from_dafny::HMAC;
 pub(crate) use crate::implementation_from_dafny::UTF8;
 pub(crate) use crate::implementation_from_dafny::UUID;
-pub(crate) use crate::implementation_from_dafny::_StormTracker_Compile;
-pub(crate) use crate::implementation_from_dafny::_LocalCMC_Compile;
+pub(crate) use crate::deps::com_amazonaws_kms::client::Client as KmsClient;
+pub(crate) use crate::deps::com_amazonaws_dynamodb::client::Client as DdbClient;

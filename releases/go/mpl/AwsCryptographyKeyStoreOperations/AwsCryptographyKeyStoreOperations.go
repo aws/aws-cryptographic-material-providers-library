@@ -57,6 +57,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -79,6 +80,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -213,7 +215,7 @@ func (_static *CompanionStruct_Default___) CreateKey(config Config, input m_AwsC
 	_ = output
 	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _0_valueOrError0
-	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(!(((input).Dtor_branchKeyIdentifier()).Is_Some()) || ((((input).Dtor_encryptionContext()).Is_Some()) && (((((input).Dtor_encryptionContext()).Dtor_value().(_dafny.Map)).Cardinality()).Sign() == 1)), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(m_KeyStoreErrorMessages.Companion_Default___.CUSTOM__BRANCH__KEY__ID__NEED__EC()))
+	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(!(((input).Dtor_branchKeyIdentifier()).Is_Some()) || ((((input).Dtor_encryptionContext()).Is_Some()) && ((uint64(0)) < (uint64((((input).Dtor_encryptionContext()).Dtor_value().(_dafny.Map)).CardinalityInt())))), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(m_KeyStoreErrorMessages.Companion_Default___.CUSTOM__BRANCH__KEY__ID__NEED__EC()))
 	if (_0_valueOrError0).IsFailure() {
 		output = (_0_valueOrError0).PropagateFailure()
 		return output
@@ -251,7 +253,7 @@ func (_static *CompanionStruct_Default___) CreateKey(config Config, input m_AwsC
 	} else {
 		var _6_valueOrError3 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 		_ = _6_valueOrError3
-		_6_valueOrError3 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32((((input).Dtor_branchKeyIdentifier()).Dtor_value().(_dafny.Sequence)).Cardinality())).Sign() == 1, m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(_dafny.SeqOfString("Custom branch key id can not be an empty string.")))
+		_6_valueOrError3 = m_Wrappers.Companion_Default___.Need((uint64(0)) < (uint64((((input).Dtor_branchKeyIdentifier()).Dtor_value().(_dafny.Sequence)).Cardinality())), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(_dafny.SeqOfString("Custom branch key id can not be an empty string.")))
 		if (_6_valueOrError3).IsFailure() {
 			output = (_6_valueOrError3).PropagateFailure()
 			return output
@@ -310,9 +312,9 @@ func (_static *CompanionStruct_Default___) CreateKey(config Config, input m_AwsC
 	_16_encodedEncryptionContext = func() _dafny.Set {
 		var _coll0 = _dafny.NewBuilder()
 		_ = _coll0
-		for _iter7 := _dafny.Iterate((_15_unwrapEncryptionContext).Keys().Elements()); ; {
-			_compr_0, _ok7 := _iter7()
-			if !_ok7 {
+		for _iter8 := _dafny.Iterate((_15_unwrapEncryptionContext).Keys().Elements()); ; {
+			_compr_0, _ok8 := _iter8()
+			if !_ok8 {
 				break
 			}
 			var _17_k _dafny.Sequence
@@ -345,9 +347,9 @@ func (_static *CompanionStruct_Default___) CreateKey(config Config, input m_AwsC
 	_out3 = m_CreateKeys.Companion_Default___.CreateBranchAndBeaconKeys(_2_branchKeyIdentifier, func() _dafny.Map {
 		var _coll1 = _dafny.NewMapBuilder()
 		_ = _coll1
-		for _iter8 := _dafny.Iterate((_16_encodedEncryptionContext).Elements()); ; {
-			_compr_1, _ok8 := _iter8()
-			if !_ok8 {
+		for _iter9 := _dafny.Iterate((_16_encodedEncryptionContext).Elements()); ; {
+			_compr_1, _ok9 := _iter9()
+			if !_ok9 {
 				break
 			}
 			var _21_i _dafny.Tuple
@@ -373,7 +375,7 @@ func (_static *CompanionStruct_Default___) VersionKey(config Config, input m_Aws
 	}
 	var _1_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _1_valueOrError1
-	_1_valueOrError1 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32(((input).Dtor_branchKeyIdentifier()).Cardinality())).Sign() == 1, m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(m_KeyStoreErrorMessages.Companion_Default___.BRANCH__KEY__ID__NEEDED()))
+	_1_valueOrError1 = m_Wrappers.Companion_Default___.Need((uint64(0)) < (uint64(((input).Dtor_branchKeyIdentifier()).Cardinality())), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(m_KeyStoreErrorMessages.Companion_Default___.BRANCH__KEY__ID__NEEDED()))
 	if (_1_valueOrError1).IsFailure() {
 		output = (_1_valueOrError1).PropagateFailure()
 		return output

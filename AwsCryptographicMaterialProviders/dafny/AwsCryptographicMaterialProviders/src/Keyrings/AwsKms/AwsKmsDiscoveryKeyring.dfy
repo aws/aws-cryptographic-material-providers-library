@@ -16,6 +16,7 @@ module AwsKmsDiscoveryKeyring {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened Actions
   import opened Constants
   import AlgorithmSuites
@@ -81,8 +82,24 @@ module AwsKmsDiscoveryKeyring {
     predicate OnEncryptEnsuresPublicly (
       input: Types.OnEncryptInput ,
       output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
     {
-      true
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
     }
 
     method OnEncrypt'(
@@ -105,8 +122,22 @@ module AwsKmsDiscoveryKeyring {
     }
 
     predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
     {
-      true
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
     }
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-discovery-keyring.md#ondecrypt
@@ -123,12 +154,6 @@ module AwsKmsDiscoveryKeyring {
       ensures ValidState()
       ensures OnDecryptEnsuresPublicly(input, res)
       ensures unchanged(History)
-      ensures res.Success?
-              ==>
-                && Materials.DecryptionMaterialsTransitionIsValid(
-                  input.materials,
-                  res.value.materials
-                )
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-discovery-keyring.md#ondecrypt
       //= type=implication
@@ -218,12 +243,13 @@ module AwsKmsDiscoveryKeyring {
       var edkFilter : AwsKmsEncryptedDataKeyFilter := new AwsKmsEncryptedDataKeyFilter(discoveryFilter);
       var matchingEdks :- Actions.FilterWithResult(edkFilter, encryptedDataKeys);
 
-      // Next we convert the input Types.EncrypteDataKeys into Constant.AwsKmsEdkHelpers,
+      // Next we convert the input Types.EncryptDataKeys into Constant.AwsKmsEdkHelpers,
       // which makes them slightly easier to work with.
       var edkTransform : AwsKmsEncryptedDataKeyTransformer := new AwsKmsEncryptedDataKeyTransformer();
       var edksToAttempt, parts :- Actions.DeterministicFlatMapWithResult(edkTransform, matchingEdks);
 
-      if (0 == |edksToAttempt|) {
+      SequenceIsSafeBecauseItIsInMemory(edksToAttempt);
+      if (0 == |edksToAttempt| as uint64) {
         var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(
             Types.AwsCryptographicMaterialProvidersException(
@@ -504,6 +530,10 @@ module AwsKmsDiscoveryKeyring {
            //= type=implication
            //# - The `KeyId` field in the response MUST equal the AWS KMS ARN from the provider info
         && Seq.Last(client.History.Decrypt).output.value.KeyId == Some(keyArn)
+    }
+
+    predicate Requires(helper: AwsKmsEdkHelper){
+      true
     }
 
     method Invoke(

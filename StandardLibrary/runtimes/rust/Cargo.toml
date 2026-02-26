@@ -2,12 +2,11 @@
 name = "aws-mpl-stdlib"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.80.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-chrono = "0.4.39"
+chrono = "0.4.43"
 cpu-time = "1.0.0"
-dafny_runtime = { path = "../../../smithy-dafny/TestModels/dafny-dependencies/dafny_runtime_rust", features = ["sync"]}
-uuid = { version = "1.12.1", features = ["v4"] }
+dafny_runtime = { path = "../../../smithy-dafny/TestModels/dafny-dependencies/dafny_runtime_rust", features = ["sync","small-int"]}
+uuid = { version = "1.19.0", features = ["v4"] }

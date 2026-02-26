@@ -12,6 +12,7 @@ include "KmsArn.dfy"
 
 module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStoreOperations {
   import opened AwsKmsUtils
+  import opened StandardLibrary.MemoryMath
   import KO = KMSKeystoreOperations
   import KMS = ComAmazonawsKmsTypes
   import DDB = ComAmazonawsDynamodbTypes
@@ -124,10 +125,10 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       && !KO.HasKeyId(config.kmsConfiguration)
       ==> output.Failure?
   {
-
+    OptionalMapIsSafeBecauseItIsInMemory(input.encryptionContext);
     :- Need(input.branchKeyIdentifier.Some? ==>
               && input.encryptionContext.Some?
-              && 0 < |input.encryptionContext.value|,
+              && 0 < |input.encryptionContext.value| as uint64,
             Types.KeyStoreException(message := ErrorMessages.CUSTOM_BRANCH_KEY_ID_NEED_EC));
 
     :- Need(
@@ -148,7 +149,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       branchKeyIdentifier :- maybeBranchKeyId
       .MapFailure(e => Types.KeyStoreException(message := e));
     } else {
-      :- Need(0 < |input.branchKeyIdentifier.value|, Types.KeyStoreException(message := "Custom branch key id can not be an empty string."));
+      SequenceIsSafeBecauseItIsInMemory(input.branchKeyIdentifier.value);
+      :- Need(0 < |input.branchKeyIdentifier.value| as uint64, Types.KeyStoreException(message := "Custom branch key id can not be an empty string."));
       branchKeyIdentifier := input.branchKeyIdentifier.value;
     }
 
@@ -224,7 +226,8 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       )
     );
 
-    :- Need(0 < |input.branchKeyIdentifier|, Types.KeyStoreException(message := ErrorMessages.BRANCH_KEY_ID_NEEDED));
+    SequenceIsSafeBecauseItIsInMemory(input.branchKeyIdentifier);
+    :- Need(0 < |input.branchKeyIdentifier| as uint64, Types.KeyStoreException(message := ErrorMessages.BRANCH_KEY_ID_NEEDED));
 
     var timestamp? := Time.GetCurrentTimeStamp();
     var timestamp :- timestamp?

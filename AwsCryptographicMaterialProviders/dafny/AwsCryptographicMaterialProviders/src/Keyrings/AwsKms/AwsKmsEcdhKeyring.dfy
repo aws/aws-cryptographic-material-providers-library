@@ -19,6 +19,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened AwsArnParsing
   import opened AwsKmsUtils
   import opened Seq
@@ -125,7 +126,28 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       Modifies := Modifies + client.Modifies + cryptoPrimitives.Modifies;
     }
 
-    ghost predicate OnEncryptEnsuresPublicly ( input: Types.OnEncryptInput , output: Result<Types.OnEncryptOutput, Types.Error> ) {true}
+    ghost predicate OnEncryptEnsuresPublicly (
+      input: Types.OnEncryptInput ,
+      output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
+    {
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
+    }
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-ecdh-keyring.md#onencrypt
     //= type=implication
@@ -138,12 +160,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       ensures ValidState()
       ensures OnEncryptEnsuresPublicly(input, res)
       ensures unchanged(History)
-      ensures res.Success?
-              ==>
-                && Materials.ValidEncryptionMaterialsTransition(
-                  input.materials,
-                  res.value.materials
-                )
+
       ensures StringifyEncryptionContext(input.materials.encryptionContext).Failure?
               ==>
                 res.Failure?
@@ -276,7 +293,24 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       }
     }
 
-    ghost predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> ) {true}
+    ghost predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
+    {
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
+    }
 
     //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-keyring.md#ondecrypt
     //= type=implication
@@ -321,7 +355,8 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       //# For the encrypted data key to match:
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      if (0 == |edksToAttempt|) {
+      SequenceIsSafeBecauseItIsInMemory(edksToAttempt);
+      if (0 == |edksToAttempt| as uint64) {
         var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(E(errorMessage));
       }
@@ -497,20 +532,23 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
         && Materials.DecryptionMaterialsTransitionIsValid(materials, res.value)
 
     }
+
+    ghost predicate Requires(edk: Types.EncryptedDataKey){
+      && UTF8.ValidUTF8Seq(edk.keyProviderId)
+    }
+
     method {:vcs_split_on_every_assert}  Invoke(
       edk: Types.EncryptedDataKey,
       ghost attemptsState: seq<ActionInvoke<Types.EncryptedDataKey, Result<Materials.SealedDecryptionMaterials, Types.Error>>>
     ) returns (res: Result<Materials.SealedDecryptionMaterials, Types.Error>)
       requires Invariant()
+      requires Requires(edk)
       modifies Modifies
       decreases Modifies
       ensures Invariant()
       ensures Ensures(edk, res, attemptsState)
     {
-      :- Need (
-        UTF8.ValidUTF8Seq(edk.keyProviderId),
-        Types.AwsCryptographicMaterialProvidersException(message := "Received invalid EDK provider id for AWS KMS ECDH Keyring")
-      );
+      assert UTF8.ValidUTF8Seq(edk.keyProviderId);
 
       var suite := materials.algorithmSuite;
       var keyProviderId := edk.keyProviderId;
@@ -519,13 +557,14 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
 
       var providerWrappedMaterial :- EdkWrapping.GetProviderWrappedMaterial(ciphertext, suite);
 
+      SequenceIsSafeBecauseItIsInMemory(providerInfo);
       :- Need(
-        && |providerInfo| <= ECDH_PROVIDER_INFO_521_LEN as int
+        && |providerInfo| as uint64 <= ECDH_PROVIDER_INFO_521_LEN as uint64
         && RawECDHKeyring.ValidProviderInfoLength(providerInfo),
         E("EDK ProviderInfo longer than expected")
       );
 
-      var keyringVersion := providerInfo[0];
+      var keyringVersion := providerInfo[0 as uint32];
       :- Need(
         [keyringVersion] == AWS_KMS_ECDH_KEYRING_VERSION,
         E("Incorrect Keyring version found in provider info.")
@@ -533,11 +572,12 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
 
       //= aws-encryption-sdk-specification/framework/aws-kms/aws-kms-ecdh-keyring.md#ondecrypt
       //# - The [ciphertext](#ciphertext) and [key provider information](#key-provider-information) MUST be successfully deserialized.
-      var recipientPublicKeyLength := SeqToUInt32(providerInfo[ECDH_PROVIDER_INFO_RPL_INDEX..ECDH_PROVIDER_INFO_RPK_INDEX]) as int;
-      var recipientPublicKeyLengthIndex := ECDH_PROVIDER_INFO_RPK_INDEX as int + recipientPublicKeyLength;
-      var senderPublicKeyIndex := recipientPublicKeyLengthIndex + ECDH_PROVIDER_INFO_PUBLIC_KEY_LEN as int;
+      var recipientPublicKeyLength := SeqToUInt32(providerInfo[ECDH_PROVIDER_INFO_RPL_INDEX..ECDH_PROVIDER_INFO_RPK_INDEX]);
+      var recipientPublicKeyLengthIndex := ECDH_PROVIDER_INFO_RPK_INDEX as uint64 + recipientPublicKeyLength as uint64;
+      var senderPublicKeyIndex := recipientPublicKeyLengthIndex + ECDH_PROVIDER_INFO_PUBLIC_KEY_LEN;
+      SequenceIsSafeBecauseItIsInMemory(providerInfo);
       :- Need(
-        recipientPublicKeyLengthIndex + 4 < |providerInfo|,
+        recipientPublicKeyLengthIndex + 4 < |providerInfo| as uint64,
         E("Key Provider Info Serialization Error. Serialized length less than expected.")
       );
       var providerInfoRecipientPublicKey := providerInfo[ECDH_PROVIDER_INFO_RPK_INDEX..recipientPublicKeyLengthIndex];
@@ -649,6 +689,7 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
         ==>
           (edk.keyProviderId == KMS_ECDH_PROVIDER_ID ||
            edk.keyProviderId == RAW_ECDH_PROVIDER_ID)
+          && UTF8.ValidUTF8Seq(edk.keyProviderId)
       )
     }
 
@@ -664,24 +705,24 @@ module {:options "/functionSyntax:4" } AwsKmsEcdhKeyring {
       if ((providerId != RAW_ECDH_PROVIDER_ID) && (providerId != KMS_ECDH_PROVIDER_ID)) {
         return Success(false);
       }
-
+      SequenceIsSafeBecauseItIsInMemory(providerInfo);
       :- Need(
-        && |providerInfo| <= ECDH_PROVIDER_INFO_521_LEN as int
+        && |providerInfo| as uint64 <= ECDH_PROVIDER_INFO_521_LEN as uint64
         && RawECDHKeyring.ValidProviderInfoLength(providerInfo),
         E("EDK ProviderInfo longer than expected")
       );
 
-      var keyringVersion := providerInfo[0];
+      var keyringVersion := providerInfo[0 as uint32];
       :- Need(
         [keyringVersion] == AWS_KMS_ECDH_KEYRING_VERSION,
         E("Incorrect Keyring version found in provider info.")
       );
 
-      var recipientPublicKeyLength := SeqToUInt32(providerInfo[ECDH_PROVIDER_INFO_RPL_INDEX..ECDH_PROVIDER_INFO_RPK_INDEX]) as int;
-      var recipientPublicKeyLengthIndex := ECDH_PROVIDER_INFO_RPK_INDEX as int + recipientPublicKeyLength;
-      var senderPublicKeyIndex := recipientPublicKeyLengthIndex + ECDH_PROVIDER_INFO_PUBLIC_KEY_LEN as int;
+      var recipientPublicKeyLength := SeqToUInt32(providerInfo[ECDH_PROVIDER_INFO_RPL_INDEX..ECDH_PROVIDER_INFO_RPK_INDEX]);
+      var recipientPublicKeyLengthIndex := ECDH_PROVIDER_INFO_RPK_INDEX as uint64 + recipientPublicKeyLength as uint64;
+      var senderPublicKeyIndex := recipientPublicKeyLengthIndex + ECDH_PROVIDER_INFO_PUBLIC_KEY_LEN;
       :- Need(
-        recipientPublicKeyLengthIndex + 4 < |providerInfo|,
+        recipientPublicKeyLengthIndex + 4 < |providerInfo| as uint64,
         E("Key Provider Info Serialization Error. Serialized length less than expected.")
       );
       var providerInfoRecipientPublicKey := providerInfo[ECDH_PROVIDER_INFO_RPK_INDEX..recipientPublicKeyLengthIndex];

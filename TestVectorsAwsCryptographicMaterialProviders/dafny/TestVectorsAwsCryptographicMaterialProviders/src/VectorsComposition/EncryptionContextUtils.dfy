@@ -49,9 +49,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
     map[
       ascii1 := ascii1,
       ascii2 := ascii2,
-      ascii3 := ascii3,
-      ascii4 := ascii4,
-      ascii5 := ascii5
+      ascii3 := ascii3
     ]
   const encryptionContextAsciiMapSingleKeyValue :=
     map[
@@ -68,9 +66,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
     map[
       utf8_2_1 := utf8_2_1,
       utf8_2_2 := utf8_2_2,
-      utf8_2_3 := utf8_2_3,
-      utf8_2_4 := utf8_2_4,
-      utf8_2_5 := utf8_2_5
+      utf8_2_3 := utf8_2_3
     ]
   const encryptionContextUTF82MapSingleKeyValue :=
     map[
@@ -87,9 +83,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
     map[
       utf8_3_1 := utf8_3_1,
       utf8_3_2 := utf8_3_2,
-      utf8_3_3 := utf8_3_3,
-      utf8_3_4 := utf8_3_4,
-      utf8_3_5 := utf8_3_5
+      utf8_3_3 := utf8_3_3
     ]
   const encryptionContextUTF83MapSingleKeyValue :=
     map[
@@ -106,9 +100,7 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
     map[
       utf8_4_1 := utf8_4_1,
       utf8_4_2 := utf8_4_2,
-      utf8_4_3 := utf8_4_3,
-      utf8_4_4 := utf8_4_4,
-      utf8_4_5 := utf8_4_5
+      utf8_4_3 := utf8_4_3
     ]
   const encryptionContextUTF84MapSingleKeyValue :=
     map[
@@ -125,4 +117,10 @@ module {:options "-functionSyntax:4"} EncryptionContextUtils {
     + encryptionContextWitReplacementChar
 
   const representativeEncryptionContextUtf8Values := {ascii4, utf8_2_3, utf8_3_3, utf8_4_3}
+  const multipleEntriesUTF8EncryptionContext := {
+    encryptionContextAsciiMapMultipleKeyValues,
+    encryptionContextUTF82MapMultipleKeyValues,
+    encryptionContextUTF83MapMultipleKeyValues,
+    encryptionContextUTF84MapMultipleKeyValues
+  }
 }

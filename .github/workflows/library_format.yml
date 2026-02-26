@@ -14,6 +14,9 @@ on:
         default: false
         type: boolean
 
+permissions:
+  contents: read
+
 jobs:
   format_projects:
     # Don't run the nightly build on forks
@@ -42,7 +45,7 @@ jobs:
         run: |
           git config --global core.longpaths true
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # The specification submodule is private so we don't have access, but we don't need
       # it to verify the Dafny code. Instead we manually pull the submodule we DO need.
       - run: git submodule update --init libraries
@@ -52,6 +55,9 @@ jobs:
         uses: ./.github/actions/setup_dafny
         with:
           dafny-version: ${{ inputs.dafny }}
+
+      - name: Install Smithy-Dafny codegen dependencies
+        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
       - name: Regenerate code using smithy-dafny if necessary
         if: ${{ inputs.regenerate-code }}
@@ -87,7 +93,7 @@ jobs:
       - name: Support longpaths
         run: |
           git config --global core.longpaths true
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Check format of Java, yaml, and md
         shell: bash
         run: |

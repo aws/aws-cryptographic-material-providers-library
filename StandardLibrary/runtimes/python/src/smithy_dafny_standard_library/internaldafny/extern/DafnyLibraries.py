@@ -24,10 +24,15 @@ class Lock:
 
 
 class MutableMap(smithy_dafny_standard_library.internaldafny.generated.DafnyLibraries.MutableMapTrait):
-    def ctor__(self):
+    def ctor__(self, bytesKeys):
         pass
-        
-    def __init__(self) -> None:
+
+    def content(self):
+        return _dafny.Map(self.map)
+    
+    # bytesKeys should be set using ctor but it does not because of Dafny bug
+    # https://github.com/dafny-lang/dafny/issues/6333
+    def __init__(self, bytesKeys=False) -> None:
         self.map = dict()
         self.lock = Lock()
 
@@ -63,7 +68,7 @@ class MutableMap(smithy_dafny_standard_library.internaldafny.generated.DafnyLibr
     def Get(self, k):
         self.lock.Lock__()
         try:
-            v = self.map.get(k)
+            v = self.map[k]
         except KeyError:
             self.lock.Unlock()
             return Wrappers.Option_None()

@@ -18,6 +18,7 @@ module AwsKmsRsaKeyring {
   import opened StandardLibrary
   import opened Wrappers
   import opened UInt = StandardLibrary.UInt
+  import opened StandardLibrary.MemoryMath
   import opened Actions
   import UTF8
   import UUID
@@ -109,8 +110,29 @@ module AwsKmsRsaKeyring {
       this.grantTokens := grantTokens;
     }
 
-    predicate OnEncryptEnsuresPublicly(input: Types.OnEncryptInput , output: Result<Types.OnEncryptOutput, Types.Error>)
-    {true}
+    predicate OnEncryptEnsuresPublicly (
+      input: Types.OnEncryptInput ,
+      output: Result<Types.OnEncryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+            && Materials.ValidEncryptionMaterialsTransition(
+                 input.materials,
+                 output.value.materials
+               )
+    {
+      output.Success?
+      ==>
+        && Materials.EncryptionMaterialsHasPlaintextDataKey(output.value.materials)
+        && Materials.ValidEncryptionMaterialsTransition(
+             input.materials,
+             output.value.materials
+           )
+    }
+
 
     method OnEncrypt'(input: Types.OnEncryptInput)
       returns (res: Result<Types.OnEncryptOutput, Types.Error>)
@@ -137,8 +159,9 @@ module AwsKmsRsaKeyring {
       ensures !(input.materials.algorithmSuite.signature.None?)
               ==> res.Failure?
     {
+      OptionalSequenceIsSafeBecauseItIsInMemory(this.publicKey);
       :- Need(
-        this.publicKey.Some? && |this.publicKey.Extract()| > 0,
+        this.publicKey.Some? && |this.publicKey.Extract()|  as uint64 > 0,
         Types.AwsCryptographicMaterialProvidersException(
           message := "A AwsKmsRsaKeyring without a public key cannot provide OnEncrypt"));
 
@@ -185,7 +208,24 @@ module AwsKmsRsaKeyring {
       return Success(Types.OnEncryptOutput(materials := returnMaterials));
     }
 
-    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> ) {true}
+    predicate OnDecryptEnsuresPublicly ( input: Types.OnDecryptInput , output: Result<Types.OnDecryptOutput, Types.Error> )
+      : (outcome: bool)
+      ensures
+        outcome ==>
+          output.Success?
+          ==>
+            && Materials.DecryptionMaterialsTransitionIsValid(
+              input.materials,
+              output.value.materials
+            )
+    {
+      output.Success?
+      ==>
+        && Materials.DecryptionMaterialsTransitionIsValid(
+          input.materials,
+          output.value.materials
+        )
+    }
 
     method OnDecrypt'(input: Types.OnDecryptInput)
       returns (res: Result<Types.OnDecryptOutput, Types.Error>)
@@ -234,7 +274,8 @@ module AwsKmsRsaKeyring {
       var filter := new AwsKmsUtils.OnDecryptMrkAwareEncryptedDataKeyFilter(awsKmsArn, RSA_PROVIDER_ID);
       var edksToAttempt :- FilterWithResult(filter, input.encryptedDataKeys);
 
-      if (0 == |edksToAttempt|) {
+      SequenceIsSafeBecauseItIsInMemory(edksToAttempt);
+      if (0 == |edksToAttempt| as uint64) {
         var errorMessage :- ErrorMessages.IncorrectDataKeys(input.encryptedDataKeys, input.materials.algorithmSuite);
         return Failure(
             Types.AwsCryptographicMaterialProvidersException(
@@ -295,7 +336,7 @@ module AwsKmsRsaKeyring {
     // This is not safe to do for 1024 keys,
     // but AWS KMS does not support these keys.
     // Further we use SHA_384 to save a little on size
-    // and avoid even the possiblity of length extenstion.
+    // and avoid even the possibility of length extension.
     // Though length extension does not matter in this situation,
     // because a decryptor already has access to the key.
     return Success(digest);
@@ -380,6 +421,10 @@ module AwsKmsRsaKeyring {
                Seq.Last(client.History.Decrypt).output.value.Plaintext.value
                == encryptionContextDigest + res.value.plaintextDataKey.value)
         && Seq.Last(client.History.Decrypt).output.value.KeyId == Some(awsKmsKey)
+    }
+
+    predicate Requires(edk: Types.EncryptedDataKey){
+      true
     }
 
     method Invoke(
@@ -482,7 +527,8 @@ module AwsKmsRsaKeyring {
         MaterialWrapping.WrapInput(
           plaintextMaterial := plaintextMaterial,
           algorithmSuite := input.algorithmSuite,
-          encryptionContext := input.encryptionContext
+          encryptionContext := input.encryptionContext,
+          serializedEC := input.serializedEC
         ), []);
 
       var output := MaterialWrapping.GenerateAndWrapOutput(
@@ -658,7 +704,7 @@ module AwsKmsRsaKeyring {
       var decryptRequest := KMS.DecryptRequest(
         KeyId := Some(awsKmsKey),
         CiphertextBlob := input.wrappedMaterial,
-        // Asymetric keys do not support Encryption Context.
+        // Asymmetric keys do not support Encryption Context.
         // This is checked by verifying the encryption context digest.
         EncryptionContext := None,
         GrantTokens := Some(grantTokens),
@@ -676,14 +722,16 @@ module AwsKmsRsaKeyring {
       , Types.AwsCryptographicMaterialProvidersException(
           message := "Invalid response from KMS Decrypt"));
 
+      OptionalSequenceIsSafeBecauseItIsInMemory(decryptResponse.Plaintext);
+      SequenceIsSafeBecauseItIsInMemory(encryptionContextDigest);
       :- Need(
         && encryptionContextDigest <= decryptResponse.Plaintext.value
-        && AlgorithmSuites.GetEncryptKeyLength(input.algorithmSuite) as nat + |encryptionContextDigest| == |decryptResponse.Plaintext.value|
+        && AlgorithmSuites.GetEncryptKeyLength(input.algorithmSuite) as uint64 + |encryptionContextDigest| as uint64 == |decryptResponse.Plaintext.value| as uint64
       , Types.AwsCryptographicMaterialProvidersException(
           message := "Encryption context digest does not match expected value."));
 
       var output := MaterialWrapping.UnwrapOutput(
-        unwrappedMaterial := decryptResponse.Plaintext.value[|encryptionContextDigest|..],
+        unwrappedMaterial := decryptResponse.Plaintext.value[|encryptionContextDigest| as uint64..],
         unwrapInfo := KmsRsaUnwrapInfo());
 
       return Success(output);

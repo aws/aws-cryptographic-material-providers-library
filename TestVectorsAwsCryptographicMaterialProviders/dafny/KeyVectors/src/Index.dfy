@@ -27,8 +27,7 @@ module {:extern "software.amazon.cryptography.materialproviderstestvectorkeys.in
     ensures res.Success? ==>
               res.value is KeyVectorsClient
   {
-    var keysManifestBv :- expect FileIO.ReadBytesFromFile(config.keyManifestPath);
-    var keysManifestBytes := BvToBytes(keysManifestBv);
+    var keysManifestBytes :- expect FileIO.ReadBytesFromFile(config.keyManifestPath);
     var keysManifestJSON :- API.Deserialize(keysManifestBytes)
     .MapFailure((e: Errors.DeserializationError)  => KeyVectorException(
                     message := e.ToString()

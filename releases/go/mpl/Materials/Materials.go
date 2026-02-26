@@ -62,6 +62,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -82,6 +83,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -269,7 +271,7 @@ func (_static *CompanionStruct_Default___) InitializeDecryptionMaterials(input m
 		} else {
 			return true
 		}
-	}), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Reporoduced encryption context key did not exist in provided encryption context.")))
+	}), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Reproduced encryption context key did not exist in provided encryption context.")))
 	_ = _0_valueOrError0
 	if (_0_valueOrError0).IsFailure() {
 		return (_0_valueOrError0).PropagateFailure()
@@ -337,7 +339,7 @@ func (_static *CompanionStruct_Default___) DecodeVerificationKey(encryptionConte
 	}
 }
 func (_static *CompanionStruct_Default___) ValidEncryptionMaterialsTransition(oldMat m_AwsCryptographyMaterialProvidersTypes.EncryptionMaterials, newMat m_AwsCryptographyMaterialProvidersTypes.EncryptionMaterials) bool {
-	return ((((((((((((newMat).Dtor_algorithmSuite()).Equals((oldMat).Dtor_algorithmSuite())) && (((newMat).Dtor_encryptionContext()).Equals((oldMat).Dtor_encryptionContext()))) && (_dafny.Companion_Sequence_.Equal((newMat).Dtor_requiredEncryptionContextKeys(), (oldMat).Dtor_requiredEncryptionContextKeys()))) && (((newMat).Dtor_signingKey()).Equals((oldMat).Dtor_signingKey()))) && (((((oldMat).Dtor_plaintextDataKey()).Is_None()) && (((newMat).Dtor_plaintextDataKey()).Is_Some())) || (((oldMat).Dtor_plaintextDataKey()).Equals((newMat).Dtor_plaintextDataKey())))) && (((newMat).Dtor_plaintextDataKey()).Is_Some())) && ((_dafny.IntOfUint32(((oldMat).Dtor_encryptedDataKeys()).Cardinality())).Cmp(_dafny.IntOfUint32(((newMat).Dtor_encryptedDataKeys()).Cardinality())) <= 0)) && ((_dafny.MultiSetFromSeq((oldMat).Dtor_encryptedDataKeys())).IsSubsetOf(_dafny.MultiSetFromSeq((newMat).Dtor_encryptedDataKeys())))) && (!(!((((oldMat).Dtor_algorithmSuite()).Dtor_symmetricSignature()).Is_None())) || (((((newMat).Dtor_symmetricSigningKeys()).Is_Some()) && (((oldMat).Dtor_symmetricSigningKeys()).Is_Some())) && ((_dafny.MultiSetFromSeq(((oldMat).Dtor_symmetricSigningKeys()).Dtor_value().(_dafny.Sequence))).IsSubsetOf(_dafny.MultiSetFromSeq(((newMat).Dtor_symmetricSigningKeys()).Dtor_value().(_dafny.Sequence))))))) && (Companion_Default___.ValidEncryptionMaterials(oldMat))) && (Companion_Default___.ValidEncryptionMaterials(newMat))
+	return ((((((((((((newMat).Dtor_algorithmSuite()).Equals((oldMat).Dtor_algorithmSuite())) && (((newMat).Dtor_encryptionContext()).Equals((oldMat).Dtor_encryptionContext()))) && (_dafny.Companion_Sequence_.Equal((newMat).Dtor_requiredEncryptionContextKeys(), (oldMat).Dtor_requiredEncryptionContextKeys()))) && (((newMat).Dtor_signingKey()).Equals((oldMat).Dtor_signingKey()))) && (((((oldMat).Dtor_plaintextDataKey()).Is_None()) && (((newMat).Dtor_plaintextDataKey()).Is_Some())) || (((oldMat).Dtor_plaintextDataKey()).Equals((newMat).Dtor_plaintextDataKey())))) && (((newMat).Dtor_plaintextDataKey()).Is_Some())) && ((uint64(((oldMat).Dtor_encryptedDataKeys()).Cardinality())) <= (uint64(((newMat).Dtor_encryptedDataKeys()).Cardinality())))) && ((_dafny.MultiSetFromSeq((oldMat).Dtor_encryptedDataKeys())).IsSubsetOf(_dafny.MultiSetFromSeq((newMat).Dtor_encryptedDataKeys())))) && (!(!((((oldMat).Dtor_algorithmSuite()).Dtor_symmetricSignature()).Is_None())) || (((((newMat).Dtor_symmetricSigningKeys()).Is_Some()) && ((((oldMat).Dtor_symmetricSigningKeys()).Is_Some()) || ((((oldMat).Dtor_symmetricSigningKeys()).Is_None()) && ((uint64(((oldMat).Dtor_encryptedDataKeys()).Cardinality())) == (uint64(0)))))) && ((_dafny.MultiSetFromSeq(((oldMat).Dtor_symmetricSigningKeys()).UnwrapOr(_dafny.SeqOf()).(_dafny.Sequence))).IsSubsetOf(_dafny.MultiSetFromSeq(((newMat).Dtor_symmetricSigningKeys()).Dtor_value().(_dafny.Sequence))))))) && (Companion_Default___.ValidEncryptionMaterials(oldMat))) && (Companion_Default___.ValidEncryptionMaterials(newMat))
 }
 func (_static *CompanionStruct_Default___) ValidEncryptionMaterials(encryptionMaterials m_AwsCryptographyMaterialProvidersTypes.EncryptionMaterials) bool {
 	var _pat_let_tv0 = encryptionMaterials
@@ -372,13 +374,17 @@ func (_static *CompanionStruct_Default___) ValidEncryptionMaterials(encryptionMa
 	_ = _pat_let_tv14
 	var _pat_let_tv15 = encryptionMaterials
 	_ = _pat_let_tv15
+	var _pat_let_tv16 = encryptionMaterials
+	_ = _pat_let_tv16
+	var _pat_let_tv17 = encryptionMaterials
+	_ = _pat_let_tv17
 	return (m_AlgorithmSuites.Companion_Default___.AlgorithmSuite_q((encryptionMaterials).Dtor_algorithmSuite())) && (func(_pat_let2_0 m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo) bool {
 		return func(_0_suite m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo) bool {
-			return ((((((((((((_0_suite).Dtor_signature()).Is_None()) == (((_pat_let_tv0).Dtor_signingKey()).Is_None())) && (!(((_pat_let_tv1).Dtor_plaintextDataKey()).Is_Some()) || ((_dafny.IntOfInt32(m_AlgorithmSuites.Companion_Default___.GetEncryptKeyLength(_0_suite))).Cmp(_dafny.IntOfUint32((((_pat_let_tv2).Dtor_plaintextDataKey()).Dtor_value().(_dafny.Sequence)).Cardinality())) == 0))) && (!(((_pat_let_tv3).Dtor_plaintextDataKey()).Is_None()) || ((_dafny.IntOfUint32(((_pat_let_tv4).Dtor_encryptedDataKeys()).Cardinality())).Sign() == 0))) && ((!(((_0_suite).Dtor_signature()).Is_None())) == (((_pat_let_tv5).Dtor_encryptionContext()).Contains(Companion_Default___.EC__PUBLIC__KEY__FIELD())))) && ((((_0_suite).Dtor_signature()).Is_ECDSA()) == (((_pat_let_tv6).Dtor_signingKey()).Is_Some()))) && ((!(((_0_suite).Dtor_signature()).Is_None())) == (((_pat_let_tv7).Dtor_encryptionContext()).Contains(Companion_Default___.EC__PUBLIC__KEY__FIELD())))) && (!((((_0_suite).Dtor_symmetricSignature()).Is_HMAC()) && (((_pat_let_tv8).Dtor_symmetricSigningKeys()).Is_Some())) || ((_dafny.IntOfUint32((((_pat_let_tv9).Dtor_symmetricSigningKeys()).Dtor_value().(_dafny.Sequence)).Cardinality())).Cmp(_dafny.IntOfUint32(((_pat_let_tv10).Dtor_encryptedDataKeys()).Cardinality())) == 0))) && (!(((_0_suite).Dtor_symmetricSignature()).Is_HMAC()) || (((_pat_let_tv11).Dtor_symmetricSigningKeys()).Is_Some()))) && (!(((_0_suite).Dtor_symmetricSignature()).Is_None()) || (((_pat_let_tv12).Dtor_symmetricSigningKeys()).Is_None()))) && (_dafny.Quantifier(((_pat_let_tv13).Dtor_requiredEncryptionContextKeys()).UniqueElements(), true, func(_forall_var_0 _dafny.Sequence) bool {
+			return ((((((((((((_0_suite).Dtor_signature()).Is_None()) == (((_pat_let_tv0).Dtor_signingKey()).Is_None())) && (!(((_pat_let_tv1).Dtor_plaintextDataKey()).Is_Some()) || ((uint64(m_AlgorithmSuites.Companion_Default___.GetEncryptKeyLength(_0_suite))) == (uint64((((_pat_let_tv2).Dtor_plaintextDataKey()).Dtor_value().(_dafny.Sequence)).Cardinality()))))) && (!(((_pat_let_tv3).Dtor_plaintextDataKey()).Is_None()) || ((uint64(((_pat_let_tv4).Dtor_encryptedDataKeys()).Cardinality())) == (uint64(0))))) && ((!(((_0_suite).Dtor_signature()).Is_None())) == (((_pat_let_tv5).Dtor_encryptionContext()).Contains(Companion_Default___.EC__PUBLIC__KEY__FIELD())))) && ((((_0_suite).Dtor_signature()).Is_ECDSA()) == (((_pat_let_tv6).Dtor_signingKey()).Is_Some()))) && ((!(((_0_suite).Dtor_signature()).Is_None())) == (((_pat_let_tv7).Dtor_encryptionContext()).Contains(Companion_Default___.EC__PUBLIC__KEY__FIELD())))) && (!((((_0_suite).Dtor_symmetricSignature()).Is_HMAC()) && (((_pat_let_tv8).Dtor_symmetricSigningKeys()).Is_Some())) || ((uint64((((_pat_let_tv9).Dtor_symmetricSigningKeys()).Dtor_value().(_dafny.Sequence)).Cardinality())) == (uint64(((_pat_let_tv10).Dtor_encryptedDataKeys()).Cardinality()))))) && (!(((_0_suite).Dtor_symmetricSignature()).Is_HMAC()) || ((((_pat_let_tv11).Dtor_symmetricSigningKeys()).Is_Some()) || (((uint64(((_pat_let_tv12).Dtor_encryptedDataKeys()).Cardinality())) == (uint64(0))) && (((_pat_let_tv13).Dtor_symmetricSigningKeys()).Is_None()))))) && (!(((_0_suite).Dtor_symmetricSignature()).Is_None()) || (((_pat_let_tv14).Dtor_symmetricSigningKeys()).Is_None()))) && (_dafny.Quantifier(((_pat_let_tv15).Dtor_requiredEncryptionContextKeys()).UniqueElements(), true, func(_forall_var_0 _dafny.Sequence) bool {
 				var _1_key _dafny.Sequence
 				_1_key = interface{}(_forall_var_0).(_dafny.Sequence)
 				if m_UTF8.Companion_ValidUTF8Bytes_.Is_(_1_key) {
-					return !(_dafny.Companion_Sequence_.Contains((_pat_let_tv14).Dtor_requiredEncryptionContextKeys(), _1_key)) || (((_pat_let_tv15).Dtor_encryptionContext()).Contains(_1_key))
+					return !(_dafny.Companion_Sequence_.Contains((_pat_let_tv16).Dtor_requiredEncryptionContextKeys(), _1_key)) || (((_pat_let_tv17).Dtor_encryptionContext()).Contains(_1_key))
 				} else {
 					return true
 				}
@@ -387,7 +393,7 @@ func (_static *CompanionStruct_Default___) ValidEncryptionMaterials(encryptionMa
 	}((encryptionMaterials).Dtor_algorithmSuite()))
 }
 func (_static *CompanionStruct_Default___) EncryptionMaterialsHasPlaintextDataKey(encryptionMaterials m_AwsCryptographyMaterialProvidersTypes.EncryptionMaterials) bool {
-	return ((((encryptionMaterials).Dtor_plaintextDataKey()).Is_Some()) && ((_dafny.IntOfUint32(((encryptionMaterials).Dtor_encryptedDataKeys()).Cardinality())).Sign() == 1)) && (Companion_Default___.ValidEncryptionMaterials(encryptionMaterials))
+	return ((((encryptionMaterials).Dtor_plaintextDataKey()).Is_Some()) && ((uint64(((encryptionMaterials).Dtor_encryptedDataKeys()).Cardinality())) > (uint64(0)))) && (Companion_Default___.ValidEncryptionMaterials(encryptionMaterials))
 }
 func (_static *CompanionStruct_Default___) EncryptionMaterialAddEncryptedDataKeys(encryptionMaterials m_AwsCryptographyMaterialProvidersTypes.EncryptionMaterials, encryptedDataKeysToAdd _dafny.Sequence, symmetricSigningKeysToAdd m_Wrappers.Option) m_Wrappers.Result {
 	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(Companion_Default___.ValidEncryptionMaterials(encryptionMaterials), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_InvalidEncryptionMaterialsTransition_(_dafny.SeqOfString("Attempt to modify invalid encryption material.")))
@@ -414,7 +420,7 @@ func (_static *CompanionStruct_Default___) EncryptionMaterialAddEncryptedDataKey
 						if (symmetricSigningKeysToAdd).Is_None() {
 							return (encryptionMaterials).Dtor_symmetricSigningKeys()
 						}
-						return m_Wrappers.Companion_Option_.Create_Some_(_dafny.Companion_Sequence_.Concatenate(((encryptionMaterials).Dtor_symmetricSigningKeys()).Dtor_value().(_dafny.Sequence), (symmetricSigningKeysToAdd).Dtor_value().(_dafny.Sequence)))
+						return m_Wrappers.Companion_Option_.Create_Some_(_dafny.Companion_Sequence_.Concatenate(((encryptionMaterials).Dtor_symmetricSigningKeys()).UnwrapOr(_dafny.SeqOf()).(_dafny.Sequence), (symmetricSigningKeysToAdd).Dtor_value().(_dafny.Sequence)))
 					})()
 					_ = _4_symmetricSigningKeys
 					return m_Wrappers.Companion_Result_.Create_Success_(m_AwsCryptographyMaterialProvidersTypes.Companion_EncryptionMaterials_.Create_EncryptionMaterials_((encryptionMaterials).Dtor_algorithmSuite(), (encryptionMaterials).Dtor_encryptionContext(), _dafny.Companion_Sequence_.Concatenate((encryptionMaterials).Dtor_encryptedDataKeys(), encryptedDataKeysToAdd), (encryptionMaterials).Dtor_requiredEncryptionContextKeys(), (encryptionMaterials).Dtor_plaintextDataKey(), (encryptionMaterials).Dtor_signingKey(), _4_symmetricSigningKeys))
@@ -436,7 +442,7 @@ func (_static *CompanionStruct_Default___) EncryptionMaterialAddDataKey(encrypti
 		if (_2_valueOrError1).IsFailure() {
 			return (_2_valueOrError1).PropagateFailure()
 		} else {
-			var _3_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((_dafny.IntOfInt32(m_AlgorithmSuites.Companion_Default___.GetEncryptKeyLength(_0_suite))).Cmp(_dafny.IntOfUint32((plaintextDataKey).Cardinality())) == 0, m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_InvalidEncryptionMaterialsTransition_(_dafny.SeqOfString("plaintextDataKey does not match Algorithm Suite specification.")))
+			var _3_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((uint64(m_AlgorithmSuites.Companion_Default___.GetEncryptKeyLength(_0_suite))) == (uint64((plaintextDataKey).Cardinality())), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_InvalidEncryptionMaterialsTransition_(_dafny.SeqOfString("plaintextDataKey does not match Algorithm Suite specification.")))
 			_ = _3_valueOrError2
 			if (_3_valueOrError2).IsFailure() {
 				return (_3_valueOrError2).PropagateFailure()
@@ -455,7 +461,7 @@ func (_static *CompanionStruct_Default___) EncryptionMaterialAddDataKey(encrypti
 							if (symmetricSigningKeysToAdd).Is_None() {
 								return (encryptionMaterials).Dtor_symmetricSigningKeys()
 							}
-							return m_Wrappers.Companion_Option_.Create_Some_(_dafny.Companion_Sequence_.Concatenate(((encryptionMaterials).Dtor_symmetricSigningKeys()).Dtor_value().(_dafny.Sequence), (symmetricSigningKeysToAdd).Dtor_value().(_dafny.Sequence)))
+							return m_Wrappers.Companion_Option_.Create_Some_(_dafny.Companion_Sequence_.Concatenate(((encryptionMaterials).Dtor_symmetricSigningKeys()).UnwrapOr(_dafny.SeqOf()).(_dafny.Sequence), (symmetricSigningKeysToAdd).Dtor_value().(_dafny.Sequence)))
 						})()
 						_ = _6_symmetricSigningKeys
 						return m_Wrappers.Companion_Result_.Create_Success_(m_AwsCryptographyMaterialProvidersTypes.Companion_EncryptionMaterials_.Create_EncryptionMaterials_((encryptionMaterials).Dtor_algorithmSuite(), (encryptionMaterials).Dtor_encryptionContext(), _dafny.Companion_Sequence_.Concatenate((encryptionMaterials).Dtor_encryptedDataKeys(), encryptedDataKeysToAdd), (encryptionMaterials).Dtor_requiredEncryptionContextKeys(), m_Wrappers.Companion_Option_.Create_Some_(plaintextDataKey), (encryptionMaterials).Dtor_signingKey(), _6_symmetricSigningKeys))
@@ -493,7 +499,7 @@ func (_static *CompanionStruct_Default___) ValidDecryptionMaterials(decryptionMa
 	_ = _pat_let_tv10
 	return (m_AlgorithmSuites.Companion_Default___.AlgorithmSuite_q((decryptionMaterials).Dtor_algorithmSuite())) && (func(_pat_let3_0 m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo) bool {
 		return func(_0_suite m_AwsCryptographyMaterialProvidersTypes.AlgorithmSuiteInfo) bool {
-			return ((((((!(((_pat_let_tv0).Dtor_plaintextDataKey()).Is_Some()) || ((_dafny.IntOfInt32(m_AlgorithmSuites.Companion_Default___.GetEncryptKeyLength(_0_suite))).Cmp(_dafny.IntOfUint32((((_pat_let_tv1).Dtor_plaintextDataKey()).Dtor_value().(_dafny.Sequence)).Cardinality())) == 0)) && ((!(((_0_suite).Dtor_signature()).Is_None())) == (((_pat_let_tv2).Dtor_encryptionContext()).Contains(Companion_Default___.EC__PUBLIC__KEY__FIELD())))) && ((((_0_suite).Dtor_signature()).Is_ECDSA()) == (((_pat_let_tv3).Dtor_verificationKey()).Is_Some()))) && ((!(((_0_suite).Dtor_signature()).Is_None())) == (((_pat_let_tv4).Dtor_encryptionContext()).Contains(Companion_Default___.EC__PUBLIC__KEY__FIELD())))) && (!(!(((_0_suite).Dtor_symmetricSignature()).Is_None())) || ((((_pat_let_tv5).Dtor_plaintextDataKey()).Is_Some()) == (((_pat_let_tv6).Dtor_symmetricSigningKey()).Is_Some())))) && (!(((_0_suite).Dtor_symmetricSignature()).Is_None()) || (((_pat_let_tv7).Dtor_symmetricSigningKey()).Is_None()))) && (_dafny.Quantifier(((_pat_let_tv8).Dtor_requiredEncryptionContextKeys()).UniqueElements(), true, func(_forall_var_0 _dafny.Sequence) bool {
+			return ((((((!(((_pat_let_tv0).Dtor_plaintextDataKey()).Is_Some()) || ((uint64(m_AlgorithmSuites.Companion_Default___.GetEncryptKeyLength(_0_suite))) == (uint64((((_pat_let_tv1).Dtor_plaintextDataKey()).Dtor_value().(_dafny.Sequence)).Cardinality())))) && ((!(((_0_suite).Dtor_signature()).Is_None())) == (((_pat_let_tv2).Dtor_encryptionContext()).Contains(Companion_Default___.EC__PUBLIC__KEY__FIELD())))) && ((((_0_suite).Dtor_signature()).Is_ECDSA()) == (((_pat_let_tv3).Dtor_verificationKey()).Is_Some()))) && ((!(((_0_suite).Dtor_signature()).Is_None())) == (((_pat_let_tv4).Dtor_encryptionContext()).Contains(Companion_Default___.EC__PUBLIC__KEY__FIELD())))) && (!(!(((_0_suite).Dtor_symmetricSignature()).Is_None())) || ((((_pat_let_tv5).Dtor_plaintextDataKey()).Is_Some()) == (((_pat_let_tv6).Dtor_symmetricSigningKey()).Is_Some())))) && (!(((_0_suite).Dtor_symmetricSignature()).Is_None()) || (((_pat_let_tv7).Dtor_symmetricSigningKey()).Is_None()))) && (_dafny.Quantifier(((_pat_let_tv8).Dtor_requiredEncryptionContextKeys()).UniqueElements(), true, func(_forall_var_0 _dafny.Sequence) bool {
 				var _1_k _dafny.Sequence
 				_1_k = interface{}(_forall_var_0).(_dafny.Sequence)
 				if m_UTF8.Companion_ValidUTF8Bytes_.Is_(_1_k) {
@@ -518,7 +524,7 @@ func (_static *CompanionStruct_Default___) DecryptionMaterialsAddDataKey(decrypt
 		if (_2_valueOrError1).IsFailure() {
 			return (_2_valueOrError1).PropagateFailure()
 		} else {
-			var _3_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((_dafny.IntOfInt32(m_AlgorithmSuites.Companion_Default___.GetEncryptKeyLength(_0_suite))).Cmp(_dafny.IntOfUint32((plaintextDataKey).Cardinality())) == 0, m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_InvalidDecryptionMaterialsTransition_(_dafny.SeqOfString("plaintextDataKey does not match Algorithm Suite specification.")))
+			var _3_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((uint64(m_AlgorithmSuites.Companion_Default___.GetEncryptKeyLength(_0_suite))) == (uint64((plaintextDataKey).Cardinality())), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_InvalidDecryptionMaterialsTransition_(_dafny.SeqOfString("plaintextDataKey does not match Algorithm Suite specification.")))
 			_ = _3_valueOrError2
 			if (_3_valueOrError2).IsFailure() {
 				return (_3_valueOrError2).PropagateFailure()

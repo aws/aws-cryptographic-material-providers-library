@@ -12,18 +12,36 @@ Parameters:
     Default: aws/aws-cryptographic-material-providers-library
 
 Resources:
+  GitHubTestVectorLogsPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      ManagedPolicyName: !Sub "MPL-GHA-TestVector-CloudWatchLogs-Policy-${AWS::Region}"
+      Description: "Allows GitHub Actions to write test vector metrics to CloudWatch Logs"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action:
+              - "logs:CreateLogGroup"
+              - "logs:CreateLogStream"
+              - "logs:PutLogEvents"
+              - "logs:DescribeLogStreams"
+            Resource: "arn:aws:logs:*:*:log-group:aws-mpl-gha-test-vector-metrics:*"
+
   GitHubCIRole:
     Type: "AWS::IAM::Role"
     Properties:
       RoleName: !Sub "GitHub-CI-${ProjectName}-Role-${AWS::Region}"
       Description: "Access DDB, KMS, Resources for CI from GitHub, and Prod CodeBuild"
       ManagedPolicyArns:
+        - "arn:aws:iam::370957321024:policy/ESDK-Dafny-DDB-ReadWriteDelete-us-west-2"
+        - "arn:aws:iam::370957321024:policy/PolymorphTestModels-DDB-ReadWriteDelete-us-west-2"
+        - "arn:aws:iam::370957321024:policy/ESDK-Dafny-DDB-KeyStoreStaticTable-ReadOnly-us-west-2"
+        - "arn:aws:iam::370957321024:policy/Github-ECDH-KMS"
+        - "arn:aws:iam::370957321024:policy/Hierarchical-GitHub-KMS-Key-Policy"
         - "arn:aws:iam::370957321024:policy/PolymorphTestModels-KMS-us-west-2"
         - "arn:aws:iam::370957321024:policy/RSA-GitHub-KMS-Key-Policy"
-        - "arn:aws:iam::370957321024:policy/Hierarchical-GitHub-KMS-Key-Policy"
-        - "arn:aws:iam::370957321024:policy/PolymorphTestModels-DDB-ReadWriteDelete-us-west-2"
-        - "arn:aws:iam::370957321024:policy/ESDK-Dafny-DDB-ReadWriteDelete-us-west-2"
-        - "arn:aws:iam::370957321024:policy/Github-ECDH-KMS"
+        - !Ref GitHubTestVectorLogsPolicy
       AssumeRolePolicyDocument: !Sub |
         {
           "Version": "2012-10-17",   
@@ -37,7 +55,8 @@ Resources:
                 "StringLike": {
                   "token.actions.githubusercontent.com:sub": [
                     "repo:aws/aws-cryptographic-material-providers-library:*",
-                    "repo:aws/private-aws-cryptographic-material-providers-library-dafny-staging:*"
+                    "repo:aws/private-aws-cryptographic-material-providers-library-dafny-staging:*",
+                    "repo:aws/aws-encryption-sdk-javascript:*"
                   ]
                 }
               }
@@ -54,6 +73,8 @@ Resources:
                     "arn:aws:iam::587316601012:role/service-role/codebuild-AWS-MPL-Java-service-role-release",
                     "arn:aws:iam::587316601012:role/service-role/codebuild-AWS-MPL-DotNet-service-role-release",
                     "arn:aws:iam::587316601012:role/service-role/codebuild-AWS-ESDK-DotNet-service-role-release",
+                    "arn:aws:iam::587316601012:role/service-role/codebuild-AWS-MPL-Python-prod-service-role",
+                    "arn:aws:iam::587316601012:role/service-role/codebuild-AWS-MPL-Python-test-service-role",
                     "arn:aws:iam::370957321024:role/ToolsDevelopment"
                   ]
                 }
