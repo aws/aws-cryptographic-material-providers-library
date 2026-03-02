@@ -64,6 +64,7 @@ jobs:
       dafny: ${{needs.getVersions.outputs.version}}
       fuzz-testing: true
     secrets: inherit
+  # TODO: uncomment once DB-ESDK CI passes
   #pr-ci-db-esdk-java-examples-test:
   #  needs: getVersions
   #  uses: ./.github/workflows/test_dbesdk_examples.yml
