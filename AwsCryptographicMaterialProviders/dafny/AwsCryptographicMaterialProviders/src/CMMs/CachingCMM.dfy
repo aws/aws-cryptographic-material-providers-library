@@ -916,12 +916,12 @@ module {:options "/functionSyntax:4" } CachingCMM  {
         && ecDigestRequest.input.message == CanonicalEncryptionContext.EncryptionContextToAAD(input.encryptionContext).value
 
         && outputRequest.input.digestAlgorithm == AtomicPrimitives.Types.SHA_512
-        // && outputRequest.input.message
-        //    ==  partitionKeyDigest
-        //        + AlgorithmSuites.GetSuite(input.algorithmSuiteId).binaryId
-        //        + SortEdkDigests(PluckDigestValue(edkDigestRequests))
-        //        + PADDING_OF_512_ZERO_BITS
-        //        + ecDigestRequest.output.value
+           // && outputRequest.input.message
+           //    ==  partitionKeyDigest
+           //        + AlgorithmSuites.GetSuite(input.algorithmSuiteId).binaryId
+           //        + SortEdkDigests(PluckDigestValue(edkDigestRequests))
+           //        + PADDING_OF_512_ZERO_BITS
+           //        + ecDigestRequest.output.value
         && outputRequest.output.Success?
         && output.value == outputRequest.output.value
   {
