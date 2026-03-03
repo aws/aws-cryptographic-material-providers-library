@@ -86,7 +86,7 @@ namespace AWS.Cryptography.MaterialProviders
         if (BytesUsed < 0)
         {
           throw new System.ArgumentException(
-              String.Format("Member BytesUsed of structure PutCacheEntryInput has type PositiveInteger which has a minimum of 0 but was given the value {0}.", BytesUsed));
+              String.Format("Member BytesUsed of structure PutCacheEntryInput has type PositiveLong which has a minimum of 0 but was given the value {0}.", BytesUsed));
         }
       }
     }
