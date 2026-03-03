@@ -87,7 +87,9 @@ public class GetCacheEntryInput {
         );
       }
       if (this._bytesUsedSet && this.bytesUsed() < 0) {
-        throw new IllegalArgumentException("`bytesUsed` must be greater than or equal to 0");
+        throw new IllegalArgumentException(
+          "`bytesUsed` must be greater than or equal to 0"
+        );
       }
       return new GetCacheEntryInput(this);
     }

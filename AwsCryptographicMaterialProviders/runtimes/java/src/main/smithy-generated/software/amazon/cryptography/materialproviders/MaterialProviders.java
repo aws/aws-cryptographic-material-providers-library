@@ -299,9 +299,15 @@ public class MaterialProviders {
    * @param input Inputs for creating a Caching Cryptographic Materials Manager.
    * @return Outputs for creating a Caching Cryptographic Materials Manager.
    */
-  public ICryptographicMaterialsManager CreateCachingCMM(CreateCachingCMMInput input) {
-    software.amazon.cryptography.materialproviders.internaldafny.types.CreateCachingCMMInput dafnyValue = ToDafny.CreateCachingCMMInput(input);
-    Result<software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsManager, Error> result = this._impl.CreateCachingCMM(dafnyValue);
+  public ICryptographicMaterialsManager CreateCachingCMM(
+    CreateCachingCMMInput input
+  ) {
+    software.amazon.cryptography.materialproviders.internaldafny.types.CreateCachingCMMInput dafnyValue =
+      ToDafny.CreateCachingCMMInput(input);
+    Result<
+      software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsManager,
+      Error
+    > result = this._impl.CreateCachingCMM(dafnyValue);
     if (result.is_Failure()) {
       throw ToNative.Error(result.dtor_error());
     }

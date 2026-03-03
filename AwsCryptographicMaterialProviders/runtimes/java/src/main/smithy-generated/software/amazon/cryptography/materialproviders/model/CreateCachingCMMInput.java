@@ -15,6 +15,7 @@ import software.amazon.cryptography.materialproviders.Keyring;
  * Inputs for creating a Caching Cryptographic Materials Manager.
  */
 public class CreateCachingCMMInput {
+
   /**
    * The Cryptographic Materials Cache the Caching Cryptographic Materials Manager will use to cache requests.
    */
@@ -43,12 +44,12 @@ public class CreateCachingCMMInput {
   /**
    * Sets the maximum number of plaintext bytes that can be encrypted under the same cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^63 - 1. If this limit is set to zero, keys can only be cached if they are used for zero-length messages.
    */
-  private final long limitBytes;
+  private final Long limitBytes;
 
   /**
    * Sets the maximum number of individual messages that can be encrypted under the same cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^32. This is also the maximum accepted value.
    */
-  private final int limitMessages;
+  private final Integer limitMessages;
 
   protected CreateCachingCMMInput(BuilderImpl builder) {
     this.underlyingCMC = builder.underlyingCMC();
@@ -98,14 +99,14 @@ public class CreateCachingCMMInput {
   /**
    * @return Sets the maximum number of plaintext bytes that can be encrypted under the same cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^63 - 1. If this limit is set to zero, keys can only be cached if they are used for zero-length messages.
    */
-  public long limitBytes() {
+  public Long limitBytes() {
     return this.limitBytes;
   }
 
   /**
    * @return Sets the maximum number of individual messages that can be encrypted under the same cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^32. This is also the maximum accepted value.
    */
-  public int limitMessages() {
+  public Integer limitMessages() {
     return this.limitMessages;
   }
 
@@ -171,27 +172,28 @@ public class CreateCachingCMMInput {
     /**
      * @param limitBytes Sets the maximum number of plaintext bytes that can be encrypted under the same cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^63 - 1. If this limit is set to zero, keys can only be cached if they are used for zero-length messages.
      */
-    Builder limitBytes(long limitBytes);
+    Builder limitBytes(Long limitBytes);
 
     /**
      * @return Sets the maximum number of plaintext bytes that can be encrypted under the same cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^63 - 1. If this limit is set to zero, keys can only be cached if they are used for zero-length messages.
      */
-    long limitBytes();
+    Long limitBytes();
 
     /**
      * @param limitMessages Sets the maximum number of individual messages that can be encrypted under the same cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^32. This is also the maximum accepted value.
      */
-    Builder limitMessages(int limitMessages);
+    Builder limitMessages(Integer limitMessages);
 
     /**
      * @return Sets the maximum number of individual messages that can be encrypted under the same cached data key. This does not affect decrypt operations. Specifying this limit is optional; by default, the limit is set to 2^32. This is also the maximum accepted value.
      */
-    int limitMessages();
+    Integer limitMessages();
 
     CreateCachingCMMInput build();
   }
 
   static class BuilderImpl implements Builder {
+
     protected ICryptographicMaterialsCache underlyingCMC;
 
     protected int cacheLimitTtlSeconds;
@@ -204,16 +206,11 @@ public class CreateCachingCMMInput {
 
     protected String partitionKey;
 
-    protected long limitBytes;
+    protected Long limitBytes;
 
-    private boolean _limitBytesSet = false;
+    protected Integer limitMessages;
 
-    protected int limitMessages;
-
-    private boolean _limitMessagesSet = false;
-
-    protected BuilderImpl() {
-    }
+    protected BuilderImpl() {}
 
     protected BuilderImpl(CreateCachingCMMInput model) {
       this.underlyingCMC = model.underlyingCMC();
@@ -223,9 +220,7 @@ public class CreateCachingCMMInput {
       this.keyring = model.keyring();
       this.partitionKey = model.partitionKey();
       this.limitBytes = model.limitBytes();
-      this._limitBytesSet = true;
       this.limitMessages = model.limitMessages();
-      this._limitMessagesSet = true;
     }
 
     public Builder underlyingCMC(ICryptographicMaterialsCache underlyingCMC) {
@@ -274,41 +269,39 @@ public class CreateCachingCMMInput {
       return this.partitionKey;
     }
 
-    public Builder limitBytes(long limitBytes) {
+    public Builder limitBytes(Long limitBytes) {
       this.limitBytes = limitBytes;
-      this._limitBytesSet = true;
       return this;
     }
 
-    public long limitBytes() {
+    public Long limitBytes() {
       return this.limitBytes;
     }
 
-    public Builder limitMessages(int limitMessages) {
+    public Builder limitMessages(Integer limitMessages) {
       this.limitMessages = limitMessages;
-      this._limitMessagesSet = true;
       return this;
     }
 
-    public int limitMessages() {
+    public Integer limitMessages() {
       return this.limitMessages;
     }
 
     public CreateCachingCMMInput build() {
-      if (Objects.isNull(this.underlyingCMC()))  {
-        throw new IllegalArgumentException("Missing value for required field `underlyingCMC`");
+      if (Objects.isNull(this.underlyingCMC())) {
+        throw new IllegalArgumentException(
+          "Missing value for required field `underlyingCMC`"
+        );
       }
       if (!this._cacheLimitTtlSecondsSet) {
-        throw new IllegalArgumentException("Missing value for required field `cacheLimitTtlSeconds`");
+        throw new IllegalArgumentException(
+          "Missing value for required field `cacheLimitTtlSeconds`"
+        );
       }
       if (this._cacheLimitTtlSecondsSet && this.cacheLimitTtlSeconds() < 0) {
-        throw new IllegalArgumentException("`cacheLimitTtlSeconds` must be greater than or equal to 0");
-      }
-      if (this._limitBytesSet && this.limitBytes() < 0) {
-        throw new IllegalArgumentException("`limitBytes` must be greater than or equal to 0");
-      }
-      if (this._limitMessagesSet && this.limitMessages() < 0) {
-        throw new IllegalArgumentException("`limitMessages` must be greater than or equal to 0");
+        throw new IllegalArgumentException(
+          "`cacheLimitTtlSeconds` must be greater than or equal to 0"
+        );
       }
       return new CreateCachingCMMInput(this);
     }
