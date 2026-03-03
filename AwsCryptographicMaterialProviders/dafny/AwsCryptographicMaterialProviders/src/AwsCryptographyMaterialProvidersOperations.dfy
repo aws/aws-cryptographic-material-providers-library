@@ -30,6 +30,7 @@ include "Commitment.dfy"
 include "AwsArnParsing.dfy"
 include "AlgorithmSuites.dfy"
 include "CMMs/RequiredEncryptionContextCMM.dfy"
+include "CMMs/CachingCMM.dfy"
 include "Utils.dfy"
 
 module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptographyMaterialProvidersOperations {
@@ -67,6 +68,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import Kms = Com.Amazonaws.Kms
   import Ddb = ComAmazonawsDynamodbTypes
   import RequiredEncryptionContextCMM
+  import CachingCMM
   import UUID
   import StandardLibrary.String
 
@@ -783,17 +785,155 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
 
   method CreateRequiredEncryptionContextCMM(config: InternalConfig, input: CreateRequiredEncryptionContextCMMInput)
     returns (output: Result<ICryptographicMaterialsManager, Error>)
-    ensures output.Success? ==> output.value.ValidState()
   {
-    :- Need(input.underlyingCMM.Some? && input.keyring.None?, CmpError("CreateRequiredEncryptionContextCMM currently only supports cmm."));
+
+    :- Need(
+      && (input.underlyingCMM.Some? || input.keyring.Some?)
+      && (input.underlyingCMM.None? || input.keyring.None?),
+      CmpError("Either an underlyingCMM or a keyring is required."));
+
+    var underlyingCMM;
+    if input.keyring.Some? {
+      underlyingCMM :- CreateDefaultCryptographicMaterialsManager(
+        config,
+        CreateDefaultCryptographicMaterialsManagerInput(
+          keyring := input.keyring.value
+        )
+      );
+    } else {
+      underlyingCMM := input.underlyingCMM.value;
+    }
+
     var keySet : set<UTF8.ValidUTF8Bytes> := set k <- input.requiredEncryptionContextKeys;
     SetIsSafeBecauseItIsInMemory(keySet);
     :- Need(0 < |keySet| as uint64, CmpError("RequiredEncryptionContextCMM needs at least one requiredEncryptionContextKey."));
     var cmm := new RequiredEncryptionContextCMM.RequiredEncryptionContextCMM(
-      input.underlyingCMM.value,
+      underlyingCMM,
       keySet);
 
     return Success(cmm);
+  }
+
+  predicate CreateCachingCMMEnsuresPublicly(input: CreateCachingCMMInput , output: Result<ICryptographicMaterialsManager, Error>)
+  {true}
+
+  method CreateCachingCMM ( config: InternalConfig , input: CreateCachingCMMInput )
+    returns (output: Result<ICryptographicMaterialsManager, Error>)
+
+    ensures output.Success? ==> output.value is CachingCMM.CachingCMM
+
+    //= aws-encryption-sdk-specification/framework/caching-cmm.md#initialization
+    //= type=implication
+    //# If the caller provides a keyring,
+    //# then the caching CMM MUST set its underlying CMM
+    //# to a [default CMM](default-cmm.md) initialized with the keyring.
+    ensures
+      && output.Success?
+      && input.keyring.Some?
+      ==>
+        var cmm: CachingCMM.CachingCMM := output.value;
+        && cmm.underlyingCMM is DefaultCMM
+
+    //= aws-encryption-sdk-specification/framework/caching-cmm.md#partition-id
+    //= type=implication
+    //# If this parameter is not set, the caching CMM MUST set a partition ID
+    //# that uniquely identifies the respective caching CMM.
+    ensures
+      && output.Success?
+      && input.partitionKey.None?
+      ==>
+        // The `partitionKeyDigest` on the CMM is used in the calculation of cache identifiers.
+        // Letting the `partitionKey` be set or random is expected to satisfy this requirement.
+        //= aws-encryption-sdk-specification/framework/caching-cmm.md#underlying-cryptographic-materials-cache
+        //= type=implication
+        //# Multiple caching CMMs MAY share the same cryptographic materials cache,
+        //# but by default MUST NOT use each other's cache entries.
+        var cmm: CachingCMM.CachingCMM := output.value;
+        && 0 < |cmm.cryptoPrimitives.History.GenerateRandomBytes|
+        && 0 < |cmm.cryptoPrimitives.History.Digest|
+        && Seq.Last(cmm.cryptoPrimitives.History.Digest).output.Success?
+        && Seq.Last(cmm.cryptoPrimitives.History.GenerateRandomBytes).output.Success?
+        && Seq.Last(cmm.cryptoPrimitives.History.Digest).input.message
+           == Seq.Last(cmm.cryptoPrimitives.History.GenerateRandomBytes).output.value
+        && cmm.partitionKeyDigest == Seq.Last(cmm.cryptoPrimitives.History.Digest).output.value
+
+    //= aws-encryption-sdk-specification/framework/caching-cmm.md#limit-bytes
+    //= type=implication
+    //# If this parameter is not set, the caching CMM MUST set it to a value no more than 2^63-1.
+    ensures
+      && output.Success?
+      && input.limitBytes.None?
+      ==>
+        var cmm: CachingCMM.CachingCMM := output.value;
+        && cmm.limitBytes == INT64_MAX_LIMIT as PositiveLong
+
+    //= aws-encryption-sdk-specification/framework/caching-cmm.md#limit-messages
+    //= type=implication
+    //# If this parameter is not set, the caching CMM MUST set it to 2^32.
+    ensures
+      && output.Success?
+      && input.limitMessages.None?
+      ==>
+        var cmm: CachingCMM.CachingCMM := output.value;
+        && cmm.limitMessages == BoundedInts.INT32_MAX
+  {
+
+    :- Need(
+      && (input.underlyingCMM.Some? || input.keyring.Some?)
+      && (input.underlyingCMM.None? || input.keyring.None?),
+      CmpError("Either an underlyingCMM or a keyring is required."));
+
+    var inputCMM;
+    if input.keyring.Some? {
+      assume {:axiom} input.underlyingCMC.Modifies == {};
+      inputCMM :- CreateDefaultCryptographicMaterialsManager(
+        config,
+        CreateDefaultCryptographicMaterialsManagerInput(
+          keyring := input.keyring.value
+        )
+      );
+    } else {
+      inputCMM := input.underlyingCMM.value;
+    }
+
+    var inputCryptoPrimitives' := AtomicPrimitives.AtomicPrimitives();
+    var inputCryptoPrimitives :- inputCryptoPrimitives'.MapFailure(e => Types.AwsCryptographyPrimitives(e));
+
+    var partitionKey;
+    if input.partitionKey.None? {
+      var partitionKey' := inputCryptoPrimitives.GenerateRandomBytes(
+        Crypto.GenerateRandomBytesInput(
+          length := 16
+        )
+      );
+      partitionKey :- partitionKey'.MapFailure(e => Types.AwsCryptographyPrimitives(e));
+    } else {
+      partitionKey := input.partitionKey.value;
+    }
+
+    var inputPartitionKeyDigest' := inputCryptoPrimitives.Digest(
+      AtomicPrimitives.Types.DigestInput(
+        digestAlgorithm := AtomicPrimitives.Types.SHA_512,
+        message := partitionKey
+      )
+    );
+    var inputPartitionKeyDigest :- inputPartitionKeyDigest'.MapFailure(e => Types.AwsCryptographyPrimitives(e));
+
+    :- Need(input.limitBytes.Some? ==> 0 <= input.limitBytes.value, CmpError("limitBytes can not be negative."));
+    :- Need(input.limitMessages.Some? ==> 0 <= input.limitMessages.value, CmpError("limitMessages can not be negative."));
+
+    var cmm := new CachingCMM.CachingCMM(
+      inputCMM := inputCMM,
+      inputCryptoPrimitives := inputCryptoPrimitives,
+      inputCache := input.underlyingCMC,
+      inputPartitionKeyDigest := inputPartitionKeyDigest,
+      inputPartitionKey := partitionKey,
+      inputTtlSeconds := input.cacheLimitTtlSeconds,
+      inputLimitBytes := input.limitBytes.UnwrapOr(INT64_MAX_LIMIT as PositiveLong),
+      inputLimitMessages := input.limitMessages.UnwrapOr(INT32_MAX_LIMIT as PositiveInteger)
+    );
+
+    output := Success(cmm);
   }
 
   predicate CreateCryptographicMaterialsCacheEnsuresPublicly(input: CreateCryptographicMaterialsCacheInput , output: Result<ICryptographicMaterialsCache, Error>)

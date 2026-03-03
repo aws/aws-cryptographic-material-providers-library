@@ -15,6 +15,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     CreateAwsKmsMrkMultiKeyringInput_CreateAwsKmsMrkMultiKeyringInput as DafnyCreateAwsKmsMrkMultiKeyringInput,
     CreateAwsKmsMultiKeyringInput_CreateAwsKmsMultiKeyringInput as DafnyCreateAwsKmsMultiKeyringInput,
     CreateAwsKmsRsaKeyringInput_CreateAwsKmsRsaKeyringInput as DafnyCreateAwsKmsRsaKeyringInput,
+    CreateCachingCMMInput_CreateCachingCMMInput as DafnyCreateCachingCMMInput,
     CreateCryptographicMaterialsCacheInput_CreateCryptographicMaterialsCacheInput as DafnyCreateCryptographicMaterialsCacheInput,
     CreateDefaultClientSupplierInput_CreateDefaultClientSupplierInput as DafnyCreateDefaultClientSupplierInput,
     CreateDefaultCryptographicMaterialsManagerInput_CreateDefaultCryptographicMaterialsManagerInput as DafnyCreateDefaultCryptographicMaterialsManagerInput,
@@ -37,7 +38,6 @@ import aws_cryptographic_material_providers.internaldafny.generated.module_
 
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 from typing import Union
-
 
 class DafnyRequest:
     operation_name: str
@@ -67,6 +67,7 @@ class DafnyRequest:
         DafnyCreateAwsKmsEcdhKeyringInput,
         DafnyCreateAwsKmsMrkKeyringInput,
         DafnyCreateAwsKmsHierarchicalKeyringInput,
+        DafnyCreateCachingCMMInput,
         DafnyCreateAwsKmsMrkDiscoveryKeyringInput,
         DafnyCreateAwsKmsMultiKeyringInput,
         DafnyCreateRawAesKeyringInput,
@@ -78,7 +79,6 @@ class DafnyRequest:
     def __init__(self, operation_name, dafny_operation_input):
         self.operation_name = operation_name
         self.dafny_operation_input = dafny_operation_input
-
 
 class DafnyResponse(Wrappers.Result):
     def __init__(self):
