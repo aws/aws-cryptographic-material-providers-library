@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.12.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.2...v1.12.0) (2026-03-09)
+
+### Miscellaneous
+
+* use local builds ([#1804](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1804)) ([006061a](https://github.com/aws/aws-cryptographic-material-providers-library/commit/006061a43b2bb367f189cdf0cbfbb17341e6cbb8))
+
 ## [1.11.2](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.1...v1.11.2) (2026-02-02)
 
 This release is available in the following languages:
