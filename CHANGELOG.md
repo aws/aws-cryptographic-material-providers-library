@@ -11,7 +11,8 @@ This release is available in the following languages:
 This version corresponds to Major Version 2 of the Cryptographic Materila Providers Library for DotNet.
 
 ### Features -- DotNet
-* support aws sdk .net v4 ([#1807](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1807)) ([3e685ad](https://github.com/aws/aws-cryptographic-material-providers-library/commit/3e685adba6081b54b3c06becf5fa95aa94311974))
+
+- support aws sdk .net v4 ([#1807](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1807)) ([3e685ad](https://github.com/aws/aws-cryptographic-material-providers-library/commit/3e685adba6081b54b3c06becf5fa95aa94311974))
 
 ## [1.11.2](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.1...v1.11.2) (2026-02-02)
 
