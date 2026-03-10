@@ -15,9 +15,6 @@
   `npx semantic-release --branches main`
 */
 
-// This project has several runtimes
-// each one has files that need to be updated.
-// We model all the files and the runtimes here in this structure
 const Runtimes = {
   net: {
     "AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj": {
