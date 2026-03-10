@@ -211,8 +211,7 @@ module.exports = {
           "ComAmazonawsKms/src/Index.dfy",
           ...Object.values(Runtimes.net).flatMap((r) => r.assemblyInfo),
         ],
-        message:
-          "chore: ${nextRelease.version} \n\n${nextRelease.notes}",
+        message: "chore: ${nextRelease.version} \n\n${nextRelease.notes}",
       },
     ],
   ],
