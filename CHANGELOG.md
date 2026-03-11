@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.0.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.2-net...v2.0.0-net) (2026-03-11)
+
+### ⚠ BREAKING CHANGES
+
+* **.net:** add a separate releaserc file to keep track of net releases (#1814)
+
+### feat
+
+* **.net:** add a separate releaserc file to keep track of net releases ([#1814](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1814)) ([c13c58f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c13c58fc72ebd8e90e338a73c4f617362f1883a9))
+
 ## [1.11.2](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.1...v1.11.2) (2026-02-02)
 
 This release is available in the following languages:
