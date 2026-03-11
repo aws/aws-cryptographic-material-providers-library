@@ -1,6 +1,6 @@
 # Changelog
 
-Unless otherwise specified, each changelog entry is suffixed with its corresponding language.
+Each changelog entry applies to all runtimes unless specified by a language suffix.
 
 ## [2.0.0-net](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.2-net...v2.0.0-net) (2026-03-11)
 
