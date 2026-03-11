@@ -1,14 +1,21 @@
 # Changelog
 
-## [2.0.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.2-net...v2.0.0-net) (2026-03-11)
+The version for each changelog entry refers to the version of the library's Dafny code. This is the same as the released
+version for the language unless otherwise noted in the changelog entry.
+
+## [2.0.0-net](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.2-net...v2.0.0-net) (2026-03-11)
+
+This release is available only in the following languages:
+
+- DotNet (as v2.0.0)
 
 ### ⚠ BREAKING CHANGES
 
-* **.net:** add a separate releaserc file to keep track of net releases (#1814)
+- **.net:** Add support for AWS SDK V4 and remove support for AWS SDK V3.
 
 ### feat
 
-* **.net:** add a separate releaserc file to keep track of net releases ([#1814](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1814)) ([c13c58f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c13c58fc72ebd8e90e338a73c4f617362f1883a9))
+- **.net:** - support aws sdk .net v4 ([#1807](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1807)) ([3e685ad](https://github.com/aws/aws-cryptographic-material-providers-library/commit/3e685adba6081b54b3c06becf5fa95aa94311974))
 
 ## [1.11.2](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.1...v1.11.2) (2026-02-02)
 
