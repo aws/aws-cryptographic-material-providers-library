@@ -1,5 +1,21 @@
 # Changelog
 
+Each changelog entry applies to all runtimes unless specified by a language suffix.
+
+## [2.0.0-net](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.2-net...v2.0.0-net) (2026-03-11)
+
+This release is available only in the following languages:
+
+- DotNet (as v2.0.0)
+
+### ⚠ BREAKING CHANGES
+
+- **.net:** Add support for AWS SDK V4 and remove support for AWS SDK V3.
+
+### feat
+
+- **.net:** - support aws sdk .net v4 ([#1807](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1807)) ([3e685ad](https://github.com/aws/aws-cryptographic-material-providers-library/commit/3e685adba6081b54b3c06becf5fa95aa94311974))
+
 ## [1.11.2](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.1...v1.11.2) (2026-02-02)
 
 This release is available in the following languages:
