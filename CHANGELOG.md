@@ -1,7 +1,6 @@
 # Changelog
 
-The version for each changelog entry refers to the version of the library's Dafny code. This is the same as the released
-version for the language unless otherwise noted in the changelog entry.
+Unless otherwise specified, each changelog entry is suffixed with its corresponding language.
 
 ## [2.0.0-net](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.2-net...v2.0.0-net) (2026-03-11)
 
@@ -332,7 +331,7 @@ This is the first release for the Python implementation of the AWS Cryptographic
 
 - **H-Keyring:** if getCache returns Error not EntryDoesNotExist, raise error ([#846](https://github.com/aws/aws-cryptographic-material-providers-library/issues/846)) ([3413fcb](https://github.com/aws/aws-cryptographic-material-providers-library/commit/3413fcbc889e2c31fb753ff3eca852c1d5db1140))
 - **H-Keyring:** if putCache throws EntryAlreadyExists, swallow ([#856](https://github.com/aws/aws-cryptographic-material-providers-library/issues/856)) ([d01a182
-  ](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d01a182b5e62010f44616dacd6730aa873dec4c7))
+](https://github.com/aws/aws-cryptographic-material-providers-library/commit/d01a182b5e62010f44616dacd6730aa873dec4c7))
 
 # [1.7.0](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.6.0...v1.7.0) (2024-09-23)
 
