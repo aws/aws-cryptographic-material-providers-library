@@ -56,7 +56,7 @@
   </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="DafnyRuntime" Version="[4.2.0,$(DafnyVersion)]" />
+        <PackageReference Include="DafnyRuntime" Version="$(DafnyVersion)" />
         <ProjectReference Include="../../../AwsCryptographyPrimitives/runtimes/net/Crypto.csproj" />
         <ProjectReference Include="../../../ComAmazonawsDynamodb/runtimes/net/ComAmazonawsDynamodb.csproj" />
         <ProjectReference Include="../../../ComAmazonawsKms/runtimes/net/AWS-KMS.csproj" />
