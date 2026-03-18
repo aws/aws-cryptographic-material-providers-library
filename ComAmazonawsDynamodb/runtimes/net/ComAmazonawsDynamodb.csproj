@@ -57,7 +57,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="DafnyRuntime" Version="[4.2.0,$(DafnyVersion)]" />
+    <PackageReference Include="DafnyRuntime" Version="$(DafnyVersion)" />
     <!-- See https://learn.microsoft.com/en-us/nuget/concepts/package-versioning?tabs=semver20sort#version-ranges   -->
     <PackageReference Include="AWSSDK.Core" Version="4.0.*" />
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="4.0.*" />
