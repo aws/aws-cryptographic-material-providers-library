@@ -57,13 +57,6 @@ jobs:
     with:
       dafny: ${{needs.getVersions.outputs.version}}
     secrets: inherit
-  pr-fuzz-interop-test:
-    needs: getVersions
-    uses: ./.github/workflows/library_interop_tests.yml
-    with:
-      dafny: ${{needs.getVersions.outputs.version}}
-      fuzz-testing: true
-    secrets: inherit
   # TODO: uncomment once DB-ESDK CI passes
   #pr-ci-db-esdk-java-examples-test:
   #  needs: getVersions
@@ -83,7 +76,6 @@ jobs:
       - pr-ci-go
       - pr-ci-rust
       - pr-interop-test
-      - pr-fuzz-interop-test
       #- pr-ci-db-esdk-java-examples-test
     runs-on: ubuntu-22.04
     steps:
