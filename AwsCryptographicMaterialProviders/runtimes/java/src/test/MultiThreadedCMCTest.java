@@ -188,7 +188,7 @@ public class MultiThreadedCMCTest {
                   StormTrackingCache
                     .builder()
                     .entryCapacity(11)
-                    .gracePeriod(100)
+                    .gracePeriod(500)
                     .graceInterval(10)
                     .fanOut(10)
                     .inFlightTTL(500)
