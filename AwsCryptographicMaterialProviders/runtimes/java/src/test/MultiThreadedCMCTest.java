@@ -191,7 +191,7 @@ public class MultiThreadedCMCTest {
                     .gracePeriod(100)
                     .graceInterval(10)
                     .fanOut(10)
-                    .inFlightTTL(100)
+                    .inFlightTTL(500)
                     .sleepMilli(10)
                     .timeUnits(TimeUnits.Milliseconds)
                     .build()
