@@ -5,7 +5,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IsPackable>true</IsPackable>
     
-    <Version>1.11.2</Version>
+    <Version>2.0.0</Version>
     
     <AssemblyName>AWS.Cryptography.Internal.ComAmazonawsDynamodb</AssemblyName>
     <PackageId>AWS.Cryptography.Internal.ComAmazonawsDynamodb</PackageId>
@@ -57,7 +57,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="DafnyRuntime" Version="[4.2.0,$(DafnyVersion)]" />
+    <PackageReference Include="DafnyRuntime" Version="$(DafnyVersion)" />
     <!-- See https://learn.microsoft.com/en-us/nuget/concepts/package-versioning?tabs=semver20sort#version-ranges   -->
     <PackageReference Include="AWSSDK.Core" Version="4.0.*" />
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="4.0.*" />
