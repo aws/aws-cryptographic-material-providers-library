@@ -13,11 +13,6 @@ on:
         required: false
         default: false
         type: boolean
-      fuzz-testing:
-        description: "Use fuzzed test vectors instead of regular test vectors"
-        required: false
-        default: false
-        type: boolean
 
 jobs:
   generateEncryptVectors:
@@ -98,10 +93,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade tox
           pip install poetry
-
-      - name: Install hypothesis for fuzz testing
-        if: ${{ inputs.fuzz-testing }}
-        run: pip install hypothesis
 
       - name: Setup Rust Toolchain for GitHub CI
         if: matrix.language == 'rust'
@@ -209,12 +200,7 @@ jobs:
       - name: Create Manifests
         working-directory: ./${{ matrix.library }}
         run: |
-          if [ "${{ inputs.fuzz-testing }}" = "true" ]; then
-            echo "Generating fuzzed test vectors"
-            make test_generate_fuzz_vectors_${{ matrix.language }} NUM_VECTORS=2000
-          else
-            make test_generate_vectors_${{ matrix.language }}
-          fi
+          make test_generate_vectors_${{ matrix.language }}
 
       - name: Create Encrypt Manifests
         working-directory: ./${{ matrix.library }}
@@ -223,7 +209,7 @@ jobs:
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v7
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}
           path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json
 
   testInteroperablity:
@@ -411,7 +397,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Java
         uses: actions/download-artifact@v8
         with:
-          name: ${{matrix.os}}_vector_artifact_java${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_java
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Java
@@ -421,7 +407,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Net
         uses: actions/download-artifact@v8
         with:
-          name: ${{matrix.os}}_vector_artifact_net${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_net
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Net
@@ -431,7 +417,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Rust
         uses: actions/download-artifact@v8
         with:
-          name: ${{matrix.os}}_vector_artifact_rust${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_rust
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Rust
@@ -441,7 +427,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Python
         uses: actions/download-artifact@v8
         with:
-          name: ${{matrix.os}}_vector_artifact_python${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_python
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Python
@@ -451,7 +437,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Go
         uses: actions/download-artifact@v8
         with:
-          name: ${{matrix.os}}_vector_artifact_go${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_go
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Go
