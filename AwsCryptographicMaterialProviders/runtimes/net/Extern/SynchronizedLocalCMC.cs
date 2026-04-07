@@ -1,56 +1,201 @@
 // Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-using software.amazon.cryptography.primitives.internaldafny.types;
+using System;
+using System.Threading;
+using Microsoft.Extensions.Caching.Memory;
+using DafnyTypes = software.amazon.cryptography.materialproviders.internaldafny.types;
 
 namespace software.amazon.cryptography.internaldafny.SynchronizedLocalCMC
 {
-  public partial class SynchronizedLocalCMC : software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache
+  internal readonly struct ByteArrayKey : IEquatable<ByteArrayKey>
   {
-    public LocalCMC_Compile.LocalCMC wrapped;
+    private readonly byte[] _bytes;
+    private readonly int _hash;
+
+    public ByteArrayKey(Dafny.ISequence<byte> dafnyBytes)
+    {
+      _bytes = dafnyBytes.CloneAsArray();
+      unchecked
+      {
+        int hash = (int)2166136261;
+        for (int i = 0; i < _bytes.Length; i++)
+          hash = (hash ^ _bytes[i]) * 16777619;
+        _hash = hash;
+      }
+    }
+
+    public bool Equals(ByteArrayKey other) =>
+        _bytes.AsSpan().SequenceEqual(other._bytes.AsSpan());
+
+    public override bool Equals(object obj) => obj is ByteArrayKey other && Equals(other);
+    public override int GetHashCode() => _hash;
+  }
+
+  internal class CacheEntry
+  {
+    public readonly Dafny.ISequence<byte> Identifier;
+    public readonly DafnyTypes._IMaterials Materials;
+    public readonly long CreationTime;
+    public readonly long ExpiryTime;
+    public int MessagesUsed;
+    public int BytesUsed;
+
+    public CacheEntry(
+        Dafny.ISequence<byte> identifier,
+        DafnyTypes._IMaterials materials,
+        long creationTime,
+        long expiryTime,
+        int messagesUsed,
+        int bytesUsed)
+    {
+      Identifier = identifier;
+      Materials = materials;
+      CreationTime = creationTime;
+      ExpiryTime = expiryTime;
+      MessagesUsed = messagesUsed;
+      BytesUsed = bytesUsed;
+    }
+  }
+
+  public partial class SynchronizedLocalCMC : DafnyTypes.ICryptographicMaterialsCache
+  {
+    private readonly MemoryCache _cache;
+    private const int INT32_SAFE_MAX = 0x79999999;
+
     public SynchronizedLocalCMC(LocalCMC_Compile.LocalCMC cmc)
     {
-      this.wrapped = cmc;
+      var capacity = (int)cmc.entryCapacity;
+      if (capacity < 1) capacity = 1;
+      _cache = new MemoryCache(new MemoryCacheOptions
+      {
+        SizeLimit = capacity
+      });
     }
-    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
-    public Wrappers_Compile._IResult<_System._ITuple0, software.amazon.cryptography.materialproviders.internaldafny.types._IError> PutCacheEntry(software.amazon.cryptography.materialproviders.internaldafny.types._IPutCacheEntryInput input)
+
+    private static long Now() => (long)(DateTime.Now - DateTime.MinValue).TotalSeconds;
+
+    // ---- GetCacheEntry ----
+
+    public Wrappers_Compile._IResult<DafnyTypes._IGetCacheEntryOutput, DafnyTypes._IError>
+        GetCacheEntry(DafnyTypes._IGetCacheEntryInput input)
     {
-      return this.wrapped.PutCacheEntry(input);
+      return GetCacheEntry_k(input);
     }
-    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
-    public Wrappers_Compile._IResult<_System._ITuple0, software.amazon.cryptography.materialproviders.internaldafny.types._IError> UpdateUsageMetadata(software.amazon.cryptography.materialproviders.internaldafny.types._IUpdateUsageMetadataInput input)
+
+    public Wrappers_Compile._IResult<DafnyTypes._IGetCacheEntryOutput, DafnyTypes._IError>
+        GetCacheEntry_k(DafnyTypes._IGetCacheEntryInput input)
     {
-      return this.wrapped.UpdateUsageMetadata(input);
+      var concrete = (DafnyTypes.GetCacheEntryInput)input;
+      var key = new ByteArrayKey(concrete._identifier);
+
+      if (!_cache.TryGetValue(key, out CacheEntry entry))
+        return CreateGetFailure("Entry does not exist");
+
+      if (Now() > entry.ExpiryTime)
+      {
+        _cache.Remove(key);
+        return CreateGetFailure("Entry past TTL");
+      }
+
+      return Wrappers_Compile.Result<DafnyTypes._IGetCacheEntryOutput, DafnyTypes._IError>
+          .create_Success(new DafnyTypes.GetCacheEntryOutput(
+              entry.Materials, entry.CreationTime, entry.ExpiryTime,
+              entry.MessagesUsed, entry.BytesUsed));
     }
-    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
-    public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError> GetCacheEntry(software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryInput input)
+
+    // ---- PutCacheEntry ----
+
+    public Wrappers_Compile._IResult<_System._ITuple0, DafnyTypes._IError>
+        PutCacheEntry(DafnyTypes._IPutCacheEntryInput input)
     {
-      return this.wrapped.GetCacheEntry(input);
+      return PutCacheEntry_k(input);
     }
-    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
-    public Wrappers_Compile._IResult<_System._ITuple0, software.amazon.cryptography.materialproviders.internaldafny.types._IError> DeleteCacheEntry(software.amazon.cryptography.materialproviders.internaldafny.types._IDeleteCacheEntryInput input)
+
+    public Wrappers_Compile._IResult<_System._ITuple0, DafnyTypes._IError>
+        PutCacheEntry_k(DafnyTypes._IPutCacheEntryInput input)
     {
-      return this.wrapped.DeleteCacheEntry(input);
+      var concrete = (DafnyTypes.PutCacheEntryInput)input;
+      var key = new ByteArrayKey(concrete._identifier);
+
+      var entry = new CacheEntry(
+          concrete._identifier, concrete._materials,
+          concrete._creationTime, concrete._expiryTime,
+          concrete._messagesUsed.is_Some ? (int)concrete._messagesUsed.dtor_value : 0,
+          concrete._bytesUsed.is_Some ? (int)concrete._bytesUsed.dtor_value : 0);
+
+      var options = new MemoryCacheEntryOptions
+      {
+        Size = 1,
+        AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(concrete._expiryTime - Now())
+      };
+
+      _cache.Set(key, entry, options);
+      return CreateVoidSuccess();
     }
-    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
-    public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError> GetCacheEntry_k(software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheEntryInput input)
+
+    // ---- DeleteCacheEntry ----
+
+    public Wrappers_Compile._IResult<_System._ITuple0, DafnyTypes._IError>
+        DeleteCacheEntry(DafnyTypes._IDeleteCacheEntryInput input)
     {
-      return this.wrapped.GetCacheEntry_k(input);
+      return DeleteCacheEntry_k(input);
     }
-    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
-    public Wrappers_Compile._IResult<_System._ITuple0, software.amazon.cryptography.materialproviders.internaldafny.types._IError> PutCacheEntry_k(software.amazon.cryptography.materialproviders.internaldafny.types._IPutCacheEntryInput input)
+
+    public Wrappers_Compile._IResult<_System._ITuple0, DafnyTypes._IError>
+        DeleteCacheEntry_k(DafnyTypes._IDeleteCacheEntryInput input)
     {
-      return this.wrapped.PutCacheEntry_k(input);
+      var concrete = (DafnyTypes.DeleteCacheEntryInput)input;
+      _cache.Remove(new ByteArrayKey(concrete._identifier));
+      return CreateVoidSuccess();
     }
-    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
-    public Wrappers_Compile._IResult<_System._ITuple0, software.amazon.cryptography.materialproviders.internaldafny.types._IError> DeleteCacheEntry_k(software.amazon.cryptography.materialproviders.internaldafny.types._IDeleteCacheEntryInput input)
+
+    // ---- UpdateUsageMetadata ----
+
+    public Wrappers_Compile._IResult<_System._ITuple0, DafnyTypes._IError>
+        UpdateUsageMetadata(DafnyTypes._IUpdateUsageMetadataInput input)
     {
-      return this.wrapped.DeleteCacheEntry_k(input);
+      return UpdateUsageMetadata_k(input);
     }
-    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.Synchronized)]
-    public Wrappers_Compile._IResult<_System._ITuple0, software.amazon.cryptography.materialproviders.internaldafny.types._IError> UpdateUsageMetadata_k(software.amazon.cryptography.materialproviders.internaldafny.types._IUpdateUsageMetadataInput input)
+
+    public Wrappers_Compile._IResult<_System._ITuple0, DafnyTypes._IError>
+        UpdateUsageMetadata_k(DafnyTypes._IUpdateUsageMetadataInput input)
     {
-      return this.wrapped.UpdateUsageMetadata_k(input);
+      var concrete = (DafnyTypes.UpdateUsageMetadataInput)input;
+      var key = new ByteArrayKey(concrete._identifier);
+
+      if (_cache.TryGetValue(key, out CacheEntry entry))
+      {
+        if (entry.MessagesUsed <= INT32_SAFE_MAX - 1
+            && entry.BytesUsed <= INT32_SAFE_MAX - concrete._bytesUsed)
+        {
+          Interlocked.Increment(ref entry.MessagesUsed);
+          Interlocked.Add(ref entry.BytesUsed, concrete._bytesUsed);
+        }
+        else
+        {
+          _cache.Remove(key);
+        }
+      }
+
+      return CreateVoidSuccess();
+    }
+
+    // ---- Helpers ----
+
+    private static Wrappers_Compile._IResult<DafnyTypes._IGetCacheEntryOutput, DafnyTypes._IError>
+        CreateGetFailure(string message)
+    {
+      return Wrappers_Compile.Result<DafnyTypes._IGetCacheEntryOutput, DafnyTypes._IError>
+          .create_Failure(DafnyTypes.Error.create_EntryDoesNotExist(
+              Dafny.Sequence<char>.FromString(message)));
+    }
+
+    private static Wrappers_Compile._IResult<_System._ITuple0, DafnyTypes._IError>
+        CreateVoidSuccess()
+    {
+      return Wrappers_Compile.Result<_System._ITuple0, DafnyTypes._IError>
+          .create_Success(_System.Tuple0.create());
     }
   }
 }
