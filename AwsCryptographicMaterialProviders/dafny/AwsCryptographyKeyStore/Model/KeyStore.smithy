@@ -57,7 +57,8 @@ service KeyStore {
     VersionKey,
     GetActiveBranchKey,
     GetBranchKeyVersion,
-    GetBeaconKey
+    GetBeaconKey,
+    GetBranchKeyVersions
   ],
   errors: [KeyStoreException]
 }
@@ -306,6 +307,34 @@ structure GetBeaconKeyOutput {
   @required
   @javadoc("The materials for the Beacon Key.")
   beaconKeyMaterials: BeaconKeyMaterials,
+}
+
+@javadoc("Queries DynamoDB for the N most recent branch key versions and decrypts each via KMS. Used for cache warmup.")
+operation GetBranchKeyVersions {
+  input: GetBranchKeyVersionsInput,
+  output: GetBranchKeyVersionsOutput
+}
+
+@javadoc("Inputs for getting recent branch key versions.")
+structure GetBranchKeyVersionsInput {
+  @required
+  @javadoc("The identifier of the Branch Key to get recent versions for.")
+  branchKeyIdentifier: String,
+
+  @required
+  @javadoc("The maximum number of recent versions to retrieve.")
+  count: Integer
+}
+
+@javadoc("Outputs for getting recent branch key versions.")
+structure GetBranchKeyVersionsOutput {
+  @required
+  @javadoc("The list of decrypted branch key materials for recent versions.")
+  branchKeyMaterials: BranchKeyMaterialsList
+}
+
+list BranchKeyMaterialsList {
+  member: BranchKeyMaterials
 }
 
 list GrantTokenList {

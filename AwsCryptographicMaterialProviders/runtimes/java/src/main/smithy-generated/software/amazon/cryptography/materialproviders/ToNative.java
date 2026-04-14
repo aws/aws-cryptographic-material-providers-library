@@ -515,6 +515,11 @@ public class ToNative {
         )
       );
     }
+    if (dafnyValue.dtor_cacheWarmUpVersions().is_Some()) {
+      nativeBuilder.cacheWarmUpVersions(
+        (dafnyValue.dtor_cacheWarmUpVersions().dtor_value())
+      );
+    }
     return nativeBuilder.build();
   }
 

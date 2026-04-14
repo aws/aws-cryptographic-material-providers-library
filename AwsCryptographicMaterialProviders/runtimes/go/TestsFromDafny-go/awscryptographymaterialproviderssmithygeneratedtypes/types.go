@@ -686,6 +686,8 @@ type CreateAwsKmsHierarchicalKeyringInput struct {
 
 	Cache CacheType
 
+	CacheWarmUpVersions *int32
+
 	PartitionId *string
 }
 
@@ -695,6 +697,11 @@ func (input CreateAwsKmsHierarchicalKeyringInput) Validate() error {
 	}
 	if input.Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate() != nil {
 		return input.Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_Validate()
+	}
+	if input.CacheWarmUpVersions != nil {
+		if *input.CacheWarmUpVersions < 0 {
+			return fmt.Errorf("PositiveInteger has a minimum of 0 but has the value of %d.", *input.CacheWarmUpVersions)
+		}
 	}
 
 	return nil

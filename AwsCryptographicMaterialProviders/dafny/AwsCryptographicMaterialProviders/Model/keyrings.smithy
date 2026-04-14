@@ -344,6 +344,9 @@ structure CreateAwsKmsHierarchicalKeyringInput {
 
     @documentation("Partition ID to distinguish Cryptographic Material Providers (i.e: Keyrings) writing to a cache. If the Partition ID is the same for two Hierarchical Keyrings (or another Material Provider), they can share the same cache entries in the cache.")
     partitionId : String
+
+    @documentation("If set, pre-populates the cache during Hierarchical Keyring construction by querying DynamoDB for the active branch key and the N most recent branch key versions, then decrypting each via KMS. This eliminates cold start latency on the first encrypt or decrypt calls. Only supported when branchKeyId is set (not branchKeyIdSupplier). Clamped to a maximum of 10 to prevent excessive KMS calls. Defaults to 0 (no warmup).")
+    cacheWarmUpVersions : PositiveInteger
 }
 
 // Raw
