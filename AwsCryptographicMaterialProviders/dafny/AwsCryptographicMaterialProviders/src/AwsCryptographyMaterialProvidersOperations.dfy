@@ -958,4 +958,37 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
     Success(())
   }
 
+  predicate GetCacheIdentifierEnsuresPublicly(input: GetCacheIdentifierInput, output: Result<GetCacheIdentifierOutput, Error>)
+  {true}
+
+  method GetCacheIdentifier(config: InternalConfig, input: GetCacheIdentifierInput)
+    returns (output: Result<GetCacheIdentifierOutput, Error>)
+  {
+    // The keyring must be a Hierarchical Keyring
+    :- Need(
+      input.keyring is AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring,
+      Types.AwsCryptographicMaterialProvidersException(
+        message := "GetCacheIdentifier requires a Hierarchical Keyring.")
+    );
+
+    var hkr := input.keyring as AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring;
+
+    var branchKeyIdUtf8 :- UTF8.Encode(input.branchKeyId)
+    .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(
+      message := "Could not UTF-8 Encode Branch Key ID: " + e
+    ));
+
+    if input.branchKeyVersion.Some? {
+      // Decrypt-path cache ID
+      var cacheId := hkr.ComputeDecryptCacheId(branchKeyIdUtf8, input.branchKeyVersion.value);
+      var id :- cacheId;
+      output := Success(GetCacheIdentifierOutput(identifier := id));
+    } else {
+      // Encrypt-path cache ID
+      var cacheId := hkr.GetActiveCacheId(input.branchKeyId, branchKeyIdUtf8, config.crypto);
+      var id :- cacheId;
+      output := Success(GetCacheIdentifierOutput(identifier := id));
+    }
+  }
+
 }

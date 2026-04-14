@@ -300,4 +300,29 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.ddbClient
     );
   }
+
+  predicate GetBranchKeyVersionsEnsuresPublicly(input: GetBranchKeyVersionsInput, output: Result<GetBranchKeyVersionsOutput, Error>)
+  {true}
+
+  method GetBranchKeyVersions(config: InternalConfig, input: GetBranchKeyVersionsInput)
+    returns (output: Result<GetBranchKeyVersionsOutput, Error>)
+  {
+    :- Need(
+      input.count > 0 && DDB.IsValid_PositiveIntegerObject(input.count),
+      Types.KeyStoreException(message := "GetBranchKeyVersions count must be a positive integer.")
+    );
+    var materials :- GetKeys.GetBranchKeyVersions(
+      input.branchKeyIdentifier,
+      input.count as DDB.PositiveIntegerObject,
+      config.ddbTableName,
+      config.logicalKeyStoreName,
+      config.kmsConfiguration,
+      config.grantTokens,
+      config.kmsClient,
+      config.ddbClient
+    );
+    output := Success(GetBranchKeyVersionsOutput(
+      branchKeyMaterials := materials
+    ));
+  }
 }
