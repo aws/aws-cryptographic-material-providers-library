@@ -964,7 +964,7 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   method GetCacheIdentifier(config: InternalConfig, input: GetCacheIdentifierInput)
     returns (output: Result<GetCacheIdentifierOutput, Error>)
   {
-    // The keyring must be a Hierarchical Keyring
+      // The keyring must be a Hierarchical Keyring
     :- Need(
       input.keyring is AwsKmsHierarchicalKeyring.AwsKmsHierarchicalKeyring,
       Types.AwsCryptographicMaterialProvidersException(
@@ -975,8 +975,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
 
     var branchKeyIdUtf8 :- UTF8.Encode(input.branchKeyId)
     .MapFailure(e => Types.AwsCryptographicMaterialProvidersException(
-      message := "Could not UTF-8 Encode Branch Key ID: " + e
-    ));
+                    message := "Could not UTF-8 Encode Branch Key ID: " + e
+                  ));
 
     if input.branchKeyVersion.Some? {
       // Decrypt-path cache ID

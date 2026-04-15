@@ -563,8 +563,8 @@ module AwsKmsHierarchicalKeyring {
       var identifier := resourceId + NULL_BYTE + scopeId + NULL_BYTE + partitionIdBytes + NULL_BYTE + suffix;
 
       var maybeCacheDigest := Digest.Digest(Crypto.DigestInput(
-        digestAlgorithm := hashAlgorithm, message := identifier
-      ));
+                                              digestAlgorithm := hashAlgorithm, message := identifier
+                                            ));
       var cacheDigest :- maybeCacheDigest.MapFailure(e => Types.AwsCryptographyPrimitives(e));
 
       return Success(cacheDigest);
