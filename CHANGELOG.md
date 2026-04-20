@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.11.2](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.1-java...v1.11.2-java) (2026-04-20)
+
 Each changelog entry applies to all runtimes unless specified by a language suffix.
 
 ## [2.0.0-net](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.2-net...v2.0.0-net) (2026-03-11)
