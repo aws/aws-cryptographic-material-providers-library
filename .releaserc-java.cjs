@@ -186,8 +186,8 @@ module.exports = {
         replacements: [
           {
             files: Object.keys(Runtimes.java),
-            from: "mplVersion=.*",
-            to: "mplVersion=${nextRelease.version}",
+            from: "javaMPLVersion=.*",
+            to: "javaMPLVersion=${nextRelease.version}",
             results: Object.keys(Runtimes.java).map(CheckResults),
             countMatches: true,
           },

@@ -76,7 +76,7 @@ jobs:
           # Get latest released DB-ESDK version from project.properties
           DBESDK_VERSION=$(grep "projectJavaVersion=" project.properties | cut -d'=' -f2 | sed 's/-SNAPSHOT//')
           # Get MPL version from local build
-          MPL_VERSION=$(grep "mplVersion=" ../project.properties | cut -d'=' -f2)
+          MPL_VERSION=$(grep "javaMPLVersion=" ../project.properties | cut -d'=' -f2)
           # Update project.properties
           # At least for Java we cannot assume this as the latest published dafny version _may_ not be the latest
           # java version, for now commenting this out.
