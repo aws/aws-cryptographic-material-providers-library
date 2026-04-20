@@ -1,30 +1,5 @@
 # Changelog
 
-## [1.11.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.0-java...v1.11.1-java) (2026-04-20)
-
-### ⚠ BREAKING CHANGES
-
-* **.net:** add a separate releaserc file to keep track of net releases (#1814)
-
-### feat
-
-* **.net:** add a separate releaserc file to keep track of net releases ([#1814](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1814)) ([c13c58f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c13c58fc72ebd8e90e338a73c4f617362f1883a9))
-
-### Maintenance -- All Languages
-
-* **dafny:** add fuzz testing to MPL ([#1622](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1622)) ([14fad38](https://github.com/aws/aws-cryptographic-material-providers-library/commit/14fad380f4350b3b32e478feb5fab03dabd7b14b))
-* **dafny:** add new SearchAndReplaceWhole and friends ([#1680](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1680)) ([74e98c1](https://github.com/aws/aws-cryptographic-material-providers-library/commit/74e98c10184c27bc57ba5b77386872466213f91f))
-* **dafny:** add Rust and Go to supported languages  ([#1492](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1492)) ([87ab402](https://github.com/aws/aws-cryptographic-material-providers-library/commit/87ab40233096739f2aa709fdcd948ce7452c7d04))
-* **dafny:** add search and replace methods ([#1649](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1649)) ([c86be0d](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c86be0dc7bb7609facad17adb6fc303478865f60))
-* **dafny:** append our user agent in KMS client ([#1564](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1564)) ([03d03ac](https://github.com/aws/aws-cryptographic-material-providers-library/commit/03d03ac1f3591885bcc583efb988602ed129c3c5))
-* **dafny:** bump setup_dafny ([#1712](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1712)) ([2c57523](https://github.com/aws/aws-cryptographic-material-providers-library/commit/2c575232dd97fedcbb84232c8fb75e82e8483734))
-* **dafny:** optimize mutation map for O(1) performance in Go  ([#1687](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1687)) ([68cd7cb](https://github.com/aws/aws-cryptographic-material-providers-library/commit/68cd7cb768ab2ffc85052959e46122af1e1c1dcf))
-* **dafny:** remove negative test for codebuild runner ([#1603](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1603)) ([8b45e40](https://github.com/aws/aws-cryptographic-material-providers-library/commit/8b45e40e9fa081e277837946e53836b308429ee8))
-
-### Maintenance -- Java
-
-* **java:** update changelog for Java ([4f4f033](https://github.com/aws/aws-cryptographic-material-providers-library/commit/4f4f033a3aea109b43a574ebfba32034be24a2c5))
-
 Each changelog entry applies to all runtimes unless specified by a language suffix.
 
 ## [2.0.0-net](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.2-net...v2.0.0-net) (2026-03-11)
