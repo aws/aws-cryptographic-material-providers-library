@@ -27,7 +27,7 @@ const Runtimes = {
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  branches: ["main", "run-to-test-changelog-command-java"],
+  branches: ["main"],
   repositoryUrl:
     "git@github.com:aws/aws-cryptographic-material-providers-library.git",
   tagFormat: "v${version}-java",
@@ -177,7 +177,7 @@ module.exports = {
       {
         changelogFile: "CHANGELOG-java.md",
         changelogTitle:
-          "# Changelog\n\nEach changelog entry applies to all runtimes unless specified by a language suffix.",
+          "# Changelog",
       },
     ],
     [
@@ -205,7 +205,7 @@ module.exports = {
       "@semantic-release/git",
       {
         assets: [
-          "CHANGELOG.md",
+          "CHANGELOG-java.md",
           "ComAmazonawsKms/src/Index.dfy",
           ...Object.keys(Runtimes.java),
         ],

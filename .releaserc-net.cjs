@@ -97,6 +97,10 @@ module.exports = {
               section: "Features -- DotNet",
               hidden: false,
             },
+            { type: "feat", scope: "java", hidden: true },
+            { type: "feat", scope: "python", hidden: true },
+            { type: "feat", scope: "go", hidden: true },
+            { type: "feat", scope: "rust", hidden: true },
             {
               type: "fix",
               scope: "dafny",
@@ -109,6 +113,10 @@ module.exports = {
               section: "Fixes -- DotNet",
               hidden: false,
             },
+            { type: "fix", scope: "java", hidden: true },
+            { type: "fix", scope: "python", hidden: true },
+            { type: "fix", scope: "go", hidden: true },
+            { type: "fix", scope: "rust", hidden: true },
             {
               type: "chore",
               scope: "dafny",
@@ -121,6 +129,10 @@ module.exports = {
               section: "Maintenance -- DotNet",
               hidden: false,
             },
+            { type: "chore", scope: "java", hidden: true },
+            { type: "chore", scope: "python", hidden: true },
+            { type: "chore", scope: "go", hidden: true },
+            { type: "chore", scope: "rust", hidden: true },
             {
               type: "docs",
               scope: "dafny",
@@ -133,6 +145,10 @@ module.exports = {
               section: "Maintenance -- DotNet",
               hidden: false,
             },
+            { type: "docs", scope: "java", hidden: true },
+            { type: "docs", scope: "python", hidden: true },
+            { type: "docs", scope: "go", hidden: true },
+            { type: "docs", scope: "rust", hidden: true },
             {
               type: "revert",
               scope: "dafny",
@@ -145,6 +161,10 @@ module.exports = {
               section: "Fixes -- DotNet",
               hidden: false,
             },
+            { type: "revert", scope: "java", hidden: true },
+            { type: "revert", scope: "python", hidden: true },
+            { type: "revert", scope: "go", hidden: true },
+            { type: "revert", scope: "rust", hidden: true },
             { type: "style", section: "Miscellaneous", hidden: false },
             { type: "refactor", section: "Miscellaneous", hidden: false },
             { type: "perf", section: "Miscellaneous", hidden: false },
@@ -157,7 +177,7 @@ module.exports = {
     [
       "@semantic-release/changelog",
       {
-        changelogFile: "CHANGELOG.md",
+        changelogFile: "CHANGELOG-dotnet.md",
         changelogTitle: "# Changelog",
       },
     ],
@@ -195,8 +215,7 @@ module.exports = {
       "@semantic-release/git",
       {
         assets: [
-          "CHANGELOG.md",
-          "ComAmazonawsKms/src/Index.dfy",
+          "CHANGELOG-dotnet.md",
           ...Object.values(Runtimes.net).flatMap((r) => r.assemblyInfo),
         ],
         message: "chore: ${nextRelease.version} \n\n${nextRelease.notes}",
