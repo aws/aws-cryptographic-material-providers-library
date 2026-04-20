@@ -19,11 +19,6 @@
 // each one has files that need to be updated.
 // We model all the files and the runtimes here in this structure
 const Runtimes = {
-  java: {
-    "project.properties": {
-      dependencies: [],
-    },
-  },
   // Any change to the size of the `dependencies` list
   // must be accounted for in `CheckDependencyReplacementResults`.
   python: {
@@ -101,12 +96,6 @@ module.exports = {
             },
             {
               type: "feat",
-              scope: "java",
-              section: "Features -- Java",
-              hidden: false,
-            },
-            {
-              type: "feat",
               scope: "python",
               section: "Features -- Python",
               hidden: false,
@@ -158,12 +147,6 @@ module.exports = {
             },
             {
               type: "chore",
-              scope: "java",
-              section: "Maintenance -- Java",
-              hidden: false,
-            },
-            {
-              type: "chore",
               scope: "python",
               section: "Maintenance -- Python",
               hidden: false,
@@ -193,12 +176,6 @@ module.exports = {
             },
             {
               type: "docs",
-              scope: "java",
-              section: "Maintenance -- Java",
-              hidden: false,
-            },
-            {
-              type: "docs",
               scope: "python",
               section: "Maintenance -- Python",
               hidden: false,
@@ -219,12 +196,6 @@ module.exports = {
               type: "revert",
               scope: "dafny",
               section: "Fixes -- All Languages",
-              hidden: false,
-            },
-            {
-              type: "revert",
-              scope: "java",
-              section: "Fixes -- Java",
               hidden: false,
             },
             {
@@ -267,16 +238,6 @@ module.exports = {
       "semantic-release-replace-plugin",
       {
         replacements: [
-          // Update the version for all Gradle Java projects
-          // Does not update the dependencies
-          {
-            files: Object.keys(Runtimes.java),
-            from: "mplVersion=.*",
-            to: "mplVersion=${nextRelease.version}",
-            results: Object.keys(Runtimes.java).map(CheckResults),
-            countMatches: true,
-          },
-
           // Update the version in pyproject.toml for all Python projects
           // Does not update the dependencies
           {
@@ -296,15 +257,6 @@ module.exports = {
             results: Object.keys(Runtimes.python).map(
               CheckDependencyReplacementResults,
             ),
-            countMatches: true,
-          },
-
-          // Update the version in ComAmazonawsKms/src/Index.dfy DafnyUserAgentSuffix function
-          {
-            files: ["ComAmazonawsKms/src/Index.dfy"],
-            from: 'var version := ".*"',
-            to: 'var version := "${nextRelease.version}"',
-            results: [CheckResults("ComAmazonawsKms/src/Index.dfy")],
             countMatches: true,
           },
         ],
