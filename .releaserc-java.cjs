@@ -27,7 +27,7 @@ const Runtimes = {
  * @type {import('semantic-release').GlobalConfig}
  */
 module.exports = {
-  branches: ["main"],
+  branches: ["main", "run-to-test-changelog-command-java"],
   repositoryUrl:
     "git@github.com:aws/aws-cryptographic-material-providers-library.git",
   tagFormat: "v${version}-java",
