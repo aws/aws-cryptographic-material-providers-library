@@ -3,4 +3,4 @@ using System.Reflection;
 [assembly: AssemblyTitle("AWS.Cryptography.Internal.StandardLibrary")]
 
 // This should be kept in sync with the version number in STD.csproj
-[assembly: AssemblyVersion("2.0.1")]
+[assembly: AssemblyVersion("2.0.0")]
