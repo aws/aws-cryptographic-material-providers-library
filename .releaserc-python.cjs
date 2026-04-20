@@ -75,11 +75,17 @@ module.exports = {
             { type: "test", section: "Miscellaneous" },
           ],
         },
-        releaseRules: [
-          { type: "docs", release: "patch" },
-          { type: "revert", release: "patch" },
-          { type: "chore", release: "patch" },
-        ],
+          releaseRules: [                                                                                                                                                                                                                                                                                            
+            { scope: "java", release: false },                                                                                                                                                                                                                                                                       
+            { scope: "dotnet", release: false },                                                                                                                                                                                                                                                                     
+            { scope: ".net", release: false },                                                                                                                                                                                                                                                                       
+            { scope: "net", release: false },                                                                                                                                                                                                                                                                        
+            { scope: "go", release: false },                                                                                                                                                                                                                                                                         
+            { scope: "rust", release: false },                                                                                                                                                                                                                                                                       
+            { type: "docs", release: "patch" },                                                                                                                                                                                                                                                                      
+            { type: "revert", release: "patch" },                                                                                                                                                                                                                                                                    
+            { type: "chore", release: "patch" },                                                                                                                                                                                                                                                                     
+          ],
       },
     ],
     // Based on the commits generate release notes
