@@ -175,7 +175,7 @@ module.exports = {
     [
       "@semantic-release/changelog",
       {
-        changelogFile: "CHANGELOG.md",
+        changelogFile: "CHANGELOG-java.md",
         changelogTitle:
           "# Changelog\n\nEach changelog entry applies to all runtimes unless specified by a language suffix.",
       },
@@ -205,7 +205,7 @@ module.exports = {
       "@semantic-release/git",
       {
         assets: [
-          "CHANGELOG-java.md",
+          "CHANGELOG.md",
           "ComAmazonawsKms/src/Index.dfy",
           ...Object.keys(Runtimes.java),
         ],
