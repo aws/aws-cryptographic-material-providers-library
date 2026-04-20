@@ -31,7 +31,7 @@ module {:extern "software.amazon.cryptography.services.kms.internaldafny"} Com.A
   function method DafnyUserAgentSuffix(runtime: string): string
   {
     // This version is automatically updated by semantic-release only on Java releases
-    var version := "1.11.0";
+    var version := "1.11.1";
     "AwsCryptographicMPL/" + runtime + "/" + version
   }
 }
