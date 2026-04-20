@@ -59,6 +59,13 @@ run_net_semantic_release:
 	mv .releaserc.cjs .releaserc-net.cjs
 	mv .releaserc-main.cjs .releaserc.cjs
 
+run_java_semantic_release:
+	mv .releaserc.cjs .releaserc-main.cjs
+	mv .releaserc-java.cjs .releaserc.cjs
+	npx semantic-release --no-ci
+	mv .releaserc.cjs .releaserc-java.cjs
+	mv .releaserc-main.cjs .releaserc.cjs
+
 dry_run_semantic_release:
 	npx semantic-release --dry-run
 
