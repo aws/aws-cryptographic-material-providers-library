@@ -87,6 +87,9 @@ module.exports = {
       "@semantic-release/release-notes-generator",
       {
         preset: "conventionalcommits",
+        parserOpts: {
+          noteKeywords: ["PYTHON BREAKING CHANGE", "PYTHON BREAKING CHANGES"],
+        },
         presetConfig: {
           types: [
             {

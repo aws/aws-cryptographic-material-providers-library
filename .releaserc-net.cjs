@@ -83,6 +83,9 @@ module.exports = {
       "@semantic-release/release-notes-generator",
       {
         preset: "conventionalcommits",
+        parserOpts: {
+          noteKeywords: ["NET BREAKING CHANGE", "NET BREAKING CHANGES"],
+        },
         presetConfig: {
           types: [
             {
