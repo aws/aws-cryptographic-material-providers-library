@@ -59,7 +59,7 @@ module.exports = {
       {
         preset: "conventionalcommits",
         parserOpts: {
-          noteKeywords: ["BREAKING CHANGE", "BREAKING CHANGES"],
+          noteKeywords: ["PYTHON BREAKING CHANGE", "PYTHON BREAKING CHANGES"],
         },
         presetConfig: {
           types: [
@@ -101,28 +101,9 @@ module.exports = {
               hidden: false,
             },
             {
-              type: "feat",
-              scope: "go",
-              section: "Features -- Go",
-              hidden: false,
-            },
-            {
-              type: "feat",
-              scope: "rust",
-              section: "Features -- Rust",
-              hidden: false,
-            },
-
-            {
               type: "fix",
               scope: "dafny",
               section: "Fixes -- All Languages",
-              hidden: false,
-            },
-            {
-              type: "fix",
-              scope: "java",
-              section: "Fixes -- Java",
               hidden: false,
             },
             {
@@ -131,14 +112,6 @@ module.exports = {
               section: "Fixes -- Python",
               hidden: false,
             },
-            { type: "fix", scope: "go", section: "Fixes -- Go", hidden: false },
-            {
-              type: "fix",
-              scope: "rust",
-              section: "Fixes -- Rust",
-              hidden: false,
-            },
-
             {
               type: "chore",
               scope: "dafny",
@@ -149,18 +122,6 @@ module.exports = {
               type: "chore",
               scope: "python",
               section: "Maintenance -- Python",
-              hidden: false,
-            },
-            {
-              type: "chore",
-              scope: "go",
-              section: "Maintenance -- Go",
-              hidden: false,
-            },
-            {
-              type: "chore",
-              scope: "rust",
-              section: "Maintenance -- Rust",
               hidden: false,
             },
             {
@@ -181,18 +142,6 @@ module.exports = {
               hidden: false,
             },
             {
-              type: "docs",
-              scope: "go",
-              section: "Maintenance -- Go",
-              hidden: false,
-            },
-            {
-              type: "docs",
-              scope: "rust",
-              section: "Maintenance -- Rust",
-              hidden: false,
-            },
-            {
               type: "revert",
               scope: "dafny",
               section: "Fixes -- All Languages",
@@ -202,18 +151,6 @@ module.exports = {
               type: "revert",
               scope: "python",
               section: "Fixes -- Python",
-              hidden: false,
-            },
-            {
-              type: "revert",
-              scope: "go",
-              section: "Fixes -- Go",
-              hidden: false,
-            },
-            {
-              type: "revert",
-              scope: "rust",
-              section: "Fixes -- Rust",
               hidden: false,
             },
             { type: "style", section: "Miscellaneous", hidden: false },
