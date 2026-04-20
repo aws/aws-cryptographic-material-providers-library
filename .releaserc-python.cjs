@@ -52,6 +52,7 @@ module.exports = {
   branches: ["main"],
   repositoryUrl:
     "git@github.com:aws/aws-cryptographic-material-providers-library.git",
+  tagFormat: "v${version}-python",
   plugins: [
     // Check the commits since the last release
     [
