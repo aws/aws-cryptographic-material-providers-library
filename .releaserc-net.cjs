@@ -247,6 +247,15 @@ module.exports = {
               countMatches: true,
             }),
           ),
+
+          // Update the version in ComAmazonawsKms/src/Index.dfy DafnyUserAgentSuffix function
+          {
+            files: ["ComAmazonawsKms/src/Index.dfy"],
+            from: 'var version := ".*"',
+            to: 'var version := "${nextRelease.version}"',
+            results: [CheckResults("ComAmazonawsKms/src/Index.dfy")],
+            countMatches: true,
+          },
         ],
       },
     ],
