@@ -28,7 +28,7 @@ different runtimes. Dafny code is transpiled into Go code with the help of inter
 
 ### Installation
 
-`go get github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl@v0.2.0`
+`go get github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl@latest`
 
 ### Optional Prerequisites
 

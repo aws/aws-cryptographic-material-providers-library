@@ -28,6 +28,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -69,6 +70,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -446,9 +448,9 @@ func (_static *CompanionStruct_Default___) OneHelp(opt Param, longLen _dafny.Int
 func (_static *CompanionStruct_Default___) GetCommandHelp(opt Param, commandLen _dafny.Int) _dafny.Sequence {
 	var _0_name _dafny.Sequence = (func() _dafny.Sequence {
 		if (_dafny.IntOfUint32((((opt).Dtor_options()).Dtor_name()).Cardinality())).Cmp(commandLen) < 0 {
-			return _dafny.Companion_Sequence_.Concatenate(((opt).Dtor_options()).Dtor_name(), _dafny.SeqCreate(((commandLen).Minus(_dafny.IntOfUint32((((opt).Dtor_options()).Dtor_name()).Cardinality()))).Uint32(), func(coer22 func(_dafny.Int) _dafny.Char) func(_dafny.Int) interface{} {
-				return func(arg26 _dafny.Int) interface{} {
-					return coer22(arg26)
+			return _dafny.Companion_Sequence_.Concatenate(((opt).Dtor_options()).Dtor_name(), _dafny.SeqCreate(((commandLen).Minus(_dafny.IntOfUint32((((opt).Dtor_options()).Dtor_name()).Cardinality()))).Uint32(), func(coer21 func(_dafny.Int) _dafny.Char) func(_dafny.Int) interface{} {
+				return func(arg24 _dafny.Int) interface{} {
+					return coer21(arg24)
 				}
 			}(func(_1_i _dafny.Int) _dafny.Char {
 				return _dafny.Char(' ')
@@ -480,9 +482,9 @@ func (_static *CompanionStruct_Default___) GetLongHelp(opt Param, longLen _dafny
 		})())
 		_ = _0_tmp
 		if (_dafny.IntOfUint32((_0_tmp).Cardinality())).Cmp(longLen) < 0 {
-			return _dafny.Companion_Sequence_.Concatenate(_0_tmp, _dafny.SeqCreate(((longLen).Minus(_dafny.IntOfUint32((_0_tmp).Cardinality()))).Uint32(), func(coer23 func(_dafny.Int) _dafny.Char) func(_dafny.Int) interface{} {
-				return func(arg27 _dafny.Int) interface{} {
-					return coer23(arg27)
+			return _dafny.Companion_Sequence_.Concatenate(_0_tmp, _dafny.SeqCreate(((longLen).Minus(_dafny.IntOfUint32((_0_tmp).Cardinality()))).Uint32(), func(coer22 func(_dafny.Int) _dafny.Char) func(_dafny.Int) interface{} {
+				return func(arg25 _dafny.Int) interface{} {
+					return coer22(arg25)
 				}
 			}(func(_1_i _dafny.Int) _dafny.Char {
 				return _dafny.Char(' ')
@@ -826,32 +828,32 @@ func (_static *CompanionStruct_Default___) PostProcess(opts Options, args Parsed
 					} else {
 						var _4_sub Parsed = (_3_valueOrError1).Extract().(Parsed)
 						_ = _4_sub
-						return m_Wrappers.Companion_Result_.Create_Success_(func(_pat_let1_0 Parsed) Parsed {
+						return m_Wrappers.Companion_Result_.Create_Success_(func(_pat_let0_0 Parsed) Parsed {
 							return func(_5_dt__update__tmp_h0 Parsed) Parsed {
-								return func(_pat_let2_0 m_Wrappers.Option) Parsed {
+								return func(_pat_let1_0 m_Wrappers.Option) Parsed {
 									return func(_6_dt__update_hsubcommand_h0 m_Wrappers.Option) Parsed {
-										return func(_pat_let3_0 _dafny.Sequence) Parsed {
+										return func(_pat_let2_0 _dafny.Sequence) Parsed {
 											return func(_7_dt__update_hparams_h0 _dafny.Sequence) Parsed {
 												return Companion_Parsed_.Create_Parsed_((_5_dt__update__tmp_h0).Dtor_command(), _7_dt__update_hparams_h0, (_5_dt__update__tmp_h0).Dtor_files(), _6_dt__update_hsubcommand_h0)
-											}(_pat_let3_0)
+											}(_pat_let2_0)
 										}(_dafny.Companion_Sequence_.Concatenate((_pat_let_tv0).Dtor_params(), _1_newParams))
-									}(_pat_let2_0)
+									}(_pat_let1_0)
 								}(m_Wrappers.Companion_Option_.Create_Some_(_4_sub))
-							}(_pat_let1_0)
+							}(_pat_let0_0)
 						}(args))
 					}
 				} else {
 					return m_Wrappers.Companion_Result_.Create_Failure_(_dafny.SeqOfString("Internal error in GetOpt::PostProcess"))
 				}
 			} else {
-				return m_Wrappers.Companion_Result_.Create_Success_(func(_pat_let4_0 Parsed) Parsed {
+				return m_Wrappers.Companion_Result_.Create_Success_(func(_pat_let3_0 Parsed) Parsed {
 					return func(_8_dt__update__tmp_h1 Parsed) Parsed {
-						return func(_pat_let5_0 _dafny.Sequence) Parsed {
+						return func(_pat_let4_0 _dafny.Sequence) Parsed {
 							return func(_9_dt__update_hparams_h1 _dafny.Sequence) Parsed {
 								return Companion_Parsed_.Create_Parsed_((_8_dt__update__tmp_h1).Dtor_command(), _9_dt__update_hparams_h1, (_8_dt__update__tmp_h1).Dtor_files(), (_8_dt__update__tmp_h1).Dtor_subcommand())
-							}(_pat_let5_0)
+							}(_pat_let4_0)
 						}(_dafny.Companion_Sequence_.Concatenate((_pat_let_tv1).Dtor_params(), _1_newParams))
-					}(_pat_let4_0)
+					}(_pat_let3_0)
 				}(args))
 			}
 		}
@@ -987,9 +989,9 @@ TAIL_CALL_START:
 func (_static *CompanionStruct_Default___) GetOptions(opts Options, args _dafny.Sequence) m_Wrappers.Result {
 	var _0_newOpts _dafny.Sequence = _dafny.Companion_Sequence_.Concatenate((opts).Dtor_params(), _dafny.SeqOf(Companion_Default___.HELP__PARAM()))
 	_ = _0_newOpts
-	var _1_inherits _dafny.Sequence = Companion_Default___.Filter(func(coer24 func(Param) bool) func(interface{}) bool {
-		return func(arg28 interface{}) bool {
-			return coer24(arg28.(Param))
+	var _1_inherits _dafny.Sequence = Companion_Default___.Filter(func(coer23 func(Param) bool) func(interface{}) bool {
+		return func(arg26 interface{}) bool {
+			return coer23(arg26.(Param))
 		}
 	}(func(_2_o Param) bool {
 		return (_2_o).Inherits()
@@ -1066,9 +1068,9 @@ func (_static *CompanionStruct_Default___) GetOptions2(args _dafny.Sequence, con
 	if (_dafny.IntOfUint32((args).Cardinality())).Sign() == 0 {
 		return m_Wrappers.Companion_Result_.Create_Success_(Companion_Parsed_.Create_Parsed_((context).Dtor_command(), parms, files, m_Wrappers.Companion_Option_.Create_None_()))
 	} else if ((context).Dtor_commands()).Contains((args).Select(0).(_dafny.Sequence)) {
-		var _0_inherits _dafny.Sequence = Companion_Default___.Filter(func(coer25 func(Param) bool) func(interface{}) bool {
-			return func(arg29 interface{}) bool {
-				return coer25(arg29.(Param))
+		var _0_inherits _dafny.Sequence = Companion_Default___.Filter(func(coer24 func(Param) bool) func(interface{}) bool {
+			return func(arg27 interface{}) bool {
+				return coer24(arg27.(Param))
 			}
 		}(func(_1_o Param) bool {
 			return (_1_o).Inherits()

@@ -51,6 +51,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -71,6 +72,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -160,7 +162,7 @@ func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 var _ _dafny.TraitOffspring = &Default__{}
 
 func (_static *CompanionStruct_Default___) BranchKeyContext_q(m _dafny.Map) bool {
-	return ((((((((((((((m).Contains(Companion_Default___.BRANCH__KEY__IDENTIFIER__FIELD())) && ((m).Contains(Companion_Default___.TYPE__FIELD()))) && ((m).Contains(Companion_Default___.KEY__CREATE__TIME()))) && ((m).Contains(Companion_Default___.HIERARCHY__VERSION()))) && ((m).Contains(Companion_Default___.TABLE__FIELD()))) && ((m).Contains(Companion_Default___.KMS__FIELD()))) && (m_ComAmazonawsKmsTypes.Companion_Default___.IsValid__KeyIdType((m).Get(Companion_Default___.KMS__FIELD()).(_dafny.Sequence)))) && (!((m).Keys()).Contains(Companion_Default___.BRANCH__KEY__FIELD()))) && ((_dafny.IntOfUint32(((m).Get(Companion_Default___.BRANCH__KEY__IDENTIFIER__FIELD()).(_dafny.Sequence)).Cardinality())).Sign() == 1)) && ((_dafny.IntOfUint32(((m).Get(Companion_Default___.TYPE__FIELD()).(_dafny.Sequence)).Cardinality())).Sign() == 1)) && (_dafny.Quantifier(((m).Keys()).Elements(), true, func(_forall_var_0 _dafny.Sequence) bool {
+	return ((((((((((((((m).Contains(Companion_Default___.BRANCH__KEY__IDENTIFIER__FIELD())) && ((m).Contains(Companion_Default___.TYPE__FIELD()))) && ((m).Contains(Companion_Default___.KEY__CREATE__TIME()))) && ((m).Contains(Companion_Default___.HIERARCHY__VERSION()))) && ((m).Contains(Companion_Default___.TABLE__FIELD()))) && ((m).Contains(Companion_Default___.KMS__FIELD()))) && (m_ComAmazonawsKmsTypes.Companion_Default___.IsValid__KeyIdType((m).Get(Companion_Default___.KMS__FIELD()).(_dafny.Sequence)))) && (!((m).Keys()).Contains(Companion_Default___.BRANCH__KEY__FIELD()))) && ((uint64(0)) < (uint64(((m).Get(Companion_Default___.BRANCH__KEY__IDENTIFIER__FIELD()).(_dafny.Sequence)).Cardinality())))) && ((uint64(0)) < (uint64(((m).Get(Companion_Default___.TYPE__FIELD()).(_dafny.Sequence)).Cardinality())))) && (_dafny.Quantifier(((m).Keys()).Elements(), true, func(_forall_var_0 _dafny.Sequence) bool {
 		var _0_k _dafny.Sequence
 		_0_k = interface{}(_forall_var_0).(_dafny.Sequence)
 		return !(((m).Keys()).Contains(_0_k)) || (m_ComAmazonawsDynamodbTypes.Companion_Default___.IsValid__AttributeName(_0_k))
@@ -232,7 +234,7 @@ func (_static *CompanionStruct_Default___) ToBranchKeyMaterials(encryptionContex
 		return (encryptionContext).Get(Companion_Default___.TYPE__FIELD()).(_dafny.Sequence)
 	})()
 	_ = _0_versionInformation
-	var _1_branchKeyVersion _dafny.Sequence = (_0_versionInformation).Drop((_dafny.IntOfUint32((Companion_Default___.BRANCH__KEY__TYPE__PREFIX()).Cardinality())).Uint32())
+	var _1_branchKeyVersion _dafny.Sequence = (_0_versionInformation).Drop(uint32(uint32((Companion_Default___.BRANCH__KEY__TYPE__PREFIX()).Cardinality())))
 	_ = _1_branchKeyVersion
 	var _2_valueOrError0 m_Wrappers.Result = (m_UTF8.Encode(_1_branchKeyVersion)).MapFailure(func(coer10 func(_dafny.Sequence) m_AwsCryptographyKeyStoreTypes.Error) func(interface{}) interface{} {
 		return func(arg10 interface{}) interface{} {
@@ -270,47 +272,64 @@ func (_static *CompanionStruct_Default___) ToBeaconKeyMaterials(encryptionContex
 	}
 }
 func (_static *CompanionStruct_Default___) ExtractCustomEncryptionContext(encryptionContext _dafny.Map) m_Wrappers.Result {
-	var _0_encodedEncryptionContext _dafny.Set = func() _dafny.Set {
+	var _0_prefixKeys _dafny.Set = func() _dafny.Set {
 		var _coll0 = _dafny.NewBuilder()
 		_ = _coll0
-		for _iter4 := _dafny.Iterate((encryptionContext).Keys().Elements()); ; {
+		for _iter4 := _dafny.Iterate(((encryptionContext).Keys()).Elements()); ; {
 			_compr_0, _ok4 := _iter4()
 			if !_ok4 {
 				break
 			}
 			var _1_k _dafny.Sequence
 			_1_k = interface{}(_compr_0).(_dafny.Sequence)
-			if ((encryptionContext).Contains(_1_k)) && (_dafny.Companion_Sequence_.IsProperPrefixOf(Companion_Default___.ENCRYPTION__CONTEXT__PREFIX(), _1_k)) {
-				_coll0.Add(_dafny.TupleOf(m_UTF8.Encode((_1_k).Drop((_dafny.IntOfUint32((Companion_Default___.ENCRYPTION__CONTEXT__PREFIX()).Cardinality())).Uint32())), m_UTF8.Encode((encryptionContext).Get(_1_k).(_dafny.Sequence))))
+			if (((encryptionContext).Keys()).Contains(_1_k)) && (_dafny.Companion_Sequence_.IsPrefixOf(Companion_Default___.ENCRYPTION__CONTEXT__PREFIX(), _1_k)) {
+				_coll0.Add(_1_k)
 			}
 		}
 		return _coll0.ToSet()
 	}()
-	_ = _0_encodedEncryptionContext
-	var _2_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(_dafny.Quantifier((_0_encodedEncryptionContext).Elements(), true, func(_forall_var_0 _dafny.Tuple) bool {
-		var _3_i _dafny.Tuple
-		_3_i = interface{}(_forall_var_0).(_dafny.Tuple)
-		return !((_0_encodedEncryptionContext).Contains(_3_i)) || ((((*(_3_i).IndexInt(0)).(m_Wrappers.Result)).Is_Success()) && (((*(_3_i).IndexInt(1)).(m_Wrappers.Result)).Is_Success()))
+	_ = _0_prefixKeys
+	var _2_encodedEncryptionContext _dafny.Set = func() _dafny.Set {
+		var _coll1 = _dafny.NewBuilder()
+		_ = _coll1
+		for _iter5 := _dafny.Iterate((_0_prefixKeys).Elements()); ; {
+			_compr_1, _ok5 := _iter5()
+			if !_ok5 {
+				break
+			}
+			var _3_k _dafny.Sequence
+			_3_k = interface{}(_compr_1).(_dafny.Sequence)
+			if (_0_prefixKeys).Contains(_3_k) {
+				_coll1.Add(_dafny.TupleOf(m_UTF8.Encode((_3_k).Drop(uint32(uint32((Companion_Default___.ENCRYPTION__CONTEXT__PREFIX()).Cardinality())))), m_UTF8.Encode((encryptionContext).Get(_3_k).(_dafny.Sequence))))
+			}
+		}
+		return _coll1.ToSet()
+	}()
+	_ = _2_encodedEncryptionContext
+	var _4_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(_dafny.Quantifier((_2_encodedEncryptionContext).Elements(), true, func(_forall_var_0 _dafny.Tuple) bool {
+		var _5_i _dafny.Tuple
+		_5_i = interface{}(_forall_var_0).(_dafny.Tuple)
+		return !((_2_encodedEncryptionContext).Contains(_5_i)) || ((((*(_5_i).IndexInt(0)).(m_Wrappers.Result)).Is_Success()) && (((*(_5_i).IndexInt(1)).(m_Wrappers.Result)).Is_Success()))
 	}), m_AwsCryptographyKeyStoreTypes.Companion_Error_.Create_KeyStoreException_(_dafny.SeqOfString("Unable to encode string")))
-	_ = _2_valueOrError0
-	if (_2_valueOrError0).IsFailure() {
-		return (_2_valueOrError0).PropagateFailure()
+	_ = _4_valueOrError0
+	if (_4_valueOrError0).IsFailure() {
+		return (_4_valueOrError0).PropagateFailure()
 	} else {
 		return m_Wrappers.Companion_Result_.Create_Success_(func() _dafny.Map {
-			var _coll1 = _dafny.NewMapBuilder()
-			_ = _coll1
-			for _iter5 := _dafny.Iterate((_0_encodedEncryptionContext).Elements()); ; {
-				_compr_1, _ok5 := _iter5()
-				if !_ok5 {
+			var _coll2 = _dafny.NewMapBuilder()
+			_ = _coll2
+			for _iter6 := _dafny.Iterate((_2_encodedEncryptionContext).Elements()); ; {
+				_compr_2, _ok6 := _iter6()
+				if !_ok6 {
 					break
 				}
-				var _4_i _dafny.Tuple
-				_4_i = interface{}(_compr_1).(_dafny.Tuple)
-				if (_0_encodedEncryptionContext).Contains(_4_i) {
-					_coll1.Add(((*(_4_i).IndexInt(0)).(m_Wrappers.Result)).Dtor_value().(_dafny.Sequence), ((*(_4_i).IndexInt(1)).(m_Wrappers.Result)).Dtor_value().(_dafny.Sequence))
+				var _6_i _dafny.Tuple
+				_6_i = interface{}(_compr_2).(_dafny.Tuple)
+				if (_2_encodedEncryptionContext).Contains(_6_i) {
+					_coll2.Add(((*(_6_i).IndexInt(0)).(m_Wrappers.Result)).Dtor_value().(_dafny.Sequence), ((*(_6_i).IndexInt(1)).(m_Wrappers.Result)).Dtor_value().(_dafny.Sequence))
 				}
 			}
-			return _coll1.ToMap()
+			return _coll2.ToMap()
 		}())
 	}
 }
@@ -318,9 +337,9 @@ func (_static *CompanionStruct_Default___) DecryptOnlyBranchKeyEncryptionContext
 	return (_dafny.NewMapBuilder().ToMap().UpdateUnsafe(Companion_Default___.BRANCH__KEY__IDENTIFIER__FIELD(), branchKeyId).UpdateUnsafe(Companion_Default___.TYPE__FIELD(), _dafny.Companion_Sequence_.Concatenate(Companion_Default___.BRANCH__KEY__TYPE__PREFIX(), branchKeyVersion)).UpdateUnsafe(Companion_Default___.KEY__CREATE__TIME(), timestamp).UpdateUnsafe(Companion_Default___.TABLE__FIELD(), logicalKeyStoreName).UpdateUnsafe(Companion_Default___.KMS__FIELD(), kmsKeyArn).UpdateUnsafe(Companion_Default___.HIERARCHY__VERSION(), _dafny.SeqOfString("1"))).Merge(func() _dafny.Map {
 		var _coll0 = _dafny.NewMapBuilder()
 		_ = _coll0
-		for _iter6 := _dafny.Iterate((customEncryptionContext).Keys().Elements()); ; {
-			_compr_0, _ok6 := _iter6()
-			if !_ok6 {
+		for _iter7 := _dafny.Iterate((customEncryptionContext).Keys().Elements()); ; {
+			_compr_0, _ok7 := _iter7()
+			if !_ok7 {
 				break
 			}
 			var _0_k _dafny.Sequence
@@ -342,7 +361,7 @@ func (_static *CompanionStruct_Default___) NewVersionFromActiveBranchKeyEncrypti
 	return ((activeBranchKeyEncryptionContext).Merge(_dafny.NewMapBuilder().ToMap().UpdateUnsafe(Companion_Default___.TYPE__FIELD(), _dafny.Companion_Sequence_.Concatenate(Companion_Default___.BRANCH__KEY__TYPE__PREFIX(), branchKeyVersion)).UpdateUnsafe(Companion_Default___.KEY__CREATE__TIME(), timestamp))).Subtract(_dafny.SetOf(Companion_Default___.BRANCH__KEY__ACTIVE__VERSION__FIELD()))
 }
 func (_static *CompanionStruct_Default___) BranchKeyItem_q(m _dafny.Map) bool {
-	return (((((((((((((((((((((m).Contains(Companion_Default___.BRANCH__KEY__IDENTIFIER__FIELD())) && (((m).Get(Companion_Default___.BRANCH__KEY__IDENTIFIER__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_S())) && ((m).Contains(Companion_Default___.TYPE__FIELD()))) && (((m).Get(Companion_Default___.TYPE__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_S())) && ((m).Contains(Companion_Default___.KEY__CREATE__TIME()))) && (((m).Get(Companion_Default___.KEY__CREATE__TIME()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_S())) && ((m).Contains(Companion_Default___.HIERARCHY__VERSION()))) && (((m).Get(Companion_Default___.HIERARCHY__VERSION()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_N())) && (!(m).Contains(Companion_Default___.TABLE__FIELD()))) && ((m).Contains(Companion_Default___.KMS__FIELD()))) && (((m).Get(Companion_Default___.KMS__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_S())) && (m_ComAmazonawsKmsTypes.Companion_Default___.IsValid__KeyIdType(((m).Get(Companion_Default___.KMS__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Dtor_S()))) && ((m).Contains(Companion_Default___.BRANCH__KEY__FIELD()))) && (((m).Get(Companion_Default___.BRANCH__KEY__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_B())) && ((_dafny.IntOfUint32((((m).Get(Companion_Default___.BRANCH__KEY__IDENTIFIER__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Dtor_S()).Cardinality())).Sign() == 1)) && ((_dafny.IntOfUint32((((m).Get(Companion_Default___.TYPE__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Dtor_S()).Cardinality())).Sign() == 1)) && (_dafny.Quantifier((((m).Keys()).Difference(_dafny.SetOf(Companion_Default___.BRANCH__KEY__FIELD(), Companion_Default___.HIERARCHY__VERSION()))).Elements(), true, func(_forall_var_0 _dafny.Sequence) bool {
+	return (((((((((((((((((((((m).Contains(Companion_Default___.BRANCH__KEY__IDENTIFIER__FIELD())) && (((m).Get(Companion_Default___.BRANCH__KEY__IDENTIFIER__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_S())) && ((m).Contains(Companion_Default___.TYPE__FIELD()))) && (((m).Get(Companion_Default___.TYPE__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_S())) && ((m).Contains(Companion_Default___.KEY__CREATE__TIME()))) && (((m).Get(Companion_Default___.KEY__CREATE__TIME()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_S())) && ((m).Contains(Companion_Default___.HIERARCHY__VERSION()))) && (((m).Get(Companion_Default___.HIERARCHY__VERSION()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_N())) && (!(m).Contains(Companion_Default___.TABLE__FIELD()))) && ((m).Contains(Companion_Default___.KMS__FIELD()))) && (((m).Get(Companion_Default___.KMS__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_S())) && (m_ComAmazonawsKmsTypes.Companion_Default___.IsValid__KeyIdType(((m).Get(Companion_Default___.KMS__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Dtor_S()))) && ((m).Contains(Companion_Default___.BRANCH__KEY__FIELD()))) && (((m).Get(Companion_Default___.BRANCH__KEY__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_B())) && ((uint64(0)) < (uint64((((m).Get(Companion_Default___.BRANCH__KEY__IDENTIFIER__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Dtor_S()).Cardinality())))) && ((uint64(0)) < (uint64((((m).Get(Companion_Default___.TYPE__FIELD()).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Dtor_S()).Cardinality())))) && (_dafny.Quantifier((((m).Keys()).Difference(_dafny.SetOf(Companion_Default___.BRANCH__KEY__FIELD(), Companion_Default___.HIERARCHY__VERSION()))).Elements(), true, func(_forall_var_0 _dafny.Sequence) bool {
 		var _0_k _dafny.Sequence
 		_0_k = interface{}(_forall_var_0).(_dafny.Sequence)
 		return !((((m).Keys()).Difference(_dafny.SetOf(Companion_Default___.BRANCH__KEY__FIELD(), Companion_Default___.HIERARCHY__VERSION()))).Contains(_0_k)) || (((m).Get(_0_k).(m_ComAmazonawsDynamodbTypes.AttributeValue)).Is_S())

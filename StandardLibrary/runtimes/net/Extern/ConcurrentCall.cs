@@ -26,7 +26,8 @@ namespace ConcurrentCall
                     for (uint j = 0; j < serialIters; ++j)
                     {
                         (callee).call(j, localNum);
-                    };
+                    }
+                    ;
                 });
             }
             for (uint i = 0; i < concurrentIters; i++)

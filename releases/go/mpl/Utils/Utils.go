@@ -97,6 +97,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -116,6 +117,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -180,34 +182,34 @@ var _ m_KeyStore.Dummy__
 var _ m_AlgorithmSuites.Dummy__
 var _ m_Materials.Dummy__
 var _ m_Keyring.Dummy__
-var _ m_MultiKeyring.Dummy__
-var _ m_AwsKmsMrkAreUnique.Dummy__
-var _ m_Constants.Dummy__
-var _ m_MaterialWrapping.Dummy__
 var _ m_CanonicalEncryptionContext.Dummy__
+var _ m_MaterialWrapping.Dummy__
 var _ m_IntermediateKeyWrapping.Dummy__
 var _ m_EdkWrapping.Dummy__
 var _ m_ErrorMessages.Dummy__
+var _ m_RawAESKeyring.Dummy__
+var _ m_Constants.Dummy__
+var _ m_EcdhEdkWrapping.Dummy__
+var _ m_RawECDHKeyring.Dummy__
+var _ m_RawRSAKeyring.Dummy__
 var _ m_AwsKmsKeyring.Dummy__
-var _ m_StrictMultiKeyring.Dummy__
 var _ m_AwsKmsDiscoveryKeyring.Dummy__
-var _ m_DiscoveryMultiKeyring.Dummy__
-var _ m_AwsKmsMrkDiscoveryKeyring.Dummy__
-var _ m_MrkAwareDiscoveryMultiKeyring.Dummy__
-var _ m_AwsKmsMrkKeyring.Dummy__
-var _ m_MrkAwareStrictMultiKeyring.Dummy__
+var _ m_AwsKmsEcdhKeyring.Dummy__
 var _ m_LocalCMC.Dummy__
 var _ m_SynchronizedLocalCMC.Dummy__
 var _ m_StormTracker.Dummy__
 var _ m_StormTrackingCMC.Dummy__
 var _ m_CacheConstants.Dummy__
 var _ m_AwsKmsHierarchicalKeyring.Dummy__
+var _ m_AwsKmsMrkDiscoveryKeyring.Dummy__
+var _ m_AwsKmsMrkKeyring.Dummy__
 var _ m_AwsKmsRsaKeyring.Dummy__
-var _ m_EcdhEdkWrapping.Dummy__
-var _ m_RawECDHKeyring.Dummy__
-var _ m_AwsKmsEcdhKeyring.Dummy__
-var _ m_RawAESKeyring.Dummy__
-var _ m_RawRSAKeyring.Dummy__
+var _ m_MultiKeyring.Dummy__
+var _ m_AwsKmsMrkAreUnique.Dummy__
+var _ m_StrictMultiKeyring.Dummy__
+var _ m_DiscoveryMultiKeyring.Dummy__
+var _ m_MrkAwareDiscoveryMultiKeyring.Dummy__
+var _ m_MrkAwareStrictMultiKeyring.Dummy__
 var _ m_CMM.Dummy__
 var _ m_Defaults.Dummy__
 var _ m_Commitment.Dummy__
@@ -261,9 +263,9 @@ func (_static *CompanionStruct_Default___) GetPublicKey(curveSpec m_AwsCryptogra
 	_0_maybePublicKey = _out0
 	var _1_valueOrError0 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(m_AwsCryptographyPrimitivesTypes.Companion_GetPublicKeyFromPrivateKeyOutput_.Default())
 	_ = _1_valueOrError0
-	_1_valueOrError0 = (_0_maybePublicKey).MapFailure(func(coer131 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-		return func(arg132 interface{}) interface{} {
-			return coer131(arg132.(m_AwsCryptographyPrimitivesTypes.Error))
+	_1_valueOrError0 = (_0_maybePublicKey).MapFailure(func(coer127 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+		return func(arg128 interface{}) interface{} {
+			return coer127(arg128.(m_AwsCryptographyPrimitivesTypes.Error))
 		}
 	}(func(_2_e m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error {
 		return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographyPrimitives_(_2_e)

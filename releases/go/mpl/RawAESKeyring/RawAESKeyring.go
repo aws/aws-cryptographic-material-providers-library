@@ -15,24 +15,12 @@ import (
 	m_AwsCryptographyKeyStoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreOperations"
 	m_AwsCryptographyKeyStoreTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
 	m_AwsCryptographyMaterialProvidersTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
-	m_AwsKmsDiscoveryKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsDiscoveryKeyring"
-	m_AwsKmsEcdhKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsEcdhKeyring"
-	m_AwsKmsHierarchicalKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsHierarchicalKeyring"
-	m_AwsKmsKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsKeyring"
-	m_AwsKmsMrkAreUnique "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkAreUnique"
-	m_AwsKmsMrkDiscoveryKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkDiscoveryKeyring"
-	m_AwsKmsMrkKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkKeyring"
 	m_AwsKmsMrkMatchForDecrypt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkMatchForDecrypt"
-	m_AwsKmsRsaKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsRsaKeyring"
 	m_AwsKmsUtils "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsUtils"
-	m_CacheConstants "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CacheConstants"
 	m_CanonicalEncryptionContext "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CanonicalEncryptionContext"
-	m_Constants "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Constants"
 	m_CreateKeyStoreTable "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeyStoreTable"
 	m_CreateKeys "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeys"
 	m_DDBKeystoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/DDBKeystoreOperations"
-	m_DiscoveryMultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/DiscoveryMultiKeyring"
-	m_EcdhEdkWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/EcdhEdkWrapping"
 	m_EdkWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/EdkWrapping"
 	m_ErrorMessages "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/ErrorMessages"
 	m_GetKeys "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/GetKeys"
@@ -42,18 +30,9 @@ import (
 	m_KeyStoreErrorMessages "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KeyStoreErrorMessages"
 	m_Keyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Keyring"
 	m_KmsArn "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KmsArn"
-	m_LocalCMC "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/LocalCMC"
 	m_MaterialWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MaterialWrapping"
 	m_Materials "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Materials"
-	m_MrkAwareDiscoveryMultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MrkAwareDiscoveryMultiKeyring"
-	m_MrkAwareStrictMultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MrkAwareStrictMultiKeyring"
-	m_MultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MultiKeyring"
-	m_RawECDHKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/RawECDHKeyring"
-	m_StormTracker "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/StormTracker"
-	m_StormTrackingCMC "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/StormTrackingCMC"
-	m_StrictMultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/StrictMultiKeyring"
 	m_Structure "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Structure"
-	m_SynchronizedLocalCMC "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/SynchronizedLocalCMC"
 	m_AtomicPrimitives "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AtomicPrimitives"
 	m_AwsCryptographyPrimitivesOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesOperations"
 	m_AwsCryptographyPrimitivesTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesTypes"
@@ -90,6 +69,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -110,6 +90,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -174,32 +155,11 @@ var _ m_KeyStore.Dummy__
 var _ m_AlgorithmSuites.Dummy__
 var _ m_Materials.Dummy__
 var _ m_Keyring.Dummy__
-var _ m_MultiKeyring.Dummy__
-var _ m_AwsKmsMrkAreUnique.Dummy__
-var _ m_Constants.Dummy__
-var _ m_MaterialWrapping.Dummy__
 var _ m_CanonicalEncryptionContext.Dummy__
+var _ m_MaterialWrapping.Dummy__
 var _ m_IntermediateKeyWrapping.Dummy__
 var _ m_EdkWrapping.Dummy__
 var _ m_ErrorMessages.Dummy__
-var _ m_AwsKmsKeyring.Dummy__
-var _ m_StrictMultiKeyring.Dummy__
-var _ m_AwsKmsDiscoveryKeyring.Dummy__
-var _ m_DiscoveryMultiKeyring.Dummy__
-var _ m_AwsKmsMrkDiscoveryKeyring.Dummy__
-var _ m_MrkAwareDiscoveryMultiKeyring.Dummy__
-var _ m_AwsKmsMrkKeyring.Dummy__
-var _ m_MrkAwareStrictMultiKeyring.Dummy__
-var _ m_LocalCMC.Dummy__
-var _ m_SynchronizedLocalCMC.Dummy__
-var _ m_StormTracker.Dummy__
-var _ m_StormTrackingCMC.Dummy__
-var _ m_CacheConstants.Dummy__
-var _ m_AwsKmsHierarchicalKeyring.Dummy__
-var _ m_AwsKmsRsaKeyring.Dummy__
-var _ m_EcdhEdkWrapping.Dummy__
-var _ m_RawECDHKeyring.Dummy__
-var _ m_AwsKmsEcdhKeyring.Dummy__
 
 type Dummy__ struct{}
 
@@ -237,27 +197,27 @@ func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 
 var _ _dafny.TraitOffspring = &Default__{}
 
-func (_static *CompanionStruct_Default___) DeserializeEDKCiphertext(ciphertext _dafny.Sequence, tagLen _dafny.Int) m_AwsCryptographyPrimitivesTypes.AESEncryptOutput {
-	var _0_encryptedKeyLength _dafny.Int = (_dafny.IntOfUint32((ciphertext).Cardinality())).Minus(tagLen)
+func (_static *CompanionStruct_Default___) DeserializeEDKCiphertext(ciphertext _dafny.Sequence, tagLen uint64) m_AwsCryptographyPrimitivesTypes.AESEncryptOutput {
+	var _0_encryptedKeyLength uint64 = (uint64((ciphertext).Cardinality())) - (func() uint64 { return (tagLen) })()
 	_ = _0_encryptedKeyLength
-	return m_AwsCryptographyPrimitivesTypes.Companion_AESEncryptOutput_.Create_AESEncryptOutput_((ciphertext).Take((_0_encryptedKeyLength).Uint32()), (ciphertext).Drop((_0_encryptedKeyLength).Uint32()))
+	return m_AwsCryptographyPrimitivesTypes.Companion_AESEncryptOutput_.Create_AESEncryptOutput_((ciphertext).Take(uint32(_0_encryptedKeyLength)), (ciphertext).Drop(uint32(_0_encryptedKeyLength)))
 }
 func (_static *CompanionStruct_Default___) SerializeEDKCiphertext(encOutput m_AwsCryptographyPrimitivesTypes.AESEncryptOutput) _dafny.Sequence {
 	return _dafny.Companion_Sequence_.Concatenate((encOutput).Dtor_cipherText(), (encOutput).Dtor_authTag())
 }
-func (_static *CompanionStruct_Default___) AUTH__TAG__LEN__LEN() _dafny.Int {
-	return _dafny.IntOfInt64(4)
+func (_static *CompanionStruct_Default___) AUTH__TAG__LEN__LEN() uint64 {
+	return uint64(4)
 }
-func (_static *CompanionStruct_Default___) IV__LEN__LEN() _dafny.Int {
-	return _dafny.IntOfInt64(4)
+func (_static *CompanionStruct_Default___) IV__LEN__LEN() uint64 {
+	return uint64(4)
 }
 
 // End of class Default__
 
 // Definition of class RawAESKeyring
 type RawAESKeyring struct {
-	_cryptoPrimitives  *m_AtomicPrimitives.AtomicPrimitivesClient
 	_wrappingKey       _dafny.Sequence
+	_cryptoPrimitives  *m_AtomicPrimitives.AtomicPrimitivesClient
 	_wrappingAlgorithm m_AwsCryptographyPrimitivesTypes.AES__GCM
 	_keyNamespace      _dafny.Sequence
 	_keyName           _dafny.Sequence
@@ -266,8 +226,8 @@ type RawAESKeyring struct {
 func New_RawAESKeyring_() *RawAESKeyring {
 	_this := RawAESKeyring{}
 
-	_this._cryptoPrimitives = (*m_AtomicPrimitives.AtomicPrimitivesClient)(nil)
 	_this._wrappingKey = _dafny.EmptySeq
+	_this._cryptoPrimitives = (*m_AtomicPrimitives.AtomicPrimitivesClient)(nil)
 	_this._wrappingAlgorithm = m_AwsCryptographyPrimitivesTypes.AES__GCM{}
 	_this._keyNamespace = m_UTF8.Companion_ValidUTF8Bytes_.Witness()
 	_this._keyName = m_UTF8.Companion_ValidUTF8Bytes_.Witness()
@@ -315,16 +275,16 @@ var _ m_AwsCryptographyMaterialProvidersTypes.IKeyring = &RawAESKeyring{}
 var _ _dafny.TraitOffspring = &RawAESKeyring{}
 
 func (_this *RawAESKeyring) OnDecrypt(input m_AwsCryptographyMaterialProvidersTypes.OnDecryptInput) m_Wrappers.Result {
-	var _out10 m_Wrappers.Result
-	_ = _out10
-	_out10 = m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.OnDecrypt(_this, input)
-	return _out10
+	var _out1 m_Wrappers.Result
+	_ = _out1
+	_out1 = m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.OnDecrypt(_this, input)
+	return _out1
 }
 func (_this *RawAESKeyring) OnEncrypt(input m_AwsCryptographyMaterialProvidersTypes.OnEncryptInput) m_Wrappers.Result {
-	var _out10 m_Wrappers.Result
-	_ = _out10
-	_out10 = m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.OnEncrypt(_this, input)
-	return _out10
+	var _out1 m_Wrappers.Result
+	_ = _out1
+	_out1 = m_AwsCryptographyMaterialProvidersTypes.Companion_IKeyring_.OnEncrypt(_this, input)
+	return _out1
 }
 func (_this *RawAESKeyring) Ctor__(namespace _dafny.Sequence, name _dafny.Sequence, key _dafny.Sequence, wrappingAlgorithm m_AwsCryptographyPrimitivesTypes.AES__GCM, cryptoPrimitives *m_AtomicPrimitives.AtomicPrimitivesClient) {
 	{
@@ -436,7 +396,7 @@ func (_this *RawAESKeyring) OnDecrypt_k(input m_AwsCryptographyMaterialProviders
 		_3_aad = (_2_valueOrError1).Extract().(_dafny.Sequence)
 		var _4_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 		_ = _4_valueOrError2
-		_4_valueOrError2 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32(((_this).WrappingKey()).Cardinality())).Cmp(_dafny.IntOfInt32(((_this).WrappingAlgorithm()).Dtor_keyLength())) == 0, m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("The wrapping key does not match the wrapping algorithm")))
+		_4_valueOrError2 = m_Wrappers.Companion_Default___.Need((uint64(((_this).WrappingKey()).Cardinality())) == (uint64(((_this).WrappingAlgorithm()).Dtor_keyLength())), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("The wrapping key does not match the wrapping algorithm")))
 		if (_4_valueOrError2).IsFailure() {
 			output = (_4_valueOrError2).PropagateFailure()
 			return output
@@ -444,13 +404,13 @@ func (_this *RawAESKeyring) OnDecrypt_k(input m_AwsCryptographyMaterialProviders
 		var _5_errors _dafny.Sequence
 		_ = _5_errors
 		_5_errors = _dafny.SeqOf()
-		var _hi0 _dafny.Int = _dafny.IntOfUint32(((input).Dtor_encryptedDataKeys()).Cardinality())
+		var _hi0 uint64 = uint64(((input).Dtor_encryptedDataKeys()).Cardinality())
 		_ = _hi0
-		for _6_i := _dafny.Zero; _6_i.Cmp(_hi0) < 0; _6_i = _6_i.Plus(_dafny.One) {
-			if (_this).ShouldDecryptEDK(((input).Dtor_encryptedDataKeys()).Select((_6_i).Uint32()).(m_AwsCryptographyMaterialProvidersTypes.EncryptedDataKey)) {
+		for _6_i := uint64(0); _6_i < _hi0; _6_i++ {
+			if (_this).ShouldDecryptEDK(((input).Dtor_encryptedDataKeys()).Select(uint32(_6_i)).(m_AwsCryptographyMaterialProvidersTypes.EncryptedDataKey)) {
 				var _7_edk m_AwsCryptographyMaterialProvidersTypes.EncryptedDataKey
 				_ = _7_edk
-				_7_edk = ((input).Dtor_encryptedDataKeys()).Select((_6_i).Uint32()).(m_AwsCryptographyMaterialProvidersTypes.EncryptedDataKey)
+				_7_edk = ((input).Dtor_encryptedDataKeys()).Select(uint32(_6_i)).(m_AwsCryptographyMaterialProvidersTypes.EncryptedDataKey)
 				var _8_iv _dafny.Sequence
 				_ = _8_iv
 				_8_iv = (_this).GetIvFromProvInfo((_7_edk).Dtor_keyProviderInfo())
@@ -488,9 +448,9 @@ func (_this *RawAESKeyring) OnDecrypt_k(input m_AwsCryptographyMaterialProviders
 			} else {
 				var _14_valueOrError4 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq.SetString())
 				_ = _14_valueOrError4
-				_14_valueOrError4 = (m_UTF8.Decode((((input).Dtor_encryptedDataKeys()).Select((_6_i).Uint32()).(m_AwsCryptographyMaterialProvidersTypes.EncryptedDataKey)).Dtor_keyProviderId())).MapFailure(func(coer120 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-					return func(arg121 interface{}) interface{} {
-						return coer120(arg121.(_dafny.Sequence))
+				_14_valueOrError4 = (m_UTF8.Decode((((input).Dtor_encryptedDataKeys()).Select(uint32(_6_i)).(m_AwsCryptographyMaterialProvidersTypes.EncryptedDataKey)).Dtor_keyProviderId())).MapFailure(func(coer47 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+					return func(arg48 interface{}) interface{} {
+						return coer47(arg48.(_dafny.Sequence))
 					}
 				}(func(_15_e _dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error {
 					return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_15_e)
@@ -502,7 +462,7 @@ func (_this *RawAESKeyring) OnDecrypt_k(input m_AwsCryptographyMaterialProviders
 				var _16_extractedKeyProviderId _dafny.Sequence
 				_ = _16_extractedKeyProviderId
 				_16_extractedKeyProviderId = (_14_valueOrError4).Extract().(_dafny.Sequence)
-				_5_errors = _dafny.Companion_Sequence_.Concatenate(_5_errors, _dafny.SeqOf(m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(m_ErrorMessages.Companion_Default___.IncorrectRawDataKeys(m_StandardLibrary_String.Companion_Default___.Base10Int2String(_6_i), _dafny.SeqOfString("AESKeyring"), _16_extractedKeyProviderId))))
+				_5_errors = _dafny.Companion_Sequence_.Concatenate(_5_errors, _dafny.SeqOf(m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(m_ErrorMessages.Companion_Default___.IncorrectRawDataKeys(m_StandardLibrary_String.Companion_Default___.Base10Int2String(_dafny.IntOfUint64(_6_i)), _dafny.SeqOfString("AESKeyring"), _16_extractedKeyProviderId))))
 			}
 		}
 		output = m_Wrappers.Companion_Result_.Create_Failure_(m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_CollectionOfErrors_(_5_errors, _dafny.SeqOfString("Raw AES Keyring was unable to decrypt any encrypted data key. The list of encountered Exceptions is avaible via `list`.")))
@@ -522,22 +482,24 @@ func (_this *RawAESKeyring) ShouldDecryptEDK(edk m_AwsCryptographyMaterialProvid
 }
 func (_this *RawAESKeyring) ValidProviderInfo(info _dafny.Sequence) bool {
 	{
-		return ((((((_dafny.IntOfUint32((info).Cardinality())).Cmp((((_dafny.IntOfUint32(((_this).KeyName()).Cardinality())).Plus(Companion_Default___.AUTH__TAG__LEN__LEN())).Plus(Companion_Default___.IV__LEN__LEN())).Plus(_dafny.IntOfInt32(((_this).WrappingAlgorithm()).Dtor_ivLength()))) == 0) && (_dafny.Companion_Sequence_.Equal((info).Subsequence(0, (_dafny.IntOfUint32(((_this).KeyName()).Cardinality())).Uint32()), (_this).KeyName()))) && ((m_StandardLibrary_UInt.Companion_Default___.SeqToUInt32((info).Subsequence((_dafny.IntOfUint32(((_this).KeyName()).Cardinality())).Uint32(), ((_dafny.IntOfUint32(((_this).KeyName()).Cardinality())).Plus(Companion_Default___.AUTH__TAG__LEN__LEN())).Uint32()))) == (uint32(128)))) && ((m_StandardLibrary_UInt.Companion_Default___.SeqToUInt32((info).Subsequence((_dafny.IntOfUint32(((_this).KeyName()).Cardinality())).Uint32(), ((_dafny.IntOfUint32(((_this).KeyName()).Cardinality())).Plus(Companion_Default___.AUTH__TAG__LEN__LEN())).Uint32()))) == ((uint32(((_this).WrappingAlgorithm()).Dtor_tagLength())) * (uint32(8))))) && ((m_StandardLibrary_UInt.Companion_Default___.SeqToUInt32((info).Subsequence(((_dafny.IntOfUint32(((_this).KeyName()).Cardinality())).Plus(Companion_Default___.AUTH__TAG__LEN__LEN())).Uint32(), (((_dafny.IntOfUint32(((_this).KeyName()).Cardinality())).Plus(Companion_Default___.AUTH__TAG__LEN__LEN())).Plus(Companion_Default___.IV__LEN__LEN())).Uint32()))) == (uint32(((_this).WrappingAlgorithm()).Dtor_ivLength())))) && ((m_StandardLibrary_UInt.Companion_Default___.SeqToUInt32((info).Subsequence(((_dafny.IntOfUint32(((_this).KeyName()).Cardinality())).Plus(Companion_Default___.AUTH__TAG__LEN__LEN())).Uint32(), (((_dafny.IntOfUint32(((_this).KeyName()).Cardinality())).Plus(Companion_Default___.AUTH__TAG__LEN__LEN())).Plus(Companion_Default___.IV__LEN__LEN())).Uint32()))) == (uint32(12)))
+		var _0_keyname__size uint64 = uint64(((_this).KeyName()).Cardinality())
+		_ = _0_keyname__size
+		return ((((((uint64((info).Cardinality())) == (m_StandardLibrary_MemoryMath.Companion_Default___.Add4(_0_keyname__size, Companion_Default___.AUTH__TAG__LEN__LEN(), Companion_Default___.IV__LEN__LEN(), uint64(((_this).WrappingAlgorithm()).Dtor_ivLength())))) && (_dafny.Companion_Sequence_.Equal((info).Take(uint32(_0_keyname__size)), (_this).KeyName()))) && ((m_StandardLibrary_UInt.Companion_Default___.SeqToUInt32((info).Subsequence(uint32(_0_keyname__size), uint32((_0_keyname__size)+(Companion_Default___.AUTH__TAG__LEN__LEN()))))) == (uint32(128)))) && ((uint32(128)) == ((uint32(((_this).WrappingAlgorithm()).Dtor_tagLength())) * (uint32(8))))) && ((m_StandardLibrary_UInt.Companion_Default___.SeqToUInt32((info).Subsequence(uint32((_0_keyname__size)+(Companion_Default___.AUTH__TAG__LEN__LEN())), uint32(((_0_keyname__size)+(Companion_Default___.AUTH__TAG__LEN__LEN()))+(Companion_Default___.IV__LEN__LEN()))))) == (uint32(((_this).WrappingAlgorithm()).Dtor_ivLength())))) && ((m_StandardLibrary_UInt.Companion_Default___.SeqToUInt32((info).Subsequence(uint32((_0_keyname__size)+(Companion_Default___.AUTH__TAG__LEN__LEN())), uint32(((_0_keyname__size)+(Companion_Default___.AUTH__TAG__LEN__LEN()))+(Companion_Default___.IV__LEN__LEN()))))) == (uint32(12)))
 	}
 }
 func (_this *RawAESKeyring) GetIvFromProvInfo(info _dafny.Sequence) _dafny.Sequence {
 	{
-		return (info).Drop((((_dafny.IntOfUint32(((_this).KeyName()).Cardinality())).Plus(Companion_Default___.AUTH__TAG__LEN__LEN())).Plus(Companion_Default___.IV__LEN__LEN())).Uint32())
-	}
-}
-func (_this *RawAESKeyring) CryptoPrimitives() *m_AtomicPrimitives.AtomicPrimitivesClient {
-	{
-		return _this._cryptoPrimitives
+		return (info).Drop(uint32(((uint64(((_this).KeyName()).Cardinality())) + (Companion_Default___.AUTH__TAG__LEN__LEN())) + (Companion_Default___.IV__LEN__LEN())))
 	}
 }
 func (_this *RawAESKeyring) WrappingKey() _dafny.Sequence {
 	{
 		return _this._wrappingKey
+	}
+}
+func (_this *RawAESKeyring) CryptoPrimitives() *m_AtomicPrimitives.AtomicPrimitivesClient {
+	{
+		return _this._cryptoPrimitives
 	}
 }
 func (_this *RawAESKeyring) WrappingAlgorithm() m_AwsCryptographyPrimitivesTypes.AES__GCM {
@@ -832,9 +794,9 @@ func (_this *AesGenerateAndWrapKeyMaterial) Invoke(input interface{}) interface{
 		_0_generateBytesResult = _out0
 		var _1_valueOrError0 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
 		_ = _1_valueOrError0
-		_1_valueOrError0 = (_0_generateBytesResult).MapFailure(func(coer121 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-			return func(arg122 interface{}) interface{} {
-				return coer121(arg122.(m_AwsCryptographyPrimitivesTypes.Error))
+		_1_valueOrError0 = (_0_generateBytesResult).MapFailure(func(coer48 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+			return func(arg49 interface{}) interface{} {
+				return coer48(arg49.(m_AwsCryptographyPrimitivesTypes.Error))
 			}
 		}(func(_2_e m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error {
 			return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographyPrimitives_(_2_e)
@@ -850,7 +812,7 @@ func (_this *AesGenerateAndWrapKeyMaterial) Invoke(input interface{}) interface{
 		_ = _4_valueOrError1
 		var _out1 interface{}
 		_ = _out1
-		_out1 = ((_this).Wrap()).Invoke(m_MaterialWrapping.Companion_WrapInput_.Create_WrapInput_(_3_plaintextMaterial, (input).Dtor_algorithmSuite(), (input).Dtor_encryptionContext()))
+		_out1 = ((_this).Wrap()).Invoke(m_MaterialWrapping.Companion_WrapInput_.Create_WrapInput_(_3_plaintextMaterial, (input).Dtor_algorithmSuite(), (input).Dtor_encryptionContext(), (input).Dtor_serializedEC()))
 		_4_valueOrError1 = _out1.(m_Wrappers.Result)
 		if (_4_valueOrError1).IsFailure() {
 			res = (_4_valueOrError1).PropagateFailure()
@@ -959,9 +921,9 @@ func (_this *AesWrapKeyMaterial) Invoke(input interface{}) interface{} {
 		_2_randomIvResult = _out0
 		var _3_valueOrError1 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
 		_ = _3_valueOrError1
-		_3_valueOrError1 = (_2_randomIvResult).MapFailure(func(coer122 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-			return func(arg123 interface{}) interface{} {
-				return coer122(arg123.(m_AwsCryptographyPrimitivesTypes.Error))
+		_3_valueOrError1 = (_2_randomIvResult).MapFailure(func(coer49 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+			return func(arg50 interface{}) interface{} {
+				return coer49(arg50.(m_AwsCryptographyPrimitivesTypes.Error))
 			}
 		}(func(_4_e m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error {
 			return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographyPrimitives_(_4_e)
@@ -981,9 +943,9 @@ func (_this *AesWrapKeyMaterial) Invoke(input interface{}) interface{} {
 		_6_aesEncryptResult = _out1
 		var _7_valueOrError2 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(m_AwsCryptographyPrimitivesTypes.Companion_AESEncryptOutput_.Default())
 		_ = _7_valueOrError2
-		_7_valueOrError2 = (_6_aesEncryptResult).MapFailure(func(coer123 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-			return func(arg124 interface{}) interface{} {
-				return coer123(arg124.(m_AwsCryptographyPrimitivesTypes.Error))
+		_7_valueOrError2 = (_6_aesEncryptResult).MapFailure(func(coer50 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+			return func(arg51 interface{}) interface{} {
+				return coer50(arg51.(m_AwsCryptographyPrimitivesTypes.Error))
 			}
 		}(func(_8_e m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error {
 			return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographyPrimitives_(_8_e)
@@ -1106,14 +1068,14 @@ func (_this *AesUnwrapKeyMaterial) Invoke(input interface{}) interface{} {
 		_1_aad = (_0_valueOrError0).Extract().(_dafny.Sequence)
 		var _2_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 		_ = _2_valueOrError1
-		_2_valueOrError1 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfInt32(((_this).WrappingAlgorithm()).Dtor_tagLength())).Cmp(_dafny.IntOfUint32(((input).Dtor_wrappedMaterial()).Cardinality())) <= 0, m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Insufficient data to decrypt.")))
+		_2_valueOrError1 = m_Wrappers.Companion_Default___.Need((uint64(((_this).WrappingAlgorithm()).Dtor_tagLength())) <= (uint64(((input).Dtor_wrappedMaterial()).Cardinality())), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Insufficient data to decrypt.")))
 		if (_2_valueOrError1).IsFailure() {
 			res = (_2_valueOrError1).PropagateFailure()
 			return res
 		}
 		var _3_encryptionOutput m_AwsCryptographyPrimitivesTypes.AESEncryptOutput
 		_ = _3_encryptionOutput
-		_3_encryptionOutput = Companion_Default___.DeserializeEDKCiphertext((input).Dtor_wrappedMaterial(), _dafny.IntOfInt32(((_this).WrappingAlgorithm()).Dtor_tagLength()))
+		_3_encryptionOutput = Companion_Default___.DeserializeEDKCiphertext((input).Dtor_wrappedMaterial(), uint64(((_this).WrappingAlgorithm()).Dtor_tagLength()))
 		var _4_maybePtKey m_Wrappers.Result
 		_ = _4_maybePtKey
 		var _out0 m_Wrappers.Result
@@ -1122,9 +1084,9 @@ func (_this *AesUnwrapKeyMaterial) Invoke(input interface{}) interface{} {
 		_4_maybePtKey = _out0
 		var _5_valueOrError2 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
 		_ = _5_valueOrError2
-		_5_valueOrError2 = (_4_maybePtKey).MapFailure(func(coer124 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-			return func(arg125 interface{}) interface{} {
-				return coer124(arg125.(m_AwsCryptographyPrimitivesTypes.Error))
+		_5_valueOrError2 = (_4_maybePtKey).MapFailure(func(coer51 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+			return func(arg52 interface{}) interface{} {
+				return coer51(arg52.(m_AwsCryptographyPrimitivesTypes.Error))
 			}
 		}(func(_6_e m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error {
 			return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographyPrimitives_(_6_e)
@@ -1138,7 +1100,7 @@ func (_this *AesUnwrapKeyMaterial) Invoke(input interface{}) interface{} {
 		_7_ptKey = (_5_valueOrError2).Extract().(_dafny.Sequence)
 		var _8_valueOrError3 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 		_ = _8_valueOrError3
-		_8_valueOrError3 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfInt32(m_AlgorithmSuites.Companion_Default___.GetEncryptKeyLength((input).Dtor_algorithmSuite()))).Cmp(_dafny.IntOfUint32((_7_ptKey).Cardinality())) == 0, m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Plaintext Data Key is not the expected length")))
+		_8_valueOrError3 = m_Wrappers.Companion_Default___.Need((uint64(m_AlgorithmSuites.Companion_Default___.GetEncryptKeyLength((input).Dtor_algorithmSuite()))) == (uint64((_7_ptKey).Cardinality())), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Plaintext Data Key is not the expected length")))
 		if (_8_valueOrError3).IsFailure() {
 			res = (_8_valueOrError3).PropagateFailure()
 			return res

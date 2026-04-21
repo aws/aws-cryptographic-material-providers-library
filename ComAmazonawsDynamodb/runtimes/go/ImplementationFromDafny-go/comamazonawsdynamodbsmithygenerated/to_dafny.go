@@ -1586,14 +1586,10 @@ func Com_amazonaws_dynamodb_AttributeValue_N_ToDafny(input string) Wrappers.Opti
 
 func Com_amazonaws_dynamodb_AttributeValue_B_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqFromArray(v, false))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
@@ -1667,14 +1663,10 @@ func Com_amazonaws_dynamodb_AttributeValue_BS_ToDafny(input [][]byte) Wrappers.O
 
 func Com_amazonaws_dynamodb_BinarySetAttributeValue_member_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		v := make([]interface{}, 0, len(input))
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqFromArray(v, false)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 

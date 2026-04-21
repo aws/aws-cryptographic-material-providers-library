@@ -97,7 +97,7 @@ runs:
       run: |
         make polymorph_go
 
-    - name: Check regenerated code against commited code
+    - name: Check regenerated code against committed code
       # Composite action inputs seem to not actually support booleans properly for some reason
       if: inputs.diff-generated-code == 'true'
       working-directory: ./${{ inputs.library }}

@@ -38,6 +38,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -79,6 +80,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -133,18 +135,18 @@ func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 var _ _dafny.TraitOffspring = &Default__{}
 
 func (_static *CompanionStruct_Default___) ParserWitness() Parser__ {
-	return Companion_Parser___.Create_Parser_(func(coer33 func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result) func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
-		return func(arg37 m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
-			return coer33(arg37)
+	return Companion_Parser___.Create_Parser_(func(coer30 func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result) func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
+		return func(arg33 m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
+			return coer30(arg33)
 		}
 	}(func(_0___v0 m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
 		return m_Wrappers.Companion_Result_.Create_Failure_(m_JSON_Utils_Cursors.Companion_CursorError_.Create_EOF_())
 	}))
 }
 func (_static *CompanionStruct_Default___) SubParserWitness() SubParser__ {
-	return Companion_SubParser___.Create_SubParser_(func(coer34 func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result) func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
-		return func(arg38 m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
-			return coer34(arg38)
+	return Companion_SubParser___.Create_SubParser_(func(coer31 func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result) func(m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
+		return func(arg34 m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
+			return coer31(arg34)
 		}
 	}(func(_0_cs m_JSON_Utils_Cursors.Cursor__) m_Wrappers.Result {
 		return m_Wrappers.Companion_Result_.Create_Failure_(m_JSON_Utils_Cursors.Companion_CursorError_.Create_EOF_())

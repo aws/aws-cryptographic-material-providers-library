@@ -52,6 +52,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -93,6 +94,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -183,7 +185,7 @@ TAIL_CALL_START:
 			var _0_c uint16 = (str).Select(((start).Plus(_dafny.One)).Uint32()).(uint16)
 			_ = _0_c
 			if (_0_c) == (uint16(_dafny.Char('u'))) {
-				if (_dafny.IntOfUint32((str).Cardinality())).Cmp((start).Plus(_dafny.IntOfInt64(6))) <= 0 {
+				if (_dafny.IntOfUint32((str).Cardinality())).Cmp((start).Plus(_dafny.IntOfInt64(6))) < 0 {
 					return m_Wrappers.Companion_Result_.Create_Failure_(m_JSON_Errors.Companion_DeserializationError_.Create_EscapeAtEOS_())
 				} else {
 					var _1_code _dafny.Sequence = (str).Subsequence(((start).Plus(_dafny.IntOfInt64(2))).Uint32(), ((start).Plus(_dafny.IntOfInt64(6))).Uint32())
@@ -412,9 +414,9 @@ func (_static *CompanionStruct_Default___) KeyValue(js m_JSON_Grammar.JKeyValue)
 	}
 }
 func (_static *CompanionStruct_Default___) Object(js m_JSON_Grammar.Bracketed) m_Wrappers.Result {
-	return m_Seq.Companion_Default___.MapWithResult(func(coer41 func(m_JSON_Grammar.Suffixed) m_Wrappers.Result) func(interface{}) m_Wrappers.Result {
-		return func(arg45 interface{}) m_Wrappers.Result {
-			return coer41(arg45.(m_JSON_Grammar.Suffixed))
+	return m_Seq.Companion_Default___.MapWithResult(func(coer38 func(m_JSON_Grammar.Suffixed) m_Wrappers.Result) func(interface{}) m_Wrappers.Result {
+		return func(arg41 interface{}) m_Wrappers.Result {
+			return coer38(arg41.(m_JSON_Grammar.Suffixed))
 		}
 	}((func(_0_js m_JSON_Grammar.Bracketed) func(m_JSON_Grammar.Suffixed) m_Wrappers.Result {
 		return func(_1_d m_JSON_Grammar.Suffixed) m_Wrappers.Result {
@@ -423,9 +425,9 @@ func (_static *CompanionStruct_Default___) Object(js m_JSON_Grammar.Bracketed) m
 	})(js)), (js).Dtor_data())
 }
 func (_static *CompanionStruct_Default___) Array(js m_JSON_Grammar.Bracketed) m_Wrappers.Result {
-	return m_Seq.Companion_Default___.MapWithResult(func(coer42 func(m_JSON_Grammar.Suffixed) m_Wrappers.Result) func(interface{}) m_Wrappers.Result {
-		return func(arg46 interface{}) m_Wrappers.Result {
-			return coer42(arg46.(m_JSON_Grammar.Suffixed))
+	return m_Seq.Companion_Default___.MapWithResult(func(coer39 func(m_JSON_Grammar.Suffixed) m_Wrappers.Result) func(interface{}) m_Wrappers.Result {
+		return func(arg42 interface{}) m_Wrappers.Result {
+			return coer39(arg42.(m_JSON_Grammar.Suffixed))
 		}
 	}((func(_0_js m_JSON_Grammar.Bracketed) func(m_JSON_Grammar.Suffixed) m_Wrappers.Result {
 		return func(_1_d m_JSON_Grammar.Suffixed) m_Wrappers.Result {

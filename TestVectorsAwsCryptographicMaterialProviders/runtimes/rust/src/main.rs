@@ -7,6 +7,11 @@
     unexpected_cfgs
 )]
 
+#![allow(warnings, unconditional_panic)]
+#![allow(nonstandard_style)]
+#![allow(clippy::never_loop)]
+#![allow(clippy::absurd_extreme_comparisons)]
+
 pub mod client;
 pub mod conversions;
 pub mod deps;
@@ -15,6 +20,13 @@ pub mod operation;
 pub mod types;
 pub mod validation;
 pub mod wrapped;
+
+#[cfg(feature = "fips")]
+use aws_lc_fips_sys as aws_lc_sys_impl;
+
+#[cfg(not(feature = "fips"))]
+use aws_lc_sys as aws_lc_sys_impl;
+
 
 pub(crate) mod standard_library_conversions;
 pub(crate) mod standard_library_externs;
@@ -35,6 +47,7 @@ pub mod ddb;
 pub mod digest;
 pub mod ecdh;
 pub mod ecdsa;
+pub mod escape;
 pub mod hmac;
 pub mod kms;
 pub mod local_cmc;
@@ -64,6 +77,8 @@ pub(crate) use crate::implementation_from_dafny::UUID;
 pub(crate) use crate::implementation_from_dafny::_StormTracker_Compile;
 pub(crate) use crate::implementation_from_dafny::_LocalCMC_Compile;
 pub(crate) use crate::implementation_from_dafny::_TestWrappedMaterialProvidersMain_Compile;
+pub(crate) use crate::deps::com_amazonaws_kms::client::Client as KmsClient;
+pub(crate) use crate::deps::com_amazonaws_dynamodb::client::Client as DdbClient;
 
 fn main2() {
     let args: Vec<String> = std::env::args().collect();

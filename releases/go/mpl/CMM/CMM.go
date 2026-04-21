@@ -92,6 +92,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -112,6 +113,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -176,34 +178,34 @@ var _ m_KeyStore.Dummy__
 var _ m_AlgorithmSuites.Dummy__
 var _ m_Materials.Dummy__
 var _ m_Keyring.Dummy__
-var _ m_MultiKeyring.Dummy__
-var _ m_AwsKmsMrkAreUnique.Dummy__
-var _ m_Constants.Dummy__
-var _ m_MaterialWrapping.Dummy__
 var _ m_CanonicalEncryptionContext.Dummy__
+var _ m_MaterialWrapping.Dummy__
 var _ m_IntermediateKeyWrapping.Dummy__
 var _ m_EdkWrapping.Dummy__
 var _ m_ErrorMessages.Dummy__
+var _ m_RawAESKeyring.Dummy__
+var _ m_Constants.Dummy__
+var _ m_EcdhEdkWrapping.Dummy__
+var _ m_RawECDHKeyring.Dummy__
+var _ m_RawRSAKeyring.Dummy__
 var _ m_AwsKmsKeyring.Dummy__
-var _ m_StrictMultiKeyring.Dummy__
 var _ m_AwsKmsDiscoveryKeyring.Dummy__
-var _ m_DiscoveryMultiKeyring.Dummy__
-var _ m_AwsKmsMrkDiscoveryKeyring.Dummy__
-var _ m_MrkAwareDiscoveryMultiKeyring.Dummy__
-var _ m_AwsKmsMrkKeyring.Dummy__
-var _ m_MrkAwareStrictMultiKeyring.Dummy__
+var _ m_AwsKmsEcdhKeyring.Dummy__
 var _ m_LocalCMC.Dummy__
 var _ m_SynchronizedLocalCMC.Dummy__
 var _ m_StormTracker.Dummy__
 var _ m_StormTrackingCMC.Dummy__
 var _ m_CacheConstants.Dummy__
 var _ m_AwsKmsHierarchicalKeyring.Dummy__
+var _ m_AwsKmsMrkDiscoveryKeyring.Dummy__
+var _ m_AwsKmsMrkKeyring.Dummy__
 var _ m_AwsKmsRsaKeyring.Dummy__
-var _ m_EcdhEdkWrapping.Dummy__
-var _ m_RawECDHKeyring.Dummy__
-var _ m_AwsKmsEcdhKeyring.Dummy__
-var _ m_RawAESKeyring.Dummy__
-var _ m_RawRSAKeyring.Dummy__
+var _ m_MultiKeyring.Dummy__
+var _ m_AwsKmsMrkAreUnique.Dummy__
+var _ m_StrictMultiKeyring.Dummy__
+var _ m_DiscoveryMultiKeyring.Dummy__
+var _ m_MrkAwareDiscoveryMultiKeyring.Dummy__
+var _ m_MrkAwareStrictMultiKeyring.Dummy__
 
 type Dummy__ struct{}
 
@@ -255,19 +257,19 @@ func (_static *CompanionStruct_Default___) RequiredEncryptionContextKeys_q(requi
 func (_static *CompanionStruct_Default___) EncryptionContextComplete(input m_AwsCryptographyMaterialProvidersTypes.DecryptMaterialsInput, decryptionMaterials m_AwsCryptographyMaterialProvidersTypes.DecryptionMaterials) bool {
 	var _0_reproducedEncryptionContext _dafny.Map = ((input).Dtor_reproducedEncryptionContext()).UnwrapOr(_dafny.NewMapBuilder().ToMap()).(_dafny.Map)
 	_ = _0_reproducedEncryptionContext
-	return _dafny.Quantifier(((_0_reproducedEncryptionContext).Keys()).Elements(), true, func(_forall_var_0 _dafny.Sequence) bool {
+	return _dafny.Quantifier((_0_reproducedEncryptionContext).Keys().Elements(), true, func(_forall_var_0 _dafny.Sequence) bool {
 		var _1_k _dafny.Sequence
 		_1_k = interface{}(_forall_var_0).(_dafny.Sequence)
-		return !(((_0_reproducedEncryptionContext).Keys()).Contains(_1_k)) || ((((decryptionMaterials).Dtor_encryptionContext()).Contains(_1_k)) && (_dafny.Companion_Sequence_.Equal(((decryptionMaterials).Dtor_encryptionContext()).Get(_1_k).(_dafny.Sequence), (_0_reproducedEncryptionContext).Get(_1_k).(_dafny.Sequence))))
+		return !((_0_reproducedEncryptionContext).Contains(_1_k)) || ((((decryptionMaterials).Dtor_encryptionContext()).Contains(_1_k)) && (_dafny.Companion_Sequence_.Equal(((decryptionMaterials).Dtor_encryptionContext()).Get(_1_k).(_dafny.Sequence), (_0_reproducedEncryptionContext).Get(_1_k).(_dafny.Sequence))))
 	})
 }
 func (_static *CompanionStruct_Default___) ReproducedEncryptionContext_q(input m_AwsCryptographyMaterialProvidersTypes.DecryptMaterialsInput) bool {
 	var _0_reproducedEncryptionContext _dafny.Map = ((input).Dtor_reproducedEncryptionContext()).UnwrapOr(_dafny.NewMapBuilder().ToMap()).(_dafny.Map)
 	_ = _0_reproducedEncryptionContext
-	return _dafny.Quantifier(((_0_reproducedEncryptionContext).Keys()).Elements(), true, func(_forall_var_0 _dafny.Sequence) bool {
+	return _dafny.Quantifier((_0_reproducedEncryptionContext).Keys().Elements(), true, func(_forall_var_0 _dafny.Sequence) bool {
 		var _1_k _dafny.Sequence
 		_1_k = interface{}(_forall_var_0).(_dafny.Sequence)
-		return !((((_0_reproducedEncryptionContext).Keys()).Contains(_1_k)) && (((input).Dtor_encryptionContext()).Contains(_1_k))) || (_dafny.Companion_Sequence_.Equal(((input).Dtor_encryptionContext()).Get(_1_k).(_dafny.Sequence), (_0_reproducedEncryptionContext).Get(_1_k).(_dafny.Sequence)))
+		return !(((_0_reproducedEncryptionContext).Contains(_1_k)) && (((input).Dtor_encryptionContext()).Contains(_1_k))) || (_dafny.Companion_Sequence_.Equal(((input).Dtor_encryptionContext()).Get(_1_k).(_dafny.Sequence), (_0_reproducedEncryptionContext).Get(_1_k).(_dafny.Sequence)))
 	})
 }
 
@@ -277,9 +279,9 @@ func (_static *CompanionStruct_Default___) ReproducedEncryptionContext_q(input m
 type VerifiableInterface interface {
 	String() string
 	DecryptMaterials(input m_AwsCryptographyMaterialProvidersTypes.DecryptMaterialsInput) m_Wrappers.Result
+	DecryptMaterials_k(input m_AwsCryptographyMaterialProvidersTypes.DecryptMaterialsInput) m_Wrappers.Result
 	GetEncryptionMaterials(input m_AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsInput) m_Wrappers.Result
 	GetEncryptionMaterials_k(input m_AwsCryptographyMaterialProvidersTypes.GetEncryptionMaterialsInput) m_Wrappers.Result
-	DecryptMaterials_k(input m_AwsCryptographyMaterialProvidersTypes.DecryptMaterialsInput) m_Wrappers.Result
 }
 type CompanionStruct_VerifiableInterface_ struct {
 	TraitID_ *_dafny.TraitID
