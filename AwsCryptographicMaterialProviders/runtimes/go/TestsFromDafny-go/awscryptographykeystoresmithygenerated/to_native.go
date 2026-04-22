@@ -1004,12 +1004,7 @@ func Aws_cryptography_keyStore_MutationCommitment_Original_FromDafny(input inter
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
-		}
-		return b
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_keyStore_MutationCommitment_Terminal_FromDafny(input interface{}) []byte {
@@ -1017,12 +1012,7 @@ func Aws_cryptography_keyStore_MutationCommitment_Terminal_FromDafny(input inter
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
-		}
-		return b
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_keyStore_MutationCommitment_Input_FromDafny(input interface{}) []byte {
@@ -1030,12 +1020,7 @@ func Aws_cryptography_keyStore_MutationCommitment_Input_FromDafny(input interfac
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
-		}
-		return b
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_keyStore_MutationCommitment_CiphertextBlob_FromDafny(input interface{}) []byte {
@@ -1043,12 +1028,7 @@ func Aws_cryptography_keyStore_MutationCommitment_CiphertextBlob_FromDafny(input
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
-		}
-		return b
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_keyStore_GetEncryptedActiveBranchKeyInput_Identifier_FromDafny(input interface{}) string {
@@ -1186,12 +1166,7 @@ func Aws_cryptography_keyStore_EncryptedHierarchicalKey_CiphertextBlob_FromDafny
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
-		}
-		return b
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_keyStore_GetEncryptedBeaconKeyInput_Identifier_FromDafny(input interface{}) string {
@@ -1322,12 +1297,7 @@ func Aws_cryptography_keyStore_MutationIndex_PageIndex_FromDafny(input interface
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
-		}
-		return b
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_keyStore_MutationIndex_CiphertextBlob_FromDafny(input interface{}) []byte {
@@ -1335,12 +1305,7 @@ func Aws_cryptography_keyStore_MutationIndex_CiphertextBlob_FromDafny(input inte
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
-		}
-		return b
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_keyStore_GetKeyStorageInfoOutput_Name_FromDafny(input interface{}) string {
@@ -1403,12 +1368,7 @@ func Aws_cryptography_keyStore_QueryForVersionsInput_ExclusiveStartKey_FromDafny
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
-		}
-		return b
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_keyStore_QueryForVersionsInput_Identifier_FromDafny(input interface{}) string {
@@ -1431,12 +1391,7 @@ func Aws_cryptography_keyStore_QueryForVersionsOutput_ExclusiveStartKey_FromDafn
 		if input == nil {
 			return nil
 		}
-		a := input.(dafny.Sequence).ToArray().(dafny.GoNativeArray)
-		b := make([]byte, 0, a.Length())
-		for i := uint32(0); i < a.Length(); i++ {
-			b = append(b, a.Select(i).(byte))
-		}
-		return b
+		return dafny.ToByteArray(input.(dafny.Sequence))
 	}()
 }
 func Aws_cryptography_keyStore_QueryForVersionsOutput_Items_FromDafny(input interface{}) []awscryptographykeystoresmithygeneratedtypes.EncryptedHierarchicalKey {
