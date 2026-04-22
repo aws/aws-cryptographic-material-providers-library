@@ -56,124 +56,87 @@ from .config import Config
 
 def _deserialize_get_key_store_info(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetKeyStoreInfoOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetKeyStoreInfoOutput(input.value)
 
 def _deserialize_create_key_store(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_CreateKeyStoreOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_CreateKeyStoreOutput(input.value)
 
 def _deserialize_create_key(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_CreateKeyOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_CreateKeyOutput(input.value)
 
 def _deserialize_version_key(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_VersionKeyOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_VersionKeyOutput(input.value)
 
 def _deserialize_get_active_branch_key(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetActiveBranchKeyOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetActiveBranchKeyOutput(input.value)
 
 def _deserialize_get_branch_key_version(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetBranchKeyVersionOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetBranchKeyVersionOutput(input.value)
 
 def _deserialize_get_beacon_key(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetBeaconKeyOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_GetBeaconKeyOutput(input.value)
 
 def _deserialize_error(error: Error) -> ServiceError:
     if error.is_Opaque:
         return OpaqueError(obj=error.obj)
     elif error.is_OpaqueWithText:
-        return OpaqueWithTextError(
-            obj=error.obj, obj_message=_dafny.string_of(error.objMessage)
-        )
+        return OpaqueWithTextError(obj=error.obj, obj_message=_dafny.string_of(error.objMessage))
     elif error.is_CollectionOfErrors:
         return CollectionOfErrors(
             message=_dafny.string_of(error.message),
             list=[_deserialize_error(dafny_e) for dafny_e in error.list],
         )
     elif error.is_AlreadyExistsConditionFailed:
-        return AlreadyExistsConditionFailed(message=_dafny.string_of(error.message))
+      return AlreadyExistsConditionFailed(message=_dafny.string_of(error.message))
     elif error.is_BranchKeyCiphertextException:
-        return BranchKeyCiphertextException(message=_dafny.string_of(error.message))
+      return BranchKeyCiphertextException(message=_dafny.string_of(error.message))
     elif error.is_KeyManagementException:
-        return KeyManagementException(message=_dafny.string_of(error.message))
+      return KeyManagementException(message=_dafny.string_of(error.message))
     elif error.is_KeyStorageException:
-        return KeyStorageException(message=_dafny.string_of(error.message))
+      return KeyStorageException(message=_dafny.string_of(error.message))
     elif error.is_KeyStoreException:
-        return KeyStoreException(message=_dafny.string_of(error.message))
+      return KeyStoreException(message=_dafny.string_of(error.message))
     elif error.is_MutationCommitmentConditionFailed:
-        return MutationCommitmentConditionFailed(
-            message=_dafny.string_of(error.message)
-        )
+      return MutationCommitmentConditionFailed(message=_dafny.string_of(error.message))
     elif error.is_NoLongerExistsConditionFailed:
-        return NoLongerExistsConditionFailed(message=_dafny.string_of(error.message))
+      return NoLongerExistsConditionFailed(message=_dafny.string_of(error.message))
     elif error.is_OldEncConditionFailed:
-        return OldEncConditionFailed(message=_dafny.string_of(error.message))
+      return OldEncConditionFailed(message=_dafny.string_of(error.message))
     elif error.is_VersionRaceException:
-        return VersionRaceException(message=_dafny.string_of(error.message))
+      return VersionRaceException(message=_dafny.string_of(error.message))
     elif error.is_ComAmazonawsKms:
         if hasattr(error.ComAmazonawsKms, "objMessage"):
-            return ComAmazonawsKms(
-                message=_dafny.string_of(error.ComAmazonawsKms.objMessage)
-            )
+            return ComAmazonawsKms(message=_dafny.string_of(error.ComAmazonawsKms.objMessage))
         elif hasattr(error.ComAmazonawsKms, "Message"):
-            return ComAmazonawsKms(
-                message=_dafny.string_of(error.ComAmazonawsKms.Message)
-            )
+            return ComAmazonawsKms(message=_dafny.string_of(error.ComAmazonawsKms.Message))
         else:
-            return ComAmazonawsKms(
-                message=_dafny.string_of(error.ComAmazonawsKms.message)
-            )
+            return ComAmazonawsKms(message=_dafny.string_of(error.ComAmazonawsKms.message))
     elif error.is_ComAmazonawsDynamodb:
         if hasattr(error.ComAmazonawsDynamodb, "objMessage"):
-            return ComAmazonawsDynamodb(
-                message=_dafny.string_of(error.ComAmazonawsDynamodb.objMessage)
-            )
+            return ComAmazonawsDynamodb(message=_dafny.string_of(error.ComAmazonawsDynamodb.objMessage))
         elif hasattr(error.ComAmazonawsDynamodb, "Message"):
-            return ComAmazonawsDynamodb(
-                message=_dafny.string_of(error.ComAmazonawsDynamodb.Message)
-            )
+            return ComAmazonawsDynamodb(message=_dafny.string_of(error.ComAmazonawsDynamodb.Message))
         else:
-            return ComAmazonawsDynamodb(
-                message=_dafny.string_of(error.ComAmazonawsDynamodb.message)
-            )
+            return ComAmazonawsDynamodb(message=_dafny.string_of(error.ComAmazonawsDynamodb.message))
     else:
         return OpaqueError(obj=error)

@@ -37,6 +37,7 @@ from .errors import (
     MutationToException,
     MutationVerificationException,
     OpaqueError,
+    OpaqueWithTextError,
     ServiceError,
     UnexpectedStateException,
     UnsupportedFeatureException,
@@ -59,90 +60,77 @@ from .config import Config
 
 def _deserialize_create_key(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_CreateKeyOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_CreateKeyOutput(input.value)
 
 def _deserialize_version_key(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_VersionKeyOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_VersionKeyOutput(input.value)
 
 def _deserialize_initialize_mutation(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_InitializeMutationOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_InitializeMutationOutput(input.value)
 
 def _deserialize_apply_mutation(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_ApplyMutationOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_ApplyMutationOutput(input.value)
 
 def _deserialize_describe_mutation(input: DafnyResponse, config: Config):
 
-    if input.IsFailure():
-        return _deserialize_error(input.error)
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_DescribeMutationOutput(
-        input.value
-    )
-
+  if input.IsFailure():
+      return _deserialize_error(input.error)
+  return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_DescribeMutationOutput(input.value)
 
 def _deserialize_error(error: Error) -> ServiceError:
     if error.is_Opaque:
         return OpaqueError(obj=error.obj)
     elif error.is_OpaqueWithText:
-        return OpaqueErrorWithText(obj=error.obj, obj_message=error.objMessage)
+        return OpaqueWithTextError(obj=error.obj, obj_message=_dafny.string_of(error.objMessage))
     elif error.is_CollectionOfErrors:
         return CollectionOfErrors(
             message=_dafny.string_of(error.message),
             list=[_deserialize_error(dafny_e) for dafny_e in error.list],
         )
     elif error.is_KeyStoreAdminException:
-        return KeyStoreAdminException(message=_dafny.string_of(error.message))
+      return KeyStoreAdminException(message=_dafny.string_of(error.message))
     elif error.is_MutationConflictException:
-        return MutationConflictException(message=_dafny.string_of(error.message))
+      return MutationConflictException(message=_dafny.string_of(error.message))
     elif error.is_MutationFromException:
-        return MutationFromException(message=_dafny.string_of(error.message))
+      return MutationFromException(message=_dafny.string_of(error.message))
     elif error.is_MutationInvalidException:
-        return MutationInvalidException(message=_dafny.string_of(error.message))
+      return MutationInvalidException(message=_dafny.string_of(error.message))
     elif error.is_MutationToException:
-        return MutationToException(message=_dafny.string_of(error.message))
+      return MutationToException(message=_dafny.string_of(error.message))
     elif error.is_MutationVerificationException:
-        return MutationVerificationException(message=_dafny.string_of(error.message))
+      return MutationVerificationException(message=_dafny.string_of(error.message))
     elif error.is_UnexpectedStateException:
-        return UnexpectedStateException(message=_dafny.string_of(error.message))
+      return UnexpectedStateException(message=_dafny.string_of(error.message))
     elif error.is_UnsupportedFeatureException:
-        return UnsupportedFeatureException(message=_dafny.string_of(error.message))
+      return UnsupportedFeatureException(message=_dafny.string_of(error.message))
     elif error.is_AwsCryptographyPrimitives:
-        return AwsCryptographicPrimitives(
-            aws_cryptography_primitives_deserialize_error(
-                error.AwsCryptographyPrimitives
-            )
-        )
+        return AwsCryptographicPrimitives(aws_cryptography_primitives_deserialize_error(error.AwsCryptographyPrimitives))
     elif error.is_AwsCryptographyKeyStore:
-        return KeyStore(
-            aws_cryptography_keystore_deserialize_error(error.AwsCryptographyKeyStore)
-        )
+        return KeyStore(aws_cryptography_keystore_deserialize_error(error.AwsCryptographyKeyStore))
     elif error.is_ComAmazonawsKms:
-        return ComAmazonawsKms(message=_dafny.string_of(error.ComAmazonawsKms.message))
+        if hasattr(error.ComAmazonawsKms, "objMessage"):
+            return ComAmazonawsKms(message=_dafny.string_of(error.ComAmazonawsKms.objMessage))
+        elif hasattr(error.ComAmazonawsKms, "Message"):
+            return ComAmazonawsKms(message=_dafny.string_of(error.ComAmazonawsKms.Message))
+        else:
+            return ComAmazonawsKms(message=_dafny.string_of(error.ComAmazonawsKms.message))
     elif error.is_ComAmazonawsDynamodb:
-        return ComAmazonawsDynamodb(
-            message=_dafny.string_of(error.ComAmazonawsDynamodb.message)
-        )
+        if hasattr(error.ComAmazonawsDynamodb, "objMessage"):
+            return ComAmazonawsDynamodb(message=_dafny.string_of(error.ComAmazonawsDynamodb.objMessage))
+        elif hasattr(error.ComAmazonawsDynamodb, "Message"):
+            return ComAmazonawsDynamodb(message=_dafny.string_of(error.ComAmazonawsDynamodb.Message))
+        else:
+            return ComAmazonawsDynamodb(message=_dafny.string_of(error.ComAmazonawsDynamodb.message))
     else:
         return OpaqueError(obj=error)

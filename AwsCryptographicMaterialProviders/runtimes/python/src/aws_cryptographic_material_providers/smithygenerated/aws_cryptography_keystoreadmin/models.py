@@ -11,7 +11,6 @@ class MutationToken:
     identifier: str
     uuid: str
     create_time: str
-
     def __init__(
         self,
         *,
@@ -29,7 +28,9 @@ class MutationToken:
         self.create_time = create_time
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the MutationToken to a dictionary."""
+        """Converts the MutationToken to a dictionary.
+
+        """
         return {
             "identifier": self.identifier,
             "uuid": self.uuid,
@@ -38,7 +39,9 @@ class MutationToken:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MutationToken":
-        """Creates a MutationToken from a dictionary."""
+        """Creates a MutationToken from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "identifier": d["identifier"],
             "uuid": d["uuid"],
@@ -63,49 +66,57 @@ class MutationToken:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, MutationToken):
             return False
-        attributes: list[str] = [
-            "identifier",
-            "uuid",
-            "create_time",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['identifier','uuid','create_time',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class AwsKmsDecryptEncrypt:
     decrypt: Optional[AwsKms]
     encrypt: Optional[AwsKms]
-
     def __init__(
         self,
         *,
         decrypt: Optional[AwsKms] = None,
         encrypt: Optional[AwsKms] = None,
     ):
-        """Key Store Items are authenticated and re-wrapped via a Decrypt and
-        then Encrypt request. This is two separate requests to Key Management,
-        as compared to one. This is primarily intended for Branch Key Mutations
-        that need to use separate credentials to change the KMS Key that
-        protects a Branch Key.
+        """
+        Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt
+        request.
+        This is two separate requests to Key Management, as compared to
+        one.
+        This is primarily intended for Branch Key Mutations
+        that need to use
+        separate credentials to change
+        the KMS Key that protects a Branch Key.
 
-        Branch Key Items in the original state will be Decrypted by the
-        Decrypt KMS Client, and then Encrypted to the terminal state via
-        the Encrypt KMS Client.
+        Branch
+        Key Items in the original state
+        will be Decrypted by the Decrypt KMS Client,
+        and
+        then Encrypted to the terminal state
+        via the Encrypt KMS Client.
 
-        Generation of a new Branch Key Version is done via
-        GenerateDataKeyWithoutPlaintext, and then Decrypt and Encrypt
-        requests against the Encrypt Client.
+        Generation of
+        a new Branch Key Version
+        is done via GenerateDataKeyWithoutPlaintext,
+        and then
+        Decrypt and Encrypt requests against the Encrypt Client.
 
-        :param decrypt: The KMS Client (and Grant Tokens) used to
-            Decrypt Branch Key Store Items.
-        :param encrypt: The KMS Client (and Grant Tokens) used to
-            Encrypt Branch Key Store Items and to Generate new
-            Cryptographic Material.
+        :param decrypt: The KMS Client (and Grant Tokens) used to Decrypt Branch Key
+        Store Items.
+        :param encrypt: The KMS Client (and Grant Tokens) used to Encrypt Branch Key
+        Store Items
+             and to Generate new Cryptographic Material.
         """
         self.decrypt = decrypt
         self.encrypt = encrypt
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the AwsKmsDecryptEncrypt to a dictionary."""
+        """Converts the AwsKmsDecryptEncrypt to a dictionary.
+
+        """
         d: Dict[str, Any] = {}
 
         if self.decrypt is not None:
@@ -118,7 +129,9 @@ class AwsKmsDecryptEncrypt:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "AwsKmsDecryptEncrypt":
-        """Creates a AwsKmsDecryptEncrypt from a dictionary."""
+        """Creates a AwsKmsDecryptEncrypt from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {}
 
         if "decrypt" in d:
@@ -142,21 +155,20 @@ class AwsKmsDecryptEncrypt:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, AwsKmsDecryptEncrypt):
             return False
-        attributes: list[str] = [
-            "decrypt",
-            "encrypt",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+        attributes: list[str] = ['decrypt','encrypt',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
-
-class KeyManagementStrategyAwsKmsReEncrypt:
+class KeyManagementStrategyAwsKmsReEncrypt():
     """Key Store Items are authenticated and re-wrapped via KMS ReEncrypt,
-    executed with the provided Grant Tokens and KMS Client.
-
-    This is one request to Key Management, as compared to two.   But
-    only one set of credentials can be used.
+      executed
+    with the provided Grant Tokens and KMS Client.
+      This is one request to Key
+    Management, as compared to two.
+      But only one set of credentials can be used.
     """
-
     def __init__(self, value: AwsKms):
         self.value = value
 
@@ -165,12 +177,10 @@ class KeyManagementStrategyAwsKmsReEncrypt:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KeyManagementStrategyAwsKmsReEncrypt":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return KeyManagementStrategyAwsKmsReEncrypt(
-            AwsKms.from_dict(d["AwsKmsReEncrypt"])
-        )
+        return KeyManagementStrategyAwsKmsReEncrypt(AwsKms.from_dict(d["AwsKmsReEncrypt"]))
 
     def __repr__(self) -> str:
         return f"KeyManagementStrategyAwsKmsReEncrypt(value=repr(self.value))"
@@ -180,23 +190,31 @@ class KeyManagementStrategyAwsKmsReEncrypt:
             return False
         return self.value == other.value
 
-
-class KeyManagementStrategyAwsKmsDecryptEncrypt:
-    """Key Store Items are authenticated and re-wrapped via a Decrypt and then
-    Encrypt request. This is two separate requests to Key Management, as
-    compared to one. This is primarily intended for Branch Key Mutations that
-    need to use separate credentials to change the KMS Key that protects a
-    Branch Key.
-
-    Branch Key Items in the original state will be Decrypted by the
-    Decrypt KMS Client, and then Encrypted to the terminal state via the
-    Encrypt KMS Client.
-
-    Generation of a new Branch Key Version is done via
-    GenerateDataKeyWithoutPlaintext, and then Decrypt and Encrypt
-    requests against the Encrypt Client.
+class KeyManagementStrategyAwsKmsDecryptEncrypt():
     """
+    Key Store Items are authenticated and re-wrapped via a Decrypt and then Encrypt
+    request.
+    This is two separate requests to Key Management, as compared to
+    one.
+    This is primarily intended for Branch Key Mutations
+    that need to use
+    separate credentials to change
+    the KMS Key that protects a Branch Key.
 
+    Branch
+    Key Items in the original state
+    will be Decrypted by the Decrypt KMS Client,
+    and
+    then Encrypted to the terminal state
+    via the Encrypt KMS Client.
+
+    Generation of
+    a new Branch Key Version
+    is done via GenerateDataKeyWithoutPlaintext,
+    and then
+    Decrypt and Encrypt requests against the Encrypt Client.
+
+    """
     def __init__(self, value: AwsKmsDecryptEncrypt):
         self.value = value
 
@@ -205,12 +223,10 @@ class KeyManagementStrategyAwsKmsDecryptEncrypt:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KeyManagementStrategyAwsKmsDecryptEncrypt":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return KeyManagementStrategyAwsKmsDecryptEncrypt(
-            AwsKmsDecryptEncrypt.from_dict(d["AwsKmsDecryptEncrypt"])
-        )
+        return KeyManagementStrategyAwsKmsDecryptEncrypt(AwsKmsDecryptEncrypt.from_dict(d["AwsKmsDecryptEncrypt"]))
 
     def __repr__(self) -> str:
         return f"KeyManagementStrategyAwsKmsDecryptEncrypt(value=repr(self.value))"
@@ -220,12 +236,11 @@ class KeyManagementStrategyAwsKmsDecryptEncrypt:
             return False
         return self.value == other.value
 
-
-class KeyManagementStrategyUnknown:
+class KeyManagementStrategyUnknown():
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to
-    receive the parsed value.
+    If you receive this value, you will need to update your library to receive the
+    parsed value.
 
     This value may not be deliberately sent.
     """
@@ -238,23 +253,16 @@ class KeyManagementStrategyUnknown:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KeyManagementStrategyUnknown":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return KeyManagementStrategyUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"KeyManagementStrategyUnknown(tag={self.tag})"
 
-
 # This configures which Key Management Operations will be used    AND the Key
 # Management Clients (and Grant Tokens) used to invoke those Operations.
-KeyManagementStrategy = Union[
-    KeyManagementStrategyAwsKmsReEncrypt,
-    KeyManagementStrategyAwsKmsDecryptEncrypt,
-    KeyManagementStrategyUnknown,
-]
-
-
+KeyManagementStrategy = Union[KeyManagementStrategyAwsKmsReEncrypt, KeyManagementStrategyAwsKmsDecryptEncrypt, KeyManagementStrategyUnknown]
 def _key_management_strategy_from_dict(d: Dict[str, Any]) -> KeyManagementStrategy:
     if "AwsKmsReEncrypt" in d:
         return KeyManagementStrategyAwsKmsReEncrypt.from_dict(d)
@@ -262,13 +270,11 @@ def _key_management_strategy_from_dict(d: Dict[str, Any]) -> KeyManagementStrate
     if "AwsKmsDecryptEncrypt" in d:
         return KeyManagementStrategyAwsKmsDecryptEncrypt.from_dict(d)
 
-    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
+    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
 
 class KmsSymmetricEncryption:
     kms_arn: str
     aws_kms: AwsKms
-
     def __init__(
         self,
         *,
@@ -276,11 +282,15 @@ class KmsSymmetricEncryption:
         aws_kms: AwsKms,
     ):
         """Items of a non-cryptographic material nature are protected by KMS.
+        This is done
+        by including all attributes of an item as Encryption Context
+        in a KMS Encrypt or
+        Decrypt call,
+        effectively signing the attributes.
+        As a best practice,
+        this KMS
+        Key should be distinct from those used to protect Branch Keys.
 
-        This is done by including all attributes of an item as
-        Encryption Context in a KMS Encrypt or Decrypt call, effectively
-        signing the attributes. As a best practice, this KMS Key should
-        be distinct from those used to protect Branch Keys.
         """
         if (kms_arn is not None) and (len(kms_arn) < 1):
             raise ValueError("The size of kms_arn must be greater than or equal to 1")
@@ -292,7 +302,9 @@ class KmsSymmetricEncryption:
         self.aws_kms = aws_kms
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the KmsSymmetricEncryption to a dictionary."""
+        """Converts the KmsSymmetricEncryption to a dictionary.
+
+        """
         return {
             "kms_arn": self.kms_arn,
             "aws_kms": self.aws_kms.as_dict(),
@@ -300,7 +312,9 @@ class KmsSymmetricEncryption:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KmsSymmetricEncryption":
-        """Creates a KmsSymmetricEncryption from a dictionary."""
+        """Creates a KmsSymmetricEncryption from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "kms_arn": d["kms_arn"],
             "aws_kms": AwsKms.from_dict(d["aws_kms"]),
@@ -321,34 +335,45 @@ class KmsSymmetricEncryption:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, KmsSymmetricEncryption):
             return False
-        attributes: list[str] = [
-            "kms_arn",
-            "aws_kms",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['kms_arn','aws_kms',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class TrustStorage:
     """The Storage is trusted enough for items of non-cryptographic material
-    nature, even if those items can affect the cryptographic materials.
-
-    Thus, permissions to modify the Key Store's storage is sufficient to
-    influence the properties of mutations in flight without needing a
-    KMS key permission, which would otherwise be needed to do the same.
-    As an extreme example, an actor with only write access to the
-    storage could modify an in-flight Mutation's terminal KMS Key ARN.
-    Thus, AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
-    instead of 'Trust Storage' to ensure that Branch Keys are only
+    nature,
+    even if those items can affect the cryptographic materials.
+    Thus,
+    permissions to modify the Key Store's storage is sufficient
+    to influence the
+    properties of mutations in flight
+    without needing a KMS key permission,
+    which
+    would otherwise be needed to do the same.
+    As an extreme example,
+    an actor with
+    only write access to the storage
+    could modify an in-flight Mutation's terminal
+    KMS Key ARN.
+    Thus, AWS Crypto Tools recommends using 'KMS Symmetric
+    Encryption'
+    instead of 'Trust Storage' to ensure that Branch Keys are
+    only
     modified via actors with KMS key permissions.
     """
-
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the TrustStorage to a dictionary."""
+        """Converts the TrustStorage to a dictionary.
+
+        """
         return {}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "TrustStorage":
-        """Creates a TrustStorage from a dictionary."""
+        """Creates a TrustStorage from a dictionary.
+
+        """
         return TrustStorage()
 
     def __repr__(self) -> str:
@@ -359,16 +384,17 @@ class TrustStorage:
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, TrustStorage)
 
-
-class SystemKeyKmsSymmetricEncryption:
+class SystemKeyKmsSymmetricEncryption():
     """Items of a non-cryptographic material nature are protected by KMS.
-
-    This is done by including all attributes of an item as Encryption
-    Context in a KMS Encrypt or Decrypt call, effectively signing the
-    attributes. As a best practice, this KMS Key should be distinct from
-    those used to protect Branch Keys.
+    This is done
+    by including all attributes of an item as Encryption Context
+    in a KMS Encrypt or
+    Decrypt call,
+    effectively signing the attributes.
+    As a best practice,
+    this KMS
+    Key should be distinct from those used to protect Branch Keys.
     """
-
     def __init__(self, value: KmsSymmetricEncryption):
         self.value = value
 
@@ -377,12 +403,10 @@ class SystemKeyKmsSymmetricEncryption:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "SystemKeyKmsSymmetricEncryption":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return SystemKeyKmsSymmetricEncryption(
-            KmsSymmetricEncryption.from_dict(d["kmsSymmetricEncryption"])
-        )
+        return SystemKeyKmsSymmetricEncryption(KmsSymmetricEncryption.from_dict(d["kmsSymmetricEncryption"]))
 
     def __repr__(self) -> str:
         return f"SystemKeyKmsSymmetricEncryption(value=repr(self.value))"
@@ -392,21 +416,28 @@ class SystemKeyKmsSymmetricEncryption:
             return False
         return self.value == other.value
 
-
-class SystemKeyTrustStorage:
+class SystemKeyTrustStorage():
     """The Storage is trusted enough for items of non-cryptographic material
-    nature, even if those items can affect the cryptographic materials.
-
-    Thus, permissions to modify the Key Store's storage is sufficient to
-    influence the properties of mutations in flight without needing a
-    KMS key permission, which would otherwise be needed to do the same.
-    As an extreme example, an actor with only write access to the
-    storage could modify an in-flight Mutation's terminal KMS Key ARN.
-    Thus, AWS Crypto Tools recommends using 'KMS Symmetric Encryption'
-    instead of 'Trust Storage' to ensure that Branch Keys are only
+    nature,
+    even if those items can affect the cryptographic materials.
+    Thus,
+    permissions to modify the Key Store's storage is sufficient
+    to influence the
+    properties of mutations in flight
+    without needing a KMS key permission,
+    which
+    would otherwise be needed to do the same.
+    As an extreme example,
+    an actor with
+    only write access to the storage
+    could modify an in-flight Mutation's terminal
+    KMS Key ARN.
+    Thus, AWS Crypto Tools recommends using 'KMS Symmetric
+    Encryption'
+    instead of 'Trust Storage' to ensure that Branch Keys are
+    only
     modified via actors with KMS key permissions.
     """
-
     def __init__(self, value: TrustStorage):
         self.value = value
 
@@ -415,7 +446,7 @@ class SystemKeyTrustStorage:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "SystemKeyTrustStorage":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return SystemKeyTrustStorage(TrustStorage.from_dict(d["trustStorage"]))
@@ -428,12 +459,11 @@ class SystemKeyTrustStorage:
             return False
         return self.value == other.value
 
-
-class SystemKeyUnknown:
+class SystemKeyUnknown():
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to
-    receive the parsed value.
+    If you receive this value, you will need to update your library to receive the
+    parsed value.
 
     This value may not be deliberately sent.
     """
@@ -446,24 +476,19 @@ class SystemKeyUnknown:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "SystemKeyUnknown":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return SystemKeyUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"SystemKeyUnknown(tag={self.tag})"
 
-
 # Key Store Admin protects any non-cryptographic items stored with this Key. Using
 # 'KMS Symmetric Encryption' is a best practice, as it prevents actors with only
 # write access to the Key Store's storage from tampering with Mutations. For a
 # Mutation, the System Key setting MUST be consistent across the Initialize
 # Mutation and all the Apply Mutation calls.
-SystemKey = Union[
-    SystemKeyKmsSymmetricEncryption, SystemKeyTrustStorage, SystemKeyUnknown
-]
-
-
+SystemKey = Union[SystemKeyKmsSymmetricEncryption, SystemKeyTrustStorage, SystemKeyUnknown]
 def _system_key_from_dict(d: Dict[str, Any]) -> SystemKey:
     if "kmsSymmetricEncryption" in d:
         return SystemKeyKmsSymmetricEncryption.from_dict(d)
@@ -471,15 +496,13 @@ def _system_key_from_dict(d: Dict[str, Any]) -> SystemKey:
     if "trustStorage" in d:
         return SystemKeyTrustStorage.from_dict(d)
 
-    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
+    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
 
 class ApplyMutationInput:
     mutation_token: MutationToken
     page_size: Optional[int]
     strategy: Optional[KeyManagementStrategy]
     system_key: SystemKey
-
     def __init__(
         self,
         *,
@@ -518,7 +541,9 @@ class ApplyMutationInput:
         self.strategy = strategy
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ApplyMutationInput to a dictionary."""
+        """Converts the ApplyMutationInput to a dictionary.
+
+        """
         d: Dict[str, Any] = {
             "mutation_token": self.mutation_token.as_dict(),
             "system_key": self.system_key.as_dict(),
@@ -534,7 +559,9 @@ class ApplyMutationInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ApplyMutationInput":
-        """Creates a ApplyMutationInput from a dictionary."""
+        """Creates a ApplyMutationInput from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "mutation_token": MutationToken.from_dict(d["mutation_token"]),
             "system_key": _system_key_from_dict(d["system_key"]),
@@ -544,7 +571,7 @@ class ApplyMutationInput:
             kwargs["page_size"] = d["page_size"]
 
         if "strategy" in d:
-            kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
+            kwargs["strategy"] = _key_management_strategy_from_dict(d["strategy"]),
 
         return ApplyMutationInput(**kwargs)
 
@@ -567,19 +594,15 @@ class ApplyMutationInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ApplyMutationInput):
             return False
-        attributes: list[str] = [
-            "mutation_token",
-            "page_size",
-            "strategy",
-            "system_key",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['mutation_token','page_size','strategy','system_key',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class MutatedBranchKeyItem:
     item_type: str
     description: str
-
     def __init__(
         self,
         *,
@@ -596,7 +619,9 @@ class MutatedBranchKeyItem:
         self.description = description
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the MutatedBranchKeyItem to a dictionary."""
+        """Converts the MutatedBranchKeyItem to a dictionary.
+
+        """
         return {
             "item_type": self.item_type,
             "description": self.description,
@@ -604,7 +629,9 @@ class MutatedBranchKeyItem:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MutatedBranchKeyItem":
-        """Creates a MutatedBranchKeyItem from a dictionary."""
+        """Creates a MutatedBranchKeyItem from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "item_type": d["item_type"],
             "description": d["description"],
@@ -625,21 +652,24 @@ class MutatedBranchKeyItem:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, MutatedBranchKeyItem):
             return False
-        attributes: list[str] = [
-            "item_type",
-            "description",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['item_type','description',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class MutationComplete:
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the MutationComplete to a dictionary."""
+        """Converts the MutationComplete to a dictionary.
+
+        """
         return {}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MutationComplete":
-        """Creates a MutationComplete from a dictionary."""
+        """Creates a MutationComplete from a dictionary.
+
+        """
         return MutationComplete()
 
     def __repr__(self) -> str:
@@ -650,13 +680,9 @@ class MutationComplete:
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, MutationComplete)
 
-
-class ApplyMutationResultContinueMutation:
-    """Continue applying the mutation.
-
-    Invoke Apply Mutation with this Mutation Token.
+class ApplyMutationResultContinueMutation():
+    """Continue applying the mutation. Invoke Apply Mutation with this Mutation Token.
     """
-
     def __init__(self, value: MutationToken):
         self.value = value
 
@@ -665,12 +691,10 @@ class ApplyMutationResultContinueMutation:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ApplyMutationResultContinueMutation":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return ApplyMutationResultContinueMutation(
-            MutationToken.from_dict(d["ContinueMutation"])
-        )
+        return ApplyMutationResultContinueMutation(MutationToken.from_dict(d["ContinueMutation"]))
 
     def __repr__(self) -> str:
         return f"ApplyMutationResultContinueMutation(value=repr(self.value))"
@@ -680,13 +704,9 @@ class ApplyMutationResultContinueMutation:
             return False
         return self.value == other.value
 
-
-class ApplyMutationResultCompleteMutation:
-    """All items have been mutated.
-
-    The mutation is complete.
+class ApplyMutationResultCompleteMutation():
+    """All items have been mutated. The mutation is complete.
     """
-
     def __init__(self, value: MutationComplete):
         self.value = value
 
@@ -695,12 +715,10 @@ class ApplyMutationResultCompleteMutation:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ApplyMutationResultCompleteMutation":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
-        return ApplyMutationResultCompleteMutation(
-            MutationComplete.from_dict(d["CompleteMutation"])
-        )
+        return ApplyMutationResultCompleteMutation(MutationComplete.from_dict(d["CompleteMutation"]))
 
     def __repr__(self) -> str:
         return f"ApplyMutationResultCompleteMutation(value=repr(self.value))"
@@ -710,12 +728,11 @@ class ApplyMutationResultCompleteMutation:
             return False
         return self.value == other.value
 
-
-class ApplyMutationResultUnknown:
+class ApplyMutationResultUnknown():
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to
-    receive the parsed value.
+    If you receive this value, you will need to update your library to receive the
+    parsed value.
 
     This value may not be deliberately sent.
     """
@@ -728,21 +745,14 @@ class ApplyMutationResultUnknown:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ApplyMutationResultUnknown":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return ApplyMutationResultUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"ApplyMutationResultUnknown(tag={self.tag})"
 
-
-ApplyMutationResult = Union[
-    ApplyMutationResultContinueMutation,
-    ApplyMutationResultCompleteMutation,
-    ApplyMutationResultUnknown,
-]
-
-
+ApplyMutationResult = Union[ApplyMutationResultContinueMutation, ApplyMutationResultCompleteMutation, ApplyMutationResultUnknown]
 def _apply_mutation_result_from_dict(d: Dict[str, Any]) -> ApplyMutationResult:
     if "ContinueMutation" in d:
         return ApplyMutationResultContinueMutation.from_dict(d)
@@ -750,13 +760,11 @@ def _apply_mutation_result_from_dict(d: Dict[str, Any]) -> ApplyMutationResult:
     if "CompleteMutation" in d:
         return ApplyMutationResultCompleteMutation.from_dict(d)
 
-    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
+    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
 
 class ApplyMutationOutput:
     mutation_result: ApplyMutationResult
     mutated_branch_key_items: list[MutatedBranchKeyItem]
-
     def __init__(
         self,
         *,
@@ -771,22 +779,22 @@ class ApplyMutationOutput:
         self.mutated_branch_key_items = mutated_branch_key_items
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the ApplyMutationOutput to a dictionary."""
+        """Converts the ApplyMutationOutput to a dictionary.
+
+        """
         return {
             "mutation_result": self.mutation_result.as_dict(),
-            "mutated_branch_key_items": _mutated_branch_key_items_as_dict(
-                self.mutated_branch_key_items
-            ),
+            "mutated_branch_key_items": _mutated_branch_key_items_as_dict(self.mutated_branch_key_items),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "ApplyMutationOutput":
-        """Creates a ApplyMutationOutput from a dictionary."""
+        """Creates a ApplyMutationOutput from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "mutation_result": _apply_mutation_result_from_dict(d["mutation_result"]),
-            "mutated_branch_key_items": _mutated_branch_key_items_from_dict(
-                d["mutated_branch_key_items"]
-            ),
+            "mutated_branch_key_items": _mutated_branch_key_items_from_dict(d["mutated_branch_key_items"]),
         }
 
         return ApplyMutationOutput(**kwargs)
@@ -804,24 +812,26 @@ class ApplyMutationOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, ApplyMutationOutput):
             return False
-        attributes: list[str] = [
-            "mutation_result",
-            "mutated_branch_key_items",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+        attributes: list[str] = ['mutation_result','mutated_branch_key_items',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
-
-class KmsSymmetricKeyArnKmsKeyArn:
+class KmsSymmetricKeyArnKmsKeyArn():
     """Key Store is restricted to only this KMS Key ARN.
-
-    If a different KMS Key ARN is encountered   when creating,
-    versioning, or getting a Branch Key or Beacon Key,   KMS is never
-    called and an exception is thrown.   While a Multi-Region Key (MKR)
-    may be provided,   the whole ARN, including the Region,   is
-    persisted in Branch Keys and   MUST strictly equal this value to be
-    considered valid.
+      If a different KMS Key ARN
+    is encountered
+      when creating, versioning, or getting a Branch Key or Beacon
+    Key,
+      KMS is never called and an exception is thrown.
+      While a Multi-Region
+    Key (MKR) may be provided,
+      the whole ARN, including the Region,
+      is persisted
+    in Branch Keys and
+      MUST strictly equal this value to be considered valid.
     """
-
     def __init__(self, value: str):
         self.value = value
 
@@ -830,7 +840,7 @@ class KmsSymmetricKeyArnKmsKeyArn:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KmsSymmetricKeyArnKmsKeyArn":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return KmsSymmetricKeyArnKmsKeyArn(d["KmsKeyArn"])
@@ -843,16 +853,17 @@ class KmsSymmetricKeyArnKmsKeyArn:
             return False
         return self.value == other.value
 
+class KmsSymmetricKeyArnKmsMRKeyArn():
+    """If an MRK ARN is provided,
+      and the persisted Branch Key holds an MRK ARN,
 
-class KmsSymmetricKeyArnKmsMRKeyArn:
-    """If an MRK ARN is provided, and the persisted Branch Key holds an MRK
-    ARN,
-
-    then those two ARNs may differ in region,   although they must be
-    otherwise equal.   If either ARN is not an MRK ARN, then KmsMRKeyArn
-    behaves exactly as kmsKeyArn.
+    then those two ARNs may differ in region,
+      although they must be otherwise
+    equal.
+      If either ARN is not an MRK ARN, then
+      KmsMRKeyArn behaves exactly as
+    kmsKeyArn.
     """
-
     def __init__(self, value: str):
         self.value = value
 
@@ -861,7 +872,7 @@ class KmsSymmetricKeyArnKmsMRKeyArn:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KmsSymmetricKeyArnKmsMRKeyArn":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return KmsSymmetricKeyArnKmsMRKeyArn(d["KmsMRKeyArn"])
@@ -874,12 +885,11 @@ class KmsSymmetricKeyArnKmsMRKeyArn:
             return False
         return self.value == other.value
 
-
-class KmsSymmetricKeyArnUnknown:
+class KmsSymmetricKeyArnUnknown():
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to
-    receive the parsed value.
+    If you receive this value, you will need to update your library to receive the
+    parsed value.
 
     This value may not be deliberately sent.
     """
@@ -892,21 +902,14 @@ class KmsSymmetricKeyArnUnknown:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KmsSymmetricKeyArnUnknown":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return KmsSymmetricKeyArnUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"KmsSymmetricKeyArnUnknown(tag={self.tag})"
 
-
-KmsSymmetricKeyArn = Union[
-    KmsSymmetricKeyArnKmsKeyArn,
-    KmsSymmetricKeyArnKmsMRKeyArn,
-    KmsSymmetricKeyArnUnknown,
-]
-
-
+KmsSymmetricKeyArn = Union[KmsSymmetricKeyArnKmsKeyArn, KmsSymmetricKeyArnKmsMRKeyArn, KmsSymmetricKeyArnUnknown]
 def _kms_symmetric_key_arn_from_dict(d: Dict[str, Any]) -> KmsSymmetricKeyArn:
     if "KmsKeyArn" in d:
         return KmsSymmetricKeyArnKmsKeyArn.from_dict(d)
@@ -914,15 +917,13 @@ def _kms_symmetric_key_arn_from_dict(d: Dict[str, Any]) -> KmsSymmetricKeyArn:
     if "KmsMRKeyArn" in d:
         return KmsSymmetricKeyArnKmsMRKeyArn.from_dict(d)
 
-    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
+    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
 
 class CreateKeyInput:
     identifier: Optional[str]
     encryption_context: Optional[dict[str, str]]
     kms_arn: KmsSymmetricKeyArn
     strategy: Optional[KeyManagementStrategy]
-
     def __init__(
         self,
         *,
@@ -950,7 +951,9 @@ class CreateKeyInput:
         self.strategy = strategy
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateKeyInput to a dictionary."""
+        """Converts the CreateKeyInput to a dictionary.
+
+        """
         d: Dict[str, Any] = {
             "kms_arn": self.kms_arn.as_dict(),
         }
@@ -968,7 +971,9 @@ class CreateKeyInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateKeyInput":
-        """Creates a CreateKeyInput from a dictionary."""
+        """Creates a CreateKeyInput from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "kms_arn": _kms_symmetric_key_arn_from_dict(d["kms_arn"]),
         }
@@ -980,7 +985,7 @@ class CreateKeyInput:
             kwargs["encryption_context"] = d["encryption_context"]
 
         if "strategy" in d:
-            kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
+            kwargs["strategy"] = _key_management_strategy_from_dict(d["strategy"]),
 
         return CreateKeyInput(**kwargs)
 
@@ -1003,18 +1008,14 @@ class CreateKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateKeyInput):
             return False
-        attributes: list[str] = [
-            "identifier",
-            "encryption_context",
-            "kms_arn",
-            "strategy",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['identifier','encryption_context','kms_arn','strategy',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class CreateKeyOutput:
     identifier: str
-
     def __init__(
         self,
         *,
@@ -1026,14 +1027,18 @@ class CreateKeyOutput:
         self.identifier = identifier
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the CreateKeyOutput to a dictionary."""
+        """Converts the CreateKeyOutput to a dictionary.
+
+        """
         return {
             "identifier": self.identifier,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "CreateKeyOutput":
-        """Creates a CreateKeyOutput from a dictionary."""
+        """Creates a CreateKeyOutput from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "identifier": d["identifier"],
         }
@@ -1050,15 +1055,14 @@ class CreateKeyOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, CreateKeyOutput):
             return False
-        attributes: list[str] = [
-            "identifier",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['identifier',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class DescribeMutationInput:
     identifier: str
-
     def __init__(
         self,
         *,
@@ -1070,14 +1074,18 @@ class DescribeMutationInput:
         self.identifier = identifier
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DescribeMutationInput to a dictionary."""
+        """Converts the DescribeMutationInput to a dictionary.
+
+        """
         return {
             "identifier": self.identifier,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DescribeMutationInput":
-        """Creates a DescribeMutationInput from a dictionary."""
+        """Creates a DescribeMutationInput from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "identifier": d["identifier"],
         }
@@ -1094,26 +1102,26 @@ class DescribeMutationInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DescribeMutationInput):
             return False
-        attributes: list[str] = [
-            "identifier",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['identifier',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class Mutations:
     terminal_kms_arn: Optional[str]
     terminal_encryption_context: Optional[dict[str, str]]
-
     def __init__(
         self,
         *,
         terminal_kms_arn: Optional[str] = None,
         terminal_encryption_context: Optional[dict[str, str]] = None,
     ):
-        """Define the Mutation in terms of the terminal, or end state, value
-        for a particular Branch Key property. The original value will be
-        REPLACED with this value.
-
+        """Define the Mutation in terms of the terminal, or end state,
+        value for a
+        particular Branch Key property.
+        The original value will be REPLACED with this
+        value.
         As of v1.9.0, a Mutation can either:
         - replace the KmsArn protecting the
         Branch Key
@@ -1142,7 +1150,9 @@ class Mutations:
         self.terminal_encryption_context = terminal_encryption_context
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the Mutations to a dictionary."""
+        """Converts the Mutations to a dictionary.
+
+        """
         d: Dict[str, Any] = {}
 
         if self.terminal_kms_arn is not None:
@@ -1155,7 +1165,9 @@ class Mutations:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "Mutations":
-        """Creates a Mutations from a dictionary."""
+        """Creates a Mutations from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {}
 
         if "terminal_kms_arn" in d:
@@ -1172,35 +1184,31 @@ class Mutations:
             result += f"terminal_kms_arn={repr(self.terminal_kms_arn)}, "
 
         if self.terminal_encryption_context is not None:
-            result += (
-                f"terminal_encryption_context={repr(self.terminal_encryption_context)}"
-            )
+            result += f"terminal_encryption_context={repr(self.terminal_encryption_context)}"
 
         return result + ")"
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, Mutations):
             return False
-        attributes: list[str] = [
-            "terminal_kms_arn",
-            "terminal_encryption_context",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['terminal_kms_arn','terminal_encryption_context',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class MutableBranchKeyProperties:
     kms_arn: str
     custom_encryption_context: dict[str, str]
-
     def __init__(
         self,
         *,
         kms_arn: str,
         custom_encryption_context: dict[str, str],
     ):
-        """Define the Mutable Properties of a Branch Key. As of v1.9.0, the
-        Mutable.
-
+        """
+        Define the Mutable Properties of a Branch Key.
+        As of v1.9.0, the Mutable
         Properties are:
         - The KmsArn protecting the Branch Key
         - The custom encryption
@@ -1214,7 +1222,9 @@ class MutableBranchKeyProperties:
         self.custom_encryption_context = custom_encryption_context
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the MutableBranchKeyProperties to a dictionary."""
+        """Converts the MutableBranchKeyProperties to a dictionary.
+
+        """
         return {
             "kms_arn": self.kms_arn,
             "custom_encryption_context": self.custom_encryption_context,
@@ -1222,7 +1232,9 @@ class MutableBranchKeyProperties:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MutableBranchKeyProperties":
-        """Creates a MutableBranchKeyProperties from a dictionary."""
+        """Creates a MutableBranchKeyProperties from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "kms_arn": d["kms_arn"],
             "custom_encryption_context": d["custom_encryption_context"],
@@ -1236,21 +1248,18 @@ class MutableBranchKeyProperties:
             result += f"kms_arn={repr(self.kms_arn)}, "
 
         if self.custom_encryption_context is not None:
-            result += (
-                f"custom_encryption_context={repr(self.custom_encryption_context)}"
-            )
+            result += f"custom_encryption_context={repr(self.custom_encryption_context)}"
 
         return result + ")"
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, MutableBranchKeyProperties):
             return False
-        attributes: list[str] = [
-            "kms_arn",
-            "custom_encryption_context",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['kms_arn','custom_encryption_context',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class MutationDetails:
     original: MutableBranchKeyProperties
@@ -1259,7 +1268,6 @@ class MutationDetails:
     system_key: str
     create_time: str
     uuid: str
-
     def __init__(
         self,
         *,
@@ -1286,7 +1294,9 @@ class MutationDetails:
         self.uuid = uuid
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the MutationDetails to a dictionary."""
+        """Converts the MutationDetails to a dictionary.
+
+        """
         return {
             "original": self.original.as_dict(),
             "terminal": self.terminal.as_dict(),
@@ -1298,7 +1308,9 @@ class MutationDetails:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MutationDetails":
-        """Creates a MutationDetails from a dictionary."""
+        """Creates a MutationDetails from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "original": MutableBranchKeyProperties.from_dict(d["original"]),
             "terminal": MutableBranchKeyProperties.from_dict(d["terminal"]),
@@ -1335,21 +1347,15 @@ class MutationDetails:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, MutationDetails):
             return False
-        attributes: list[str] = [
-            "original",
-            "terminal",
-            "input",
-            "system_key",
-            "create_time",
-            "uuid",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['original','terminal','input','system_key','create_time','uuid',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class MutationDescription:
     mutation_details: MutationDetails
     mutation_token: MutationToken
-
     def __init__(
         self,
         *,
@@ -1366,7 +1372,9 @@ class MutationDescription:
         self.mutation_token = mutation_token
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the MutationDescription to a dictionary."""
+        """Converts the MutationDescription to a dictionary.
+
+        """
         return {
             "mutation_details": self.mutation_details.as_dict(),
             "mutation_token": self.mutation_token.as_dict(),
@@ -1374,7 +1382,9 @@ class MutationDescription:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MutationDescription":
-        """Creates a MutationDescription from a dictionary."""
+        """Creates a MutationDescription from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "mutation_details": MutationDetails.from_dict(d["mutation_details"]),
             "mutation_token": MutationToken.from_dict(d["mutation_token"]),
@@ -1395,14 +1405,13 @@ class MutationDescription:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, MutationDescription):
             return False
-        attributes: list[str] = [
-            "mutation_details",
-            "mutation_token",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+        attributes: list[str] = ['mutation_details','mutation_token',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
-
-class MutationInFlightYes:
+class MutationInFlightYes():
     def __init__(self, value: MutationDescription):
         self.value = value
 
@@ -1411,7 +1420,7 @@ class MutationInFlightYes:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MutationInFlightYes":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return MutationInFlightYes(MutationDescription.from_dict(d["Yes"]))
@@ -1424,8 +1433,7 @@ class MutationInFlightYes:
             return False
         return self.value == other.value
 
-
-class MutationInFlightNo:
+class MutationInFlightNo():
     def __init__(self, value: str):
         self.value = value
 
@@ -1434,7 +1442,7 @@ class MutationInFlightNo:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MutationInFlightNo":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
 
         return MutationInFlightNo(d["No"])
@@ -1447,12 +1455,11 @@ class MutationInFlightNo:
             return False
         return self.value == other.value
 
-
-class MutationInFlightUnknown:
+class MutationInFlightUnknown():
     """Represents an unknown variant.
 
-    If you receive this value, you will need to update your library to
-    receive the parsed value.
+    If you receive this value, you will need to update your library to receive the
+    parsed value.
 
     This value may not be deliberately sent.
     """
@@ -1465,20 +1472,15 @@ class MutationInFlightUnknown:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MutationInFlightUnknown":
-        if len(d) != 1:
+        if (len(d) != 1):
             raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
         return MutationInFlightUnknown(d["SDK_UNKNOWN_MEMBER"]["name"])
 
     def __repr__(self) -> str:
         return f"MutationInFlightUnknown(tag={self.tag})"
 
-
 # If a Mutation is In Flight for this Branch Key.
-MutationInFlight = Union[
-    MutationInFlightYes, MutationInFlightNo, MutationInFlightUnknown
-]
-
-
+MutationInFlight = Union[MutationInFlightYes, MutationInFlightNo, MutationInFlightUnknown]
 def _mutation_in_flight_from_dict(d: Dict[str, Any]) -> MutationInFlight:
     if "Yes" in d:
         return MutationInFlightYes.from_dict(d)
@@ -1486,12 +1488,10 @@ def _mutation_in_flight_from_dict(d: Dict[str, Any]) -> MutationInFlight:
     if "No" in d:
         return MutationInFlightNo.from_dict(d)
 
-    raise TypeError(f"Unions may have exactly 1 value, but found {len(d)}")
-
+    raise TypeError(f'Unions may have exactly 1 value, but found {len(d)}')
 
 class DescribeMutationOutput:
     mutation_in_flight: MutationInFlight
-
     def __init__(
         self,
         *,
@@ -1503,18 +1503,20 @@ class DescribeMutationOutput:
         self.mutation_in_flight = mutation_in_flight
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the DescribeMutationOutput to a dictionary."""
+        """Converts the DescribeMutationOutput to a dictionary.
+
+        """
         return {
             "mutation_in_flight": self.mutation_in_flight.as_dict(),
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "DescribeMutationOutput":
-        """Creates a DescribeMutationOutput from a dictionary."""
+        """Creates a DescribeMutationOutput from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
-            "mutation_in_flight": _mutation_in_flight_from_dict(
-                d["mutation_in_flight"]
-            ),
+            "mutation_in_flight": _mutation_in_flight_from_dict(d["mutation_in_flight"]),
         }
 
         return DescribeMutationOutput(**kwargs)
@@ -1529,11 +1531,11 @@ class DescribeMutationOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, DescribeMutationOutput):
             return False
-        attributes: list[str] = [
-            "mutation_in_flight",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['mutation_in_flight',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class InitializeMutationInput:
     identifier: str
@@ -1541,7 +1543,6 @@ class InitializeMutationInput:
     strategy: Optional[KeyManagementStrategy]
     system_key: SystemKey
     do_not_version: Optional[bool]
-
     def __init__(
         self,
         *,
@@ -1596,7 +1597,9 @@ class InitializeMutationInput:
         self.do_not_version = do_not_version
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InitializeMutationInput to a dictionary."""
+        """Converts the InitializeMutationInput to a dictionary.
+
+        """
         d: Dict[str, Any] = {
             "identifier": self.identifier,
             "mutations": self.mutations.as_dict(),
@@ -1613,7 +1616,9 @@ class InitializeMutationInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InitializeMutationInput":
-        """Creates a InitializeMutationInput from a dictionary."""
+        """Creates a InitializeMutationInput from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "identifier": d["identifier"],
             "mutations": Mutations.from_dict(d["mutations"]),
@@ -1621,7 +1626,7 @@ class InitializeMutationInput:
         }
 
         if "strategy" in d:
-            kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
+            kwargs["strategy"] = _key_management_strategy_from_dict(d["strategy"]),
 
         if "do_not_version" in d:
             kwargs["do_not_version"] = d["do_not_version"]
@@ -1650,15 +1655,11 @@ class InitializeMutationInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InitializeMutationInput):
             return False
-        attributes: list[str] = [
-            "identifier",
-            "mutations",
-            "strategy",
-            "system_key",
-            "do_not_version",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['identifier','mutations','strategy','system_key','do_not_version',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class InitializeMutationFlag:
     CREATED = "Created"
@@ -1671,12 +1672,10 @@ class InitializeMutationFlag:
     # values may be added in the future.
     values = frozenset({"Created", "Resumed", "ResumedWithoutIndex"})
 
-
 class InitializeMutationOutput:
     mutation_token: MutationToken
     mutated_branch_key_items: list[MutatedBranchKeyItem]
     initialize_mutation_flag: str
-
     def __init__(
         self,
         *,
@@ -1695,23 +1694,23 @@ class InitializeMutationOutput:
         self.initialize_mutation_flag = initialize_mutation_flag
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the InitializeMutationOutput to a dictionary."""
+        """Converts the InitializeMutationOutput to a dictionary.
+
+        """
         return {
             "mutation_token": self.mutation_token.as_dict(),
-            "mutated_branch_key_items": _mutated_branch_key_items_as_dict(
-                self.mutated_branch_key_items
-            ),
+            "mutated_branch_key_items": _mutated_branch_key_items_as_dict(self.mutated_branch_key_items),
             "initialize_mutation_flag": self.initialize_mutation_flag,
         }
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "InitializeMutationOutput":
-        """Creates a InitializeMutationOutput from a dictionary."""
+        """Creates a InitializeMutationOutput from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "mutation_token": MutationToken.from_dict(d["mutation_token"]),
-            "mutated_branch_key_items": _mutated_branch_key_items_from_dict(
-                d["mutated_branch_key_items"]
-            ),
+            "mutated_branch_key_items": _mutated_branch_key_items_from_dict(d["mutated_branch_key_items"]),
             "initialize_mutation_flag": d["initialize_mutation_flag"],
         }
 
@@ -1723,9 +1722,7 @@ class InitializeMutationOutput:
             result += f"mutation_token={repr(self.mutation_token)}, "
 
         if self.mutated_branch_key_items is not None:
-            result += (
-                f"mutated_branch_key_items={repr(self.mutated_branch_key_items)}, "
-            )
+            result += f"mutated_branch_key_items={repr(self.mutated_branch_key_items)}, "
 
         if self.initialize_mutation_flag is not None:
             result += f"initialize_mutation_flag={repr(self.initialize_mutation_flag)}"
@@ -1735,19 +1732,16 @@ class InitializeMutationOutput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, InitializeMutationOutput):
             return False
-        attributes: list[str] = [
-            "mutation_token",
-            "mutated_branch_key_items",
-            "initialize_mutation_flag",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['mutation_token','mutated_branch_key_items','initialize_mutation_flag',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class VersionKeyInput:
     identifier: str
     kms_arn: KmsSymmetricKeyArn
     strategy: Optional[KeyManagementStrategy]
-
     def __init__(
         self,
         *,
@@ -1769,7 +1763,9 @@ class VersionKeyInput:
         self.strategy = strategy
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the VersionKeyInput to a dictionary."""
+        """Converts the VersionKeyInput to a dictionary.
+
+        """
         d: Dict[str, Any] = {
             "identifier": self.identifier,
             "kms_arn": self.kms_arn.as_dict(),
@@ -1782,14 +1778,16 @@ class VersionKeyInput:
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "VersionKeyInput":
-        """Creates a VersionKeyInput from a dictionary."""
+        """Creates a VersionKeyInput from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "identifier": d["identifier"],
             "kms_arn": _kms_symmetric_key_arn_from_dict(d["kms_arn"]),
         }
 
         if "strategy" in d:
-            kwargs["strategy"] = (_key_management_strategy_from_dict(d["strategy"]),)
+            kwargs["strategy"] = _key_management_strategy_from_dict(d["strategy"]),
 
         return VersionKeyInput(**kwargs)
 
@@ -1809,22 +1807,24 @@ class VersionKeyInput:
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, VersionKeyInput):
             return False
-        attributes: list[str] = [
-            "identifier",
-            "kms_arn",
-            "strategy",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['identifier','kms_arn','strategy',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 class VersionKeyOutput:
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the VersionKeyOutput to a dictionary."""
+        """Converts the VersionKeyOutput to a dictionary.
+
+        """
         return {}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "VersionKeyOutput":
-        """Creates a VersionKeyOutput from a dictionary."""
+        """Creates a VersionKeyOutput from a dictionary.
+
+        """
         return VersionKeyOutput()
 
     def __repr__(self) -> str:
@@ -1835,14 +1835,11 @@ class VersionKeyOutput:
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, VersionKeyOutput)
 
-
 def _mutated_branch_key_items_as_dict(given: list[MutatedBranchKeyItem]) -> List[Any]:
     return [v.as_dict() for v in given]
 
-
 def _mutated_branch_key_items_from_dict(given: List[Any]) -> list[MutatedBranchKeyItem]:
     return [MutatedBranchKeyItem.from_dict(v) for v in given]
-
 
 class Unit:
     pass

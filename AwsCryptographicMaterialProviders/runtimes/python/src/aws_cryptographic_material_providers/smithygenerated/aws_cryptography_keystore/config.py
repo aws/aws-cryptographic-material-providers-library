@@ -27,8 +27,6 @@ from .models import (
 
 
 _ServiceInterceptor = Any
-
-
 @dataclass(init=False)
 class Config:
     """Configuration for KeyStore."""
@@ -46,20 +44,20 @@ class Config:
     ):
         """Constructor.
 
-        :param interceptors: The list of interceptors, which are hooks
-            that are called during the execution of a request.
-        :param retry_strategy: The retry strategy for issuing retry
-            tokens and computing retry delays.
+        :param interceptors: The list of interceptors, which are hooks that are called
+        during the execution of a request.
+
+        :param retry_strategy: The retry strategy for issuing retry tokens and computing
+        retry delays.
+
         :param dafnyImplInterface:
         """
         self.interceptors = interceptors or []
         self.retry_strategy = retry_strategy or SimpleRetryStrategy()
         self.dafnyImplInterface = dafnyImplInterface
 
-
 # A callable that allows customizing the config object on each request.
 Plugin: TypeAlias = Callable[[Config], None]
-
 
 class KeyStoreConfig(Config):
     kms_configuration: KMSConfiguration
@@ -71,7 +69,6 @@ class KeyStoreConfig(Config):
     storage: Optional[Storage]
     ddb_client: Optional[BaseClient]
     kms_client: Optional[BaseClient]
-
     def __init__(
         self,
         *,
@@ -85,7 +82,7 @@ class KeyStoreConfig(Config):
         ddb_client: Optional[BaseClient] = None,
         kms_client: Optional[BaseClient] = None,
     ):
-        """Constructor for KeyStoreConfig.
+        """Constructor for KeyStoreConfig
 
         :param kms_configuration: Configures Key Store's KMS Key ARN restrictions.
         :param logical_key_store_name: The logical name for this Key Store, which is
@@ -109,14 +106,10 @@ class KeyStoreConfig(Config):
         self.logical_key_store_name = logical_key_store_name
         self.key_management = key_management
         if (ddb_table_name is not None) and (len(ddb_table_name) < 3):
-            raise ValueError(
-                "The size of ddb_table_name must be greater than or equal to 3"
-            )
+            raise ValueError("The size of ddb_table_name must be greater than or equal to 3")
 
         if (ddb_table_name is not None) and (len(ddb_table_name) > 255):
-            raise ValueError(
-                "The size of ddb_table_name must be less than or equal to 255"
-            )
+            raise ValueError("The size of ddb_table_name must be less than or equal to 255")
 
         self.ddb_table_name = ddb_table_name
         self.id = id
@@ -126,7 +119,9 @@ class KeyStoreConfig(Config):
         self.kms_client = kms_client
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the KeyStoreConfig to a dictionary."""
+        """Converts the KeyStoreConfig to a dictionary.
+
+        """
         d: Dict[str, Any] = {
             "kms_configuration": self.kms_configuration.as_dict(),
             "logical_key_store_name": self.logical_key_store_name,
@@ -157,14 +152,16 @@ class KeyStoreConfig(Config):
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KeyStoreConfig":
-        """Creates a KeyStoreConfig from a dictionary."""
+        """Creates a KeyStoreConfig from a dictionary.
+
+        """
         kwargs: Dict[str, Any] = {
             "kms_configuration": _kms_configuration_from_dict(d["kms_configuration"]),
             "logical_key_store_name": d["logical_key_store_name"],
         }
 
         if "key_management" in d:
-            kwargs["key_management"] = (_key_management_from_dict(d["key_management"]),)
+            kwargs["key_management"] = _key_management_from_dict(d["key_management"]),
 
         if "ddb_table_name" in d:
             kwargs["ddb_table_name"] = d["ddb_table_name"]
@@ -176,7 +173,7 @@ class KeyStoreConfig(Config):
             kwargs["grant_tokens"] = d["grant_tokens"]
 
         if "storage" in d:
-            kwargs["storage"] = (_storage_from_dict(d["storage"]),)
+            kwargs["storage"] = _storage_from_dict(d["storage"]),
 
         if "ddb_client" in d:
             kwargs["ddb_client"] = d["ddb_client"]
@@ -220,31 +217,22 @@ class KeyStoreConfig(Config):
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, KeyStoreConfig):
             return False
-        attributes: list[str] = [
-            "kms_configuration",
-            "logical_key_store_name",
-            "key_management",
-            "ddb_table_name",
-            "id",
-            "grant_tokens",
-            "storage",
-            "ddb_client",
-            "kms_client",
-        ]
-        return all(getattr(self, a) == getattr(other, a) for a in attributes)
-
+        attributes: list[str] = ['kms_configuration','logical_key_store_name','key_management','ddb_table_name','id','grant_tokens','storage','ddb_client','kms_client',]
+        return all(
+            getattr(self, a) == getattr(other, a)
+            for a in attributes
+        )
 
 def dafny_config_to_smithy_config(dafny_config) -> KeyStoreConfig:
-    """Converts the provided Dafny shape for this localService's config into
-    the corresponding Smithy-modelled shape."""
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KeyStoreConfig(
-        dafny_config
-    )
-
+    """
+    Converts the provided Dafny shape for this localService's config
+    into the corresponding Smithy-modelled shape.
+    """
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.dafny_to_smithy.aws_cryptography_keystore_KeyStoreConfig(dafny_config)
 
 def smithy_config_to_dafny_config(smithy_config) -> DafnyKeyStoreConfig:
-    """Converts the provided Smithy-modelled shape for this localService's
-    config into the corresponding Dafny shape."""
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KeyStoreConfig(
-        smithy_config
-    )
+    """
+    Converts the provided Smithy-modelled shape for this localService's config
+    into the corresponding Dafny shape.
+    """
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.smithy_to_dafny.aws_cryptography_keystore_KeyStoreConfig(smithy_config)
