@@ -17,7 +17,7 @@ namespace AWS.Cryptography.KeyStore
       if (list.Count < 1) return "";
       string[] msgArr = new string[list.Count];
       for (int i = 0; i < list.Count; i++)
-      msgArr[i] = $"{list[i].GetType().Name} :: {list[i].Message}";
+        msgArr[i] = $"{list[i].GetType().Name} :: {list[i].Message}";
       return String.Join("\n\t", msgArr);
     }
   }
