@@ -429,7 +429,7 @@ jobs:
       - name: Decrypt Encrypt Manifest Net
         working-directory: ./${{ matrix.library }}
         run: make test_decrypt_encrypt_vectors_${{matrix.decrypting_language}}
-      
+
       # Mutation branch does not test Rust, Python and Go
       # - name: Download Encrypt Manifest Artifact Rust
       #   uses: actions/download-artifact@v8
