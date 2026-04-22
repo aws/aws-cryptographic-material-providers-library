@@ -47,15 +47,17 @@ from .serialize import (
 Input = TypeVar("Input")
 Output = TypeVar("Output")
 
+
 class KeyStoreAdmin:
-    """Client for KeyStoreAdmin
+    """Client for KeyStoreAdmin.
 
     :param config: Configuration for the client.
     """
+
     def __init__(
         self,
         config: KeyStoreAdminConfig | None = None,
-        dafny_client: IKeyStoreAdminClient | None = None
+        dafny_client: IKeyStoreAdminClient | None = None,
     ):
         if config is None:
             self._config = Config()
@@ -73,8 +75,8 @@ class KeyStoreAdmin:
             self._config.dafnyImplInterface.impl = dafny_client
 
     def create_key(self, input: CreateKeyInput) -> CreateKeyOutput:
-        """Create a new Branch Key in the Key Store.
-        Additionally create a Beacon Key that is tied to this Branch Key.
+        """Create a new Branch Key in the Key Store. Additionally create a
+        Beacon Key that is tied to this Branch Key.
 
         :param input: The operation's input.
         """
@@ -88,14 +90,14 @@ class KeyStoreAdmin:
         )
 
     def version_key(self, input: VersionKeyInput) -> VersionKeyOutput:
-        """Rotates the Branch Key by creating a new ACTIVE version of an existing Branch Key,
-        along with a complementing Version (DECRYPT_ONLY) in the Key Store.
-        This generates a fresh AES-256 key which all future encrypts will use
-        for the Key Derivation Function,
-        until VersionKey is executed again.
-        This operation can race against other Version Key requests or Initialize Mutation requests for the same Branch Key.
-        Should that occur, all but one of the requests will fail.
-        Race errors are either 'Version Race Exceptions' or 'Key Storage Exceptions'.
+        """Rotates the Branch Key by creating a new ACTIVE version of an
+        existing Branch Key, along with a complementing Version (DECRYPT_ONLY)
+        in the Key Store. This generates a fresh AES-256 key which all future
+        encrypts will use for the Key Derivation Function, until VersionKey is
+        executed again. This operation can race against other Version Key
+        requests or Initialize Mutation requests for the same Branch Key.
+        Should that occur, all but one of the requests will fail. Race errors
+        are either 'Version Race Exceptions' or 'Key Storage Exceptions'.
 
         :param input: The operation's input.
         """
@@ -108,34 +110,36 @@ class KeyStoreAdmin:
             operation_name="VersionKey",
         )
 
-    def initialize_mutation(self, input: InitializeMutationInput) -> InitializeMutationOutput:
-        """Starts a Mutation to all Items of a Branch Key ID.
-        Mutates the Beacon Key.
-        Either Mutates the Active & its version (decrypt only), or versions the Branch Key,
-        depending on the 'Do Not Version' argument.
-        Regardless, if operation is successful,
-        the Beacon, Active, & the Active's version are in the terminal state.
-        Establishes the Mutation Commitment; simultaneous conflicting Mutations are prevented by the Mutation Commitment.
-        A Mutation changes the Encryption Context and/or KMS Key associated with a Branch Key.
-        As such, a Mutation can cause actors to loose access to a Branch Key,
-        if the actor's access was predicated on particular Encryption Context value or KMS Key.
-        Mutations MUST be completed via subsequent invocations of the Apply Mutation Operation,
-        first invoked with the Mutation Token returned in 'Initialize Mutation Output'.
-        If access to a KMS Key is revoked while a Mutation is in-flight,
-        the Branch Key will be stuck in a mixed state.
-        This is not ideal, but once access to the KMS Key is restored,
-        the Mutation can be continued by calling 'Describe Mutation'
-        and then calling 'Apply Mutation' as normal.
-        With respect to the output's Mutation Token, this operation is idempotent;
-        if invoked with the same request as an in-flight Mutation,
-        the operation will return successful
-        with the same Mutation Token as earlier requests.
-        The 'Initialize Mutation Flag' of the output indicates
-        if the request was for a novel Mutation or one already in-flight.
-        'MutationConflictException' is thrown if a different Mutation/change is already in-flight.
-        This operation can race against other Initialize Mutation requests or Version Key requests for the same Branch Key.
-        Should that occur, all but one of the requests will fail.
-        Race errors are either 'VersionRaceException' or 'KeyStorageException'.
+    def initialize_mutation(
+        self, input: InitializeMutationInput
+    ) -> InitializeMutationOutput:
+        """Starts a Mutation to all Items of a Branch Key ID. Mutates the
+        Beacon Key. Either Mutates the Active & its version (decrypt only), or
+        versions the Branch Key, depending on the 'Do Not Version' argument.
+        Regardless, if operation is successful, the Beacon, Active, & the
+        Active's version are in the terminal state. Establishes the Mutation
+        Commitment; simultaneous conflicting Mutations are prevented by the
+        Mutation Commitment. A Mutation changes the Encryption Context and/or
+        KMS Key associated with a Branch Key. As such, a Mutation can cause
+        actors to loose access to a Branch Key, if the actor's access was
+        predicated on particular Encryption Context value or KMS Key. Mutations
+        MUST be completed via subsequent invocations of the Apply Mutation
+        Operation, first invoked with the Mutation Token returned in
+        'Initialize Mutation Output'. If access to a KMS Key is revoked while a
+        Mutation is in-flight, the Branch Key will be stuck in a mixed state.
+        This is not ideal, but once access to the KMS Key is restored, the
+        Mutation can be continued by calling 'Describe Mutation' and then
+        calling 'Apply Mutation' as normal. With respect to the output's
+        Mutation Token, this operation is idempotent; if invoked with the same
+        request as an in-flight Mutation, the operation will return successful
+        with the same Mutation Token as earlier requests. The 'Initialize
+        Mutation Flag' of the output indicates if the request was for a novel
+        Mutation or one already in-flight. 'MutationConflictException' is
+        thrown if a different Mutation/change is already in-flight. This
+        operation can race against other Initialize Mutation requests or
+        Version Key requests for the same Branch Key. Should that occur, all
+        but one of the requests will fail. Race errors are either
+        'VersionRaceException' or 'KeyStorageException'.
 
         :param input: The operation's input.
         """
@@ -149,14 +153,15 @@ class KeyStoreAdmin:
         )
 
     def apply_mutation(self, input: ApplyMutationInput) -> ApplyMutationOutput:
-        """Applies the Mutation to a page of Branch Key Items.
-        If all Items have been mutated, removes the Mutation Commitment and Index.
-        This operation can race other Apply Mutation requests for the same Branch Key.
-        Should that occur, all but one of the requests will fail with a 'Key Storage Exception'.
-        Note that the Mutation Token only contains serializable members;
-        the 'System Key' and 'Strategy' settings are separate parameters.
-        In particular, the 'System Key' setting MUST be consistent across
-        the Initialize Mutation and all the Apply Mutation calls of a Mutation.
+        """Applies the Mutation to a page of Branch Key Items. If all Items
+        have been mutated, removes the Mutation Commitment and Index. This
+        operation can race other Apply Mutation requests for the same Branch
+        Key. Should that occur, all but one of the requests will fail with a
+        'Key Storage Exception'. Note that the Mutation Token only contains
+        serializable members; the 'System Key' and 'Strategy' settings are
+        separate parameters. In particular, the 'System Key' setting MUST be
+        consistent across the Initialize Mutation and all the Apply Mutation
+        calls of a Mutation.
 
         :param input: The operation's input.
         """
@@ -170,8 +175,8 @@ class KeyStoreAdmin:
         )
 
     def describe_mutation(self, input: DescribeMutationInput) -> DescribeMutationOutput:
-        """Check for an in-flight Mutation on a Branch Key ID.
-        If one exists, return a description of the mutation.
+        """Check for an in-flight Mutation on a Branch Key ID. If one exists,
+        return a description of the mutation.
 
         :param input: The operation's input.
         """
@@ -220,12 +225,13 @@ class KeyStoreAdmin:
             transport_response=None,
         )
         try:
-          _client_interceptors = config.interceptors
+            _client_interceptors = config.interceptors
         except AttributeError:
-          config.interceptors = []
-          _client_interceptors = config.interceptors
+            config.interceptors = []
+            _client_interceptors = config.interceptors
         client_interceptors = cast(
-            list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]], _client_interceptors
+            list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
+            _client_interceptors,
         )
         interceptors = client_interceptors
 
@@ -308,7 +314,7 @@ class KeyStoreAdmin:
                             error_info=RetryErrorInfo(
                                 # TODO: Determine the error type.
                                 error_type=RetryErrorType.CLIENT_ERROR,
-                            )
+                            ),
                         )
                     except SmithyRetryException:
                         raise context_with_response.response
@@ -323,7 +329,10 @@ class KeyStoreAdmin:
         # The response will be set either with the modeled output or an exception. The
         # transport_request and transport_response may be set or None.
         execution_context = cast(
-            InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None], context
+            InterceptorContext[
+                Input, Output, DafnyRequest | None, DafnyResponse | None
+            ],
+            context,
         )
         return self._finalize_execution(interceptors, execution_context)
 
@@ -348,8 +357,10 @@ class KeyStoreAdmin:
                 InterceptorContext[Input, None, DafnyRequest, DafnyResponse], context
             )
 
-            context_with_response._transport_response = config.dafnyImplInterface.handle_request(
-                input=context_with_response.transport_request
+            context_with_response._transport_response = (
+                config.dafnyImplInterface.handle_request(
+                    input=context_with_response.transport_request
+                )
             )
 
             # Step 7n: Invoke read_after_transmit
@@ -386,7 +397,8 @@ class KeyStoreAdmin:
         # None. This will also be true after _finalize_attempt because there is no opportunity
         # there to set the transport_response.
         attempt_context = cast(
-            InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None], context
+            InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
+            context,
         )
         return self._finalize_attempt(interceptors, attempt_context)
 
@@ -416,7 +428,9 @@ class KeyStoreAdmin:
     def _finalize_execution(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
-        context: InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None],
+        context: InterceptorContext[
+            Input, Output, DafnyRequest | None, DafnyResponse | None
+        ],
     ) -> Output:
         try:
             # Step 9: Invoke modify_before_completion

@@ -19,6 +19,8 @@ from ..aws_cryptography_keystore.models import Storage, _storage_from_dict
 
 
 _ServiceInterceptor = Any
+
+
 @dataclass(init=False)
 class Config:
     """Configuration for KeyStoreAdmin."""
@@ -36,31 +38,32 @@ class Config:
     ):
         """Constructor.
 
-        :param interceptors: The list of interceptors, which are hooks that are called
-        during the execution of a request.
-
-        :param retry_strategy: The retry strategy for issuing retry tokens and computing
-        retry delays.
-
+        :param interceptors: The list of interceptors, which are hooks
+            that are called during the execution of a request.
+        :param retry_strategy: The retry strategy for issuing retry
+            tokens and computing retry delays.
         :param dafnyImplInterface:
         """
         self.interceptors = interceptors or []
         self.retry_strategy = retry_strategy or SimpleRetryStrategy()
         self.dafnyImplInterface = dafnyImplInterface
 
+
 # A callable that allows customizing the config object on each request.
 Plugin: TypeAlias = Callable[[Config], None]
+
 
 class KeyStoreAdminConfig(Config):
     logical_key_store_name: str
     storage: Storage
+
     def __init__(
         self,
         *,
         logical_key_store_name: str,
         storage: Storage,
     ):
-        """Constructor for KeyStoreAdminConfig
+        """Constructor for KeyStoreAdminConfig.
 
         :param logical_key_store_name: The logical name for this Key Store,
           which is
@@ -89,9 +92,7 @@ class KeyStoreAdminConfig(Config):
         self.storage = storage
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the KeyStoreAdminConfig to a dictionary.
-
-        """
+        """Converts the KeyStoreAdminConfig to a dictionary."""
         return {
             "logical_key_store_name": self.logical_key_store_name,
             "storage": self.storage.as_dict(),
@@ -99,9 +100,7 @@ class KeyStoreAdminConfig(Config):
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "KeyStoreAdminConfig":
-        """Creates a KeyStoreAdminConfig from a dictionary.
-
-        """
+        """Creates a KeyStoreAdminConfig from a dictionary."""
         kwargs: Dict[str, Any] = {
             "logical_key_store_name": d["logical_key_store_name"],
             "storage": _storage_from_dict(d["storage"]),
@@ -122,22 +121,24 @@ class KeyStoreAdminConfig(Config):
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, KeyStoreAdminConfig):
             return False
-        attributes: list[str] = ['logical_key_store_name','storage',]
-        return all(
-            getattr(self, a) == getattr(other, a)
-            for a in attributes
-        )
+        attributes: list[str] = [
+            "logical_key_store_name",
+            "storage",
+        ]
+        return all(getattr(self, a) == getattr(other, a) for a in attributes)
+
 
 def dafny_config_to_smithy_config(dafny_config) -> KeyStoreAdminConfig:
-    """
-    Converts the provided Dafny shape for this localService's config
-    into the corresponding Smithy-modelled shape.
-    """
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_KeyStoreAdminConfig(dafny_config)
+    """Converts the provided Dafny shape for this localService's config into
+    the corresponding Smithy-modelled shape."""
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.dafny_to_smithy.aws_cryptography_keystoreadmin_KeyStoreAdminConfig(
+        dafny_config
+    )
+
 
 def smithy_config_to_dafny_config(smithy_config) -> DafnyKeyStoreAdminConfig:
-    """
-    Converts the provided Smithy-modelled shape for this localService's config
-    into the corresponding Dafny shape.
-    """
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KeyStoreAdminConfig(smithy_config)
+    """Converts the provided Smithy-modelled shape for this localService's
+    config into the corresponding Dafny shape."""
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystoreadmin.smithy_to_dafny.aws_cryptography_keystoreadmin_KeyStoreAdminConfig(
+        smithy_config
+    )
