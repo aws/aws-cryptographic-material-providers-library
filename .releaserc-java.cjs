@@ -59,8 +59,6 @@ module.exports = {
           { scope: "net", release: false },
           { scope: "go", release: false },
           { scope: "rust", release: false },
-          { type: "docs", release: "patch" },
-          { type: "revert", release: "patch" },
         ],
       },
     ],

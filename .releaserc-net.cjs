@@ -72,9 +72,10 @@ module.exports = {
           ],
         },
         releaseRules: [
-          { type: "docs", release: "patch" },
-          { type: "revert", release: "patch" },
-          { type: "chore", release: "patch" },
+          { scope: "java", release: false },
+          { scope: "python", release: false },
+          { scope: "go", release: false },
+          { scope: "rust", release: false },
         ],
       },
     ],
