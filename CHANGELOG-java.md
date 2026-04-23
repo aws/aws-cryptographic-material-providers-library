@@ -1,11 +1,5 @@
 # Changelog
 
-## [1.11.3](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.2-java...v1.11.3-java) (2026-04-23)
-
-### Maintenance -- All Languages
-
-* something ([de29d30](https://github.com/aws/aws-cryptographic-material-providers-library/commit/de29d303979499860c7458b6c76627fb04c754fd))
-
 ## [1.11.2](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.1-java...v1.11.2-java) (2026-04-23)
 
 ### Maintenance -- All Languages
