@@ -61,7 +61,6 @@ module.exports = {
           { scope: "rust", release: false },
           { type: "docs", release: "patch" },
           { type: "revert", release: "patch" },
-          { type: "chore", release: "patch" },
         ],
       },
     ],
