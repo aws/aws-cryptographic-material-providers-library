@@ -2,12 +2,6 @@
 
 ## [1.11.1](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.0-java...v1.11.1-java) (2026-04-24)
 
-### ⚠ BREAKING CHANGES
-
-* **.net:** add a separate releaserc file to keep track of net releases (#1814)
-
-* **.net:** add a separate releaserc file to keep track of net releases ([#1814](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1814)) ([c13c58f](https://github.com/aws/aws-cryptographic-material-providers-library/commit/c13c58fc72ebd8e90e338a73c4f617362f1883a9))
-
 ### Fixes -- All Languages
 
 * **Go:** Improve Go performance ([#1729](https://github.com/aws/aws-cryptographic-material-providers-library/issues/1729)) ([cc30ecc](https://github.com/aws/aws-cryptographic-material-providers-library/commit/cc30ecc512fa6ac02a1011cf81b0b00bbd5d600d))
