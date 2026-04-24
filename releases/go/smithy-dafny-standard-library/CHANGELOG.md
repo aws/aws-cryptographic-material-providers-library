@@ -1,5 +1,7 @@
 # Changelog
 
+## [releases/go/mpl/v0.3.0] - 2026-04-24
+
 ## [releases/go/smithy-dafny-standard-library/v0.3.0] - 2025-10-23
 
 ### Performance
