@@ -1,6 +1,10 @@
 # Changelog
 
-## [releases/go/mpl/v0.3.0] - 2026-04-24
+## [releases/go/smithy-dafny-standard-library/v0.4.0] - 2026-04-24
+
+### Maintenance
+
+- _(go)_ chore: upgrade dafny runtime go v4.11.3 (#1849)
 
 ## [releases/go/smithy-dafny-standard-library/v0.3.0] - 2025-10-23
 
