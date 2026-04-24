@@ -16,27 +16,9 @@
 */
 
 const Runtimes = {
-  net: {
-    "AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj": {
+  java: {
+    "project.properties": {
       dependencies: [],
-      assemblyInfo:
-        "AwsCryptographicMaterialProviders/runtimes/net/AssemblyInfo.cs",
-    },
-    "ComAmazonawsKms/runtimes/net/AWS-KMS.csproj": {
-      dependencies: [],
-      assemblyInfo: "ComAmazonawsKms/runtimes/net/AssemblyInfo.cs",
-    },
-    "ComAmazonawsDynamodb/runtimes/net/ComAmazonawsDynamodb.csproj": {
-      dependencies: [],
-      assemblyInfo: "ComAmazonawsDynamodb/runtimes/net/AssemblyInfo.cs",
-    },
-    "AwsCryptographyPrimitives/runtimes/net/Crypto.csproj": {
-      dependencies: [],
-      assemblyInfo: "AwsCryptographyPrimitives/runtimes/net/AssemblyInfo.cs",
-    },
-    "StandardLibrary/runtimes/net/STD.csproj": {
-      dependencies: [],
-      assemblyInfo: "StandardLibrary/runtimes/net/AssemblyInfo.cs",
     },
   },
 };
@@ -48,15 +30,14 @@ module.exports = {
   branches: ["main"],
   repositoryUrl:
     "git@github.com:aws/aws-cryptographic-material-providers-library.git",
-  tagFormat: "v${version}-net",
+  tagFormat: "v${version}-java",
   plugins: [
-    // Check the commits since the last release
     [
       "@semantic-release/commit-analyzer",
       {
         preset: "conventionalcommits",
         parserOpts: {
-          noteKeywords: ["NET BREAKING CHANGE", "NET BREAKING CHANGES"],
+          noteKeywords: ["JAVA BREAKING CHANGE", "JAVA BREAKING CHANGES"],
         },
         presetConfig: {
           types: [
@@ -72,20 +53,21 @@ module.exports = {
           ],
         },
         releaseRules: [
-          { scope: "java", release: false },
           { scope: "python", release: false },
+          { scope: "dotnet", release: false },
+          { scope: ".net", release: false },
+          { scope: "net", release: false },
           { scope: "go", release: false },
           { scope: "rust", release: false },
         ],
       },
     ],
-    // Based on the commits generate release notes
     [
       "@semantic-release/release-notes-generator",
       {
         preset: "conventionalcommits",
         parserOpts: {
-          noteKeywords: ["NET BREAKING CHANGE", "NET BREAKING CHANGES"],
+          noteKeywords: ["JAVA BREAKING CHANGE", "JAVA BREAKING CHANGES"],
         },
         presetConfig: {
           types: [
@@ -97,11 +79,13 @@ module.exports = {
             },
             {
               type: "feat",
-              scope: "dotnet",
-              section: "Features -- DotNet",
+              scope: "java",
+              section: "Features -- Java",
               hidden: false,
             },
-            { type: "feat", scope: "java", hidden: true },
+            { type: "feat", scope: ".net", hidden: true },
+            { type: "feat", scope: "net", hidden: true },
+            { type: "feat", scope: "dotnet", hidden: true },
             { type: "feat", scope: "python", hidden: true },
             { type: "feat", scope: "go", hidden: true },
             { type: "feat", scope: "rust", hidden: true },
@@ -113,11 +97,13 @@ module.exports = {
             },
             {
               type: "fix",
-              scope: "dotnet",
-              section: "Fixes -- DotNet",
+              scope: "java",
+              section: "Fixes -- Java",
               hidden: false,
             },
-            { type: "fix", scope: "java", hidden: true },
+            { type: "fix", scope: ".net", hidden: true },
+            { type: "fix", scope: "net", hidden: true },
+            { type: "fix", scope: "dotnet", hidden: true },
             { type: "fix", scope: "python", hidden: true },
             { type: "fix", scope: "go", hidden: true },
             { type: "fix", scope: "rust", hidden: true },
@@ -129,11 +115,13 @@ module.exports = {
             },
             {
               type: "chore",
-              scope: "dotnet",
-              section: "Maintenance -- DotNet",
+              scope: "java",
+              section: "Maintenance -- Java",
               hidden: false,
             },
-            { type: "chore", scope: "java", hidden: true },
+            { type: "chore", scope: ".net", hidden: true },
+            { type: "chore", scope: "net", hidden: true },
+            { type: "chore", scope: "dotnet", hidden: true },
             { type: "chore", scope: "python", hidden: true },
             { type: "chore", scope: "go", hidden: true },
             { type: "chore", scope: "rust", hidden: true },
@@ -145,11 +133,12 @@ module.exports = {
             },
             {
               type: "docs",
-              scope: "dotnet",
-              section: "Maintenance -- DotNet",
+              scope: "java",
+              section: "Maintenance -- Java",
               hidden: false,
             },
-            { type: "docs", scope: "java", hidden: true },
+            { type: "docs", scope: ".net", hidden: true },
+            { type: "docs", scope: "dotnet", hidden: true },
             { type: "docs", scope: "python", hidden: true },
             { type: "docs", scope: "go", hidden: true },
             { type: "docs", scope: "rust", hidden: true },
@@ -161,11 +150,12 @@ module.exports = {
             },
             {
               type: "revert",
-              scope: "dotnet",
-              section: "Fixes -- DotNet",
+              scope: "java",
+              section: "Fixes -- Java",
               hidden: false,
             },
-            { type: "revert", scope: "java", hidden: true },
+            { type: "revert", scope: ".net", hidden: true },
+            { type: "revert", scope: "dotnet", hidden: true },
             { type: "revert", scope: "python", hidden: true },
             { type: "revert", scope: "go", hidden: true },
             { type: "revert", scope: "rust", hidden: true },
@@ -214,42 +204,24 @@ module.exports = {
         },
       },
     ],
-    // Update the change log with the generated release notes
     [
       "@semantic-release/changelog",
       {
-        changelogFile: "CHANGELOG-dotnet.md",
+        changelogFile: "CHANGELOG-java.md",
         changelogTitle: "# Changelog",
       },
     ],
-
-    // Bump the various versions
     [
       "semantic-release-replace-plugin",
       {
         replacements: [
-          // Update the version for all DotNet projects
-          // Does not update the dependencies
           {
-            files: Object.keys(Runtimes.net),
-            from: "<Version>.*</Version>",
-            to: "<Version>${nextRelease.version}</Version>",
-            results: Object.keys(Runtimes.net).map(CheckResults),
+            files: Object.keys(Runtimes.java),
+            from: "javaMPLVersion=.*",
+            to: "javaMPLVersion=${nextRelease.version}",
+            results: Object.keys(Runtimes.java).map(CheckResults),
             countMatches: true,
           },
-
-          // Update the AssmeblyInfo.cs file of the DotNet projects
-          ...Object.entries(Runtimes.net).flatMap(
-            ([file, { assemblyInfo }]) => ({
-              files: assemblyInfo,
-              from: "assembly: AssemblyVersion(.*)",
-              to: 'assembly: AssemblyVersion("${nextRelease.version}")]',
-              results: [CheckResults(assemblyInfo)],
-              countMatches: true,
-            }),
-          ),
-
-          // Update the version in ComAmazonawsKms/src/Index.dfy DafnyUserAgentSuffix function
           {
             files: ["ComAmazonawsKms/src/Index.dfy"],
             from: 'var version := ".*"',
@@ -260,13 +232,13 @@ module.exports = {
         ],
       },
     ],
-    // Commit and push changes the changelog and versions bumps
     [
       "@semantic-release/git",
       {
         assets: [
-          "CHANGELOG-dotnet.md",
-          ...Object.values(Runtimes.net).flatMap((r) => r.assemblyInfo),
+          "CHANGELOG-java.md",
+          "ComAmazonawsKms/src/Index.dfy",
+          ...Object.keys(Runtimes.java),
         ],
         message: "chore: ${nextRelease.version} \n\n${nextRelease.notes}",
       },

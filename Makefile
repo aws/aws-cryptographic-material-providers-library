@@ -49,15 +49,20 @@ polymorph_code_gen:
 setup_semantic_release:
 	npm i --no-save semantic-release @semantic-release/changelog semantic-release-replace-plugin conventional-changelog-conventionalcommits @semantic-release/git @semantic-release/exec
 
-run_semantic_release:
-	npx semantic-release --no-ci
-
 run_net_semantic_release:
-	mv .releaserc.cjs .releaserc-main.cjs
 	mv .releaserc-net.cjs .releaserc.cjs
 	npx semantic-release --no-ci
 	mv .releaserc.cjs .releaserc-net.cjs
-	mv .releaserc-main.cjs .releaserc.cjs
+
+run_java_semantic_release:
+	mv .releaserc-java.cjs .releaserc.cjs
+	npx semantic-release --no-ci
+	mv .releaserc.cjs .releaserc-java.cjs
+
+run_python_semantic_release:
+	mv .releaserc-python.cjs .releaserc.cjs
+	npx semantic-release --no-ci
+	mv .releaserc.cjs .releaserc-python.cjs
 
 dry_run_semantic_release:
 	npx semantic-release --dry-run

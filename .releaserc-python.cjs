@@ -19,11 +19,6 @@
 // each one has files that need to be updated.
 // We model all the files and the runtimes here in this structure
 const Runtimes = {
-  java: {
-    "project.properties": {
-      dependencies: [],
-    },
-  },
   // Any change to the size of the `dependencies` list
   // must be accounted for in `CheckDependencyReplacementResults`.
   python: {
@@ -57,6 +52,7 @@ module.exports = {
   branches: ["main"],
   repositoryUrl:
     "git@github.com:aws/aws-cryptographic-material-providers-library.git",
+  tagFormat: "v${version}-python",
   plugins: [
     // Check the commits since the last release
     [
@@ -64,7 +60,7 @@ module.exports = {
       {
         preset: "conventionalcommits",
         parserOpts: {
-          noteKeywords: ["BREAKING CHANGE", "BREAKING CHANGES"],
+          noteKeywords: ["PYTHON BREAKING CHANGE", "PYTHON BREAKING CHANGES"],
         },
         presetConfig: {
           types: [
@@ -80,9 +76,12 @@ module.exports = {
           ],
         },
         releaseRules: [
-          { type: "docs", release: "patch" },
-          { type: "revert", release: "patch" },
-          { type: "chore", release: "patch" },
+          { scope: "java", release: false },
+          { scope: "dotnet", release: false },
+          { scope: ".net", release: false },
+          { scope: "net", release: false },
+          { scope: "go", release: false },
+          { scope: "rust", release: false },
         ],
       },
     ],
@@ -91,6 +90,9 @@ module.exports = {
       "@semantic-release/release-notes-generator",
       {
         preset: "conventionalcommits",
+        parserOpts: {
+          noteKeywords: ["PYTHON BREAKING CHANGE", "PYTHON BREAKING CHANGES"],
+        },
         presetConfig: {
           types: [
             {
@@ -101,29 +103,16 @@ module.exports = {
             },
             {
               type: "feat",
-              scope: "java",
-              section: "Features -- Java",
-              hidden: false,
-            },
-            {
-              type: "feat",
               scope: "python",
               section: "Features -- Python",
               hidden: false,
             },
-            {
-              type: "feat",
-              scope: "go",
-              section: "Features -- Go",
-              hidden: false,
-            },
-            {
-              type: "feat",
-              scope: "rust",
-              section: "Features -- Rust",
-              hidden: false,
-            },
-
+            { type: "feat", scope: "java", hidden: true },
+            { type: "feat", scope: "dotnet", hidden: true },
+            { type: "feat", scope: ".net", hidden: true },
+            { type: "feat", scope: "net", hidden: true },
+            { type: "feat", scope: "go", hidden: true },
+            { type: "feat", scope: "rust", hidden: true },
             {
               type: "fix",
               scope: "dafny",
@@ -132,24 +121,16 @@ module.exports = {
             },
             {
               type: "fix",
-              scope: "java",
-              section: "Fixes -- Java",
-              hidden: false,
-            },
-            {
-              type: "fix",
               scope: "python",
               section: "Fixes -- Python",
               hidden: false,
             },
-            { type: "fix", scope: "go", section: "Fixes -- Go", hidden: false },
-            {
-              type: "fix",
-              scope: "rust",
-              section: "Fixes -- Rust",
-              hidden: false,
-            },
-
+            { type: "fix", scope: "java", hidden: true },
+            { type: "fix", scope: "dotnet", hidden: true },
+            { type: "fix", scope: ".net", hidden: true },
+            { type: "fix", scope: "net", hidden: true },
+            { type: "fix", scope: "go", hidden: true },
+            { type: "fix", scope: "rust", hidden: true },
             {
               type: "chore",
               scope: "dafny",
@@ -158,28 +139,16 @@ module.exports = {
             },
             {
               type: "chore",
-              scope: "java",
-              section: "Maintenance -- Java",
-              hidden: false,
-            },
-            {
-              type: "chore",
               scope: "python",
               section: "Maintenance -- Python",
               hidden: false,
             },
-            {
-              type: "chore",
-              scope: "go",
-              section: "Maintenance -- Go",
-              hidden: false,
-            },
-            {
-              type: "chore",
-              scope: "rust",
-              section: "Maintenance -- Rust",
-              hidden: false,
-            },
+            { type: "chore", scope: "java", hidden: true },
+            { type: "chore", scope: "dotnet", hidden: true },
+            { type: "chore", scope: ".net", hidden: true },
+            { type: "chore", scope: "net", hidden: true },
+            { type: "chore", scope: "go", hidden: true },
+            { type: "chore", scope: "rust", hidden: true },
             {
               type: "chore",
               section: "Miscellaneous",
@@ -193,28 +162,16 @@ module.exports = {
             },
             {
               type: "docs",
-              scope: "java",
-              section: "Maintenance -- Java",
-              hidden: false,
-            },
-            {
-              type: "docs",
               scope: "python",
               section: "Maintenance -- Python",
               hidden: false,
             },
-            {
-              type: "docs",
-              scope: "go",
-              section: "Maintenance -- Go",
-              hidden: false,
-            },
-            {
-              type: "docs",
-              scope: "rust",
-              section: "Maintenance -- Rust",
-              hidden: false,
-            },
+            { type: "docs", scope: "java", hidden: true },
+            { type: "docs", scope: "dotnet", hidden: true },
+            { type: "docs", scope: ".net", hidden: true },
+            { type: "docs", scope: "net", hidden: true },
+            { type: "docs", scope: "go", hidden: true },
+            { type: "docs", scope: "rust", hidden: true },
             {
               type: "revert",
               scope: "dafny",
@@ -223,32 +180,57 @@ module.exports = {
             },
             {
               type: "revert",
-              scope: "java",
-              section: "Fixes -- Java",
-              hidden: false,
-            },
-            {
-              type: "revert",
               scope: "python",
               section: "Fixes -- Python",
               hidden: false,
             },
+            { type: "revert", scope: "java", hidden: true },
+            { type: "revert", scope: "dotnet", hidden: true },
+            { type: "revert", scope: ".net", hidden: true },
+            { type: "revert", scope: "net", hidden: true },
+            { type: "revert", scope: "go", hidden: true },
+            { type: "revert", scope: "rust", hidden: true },
             {
-              type: "revert",
-              scope: "go",
-              section: "Fixes -- Go",
+              type: "feat",
+              section: "Features -- All Languages",
+              hidden: false,
+            },
+            { type: "fix", section: "Fixes -- All Languages", hidden: false },
+            {
+              type: "chore",
+              section: "Maintenance -- All Languages",
+              hidden: false,
+            },
+            {
+              type: "docs",
+              section: "Maintenance -- All Languages",
               hidden: false,
             },
             {
               type: "revert",
-              scope: "rust",
-              section: "Fixes -- Rust",
+              section: "Fixes -- All Languages",
               hidden: false,
             },
-            { type: "style", section: "Miscellaneous", hidden: false },
-            { type: "refactor", section: "Miscellaneous", hidden: false },
-            { type: "perf", section: "Miscellaneous", hidden: false },
-            { type: "test", section: "Miscellaneous", hidden: false },
+            {
+              type: "style",
+              section: "Miscellaneous -- All Languages",
+              hidden: false,
+            },
+            {
+              type: "refactor",
+              section: "Miscellaneous -- All Languages",
+              hidden: false,
+            },
+            {
+              type: "perf",
+              section: "Miscellaneous -- All Languages",
+              hidden: false,
+            },
+            {
+              type: "test",
+              section: "Miscellaneous -- All Languages",
+              hidden: false,
+            },
           ],
         },
       },
@@ -257,7 +239,7 @@ module.exports = {
     [
       "@semantic-release/changelog",
       {
-        changelogFile: "CHANGELOG.md",
+        changelogFile: "CHANGELOG-python.md",
         changelogTitle: "# Changelog",
       },
     ],
@@ -267,16 +249,6 @@ module.exports = {
       "semantic-release-replace-plugin",
       {
         replacements: [
-          // Update the version for all Gradle Java projects
-          // Does not update the dependencies
-          {
-            files: Object.keys(Runtimes.java),
-            from: "mplVersion=.*",
-            to: "mplVersion=${nextRelease.version}",
-            results: Object.keys(Runtimes.java).map(CheckResults),
-            countMatches: true,
-          },
-
           // Update the version in pyproject.toml for all Python projects
           // Does not update the dependencies
           {
@@ -323,8 +295,7 @@ module.exports = {
       "@semantic-release/git",
       {
         assets: [
-          "CHANGELOG.md",
-          "ComAmazonawsKms/src/Index.dfy",
+          "CHANGELOG-python.md",
           ...Object.values(Runtimes).flatMap((r) => Object.keys(r)),
           "**/runtimes/python/**/*.dtr",
         ],

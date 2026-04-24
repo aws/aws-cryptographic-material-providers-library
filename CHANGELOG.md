@@ -1,6 +1,15 @@
 # Changelog
 
-Each changelog entry applies to all runtimes unless specified by a language suffix.
+Note: Starting April 20, 2026, all runtime-specific changes are tracked in separate changelogs:
+
+- Java: [CHANGELOG-java.md](https://github.com/aws/aws-cryptographic-material-providers-library/blob/main/CHANGELOG-java.md)
+- .NET: [CHANGELOG-dotnet.md](https://github.com/aws/aws-cryptographic-material-providers-library/blob/main/CHANGELOG-dotnet.md)
+- Python: [CHANGELOG-python.md](https://github.com/aws/aws-cryptographic-material-providers-library/blob/main/CHANGELOG-python.md)
+- Go: [CHANGELOG.md](https://github.com/aws/aws-cryptographic-material-providers-library/blob/main/releases/go/mpl/CHANGELOG.md) (Go has always maintained its changelog in a separate directory)
+
+If a runtime-specific changelog is not present, there has been no new release for that runtime after April 20, 2026.
+
+Each changelog entry below applies to all runtimes unless specified by a language suffix.
 
 ## [2.0.0-net](https://github.com/aws/aws-cryptographic-material-providers-library/compare/v1.11.2-net...v2.0.0-net) (2026-03-11)
 
