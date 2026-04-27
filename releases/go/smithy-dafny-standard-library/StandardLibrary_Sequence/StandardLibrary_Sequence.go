@@ -25,6 +25,7 @@ import (
 	m_Seq "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq"
 	m_Seq_MergeSort "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Seq_MergeSort"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
 	m_UnicodeStrings "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/UnicodeStrings"
 	m__Unicode "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Unicode_"
@@ -63,6 +64,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 
 type Dummy__ struct{}
 
@@ -100,12 +102,55 @@ func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 
 var _ _dafny.TraitOffspring = &Default__{}
 
-func (_static *CompanionStruct_Default___) SequenceEqualNat(seq1 _dafny.Sequence, seq2 _dafny.Sequence, start1 _dafny.Int, start2 _dafny.Int, size _dafny.Int) bool {
-	if ((_dafny.IntOfUint32((seq1).Cardinality())).Cmp(m_StandardLibrary_UInt.Companion_Default___.UINT64__MAX__LIMIT()) > 0) || ((_dafny.IntOfUint32((seq2).Cardinality())).Cmp(m_StandardLibrary_UInt.Companion_Default___.UINT64__MAX__LIMIT()) > 0) {
-		return _dafny.Companion_Sequence_.Equal((seq1).Subsequence((start1).Uint32(), ((start1).Plus(size)).Uint32()), (seq2).Subsequence((start2).Uint32(), ((start2).Plus(size)).Uint32()))
+func (_static *CompanionStruct_Default___) MapWithResult(f func(interface{}) m_Wrappers.Result, xs _dafny.Sequence, pos uint64, acc _dafny.Sequence) m_Wrappers.Result {
+	goto TAIL_CALL_START
+TAIL_CALL_START:
+	if (uint64((xs).Cardinality())) == (pos) {
+		return m_Wrappers.Companion_Result_.Create_Success_(acc)
 	} else {
-		return Companion_Default___.SequenceEqual(seq1, seq2, (start1).Uint64(), (start2).Uint64(), (size).Uint64())
+		var _0_valueOrError0 m_Wrappers.Result = (f)((xs).Select(uint32(pos)).(interface{}))
+		_ = _0_valueOrError0
+		if (_0_valueOrError0).IsFailure() {
+			return (_0_valueOrError0).PropagateFailure()
+		} else {
+			var _1_head interface{} = (_0_valueOrError0).Extract()
+			_ = _1_head
+			var _in0 func(interface{}) m_Wrappers.Result = f
+			_ = _in0
+			var _in1 _dafny.Sequence = xs
+			_ = _in1
+			var _in2 uint64 = (pos) + (uint64(1))
+			_ = _in2
+			var _in3 _dafny.Sequence = _dafny.Companion_Sequence_.Concatenate(acc, _dafny.SeqOf(_1_head))
+			_ = _in3
+			f = _in0
+			xs = _in1
+			pos = _in2
+			acc = _in3
+			goto TAIL_CALL_START
+		}
 	}
+}
+func (_static *CompanionStruct_Default___) Flatten(xs _dafny.Sequence, pos uint64, acc _dafny.Sequence) _dafny.Sequence {
+	goto TAIL_CALL_START
+TAIL_CALL_START:
+	if (uint64((xs).Cardinality())) == (pos) {
+		return acc
+	} else {
+		var _in0 _dafny.Sequence = xs
+		_ = _in0
+		var _in1 uint64 = (pos) + (uint64(1))
+		_ = _in1
+		var _in2 _dafny.Sequence = _dafny.Companion_Sequence_.Concatenate(acc, (xs).Select(uint32(pos)).(_dafny.Sequence))
+		_ = _in2
+		xs = _in0
+		pos = _in1
+		acc = _in2
+		goto TAIL_CALL_START
+	}
+}
+func (_static *CompanionStruct_Default___) SequenceEqualNat(seq1 _dafny.Sequence, seq2 _dafny.Sequence, start1 _dafny.Int, start2 _dafny.Int, size _dafny.Int) bool {
+	return Companion_Default___.SequenceEqual(seq1, seq2, (start1).Uint64(), (start2).Uint64(), (size).Uint64())
 }
 func (_static *CompanionStruct_Default___) SequenceEqual(seq1 _dafny.Sequence, seq2 _dafny.Sequence, start1 uint64, start2 uint64, size uint64) bool {
 	var ret bool = false

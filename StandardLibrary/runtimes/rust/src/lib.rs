@@ -3,6 +3,11 @@
 
 #![allow(deprecated, non_upper_case_globals, unused, non_snake_case, non_camel_case_types)]
 
+#![allow(warnings, unconditional_panic)]
+#![allow(nonstandard_style)]
+#![allow(clippy::never_loop)]
+#![allow(clippy::absurd_extreme_comparisons)]
+
 pub(crate) mod standard_library_externs;
 
 pub(crate) mod implementation_from_dafny;

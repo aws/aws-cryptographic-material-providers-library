@@ -6,7 +6,8 @@ SRC=../../../AwsCryptographicMaterialProviders/runtimes/rust/src/
 
 cp $SRC/concurrent_call.rs src
 cp $SRC/dafny_libraries.rs src
-# ddb is different, because of ::deps::
+cp $SRC/ddb.rs src
+cp $SRC/escape.rs src
 cp $SRC/oslang.rs src
 cp $SRC/sets.rs src
 cp $SRC/time.rs src

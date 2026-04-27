@@ -99,6 +99,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -120,6 +121,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -184,34 +186,34 @@ var _ m_KeyStore.Dummy__
 var _ m_AlgorithmSuites.Dummy__
 var _ m_Materials.Dummy__
 var _ m_Keyring.Dummy__
-var _ m_MultiKeyring.Dummy__
-var _ m_AwsKmsMrkAreUnique.Dummy__
-var _ m_Constants.Dummy__
-var _ m_MaterialWrapping.Dummy__
 var _ m_CanonicalEncryptionContext.Dummy__
+var _ m_MaterialWrapping.Dummy__
 var _ m_IntermediateKeyWrapping.Dummy__
 var _ m_EdkWrapping.Dummy__
 var _ m_ErrorMessages.Dummy__
+var _ m_RawAESKeyring.Dummy__
+var _ m_Constants.Dummy__
+var _ m_EcdhEdkWrapping.Dummy__
+var _ m_RawECDHKeyring.Dummy__
+var _ m_RawRSAKeyring.Dummy__
 var _ m_AwsKmsKeyring.Dummy__
-var _ m_StrictMultiKeyring.Dummy__
 var _ m_AwsKmsDiscoveryKeyring.Dummy__
-var _ m_DiscoveryMultiKeyring.Dummy__
-var _ m_AwsKmsMrkDiscoveryKeyring.Dummy__
-var _ m_MrkAwareDiscoveryMultiKeyring.Dummy__
-var _ m_AwsKmsMrkKeyring.Dummy__
-var _ m_MrkAwareStrictMultiKeyring.Dummy__
+var _ m_AwsKmsEcdhKeyring.Dummy__
 var _ m_LocalCMC.Dummy__
 var _ m_SynchronizedLocalCMC.Dummy__
 var _ m_StormTracker.Dummy__
 var _ m_StormTrackingCMC.Dummy__
 var _ m_CacheConstants.Dummy__
 var _ m_AwsKmsHierarchicalKeyring.Dummy__
+var _ m_AwsKmsMrkDiscoveryKeyring.Dummy__
+var _ m_AwsKmsMrkKeyring.Dummy__
 var _ m_AwsKmsRsaKeyring.Dummy__
-var _ m_EcdhEdkWrapping.Dummy__
-var _ m_RawECDHKeyring.Dummy__
-var _ m_AwsKmsEcdhKeyring.Dummy__
-var _ m_RawAESKeyring.Dummy__
-var _ m_RawRSAKeyring.Dummy__
+var _ m_MultiKeyring.Dummy__
+var _ m_AwsKmsMrkAreUnique.Dummy__
+var _ m_StrictMultiKeyring.Dummy__
+var _ m_DiscoveryMultiKeyring.Dummy__
+var _ m_MrkAwareDiscoveryMultiKeyring.Dummy__
+var _ m_MrkAwareStrictMultiKeyring.Dummy__
 var _ m_CMM.Dummy__
 var _ m_Defaults.Dummy__
 var _ m_Commitment.Dummy__
@@ -652,9 +654,9 @@ func (_static *CompanionStruct_Default___) CreateAwsKmsHierarchicalKeyring(confi
 	if ((input).Dtor_partitionId()).Is_Some() {
 		var _7_valueOrError4 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(m_UTF8.Companion_ValidUTF8Bytes_.Witness())
 		_ = _7_valueOrError4
-		_7_valueOrError4 = (m_UTF8.Encode(((input).Dtor_partitionId()).Dtor_value().(_dafny.Sequence))).MapFailure(func(coer132 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-			return func(arg133 interface{}) interface{} {
-				return coer132(arg133.(_dafny.Sequence))
+		_7_valueOrError4 = (m_UTF8.Encode(((input).Dtor_partitionId()).Dtor_value().(_dafny.Sequence))).MapFailure(func(coer128 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+			return func(arg129 interface{}) interface{} {
+				return coer128(arg129.(_dafny.Sequence))
 			}
 		}(func(_8_e _dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error {
 			return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Could not UTF-8 Encode Partition ID: "), _8_e))
@@ -673,9 +675,9 @@ func (_static *CompanionStruct_Default___) CreateAwsKmsHierarchicalKeyring(confi
 		_9_uuid_q = _out4
 		var _10_valueOrError5 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq.SetString())
 		_ = _10_valueOrError5
-		_10_valueOrError5 = (_9_uuid_q).MapFailure(func(coer133 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-			return func(arg134 interface{}) interface{} {
-				return coer133(arg134.(_dafny.Sequence))
+		_10_valueOrError5 = (_9_uuid_q).MapFailure(func(coer129 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+			return func(arg130 interface{}) interface{} {
+				return coer129(arg130.(_dafny.Sequence))
 			}
 		}(func(_11_e _dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error {
 			return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_11_e)
@@ -689,9 +691,9 @@ func (_static *CompanionStruct_Default___) CreateAwsKmsHierarchicalKeyring(confi
 		_12_uuid = (_10_valueOrError5).Extract().(_dafny.Sequence)
 		var _13_valueOrError6 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(_dafny.EmptySeq)
 		_ = _13_valueOrError6
-		_13_valueOrError6 = (m_UUID.ToByteArray(_12_uuid)).MapFailure(func(coer134 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-			return func(arg135 interface{}) interface{} {
-				return coer134(arg135.(_dafny.Sequence))
+		_13_valueOrError6 = (m_UUID.ToByteArray(_12_uuid)).MapFailure(func(coer130 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+			return func(arg131 interface{}) interface{} {
+				return coer130(arg131.(_dafny.Sequence))
 			}
 		}(func(_14_e _dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error {
 			return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_14_e)
@@ -710,9 +712,9 @@ func (_static *CompanionStruct_Default___) CreateAwsKmsHierarchicalKeyring(confi
 	_15_getKeyStoreInfoOutput_q = _out5
 	var _16_valueOrError7 m_Wrappers.Result = m_Wrappers.Result{}
 	_ = _16_valueOrError7
-	_16_valueOrError7 = (_15_getKeyStoreInfoOutput_q).MapFailure(func(coer135 func(m_AwsCryptographyKeyStoreTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-		return func(arg136 interface{}) interface{} {
-			return coer135(arg136.(m_AwsCryptographyKeyStoreTypes.Error))
+	_16_valueOrError7 = (_15_getKeyStoreInfoOutput_q).MapFailure(func(coer131 func(m_AwsCryptographyKeyStoreTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+		return func(arg132 interface{}) interface{} {
+			return coer131(arg132.(m_AwsCryptographyKeyStoreTypes.Error))
 		}
 	}(func(_17_e m_AwsCryptographyKeyStoreTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error {
 		return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographyKeyStore_(_17_e)
@@ -729,9 +731,9 @@ func (_static *CompanionStruct_Default___) CreateAwsKmsHierarchicalKeyring(confi
 	_19_logicalKeyStoreName = (_18_getKeyStoreInfoOutput).Dtor_logicalKeyStoreName()
 	var _20_valueOrError8 m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(m_UTF8.Companion_ValidUTF8Bytes_.Witness())
 	_ = _20_valueOrError8
-	_20_valueOrError8 = (m_UTF8.Encode(_19_logicalKeyStoreName)).MapFailure(func(coer136 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-		return func(arg137 interface{}) interface{} {
-			return coer136(arg137.(_dafny.Sequence))
+	_20_valueOrError8 = (m_UTF8.Encode(_19_logicalKeyStoreName)).MapFailure(func(coer132 func(_dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+		return func(arg133 interface{}) interface{} {
+			return coer132(arg133.(_dafny.Sequence))
 		}
 	}(func(_21_e _dafny.Sequence) m_AwsCryptographyMaterialProvidersTypes.Error {
 		return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Could not UTF-8 Encode Logical Key Store Name: "), _21_e))
@@ -976,7 +978,7 @@ func (_static *CompanionStruct_Default___) CreateMultiKeyring(config Config, inp
 	_ = output
 	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _0_valueOrError0
-	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need((((input).Dtor_generator()).Is_Some()) || ((_dafny.IntOfUint32(((input).Dtor_childKeyrings()).Cardinality())).Sign() == 1), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Must include a generator keyring and/or at least one child keyring")))
+	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need((((input).Dtor_generator()).Is_Some()) || ((uint64(((input).Dtor_childKeyrings()).Cardinality())) > (uint64(0))), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Must include a generator keyring and/or at least one child keyring")))
 	if (_0_valueOrError0).IsFailure() {
 		output = (_0_valueOrError0).PropagateFailure()
 		return output
@@ -1040,27 +1042,30 @@ Lmatch0:
 	_ = _4_namespace
 	var _5_name _dafny.Sequence = (*(_let_tmp_rhs0).IndexInt(1)).(_dafny.Sequence)
 	_ = _5_name
-	var _6_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-	_ = _6_valueOrError2
-	_6_valueOrError2 = m_Wrappers.Companion_Default___.Need((((_dafny.IntOfUint32(((input).Dtor_wrappingKey()).Cardinality())).Cmp(_dafny.IntOfInt64(16)) == 0) || ((_dafny.IntOfUint32(((input).Dtor_wrappingKey()).Cardinality())).Cmp(_dafny.IntOfInt64(24)) == 0)) || ((_dafny.IntOfUint32(((input).Dtor_wrappingKey()).Cardinality())).Cmp(_dafny.IntOfInt64(32)) == 0), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Invalid wrapping key length")))
-	if (_6_valueOrError2).IsFailure() {
-		output = (_6_valueOrError2).PropagateFailure()
+	var _6_wrapping__key__size uint64
+	_ = _6_wrapping__key__size
+	_6_wrapping__key__size = uint64(((input).Dtor_wrappingKey()).Cardinality())
+	var _7_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+	_ = _7_valueOrError2
+	_7_valueOrError2 = m_Wrappers.Companion_Default___.Need((((_6_wrapping__key__size) == (uint64(16))) || ((_6_wrapping__key__size) == (uint64(24)))) || ((_6_wrapping__key__size) == (uint64(32))), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Invalid wrapping key length")))
+	if (_7_valueOrError2).IsFailure() {
+		output = (_7_valueOrError2).PropagateFailure()
 		return output
 	}
-	var _7_valueOrError3 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
-	_ = _7_valueOrError3
-	_7_valueOrError3 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32(((input).Dtor_wrappingKey()).Cardinality())).Cmp(_dafny.IntOfInt32((_1_wrappingAlg).Dtor_keyLength())) == 0, m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Wrapping key length does not match specified wrapping algorithm")))
-	if (_7_valueOrError3).IsFailure() {
-		output = (_7_valueOrError3).PropagateFailure()
+	var _8_valueOrError3 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
+	_ = _8_valueOrError3
+	_8_valueOrError3 = m_Wrappers.Companion_Default___.Need((_6_wrapping__key__size) == (uint64((_1_wrappingAlg).Dtor_keyLength())), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Wrapping key length does not match specified wrapping algorithm")))
+	if (_8_valueOrError3).IsFailure() {
+		output = (_8_valueOrError3).PropagateFailure()
 		return output
 	}
-	var _8_keyring *m_RawAESKeyring.RawAESKeyring
-	_ = _8_keyring
+	var _9_keyring *m_RawAESKeyring.RawAESKeyring
+	_ = _9_keyring
 	var _nw0 *m_RawAESKeyring.RawAESKeyring = m_RawAESKeyring.New_RawAESKeyring_()
 	_ = _nw0
 	_nw0.Ctor__(_4_namespace, _5_name, (input).Dtor_wrappingKey(), _1_wrappingAlg, (config).Dtor_crypto())
-	_8_keyring = _nw0
-	output = m_Wrappers.Companion_Result_.Create_Success_(_8_keyring)
+	_9_keyring = _nw0
+	output = m_Wrappers.Companion_Result_.Create_Success_(_9_keyring)
 	return output
 	return output
 }
@@ -1342,9 +1347,9 @@ func (_static *CompanionStruct_Default___) CreateAwsKmsRsaKeyring(config Config,
 		_3_lengthOutputRes = ((config).Dtor_crypto()).GetRSAKeyModulusLength(m_AwsCryptographyPrimitivesTypes.Companion_GetRSAKeyModulusLengthInput_.Create_GetRSAKeyModulusLengthInput_(((input).Dtor_publicKey()).Dtor_value().(_dafny.Sequence)))
 		var _4_valueOrError3 m_Wrappers.Result = m_Wrappers.Result{}
 		_ = _4_valueOrError3
-		_4_valueOrError3 = (_3_lengthOutputRes).MapFailure(func(coer137 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
-			return func(arg138 interface{}) interface{} {
-				return coer137(arg138.(m_AwsCryptographyPrimitivesTypes.Error))
+		_4_valueOrError3 = (_3_lengthOutputRes).MapFailure(func(coer133 func(m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error) func(interface{}) interface{} {
+			return func(arg134 interface{}) interface{} {
+				return coer133(arg134.(m_AwsCryptographyPrimitivesTypes.Error))
 			}
 		}(func(_5_e m_AwsCryptographyPrimitivesTypes.Error) m_AwsCryptographyMaterialProvidersTypes.Error {
 			return m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographyPrimitives_(_5_e)
@@ -1425,9 +1430,9 @@ func (_static *CompanionStruct_Default___) CreateRequiredEncryptionContextCMM(co
 	_1_keySet = func() _dafny.Set {
 		var _coll0 = _dafny.NewBuilder()
 		_ = _coll0
-		for _iter10 := _dafny.Iterate(((input).Dtor_requiredEncryptionContextKeys()).Elements()); ; {
-			_compr_0, _ok10 := _iter10()
-			if !_ok10 {
+		for _iter11 := _dafny.Iterate(((input).Dtor_requiredEncryptionContextKeys()).Elements()); ; {
+			_compr_0, _ok11 := _iter11()
+			if !_ok11 {
 				break
 			}
 			var _2_k _dafny.Sequence
@@ -1442,7 +1447,7 @@ func (_static *CompanionStruct_Default___) CreateRequiredEncryptionContextCMM(co
 	}()
 	var _3_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _3_valueOrError1
-	_3_valueOrError1 = m_Wrappers.Companion_Default___.Need(((_1_keySet).Cardinality()).Sign() == 1, Companion_Default___.CmpError(_dafny.SeqOfString("RequiredEncryptionContextCMM needs at least one requiredEncryptionContextKey.")))
+	_3_valueOrError1 = m_Wrappers.Companion_Default___.Need((uint64(0)) < (uint64((_1_keySet).CardinalityInt())), Companion_Default___.CmpError(_dafny.SeqOfString("RequiredEncryptionContextCMM needs at least one requiredEncryptionContextKey.")))
 	if (_3_valueOrError1).IsFailure() {
 		output = (_3_valueOrError1).PropagateFailure()
 		return output
@@ -1503,7 +1508,7 @@ func (_static *CompanionStruct_Default___) CreateCryptographicMaterialsCache(con
 				_ = _7_cmc
 				var _nw2 *m_LocalCMC.LocalCMC = m_LocalCMC.New_LocalCMC_()
 				_ = _nw2
-				_nw2.Ctor__(_dafny.Zero, _dafny.One)
+				_nw2.Ctor__(uint64(0), uint64(1))
 				_7_cmc = _nw2
 				output = m_Wrappers.Companion_Result_.Create_Success_(_7_cmc)
 				return output
@@ -1518,7 +1523,7 @@ func (_static *CompanionStruct_Default___) CreateCryptographicMaterialsCache(con
 				_ = _9_cmc
 				var _nw3 *m_LocalCMC.LocalCMC = m_LocalCMC.New_LocalCMC_()
 				_ = _nw3
-				_nw3.Ctor__(_dafny.IntOfInt32((_8_c).Dtor_entryCapacity()), _dafny.IntOfInt32((Companion_Default___.OptionalCountingNumber((_8_c).Dtor_entryPruningTailSize())).UnwrapOr(int32(1)).(int32)))
+				_nw3.Ctor__(uint64((_8_c).Dtor_entryCapacity()), uint64((Companion_Default___.OptionalCountingNumber((_8_c).Dtor_entryPruningTailSize())).UnwrapOr(int32(1)).(int32)))
 				_9_cmc = _nw3
 				output = m_Wrappers.Companion_Result_.Create_Success_(_9_cmc)
 				return output
@@ -1533,7 +1538,7 @@ func (_static *CompanionStruct_Default___) CreateCryptographicMaterialsCache(con
 				_ = _11_cmc
 				var _nw4 *m_LocalCMC.LocalCMC = m_LocalCMC.New_LocalCMC_()
 				_ = _nw4
-				_nw4.Ctor__(_dafny.IntOfInt32((_10_c).Dtor_entryCapacity()), _dafny.IntOfInt32((Companion_Default___.OptionalCountingNumber((_10_c).Dtor_entryPruningTailSize())).UnwrapOr(int32(1)).(int32)))
+				_nw4.Ctor__(uint64((_10_c).Dtor_entryCapacity()), uint64((Companion_Default___.OptionalCountingNumber((_10_c).Dtor_entryPruningTailSize())).UnwrapOr(int32(1)).(int32)))
 				_11_cmc = _nw4
 				var _12_synCmc *m_SynchronizedLocalCMC.SynchronizedLocalCMC
 				_ = _12_synCmc

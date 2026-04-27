@@ -288,7 +288,9 @@ module AwsKmsRsaKeyring {
       //  1. Serializing The [encryption context](structures.md#encryption-context-1) from the input
       //     [encryption materials](../structures.md#encryption-materials) according to the [encryption context serialization specification](../structures.md#serialization).
       //  2. Taking the SHA-384 Digest of this concatenation.
-      var encryptionContextDigest :- EncryptionContextDigest(cryptoPrimitives, materials.encryptionContext);
+      var encryptionContextDigest :- CanonicalEncryptionContext.EncryptionContextDigest(
+        cryptoPrimitives,
+        materials.encryptionContext);
 
       var decryptClosure := new DecryptSingleAWSRSAEncryptedDataKey(
         materials,
@@ -313,33 +315,6 @@ module AwsKmsRsaKeyring {
                        materials := SealedDecryptionMaterials
                      ));
     }
-  }
-
-  method EncryptionContextDigest(cryptoPrimitives: AtomicPrimitives.AtomicPrimitivesClient, encryptionContext: Types.EncryptionContext)
-    returns (output: Result<seq<uint8>, Types.Error>)
-    requires cryptoPrimitives.ValidState()
-    modifies cryptoPrimitives.Modifies
-    ensures cryptoPrimitives.ValidState()
-  {
-    var canonicalEC :- CanonicalEncryptionContext.EncryptionContextToAAD(encryptionContext);
-
-    var DigestInput := Crypto.DigestInput(
-      digestAlgorithm := Crypto.SHA_384,
-      message := canonicalEC
-    );
-    var maybeDigest := cryptoPrimitives.Digest(DigestInput);
-    var digest :- maybeDigest.MapFailure(e => Types.AwsCryptographyPrimitives(e));
-
-    // The digest is not truncated.
-    // There is an impact on the key size.
-    // See: https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html
-    // This is not safe to do for 1024 keys,
-    // but AWS KMS does not support these keys.
-    // Further we use SHA_384 to save a little on size
-    // and avoid even the possibility of length extension.
-    // Though length extension does not matter in this situation,
-    // because a decryptor already has access to the key.
-    return Success(digest);
   }
 
   class DecryptSingleAWSRSAEncryptedDataKey
@@ -595,7 +570,7 @@ module AwsKmsRsaKeyring {
       ensures Invariant()
       ensures Ensures(input, res, attemptsState)
     {
-      var encryptionContextDigest :- EncryptionContextDigest(cryptoPrimitives, input.encryptionContext);
+      var encryptionContextDigest :- CanonicalEncryptionContext.EncryptionContextDigest(cryptoPrimitives, input.encryptionContext);
       var padding := match paddingScheme
         case RSAES_OAEP_SHA_1() => Crypto.OAEP_SHA1
         case RSAES_OAEP_SHA_256() => Crypto.OAEP_SHA256;

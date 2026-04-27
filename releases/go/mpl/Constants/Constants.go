@@ -15,20 +15,24 @@ import (
 	m_AwsCryptographyKeyStoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreOperations"
 	m_AwsCryptographyKeyStoreTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
 	m_AwsCryptographyMaterialProvidersTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
-	m_AwsKmsMrkAreUnique "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkAreUnique"
 	m_AwsKmsMrkMatchForDecrypt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkMatchForDecrypt"
 	m_AwsKmsUtils "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsUtils"
+	m_CanonicalEncryptionContext "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CanonicalEncryptionContext"
 	m_CreateKeyStoreTable "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeyStoreTable"
 	m_CreateKeys "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeys"
 	m_DDBKeystoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/DDBKeystoreOperations"
+	m_EdkWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/EdkWrapping"
+	m_ErrorMessages "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/ErrorMessages"
 	m_GetKeys "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/GetKeys"
+	m_IntermediateKeyWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/IntermediateKeyWrapping"
 	m_KMSKeystoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KMSKeystoreOperations"
 	m_KeyStore "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KeyStore"
 	m_KeyStoreErrorMessages "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KeyStoreErrorMessages"
 	m_Keyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Keyring"
 	m_KmsArn "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KmsArn"
+	m_MaterialWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MaterialWrapping"
 	m_Materials "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Materials"
-	m_MultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MultiKeyring"
+	m_RawAESKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/RawAESKeyring"
 	m_Structure "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Structure"
 	m_AtomicPrimitives "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AtomicPrimitives"
 	m_AwsCryptographyPrimitivesOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesOperations"
@@ -66,6 +70,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -86,6 +91,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -150,8 +156,12 @@ var _ m_KeyStore.Dummy__
 var _ m_AlgorithmSuites.Dummy__
 var _ m_Materials.Dummy__
 var _ m_Keyring.Dummy__
-var _ m_MultiKeyring.Dummy__
-var _ m_AwsKmsMrkAreUnique.Dummy__
+var _ m_CanonicalEncryptionContext.Dummy__
+var _ m_MaterialWrapping.Dummy__
+var _ m_IntermediateKeyWrapping.Dummy__
+var _ m_EdkWrapping.Dummy__
+var _ m_ErrorMessages.Dummy__
+var _ m_RawAESKeyring.Dummy__
 
 type Dummy__ struct{}
 
@@ -192,11 +202,11 @@ var _ _dafny.TraitOffspring = &Default__{}
 func (_static *CompanionStruct_Default___) ECDH__PROVIDER__INFO__RPL__INDEX() uint32 {
 	return uint32(1)
 }
-func (_static *CompanionStruct_Default___) ECDH__PROVIDER__INFO__PUBLIC__KEY__LEN() _dafny.Int {
-	return _dafny.IntOfInt64(4)
+func (_static *CompanionStruct_Default___) ECDH__PROVIDER__INFO__PUBLIC__KEY__LEN() uint64 {
+	return uint64(4)
 }
 func (_static *CompanionStruct_Default___) ECDH__PROVIDER__INFO__RPK__INDEX() uint32 {
-	return (Companion_Default___.ECDH__PROVIDER__INFO__RPL__INDEX()) + ((Companion_Default___.ECDH__PROVIDER__INFO__PUBLIC__KEY__LEN()).Uint32())
+	return (Companion_Default___.ECDH__PROVIDER__INFO__RPL__INDEX()) + (uint32(Companion_Default___.ECDH__PROVIDER__INFO__PUBLIC__KEY__LEN()))
 }
 func (_static *CompanionStruct_Default___) ECDH__AES__256__ENC__KEY__LENGTH() int32 {
 	return int32(32)
@@ -215,8 +225,8 @@ func (_static *CompanionStruct_Default___) PROVIDER__ID() _dafny.Sequence {
 	_ = _0_s
 	return _0_s
 }
-func (_static *CompanionStruct_Default___) UINT32__TO__SEQ__LEN() _dafny.Int {
-	return _dafny.IntOfInt64(4)
+func (_static *CompanionStruct_Default___) UINT32__TO__SEQ__LEN() uint64 {
+	return uint64(4)
 }
 func (_static *CompanionStruct_Default___) KDF__SALT__LEN() int32 {
 	return int32(32)
@@ -224,14 +234,14 @@ func (_static *CompanionStruct_Default___) KDF__SALT__LEN() int32 {
 func (_static *CompanionStruct_Default___) KDF__EXPECTED__LEN() int32 {
 	return int32(64)
 }
-func (_static *CompanionStruct_Default___) ECDH__COMMITMENT__KEY__LENGTH() _dafny.Int {
-	return _dafny.IntOfInt64(32)
+func (_static *CompanionStruct_Default___) ECDH__COMMITMENT__KEY__LENGTH() uint64 {
+	return uint64(32)
 }
-func (_static *CompanionStruct_Default___) ECDH__COMMITMENT__KEY__INDEX() _dafny.Int {
-	return _dafny.IntOfInt64(32)
+func (_static *CompanionStruct_Default___) ECDH__COMMITMENT__KEY__INDEX() uint64 {
+	return uint64(32)
 }
-func (_static *CompanionStruct_Default___) ECDH__WRAPPED__KEY__MATERIAL__INDEX() _dafny.Int {
-	return _dafny.IntOfInt64(64)
+func (_static *CompanionStruct_Default___) ECDH__WRAPPED__KEY__MATERIAL__INDEX() uint64 {
+	return uint64(64)
 }
 func (_static *CompanionStruct_Default___) ECDH__KDF__STRING() _dafny.Sequence {
 	return _dafny.SeqOfString("ecdh-key-derivation")
@@ -239,7 +249,7 @@ func (_static *CompanionStruct_Default___) ECDH__KDF__STRING() _dafny.Sequence {
 func (_static *CompanionStruct_Default___) ECDH__KDF__PRF__STRING() _dafny.Sequence {
 	return _dafny.SeqOfString("HMAC_SHA384")
 }
-func (_static *CompanionStruct_Default___) ECDH__KDF__DELIMETER() _dafny.Sequence {
+func (_static *CompanionStruct_Default___) ECDH__KDF__DELIMITER() _dafny.Sequence {
 	return _dafny.SeqOf(uint8(0))
 }
 func (_static *CompanionStruct_Default___) ECDH__PROVIDER__INFO__256__LEN() uint32 {
@@ -251,26 +261,26 @@ func (_static *CompanionStruct_Default___) ECDH__PROVIDER__INFO__384__LEN() uint
 func (_static *CompanionStruct_Default___) ECDH__PROVIDER__INFO__521__LEN() uint32 {
 	return uint32(143)
 }
-func (_static *CompanionStruct_Default___) ECDH__PUBLIC__KEY__LEN__ECC__NIST__256() _dafny.Int {
-	return _dafny.IntOfInt64(91)
+func (_static *CompanionStruct_Default___) ECDH__PUBLIC__KEY__LEN__ECC__NIST__256() uint64 {
+	return uint64(91)
 }
-func (_static *CompanionStruct_Default___) ECDH__PUBLIC__KEY__LEN__ECC__NIST__384() _dafny.Int {
-	return _dafny.IntOfInt64(120)
+func (_static *CompanionStruct_Default___) ECDH__PUBLIC__KEY__LEN__ECC__NIST__384() uint64 {
+	return uint64(120)
 }
-func (_static *CompanionStruct_Default___) ECDH__PUBLIC__KEY__LEN__ECC__NIST__521() _dafny.Int {
-	return _dafny.IntOfInt64(158)
+func (_static *CompanionStruct_Default___) ECDH__PUBLIC__KEY__LEN__ECC__NIST__521() uint64 {
+	return uint64(158)
 }
-func (_static *CompanionStruct_Default___) ECDH__PUBLIC__KEY__COMPRESSED__LEN__ECC__NIST__256() _dafny.Int {
-	return _dafny.IntOfInt64(33)
+func (_static *CompanionStruct_Default___) ECDH__PUBLIC__KEY__COMPRESSED__LEN__ECC__NIST__256() uint64 {
+	return uint64(33)
 }
-func (_static *CompanionStruct_Default___) ECDH__PUBLIC__KEY__COMPRESSED__LEN__ECC__NIST__384() _dafny.Int {
-	return _dafny.IntOfInt64(49)
+func (_static *CompanionStruct_Default___) ECDH__PUBLIC__KEY__COMPRESSED__LEN__ECC__NIST__384() uint64 {
+	return uint64(49)
 }
-func (_static *CompanionStruct_Default___) ECDH__PUBLIC__KEY__COMPRESSED__LEN__ECC__NIST__521() _dafny.Int {
-	return _dafny.IntOfInt64(67)
+func (_static *CompanionStruct_Default___) ECDH__PUBLIC__KEY__COMPRESSED__LEN__ECC__NIST__521() uint64 {
+	return uint64(67)
 }
-func (_static *CompanionStruct_Default___) CIPHERTEXT__WRAPPED__MATERIAL__INDEX() _dafny.Int {
-	return _dafny.IntOfInt64(68)
+func (_static *CompanionStruct_Default___) CIPHERTEXT__WRAPPED__MATERIAL__INDEX() uint64 {
+	return uint64(68)
 }
 func (_static *CompanionStruct_Default___) PROVIDER__ID__HIERARCHY() _dafny.Sequence {
 	var _0_s _dafny.Sequence = _dafny.SeqOf(uint8(97), uint8(119), uint8(115), uint8(45), uint8(107), uint8(109), uint8(115), uint8(45), uint8(104), uint8(105), uint8(101), uint8(114), uint8(97), uint8(114), uint8(99), uint8(104), uint8(121))
@@ -283,16 +293,24 @@ func (_static *CompanionStruct_Default___) RSA__PROVIDER__ID() _dafny.Sequence {
 	return _0_s
 }
 func (_static *CompanionStruct_Default___) KMS__ECDH__PROVIDER__ID() _dafny.Sequence {
-	return m_UTF8.Companion_Default___.EncodeAscii(_dafny.SeqOfString("aws-kms-ecdh"))
+	var _0_s _dafny.Sequence = _dafny.SeqOf(uint8(97), uint8(119), uint8(115), uint8(45), uint8(107), uint8(109), uint8(115), uint8(45), uint8(101), uint8(99), uint8(100), uint8(104))
+	_ = _0_s
+	return _0_s
 }
 func (_static *CompanionStruct_Default___) RAW__ECDH__PROVIDER__ID() _dafny.Sequence {
-	return m_UTF8.Companion_Default___.EncodeAscii(_dafny.SeqOfString("raw-ecdh"))
+	var _0_s _dafny.Sequence = _dafny.SeqOf(uint8(114), uint8(97), uint8(119), uint8(45), uint8(101), uint8(99), uint8(100), uint8(104))
+	_ = _0_s
+	return _0_s
 }
 func (_static *CompanionStruct_Default___) ECDH__KDF__PRF__NAME() _dafny.Sequence {
-	return m_UTF8.Companion_Default___.EncodeAscii(_dafny.SeqOfString("HMAC_SHA384"))
+	var _0_s _dafny.Sequence = _dafny.SeqOf(uint8(72), uint8(77), uint8(65), uint8(67), uint8(95), uint8(83), uint8(72), uint8(65), uint8(51), uint8(56), uint8(52))
+	_ = _0_s
+	return _0_s
 }
 func (_static *CompanionStruct_Default___) ECDH__KDF__UTF8() _dafny.Sequence {
-	return m_UTF8.Companion_Default___.EncodeAscii(_dafny.SeqOfString("ecdh-key-derivation"))
+	var _0_s _dafny.Sequence = _dafny.SeqOf(uint8(101), uint8(99), uint8(100), uint8(104), uint8(45), uint8(107), uint8(101), uint8(121), uint8(45), uint8(100), uint8(101), uint8(114), uint8(105), uint8(118), uint8(97), uint8(116), uint8(105), uint8(111), uint8(110))
+	_ = _0_s
+	return _0_s
 }
 
 // End of class Default__
@@ -333,9 +351,9 @@ func (_this type_AwsKmsEncryptedDataKey_) String() string {
 	return "Constants.AwsKmsEncryptedDataKey"
 }
 func (_this *CompanionStruct_AwsKmsEncryptedDataKey_) Is_(__source m_AwsCryptographyMaterialProvidersTypes.EncryptedDataKey) bool {
-	var _0_edk m_AwsCryptographyMaterialProvidersTypes.EncryptedDataKey = (__source)
-	_ = _0_edk
-	return (_dafny.Companion_Sequence_.Equal((_0_edk).Dtor_keyProviderId(), Companion_Default___.PROVIDER__ID())) && (m_UTF8.Companion_Default___.ValidUTF8Seq((_0_edk).Dtor_keyProviderInfo()))
+	var _1_edk m_AwsCryptographyMaterialProvidersTypes.EncryptedDataKey = (__source)
+	_ = _1_edk
+	return (_dafny.Companion_Sequence_.Equal((_1_edk).Dtor_keyProviderId(), Companion_Default___.PROVIDER__ID())) && (m_UTF8.Companion_Default___.ValidUTF8Seq((_1_edk).Dtor_keyProviderInfo()))
 }
 
 // Definition of datatype AwsKmsEdkHelper

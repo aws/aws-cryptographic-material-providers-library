@@ -38,6 +38,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -79,6 +80,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -144,15 +146,15 @@ func (_static *CompanionStruct_Default___) Extract(hmac *m_HMAC.HMac, salt _dafn
 	return prk
 	return prk
 }
-func (_static *CompanionStruct_Default___) Expand(hmac *m_HMAC.HMac, prk _dafny.Sequence, info _dafny.Sequence, expectedLength _dafny.Int, digest m_AwsCryptographyPrimitivesTypes.DigestAlgorithm) _dafny.Sequence {
+func (_static *CompanionStruct_Default___) Expand(hmac *m_HMAC.HMac, prk _dafny.Sequence, info _dafny.Sequence, expectedLength uint64, digest m_AwsCryptographyPrimitivesTypes.DigestAlgorithm) _dafny.Sequence {
 	var okm _dafny.Sequence = _dafny.EmptySeq
 	_ = okm
-	var _0_hashLength _dafny.Int
+	var _0_hashLength uint64
 	_ = _0_hashLength
 	_0_hashLength = m_Digest.Companion_Default___.Length(digest)
-	var _1_n _dafny.Int
+	var _1_n uint64
 	_ = _1_n
-	_1_n = (((_0_hashLength).Plus(expectedLength)).Minus(_dafny.One)).DivBy(_0_hashLength)
+	_1_n = (((_0_hashLength) + (expectedLength)) - (func() uint64 { return (uint64(1)) })()) / (_0_hashLength)
 	(hmac).Init(prk)
 	var _2_t__prev _dafny.Sequence
 	_ = _2_t__prev
@@ -160,30 +162,30 @@ func (_static *CompanionStruct_Default___) Expand(hmac *m_HMAC.HMac, prk _dafny.
 	var _3_t__n _dafny.Sequence
 	_ = _3_t__n
 	_3_t__n = _2_t__prev
-	var _4_i _dafny.Int
+	var _4_i uint64
 	_ = _4_i
-	_4_i = _dafny.One
-	for (_4_i).Cmp(_1_n) <= 0 {
+	_4_i = uint64(1)
+	for (_4_i) <= (_1_n) {
 		(hmac).BlockUpdate(_2_t__prev)
 		(hmac).BlockUpdate(info)
-		(hmac).BlockUpdate(_dafny.SeqOf((_4_i).Uint8()))
+		(hmac).BlockUpdate(_dafny.SeqOf(uint8(_4_i)))
 		var _out0 _dafny.Sequence
 		_ = _out0
 		_out0 = (hmac).GetResult()
 		_2_t__prev = _out0
 		_3_t__n = _dafny.Companion_Sequence_.Concatenate(_3_t__n, _2_t__prev)
-		_4_i = (_4_i).Plus(_dafny.One)
+		_4_i = (_4_i) + (uint64(1))
 	}
 	okm = _3_t__n
-	if (expectedLength).Cmp(_dafny.IntOfUint32((okm).Cardinality())) < 0 {
-		okm = (okm).Take((expectedLength).Uint32())
+	if (expectedLength) < (uint64((okm).Cardinality())) {
+		okm = (okm).Take(uint32(expectedLength))
 	}
 	return okm
 }
-func (_static *CompanionStruct_Default___) Hkdf(digest m_AwsCryptographyPrimitivesTypes.DigestAlgorithm, salt m_Wrappers.Option, ikm _dafny.Sequence, info _dafny.Sequence, L _dafny.Int) _dafny.Sequence {
+func (_static *CompanionStruct_Default___) Hkdf(digest m_AwsCryptographyPrimitivesTypes.DigestAlgorithm, salt m_Wrappers.Option, ikm _dafny.Sequence, info _dafny.Sequence, L uint64) _dafny.Sequence {
 	var okm _dafny.Sequence = _dafny.EmptySeq
 	_ = okm
-	if (L).Sign() == 0 {
+	if (L) == (uint64(0)) {
 		okm = _dafny.SeqOf()
 		return okm
 	}
@@ -194,12 +196,12 @@ func (_static *CompanionStruct_Default___) Hkdf(digest m_AwsCryptographyPrimitiv
 	_out0 = m_HMAC.Companion_HMac_.Build(digest)
 	_0_valueOrError0 = _out0
 	if !(!((_0_valueOrError0).IsFailure())) {
-		panic("src/HKDF/HKDF.dfy(222,16): " + (_0_valueOrError0).String())
+		panic("src/HKDF/HKDF.dfy(224,16): " + (_0_valueOrError0).String())
 	}
 	var _1_hmac *m_HMAC.HMac
 	_ = _1_hmac
 	_1_hmac = (_0_valueOrError0).Extract().(*m_HMAC.HMac)
-	var _2_hashLength _dafny.Int
+	var _2_hashLength uint64
 	_ = _2_hashLength
 	_2_hashLength = m_Digest.Companion_Default___.Length(digest)
 	var _3_nonEmptySalt _dafny.Sequence = _dafny.EmptySeq
@@ -209,7 +211,7 @@ func (_static *CompanionStruct_Default___) Hkdf(digest m_AwsCryptographyPrimitiv
 	{
 		{
 			if _source0.Is_None() {
-				_3_nonEmptySalt = m_StandardLibrary.Companion_Default___.Fill(uint8(0), _2_hashLength)
+				_3_nonEmptySalt = m_StandardLibrary.Companion_Default___.Fill(uint8(0), _dafny.IntOfUint64(_2_hashLength))
 				goto Lmatch0
 			}
 		}

@@ -24,29 +24,6 @@ const Runtimes = {
       dependencies: [],
     },
   },
-  net: {
-    "AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj": {
-      dependencies: [],
-      assemblyInfo:
-        "AwsCryptographicMaterialProviders/runtimes/net/AssemblyInfo.cs",
-    },
-    "ComAmazonawsKms/runtimes/net/AWS-KMS.csproj": {
-      dependencies: [],
-      assemblyInfo: "ComAmazonawsKms/runtimes/net/AssemblyInfo.cs",
-    },
-    "ComAmazonawsDynamodb/runtimes/net/ComAmazonawsDynamodb.csproj": {
-      dependencies: [],
-      assemblyInfo: "ComAmazonawsDynamodb/runtimes/net/AssemblyInfo.cs",
-    },
-    "AwsCryptographyPrimitives/runtimes/net/Crypto.csproj": {
-      dependencies: [],
-      assemblyInfo: "AwsCryptographyPrimitives/runtimes/net/AssemblyInfo.cs",
-    },
-    "StandardLibrary/runtimes/net/STD.csproj": {
-      dependencies: [],
-      assemblyInfo: "StandardLibrary/runtimes/net/AssemblyInfo.cs",
-    },
-  },
   // Any change to the size of the `dependencies` list
   // must be accounted for in `CheckDependencyReplacementResults`.
   python: {
@@ -130,12 +107,6 @@ module.exports = {
             },
             {
               type: "feat",
-              scope: "dotnet",
-              section: "Features -- DotNet",
-              hidden: false,
-            },
-            {
-              type: "feat",
               scope: "python",
               section: "Features -- Python",
               hidden: false,
@@ -167,12 +138,6 @@ module.exports = {
             },
             {
               type: "fix",
-              scope: "dotnet",
-              section: "Fixes -- DotNet",
-              hidden: false,
-            },
-            {
-              type: "fix",
               scope: "python",
               section: "Fixes -- Python",
               hidden: false,
@@ -195,12 +160,6 @@ module.exports = {
               type: "chore",
               scope: "java",
               section: "Maintenance -- Java",
-              hidden: false,
-            },
-            {
-              type: "chore",
-              scope: "dotnet",
-              section: "Maintenance -- DotNet",
               hidden: false,
             },
             {
@@ -240,12 +199,6 @@ module.exports = {
             },
             {
               type: "docs",
-              scope: "dotnet",
-              section: "Maintenance -- DotNet",
-              hidden: false,
-            },
-            {
-              type: "docs",
               scope: "python",
               section: "Maintenance -- Python",
               hidden: false,
@@ -272,12 +225,6 @@ module.exports = {
               type: "revert",
               scope: "java",
               section: "Fixes -- Java",
-              hidden: false,
-            },
-            {
-              type: "revert",
-              scope: "dotnet",
-              section: "Fixes -- DotNet",
               hidden: false,
             },
             {
@@ -330,27 +277,6 @@ module.exports = {
             countMatches: true,
           },
 
-          // Update the version for all DotNet projects
-          // Does not update the dependencies
-          {
-            files: Object.keys(Runtimes.net),
-            from: "<Version>.*</Version>",
-            to: "<Version>${nextRelease.version}</Version>",
-            results: Object.keys(Runtimes.net).map(CheckResults),
-            countMatches: true,
-          },
-
-          // Update the AssmeblyInfo.cs file of the DotNet projects
-          ...Object.entries(Runtimes.net).flatMap(
-            ([file, { assemblyInfo }]) => ({
-              files: assemblyInfo,
-              from: "assembly: AssemblyVersion(.*)",
-              to: 'assembly: AssemblyVersion("${nextRelease.version}")]',
-              results: [CheckResults(assemblyInfo)],
-              countMatches: true,
-            }),
-          ),
-
           // Update the version in pyproject.toml for all Python projects
           // Does not update the dependencies
           {
@@ -372,6 +298,15 @@ module.exports = {
             ),
             countMatches: true,
           },
+
+          // Update the version in ComAmazonawsKms/src/Index.dfy DafnyUserAgentSuffix function
+          {
+            files: ["ComAmazonawsKms/src/Index.dfy"],
+            from: 'var version := ".*"',
+            to: 'var version := "${nextRelease.version}"',
+            results: [CheckResults("ComAmazonawsKms/src/Index.dfy")],
+            countMatches: true,
+          },
         ],
       },
     ],
@@ -389,8 +324,8 @@ module.exports = {
       {
         assets: [
           "CHANGELOG.md",
+          "ComAmazonawsKms/src/Index.dfy",
           ...Object.values(Runtimes).flatMap((r) => Object.keys(r)),
-          ...Object.values(Runtimes.net).flatMap((r) => r.assemblyInfo),
           "**/runtimes/python/**/*.dtr",
         ],
         message:
