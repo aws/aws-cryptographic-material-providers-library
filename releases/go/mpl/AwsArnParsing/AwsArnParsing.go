@@ -46,6 +46,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -66,6 +67,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -158,27 +160,29 @@ func (_static *CompanionStruct_Default___) ValidAwsKmsArn(arn AwsArn) bool {
 func (_static *CompanionStruct_Default___) ParseAwsKmsRawResources(identifier _dafny.Sequence) m_Wrappers.Result {
 	var _0_info _dafny.Sequence = m_StandardLibrary.Companion_Default___.Split(identifier, _dafny.Char('/'))
 	_ = _0_info
-	var _1_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(!_dafny.Companion_Sequence_.Equal((_0_info).Select(0).(_dafny.Sequence), _dafny.SeqOfString("key")), _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Malformed raw key id: "), identifier))
+	var _1_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(!_dafny.Companion_Sequence_.Equal((_0_info).Select(uint32(uint32(0))).(_dafny.Sequence), _dafny.SeqOfString("key")), _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Malformed raw key id: "), identifier))
 	_ = _1_valueOrError0
 	if (_1_valueOrError0).IsFailure() {
 		return (_1_valueOrError0).PropagateFailure()
-	} else if (_dafny.IntOfUint32((_0_info).Cardinality())).Cmp(_dafny.One) == 0 {
-		return Companion_Default___.ParseAwsKmsResources(_dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("key/"), identifier))
 	} else {
-		return Companion_Default___.ParseAwsKmsResources(identifier)
+		if (uint64((_0_info).Cardinality())) == (uint64(1)) {
+			return Companion_Default___.ParseAwsKmsResources(_dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("key/"), identifier))
+		} else {
+			return Companion_Default___.ParseAwsKmsResources(identifier)
+		}
 	}
 }
 func (_static *CompanionStruct_Default___) ParseAwsKmsResources(identifier _dafny.Sequence) m_Wrappers.Result {
 	var _0_info _dafny.Sequence = m_StandardLibrary.Companion_Default___.Split(identifier, _dafny.Char('/'))
 	_ = _0_info
-	var _1_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32((_0_info).Cardinality())).Cmp(_dafny.One) > 0, _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Malformed resource: "), identifier))
+	var _1_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((uint64((_0_info).Cardinality())) > (uint64(1)), _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Malformed resource: "), identifier))
 	_ = _1_valueOrError0
 	if (_1_valueOrError0).IsFailure() {
 		return (_1_valueOrError0).PropagateFailure()
 	} else {
-		var _2_resourceType _dafny.Sequence = (_0_info).Select(0).(_dafny.Sequence)
+		var _2_resourceType _dafny.Sequence = (_0_info).Select(uint32(uint32(0))).(_dafny.Sequence)
 		_ = _2_resourceType
-		var _3_value _dafny.Sequence = m_StandardLibrary.Companion_Default___.Join((_0_info).Drop(1), _dafny.SeqOfString("/"))
+		var _3_value _dafny.Sequence = m_StandardLibrary.Companion_Default___.Join((_0_info).Drop(uint32(uint32(1))), _dafny.SeqOfString("/"))
 		_ = _3_value
 		var _4_resource AwsResource = Companion_AwsResource_.Create_AwsResource_(_2_resourceType, _3_value)
 		_ = _4_resource
@@ -229,19 +233,19 @@ func (_static *CompanionStruct_Default___) ParseAmazonDynamodbResources(identifi
 func (_static *CompanionStruct_Default___) ParseAwsKmsArn(identifier _dafny.Sequence) m_Wrappers.Result {
 	var _0_components _dafny.Sequence = m_StandardLibrary.Companion_Default___.Split(identifier, _dafny.Char(':'))
 	_ = _0_components
-	var _1_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((_dafny.IntOfInt64(6)).Cmp(_dafny.IntOfUint32((_0_components).Cardinality())) == 0, _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Malformed arn: "), identifier))
+	var _1_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((uint64(6)) == (uint64((_0_components).Cardinality())), _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Malformed arn: "), identifier))
 	_ = _1_valueOrError0
 	if (_1_valueOrError0).IsFailure() {
 		return (_1_valueOrError0).PropagateFailure()
 	} else {
-		var _2_valueOrError1 m_Wrappers.Result = Companion_Default___.ParseAwsKmsResources((_0_components).Select(5).(_dafny.Sequence))
+		var _2_valueOrError1 m_Wrappers.Result = Companion_Default___.ParseAwsKmsResources((_0_components).Select(uint32(uint32(5))).(_dafny.Sequence))
 		_ = _2_valueOrError1
 		if (_2_valueOrError1).IsFailure() {
 			return (_2_valueOrError1).PropagateFailure()
 		} else {
 			var _3_resource AwsResource = (_2_valueOrError1).Extract().(AwsResource)
 			_ = _3_resource
-			var _4_arn AwsArn = Companion_AwsArn_.Create_AwsArn_((_0_components).Select(0).(_dafny.Sequence), (_0_components).Select(1).(_dafny.Sequence), (_0_components).Select(2).(_dafny.Sequence), (_0_components).Select(3).(_dafny.Sequence), (_0_components).Select(4).(_dafny.Sequence), _3_resource)
+			var _4_arn AwsArn = Companion_AwsArn_.Create_AwsArn_((_0_components).Select(uint32(uint32(0))).(_dafny.Sequence), (_0_components).Select(uint32(uint32(1))).(_dafny.Sequence), (_0_components).Select(uint32(uint32(2))).(_dafny.Sequence), (_0_components).Select(uint32(uint32(3))).(_dafny.Sequence), (_0_components).Select(uint32(uint32(4))).(_dafny.Sequence), _3_resource)
 			_ = _4_arn
 			var _5_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(Companion_Default___.ValidAwsKmsArn(_4_arn), _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Malformed Arn:"), identifier))
 			_ = _5_valueOrError2
@@ -256,19 +260,19 @@ func (_static *CompanionStruct_Default___) ParseAwsKmsArn(identifier _dafny.Sequ
 func (_static *CompanionStruct_Default___) ParseAmazonDynamodbTableArn(identifier _dafny.Sequence) m_Wrappers.Result {
 	var _0_components _dafny.Sequence = m_StandardLibrary.Companion_Default___.Split(identifier, _dafny.Char(':'))
 	_ = _0_components
-	var _1_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((_dafny.IntOfInt64(6)).Cmp(_dafny.IntOfUint32((_0_components).Cardinality())) == 0, _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Malformed arn: "), identifier))
+	var _1_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((uint64(6)) == (uint64((_0_components).Cardinality())), _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Malformed arn: "), identifier))
 	_ = _1_valueOrError0
 	if (_1_valueOrError0).IsFailure() {
 		return (_1_valueOrError0).PropagateFailure()
 	} else {
-		var _2_valueOrError1 m_Wrappers.Result = Companion_Default___.ParseAmazonDynamodbResources((_0_components).Select(5).(_dafny.Sequence))
+		var _2_valueOrError1 m_Wrappers.Result = Companion_Default___.ParseAmazonDynamodbResources((_0_components).Select(uint32(uint32(5))).(_dafny.Sequence))
 		_ = _2_valueOrError1
 		if (_2_valueOrError1).IsFailure() {
 			return (_2_valueOrError1).PropagateFailure()
 		} else {
 			var _3_resource AwsResource = (_2_valueOrError1).Extract().(AwsResource)
 			_ = _3_resource
-			var _4_arn AwsArn = Companion_AwsArn_.Create_AwsArn_((_0_components).Select(0).(_dafny.Sequence), (_0_components).Select(1).(_dafny.Sequence), (_0_components).Select(2).(_dafny.Sequence), (_0_components).Select(3).(_dafny.Sequence), (_0_components).Select(4).(_dafny.Sequence), _3_resource)
+			var _4_arn AwsArn = Companion_AwsArn_.Create_AwsArn_((_0_components).Select(uint32(uint32(0))).(_dafny.Sequence), (_0_components).Select(uint32(uint32(1))).(_dafny.Sequence), (_0_components).Select(uint32(uint32(2))).(_dafny.Sequence), (_0_components).Select(uint32(uint32(3))).(_dafny.Sequence), (_0_components).Select(uint32(uint32(4))).(_dafny.Sequence), _3_resource)
 			_ = _4_arn
 			var _5_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(Companion_Default___.ValidAmazonDynamodbArn(_4_arn), _dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("Malformed Arn:"), identifier))
 			_ = _5_valueOrError2
@@ -360,7 +364,7 @@ func (_static *CompanionStruct_Default___) IsAwsKmsIdentifierString(s _dafny.Seq
 	if (_0_valueOrError0).IsFailure() {
 		return (_0_valueOrError0).PropagateFailure()
 	} else {
-		var _1_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(((_dafny.IntOfUint32((s).Cardinality())).Sign() == 1) && ((_dafny.IntOfUint32((s).Cardinality())).Cmp(Companion_Default___.MAX__AWS__KMS__IDENTIFIER__LENGTH()) <= 0), _dafny.SeqOfString("Identifier exceeds maximum length."))
+		var _1_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(((uint64(0)) < (uint64((s).Cardinality()))) && ((uint64((s).Cardinality())) <= (Companion_Default___.MAX__AWS__KMS__IDENTIFIER__LENGTH())), _dafny.SeqOfString("Identifier exceeds maximum length."))
 		_ = _1_valueOrError1
 		if (_1_valueOrError1).IsFailure() {
 			return (_1_valueOrError1).PropagateFailure()
@@ -399,8 +403,8 @@ func (_static *CompanionStruct_Default___) ValidateDdbTableArn(tableArn _dafny.S
 		}
 	}
 }
-func (_static *CompanionStruct_Default___) MAX__AWS__KMS__IDENTIFIER__LENGTH() _dafny.Int {
-	return _dafny.IntOfInt64(2048)
+func (_static *CompanionStruct_Default___) MAX__AWS__KMS__IDENTIFIER__LENGTH() uint64 {
+	return uint64(2048)
 }
 
 // End of class Default__
@@ -507,7 +511,7 @@ var _ _dafny.TraitOffspring = AwsResource{}
 
 func (_this AwsResource) Valid() bool {
 	{
-		return (true) && ((_dafny.IntOfUint32(((_this).Dtor_value()).Cardinality())).Sign() == 1)
+		return (true) && ((uint64(0)) < (uint64(((_this).Dtor_value()).Cardinality())))
 	}
 }
 func (_this AwsResource) ToString() _dafny.Sequence {
@@ -640,7 +644,7 @@ var _ _dafny.TraitOffspring = AwsArn{}
 
 func (_this AwsArn) Valid() bool {
 	{
-		return (((((_dafny.Companion_Sequence_.Equal((_this).Dtor_arnLiteral(), _dafny.SeqOfString("arn"))) && ((_dafny.IntOfUint32(((_this).Dtor_partition()).Cardinality())).Sign() == 1)) && ((_dafny.IntOfUint32(((_this).Dtor_service()).Cardinality())).Sign() == 1)) && ((_dafny.IntOfUint32(((_this).Dtor_region()).Cardinality())).Sign() == 1)) && ((_dafny.IntOfUint32(((_this).Dtor_account()).Cardinality())).Sign() == 1)) && (((_this).Dtor_resource()).Valid())
+		return (((((_dafny.Companion_Sequence_.Equal((_this).Dtor_arnLiteral(), _dafny.SeqOfString("arn"))) && ((uint64(0)) < (uint64(((_this).Dtor_partition()).Cardinality())))) && ((uint64(0)) < (uint64(((_this).Dtor_service()).Cardinality())))) && ((uint64(0)) < (uint64(((_this).Dtor_region()).Cardinality())))) && ((uint64(0)) < (uint64(((_this).Dtor_account()).Cardinality())))) && (((_this).Dtor_resource()).Valid())
 	}
 }
 func (_this AwsArn) ToString() _dafny.Sequence {

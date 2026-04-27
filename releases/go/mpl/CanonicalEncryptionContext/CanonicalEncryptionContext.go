@@ -15,10 +15,8 @@ import (
 	m_AwsCryptographyKeyStoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreOperations"
 	m_AwsCryptographyKeyStoreTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyKeyStoreTypes"
 	m_AwsCryptographyMaterialProvidersTypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsCryptographyMaterialProvidersTypes"
-	m_AwsKmsMrkAreUnique "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkAreUnique"
 	m_AwsKmsMrkMatchForDecrypt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsMrkMatchForDecrypt"
 	m_AwsKmsUtils "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/AwsKmsUtils"
-	m_Constants "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Constants"
 	m_CreateKeyStoreTable "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeyStoreTable"
 	m_CreateKeys "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/CreateKeys"
 	m_DDBKeystoreOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/DDBKeystoreOperations"
@@ -28,9 +26,7 @@ import (
 	m_KeyStoreErrorMessages "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KeyStoreErrorMessages"
 	m_Keyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Keyring"
 	m_KmsArn "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/KmsArn"
-	m_MaterialWrapping "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MaterialWrapping"
 	m_Materials "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Materials"
-	m_MultiKeyring "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/MultiKeyring"
 	m_Structure "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/Structure"
 	m_AtomicPrimitives "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AtomicPrimitives"
 	m_AwsCryptographyPrimitivesOperations "github.com/aws/aws-cryptographic-material-providers-library/releases/go/primitives/AwsCryptographyPrimitivesOperations"
@@ -69,6 +65,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -88,6 +85,7 @@ var _ m__System.Dummy__
 var _ m_Wrappers.Dummy__
 var _ m_BoundedInts.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -152,10 +150,6 @@ var _ m_KeyStore.Dummy__
 var _ m_AlgorithmSuites.Dummy__
 var _ m_Materials.Dummy__
 var _ m_Keyring.Dummy__
-var _ m_MultiKeyring.Dummy__
-var _ m_AwsKmsMrkAreUnique.Dummy__
-var _ m_Constants.Dummy__
-var _ m_MaterialWrapping.Dummy__
 
 type Dummy__ struct{}
 
@@ -194,18 +188,18 @@ func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 var _ _dafny.TraitOffspring = &Default__{}
 
 func (_static *CompanionStruct_Default___) EncryptionContextToAAD(encryptionContext _dafny.Map) m_Wrappers.Result {
-	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need(((encryptionContext).Cardinality()).Cmp(m_StandardLibrary_UInt.Companion_Default___.UINT16__LIMIT()) < 0, m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Encryption Context is too large")))
+	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Default___.Need((uint64((encryptionContext).CardinalityInt())) < ((m_StandardLibrary_UInt.Companion_Default___.UINT16__LIMIT()).Uint64()), m_AwsCryptographyMaterialProvidersTypes.Companion_Error_.Create_AwsCryptographicMaterialProvidersException_(_dafny.SeqOfString("Encryption Context is too large")))
 	_ = _0_valueOrError0
 	if (_0_valueOrError0).IsFailure() {
 		return (_0_valueOrError0).PropagateFailure()
 	} else {
-		var _1_keys _dafny.Sequence = m_SortedSets.SetToOrderedSequence2((encryptionContext).Keys(), func(coer36 func(uint8, uint8) bool) func(interface{}, interface{}) bool {
-			return func(arg36 interface{}, arg37 interface{}) bool {
-				return coer36(arg36.(uint8), arg37.(uint8))
+		var _1_keys _dafny.Sequence = m_SortedSets.SetToOrderedSequence2((encryptionContext).Keys(), func(coer32 func(uint8, uint8) bool) func(interface{}, interface{}) bool {
+			return func(arg32 interface{}, arg33 interface{}) bool {
+				return coer32(arg32.(uint8), arg33.(uint8))
 			}
 		}(m_StandardLibrary_UInt.Companion_Default___.UInt8Less))
 		_ = _1_keys
-		if (_dafny.IntOfUint32((_1_keys).Cardinality())).Sign() == 0 {
+		if (uint16((_1_keys).Cardinality())) == (uint16(0)) {
 			return m_Wrappers.Companion_Result_.Create_Success_(_dafny.SeqOf())
 		} else {
 			var _2_KeyIntoPairBytes func(_dafny.Sequence) m_Wrappers.Result = (func(_3_encryptionContext _dafny.Map) func(_dafny.Sequence) m_Wrappers.Result {
@@ -227,9 +221,9 @@ func (_static *CompanionStruct_Default___) EncryptionContextToAAD(encryptionCont
 				}
 			})(encryptionContext)
 			_ = _2_KeyIntoPairBytes
-			var _7_valueOrError2 m_Wrappers.Result = m_Seq.Companion_Default___.MapWithResult(func(coer37 func(_dafny.Sequence) m_Wrappers.Result) func(interface{}) m_Wrappers.Result {
-				return func(arg38 interface{}) m_Wrappers.Result {
-					return coer37(arg38.(_dafny.Sequence))
+			var _7_valueOrError2 m_Wrappers.Result = m_Seq.Companion_Default___.MapWithResult(func(coer33 func(_dafny.Sequence) m_Wrappers.Result) func(interface{}) m_Wrappers.Result {
+				return func(arg34 interface{}) m_Wrappers.Result {
+					return coer33(arg34.(_dafny.Sequence))
 				}
 			}(_2_KeyIntoPairBytes), _1_keys)
 			_ = _7_valueOrError2

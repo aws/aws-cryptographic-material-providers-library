@@ -39,6 +39,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -80,6 +81,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -138,7 +140,7 @@ func (_static *CompanionStruct_Default___) Extract(input m_AwsCryptographyPrimit
 	_ = output
 	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _0_valueOrError0
-	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(((((input).Dtor_salt()).Is_None()) || ((_dafny.IntOfUint32((((input).Dtor_salt()).Dtor_value().(_dafny.Sequence)).Cardinality())).Sign() != 0)) && ((_dafny.IntOfUint32(((input).Dtor_ikm()).Cardinality())).Cmp(m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()) < 0), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("HKDF Extract needs a salt and reasonable ikm.")))
+	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(((((input).Dtor_salt()).Is_None()) || ((uint64((((input).Dtor_salt()).Dtor_value().(_dafny.Sequence)).Cardinality())) != (uint64(0)) /* dircomp */)) && ((uint64(((input).Dtor_ikm()).Cardinality())) < ((m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()).Uint64())), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("HKDF Extract needs a salt and reasonable ikm.")))
 	if (_0_valueOrError0).IsFailure() {
 		output = (_0_valueOrError0).PropagateFailure()
 		return output
@@ -168,7 +170,7 @@ func (_static *CompanionStruct_Default___) Extract(input m_AwsCryptographyPrimit
 	_ = _6_prk
 	var _out1 _dafny.Sequence
 	_ = _out1
-	_out1 = m_HKDF.Companion_Default___.Extract(_5_hmac, (_2_salt).UnwrapOr(m_StandardLibrary.Companion_Default___.Fill(uint8(0), m_Digest.Companion_Default___.Length(_1_digestAlgorithm))).(_dafny.Sequence), _3_ikm)
+	_out1 = m_HKDF.Companion_Default___.Extract(_5_hmac, (_2_salt).UnwrapOr(m_StandardLibrary.Companion_Default___.Fill(uint8(0), _dafny.IntOfUint64(m_Digest.Companion_Default___.Length(_1_digestAlgorithm)))).(_dafny.Sequence), _3_ikm)
 	_6_prk = _out1
 	output = m_Wrappers.Companion_Result_.Create_Success_(_6_prk)
 	return output
@@ -179,7 +181,7 @@ func (_static *CompanionStruct_Default___) Expand(input m_AwsCryptographyPrimiti
 	_ = output
 	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _0_valueOrError0
-	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(((((_dafny.One).Cmp(_dafny.IntOfInt32((input).Dtor_expectedLength())) <= 0) && ((_dafny.IntOfInt32((input).Dtor_expectedLength())).Cmp((_dafny.IntOfInt64(255)).Times(m_Digest.Companion_Default___.Length((input).Dtor_digestAlgorithm()))) <= 0)) && ((_dafny.IntOfUint32(((input).Dtor_info()).Cardinality())).Cmp(m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()) < 0)) && ((m_Digest.Companion_Default___.Length((input).Dtor_digestAlgorithm())).Cmp(_dafny.IntOfUint32(((input).Dtor_prk()).Cardinality())) == 0), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("HKDF Expand needs valid input.")))
+	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(((((uint64(1)) <= (uint64((input).Dtor_expectedLength()))) && ((uint64((input).Dtor_expectedLength())) <= ((uint64(255))*(m_Digest.Companion_Default___.Length((input).Dtor_digestAlgorithm()))))) && ((uint64(((input).Dtor_info()).Cardinality())) < ((m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()).Uint64()))) && ((m_Digest.Companion_Default___.Length((input).Dtor_digestAlgorithm())) == (uint64(((input).Dtor_prk()).Cardinality()))), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("HKDF Expand needs valid input.")))
 	if (_0_valueOrError0).IsFailure() {
 		output = (_0_valueOrError0).PropagateFailure()
 		return output
@@ -211,7 +213,7 @@ func (_static *CompanionStruct_Default___) Expand(input m_AwsCryptographyPrimiti
 	_ = _7_omk
 	var _out1 _dafny.Sequence
 	_ = _out1
-	_out1 = m_HKDF.Companion_Default___.Expand(_6_hmac, _2_prk, _3_info, _dafny.IntOfInt32(_4_expectedLength), _1_digestAlgorithm)
+	_out1 = m_HKDF.Companion_Default___.Expand(_6_hmac, _2_prk, _3_info, uint64(_4_expectedLength), _1_digestAlgorithm)
 	_7_omk = _out1
 	output = m_Wrappers.Companion_Result_.Create_Success_(_7_omk)
 	return output
@@ -222,7 +224,7 @@ func (_static *CompanionStruct_Default___) Hkdf(input m_AwsCryptographyPrimitive
 	_ = output
 	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _0_valueOrError0
-	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need((((((_dafny.One).Cmp(_dafny.IntOfInt32((input).Dtor_expectedLength())) <= 0) && ((_dafny.IntOfInt32((input).Dtor_expectedLength())).Cmp((_dafny.IntOfInt64(255)).Times(m_Digest.Companion_Default___.Length((input).Dtor_digestAlgorithm()))) <= 0)) && ((((input).Dtor_salt()).Is_None()) || ((_dafny.IntOfUint32((((input).Dtor_salt()).Dtor_value().(_dafny.Sequence)).Cardinality())).Sign() != 0))) && ((_dafny.IntOfUint32(((input).Dtor_info()).Cardinality())).Cmp(m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()) < 0)) && ((_dafny.IntOfUint32(((input).Dtor_ikm()).Cardinality())).Cmp(m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()) < 0), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Wrapped Hkdf input is invalid.")))
+	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need((((((uint64(1)) <= (uint64((input).Dtor_expectedLength()))) && ((uint64((input).Dtor_expectedLength())) <= ((uint64(255))*(m_Digest.Companion_Default___.Length((input).Dtor_digestAlgorithm()))))) && ((((input).Dtor_salt()).Is_None()) || ((uint64((((input).Dtor_salt()).Dtor_value().(_dafny.Sequence)).Cardinality())) != (uint64(0)) /* dircomp */))) && ((uint64(((input).Dtor_info()).Cardinality())) < ((m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()).Uint64()))) && ((uint64(((input).Dtor_ikm()).Cardinality())) < ((m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()).Uint64())), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Wrapped Hkdf input is invalid.")))
 	if (_0_valueOrError0).IsFailure() {
 		output = (_0_valueOrError0).PropagateFailure()
 		return output
@@ -243,7 +245,7 @@ func (_static *CompanionStruct_Default___) Hkdf(input m_AwsCryptographyPrimitive
 	_ = _6_okm
 	var _out0 _dafny.Sequence
 	_ = _out0
-	_out0 = m_HKDF.Companion_Default___.Hkdf(_1_digest, _2_salt, _3_ikm, _4_info, _dafny.IntOfInt32(_5_expectedLength))
+	_out0 = m_HKDF.Companion_Default___.Hkdf(_1_digest, _2_salt, _3_ikm, _4_info, uint64(_5_expectedLength))
 	_6_okm = _out0
 	output = m_Wrappers.Companion_Result_.Create_Success_(_6_okm)
 	return output

@@ -14,10 +14,19 @@ namespace DafnyLibraries
     public partial class MutableMap<K, V>
     {
         private ConcurrentDictionary<K, V> m;
+        // bytesKeys should be set using ctor but it does not because of Dafny bug
+        // https://github.com/dafny-lang/dafny/issues/6333
+        public MutableMap(bool bytesKeys)
+        {
+            m = new ConcurrentDictionary<K, V>();
+        }
+
         public MutableMap()
         {
             m = new ConcurrentDictionary<K, V>();
         }
+
+        public void __ctor(bool bytesKeys) { }
 
         public IMap<K, V> content()
         {

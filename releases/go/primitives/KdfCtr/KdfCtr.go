@@ -40,6 +40,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -81,6 +82,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -140,7 +142,7 @@ func (_static *CompanionStruct_Default___) KdfCounterMode(input m_AwsCryptograph
 	_ = output
 	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _0_valueOrError0
-	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(((((((((input).Dtor_digestAlgorithm()).Equals(m_AwsCryptographyPrimitivesTypes.Companion_DigestAlgorithm_.Create_SHA__256_())) || (((input).Dtor_digestAlgorithm()).Equals(m_AwsCryptographyPrimitivesTypes.Companion_DigestAlgorithm_.Create_SHA__384_()))) && ((((_dafny.IntOfUint32(((input).Dtor_ikm()).Cardinality())).Cmp(_dafny.IntOfInt64(32)) == 0) || ((_dafny.IntOfUint32(((input).Dtor_ikm()).Cardinality())).Cmp(_dafny.IntOfInt64(48)) == 0)) || ((_dafny.IntOfUint32(((input).Dtor_ikm()).Cardinality())).Cmp(_dafny.IntOfInt64(66)) == 0))) && (((input).Dtor_nonce()).Is_Some())) && (((_dafny.IntOfUint32((((input).Dtor_nonce()).Dtor_value().(_dafny.Sequence)).Cardinality())).Cmp(_dafny.IntOfInt64(16)) == 0) || ((_dafny.IntOfUint32((((input).Dtor_nonce()).Dtor_value().(_dafny.Sequence)).Cardinality())).Cmp(_dafny.IntOfInt64(32)) == 0))) && ((((input).Dtor_expectedLength()) == (int32(32))) || (((input).Dtor_expectedLength()) == (int32(64))))) && ((((_dafny.IntOfInt32((input).Dtor_expectedLength())).Times(_dafny.IntOfInt64(8))).Sign() == 1) && (((_dafny.IntOfInt32((input).Dtor_expectedLength())).Times(_dafny.IntOfInt64(8))).Cmp(m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()) < 0)), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Kdf in Counter Mode input is invalid.")))
+	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(((((((((input).Dtor_digestAlgorithm()).Equals(m_AwsCryptographyPrimitivesTypes.Companion_DigestAlgorithm_.Create_SHA__256_())) || (((input).Dtor_digestAlgorithm()).Equals(m_AwsCryptographyPrimitivesTypes.Companion_DigestAlgorithm_.Create_SHA__384_()))) && ((((uint64(((input).Dtor_ikm()).Cardinality())) == (uint64(32))) || ((uint64(((input).Dtor_ikm()).Cardinality())) == (uint64(48)))) || ((uint64(((input).Dtor_ikm()).Cardinality())) == (uint64(66))))) && (((input).Dtor_nonce()).Is_Some())) && (((uint64((((input).Dtor_nonce()).Dtor_value().(_dafny.Sequence)).Cardinality())) == (uint64(16))) || ((uint64((((input).Dtor_nonce()).Dtor_value().(_dafny.Sequence)).Cardinality())) == (uint64(32))))) && ((((input).Dtor_expectedLength()) == (int32(32))) || (((input).Dtor_expectedLength()) == (int32(64))))) && (((uint64(0)) < (uint64(((input).Dtor_expectedLength())*(int32(8))))) && ((uint64(((input).Dtor_expectedLength())*(int32(8)))) < ((m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()).Uint64()))), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Kdf in Counter Mode input is invalid.")))
 	if (_0_valueOrError0).IsFailure() {
 		output = (_0_valueOrError0).PropagateFailure()
 		return output
@@ -159,10 +161,10 @@ func (_static *CompanionStruct_Default___) KdfCounterMode(input m_AwsCryptograph
 	_4_okm = _dafny.SeqOf()
 	var _5_internalLength uint32
 	_ = _5_internalLength
-	_5_internalLength = (((_dafny.IntOfInt64(4)).Plus(_dafny.IntOfUint32((Companion_Default___.SEPARATION__INDICATOR()).Cardinality()))).Plus(_dafny.IntOfInt64(4))).Uint32()
+	_5_internalLength = uint32(((uint64(4)) + (uint64((Companion_Default___.SEPARATION__INDICATOR()).Cardinality()))) + (uint64(4)))
 	var _6_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _6_valueOrError1
-	_6_valueOrError1 = m_Wrappers.Companion_Default___.Need((true) && ((((_dafny.IntOfUint32(_5_internalLength)).Plus(_dafny.IntOfUint32((_2_label__).Cardinality()))).Plus(_dafny.IntOfUint32((_3_info).Cardinality()))).Cmp(m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()) < 0), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Input Length exceeds INT32_MAX_LIMIT")))
+	_6_valueOrError1 = m_Wrappers.Companion_Default___.Need((true) && ((m_StandardLibrary_MemoryMath.Companion_Default___.Add3(uint64(_5_internalLength), uint64((_2_label__).Cardinality()), uint64((_3_info).Cardinality()))) < ((m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()).Uint64())), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Input Length exceeds INT32_MAX_LIMIT")))
 	if (_6_valueOrError1).IsFailure() {
 		output = (_6_valueOrError1).PropagateFailure()
 		return output
@@ -175,7 +177,7 @@ func (_static *CompanionStruct_Default___) KdfCounterMode(input m_AwsCryptograph
 	_8_explicitInfo = _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_2_label__, Companion_Default___.SEPARATION__INDICATOR()), _3_info), _7_lengthBits)
 	var _9_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _9_valueOrError2
-	_9_valueOrError2 = m_Wrappers.Companion_Default___.Need(((_dafny.IntOfInt64(4)).Plus(_dafny.IntOfUint32((_8_explicitInfo).Cardinality()))).Cmp(m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()) < 0, m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("PRF input length exceeds INT32_MAX_LIMIT.")))
+	_9_valueOrError2 = m_Wrappers.Companion_Default___.Need(((uint64(4))+(uint64((_8_explicitInfo).Cardinality()))) < ((m_StandardLibrary_UInt.Companion_Default___.INT32__MAX__LIMIT()).Uint64()), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("PRF input length exceeds INT32_MAX_LIMIT.")))
 	if (_9_valueOrError2).IsFailure() {
 		output = (_9_valueOrError2).PropagateFailure()
 		return output
@@ -214,7 +216,7 @@ func (_static *CompanionStruct_Default___) RawDerive(ikm _dafny.Sequence, explic
 	(_1_hmac).Init(ikm)
 	var _2_macLengthBytes int32
 	_ = _2_macLengthBytes
-	_2_macLengthBytes = (m_Digest.Companion_Default___.Length(digestAlgorithm)).Int32()
+	_2_macLengthBytes = int32(m_Digest.Companion_Default___.Length(digestAlgorithm))
 	var _3_iterations int32
 	_ = _3_iterations
 	_3_iterations = _dafny.DivInt32(((length)+(_2_macLengthBytes))-(int32(1)), _2_macLengthBytes)
@@ -224,9 +226,9 @@ func (_static *CompanionStruct_Default___) RawDerive(ikm _dafny.Sequence, explic
 	var _5_i _dafny.Sequence
 	_ = _5_i
 	_5_i = m_StandardLibrary_UInt.Companion_Default___.UInt32ToSeq(Companion_Default___.COUNTER__START__VALUE())
-	var _hi0 int32 = (_3_iterations) + (int32(1))
+	var _hi0 uint64 = m_StandardLibrary_MemoryMath.Companion_Default___.Add(uint64(_3_iterations), uint64(1))
 	_ = _hi0
-	for _6_iteration := int32(1); _6_iteration < _hi0; _6_iteration++ {
+	for _6_iteration := uint64(1); _6_iteration < _hi0; _6_iteration++ {
 		(_1_hmac).BlockUpdate(_5_i)
 		(_1_hmac).BlockUpdate(explicitInfo)
 		var _7_tmp _dafny.Sequence
@@ -247,7 +249,7 @@ func (_static *CompanionStruct_Default___) RawDerive(ikm _dafny.Sequence, explic
 	}
 	var _9_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _9_valueOrError2
-	_9_valueOrError2 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32((_4_buffer).Cardinality())).Cmp(_dafny.IntOfInt32(length)) >= 0, m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Failed to derive key of requested length")))
+	_9_valueOrError2 = m_Wrappers.Companion_Default___.Need((uint64((_4_buffer).Cardinality())) >= (uint64(length)), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Failed to derive key of requested length")))
 	if (_9_valueOrError2).IsFailure() {
 		output = (_9_valueOrError2).PropagateFailure()
 		return output
@@ -257,14 +259,14 @@ func (_static *CompanionStruct_Default___) RawDerive(ikm _dafny.Sequence, explic
 	return output
 }
 func (_static *CompanionStruct_Default___) Increment(x _dafny.Sequence) m_Wrappers.Result {
-	if ((x).Select(3).(uint8)) < (uint8(255)) {
-		return m_Wrappers.Companion_Result_.Create_Success_(_dafny.SeqOf((x).Select(0).(uint8), (x).Select(1).(uint8), (x).Select(2).(uint8), ((x).Select(3).(uint8))+(uint8(1))))
-	} else if ((x).Select(2).(uint8)) < (uint8(255)) {
-		return m_Wrappers.Companion_Result_.Create_Success_(_dafny.SeqOf((x).Select(0).(uint8), (x).Select(1).(uint8), ((x).Select(2).(uint8))+(uint8(1)), uint8(0)))
-	} else if ((x).Select(1).(uint8)) < (uint8(255)) {
-		return m_Wrappers.Companion_Result_.Create_Success_(_dafny.SeqOf((x).Select(0).(uint8), ((x).Select(1).(uint8))+(uint8(1)), uint8(0), uint8(0)))
-	} else if ((x).Select(0).(uint8)) < (uint8(255)) {
-		return m_Wrappers.Companion_Result_.Create_Success_(_dafny.SeqOf(((x).Select(0).(uint8))+(uint8(1)), uint8(0), uint8(0), uint8(0)))
+	if ((x).Select(uint32(uint32(3))).(uint8)) < (uint8(255)) {
+		return m_Wrappers.Companion_Result_.Create_Success_(_dafny.SeqOf((x).Select(uint32(uint32(0))).(uint8), (x).Select(uint32(uint32(1))).(uint8), (x).Select(uint32(uint32(2))).(uint8), ((x).Select(uint32(uint32(3))).(uint8))+(uint8(1))))
+	} else if ((x).Select(uint32(uint32(2))).(uint8)) < (uint8(255)) {
+		return m_Wrappers.Companion_Result_.Create_Success_(_dafny.SeqOf((x).Select(uint32(uint32(0))).(uint8), (x).Select(uint32(uint32(1))).(uint8), ((x).Select(uint32(uint32(2))).(uint8))+(uint8(1)), uint8(0)))
+	} else if ((x).Select(uint32(uint32(1))).(uint8)) < (uint8(255)) {
+		return m_Wrappers.Companion_Result_.Create_Success_(_dafny.SeqOf((x).Select(uint32(uint32(0))).(uint8), ((x).Select(uint32(uint32(1))).(uint8))+(uint8(1)), uint8(0), uint8(0)))
+	} else if ((x).Select(uint32(uint32(0))).(uint8)) < (uint8(255)) {
+		return m_Wrappers.Companion_Result_.Create_Success_(_dafny.SeqOf(((x).Select(uint32(uint32(0))).(uint8))+(uint8(1)), uint8(0), uint8(0), uint8(0)))
 	} else {
 		return m_Wrappers.Companion_Result_.Create_Failure_(m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Unable to derive key material; may have exceeded limit.")))
 	}

@@ -41,6 +41,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -82,6 +83,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -158,19 +160,19 @@ func (_static *CompanionStruct_Default___) UnescapeQuotes(str _dafny.Sequence) m
 }
 func (_static *CompanionStruct_Default___) Test() {
 	if !(_dafny.Companion_Sequence_.Equal(Companion_Default___.OfInt(_dafny.Zero, _dafny.IntOfInt64(10)), _dafny.SeqOfString("0"))) {
-		panic("/Volumes/workplace/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(229,4): " + (_dafny.SeqOfString("expectation violation")).String())
+		panic("/Users/runner/work/aws-cryptographic-material-providers-library/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(229,4): " + (_dafny.SeqOfString("expectation violation")).String())
 	}
 	if !(_dafny.Companion_Sequence_.Equal(Companion_Default___.OfInt(_dafny.IntOfInt64(3), _dafny.IntOfInt64(10)), _dafny.SeqOfString("3"))) {
-		panic("/Volumes/workplace/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(230,4): " + (_dafny.SeqOfString("expectation violation")).String())
+		panic("/Users/runner/work/aws-cryptographic-material-providers-library/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(230,4): " + (_dafny.SeqOfString("expectation violation")).String())
 	}
 	if !(_dafny.Companion_Sequence_.Equal(Companion_Default___.OfInt(_dafny.IntOfInt64(302), _dafny.IntOfInt64(10)), _dafny.SeqOfString("302"))) {
-		panic("/Volumes/workplace/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(231,4): " + (_dafny.SeqOfString("expectation violation")).String())
+		panic("/Users/runner/work/aws-cryptographic-material-providers-library/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(231,4): " + (_dafny.SeqOfString("expectation violation")).String())
 	}
 	if !(_dafny.Companion_Sequence_.Equal(Companion_Default___.OfInt(_dafny.IntOfInt64(-3), _dafny.IntOfInt64(10)), _dafny.SeqOfString("-3"))) {
-		panic("/Volumes/workplace/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(232,4): " + (_dafny.SeqOfString("expectation violation")).String())
+		panic("/Users/runner/work/aws-cryptographic-material-providers-library/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(232,4): " + (_dafny.SeqOfString("expectation violation")).String())
 	}
 	if !(_dafny.Companion_Sequence_.Equal(Companion_Default___.OfInt(_dafny.IntOfInt64(-302), _dafny.IntOfInt64(10)), _dafny.SeqOfString("-302"))) {
-		panic("/Volumes/workplace/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(233,4): " + (_dafny.SeqOfString("expectation violation")).String())
+		panic("/Users/runner/work/aws-cryptographic-material-providers-library/aws-cryptographic-material-providers-library/libraries/src/JSON/Utils/Str.dfy(233,4): " + (_dafny.SeqOfString("expectation violation")).String())
 	}
 }
 func (_static *CompanionStruct_Default___) OfBool(b bool) _dafny.Sequence {

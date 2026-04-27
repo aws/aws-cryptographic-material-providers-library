@@ -35,6 +35,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -76,6 +77,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -127,18 +129,20 @@ func (_this *Default__) ParentTraits_() []*_dafny.TraitID {
 var _ _dafny.TraitOffspring = &Default__{}
 
 func (_static *CompanionStruct_Default___) EncryptionOutputFromByteSeq(s _dafny.Sequence, encAlg m_AwsCryptographyPrimitivesTypes.AES__GCM) m_AwsCryptographyPrimitivesTypes.AESEncryptOutput {
-	var _0_cipherText _dafny.Sequence = (s).Take(((_dafny.IntOfUint32((s).Cardinality())).Minus(_dafny.IntOfInt32((encAlg).Dtor_tagLength()))).Uint32())
-	_ = _0_cipherText
-	var _1_authTag _dafny.Sequence = (s).Drop(((_dafny.IntOfUint32((s).Cardinality())).Minus(_dafny.IntOfInt32((encAlg).Dtor_tagLength()))).Uint32())
-	_ = _1_authTag
-	return m_AwsCryptographyPrimitivesTypes.Companion_AESEncryptOutput_.Create_AESEncryptOutput_(_0_cipherText, _1_authTag)
+	var _0_pivot__point uint64 = (uint64((s).Cardinality())) - (func() uint64 { return (uint64((encAlg).Dtor_tagLength())) })()
+	_ = _0_pivot__point
+	var _1_cipherText _dafny.Sequence = (s).Take(uint32(_0_pivot__point))
+	_ = _1_cipherText
+	var _2_authTag _dafny.Sequence = (s).Drop(uint32(_0_pivot__point))
+	_ = _2_authTag
+	return m_AwsCryptographyPrimitivesTypes.Companion_AESEncryptOutput_.Create_AESEncryptOutput_(_1_cipherText, _2_authTag)
 }
 func (_static *CompanionStruct_Default___) AESEncrypt(input m_AwsCryptographyPrimitivesTypes.AESEncryptInput) m_Wrappers.Result {
 	var res m_Wrappers.Result = m_Wrappers.Companion_Result_.Default(m_AwsCryptographyPrimitivesTypes.Companion_AESEncryptOutput_.Default())
 	_ = res
 	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _0_valueOrError0
-	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(((_dafny.IntOfUint32(((input).Dtor_iv()).Cardinality())).Cmp(_dafny.IntOfInt32(((input).Dtor_encAlg()).Dtor_ivLength())) == 0) && ((_dafny.IntOfUint32(((input).Dtor_key()).Cardinality())).Cmp(_dafny.IntOfInt32(((input).Dtor_encAlg()).Dtor_keyLength())) == 0), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Request does not match algorithm.")))
+	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need(((uint64(((input).Dtor_iv()).Cardinality())) == (uint64(((input).Dtor_encAlg()).Dtor_ivLength()))) && ((uint64(((input).Dtor_key()).Cardinality())) == (uint64(((input).Dtor_encAlg()).Dtor_keyLength()))), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Request does not match algorithm.")))
 	if (_0_valueOrError0).IsFailure() {
 		res = (_0_valueOrError0).PropagateFailure()
 		return res
@@ -170,14 +174,14 @@ func (_static *CompanionStruct_Default___) AESEncrypt(input m_AwsCryptographyPri
 	_7_value = (_6_valueOrError1).Extract().(m_AwsCryptographyPrimitivesTypes.AESEncryptOutput)
 	var _8_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _8_valueOrError2
-	_8_valueOrError2 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32(((_7_value).Dtor_cipherText()).Cardinality())).Cmp(_dafny.IntOfUint32((_4_msg).Cardinality())) == 0, m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("AESEncrypt did not return cipherText of expected length")))
+	_8_valueOrError2 = m_Wrappers.Companion_Default___.Need((uint64(((_7_value).Dtor_cipherText()).Cardinality())) == (uint64((_4_msg).Cardinality())), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("AESEncrypt did not return cipherText of expected length")))
 	if (_8_valueOrError2).IsFailure() {
 		res = (_8_valueOrError2).PropagateFailure()
 		return res
 	}
 	var _9_valueOrError3 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _9_valueOrError3
-	_9_valueOrError3 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32(((_7_value).Dtor_authTag()).Cardinality())).Cmp(_dafny.IntOfInt32((_1_encAlg).Dtor_tagLength())) == 0, m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("AESEncryption did not return valid tag")))
+	_9_valueOrError3 = m_Wrappers.Companion_Default___.Need((uint64(((_7_value).Dtor_authTag()).Cardinality())) == (uint64((_1_encAlg).Dtor_tagLength())), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("AESEncryption did not return valid tag")))
 	if (_9_valueOrError3).IsFailure() {
 		res = (_9_valueOrError3).PropagateFailure()
 		return res
@@ -191,7 +195,7 @@ func (_static *CompanionStruct_Default___) AESDecrypt(input m_AwsCryptographyPri
 	_ = res
 	var _0_valueOrError0 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _0_valueOrError0
-	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need((((_dafny.IntOfUint32(((input).Dtor_key()).Cardinality())).Cmp(_dafny.IntOfInt32(((input).Dtor_encAlg()).Dtor_keyLength())) == 0) && ((_dafny.IntOfUint32(((input).Dtor_iv()).Cardinality())).Cmp(_dafny.IntOfInt32(((input).Dtor_encAlg()).Dtor_ivLength())) == 0)) && ((_dafny.IntOfUint32(((input).Dtor_authTag()).Cardinality())).Cmp(_dafny.IntOfInt32(((input).Dtor_encAlg()).Dtor_tagLength())) == 0), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Request does not match algorithm.")))
+	_0_valueOrError0 = m_Wrappers.Companion_Default___.Need((((uint64(((input).Dtor_key()).Cardinality())) == (uint64(((input).Dtor_encAlg()).Dtor_keyLength()))) && ((uint64(((input).Dtor_iv()).Cardinality())) == (uint64(((input).Dtor_encAlg()).Dtor_ivLength())))) && ((uint64(((input).Dtor_authTag()).Cardinality())) == (uint64(((input).Dtor_encAlg()).Dtor_tagLength()))), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Request does not match algorithm.")))
 	if (_0_valueOrError0).IsFailure() {
 		res = (_0_valueOrError0).PropagateFailure()
 		return res
@@ -225,7 +229,7 @@ func (_static *CompanionStruct_Default___) AESDecrypt(input m_AwsCryptographyPri
 	_8_value = (_7_valueOrError1).Extract().(_dafny.Sequence)
 	var _9_valueOrError2 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _9_valueOrError2
-	_9_valueOrError2 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32((_3_cipherTxt).Cardinality())).Cmp(_dafny.IntOfUint32((_8_value).Cardinality())) == 0, m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("AESDecrypt did not return plaintext of expected length")))
+	_9_valueOrError2 = m_Wrappers.Companion_Default___.Need((uint64((_3_cipherTxt).Cardinality())) == (uint64((_8_value).Cardinality())), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("AESDecrypt did not return plaintext of expected length")))
 	if (_9_valueOrError2).IsFailure() {
 		res = (_9_valueOrError2).PropagateFailure()
 		return res

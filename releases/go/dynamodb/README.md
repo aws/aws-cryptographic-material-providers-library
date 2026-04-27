@@ -6,7 +6,7 @@ The AWS Cryptographic Internal ComAmazonawsDynamodb is a modeled library used in
 
 ## Installation
 
-`go get github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb@v0.2.0`
+`go get github.com/aws/aws-cryptographic-material-providers-library/releases/go/dynamodb@latest`
 
 ## Security
 

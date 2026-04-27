@@ -39,6 +39,7 @@ import (
 	m_Sorting "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/Sorting"
 	m_StandardLibrary "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary"
 	m_StandardLibraryInterop "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibraryInterop"
+	m_StandardLibrary_MemoryMath "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_MemoryMath"
 	m_StandardLibrary_Sequence "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_Sequence"
 	m_StandardLibrary_String "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_String"
 	m_StandardLibrary_UInt "github.com/aws/aws-cryptographic-material-providers-library/releases/go/smithy-dafny-standard-library/StandardLibrary_UInt"
@@ -80,6 +81,7 @@ var _ m_Power.Dummy__
 var _ m_Logarithm.Dummy__
 var _ m_StandardLibraryInterop.Dummy__
 var _ m_StandardLibrary_UInt.Dummy__
+var _ m_StandardLibrary_MemoryMath.Dummy__
 var _ m_StandardLibrary_Sequence.Dummy__
 var _ m_StandardLibrary_String.Dummy__
 var _ m_StandardLibrary.Dummy__
@@ -146,16 +148,16 @@ func (_static *CompanionStruct_Default___) SignatureLength(signatureAlgorithm m_
 		return uint16(103)
 	}
 }
-func (_static *CompanionStruct_Default___) FieldSize(signatureAlgorithm m_AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm) _dafny.Int {
+func (_static *CompanionStruct_Default___) FieldSize(signatureAlgorithm m_AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm) uint64 {
 	var _source0 m_AwsCryptographyPrimitivesTypes.ECDSASignatureAlgorithm = signatureAlgorithm
 	_ = _source0
 	{
 		if _source0.Is_ECDSA__P256() {
-			return _dafny.IntOfInt64(33)
+			return uint64(33)
 		}
 	}
 	{
-		return _dafny.IntOfInt64(49)
+		return uint64(49)
 	}
 }
 func (_static *CompanionStruct_Default___) KeyGen(input m_AwsCryptographyPrimitivesTypes.GenerateECDSASignatureKeyInput) m_Wrappers.Result {
@@ -176,7 +178,7 @@ func (_static *CompanionStruct_Default___) KeyGen(input m_AwsCryptographyPrimiti
 	_1_sigKeyPair = (_0_valueOrError0).Extract().(SignatureKeyPair)
 	var _2_valueOrError1 m_Wrappers.Outcome = m_Wrappers.Companion_Outcome_.Default()
 	_ = _2_valueOrError1
-	_2_valueOrError1 = m_Wrappers.Companion_Default___.Need((_dafny.IntOfUint32(((_1_sigKeyPair).Dtor_verificationKey()).Cardinality())).Cmp(Companion_Default___.FieldSize((input).Dtor_signatureAlgorithm())) == 0, m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Incorrect verification-key length from ExternKeyGen.")))
+	_2_valueOrError1 = m_Wrappers.Companion_Default___.Need((uint64(((_1_sigKeyPair).Dtor_verificationKey()).Cardinality())) == (Companion_Default___.FieldSize((input).Dtor_signatureAlgorithm())), m_AwsCryptographyPrimitivesTypes.Companion_Error_.Create_AwsCryptographicPrimitivesError_(_dafny.SeqOfString("Incorrect verification-key length from ExternKeyGen.")))
 	if (_2_valueOrError1).IsFailure() {
 		res = (_2_valueOrError1).PropagateFailure()
 		return res

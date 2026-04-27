@@ -358,14 +358,10 @@ func Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_ToDafny(inpu
 
 func Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -414,14 +410,10 @@ func Aws_cryptography_keyStore_BeaconKeyMaterials_encryptionContext_ToDafny(inpu
 
 func Aws_cryptography_keyStore_BeaconKeyMaterials_beaconKey_ToDafny(input []byte) Wrappers.Option {
 	return func() Wrappers.Option {
-		var v []interface{}
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOf(v...))
+		return Wrappers.Companion_Option_.Create_Some_(dafny.SeqOfBytes(input))
 	}()
 }
 
@@ -450,14 +442,10 @@ func Aws_cryptography_keyStore_HmacKeyMap_key_ToDafny(input string) dafny.Sequen
 
 func Aws_cryptography_keyStore_HmacKeyMap_value_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
-		var v []interface{}
 		if input == nil {
 			return nil
 		}
-		for _, e := range input {
-			v = append(v, e)
-		}
-		return dafny.SeqOf(v...)
+		return dafny.SeqOfBytes(input)
 	}()
 }
 
@@ -536,7 +524,7 @@ func Aws_cryptography_keyStore_GetKeyStoreInfoOutput_logicalKeyStoreName_ToDafny
 func Aws_cryptography_keyStore_GetKeyStoreInfoOutput_grantTokens_ToDafny(input []string) dafny.Sequence {
 	return func() dafny.Sequence {
 
-		var fieldValue []interface{} = make([]interface{}, 0)
+		var fieldValue []interface{} = make([]interface{}, 0, len(input))
 		for _, val := range input {
 			element := Aws_cryptography_keyStore_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)
@@ -729,7 +717,7 @@ func Aws_cryptography_keyStore_KeyStoreConfig_grantTokens_ToDafny(input []string
 		if input == nil {
 			return Wrappers.Companion_Option_.Create_None_()
 		}
-		var fieldValue []interface{} = make([]interface{}, 0)
+		var fieldValue []interface{} = make([]interface{}, 0, len(input))
 		for _, val := range input {
 			element := Aws_cryptography_keyStore_GrantTokenList_member_ToDafny(val)
 			fieldValue = append(fieldValue, element)

@@ -55,7 +55,7 @@ def get_valid_der_components():
     The two items are (the ASN.1 encoded algorithm info, the ASN.1 encoded public key point).
     """
     private_key = ec.generate_private_key(
-        SECP256R1
+        SECP256R1()
     )
     public_key_der = private_key.public_key().public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
     alg_info_seq, _ = der_decode(public_key_der, asn1Spec=Sequence())

@@ -74,13 +74,10 @@ module Fixtures {
   const branchKeyStoreName := "KeyStoreDdbTable"
   const logicalKeyStoreName := branchKeyStoreName
   const branchKeyId := "3f43a9af-08c5-4317-b694-3d3e883dcaef"
-  const branchKeyIdActiveVersion := "a4905627-4b7f-4272-a847-f50dae245737"
+  const branchKeyIdActiveVersion := "caf0c508-e64d-4b6c-bffe-381cbc546c02"
   // This is branchKeyIdActiveVersion above, as utf8bytes
   const branchKeyIdActiveVersionUtf8Bytes: seq<uint8> := [
-    97, 52, 57, 48, 53, 54, 50, 55, 45, 52,
-    98, 55, 102, 45, 52, 50, 55, 50, 45, 97,
-    56, 52, 55, 45, 102, 53, 48, 100, 97, 101,
-    50, 52, 53, 55, 51, 55
+    99,97,102,48,99,53,48,56,45,101,54,52,100,45,52,98,54,99,45,98,102,102,101,45,51,56,49,99,98,99,53,52,54,99,48,50
   ]
   const branchKeyIdWithEC := "4bb57643-07c1-419e-92ad-0df0df149d7c"
 
