@@ -34,7 +34,12 @@ jobs:
             # the sys.path workaround for generated Dafny doesn't work on Windows.
             # Note: only tests use the sys.path workaround, not source code.
             # Windows source code is tested downstream (ex. ESDK-Python CI).
-            # windows-latest,
+            # TODO: clarify the comment above given:
+            #   Go tests should be performed on a 
+            #   windows machine because packages in StandardLibrary (Time_) uses 
+            #   the syscall package, which does not contain the same functions/types 
+            #   across operating systems. 
+            windows-latest,
             ubuntu-22.04,
             macos-14,
           ]
