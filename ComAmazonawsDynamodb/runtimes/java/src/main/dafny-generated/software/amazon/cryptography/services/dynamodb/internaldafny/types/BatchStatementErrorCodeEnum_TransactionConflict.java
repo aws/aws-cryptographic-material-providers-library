@@ -1,0 +1,32 @@
+// Class BatchStatementErrorCodeEnum_TransactionConflict
+// Dafny class BatchStatementErrorCodeEnum_TransactionConflict compiled into Java
+package software.amazon.cryptography.services.dynamodb.internaldafny.types;
+
+@SuppressWarnings({"unchecked", "deprecation"})
+public class BatchStatementErrorCodeEnum_TransactionConflict extends BatchStatementErrorCodeEnum {
+  public BatchStatementErrorCodeEnum_TransactionConflict () {
+    super();
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (this == other) return true;
+    if (other == null) return false;
+    if (getClass() != other.getClass()) return false;
+    BatchStatementErrorCodeEnum_TransactionConflict o = (BatchStatementErrorCodeEnum_TransactionConflict)other;
+    return true;
+  }
+  @Override
+  public int hashCode() {
+    long hash = 5381;
+    hash = ((hash << 5) + hash) + 5;
+    return (int)hash;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder s = new StringBuilder();
+    s.append("ComAmazonawsDynamodbTypes.BatchStatementErrorCodeEnum.TransactionConflict");
+    return s.toString();
+  }
+}
