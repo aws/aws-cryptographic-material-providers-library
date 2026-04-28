@@ -442,13 +442,22 @@ public class ToDafny {
         : Option.create_None(
           DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
         );
+    Option<Integer> cacheWarmUpVersions;
+    cacheWarmUpVersions =
+      Objects.nonNull(nativeValue.cacheWarmUpVersions())
+        ? Option.create_Some(
+          TypeDescriptor.INT,
+          (nativeValue.cacheWarmUpVersions())
+        )
+        : Option.create_None(TypeDescriptor.INT);
     return new CreateAwsKmsHierarchicalKeyringInput(
       branchKeyId,
       branchKeyIdSupplier,
       keyStore,
       ttlSeconds,
       cache,
-      partitionId
+      partitionId,
+      cacheWarmUpVersions
     );
   }
 

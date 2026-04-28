@@ -429,12 +429,12 @@ module GetKeys {
 
   predicate AwsKmsBranchKeyDecryption?(
     getItemHistory: DDB.DafnyCallEvent<DDB.GetItemInput, Result<DDB.GetItemOutput, DDB.Error>>,
-    decryptHistory: KMS.DafnyCallEvent<KMS.DecryptRequest, Result<KMS.DecryptResponse, KMS.Error>>,
-    kmsClient: KMS.IKMSClient,
-    ddbClient: DDB.IDynamoDBClient,
-    kmsConfiguration: Types.KMSConfiguration,
-    grantTokens: KMS.GrantTokenList,
-    logicalKeyStoreName: string
+                                                                decryptHistory: KMS.DafnyCallEvent<KMS.DecryptRequest, Result<KMS.DecryptResponse, KMS.Error>>,
+                                                                                                                              kmsClient: KMS.IKMSClient,
+                                                                                                                              ddbClient: DDB.IDynamoDBClient,
+                                                                                                                              kmsConfiguration: Types.KMSConfiguration,
+                                                                                                                              grantTokens: KMS.GrantTokenList,
+                                                                                                                              logicalKeyStoreName: string
   )
     reads kmsClient.History
     reads ddbClient.History
@@ -468,11 +468,11 @@ module GetKeys {
     //# except the logical table name
     //# MUST equal the value with the same key in the AWS DDB response item.
     && (forall k <- versionEncryptionContext.Keys - {Structure.TABLE_FIELD}
-                    // Working around https://github.com/dafny-lang/dafny/issues/4214
-                    //  that will make the following fail to compile
-                    // :: match k
-                    //    case HIERARCHY_VERSION => versionEncryptionContext[Structure.HIERARCHY_VERSION] == versionItem[Structure.HIERARCHY_VERSION].N
-                    //    case _ => versionEncryptionContext[k] == versionItem[k].S)
+          // Working around https://github.com/dafny-lang/dafny/issues/4214
+          //  that will make the following fail to compile
+          // :: match k
+          //    case HIERARCHY_VERSION => versionEncryptionContext[Structure.HIERARCHY_VERSION] == versionItem[Structure.HIERARCHY_VERSION].N
+          //    case _ => versionEncryptionContext[k] == versionItem[k].S)
           :: if k == Structure.HIERARCHY_VERSION then
                versionEncryptionContext[Structure.HIERARCHY_VERSION] == versionItem[Structure.HIERARCHY_VERSION].N
              else
@@ -507,9 +507,9 @@ module GetKeys {
 
     && var decryptRequest := decryptHistory.input;
     && decryptRequest.KeyId.Some?
-       //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
-       //= type=implication
-       //# - `KeyId`, if the KMS Configuration is Discovery, MUST be the `kms-arn` attribute value of the AWS DDB response item.
+    //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
+    //= type=implication
+    //# - `KeyId`, if the KMS Configuration is Discovery, MUST be the `kms-arn` attribute value of the AWS DDB response item.
     && (kmsConfiguration.discovery? ==> decryptRequest.KeyId == Some(versionItem[Structure.KMS_FIELD].S))
 
     //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-branch-key-decryption
@@ -548,5 +548,68 @@ module GetKeys {
 
   }
 
+  method GetBranchKeyVersions(
+    branchKeyIdentifier: string,
+    count: DDB.PositiveIntegerObject,
+    tableName: DDB.TableName,
+    logicalKeyStoreName: string,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient,
+    ddbClient: DDB.IDynamoDBClient
+  )
+    returns (output: Result<seq<Types.BranchKeyMaterials>, Types.Error>)
+    requires DDB.IsValid_TableName(tableName)
+    requires ddbClient.Modifies !! kmsClient.Modifies
+    requires kmsClient.ValidState() && ddbClient.ValidState()
+    modifies ddbClient.Modifies, kmsClient.Modifies
+    ensures kmsClient.ValidState() && ddbClient.ValidState()
+  {
+    var items :- DDBKeystoreOperations.QueryBranchKeyVersionItems(
+      branchKeyIdentifier,
+      count,
+      tableName,
+      ddbClient
+    );
+
+    var results: seq<Types.BranchKeyMaterials> := [];
+    var i: int := 0;
+
+    while i < |items|
+      invariant kmsClient.ValidState() && ddbClient.ValidState()
+    {
+      var item := items[i];
+
+      if Structure.VersionBranchKeyItem?(item) {
+        var encryptionContext := Structure.ToBranchKeyContext(item, logicalKeyStoreName);
+
+        if KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext)
+           && KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD])
+        {
+          var maybeBranchKey := KMSKeystoreOperations.DecryptKey(
+            encryptionContext,
+            item,
+            kmsConfiguration,
+            grantTokens,
+            kmsClient
+          );
+
+          if maybeBranchKey.Success? {
+            var maybeMaterials := Structure.ToBranchKeyMaterials(
+              encryptionContext,
+              maybeBranchKey.value.Plaintext.value
+            );
+            if maybeMaterials.Success? {
+              results := results + [maybeMaterials.value];
+            }
+          }
+        }
+      }
+
+      i := i + 1;
+    }
+
+    return Success(results);
+  }
 
 }

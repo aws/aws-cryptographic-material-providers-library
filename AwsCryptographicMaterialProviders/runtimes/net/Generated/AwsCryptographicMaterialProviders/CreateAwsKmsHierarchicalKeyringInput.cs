@@ -13,6 +13,7 @@ namespace AWS.Cryptography.MaterialProviders
     private long? _ttlSeconds;
     private AWS.Cryptography.MaterialProviders.CacheType _cache;
     private string _partitionId;
+    private int? _cacheWarmUpVersions;
     public string BranchKeyId
     {
       get { return this._branchKeyId; }
@@ -67,11 +68,27 @@ namespace AWS.Cryptography.MaterialProviders
     {
       return this._partitionId != null;
     }
+    public int CacheWarmUpVersions
+    {
+      get { return this._cacheWarmUpVersions.GetValueOrDefault(); }
+      set { this._cacheWarmUpVersions = value; }
+    }
+    public bool IsSetCacheWarmUpVersions()
+    {
+      return this._cacheWarmUpVersions.HasValue;
+    }
     public void Validate()
     {
       if (!IsSetKeyStore()) throw new System.ArgumentException("Missing value for required property 'KeyStore'");
       if (!IsSetTtlSeconds()) throw new System.ArgumentException("Missing value for required property 'TtlSeconds'");
-
+      if (IsSetCacheWarmUpVersions())
+      {
+        if (CacheWarmUpVersions < 0)
+        {
+          throw new System.ArgumentException(
+              String.Format("Member CacheWarmUpVersions of structure CreateAwsKmsHierarchicalKeyringInput has type PositiveInteger which has a minimum of 0 but was given the value {0}.", CacheWarmUpVersions));
+        }
+      }
     }
   }
 }
