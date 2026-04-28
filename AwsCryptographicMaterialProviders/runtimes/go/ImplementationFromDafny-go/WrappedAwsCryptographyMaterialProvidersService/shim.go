@@ -16,7 +16,7 @@ type Shim struct {
 	client *awscryptographymaterialproviderssmithygenerated.Client
 }
 
-func (_static *CompanionStruct_Default___) WrappedMaterialProviders(inputConfig AwsCryptographyMaterialProvidersTypes.MaterialProvidersConfig) Wrappers.Result {
+func  WrappedMaterialProviders(inputConfig AwsCryptographyMaterialProvidersTypes.MaterialProvidersConfig) Wrappers.Result {
 	var nativeConfig = awscryptographymaterialproviderssmithygenerated.MaterialProvidersConfig_FromDafny(inputConfig)
 	var nativeClient, nativeError = awscryptographymaterialproviderssmithygenerated.NewClient(nativeConfig)
 	if nativeError != nil {
@@ -284,4 +284,13 @@ func (shim *Shim) ValidateCommitmentPolicyOnDecrypt(input AwsCryptographyMateria
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
 	}
 	return Wrappers.Companion_Result_.Create_Success_(dafny.TupleOf())
+}
+
+func (shim *Shim) GetCacheIdentifier(input AwsCryptographyMaterialProvidersTypes.GetCacheIdentifierInput) Wrappers.Result {
+	var native_request = awscryptographymaterialproviderssmithygenerated.GetCacheIdentifierInput_FromDafny(input)
+	var native_response, native_error = shim.client.GetCacheIdentifier(context.Background(), native_request)
+	if native_error != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(awscryptographymaterialproviderssmithygenerated.Error_ToDafny(native_error))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(awscryptographymaterialproviderssmithygenerated.GetCacheIdentifierOutput_ToDafny(*native_response))
 }

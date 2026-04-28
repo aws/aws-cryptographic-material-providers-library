@@ -71,6 +71,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
       ValidAlgorithmSuiteInfo := [];
       ValidateCommitmentPolicyOnEncrypt := [];
       ValidateCommitmentPolicyOnDecrypt := [];
+      GetCacheIdentifier := [];
     }
     ghost var CreateAwsKmsKeyring: seq<DafnyCallEvent<CreateAwsKmsKeyringInput, Result<IKeyring, Error>>>
     ghost var CreateAwsKmsDiscoveryKeyring: seq<DafnyCallEvent<CreateAwsKmsDiscoveryKeyringInput, Result<IKeyring, Error>>>
@@ -101,6 +102,7 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     ghost var ValidAlgorithmSuiteInfo: seq<DafnyCallEvent<AlgorithmSuiteInfo, Result<(), Error>>>
     ghost var ValidateCommitmentPolicyOnEncrypt: seq<DafnyCallEvent<ValidateCommitmentPolicyOnEncryptInput, Result<(), Error>>>
     ghost var ValidateCommitmentPolicyOnDecrypt: seq<DafnyCallEvent<ValidateCommitmentPolicyOnDecryptInput, Result<(), Error>>>
+    ghost var GetCacheIdentifier: seq<DafnyCallEvent<GetCacheIdentifierInput, Result<GetCacheIdentifierOutput, Error>>>
   }
   trait {:termination false} IAwsCryptographicMaterialProvidersClient
   {
@@ -727,6 +729,25 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     function method ValidateCommitmentPolicyOnDecrypt ( input: ValidateCommitmentPolicyOnDecryptInput )
       : (output: Result<(), Error>)
     // Functions that are transparent do not need ensures
+
+    predicate GetCacheIdentifierEnsuresPublicly(input: GetCacheIdentifierInput , output: Result<GetCacheIdentifierOutput, Error>)
+    // The public method to be called by library consumers
+    method GetCacheIdentifier ( input: GetCacheIdentifierInput )
+      returns (output: Result<GetCacheIdentifierOutput, Error>)
+      requires
+        && ValidState()
+        && input.keyring.ValidState()
+        && input.keyring.Modifies !! {History}
+      modifies Modifies - {History} ,
+               input.keyring.Modifies ,
+               History`GetCacheIdentifier
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History} ,
+                input.keyring.Modifies
+      ensures
+        && ValidState()
+      ensures GetCacheIdentifierEnsuresPublicly(input, output)
+      ensures History.GetCacheIdentifier == old(History.GetCacheIdentifier) + [DafnyCallEvent(input, output)]
 
   }
   class IBranchKeyIdSupplierCallHistory {
@@ -1384,6 +1405,14 @@ module {:extern "software.amazon.cryptography.materialproviders.internaldafny.ty
     nameonly expiryTime: PositiveLong ,
     nameonly messagesUsed: PositiveInteger ,
     nameonly bytesUsed: PositiveInteger
+  )
+  datatype GetCacheIdentifierInput = | GetCacheIdentifierInput (
+    nameonly keyring: IKeyring ,
+    nameonly branchKeyId: string ,
+    nameonly branchKeyVersion: Option<string> := Option.None
+  )
+  datatype GetCacheIdentifierOutput = | GetCacheIdentifierOutput (
+    nameonly identifier: seq<uint8>
   )
   datatype GetClientInput = | GetClientInput (
     nameonly region: Region
@@ -2492,6 +2521,30 @@ abstract module AbstractAwsCryptographyMaterialProvidersService
       Operations.ValidateCommitmentPolicyOnDecrypt(config, input)
     }
 
+    predicate GetCacheIdentifierEnsuresPublicly(input: GetCacheIdentifierInput , output: Result<GetCacheIdentifierOutput, Error>)
+    {Operations.GetCacheIdentifierEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method GetCacheIdentifier ( input: GetCacheIdentifierInput )
+      returns (output: Result<GetCacheIdentifierOutput, Error>)
+      requires
+        && ValidState()
+        && input.keyring.ValidState()
+        && input.keyring.Modifies !! {History}
+      modifies Modifies - {History} ,
+               input.keyring.Modifies ,
+               History`GetCacheIdentifier
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History} ,
+                input.keyring.Modifies
+      ensures
+        && ValidState()
+      ensures GetCacheIdentifierEnsuresPublicly(input, output)
+      ensures History.GetCacheIdentifier == old(History.GetCacheIdentifier) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.GetCacheIdentifier(config, input);
+      History.GetCacheIdentifier := History.GetCacheIdentifier + [DafnyCallEvent(input, output)];
+    }
+
   }
 }
 abstract module AbstractAwsCryptographyMaterialProvidersOperations {
@@ -3110,4 +3163,23 @@ abstract module AbstractAwsCryptographyMaterialProvidersOperations {
   function method ValidateCommitmentPolicyOnDecrypt ( config: InternalConfig , input: ValidateCommitmentPolicyOnDecryptInput )
     : (output: Result<(), Error>)
   // Functions that are transparent do not need ensures
+
+
+  predicate GetCacheIdentifierEnsuresPublicly(input: GetCacheIdentifierInput , output: Result<GetCacheIdentifierOutput, Error>)
+  // The private method to be refined by the library developer
+
+
+  method GetCacheIdentifier ( config: InternalConfig , input: GetCacheIdentifierInput )
+    returns (output: Result<GetCacheIdentifierOutput, Error>)
+    requires
+      && ValidInternalConfig?(config)
+      && input.keyring.ValidState()
+    modifies ModifiesInternalConfig(config) ,
+             input.keyring.Modifies
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config) ,
+              input.keyring.Modifies
+    ensures
+      && ValidInternalConfig?(config)
+    ensures GetCacheIdentifierEnsuresPublicly(input, output)
 }

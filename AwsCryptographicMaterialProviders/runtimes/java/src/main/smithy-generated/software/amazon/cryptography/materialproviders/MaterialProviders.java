@@ -36,6 +36,8 @@ import software.amazon.cryptography.materialproviders.model.CreateRawRsaKeyringI
 import software.amazon.cryptography.materialproviders.model.CreateRequiredEncryptionContextCMMInput;
 import software.amazon.cryptography.materialproviders.model.DecryptionMaterials;
 import software.amazon.cryptography.materialproviders.model.EncryptionMaterials;
+import software.amazon.cryptography.materialproviders.model.GetCacheIdentifierInput;
+import software.amazon.cryptography.materialproviders.model.GetCacheIdentifierOutput;
 import software.amazon.cryptography.materialproviders.model.InitializeDecryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.InitializeEncryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.MaterialProvidersConfig;
@@ -476,6 +478,27 @@ public class MaterialProviders {
       throw ToNative.Error(result.dtor_error());
     }
     return ToNative.AlgorithmSuiteInfo(result.dtor_value());
+  }
+
+  /**
+   * Computes the cache entry identifier used internally by the Hierarchical Keyring. Requires the keyring to be a Hierarchical Keyring.
+   *
+   * @param input Inputs for computing a cache identifier.
+   * @return Outputs for computing a cache identifier.
+   */
+  public GetCacheIdentifierOutput GetCacheIdentifier(
+    GetCacheIdentifierInput input
+  ) {
+    software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheIdentifierInput dafnyValue =
+      ToDafny.GetCacheIdentifierInput(input);
+    Result<
+      software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheIdentifierOutput,
+      Error
+    > result = this._impl.GetCacheIdentifier(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.GetCacheIdentifierOutput(result.dtor_value());
   }
 
   public DecryptionMaterials InitializeDecryptionMaterials(
