@@ -1,0 +1,72 @@
+# This workflow keeps mutations/mutations in sync with main.
+# It creates a PR from main into mutations/mutations, which triggers
+# the existing PR CI. If CI passes, the PR is auto-merged.
+name: Sync mutations/mutations with main
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # Weekdays at 15:00 UTC (8AM PDT), same cadence as daily CI
+    - cron: "00 15 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    # Don't run the cron builds on forks
+    if: github.event_name != 'schedule' || github.repository_owner == 'aws'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout mutations/mutations
+        uses: actions/checkout@v4
+        with:
+          ref: mutations/mutations
+          fetch-depth: 0
+
+      - name: Check if sync is needed
+        id: check
+        run: |
+          git fetch origin main
+          if git merge-base --is-ancestor origin/main HEAD; then
+            echo "mutations/mutations already contains all commits from main"
+            echo "needs_sync=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "needs_sync=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create or update sync PR
+        if: steps.check.outputs.needs_sync == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Check if a sync PR already exists
+          EXISTING_PR=$(gh pr list --base mutations/mutations --head main --json number --jq '.[0].number')
+          if [ -n "$EXISTING_PR" ]; then
+            echo "Sync PR #$EXISTING_PR already exists"
+          else
+            gh pr create \
+              --base mutations/mutations \
+              --head main \
+              --title "chore: sync mutations/mutations with main" \
+              --body "Automated PR to keep \`mutations/mutations\` in sync with \`main\`.
+
+          This PR was created automatically by the sync-mutations workflow.
+          Once CI passes, it will be auto-merged." \
+              --label "automated"
+            EXISTING_PR=$(gh pr list --base mutations/mutations --head main --json number --jq '.[0].number')
+          fi
+          gh pr merge "$EXISTING_PR" --auto --merge
+
+  notify:
+    needs: [sync]
+    if: ${{ failure() }}
+    uses: ./.github/workflows/slack-notification.yml
+    with:
+      message: "Failed to auto-sync `main` → `mutations/mutations` in `${{ github.repository }}`. View run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_CI }}
