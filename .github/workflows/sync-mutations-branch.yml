@@ -67,7 +67,7 @@ jobs:
 
           This PR was created automatically by the sync-mutations workflow.
           Please approve and merge once CI passes." \
-              --label "automated")
+              )
             echo "pr_created=true" >> "$GITHUB_OUTPUT"
             echo "pr_url=$PR_URL" >> "$GITHUB_OUTPUT"
           fi
