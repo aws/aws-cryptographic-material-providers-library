@@ -7,6 +7,10 @@ on:
   push:
     branches:
       - main
+  # TODO: Remove pull_request trigger after testing
+  pull_request:
+    branches:
+      - main
   schedule:
     # Weekdays at 15:00 UTC (8AM PDT), same cadence as daily CI
     - cron: "00 15 * * 1-5"
