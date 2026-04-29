@@ -1,6 +1,6 @@
 # This workflow keeps mutations/mutations in sync with main.
 # It creates a PR from main into mutations/mutations, which triggers
-# the existing PR CI. If CI passes, the PR is auto-merged.
+# the existing PR CI. A team member must approve and merge the PR.
 name: Sync mutations/mutations with main
 
 on:
@@ -21,6 +21,9 @@ jobs:
     # Don't run the cron builds on forks
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
     runs-on: ubuntu-latest
+    outputs:
+      pr_created: ${{ steps.create_pr.outputs.pr_created }}
+      pr_url: ${{ steps.create_pr.outputs.pr_url }}
     steps:
       - name: Checkout mutations/mutations
         uses: actions/checkout@v4
@@ -40,29 +43,41 @@ jobs:
           fi
 
       - name: Create or update sync PR
+        id: create_pr
         if: steps.check.outputs.needs_sync == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Check if a sync PR already exists
-          EXISTING_PR=$(gh pr list --base mutations/mutations --head main --json number --jq '.[0].number')
+          EXISTING_PR=$(gh pr list --base mutations/mutations --head main --json number,url --jq '.[0]')
           if [ -n "$EXISTING_PR" ]; then
-            echo "Sync PR #$EXISTING_PR already exists"
+            echo "Sync PR already exists: $(echo "$EXISTING_PR" | jq -r '.url')"
+            echo "pr_created=false" >> "$GITHUB_OUTPUT"
+            echo "pr_url=$(echo "$EXISTING_PR" | jq -r '.url')" >> "$GITHUB_OUTPUT"
           else
-            gh pr create \
+            PR_URL=$(gh pr create \
               --base mutations/mutations \
               --head main \
               --title "chore: sync mutations/mutations with main" \
               --body "Automated PR to keep \`mutations/mutations\` in sync with \`main\`.
 
           This PR was created automatically by the sync-mutations workflow.
-          Once CI passes, it will be auto-merged." \
-              --label "automated"
-            EXISTING_PR=$(gh pr list --base mutations/mutations --head main --json number --jq '.[0].number')
+          Please approve and merge once CI passes." \
+              --label "automated")
+            echo "pr_created=true" >> "$GITHUB_OUTPUT"
+            echo "pr_url=$PR_URL" >> "$GITHUB_OUTPUT"
           fi
-          gh pr merge "$EXISTING_PR" --auto --merge
 
-  notify:
+  notify-pr-created:
+    needs: [sync]
+    if: needs.sync.outputs.pr_created == 'true'
+    uses: ./.github/workflows/slack-notification.yml
+    with:
+      message: "A PR has been created to sync `main` → `mutations/mutations` in `${{ github.repository }}`. Please review and merge: ${{ needs.sync.outputs.pr_url }}"
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_CI }}
+
+  notify-failure:
     needs: [sync]
     if: ${{ failure() }}
     uses: ./.github/workflows/slack-notification.yml
