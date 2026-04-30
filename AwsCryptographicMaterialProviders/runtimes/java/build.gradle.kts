@@ -170,11 +170,19 @@ tasks.shadowJar {
         include(dependency("software.amazon.cryptography:ComAmazonawsKms:1.0-SNAPSHOT"))
         include(dependency("software.amazon.cryptography:ComAmazonawsDynamodb:1.0-SNAPSHOT"))
     }
+}
 
-    configurations {
-        sourceSets["main"].java {
-            mainSourceSet()
-        }
+// Include source files from composite build dependencies in the sources JAR,
+// mirroring the shadow JAR which bundles their compiled classes.
+val depSourceBuilds = listOf("StandardLibrary", "AwsCryptographyPrimitives", "ComAmazonawsKms", "ComAmazonawsDynamodb")
+
+tasks.named<Jar>("sourcesJar") {
+    dependsOn(depSourceBuilds.map { gradle.includedBuild(it).task(":sourcesJar") })
+    depSourceBuilds.forEach { name ->
+        from(provider {
+            val libsDir = File(rootProject.projectDir, "../../../${name}/runtimes/java/build/libs")
+            libsDir.listFiles()?.filter { it.name.endsWith("-sources.jar") }?.map { zipTree(it) } ?: emptyList()
+        })
     }
 }
 
