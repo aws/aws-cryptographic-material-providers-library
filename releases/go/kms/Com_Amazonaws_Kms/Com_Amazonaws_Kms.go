@@ -202,7 +202,7 @@ func (_static *CompanionStruct_Default___) DefaultKMSClientConfigType() KMSClien
 	return Companion_KMSClientConfigType_.Create_KMSClientConfigType_()
 }
 func (_static *CompanionStruct_Default___) DafnyUserAgentSuffix(runtime _dafny.Sequence) _dafny.Sequence {
-	var _0_version _dafny.Sequence = _dafny.SeqOfString("1.11.0")
+	var _0_version _dafny.Sequence = _dafny.SeqOfString("0.4.0")
 	_ = _0_version
 	return _dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_dafny.Companion_Sequence_.Concatenate(_dafny.SeqOfString("AwsCryptographicMPL/"), runtime), _dafny.SeqOfString("/")), _0_version)
 }
