@@ -170,12 +170,6 @@ tasks.shadowJar {
         include(dependency("software.amazon.cryptography:ComAmazonawsKms:1.0-SNAPSHOT"))
         include(dependency("software.amazon.cryptography:ComAmazonawsDynamodb:1.0-SNAPSHOT"))
     }
-
-    configurations {
-        sourceSets["main"].java {
-            mainSourceSet()
-        }
-    }
 }
 
 // Include source files from composite build dependencies in the sources JAR,
