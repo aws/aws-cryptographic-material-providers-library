@@ -1,5 +1,11 @@
 # Changelog
 
+## [releases/go/primitives/v0.4.0] - 2026-04-30
+
+### Maintenance
+
+- _(go)_ chore: upgrade dafny runtime go v4.11.3 (#1849)
+
 ## [releases/go/primitives/v0.3.0] - 2025-10-24
 
 ### Performance
