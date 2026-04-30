@@ -178,6 +178,20 @@ tasks.shadowJar {
     }
 }
 
+// Include source files from composite build dependencies in the sources JAR,
+// mirroring the shadow JAR which bundles their compiled classes.
+val depSourceBuilds = listOf("StandardLibrary", "AwsCryptographyPrimitives", "ComAmazonawsKms", "ComAmazonawsDynamodb")
+
+tasks.named<Jar>("sourcesJar") {
+    dependsOn(depSourceBuilds.map { gradle.includedBuild(it).task(":sourcesJar") })
+    depSourceBuilds.forEach { name ->
+        from(provider {
+            val libsDir = File(rootProject.projectDir, "../../../${name}/runtimes/java/build/libs")
+            libsDir.listFiles()?.filter { it.name.endsWith("-sources.jar") }?.map { zipTree(it) } ?: emptyList()
+        })
+    }
+}
+
 nexusPublishing {
     // We are using the nexusPublishing plugin since it is recommended by Sonatype Gradle Project configurations
     // and it is easy to supply the creds we need to deploy
