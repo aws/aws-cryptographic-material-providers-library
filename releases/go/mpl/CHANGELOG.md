@@ -1,5 +1,11 @@
 # Changelog
 
+## [releases/go/mpl/v0.3.1] - 2026-05-01
+
+### Maintenance
+
+- _(go)_ Release smithy-dafny-standard-library Go module 0.4.0 (#1854)
+
 ## [releases/go/mpl/v0.3.0] - 2025-10-28
 
 ### Performance
