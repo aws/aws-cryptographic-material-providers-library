@@ -10,10 +10,10 @@ inputs:
     description: "Python version to use"
     required: false
     default: "3.11"
-  mpl-submodule-path:                                                                       
-      description: "Path to MPL submodule if used from upstream repo"           
-      required: false                                                           
-      default: "./" 
+  mpl-submodule-path:
+    description: "Path to MPL submodule if used from upstream repo"
+    required: false
+    default: "./"
 runs:
   using: "composite"
   steps:
