@@ -53,7 +53,7 @@ runs:
         retry_wait_seconds: 30
         max_attempts: 3
         shell: bash
-        command:
+        command: |
           python -m pip install --upgrade pip
           python -m pip install black==25.1
           python -m pip install --upgrade docformatter
