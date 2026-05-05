@@ -10,8 +10,8 @@ inputs:
     description: "Python version to use"
     required: false
     default: "3.11"
-  path-prefix:                                                                       
-      description: "Path prefix for smithy-dafny and StandardLibrary. This can be used when running this action from ESDK or DB-ESDK"           
+  mpl-submodule-path:                                                                       
+      description: "Path to MPL submodule if used from upstream repo"           
       required: false                                                           
       default: "./" 
 runs:
