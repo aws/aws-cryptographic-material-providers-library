@@ -79,6 +79,7 @@ jobs:
           java-version: ${{ matrix.java-versions }}
 
       - name: Test ${{ matrix.library }} on ${{ matrix.java-versions }}
-        working-directory: ./${{ matrix.library }}
+        working-directory: ./${{ matrix.library }}/runtimes/java
         run: |
-          make test_java
+          ./gradlew runTests
+          ./gradlew test --info

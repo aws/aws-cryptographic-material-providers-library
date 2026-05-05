@@ -72,11 +72,15 @@ jobs:
           distribution: "corretto"
           java-version: 17
 
-      - name: Build all libraries (recursive from TestVectors)
-        working-directory: ./TestVectorsAwsCryptographicMaterialProviders
+      - name: Transpile and build all libraries
         run: |
           CORES=$(node -e 'console.log(os.cpus().length)')
-          make build_java CORES=$CORES
+          # Build TestVectors which recursively transpiles+builds all dependencies
+          make -C TestVectorsAwsCryptographicMaterialProviders build_java CORES=$CORES
+          # Transpile tests for each dependency library (build_java only transpiles their implementation)
+          for lib in StandardLibrary AwsCryptographyPrimitives ComAmazonawsKms ComAmazonawsDynamodb AwsCryptographicMaterialProviders; do
+            make -C "$lib" transpile_test_java CORES=$CORES
+          done
 
       - name: Upload Maven local repository
         uses: actions/upload-artifact@v7
