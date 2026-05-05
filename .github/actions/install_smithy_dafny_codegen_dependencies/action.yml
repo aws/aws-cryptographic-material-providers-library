@@ -39,7 +39,7 @@ runs:
         retry_wait_seconds: 30
         max_attempts: 3
         shell: bash
-        command: make -C ${{ inputs.root }}smithy-dafny mvn_local_deploy_polymorph_dependencies
+        command: make -C ${{ inputs.mpl-submodule-path }}smithy-dafny mvn_local_deploy_polymorph_dependencies
 
     - name: Setup Python, black, and docformatter for code formatting
       uses: actions/setup-python@v6
@@ -82,4 +82,4 @@ runs:
         retry_wait_seconds: 30
         max_attempts: 3
         shell: bash
-        command: make -C ${{ inputs.root }}StandardLibrary setup_net
+        command: make -C ${{ inputs.mpl-submodule-path }}StandardLibrary setup_net
