@@ -1,4 +1,4 @@
-# This workflow performs tests in Java.
+# This workflow performs tests in Java using pre-built artifacts.
 name: Library Java tests
 
 on:
@@ -15,24 +15,26 @@ on:
         type: boolean
 
 jobs:
+  buildJava:
+    uses: ./.github/workflows/library_java_build.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+
   testJava:
+    needs: buildJava
     strategy:
       fail-fast: false
       matrix:
-        library: [
+        library:
+          [
             AwsCryptographyPrimitives,
             ComAmazonawsKms,
             ComAmazonawsDynamodb,
             AwsCryptographicMaterialProviders,
-            # TestVectorsAwsCryptographicMaterialProviders,
             StandardLibrary,
           ]
-        os: [
-            # TODO just test on mac for now
-            # windows-latest,
-            ubuntu-22.04,
-            macos-14,
-          ]
+        os: [ubuntu-22.04, macos-14]
         java-versions: [8, 11, 17, 19]
     runs-on: ${{ matrix.os }}
     permissions:
@@ -45,7 +47,7 @@ jobs:
       - name: Support longpaths on Git checkout
         run: |
           git config --global core.longpaths true
-      # KMS and MPL tests need to use credentials which can call KMS
+
       - name: Configure AWS Credentials for Tests
         uses: aws-actions/configure-aws-credentials@v6
         if: matrix.library == 'ComAmazonawsKms' || matrix.library == 'ComAmazonawsDynamodb' || matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'TestVectorsAwsCryptographicMaterialProviders'
@@ -55,54 +57,28 @@ jobs:
           role-session-name: JavaTests
 
       - uses: actions/checkout@v6
-      # The specification submodule is private so we don't have access, but we don't need
-      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
       - run: git submodule update --init --recursive smithy-dafny
 
-      - name: Setup Dafny
-        uses: ./.github/actions/setup_dafny
+      - name: Download Maven local repository
+        uses: actions/download-artifact@v8
         with:
-          dafny-version: ${{ inputs.dafny }}
+          name: java-maven-local-${{ matrix.os }}
+          path: ~/.m2/repository/software/amazon/
 
-      - name: Install Smithy-Dafny codegen dependencies
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
-
-      - name: Regenerate code using smithy-dafny if necessary
-        if: ${{ inputs.regenerate-code }}
-        uses: ./.github/actions/polymorph_codegen
+      - name: Download transpiled source
+        uses: actions/download-artifact@v8
         with:
-          dafny: ${{ env.DAFNY_VERSION }}
-          library: ${{ matrix.library }}
-          diff-generated-code: false
+          name: java-transpiled-${{ matrix.os }}
+          path: .
 
-      # - name: Copy over keys.json so that it is discoverable by the tests
-      #   uses: gradle/gradle-build-action@v3
-      #   with:
-      #     arguments: copyKeysJSON
-      #     build-root-directory: ./TestVectorsAwsCryptographicMaterialProviders/runtimes/java
-
-      - name: Setup Java 8, for complex reasons
-        if: ${{matrix.java-versions}} != 8
+      - name: Setup Java ${{ matrix.java-versions }}
         uses: actions/setup-java@v5
         with:
           distribution: "corretto"
-          java-version: 8
+          java-version: ${{ matrix.java-versions }}
 
-      - name: Setup Java ${{matrix.java-versions}}
-        uses: actions/setup-java@v5
-        with:
-          distribution: "corretto"
-          java-version: ${{matrix.java-versions}}
-
-      - name: Build ${{ matrix.library }} implementation
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make build_java CORES=$CORES
-
-      - name: Test ${{ matrix.library }} on ${{matrix.java-versions}}
+      - name: Test ${{ matrix.library }} on ${{ matrix.java-versions }}
         working-directory: ./${{ matrix.library }}
         run: |
           make test_java
