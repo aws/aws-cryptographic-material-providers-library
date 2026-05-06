@@ -18,11 +18,15 @@ runs:
   using: "composite"
   steps:
     - name: Setup Java 17 for codegen
-      uses: actions/setup-java@v5
+      uses: Wandalen/wretry.action@master
       with:
-        distribution: "corretto"
-        java-version: "17"
-        cache: "gradle"
+        action: actions/setup-java@v5
+        with: |
+          distribution: "corretto"
+          java-version: "17"
+          cache: "gradle"
+        attempt_limit: 3
+        attempt_delay: 2000        
 
     - name: Cache Maven local repository
       uses: actions/cache@v4
@@ -41,12 +45,16 @@ runs:
         shell: bash
         command: make -C ${{ inputs.root }}smithy-dafny mvn_local_deploy_polymorph_dependencies
 
-    - name: Setup Python, black, and docformatter for code formatting
-      uses: actions/setup-python@v6
+    - name: Setup Python
+      uses: Wandalen/wretry.action@master
       with:
-        python-version: ${{ inputs.python-version || matrix.python-version }}
-        architecture: x64
-        cache: "pip"
+        action: actions/setup-python@v6
+        with: |
+          python-version: ${{ inputs.python-version || matrix.python-version }}
+          architecture: x64
+          cache: "pip"
+        attempt_limit: 3
+        attempt_delay: 2000 
     - uses: nick-fields/retry@v3
       with:
         timeout_minutes: 5
@@ -60,10 +68,14 @@ runs:
           python -m pip install --upgrade tox
 
     - name: Install Go
-      uses: actions/setup-go@v6
+      uses: Wandalen/wretry.action@master
       with:
-        go-version: "1.23"
-        cache: false # No go.mod at repo root; project-level caching handled in test workflows
+        action: actions/setup-go@v6
+        with: |
+          go-version: "1.23"
+          cache: false # No go.mod at repo root; project-level caching handled in test workflows
+        attempt_limit: 3
+        attempt_delay: 2000 
 
     - name: Install Go imports
       uses: nick-fields/retry@v3
