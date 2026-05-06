@@ -89,7 +89,7 @@ jobs:
       - name: Upload transpiled source
         uses: actions/upload-artifact@v7
         with:
-          name: net-transpiled-${{ matrix.os }}
+          name: net-transpiled-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/net/ImplementationFromDafny.cs
             **/runtimes/net/ImplementationFromDafny-cs.dtr

@@ -77,7 +77,7 @@ jobs:
       - name: Upload transpiled Python source
         uses: actions/upload-artifact@v7
         with:
-          name: python-transpiled-${{ matrix.os }}
+          name: python-transpiled-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/python/src/**/internaldafny/generated/
             **/runtimes/python/test/

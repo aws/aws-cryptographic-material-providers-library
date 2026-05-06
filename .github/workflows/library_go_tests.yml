@@ -73,7 +73,7 @@ jobs:
       - name: Download generated Go source
         uses: actions/download-artifact@v8
         with:
-          name: go-generated-${{ matrix.os }}
+          name: go-generated-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Test ${{ matrix.library }}

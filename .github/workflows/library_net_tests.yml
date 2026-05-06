@@ -79,7 +79,7 @@ jobs:
       - name: Download transpiled source
         uses: actions/download-artifact@v8
         with:
-          name: net-transpiled-${{ matrix.os }}
+          name: net-transpiled-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Download Dependencies

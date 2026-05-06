@@ -102,7 +102,7 @@ jobs:
 
       - name: Install hypothesis for fuzz testing
         if: ${{ inputs.fuzz-testing }}
-        run: pip install hypothesis
+        run: python3 -m pip install hypothesis
 
       - name: Setup Rust Toolchain
         if: matrix.language == 'rust'
@@ -120,14 +120,14 @@ jobs:
       - name: Download pre-built artifacts
         uses: actions/download-artifact@v8
         with:
-          name: interop-${{ matrix.language }}-${{ matrix.os }}
+          name: interop-${{ matrix.language }}-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Download Maven local (Java)
         if: matrix.language == 'java'
         uses: actions/download-artifact@v8
         with:
-          name: interop-java-maven-${{ matrix.os }}
+          name: interop-java-maven-${{ matrix.os }}-${{ github.sha }}
           path: ~/.m2/repository/software/amazon/
 
       # --- Generate and encrypt vectors ---
@@ -148,7 +148,7 @@ jobs:
       - name: Upload Encrypt Manifest and keys.json files
         uses: actions/upload-artifact@v7
         with:
-          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_${{matrix.language}}${{ inputs.fuzz-testing && '_fuzz' || '' }}-${{ github.sha }}
           path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json
 
   testInteroperablity:
@@ -241,21 +241,21 @@ jobs:
       - name: Download pre-built artifacts
         uses: actions/download-artifact@v8
         with:
-          name: interop-${{ matrix.decrypting_language }}-${{ matrix.os }}
+          name: interop-${{ matrix.decrypting_language }}-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Download Maven local (Java)
         if: matrix.decrypting_language == 'java'
         uses: actions/download-artifact@v8
         with:
-          name: interop-java-maven-${{ matrix.os }}
+          name: interop-java-maven-${{ matrix.os }}-${{ github.sha }}
           path: ~/.m2/repository/software/amazon/
 
       # --- Download and decrypt vectors from each encrypting language ---
       - name: Download Encrypt Manifest Artifact Java
         uses: actions/download-artifact@v8
         with:
-          name: ${{matrix.os}}_vector_artifact_java${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_java${{ inputs.fuzz-testing && '_fuzz' || '' }}-${{ github.sha }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Java
@@ -265,7 +265,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Net
         uses: actions/download-artifact@v8
         with:
-          name: ${{matrix.os}}_vector_artifact_net${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_net${{ inputs.fuzz-testing && '_fuzz' || '' }}-${{ github.sha }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Net
@@ -275,7 +275,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Rust
         uses: actions/download-artifact@v8
         with:
-          name: ${{matrix.os}}_vector_artifact_rust${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_rust${{ inputs.fuzz-testing && '_fuzz' || '' }}-${{ github.sha }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Rust
@@ -285,7 +285,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Python
         uses: actions/download-artifact@v8
         with:
-          name: ${{matrix.os}}_vector_artifact_python${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_python${{ inputs.fuzz-testing && '_fuzz' || '' }}-${{ github.sha }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Python
@@ -295,7 +295,7 @@ jobs:
       - name: Download Encrypt Manifest Artifact Go
         uses: actions/download-artifact@v8
         with:
-          name: ${{matrix.os}}_vector_artifact_go${{ inputs.fuzz-testing && '_fuzz' || '' }}
+          name: ${{matrix.os}}_vector_artifact_go${{ inputs.fuzz-testing && '_fuzz' || '' }}-${{ github.sha }}
           path: ./${{matrix.library}}/runtimes/${{matrix.decrypting_language}}
 
       - name: Decrypt Encrypt Manifest Go

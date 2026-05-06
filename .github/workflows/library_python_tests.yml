@@ -68,7 +68,7 @@ jobs:
       - name: Download transpiled Python source
         uses: actions/download-artifact@v8
         with:
-          name: python-transpiled-${{ matrix.os }}
+          name: python-transpiled-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Setup Python ${{ matrix.python-version }}

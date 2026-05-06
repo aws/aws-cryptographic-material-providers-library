@@ -77,7 +77,7 @@ jobs:
       - name: Upload generated Rust source
         uses: actions/upload-artifact@v7
         with:
-          name: rust-generated-${{ matrix.os }}
+          name: rust-generated-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/rust/src/
             **/runtimes/rust/Cargo.lock

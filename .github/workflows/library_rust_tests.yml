@@ -75,7 +75,7 @@ jobs:
       - name: Download generated Rust source
         uses: actions/download-artifact@v8
         with:
-          name: rust-generated-${{ matrix.os }}
+          name: rust-generated-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Test ${{ matrix.library }} Rust

@@ -63,13 +63,13 @@ jobs:
       - name: Download Maven local repository
         uses: actions/download-artifact@v8
         with:
-          name: java-maven-local-${{ matrix.os }}
+          name: java-maven-local-${{ matrix.os }}-${{ github.sha }}
           path: ~/.m2/repository/software/amazon/
 
       - name: Download transpiled source
         uses: actions/download-artifact@v8
         with:
-          name: java-transpiled-${{ matrix.os }}
+          name: java-transpiled-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Setup Java 8, for complex reasons
