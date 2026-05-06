@@ -1,4 +1,4 @@
-# This workflow performs tests in Python.
+# This workflow performs tests in Python using pre-built artifacts.
 name: Library Python tests
 
 on:
@@ -15,7 +15,14 @@ on:
         type: boolean
 
 jobs:
+  buildPython:
+    uses: ./.github/workflows/library_python_build.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+
   testPython:
+    needs: buildPython
     strategy:
       fail-fast: false
       matrix:
@@ -29,15 +36,12 @@ jobs:
             TestVectorsAwsCryptographicMaterialProviders,
           ]
         python-version: ["3.11", "3.13"]
-        os: [
-            # TODO fix Dafny-generated tests on Windows;
-            # the sys.path workaround for generated Dafny doesn't work on Windows.
-            # Note: only tests use the sys.path workaround, not source code.
-            # Windows source code is tested downstream (ex. ESDK-Python CI).
-            # windows-latest,
-            ubuntu-22.04,
-            macos-14,
-          ]
+        # TODO fix Dafny-generated tests on Windows;
+        # the sys.path workaround for generated Dafny doesn't work on Windows.
+        # Note: only tests use the sys.path workaround, not source code.
+        # Windows source code is tested downstream (ex. ESDK-Python CI).
+        # windows-latest,
+        os: [ubuntu-22.04, macos-14]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -58,17 +62,16 @@ jobs:
           role-session-name: PythonTests
 
       - uses: actions/checkout@v6
-      # The specification submodule is private so we don't have access, but we don't need
-      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
       - run: git submodule update --init --recursive smithy-dafny
 
-      - name: Setup Dafny
-        uses: ./.github/actions/setup_dafny
+      - name: Download transpiled Python source
+        uses: actions/download-artifact@v8
         with:
-          dafny-version: ${{ inputs.dafny }}
+          name: python-transpiled-${{ matrix.os }}
+          path: .
 
-      - name: Setup Python ${{ matrix.python-version }} for running tests
+      - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
@@ -78,18 +81,7 @@ jobs:
           pip install --upgrade tox
           pip install poetry
 
-      - name: Install Smithy-Dafny codegen dependencies
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
-
-      - name: Build ${{ matrix.library }} implementation
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_python CORES=$CORES
-
       - name: Test ${{ matrix.library }}
         working-directory: ./${{ matrix.library }}
-        shell: bash
         run: |
           make test_python
