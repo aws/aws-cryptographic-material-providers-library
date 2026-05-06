@@ -1,4 +1,4 @@
-# This workflow performs tests in Rust.
+# This workflow performs tests in Rust using pre-built artifacts.
 name: Library Rust tests
 
 on:
@@ -15,7 +15,14 @@ on:
         type: boolean
 
 jobs:
+  buildRust:
+    uses: ./.github/workflows/library_rust_build.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+
   testRust:
+    needs: buildRust
     strategy:
       fail-fast: false
       matrix:
@@ -59,44 +66,24 @@ jobs:
         with:
           components: rustfmt
 
-      - name: Setup Dafny
-        uses: ./.github/actions/setup_dafny
-        with:
-          dafny-version: ${{ inputs.dafny }}
-
-      - name: Setup NASM for Windows (aws-lc-sys)
-        if: matrix.os == 'windows-latest'
-        uses: ilammy/setup-nasm@v1
-
       # Go is needed for aws-lc-FIPS
       - name: Install Go
         uses: actions/setup-go@v6
         with:
           go-version: ">=1.18"
 
-      - name: Install Smithy-Dafny codegen dependencies
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
-
-      - name: Run make polymorph_rust
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          make polymorph_rust
-
-      - name: Compile ${{ matrix.library }} implementation
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
+      - name: Download generated Rust source
+        uses: actions/download-artifact@v8
+        with:
+          name: rust-generated-${{ matrix.os }}
+          path: .
 
       - name: Test ${{ matrix.library }} Rust
         shell: bash
-        working-directory: ./${{ matrix.library }}
+        working-directory: ./${{ matrix.library }}/runtimes/rust
         run: |
-          make test_rust
-          make test_rust_debug
+          cargo test --release -- --nocapture
+          cargo test -- --nocapture
 
       - name: Test ${{ matrix.library }} Rust Fips
         if: matrix.library == 'AwsCryptographyPrimitives' || matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'TestVectorsAwsCryptographicMaterialProviders'
