@@ -101,7 +101,7 @@ jobs:
           pip install poetry
 
       - name: Install hypothesis for fuzz testing
-        if: ${{ inputs.fuzz-testing && matrix.language == 'python' }}
+        if: ${{ inputs.fuzz-testing }}
         run: pip install hypothesis
 
       - name: Setup Rust Toolchain
