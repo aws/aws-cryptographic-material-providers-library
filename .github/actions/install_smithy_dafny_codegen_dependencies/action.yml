@@ -26,7 +26,7 @@ runs:
           java-version: "17"
           cache: "gradle"
         attempt_limit: 3
-        attempt_delay: 2000
+        attempt_delay: 30000
 
     - name: Cache Maven local repository
       uses: actions/cache@v4
@@ -62,10 +62,10 @@ runs:
         max_attempts: 3
         shell: bash
         command: |
-          python -m pip install --upgrade pip
+          python -m pip install pip
           python -m pip install black==25.1
-          python -m pip install --upgrade docformatter==1.7.7
-          python -m pip install --upgrade tox
+          python -m pip install docformatter==1.7.7
+          python -m pip install tox
 
     - name: Install Go
       uses: Wandalen/wretry.action@master
@@ -75,7 +75,7 @@ runs:
           go-version: "1.24"
           cache: false # No go.mod at repo root; project-level caching handled in test workflows
         attempt_limit: 3
-        attempt_delay: 2000
+        attempt_delay: 30000
 
     - name: Install Go imports
       uses: nick-fields/retry@v3
