@@ -1,4 +1,4 @@
-# This workflow performs tests in .NET.
+# This workflow performs tests in .NET using pre-built artifacts.
 name: Library net tests
 
 on:
@@ -15,7 +15,14 @@ on:
         type: boolean
 
 jobs:
+  buildNet:
+    uses: ./.github/workflows/library_net_build.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+
   testDotNet:
+    needs: buildNet
     strategy:
       fail-fast: false
       matrix:
@@ -53,8 +60,6 @@ jobs:
           role-session-name: NetTests
 
       - uses: actions/checkout@v6
-      # The specification submodule is private so we don't have access, but we don't need
-      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
       - run: git submodule update --init --recursive smithy-dafny
 
@@ -71,53 +76,21 @@ jobs:
           echo "DOTNET_SYSTEM_SECURITY_CRYPTOGRAPHY_OPENSSL_OVERRIDE_VERSION_CHECK=1" >> $GITHUB_ENV
           echo "DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0" >> $GITHUB_ENV
 
-      - name: Setup Dafny
-        uses: ./.github/actions/setup_dafny
+      - name: Download transpiled source
+        uses: actions/download-artifact@v8
         with:
-          dafny-version: ${{ inputs.dafny }}
-
-      - name: Install Smithy-Dafny codegen dependencies
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
-
-      - name: Regenerate code using smithy-dafny if necessary
-        if: ${{ inputs.regenerate-code }}
-        uses: ./.github/actions/polymorph_codegen
-        with:
-          dafny: ${{ env.DAFNY_VERSION }}
-          library: ${{ matrix.library }}
-          diff-generated-code: false
+          name: net-transpiled-${{ matrix.os }}
+          path: .
 
       - name: Download Dependencies
         working-directory: ./${{ matrix.library }}
         run: make setup_net
 
-      - name: Compile ${{ matrix.library }} implementation
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_net CORES=$CORES
-
-      # .NET Framework is a software development framework
-      # for building and running applications on Windows.
-      # https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet-framework
-
-      #      .NET is broken on Windows
-      #      https://t.corp.amazon.com/P211278460
-      #      - name: Test ${{ matrix.library }} .NET Framework net48
-      #        if: matrix.os == 'windows-latest'
-      #        working-directory: ./${{ matrix.library }}
-      #        shell: bash
-      #        run: |
-      #          nuget locals all -clear
-      #          dotnet restore runtimes/net
-      #          make test_net FRAMEWORK=net48
-
       - name: Test ${{ matrix.library }} .NET net6.0
         working-directory: ./${{ matrix.library }}
         shell: bash
         run: |
-          make test_net FRAMEWORK=net6.0
+          dotnet run --project runtimes/net/tests/ --framework net6.0
 
       - name: Test Cache Thread Safety net6.0
         if: matrix.library == 'AwsCryptographicMaterialProviders'
@@ -129,9 +102,6 @@ jobs:
           dotnet test runtimes/net/tests/LocalCMC.Tests/ \
               --framework net6.0
 
-      # .NET Framework is a software development framework
-      # for building and running applications on Windows.
-      # https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet-framework
       - name: Test Cache Thread Safety .NET Framework net48
         if: matrix.os == 'windows-latest' && matrix.library == 'AwsCryptographicMaterialProviders'
         working-directory: ./${{ matrix.library }}
