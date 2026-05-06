@@ -10,10 +10,10 @@ inputs:
     description: "Python version to use"
     required: false
     default: "3.11"
-  mpl-submodule-path:                                                                       
-      description: "Path to MPL submodule if used from upstream repo"           
-      required: false                                                           
-      default: "./" 
+  mpl-submodule-path:
+    description: "Path to MPL submodule if used from upstream repo"
+    required: false
+    default: "./"
 runs:
   using: "composite"
   steps:
@@ -43,7 +43,7 @@ runs:
         retry_wait_seconds: 30
         max_attempts: 3
         shell: bash
-        command: make -C ${{ inputs.root }}smithy-dafny mvn_local_deploy_polymorph_dependencies
+        command: make -C ${{ inputs.mpl-submodule-path }}smithy-dafny mvn_local_deploy_polymorph_dependencies
 
     - name: Setup Python
       uses: Wandalen/wretry.action@master
@@ -64,7 +64,7 @@ runs:
         command: |
           python -m pip install --upgrade pip
           python -m pip install black==25.1
-          python -m pip install --upgrade docformatter
+          python -m pip install --upgrade docformatter==1.7.7
           python -m pip install --upgrade tox
 
     - name: Install Go
@@ -72,7 +72,7 @@ runs:
       with:
         action: actions/setup-go@v6
         with: |
-          go-version: "1.23"
+          go-version: "1.24"
           cache: false # No go.mod at repo root; project-level caching handled in test workflows
         attempt_limit: 3
         attempt_delay: 2000 
@@ -94,4 +94,4 @@ runs:
         retry_wait_seconds: 30
         max_attempts: 3
         shell: bash
-        command: make -C ${{ inputs.root }}StandardLibrary setup_net
+        command: make -C ${{ inputs.mpl-submodule-path }}StandardLibrary setup_net
