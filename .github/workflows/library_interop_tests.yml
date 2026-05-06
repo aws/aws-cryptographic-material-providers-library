@@ -88,7 +88,7 @@ jobs:
           java-version: 17
 
       - name: Setup Python
-        if: matrix.language == 'python'
+        if: ${{ inputs.fuzz-testing || matrix.language == 'python' }}
         uses: actions/setup-python@v6
         with:
           python-version: "3.11"
@@ -102,7 +102,7 @@ jobs:
 
       - name: Install hypothesis for fuzz testing
         if: ${{ inputs.fuzz-testing }}
-        run: python3 -m pip install hypothesis
+        run: pip install hypothesis
 
       - name: Setup Rust Toolchain
         if: matrix.language == 'rust'
