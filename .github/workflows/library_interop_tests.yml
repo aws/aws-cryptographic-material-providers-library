@@ -1,4 +1,5 @@
-# This workflow performs interoperability tests across the supported runtimes of the MPL.
+# This workflow performs interoperability tests across the supported runtimes of the MPL
+# using pre-built artifacts.
 name: Library Interoperability Tests
 
 on:
@@ -20,19 +21,19 @@ on:
         type: boolean
 
 jobs:
+  buildInterop:
+    uses: ./.github/workflows/library_interop_build.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+
   generateEncryptVectors:
+    needs: buildInterop
     strategy:
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
-        os: [
-            # https://taskei.amazon.dev/tasks/CrypTool-5283
-            # windows-latest,
-            ubuntu-22.04,
-            macos-14,
-          ]
+        os: [ubuntu-22.04, macos-14]
         language: [java, net, rust, python, go]
-        # https://taskei.amazon.dev/tasks/CrypTool-5284
-        dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
     permissions:
       id-token: write
@@ -42,7 +43,6 @@ jobs:
         run: |
           git config --global core.longpaths true
 
-      # Test Vectors need to call KMS
       - name: Configure AWS Credentials for Tests
         uses: aws-actions/configure-aws-credentials@v6
         with:
@@ -59,12 +59,12 @@ jobs:
         run: |
           git submodule update --init --recursive smithy-dafny
 
-      # Set up runtimes
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      # --- Runtime setup (only what's needed to RUN, not build) ---
+      - name: Setup .NET Core SDK 6.0.x
         if: matrix.language == 'net'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: "6.0.x"
 
       - name: Setup .NET OpenSSL on Mac
         if: matrix.os == 'macos-14' && matrix.language == 'net'
@@ -73,7 +73,6 @@ jobs:
           echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
           echo "DOTNET_CRYPTO_ENGINE_ADAPTER=System.Security.Cryptography.Algorithms.Managed" >> $GITHUB_ENV
 
-      # We need both Java 8 and Java 17
       - name: Setup Java 8
         if: matrix.language == 'java'
         uses: actions/setup-java@v5
@@ -81,131 +80,57 @@ jobs:
           distribution: "corretto"
           java-version: 8
 
-      # Setup Java in Rust is needed for running polymorph
       - name: Setup Java 17
-        if: matrix.language == 'java' || matrix.language == 'rust'
+        if: matrix.language == 'java'
         uses: actions/setup-java@v5
         with:
           distribution: "corretto"
           java-version: 17
 
-      - name: Setup Python for running tests
+      - name: Setup Python
+        if: matrix.language == 'python'
         uses: actions/setup-python@v6
         with:
-          python-version: 3.11
+          python-version: "3.11"
           architecture: x64
-      - run: |
+      - name: Install Python deps
+        if: matrix.language == 'python'
+        run: |
           python -m pip install --upgrade pip
           pip install --upgrade tox
           pip install poetry
 
       - name: Install hypothesis for fuzz testing
-        if: ${{ inputs.fuzz-testing }}
+        if: ${{ inputs.fuzz-testing && matrix.language == 'python' }}
         run: pip install hypothesis
 
-      - name: Setup Rust Toolchain for GitHub CI
+      - name: Setup Rust Toolchain
         if: matrix.language == 'rust'
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt
 
       - name: Setup Go
+        if: matrix.language == 'go'
         uses: actions/setup-go@v6
         with:
           go-version: "1.24"
 
-      - name: Install Go imports
-        run: |
-          go install golang.org/x/tools/cmd/goimports@v0.36.0
-
-      - name: Setup NASM for Windows in Rust (aws-lc-sys)
-        if: matrix.language == 'rust' && matrix.os == 'windows-latest'
-        uses: ilammy/setup-nasm@v1
-
-      - name: Setup Dafny Rust
-        if: matrix.language == 'rust'
-        uses: ./.github/actions/setup_dafny
+      # --- Download pre-built artifacts ---
+      - name: Download pre-built artifacts
+        uses: actions/download-artifact@v8
         with:
-          dafny-version: 4.10.0
+          name: interop-${{ matrix.language }}-${{ matrix.os }}
+          path: .
 
-      - name: Setup Dafny Not Rust
-        if: matrix.language != 'rust'
-        uses: ./.github/actions/setup_dafny
-        with:
-          dafny-version: ${{ inputs.dafny }}
-
-      - name: Install Smithy-Dafny codegen dependencies
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
-
-      - name: Regenerate code using smithy-dafny if necessary
-        if: ${{ inputs.regenerate-code }}
-        uses: ./.github/actions/polymorph_codegen
-        with:
-          dafny: ${{ env.DAFNY_VERSION }}
-          library: ${{ matrix.library }}
-          diff-generated-code: false
-
-      # Build implementation for each runtime
-      - name: Build ${{ matrix.library }} implementation in Java
+      - name: Download Maven local (Java)
         if: matrix.language == 'java'
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make build_java CORES=$CORES
+        uses: actions/download-artifact@v8
+        with:
+          name: interop-java-maven-${{ matrix.os }}
+          path: ~/.m2/repository/software/amazon/
 
-      - name: Build ${{ matrix.library }} implementation in .NET
-        if: matrix.language == 'net'
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_net
-
-      - name: Build ${{ matrix.library }} implementation in Python
-        if: matrix.language == 'python'
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_python
-
-      # We do not check in Rust polymorph code
-      - name: Run make polymorph_rust
-        if: matrix.language == 'rust'
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          make polymorph_rust
-
-      - name: Build ${{ matrix.library }} implementation in Rust
-        if: matrix.language == 'rust'
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
-
-      - name: Build ${{ matrix.library }} implementation in Go
-        if: matrix.language == 'go'
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_go
-
-      # TODO: Remove this after Go polymorph does not generate unwanted duplicate code.
-      - name: Purge polymorph code in Go
-        if: matrix.language == 'go'
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          make purge_polymorph_code
-
+      # --- Generate and encrypt vectors ---
       - name: Create Manifests
         working-directory: ./${{ matrix.library }}
         run: |
@@ -227,19 +152,13 @@ jobs:
           path: ./${{matrix.library}}/runtimes/${{matrix.language}}/*.json
 
   testInteroperablity:
-    needs: generateEncryptVectors
+    needs: [buildInterop, generateEncryptVectors]
     strategy:
       fail-fast: false
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
-        os: [
-            # TODO just test on mac and ubuntu for now
-            # windows-latest,
-            ubuntu-22.04,
-            macos-14,
-          ]
+        os: [ubuntu-22.04, macos-14]
         decrypting_language: [java, net, rust, python, go]
-        dotnet-version: ["6.0.x"]
     runs-on: ${{ matrix.os }}
     permissions:
       id-token: write
@@ -249,7 +168,6 @@ jobs:
         run: |
           git config --global core.longpaths true
 
-      # KMS and MPL tests need to use credentials which can call KMS
       - name: Configure AWS Credentials for Tests
         uses: aws-actions/configure-aws-credentials@v6
         with:
@@ -266,12 +184,12 @@ jobs:
         run: |
           git submodule update --init --recursive smithy-dafny
 
-      # Set up runtimes
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      # --- Runtime setup (only what's needed to RUN, not build) ---
+      - name: Setup .NET Core SDK 6.0.x
         if: matrix.decrypting_language == 'net'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: "6.0.x"
 
       - name: Setup .NET OpenSSL on Mac
         if: matrix.os == 'macos-14' && matrix.decrypting_language == 'net'
@@ -287,127 +205,53 @@ jobs:
           distribution: "corretto"
           java-version: 8
 
-      # Setup Java in Rust is needed for running polymorph
       - name: Setup Java 17
-        if: matrix.decrypting_language == 'java' || matrix.decrypting_language == 'rust'
+        if: matrix.decrypting_language == 'java'
         uses: actions/setup-java@v5
         with:
           distribution: "corretto"
           java-version: 17
 
-      - name: Setup Python for running tests
+      - name: Setup Python
+        if: matrix.decrypting_language == 'python'
         uses: actions/setup-python@v6
         with:
-          python-version: 3.11
+          python-version: "3.11"
           architecture: x64
-      - run: |
+      - name: Install Python deps
+        if: matrix.decrypting_language == 'python'
+        run: |
           python -m pip install --upgrade pip
           pip install --upgrade tox
           pip install poetry
 
-      - name: Setup Rust Toolchain for GitHub CI
+      - name: Setup Rust Toolchain
         if: matrix.decrypting_language == 'rust'
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt
 
       - name: Setup Go
+        if: matrix.decrypting_language == 'go'
         uses: actions/setup-go@v6
         with:
           go-version: "1.24"
 
-      - name: Install Go imports
-        run: |
-          go install golang.org/x/tools/cmd/goimports@v0.36.0
-
-      - name: Setup NASM for Windows in Rust (aws-lc-sys)
-        if: matrix.decrypting_language == 'rust' && matrix.os == 'windows-latest'
-        uses: ilammy/setup-nasm@v1
-
-      - name: Setup Dafny 2 Rust
-        if: matrix.decrypting_language == 'rust'
-        uses: ./.github/actions/setup_dafny
+      # --- Download pre-built artifacts ---
+      - name: Download pre-built artifacts
+        uses: actions/download-artifact@v8
         with:
-          dafny-version: 4.10.0
+          name: interop-${{ matrix.decrypting_language }}-${{ matrix.os }}
+          path: .
 
-      - name: Setup Dafny 2 Not Rust
-        if: matrix.decrypting_language != 'rust'
-        uses: ./.github/actions/setup_dafny
-        with:
-          dafny-version: ${{ inputs.dafny }}
-
-      - name: Install Smithy-Dafny codegen dependencies
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
-
-      - name: Regenerate code using smithy-dafny if necessary
-        if: ${{ inputs.regenerate-code }}
-        uses: ./.github/actions/polymorph_codegen
-        with:
-          dafny: ${{ env.DAFNY_VERSION }}
-          library: ${{ matrix.library }}
-          diff-generated-code: false
-
-      # Build implementation for each runtime
-      - name: Build ${{ matrix.library }} implementation in Java
+      - name: Download Maven local (Java)
         if: matrix.decrypting_language == 'java'
-        working-directory: ./${{ matrix.library }}
-        shell: bash
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make build_java CORES=$CORES
+        uses: actions/download-artifact@v8
+        with:
+          name: interop-java-maven-${{ matrix.os }}
+          path: ~/.m2/repository/software/amazon/
 
-      - name: Build ${{ matrix.library }} implementation in .NET
-        if: matrix.decrypting_language == 'net'
-        working-directory: ./${{ matrix.library }}
-        shell: bash
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_net
-
-      - name: Build ${{ matrix.library }} implementation in Python
-        if: matrix.decrypting_language == 'python'
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_python
-
-      # TODO: Remove this after checking in Rust polymorph code
-      - name: Run make polymorph_rust
-        if: matrix.decrypting_language == 'rust'
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          make polymorph_rust
-
-      - name: Build ${{ matrix.library }} implementation in Rust
-        if: matrix.decrypting_language == 'rust'
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
-
-      - name: Build ${{ matrix.library }} implementation in Go
-        if: matrix.decrypting_language == 'go'
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_go
-
-      # TODO: Remove this after Go polymorph does not generate unwanted duplicate code.
-      - name: Purge polymorph code in Go
-        if: matrix.decrypting_language == 'go'
-        shell: bash
-        working-directory: ./${{ matrix.library }}
-        run: |
-          make purge_polymorph_code
-
+      # --- Download and decrypt vectors from each encrypting language ---
       - name: Download Encrypt Manifest Artifact Java
         uses: actions/download-artifact@v8
         with:
