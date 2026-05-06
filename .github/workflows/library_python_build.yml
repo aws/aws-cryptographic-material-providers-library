@@ -69,11 +69,9 @@ jobs:
       - name: Transpile all libraries
         run: |
           CORES=$(node -e 'console.log(os.cpus().length)')
-          # Transpile TestVectors which recursively transpiles all dependency implementations
-          make -C TestVectorsAwsCryptographicMaterialProviders transpile_python CORES=$CORES
-          # Transpile tests for each dependency library
-          for lib in StandardLibrary AwsCryptographyPrimitives ComAmazonawsKms ComAmazonawsDynamodb AwsCryptographicMaterialProviders; do
-            make -C "$lib" transpile_test_python CORES=$CORES
+          for lib in StandardLibrary AwsCryptographyPrimitives ComAmazonawsKms ComAmazonawsDynamodb AwsCryptographicMaterialProviders TestVectorsAwsCryptographicMaterialProviders; do
+            echo "=== Transpile $lib ==="
+            make -C "$lib" transpile_python CORES=$CORES
           done
 
       - name: Upload transpiled Python source
