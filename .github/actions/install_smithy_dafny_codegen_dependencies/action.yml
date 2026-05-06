@@ -46,7 +46,7 @@ runs:
         command: make -C ${{ inputs.mpl-submodule-path }}smithy-dafny mvn_local_deploy_polymorph_dependencies
 
     - name: Setup Python
-      uses: Wandalen/wretry.action@master
+      uses: Wandalen/wretry.action@v3
       with:
         action: actions/setup-python@v6
         with: |
@@ -68,7 +68,7 @@ runs:
           python -m pip install tox
 
     - name: Install Go
-      uses: Wandalen/wretry.action@master
+      uses: Wandalen/wretry.action@v3
       with:
         action: actions/setup-go@v6
         with: |
