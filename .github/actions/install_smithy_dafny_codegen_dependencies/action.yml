@@ -18,7 +18,7 @@ runs:
   using: "composite"
   steps:
     - name: Setup Java 17 for codegen
-      uses: Wandalen/wretry.action@master
+      uses: Wandalen/wretry.action@v3
       with:
         action: actions/setup-java@v5
         with: |
