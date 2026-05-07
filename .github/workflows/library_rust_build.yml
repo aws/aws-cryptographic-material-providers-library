@@ -1,0 +1,87 @@
+# This workflow generates Rust code (polymorph + transpile) once per OS,
+# uploading artifacts for downstream test jobs.
+name: Library Rust Build
+
+on:
+  workflow_call:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  buildRust:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-14]
+    runs-on: ${{ matrix.os }}
+    permissions:
+      id-token: write
+      contents: read
+    env:
+      RUST_MIN_STACK: 404857600
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+      - uses: actions/checkout@v6
+      - name: Init Submodules
+        shell: bash
+        run: |
+          git submodule update --init libraries
+          git submodule update --init --recursive smithy-dafny
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: RustBuild
+
+      - name: Setup Rust Toolchain for GitHub CI
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          components: rustfmt
+
+      - name: Setup Dafny
+        uses: ./.github/actions/setup_dafny
+        with:
+          dafny-version: ${{ inputs.dafny }}
+
+      # Go is needed for aws-lc-FIPS
+      - name: Install Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: ">=1.18"
+
+      - name: Install Smithy-Dafny codegen dependencies
+        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+
+      - name: Polymorph and transpile all libraries
+        shell: bash
+        run: |
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          for lib in StandardLibrary ComAmazonawsDynamodb ComAmazonawsKms AwsCryptographyPrimitives AwsCryptographicMaterialProviders TestVectorsAwsCryptographicMaterialProviders; do
+            echo "=== Polymorph + Transpile $lib ==="
+            make -C "$lib" polymorph_rust
+            make -C "$lib" transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
+          done
+
+      - name: Upload generated Rust source
+        uses: actions/upload-artifact@v7
+        with:
+          name: rust-generated-${{ matrix.os }}-${{ github.sha }}
+          path: |
+            **/runtimes/rust/src/
+            **/runtimes/rust/Cargo.lock
+            !**/runtimes/rust/target/
+            !node_modules/**/
+            !smithy-dafny/**/
+          retention-days: 1
