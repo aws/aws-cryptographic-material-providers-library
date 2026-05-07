@@ -1,4 +1,4 @@
-# This workflow performs tests in Go.
+# This workflow performs tests in Go using pre-built artifacts.
 name: Library Go tests
 
 on:
@@ -15,7 +15,14 @@ on:
         type: boolean
 
 jobs:
+  buildGo:
+    uses: ./.github/workflows/library_go_build.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+
   testGo:
+    needs: buildGo
     strategy:
       fail-fast: false
       matrix:
@@ -29,15 +36,12 @@ jobs:
             TestVectorsAwsCryptographicMaterialProviders,
           ]
         go-version: ["1.24", "1.25"]
-        os: [
-            # TODO fix Dafny-generated tests on Windows;
-            # the sys.path workaround for generated Dafny doesn't work on Windows.
-            # Note: only tests use the sys.path workaround, not source code.
-            # Windows source code is tested downstream (ex. ESDK-Python CI).
-            # windows-latest,
-            ubuntu-22.04,
-            macos-14,
-          ]
+        # TODO fix Dafny-generated tests on Windows;
+        # the sys.path workaround for generated Dafny doesn't work on Windows.
+        # Note: only tests use the sys.path workaround, not source code.
+        # Windows source code is tested downstream (ex. ESDK-Python CI).
+        # windows-latest,
+        os: [ubuntu-22.04, macos-14]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
@@ -58,42 +62,22 @@ jobs:
           role-session-name: GoTests
 
       - uses: actions/checkout@v6
-      # The specification submodule is private so we don't have access, but we don't need
-      # it to verify the Dafny code. Instead we manually pull the submodules we DO need.
       - run: git submodule update --init libraries
       - run: git submodule update --init --recursive smithy-dafny
-
-      - name: Setup Dafny
-        uses: ./.github/actions/setup_dafny
-        with:
-          dafny-version: ${{ inputs.dafny }}
-
-      - name: Install Smithy-Dafny codegen dependencies
-        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
       - name: Install Go
         uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.go-version }}
 
-      - name: Build ${{ matrix.library }} implementation
-        working-directory: ./${{ matrix.library }}
-        run: |
-          # This works because `node` is installed by default on GHA runners
-          CORES=$(node -e 'console.log(os.cpus().length)')
-          make transpile_go CORES=$CORES
-
-      # TODO: Remove this after Go polymorph does not generate unwanted duplicate code.
-      - name: Purge polymorph code in Go
-        if: matrix.library == 'TestVectorsAwsCryptographicMaterialProviders'
-        working-directory: ./${{ matrix.library }}
-        shell: bash
-        run: |
-          make purge_polymorph_code
+      - name: Download generated Go source
+        uses: actions/download-artifact@v8
+        with:
+          name: go-generated-${{ matrix.os }}-${{ github.sha }}
+          path: .
 
       - name: Test ${{ matrix.library }}
         working-directory: ./${{ matrix.library }}
-        shell: bash
         run: |
           make test_go
 
@@ -101,6 +85,5 @@ jobs:
       - name: Test local CMC
         if: matrix.library == 'AwsCryptographicMaterialProviders'
         working-directory: ./${{ matrix.library }}/runtimes/go/TestsFromDafny-go
-        shell: bash
         run: |
           go test
