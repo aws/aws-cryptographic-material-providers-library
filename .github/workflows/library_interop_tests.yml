@@ -26,6 +26,7 @@ jobs:
     with:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
+      fuzz-testing: ${{inputs.fuzz-testing}}
 
   generateEncryptVectors:
     needs: buildInterop
@@ -116,18 +117,20 @@ jobs:
         with:
           go-version: "1.24"
 
+      - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+
       # --- Download pre-built artifacts ---
       - name: Download pre-built artifacts
         uses: actions/download-artifact@v8
         with:
-          name: interop-${{ matrix.language }}-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: interop-${{ matrix.language }}-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Download Maven local (Java)
         if: matrix.language == 'java'
         uses: actions/download-artifact@v8
         with:
-          name: interop-java-maven-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: interop-java-maven-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: ~/.m2/repository/software/amazon/
 
       # --- Generate and encrypt vectors ---
@@ -243,14 +246,14 @@ jobs:
       - name: Download pre-built artifacts
         uses: actions/download-artifact@v8
         with:
-          name: interop-${{ matrix.decrypting_language }}-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: interop-${{ matrix.decrypting_language }}-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Download Maven local (Java)
         if: matrix.decrypting_language == 'java'
         uses: actions/download-artifact@v8
         with:
-          name: interop-java-maven-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: interop-java-maven-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: ~/.m2/repository/software/amazon/
 
       # --- Download and decrypt vectors from each encrypting language ---
