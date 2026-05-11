@@ -73,7 +73,7 @@ jobs:
           go-version: ">=1.18"
 
       - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
-      
+
       - name: Download generated Rust source
         uses: actions/download-artifact@v8
         with:

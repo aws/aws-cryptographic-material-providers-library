@@ -87,7 +87,7 @@ jobs:
           done
 
       - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
-      
+
       - name: Upload transpiled source
         uses: actions/upload-artifact@v7
         with:

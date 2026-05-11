@@ -162,9 +162,9 @@ jobs:
           CORES=$(node -e 'console.log(os.cpus().length)')
           make polymorph_rust
           make transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
-      
+
       - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
-      
+
       # --- Upload artifacts per language ---
       - name: Upload Java transpiled source
         uses: actions/upload-artifact@v7

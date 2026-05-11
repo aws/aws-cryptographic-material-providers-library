@@ -77,7 +77,7 @@ jobs:
           echo "DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0" >> $GITHUB_ENV
 
       - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
-      
+
       - name: Download transpiled source
         uses: actions/download-artifact@v8
         with:

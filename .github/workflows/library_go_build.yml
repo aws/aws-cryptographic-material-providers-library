@@ -78,7 +78,7 @@ jobs:
         working-directory: ./TestVectorsAwsCryptographicMaterialProviders
         run: |
           make purge_polymorph_code
-      
+
       - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Upload generated Go source
