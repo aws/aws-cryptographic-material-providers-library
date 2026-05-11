@@ -65,10 +65,12 @@ jobs:
       - run: git submodule update --init libraries
       - run: git submodule update --init --recursive smithy-dafny
 
+      - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+      
       - name: Download transpiled Python source
         uses: actions/download-artifact@v8
         with:
-          name: python-transpiled-${{ matrix.os }}-${{ github.sha }}
+          name: python-transpiled-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Setup Python ${{ matrix.python-version }}

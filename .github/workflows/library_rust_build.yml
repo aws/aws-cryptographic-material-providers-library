@@ -74,10 +74,12 @@ jobs:
             make -C "$lib" transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
           done
 
+      - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Upload generated Rust source
         uses: actions/upload-artifact@v7
         with:
-          name: rust-generated-${{ matrix.os }}-${{ github.sha }}
+          name: rust-generated-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/rust/src/
             **/runtimes/rust/Cargo.lock

@@ -70,10 +70,12 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
 
+      - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+      
       - name: Download generated Go source
         uses: actions/download-artifact@v8
         with:
-          name: go-generated-${{ matrix.os }}-${{ github.sha }}
+          name: go-generated-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Test ${{ matrix.library }}

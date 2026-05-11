@@ -59,17 +59,19 @@ jobs:
       - uses: actions/checkout@v6
       - run: git submodule update --init libraries
       - run: git submodule update --init --recursive smithy-dafny
-
+      
+      - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+      
       - name: Download Maven local repository
         uses: actions/download-artifact@v8
         with:
-          name: java-maven-local-${{ matrix.os }}-${{ github.sha }}
+          name: java-maven-local-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: ~/.m2/repository/software/amazon/
 
       - name: Download transpiled source
         uses: actions/download-artifact@v8
         with:
-          name: java-transpiled-${{ matrix.os }}-${{ github.sha }}
+          name: java-transpiled-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Setup Java 8, for complex reasons
