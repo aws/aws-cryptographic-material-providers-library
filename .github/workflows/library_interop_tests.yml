@@ -110,7 +110,7 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt
-
+          cache: false
       - name: Setup Go
         if: matrix.language == 'go'
         uses: actions/setup-go@v6
@@ -232,6 +232,7 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt
+          cache: false
 
       - name: Setup Go
         if: matrix.decrypting_language == 'go'

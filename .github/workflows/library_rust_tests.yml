@@ -66,6 +66,7 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt
+          cache: false
 
       # Go is needed for aws-lc-FIPS
       - name: Install Go
