@@ -77,10 +77,12 @@ jobs:
           echo "DOTNET_SYSTEM_SECURITY_CRYPTOGRAPHY_OPENSSL_OVERRIDE_VERSION_CHECK=1" >> $GITHUB_ENV
           echo "DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0" >> $GITHUB_ENV
 
+      - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Download transpiled source
         uses: actions/download-artifact@v8
         with:
-          name: net-transpiled-${{ matrix.os }}-${{ github.sha }}
+          name: net-transpiled-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: .
 
       - name: Download Dependencies

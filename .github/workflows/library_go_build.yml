@@ -80,10 +80,12 @@ jobs:
         run: |
           make purge_polymorph_code
 
+      - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Upload generated Go source
         uses: actions/upload-artifact@v7
         with:
-          name: go-generated-${{ matrix.os }}-${{ github.sha }}
+          name: go-generated-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/go/ImplementationFromDafny-go/
             **/runtimes/go/TestsFromDafny-go/

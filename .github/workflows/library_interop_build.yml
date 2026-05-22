@@ -14,6 +14,11 @@ on:
         required: false
         default: false
         type: boolean
+      fuzz-testing:
+        description: "Use fuzzed test vectors instead of regular test vectors"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   buildInterop:
@@ -165,11 +170,13 @@ jobs:
           make polymorph_rust
           make transpile_rust TRANSPILE_TESTS_IN_RUST=1 CORES=$CORES
 
+      - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+
       # --- Upload artifacts per language ---
       - name: Upload Java transpiled source
         uses: actions/upload-artifact@v7
         with:
-          name: interop-java-${{ matrix.os }}-${{ github.sha }}
+          name: interop-java-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/java/src/main/dafny-generated/
             **/runtimes/java/src/test/dafny-generated/
@@ -180,14 +187,14 @@ jobs:
       - name: Upload Java Maven local
         uses: actions/upload-artifact@v7
         with:
-          name: interop-java-maven-${{ matrix.os }}-${{ github.sha }}
+          name: interop-java-maven-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: ~/.m2/repository/software/amazon/
           retention-days: 1
 
       - name: Upload .NET artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: interop-net-${{ matrix.os }}-${{ github.sha }}
+          name: interop-net-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/net/ImplementationFromDafny.cs
             **/runtimes/net/ImplementationFromDafny-cs.dtr
@@ -200,7 +207,7 @@ jobs:
       - name: Upload Python artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: interop-python-${{ matrix.os }}-${{ github.sha }}
+          name: interop-python-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/python/src/**/internaldafny/generated/
             **/runtimes/python/test/
@@ -211,7 +218,7 @@ jobs:
       - name: Upload Rust artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: interop-rust-${{ matrix.os }}-${{ github.sha }}
+          name: interop-rust-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/rust/src/
             **/runtimes/rust/Cargo.lock
@@ -223,7 +230,7 @@ jobs:
       - name: Upload Go artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: interop-go-${{ matrix.os }}-${{ github.sha }}
+          name: interop-go-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/go/ImplementationFromDafny-go/
             **/runtimes/go/TestsFromDafny-go/

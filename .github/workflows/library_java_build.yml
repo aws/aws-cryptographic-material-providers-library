@@ -83,17 +83,19 @@ jobs:
             make -C "$lib" transpile_test_java CORES=$CORES
           done
 
+      - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Upload Maven local repository
         uses: actions/upload-artifact@v7
         with:
-          name: java-maven-local-${{ matrix.os }}-${{ github.sha }}
+          name: java-maven-local-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: ~/.m2/repository/software/amazon/
           retention-days: 1
 
       - name: Upload transpiled source
         uses: actions/upload-artifact@v7
         with:
-          name: java-transpiled-${{ matrix.os }}-${{ github.sha }}
+          name: java-transpiled-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/java/src/main/dafny-generated/
             **/runtimes/java/src/test/dafny-generated/
