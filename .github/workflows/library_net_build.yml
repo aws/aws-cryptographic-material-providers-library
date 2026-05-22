@@ -87,10 +87,12 @@ jobs:
             make -C "$lib" transpile_test_net CORES=$CORES
           done
 
+      - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Upload transpiled source
         uses: actions/upload-artifact@v7
         with:
-          name: net-transpiled-${{ matrix.os }}-${{ github.sha }}
+          name: net-transpiled-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/net/ImplementationFromDafny.cs
             **/runtimes/net/ImplementationFromDafny-cs.dtr

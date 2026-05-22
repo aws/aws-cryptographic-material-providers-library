@@ -75,10 +75,12 @@ jobs:
             make -C "$lib" transpile_python CORES=$CORES
           done
 
+      - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Upload transpiled Python source
         uses: actions/upload-artifact@v7
         with:
-          name: python-transpiled-${{ matrix.os }}-${{ github.sha }}
+          name: python-transpiled-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: |
             **/runtimes/python/src/**/internaldafny/generated/
             **/runtimes/python/test/
