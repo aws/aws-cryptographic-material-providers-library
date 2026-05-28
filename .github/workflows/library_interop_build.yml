@@ -38,13 +38,17 @@ jobs:
           git config --global core.longpaths true
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v6
+        uses: Wandalen/wretry.action@v3.8.0
         with:
-          aws-region: us-west-2
-          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
-          role-session-name: InteropBuild
-          special-characters-workaround: "true" # Some environments (example: windowsOS) cannot tolerate special characters in a secret key.
-          role-duration-seconds: 7200
+          action: aws-actions/configure-aws-credentials@v6.1.2
+          with: |
+            aws-region: us-west-2
+            role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+            role-session-name: InteropBuild
+            special-characters-workaround: "true" # Some environments (example: windowsOS) cannot tolerate special characters in a secret key.
+            role-duration-seconds: 7200
+          attempt_limit: 5
+          attempt_delay: 30000
 
       - uses: actions/checkout@v6
         with:

@@ -31,13 +31,17 @@ jobs:
 
       # KMS and MPL tests need to use credentials which can call KMS
       - name: Configure AWS Credentials for Tests
-        uses: aws-actions/configure-aws-credentials@v6
+        uses: Wandalen/wretry.action@v3.8.0
         if: github.event.inputs.project-name == 'ComAmazonawsKms' || github.event.inputs.project-name == 'ComAmazonawsDynamodb' || github.event.inputs.project-name == 'AwsCryptographicMaterialProviders'
         with:
-          aws-region: us-west-2
-          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
-          role-session-name: GoReleaseTest
-          special-characters-workaround: "true" # Some environments (example: windowsOS) cannot tolerate special characters in a secret key.
+          action: aws-actions/configure-aws-credentials@v6.1.2
+          with: |
+            aws-region: us-west-2
+            role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+            role-session-name: GoReleaseTest
+            special-characters-workaround: "true" # Some environments (example: windowsOS) cannot tolerate special characters in a secret key.
+          attempt_limit: 5
+          attempt_delay: 30000
 
       - name: Checkout repository
         uses: actions/checkout@v6

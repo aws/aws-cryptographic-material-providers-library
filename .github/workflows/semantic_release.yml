@@ -29,12 +29,16 @@ jobs:
 
       # We need access to the role that is able to get CI Bot Creds
       - name: Configure AWS Credentials for Release
-        uses: aws-actions/configure-aws-credentials@v6
+        uses: Wandalen/wretry.action@v3.8.0
         with:
-          aws-region: us-west-2
-          role-to-assume: arn:aws:iam::587316601012:role/GitHub-CI-CI-Bot-Credential-Access-Role-us-west-2
-          role-session-name: CI_Bot_Release
-          special-characters-workaround: "true" # Some environments (example: windowsOS) cannot tolerate special characters in a secret key.
+          action: aws-actions/configure-aws-credentials@v6.1.2
+          with: |
+            aws-region: us-west-2
+            role-to-assume: arn:aws:iam::587316601012:role/GitHub-CI-CI-Bot-Credential-Access-Role-us-west-2
+            role-session-name: CI_Bot_Release
+            special-characters-workaround: "true" # Some environments (example: windowsOS) cannot tolerate special characters in a secret key.
+          attempt_limit: 5
+          attempt_delay: 30000
 
       - name: Upgrade Node
         uses: actions/setup-node@v6
