@@ -1,40 +1,79 @@
 version: 2
 updates:
-  - package-ecosystem: "gradle"
-    directory: "AwsCryptographicMaterialProviders/runtimes/java"
-    schedule:
-      interval: "daily"
   - package-ecosystem: "github-actions"
-    directory: ".github/workflows"
+    directory: "/"
     schedule:
-      interval: "daily"
-  # STD NET
+      interval: "weekly"
+    groups:
+      all:
+        patterns: ["*"]
+
+  - package-ecosystem: "gradle"
+    directories:
+      - "StandardLibrary/runtimes/java"
+      - "ComAmazonawsKms/runtimes/java"
+      - "ComAmazonawsDynamodb/runtimes/java"
+      - "AwsCryptographyPrimitives/runtimes/java"
+      - "AwsCryptographicMaterialProviders/runtimes/java"
+      - "TestVectorsAwsCryptographicMaterialProviders/runtimes/java"
+    schedule:
+      interval: "weekly"
+    groups:
+      all:
+        patterns: ["*"]
+
   - package-ecosystem: "nuget"
-    directory: "StandardLibrary/runtimes/net"
+    directories:
+      - "StandardLibrary/runtimes/net"
+      - "ComAmazonawsKms/runtimes/net"
+      - "ComAmazonawsDynamodb/runtimes/net"
+      - "AwsCryptographyPrimitives/runtimes/net"
+      - "AwsCryptographicMaterialProviders/runtimes/net"
+      - "TestVectorsAwsCryptographicMaterialProviders/runtimes/net"
     schedule:
-      interval: "daily"
-  # KMS NET
-  - package-ecosystem: "nuget"
-    directory: "ComAmazonawsKms/runtimes/net"
+      interval: "weekly"
+    groups:
+      all:
+        patterns: ["*"]
+
+  - package-ecosystem: "gomod"
+    directories:
+      - "StandardLibrary/runtimes/go"
+      - "ComAmazonawsKms/runtimes/go"
+      - "ComAmazonawsDynamodb/runtimes/go"
+      - "AwsCryptographyPrimitives/runtimes/go"
+      - "AwsCryptographicMaterialProviders/runtimes/go"
+      - "TestVectorsAwsCryptographicMaterialProviders/runtimes/go"
     schedule:
-      interval: "daily"
-  # DDB NET
-  - package-ecosystem: "nuget"
-    directory: "ComAmazonawsDynamodb/runtimes/net"
+      interval: "weekly"
+    groups:
+      all:
+        patterns: ["*"]
+
+  - package-ecosystem: "pip"
+    directories:
+      - "StandardLibrary/runtimes/python"
+      - "ComAmazonawsKms/runtimes/python"
+      - "ComAmazonawsDynamodb/runtimes/python"
+      - "AwsCryptographyPrimitives/runtimes/python"
+      - "AwsCryptographicMaterialProviders/runtimes/python"
+      - "TestVectorsAwsCryptographicMaterialProviders/runtimes/python"
     schedule:
-      interval: "daily"
-  # Crypto NET
-  - package-ecosystem: "nuget"
-    directory: "AwsCryptographyPrimitives/runtimes/net"
+      interval: "weekly"
+    groups:
+      all:
+        patterns: ["*"]
+
+  - package-ecosystem: "cargo"
+    directories:
+      - "StandardLibrary/runtimes/rust"
+      - "ComAmazonawsKms/runtimes/rust"
+      - "ComAmazonawsDynamodb/runtimes/rust"
+      - "AwsCryptographyPrimitives/runtimes/rust"
+      - "AwsCryptographicMaterialProviders/runtimes/rust"
+      - "TestVectorsAwsCryptographicMaterialProviders/runtimes/rust"
     schedule:
-      interval: "daily"
-  # MPL NET
-  - package-ecosystem: "nuget"
-    directory: "AwsCryptographicMaterialProviders/runtimes/net"
-    schedule:
-      interval: "daily"
-  # Test Vectors NET
-  - package-ecosystem: "nuget"
-    directory: "TestVectorsAwsCryptographicMaterialProviders/runtimes/net"
-    schedule:
-      interval: "daily"
+      interval: "weekly"
+    groups:
+      all:
+        patterns: ["*"]
