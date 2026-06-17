@@ -13,7 +13,7 @@ include = ["src/aws_cryptography_primitives/internaldafny/generated/*.py"]
 [tool.poetry.dependencies]
 python = "^3.11.0"
 aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
-cryptography = ">=43.0.1, <47"
+cryptography = ">=49.0.0,<50"
 
 # Package testing
 
@@ -21,8 +21,8 @@ cryptography = ">=43.0.1, <47"
 optional = true
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.4.0"
-pyasn1 = "^0.6.0"
+pytest = "^9.1.0"
+pyasn1 = "^0.6.3"
 
 # Package release
 
@@ -30,9 +30,9 @@ pyasn1 = "^0.6.0"
 optional = true
 
 [tool.poetry.group.release.dependencies]
-poetry = "1.8.3"
-twine = "5.1.1"
-wheel = "0.38.4"
+poetry = "1.8.4"
+twine = "6.2.0"
+wheel = "0.47.0"
 
 [build-system]
 requires = ["poetry-core<2.0.0"]

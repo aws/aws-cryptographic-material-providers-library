@@ -12,7 +12,7 @@ include = ["src/aws_cryptography_internal_kms/internaldafny/generated/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.11.0"
-boto3 = "^1.35.42"
+boto3 = "^1.43.32"
 aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/runtimes/python"}
 
 # Package testing
@@ -21,7 +21,7 @@ aws-cryptography-internal-standard-library = {path = "../../../StandardLibrary/r
 optional = true
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.4.0"
+pytest = "^9.1.0"
 
 # Package release
 
@@ -29,9 +29,9 @@ pytest = "^7.4.0"
 optional = true
 
 [tool.poetry.group.release.dependencies]
-poetry = "1.8.3"
-twine = "5.1.1"
-wheel = "0.38.4"
+poetry = "1.8.4"
+twine = "6.2.0"
+wheel = "0.47.0"
 
 [build-system]
 requires = ["poetry-core<2.0.0"]
