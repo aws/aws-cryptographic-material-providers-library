@@ -62,12 +62,12 @@ repositories {
 
 dependencies {
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
-    implementation("software.amazon.smithy.dafny:conversion:0.1.1")
+    implementation("software.amazon.smithy.dafny:conversion:0.1.2")
     implementation("software.amazon.cryptography:StandardLibrary:1.0-SNAPSHOT")
-    implementation(platform("software.amazon.awssdk:bom:2.31.48"))
+    implementation(platform("software.amazon.awssdk:bom:2.46.13"))
     implementation("software.amazon.awssdk:kms")
     implementation("software.amazon.awssdk:apache-client")
-    testImplementation("org.testng:testng:7.5")
+    testImplementation("org.testng:testng:7.12.0")
 }
 
 publishing {

@@ -8,8 +8,8 @@ plugins {
     `java-library`
     `maven-publish`
     `signing`
-    id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
 }
 
 var props = Properties().apply {
@@ -71,18 +71,18 @@ dependencies {
 
     // Dafny dependencies
     implementation("org.dafny:DafnyRuntime:${dafnyVersion}")
-    implementation("software.amazon.smithy.dafny:conversion:0.1.1")
+    implementation("software.amazon.smithy.dafny:conversion:0.1.2")
 
     // sdk dependencies
-    implementation(platform("software.amazon.awssdk:bom:2.31.48"))
+    implementation(platform("software.amazon.awssdk:bom:2.46.13"))
     implementation("software.amazon.awssdk:dynamodb")
     implementation("software.amazon.awssdk:kms")
 
     // BC
-    implementation("org.bouncycastle:bcprov-jdk18on:1.83")
+    implementation("org.bouncycastle:bcprov-jdk18on:1.84")
 
     // https://mvnrepository.com/artifact/org.testng/testng
-    testImplementation("org.testng:testng:7.5")
+    testImplementation("org.testng:testng:7.12.0")
 }
 
 publishing {
