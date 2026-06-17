@@ -10,12 +10,7 @@ updates:
 
   - package-ecosystem: "gradle"
     directories:
-      - "StandardLibrary/runtimes/java"
-      - "ComAmazonawsKms/runtimes/java"
-      - "ComAmazonawsDynamodb/runtimes/java"
-      - "AwsCryptographyPrimitives/runtimes/java"
-      - "AwsCryptographicMaterialProviders/runtimes/java"
-      - "TestVectorsAwsCryptographicMaterialProviders/runtimes/java"
+      - "*/runtimes/java"
     schedule:
       interval: "weekly"
     groups:
@@ -24,12 +19,7 @@ updates:
 
   - package-ecosystem: "nuget"
     directories:
-      - "StandardLibrary/runtimes/net"
-      - "ComAmazonawsKms/runtimes/net"
-      - "ComAmazonawsDynamodb/runtimes/net"
-      - "AwsCryptographyPrimitives/runtimes/net"
-      - "AwsCryptographicMaterialProviders/runtimes/net"
-      - "TestVectorsAwsCryptographicMaterialProviders/runtimes/net"
+      - "*/runtimes/net"
     schedule:
       interval: "weekly"
     groups:
@@ -38,12 +28,7 @@ updates:
 
   - package-ecosystem: "gomod"
     directories:
-      - "StandardLibrary/runtimes/go"
-      - "ComAmazonawsKms/runtimes/go"
-      - "ComAmazonawsDynamodb/runtimes/go"
-      - "AwsCryptographyPrimitives/runtimes/go"
-      - "AwsCryptographicMaterialProviders/runtimes/go"
-      - "TestVectorsAwsCryptographicMaterialProviders/runtimes/go"
+      - "*/runtimes/go/*"
     schedule:
       interval: "weekly"
     groups:
@@ -52,12 +37,7 @@ updates:
 
   - package-ecosystem: "pip"
     directories:
-      - "StandardLibrary/runtimes/python"
-      - "ComAmazonawsKms/runtimes/python"
-      - "ComAmazonawsDynamodb/runtimes/python"
-      - "AwsCryptographyPrimitives/runtimes/python"
-      - "AwsCryptographicMaterialProviders/runtimes/python"
-      - "TestVectorsAwsCryptographicMaterialProviders/runtimes/python"
+      - "*/runtimes/python"
     schedule:
       interval: "weekly"
     groups:
@@ -66,12 +46,7 @@ updates:
 
   - package-ecosystem: "cargo"
     directories:
-      - "StandardLibrary/runtimes/rust"
-      - "ComAmazonawsKms/runtimes/rust"
-      - "ComAmazonawsDynamodb/runtimes/rust"
-      - "AwsCryptographyPrimitives/runtimes/rust"
-      - "AwsCryptographicMaterialProviders/runtimes/rust"
-      - "TestVectorsAwsCryptographicMaterialProviders/runtimes/rust"
+      - "*/runtimes/rust"
     schedule:
       interval: "weekly"
     groups:
