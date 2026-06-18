@@ -1,40 +1,54 @@
 version: 2
 updates:
-  - package-ecosystem: "gradle"
-    directory: "AwsCryptographicMaterialProviders/runtimes/java"
-    schedule:
-      interval: "daily"
   - package-ecosystem: "github-actions"
-    directory: ".github/workflows"
+    directory: "/"
     schedule:
-      interval: "daily"
-  # STD NET
+      interval: "weekly"
+    groups:
+      all:
+        patterns: ["*"]
+
+  - package-ecosystem: "gradle"
+    directories:
+      - "*/runtimes/java"
+    schedule:
+      interval: "weekly"
+    groups:
+      all:
+        patterns: ["*"]
+
   - package-ecosystem: "nuget"
-    directory: "StandardLibrary/runtimes/net"
+    directories:
+      - "*/runtimes/net"
     schedule:
-      interval: "daily"
-  # KMS NET
-  - package-ecosystem: "nuget"
-    directory: "ComAmazonawsKms/runtimes/net"
+      interval: "weekly"
+    groups:
+      all:
+        patterns: ["*"]
+
+  - package-ecosystem: "gomod"
+    directories:
+      - "*/runtimes/go/*"
     schedule:
-      interval: "daily"
-  # DDB NET
-  - package-ecosystem: "nuget"
-    directory: "ComAmazonawsDynamodb/runtimes/net"
+      interval: "weekly"
+    groups:
+      all:
+        patterns: ["*"]
+
+  - package-ecosystem: "pip"
+    directories:
+      - "*/runtimes/python"
     schedule:
-      interval: "daily"
-  # Crypto NET
-  - package-ecosystem: "nuget"
-    directory: "AwsCryptographyPrimitives/runtimes/net"
+      interval: "weekly"
+    groups:
+      all:
+        patterns: ["*"]
+
+  - package-ecosystem: "cargo"
+    directories:
+      - "*/runtimes/rust"
     schedule:
-      interval: "daily"
-  # MPL NET
-  - package-ecosystem: "nuget"
-    directory: "AwsCryptographicMaterialProviders/runtimes/net"
-    schedule:
-      interval: "daily"
-  # Test Vectors NET
-  - package-ecosystem: "nuget"
-    directory: "TestVectorsAwsCryptographicMaterialProviders/runtimes/net"
-    schedule:
-      interval: "daily"
+      interval: "weekly"
+    groups:
+      all:
+        patterns: ["*"]
