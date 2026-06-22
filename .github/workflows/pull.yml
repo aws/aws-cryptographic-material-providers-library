@@ -48,6 +48,8 @@ jobs:
     uses: ./.github/workflows/library_rust_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.rustVersion}}
+  pr-ci-rust-duplicate-deps:
+    uses: ./.github/workflows/rust_duplicate_deps.yml
   pr-ci-python:
     needs: getVersions
     uses: ./.github/workflows/library_python_tests.yml
@@ -89,6 +91,7 @@ jobs:
       - pr-ci-python
       - pr-ci-go
       - pr-ci-rust
+      - pr-ci-rust-duplicate-deps
       - pr-interop-test
       - pr-fuzz-interop-test
       #- pr-ci-db-esdk-java-examples-test
