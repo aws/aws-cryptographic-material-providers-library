@@ -1,0 +1,109 @@
+name: Rebase Branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  rebase:
+    strategy:
+      fail-fast: false
+      matrix:
+        branches: [mutations/mutations]
+    name: Rebase ${{matrix.branches}} branch
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git submodule update --init libraries
+      - run: git submodule update --init --recursive smithy-dafny
+
+      - name: Set up Git configuration
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'github-actions@github.com'
+
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: Rebase mutations branch
+        id: rebase
+        run: |
+          # Determine default branch name dynamically
+          DEFAULT_BRANCH=${{github.event.repository.default_branch}}
+          echo "Default branch is $DEFAULT_BRANCH"
+
+          # Checkout mutations branch
+          git checkout ${{matrix.branches}}
+
+          # Attempt rebase
+          if git rebase origin/$DEFAULT_BRANCH; then
+            echo "Rebase successful"
+            echo "rebase_status=success" >> $GITHUB_OUTPUT
+          else
+            echo "Rebase failed due to conflicts"
+            git rebase --abort
+            echo "rebase_status=failed" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
+      - name: Configure AWS Credentials for Tests
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::370957321024:role/GitHub-CI-MPL-Dafny-Role-us-west-2
+          role-session-name: JavaTests
+
+      - name: Setup Dafny
+        uses: ./.github/actions/setup_dafny
+        with:
+          dafny-version: 4.9.0
+
+      - name: Install Smithy-Dafny codegen dependencies
+        uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
+
+      - name: Setup Java 8
+        uses: actions/setup-java@v3
+        with:
+          distribution: "corretto"
+          java-version: 8
+
+      - name: Build AwsCryptographicMaterialProviders implementation
+        working-directory: ./AwsCryptographicMaterialProviders
+        run: |
+          # This works because `node` is installed by default on GHA runners
+          CORES=$(node -e 'console.log(os.cpus().length)')
+          make build_java CORES=$CORES
+
+      - name: Test AwsCryptographicMaterialProviders on Java 8
+        id: test
+        working-directory: ./AwsCryptographicMaterialProviders
+        run: |
+          # Attempt rebase
+          if make test_java; then
+            echo "test_status=success" >> $GITHUB_OUTPUT
+          else
+            echo "test_status=failed" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
+      - name: Push rebased branch
+        if: steps.rebase.outputs.rebase_status == 'success' && steps.test.outputs.build_status == 'success'
+        run: git push --force-with-lease origin mutations
+
+      - name: Comment on existing issue
+        if: steps.rebase.outputs.rebase_status == 'failed' || steps.test.outputs.build_status == 'failed'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 1604,
+              body: `Rebasing ${{matrix.branches}} failed. See ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`
+            })
