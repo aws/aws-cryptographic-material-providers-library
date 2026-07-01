@@ -17,9 +17,14 @@
 # BEFORE the PR is merged, so a failed publish leaves the unmerged PR
 # for cleanup.
 #
-# Authenticates to crates.io with a long-lived API token issued under the
-# Crypto Tools CI bot account, stored in the CARGO_REGISTRY_TOKEN repo
-# secret and gated by the `crates-io-publish` GitHub environment.
+# Authenticates to crates.io via Trusted Publishing (OIDC): the
+# `rust-lang/crates-io-auth-action` step exchanges the workflow's GitHub
+# OIDC token for a short-lived crates.io token (automatically revoked
+# when the job ends), gated by the `crates-io-publish` GitHub
+# environment. No long-lived crates.io API token is stored in the repo.
+# crates.io must be configured with a Trusted Publisher for this crate
+# pointing at this repo, the `rust-release.yml` workflow, and the
+# `crates-io-publish` environment.
 name: Rust Release
 
 on:
@@ -38,6 +43,7 @@ jobs:
     runs-on: ubuntu-22.04
     environment: crates-io-publish
     permissions:
+      id-token: write
       contents: read
     steps:
       - name: Support longpaths on Git checkout
@@ -83,9 +89,13 @@ jobs:
         working-directory: releases/rust/mpl
         run: cargo publish --dry-run
 
+      - name: Authenticate to crates.io (Trusted Publishing / OIDC)
+        id: auth
+        uses: rust-lang/crates-io-auth-action@v1
+
       - name: Cargo publish
         shell: bash
         working-directory: releases/rust/mpl
         env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
         run: cargo publish
