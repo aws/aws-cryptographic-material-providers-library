@@ -31,7 +31,8 @@ module GetKeys {
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient,
-    ddbClient: DDB.IDynamoDBClient
+    ddbClient: DDB.IDynamoDBClient,
+    requireConsistentReads: bool
   )
     returns (output: Result<Types.GetActiveBranchKeyOutput, Types.Error>)
     requires ddbClient.Modifies !! kmsClient.Modifies
@@ -52,6 +53,13 @@ module GetKeys {
               Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(input.branchKeyIdentifier),
               Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.BRANCH_KEY_ACTIVE_TYPE)
             ]
+
+      //= aws-encryption-sdk-specification/framework/branch-key-store.md#getactivebranchkey
+      //= type=implication
+      //# The [Require Consistent Reads](#require-consistent-reads) configuration MUST be honored
+      //# by setting `ConsistentRead` to `true`
+      //# when consistent reads are required.
+      && Seq.Last(ddbClient.History.GetItem).input.ConsistentRead == Some(requireConsistentReads)
 
     ensures output.Success?
             ==>
@@ -124,7 +132,8 @@ module GetKeys {
     var branchKeyItem :- DDBKeystoreOperations.GetActiveBranchKeyItem(
       input.branchKeyIdentifier,
       tableName,
-      ddbClient
+      ddbClient,
+      requireConsistentReads
     );
 
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
@@ -165,7 +174,8 @@ module GetKeys {
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient,
-    ddbClient: DDB.IDynamoDBClient
+    ddbClient: DDB.IDynamoDBClient,
+    requireConsistentReads: bool
   )
     returns (output: Result<Types.GetBranchKeyVersionOutput, Types.Error>)
     requires ddbClient.Modifies !! kmsClient.Modifies
@@ -185,6 +195,13 @@ module GetKeys {
               Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(input.branchKeyIdentifier),
               Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.BRANCH_KEY_TYPE_PREFIX + input.branchKeyVersion)
             ]
+
+      //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbranchkeyversion
+      //= type=implication
+      //# The [Require Consistent Reads](#require-consistent-reads) configuration MUST be honored
+      //# by setting `ConsistentRead` to `true`
+      //# when consistent reads are required.
+      && Seq.Last(ddbClient.History.GetItem).input.ConsistentRead == Some(requireConsistentReads)
 
     ensures output.Success?
             ==>
@@ -261,7 +278,8 @@ module GetKeys {
       input.branchKeyIdentifier,
       input.branchKeyVersion,
       tableName,
-      ddbClient
+      ddbClient,
+      requireConsistentReads
     );
 
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
@@ -301,7 +319,8 @@ module GetKeys {
     kmsConfiguration: Types.KMSConfiguration,
     grantTokens: KMS.GrantTokenList,
     kmsClient: KMS.IKMSClient,
-    ddbClient: DDB.IDynamoDBClient
+    ddbClient: DDB.IDynamoDBClient,
+    requireConsistentReads: bool
   )
     returns (output: Result<Types.GetBeaconKeyOutput, Types.Error>)
     requires ddbClient.Modifies !! kmsClient.Modifies
@@ -321,6 +340,13 @@ module GetKeys {
               Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(input.branchKeyIdentifier),
               Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.BEACON_KEY_TYPE_VALUE)
             ]
+
+      //= aws-encryption-sdk-specification/framework/branch-key-store.md#getbeaconkey
+      //= type=implication
+      //# The [Require Consistent Reads](#require-consistent-reads) configuration MUST be honored
+      //# by setting `ConsistentRead` to `true`
+      //# when consistent reads are required.
+      && Seq.Last(ddbClient.History.GetItem).input.ConsistentRead == Some(requireConsistentReads)
 
     ensures output.Success? ==>
               && Seq.Last(ddbClient.History.GetItem).output.Success?
@@ -393,7 +419,8 @@ module GetKeys {
     var branchKeyItem :- DDBKeystoreOperations.GetBeaconKeyItem(
       input.branchKeyIdentifier,
       tableName,
-      ddbClient
+      ddbClient,
+      requireConsistentReads
     );
 
     var encryptionContext := Structure.ToBranchKeyContext(branchKeyItem, logicalKeyStoreName);
