@@ -1477,6 +1477,28 @@ func (input GetAlgorithmSuiteInfoInput) Validate() error {
 	return nil
 }
 
+type GetCacheIdentifierInput struct {
+	BranchKeyId string
+
+	Keyring IKeyring
+
+	BranchKeyVersion *string
+}
+
+func (input GetCacheIdentifierInput) Validate() error {
+
+	return nil
+}
+
+type GetCacheIdentifierOutput struct {
+	Identifier []byte
+}
+
+func (input GetCacheIdentifierOutput) Validate() error {
+
+	return nil
+}
+
 type InitializeDecryptionMaterialsInput struct {
 	AlgorithmSuiteId AlgorithmSuiteId
 

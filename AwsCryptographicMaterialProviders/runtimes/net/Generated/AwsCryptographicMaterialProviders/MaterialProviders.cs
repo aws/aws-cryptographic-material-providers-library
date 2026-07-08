@@ -229,5 +229,12 @@ namespace AWS.Cryptography.MaterialProviders
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
 
     }
+    public AWS.Cryptography.MaterialProviders.GetCacheIdentifierOutput GetCacheIdentifier(AWS.Cryptography.MaterialProviders.GetCacheIdentifierInput input)
+    {
+      software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheIdentifierInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S23_GetCacheIdentifierInput(input);
+      Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheIdentifierOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError> result = _impl.GetCacheIdentifier(internalInput);
+      if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+      return TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S24_GetCacheIdentifierOutput(result.dtor_value);
+    }
   }
 }

@@ -651,3 +651,24 @@ func (client *Client) ValidateCommitmentPolicyOnDecrypt(ctx context.Context, par
 	}
 	return nil
 }
+
+func (client *Client) GetCacheIdentifier(ctx context.Context, params awscryptographymaterialproviderssmithygeneratedtypes.GetCacheIdentifierInput) (*awscryptographymaterialproviderssmithygeneratedtypes.GetCacheIdentifierOutput, error) {
+	err := params.Validate()
+	if err != nil {
+		opaqueErr := awscryptographymaterialproviderssmithygeneratedtypes.OpaqueError{
+			ErrObject: err,
+		}
+		return nil, opaqueErr
+	}
+
+	var dafny_request AwsCryptographyMaterialProvidersTypes.GetCacheIdentifierInput = GetCacheIdentifierInput_ToDafny(params)
+	var dafny_response = client.DafnyClient.GetCacheIdentifier(dafny_request)
+
+	if dafny_response.Is_Failure() {
+		err := dafny_response.Dtor_error().(AwsCryptographyMaterialProvidersTypes.Error)
+		return nil, Error_FromDafny(err)
+	}
+	var native_response = GetCacheIdentifierOutput_FromDafny(dafny_response.Dtor_value().(AwsCryptographyMaterialProvidersTypes.GetCacheIdentifierOutput))
+	return &native_response, nil
+
+}

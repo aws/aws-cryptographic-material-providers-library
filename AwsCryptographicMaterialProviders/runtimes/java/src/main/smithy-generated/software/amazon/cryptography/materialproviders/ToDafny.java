@@ -77,6 +77,8 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.GetBra
 import software.amazon.cryptography.materialproviders.internaldafny.types.GetBranchKeyIdOutput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheEntryOutput;
+import software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheIdentifierInput;
+import software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheIdentifierOutput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.GetClientInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.GetEncryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.GetEncryptionMaterialsOutput;
@@ -1356,6 +1358,42 @@ public class ToDafny {
       messagesUsed,
       bytesUsed
     );
+  }
+
+  public static GetCacheIdentifierInput GetCacheIdentifierInput(
+    software.amazon.cryptography.materialproviders.model.GetCacheIdentifierInput nativeValue
+  ) {
+    software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring keyring;
+    keyring = ToDafny.Keyring(nativeValue.keyring());
+    DafnySequence<? extends Character> branchKeyId;
+    branchKeyId =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.branchKeyId()
+      );
+    Option<DafnySequence<? extends Character>> branchKeyVersion;
+    branchKeyVersion =
+      Objects.nonNull(nativeValue.branchKeyVersion())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+            nativeValue.branchKeyVersion()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.CHAR)
+        );
+    return new GetCacheIdentifierInput(keyring, branchKeyId, branchKeyVersion);
+  }
+
+  public static GetCacheIdentifierOutput GetCacheIdentifierOutput(
+    software.amazon.cryptography.materialproviders.model.GetCacheIdentifierOutput nativeValue
+  ) {
+    DafnySequence<? extends Byte> identifier;
+    identifier =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
+        nativeValue.identifier()
+      );
+    return new GetCacheIdentifierOutput(identifier);
   }
 
   public static GetClientInput GetClientInput(
