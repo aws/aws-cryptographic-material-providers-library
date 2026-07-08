@@ -69,6 +69,8 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
   import RequiredEncryptionContextCMM
   import UUID
   import StandardLibrary.String
+  import KeyStore = AwsCryptographyKeyStoreTypes
+  import Time
 
   datatype Config = Config(
     nameonly crypto: AtomicPrimitives.AtomicPrimitivesClient
@@ -381,6 +383,86 @@ module AwsCryptographyMaterialProvidersOperations refines AbstractAwsCryptograph
       logicalKeyStoreNameBytes := logicalKeyStoreNameBytes,
       cryptoPrimitives := config.crypto
     );
+
+    // Cache warmup: pre-populate cache with active key + recent versions
+    if input.cacheWarmUpVersions.Some? && input.cacheWarmUpVersions.value > 0 {
+      :- Need(input.branchKeyId.Some?,
+              Types.AwsCryptographicMaterialProvidersException(
+                message := "cacheWarmUpVersions requires branchKeyId to be set. Cache warmup is not supported with branchKeyIdSupplier."));
+
+      var warmUpCount := input.cacheWarmUpVersions.value;
+      // Clamp to a reasonable max to prevent excessive KMS calls and throttling
+      if warmUpCount > 10 { warmUpCount := 10; }
+
+      // Warm active branch key (encrypt path)
+      var activeResult := input.keyStore.GetActiveBranchKey(
+        KeyStore.GetActiveBranchKeyInput(
+          branchKeyIdentifier := input.branchKeyId.value
+        )
+      );
+      // Best-effort: if warmup fails, still return the keyring
+      if activeResult.Success? {
+        var activeMaterials := activeResult.value.branchKeyMaterials;
+        var branchKeyIdUtf8Result := UTF8.Encode(input.branchKeyId.value);
+        if branchKeyIdUtf8Result.Success? {
+          var branchKeyIdUtf8 := branchKeyIdUtf8Result.value;
+          var encryptCacheId := keyring.GetActiveCacheId(input.branchKeyId.value, branchKeyIdUtf8, config.crypto);
+          if encryptCacheId.Success? {
+            var now := Time.GetCurrent();
+            if (now as int + input.ttlSeconds as int) < UInt.INT64_MAX_LIMIT {
+              var _ := cmc.PutCacheEntry(Types.PutCacheEntryInput(
+                                           identifier := encryptCacheId.value,
+                                           materials := Types.Materials.BranchKey(activeMaterials),
+                                           creationTime := now,
+                                           expiryTime := input.ttlSeconds + now,
+                                           messagesUsed := Option.None,
+                                           bytesUsed := Option.None
+                                         ));
+            }
+          }
+        }
+      }
+
+      // Warm recent versions (decrypt path)
+      var versionsResult := input.keyStore.GetBranchKeyVersions(
+        KeyStore.GetBranchKeyVersionsInput(
+          branchKeyIdentifier := input.branchKeyId.value,
+          count := warmUpCount
+        )
+      );
+      if versionsResult.Success? {
+        var versions := versionsResult.value.branchKeyMaterials;
+        var branchKeyIdUtf8Result := UTF8.Encode(input.branchKeyId.value);
+        if branchKeyIdUtf8Result.Success? {
+          var branchKeyIdUtf8 := branchKeyIdUtf8Result.value;
+          var i: int := 0;
+          while i < |versions|
+          {
+            var materials := versions[i];
+            var versionUtf8 := materials.branchKeyVersion;
+            var versionResult := UTF8.Decode(versionUtf8);
+            if versionResult.Success? {
+              var decryptCacheId := keyring.ComputeDecryptCacheId(branchKeyIdUtf8, versionResult.value);
+              if decryptCacheId.Success? {
+                var now := Time.GetCurrent();
+                if (now as int + input.ttlSeconds as int) < UInt.INT64_MAX_LIMIT {
+                  var _ := cmc.PutCacheEntry(Types.PutCacheEntryInput(
+                                               identifier := decryptCacheId.value,
+                                               materials := Types.Materials.BranchKey(materials),
+                                               creationTime := now,
+                                               expiryTime := input.ttlSeconds + now,
+                                               messagesUsed := Option.None,
+                                               bytesUsed := Option.None
+                                             ));
+                }
+              }
+            }
+            i := i + 1;
+          }
+        }
+      }
+    }
+
     return Success(keyring);
   }
 

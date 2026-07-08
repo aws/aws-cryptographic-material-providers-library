@@ -43,6 +43,11 @@ public class CreateAwsKmsHierarchicalKeyringInput {
    */
   private final String partitionId;
 
+  /**
+   * If set, pre-populates the cache during Hierarchical Keyring construction by querying DynamoDB for the active branch key and the N most recent branch key versions, then decrypting each via KMS. This eliminates cold start latency on the first encrypt or decrypt calls. Only supported when branchKeyId is set (not branchKeyIdSupplier). Clamped to a maximum of 10 to prevent excessive KMS calls. Defaults to 0 (no warmup).
+   */
+  private final int cacheWarmUpVersions;
+
   protected CreateAwsKmsHierarchicalKeyringInput(BuilderImpl builder) {
     this.branchKeyId = builder.branchKeyId();
     this.branchKeyIdSupplier = builder.branchKeyIdSupplier();
@@ -50,6 +55,7 @@ public class CreateAwsKmsHierarchicalKeyringInput {
     this.ttlSeconds = builder.ttlSeconds();
     this.cache = builder.cache();
     this.partitionId = builder.partitionId();
+    this.cacheWarmUpVersions = builder.cacheWarmUpVersions();
   }
 
   /**
@@ -92,6 +98,13 @@ public class CreateAwsKmsHierarchicalKeyringInput {
    */
   public String partitionId() {
     return this.partitionId;
+  }
+
+  /**
+   * @return If set, pre-populates the cache during Hierarchical Keyring construction by querying DynamoDB for the active branch key and the N most recent branch key versions, then decrypting each via KMS. This eliminates cold start latency on the first encrypt or decrypt calls. Only supported when branchKeyId is set (not branchKeyIdSupplier). Clamped to a maximum of 10 to prevent excessive KMS calls. Defaults to 0 (no warmup).
+   */
+  public int cacheWarmUpVersions() {
+    return this.cacheWarmUpVersions;
   }
 
   public Builder toBuilder() {
@@ -163,6 +176,16 @@ public class CreateAwsKmsHierarchicalKeyringInput {
      */
     String partitionId();
 
+    /**
+     * @param cacheWarmUpVersions If set, pre-populates the cache during Hierarchical Keyring construction by querying DynamoDB for the active branch key and the N most recent branch key versions, then decrypting each via KMS. This eliminates cold start latency on the first encrypt or decrypt calls. Only supported when branchKeyId is set (not branchKeyIdSupplier). Clamped to a maximum of 10 to prevent excessive KMS calls. Defaults to 0 (no warmup).
+     */
+    Builder cacheWarmUpVersions(int cacheWarmUpVersions);
+
+    /**
+     * @return If set, pre-populates the cache during Hierarchical Keyring construction by querying DynamoDB for the active branch key and the N most recent branch key versions, then decrypting each via KMS. This eliminates cold start latency on the first encrypt or decrypt calls. Only supported when branchKeyId is set (not branchKeyIdSupplier). Clamped to a maximum of 10 to prevent excessive KMS calls. Defaults to 0 (no warmup).
+     */
+    int cacheWarmUpVersions();
+
     CreateAwsKmsHierarchicalKeyringInput build();
   }
 
@@ -182,6 +205,10 @@ public class CreateAwsKmsHierarchicalKeyringInput {
 
     protected String partitionId;
 
+    protected int cacheWarmUpVersions;
+
+    private boolean _cacheWarmUpVersionsSet = false;
+
     protected BuilderImpl() {}
 
     protected BuilderImpl(CreateAwsKmsHierarchicalKeyringInput model) {
@@ -192,6 +219,8 @@ public class CreateAwsKmsHierarchicalKeyringInput {
       this._ttlSecondsSet = true;
       this.cache = model.cache();
       this.partitionId = model.partitionId();
+      this.cacheWarmUpVersions = model.cacheWarmUpVersions();
+      this._cacheWarmUpVersionsSet = true;
     }
 
     public Builder branchKeyId(String branchKeyId) {
@@ -251,6 +280,16 @@ public class CreateAwsKmsHierarchicalKeyringInput {
       return this.partitionId;
     }
 
+    public Builder cacheWarmUpVersions(int cacheWarmUpVersions) {
+      this.cacheWarmUpVersions = cacheWarmUpVersions;
+      this._cacheWarmUpVersionsSet = true;
+      return this;
+    }
+
+    public int cacheWarmUpVersions() {
+      return this.cacheWarmUpVersions;
+    }
+
     public CreateAwsKmsHierarchicalKeyringInput build() {
       if (Objects.isNull(this.keyStore())) {
         throw new IllegalArgumentException(
@@ -265,6 +304,11 @@ public class CreateAwsKmsHierarchicalKeyringInput {
       if (this._ttlSecondsSet && this.ttlSeconds() < 0) {
         throw new IllegalArgumentException(
           "`ttlSeconds` must be greater than or equal to 0"
+        );
+      }
+      if (this._cacheWarmUpVersionsSet && this.cacheWarmUpVersions() < 0) {
+        throw new IllegalArgumentException(
+          "`cacheWarmUpVersions` must be greater than or equal to 0"
         );
       }
       return new CreateAwsKmsHierarchicalKeyringInput(this);

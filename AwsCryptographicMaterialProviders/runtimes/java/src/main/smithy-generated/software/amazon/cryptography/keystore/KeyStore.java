@@ -20,6 +20,8 @@ import software.amazon.cryptography.keystore.model.GetBeaconKeyInput;
 import software.amazon.cryptography.keystore.model.GetBeaconKeyOutput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionOutput;
+import software.amazon.cryptography.keystore.model.GetBranchKeyVersionsInput;
+import software.amazon.cryptography.keystore.model.GetBranchKeyVersionsOutput;
 import software.amazon.cryptography.keystore.model.GetKeyStoreInfoOutput;
 import software.amazon.cryptography.keystore.model.KeyStoreConfig;
 import software.amazon.cryptography.keystore.model.VersionKeyInput;
@@ -141,6 +143,27 @@ public class KeyStore {
       throw ToNative.Error(result.dtor_error());
     }
     return ToNative.GetBranchKeyVersionOutput(result.dtor_value());
+  }
+
+  /**
+   * Queries DynamoDB for the N most recent branch key versions and decrypts each via KMS. Used for cache warmup.
+   *
+   * @param input Inputs for getting recent branch key versions.
+   * @return Outputs for getting recent branch key versions.
+   */
+  public GetBranchKeyVersionsOutput GetBranchKeyVersions(
+    GetBranchKeyVersionsInput input
+  ) {
+    software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionsInput dafnyValue =
+      ToDafny.GetBranchKeyVersionsInput(input);
+    Result<
+      software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionsOutput,
+      Error
+    > result = this._impl.GetBranchKeyVersions(dafnyValue);
+    if (result.is_Failure()) {
+      throw ToNative.Error(result.dtor_error());
+    }
+    return ToNative.GetBranchKeyVersionsOutput(result.dtor_value());
   }
 
   /**

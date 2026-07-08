@@ -881,4 +881,121 @@ module TestAwsKmsHierarchicalKeyring {
       }
     }
   }
+
+  // Test: Cache warmup with branchKeyId succeeds and encrypt/decrypt works
+  method {:test} TestCacheWarmUpWithBranchKeyId()
+  {
+    var branchKeyId := BRANCH_KEY_ID;
+    var ttl : Types.PositiveLong := (1 * 60000) * 10;
+    var mpl :- expect MaterialProviders.MaterialProviders();
+
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
+
+    var keyStoreConfig := KeyStoreTypes.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClient)
+    );
+
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+
+    var hierarchyKeyring :- expect mpl.CreateAwsKmsHierarchicalKeyring(
+      Types.CreateAwsKmsHierarchicalKeyringInput(
+        branchKeyId := Some(branchKeyId),
+        branchKeyIdSupplier := None,
+        keyStore := keyStore,
+        ttlSeconds := ttl,
+        cache := None,
+        partitionId := None,
+        cacheWarmUpVersions := Some(5)
+      )
+    );
+
+    var materials := GetTestMaterials(TEST_ESDK_ALG_SUITE_ID);
+    TestRoundtrip(hierarchyKeyring, materials, TEST_ESDK_ALG_SUITE_ID, branchKeyId);
+  }
+
+  // Test: Cache warmup with branchKeyIdSupplier MUST fail
+  method {:test} TestCacheWarmUpWithSupplierFails()
+  {
+    var ttl : Types.PositiveLong := (1 * 60000) * 10;
+    var mpl :- expect MaterialProviders.MaterialProviders();
+
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
+
+    var keyStoreConfig := KeyStoreTypes.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClient)
+    );
+
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+
+    var branchKeyIdSupplier: Types.IBranchKeyIdSupplier := new DummyBranchKeyIdSupplier();
+
+    var result := mpl.CreateAwsKmsHierarchicalKeyring(
+      Types.CreateAwsKmsHierarchicalKeyringInput(
+        branchKeyId := None,
+        branchKeyIdSupplier := Some(branchKeyIdSupplier),
+        keyStore := keyStore,
+        ttlSeconds := ttl,
+        cache := None,
+        partitionId := None,
+        cacheWarmUpVersions := Some(5)
+      )
+    );
+
+    expect result.Failure?;
+  }
+
+  // Test: Cache warmup with zero versions (no warmup) works normally
+  method {:test} TestCacheWarmUpZeroVersions()
+  {
+    var branchKeyId := BRANCH_KEY_ID;
+    var ttl : Types.PositiveLong := (1 * 60000) * 10;
+    var mpl :- expect MaterialProviders.MaterialProviders();
+
+    var kmsClient :- expect KMS.KMSClient();
+    var ddbClient :- expect DDB.DynamoDBClient();
+    var kmsConfig := KeyStoreTypes.KMSConfiguration.kmsKeyArn(keyArn);
+
+    var keyStoreConfig := KeyStoreTypes.KeyStoreConfig(
+      id := None,
+      kmsConfiguration := kmsConfig,
+      logicalKeyStoreName := logicalKeyStoreName,
+      grantTokens := None,
+      ddbTableName := branchKeyStoreName,
+      ddbClient := Some(ddbClient),
+      kmsClient := Some(kmsClient)
+    );
+
+    var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
+
+    var hierarchyKeyring :- expect mpl.CreateAwsKmsHierarchicalKeyring(
+      Types.CreateAwsKmsHierarchicalKeyringInput(
+        branchKeyId := Some(branchKeyId),
+        branchKeyIdSupplier := None,
+        keyStore := keyStore,
+        ttlSeconds := ttl,
+        cache := None,
+        partitionId := None,
+        cacheWarmUpVersions := Some(0)
+      )
+    );
+
+    var materials := GetTestMaterials(TEST_ESDK_ALG_SUITE_ID);
+    TestRoundtrip(hierarchyKeyring, materials, TEST_ESDK_ALG_SUITE_ID, branchKeyId);
+  }
 }

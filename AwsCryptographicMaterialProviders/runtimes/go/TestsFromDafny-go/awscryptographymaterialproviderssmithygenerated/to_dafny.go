@@ -66,7 +66,7 @@ func CreateAwsKmsHierarchicalKeyringInput_ToDafny(nativeInput awscryptographymat
 				return Wrappers.Companion_Option_.Create_None_()
 			}
 			return Wrappers.Companion_Option_.Create_Some_(BranchKeyIdSupplier_ToDafny(nativeInput.BranchKeyIdSupplier))
-		}(), Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_keyStore_ToDafny(nativeInput.KeyStore), Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_ttlSeconds_ToDafny(nativeInput.TtlSeconds), Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_ToDafny(nativeInput.Cache), Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_ToDafny(nativeInput.PartitionId))
+		}(), Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_keyStore_ToDafny(nativeInput.KeyStore), Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_ttlSeconds_ToDafny(nativeInput.TtlSeconds), Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_ToDafny(nativeInput.Cache), Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_ToDafny(nativeInput.PartitionId), Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cacheWarmUpVersions_ToDafny(nativeInput.CacheWarmUpVersions))
 	}()
 
 }
@@ -1229,6 +1229,15 @@ func Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_par
 			}
 			return res
 		}())
+	}()
+}
+
+func Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cacheWarmUpVersions_ToDafny(input *int32) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(*input)
 	}()
 }
 

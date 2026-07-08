@@ -65,10 +65,11 @@ func CreateAwsKmsHierarchicalKeyringInput_FromDafny(dafnyInput AwsCryptographyMa
 			}
 			return BranchKeyIdSupplier_FromDafny(dafnyInput.Dtor_branchKeyIdSupplier().UnwrapOr(nil).(AwsCryptographyMaterialProvidersTypes.IBranchKeyIdSupplier))
 		}(),
-		KeyStore:    Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_keyStore_FromDafny(dafnyInput.Dtor_keyStore()),
-		TtlSeconds:  Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_ttlSeconds_FromDafny(dafnyInput.Dtor_ttlSeconds()),
-		Cache:       Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_FromDafny(dafnyInput.Dtor_cache().UnwrapOr(nil)),
-		PartitionId: Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_FromDafny(dafnyInput.Dtor_partitionId().UnwrapOr(nil)),
+		KeyStore:            Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_keyStore_FromDafny(dafnyInput.Dtor_keyStore()),
+		TtlSeconds:          Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_ttlSeconds_FromDafny(dafnyInput.Dtor_ttlSeconds()),
+		Cache:               Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cache_FromDafny(dafnyInput.Dtor_cache().UnwrapOr(nil)),
+		PartitionId:         Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_partitionId_FromDafny(dafnyInput.Dtor_partitionId().UnwrapOr(nil)),
+		CacheWarmUpVersions: Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cacheWarmUpVersions_FromDafny(dafnyInput.Dtor_cacheWarmUpVersions().UnwrapOr(nil)),
 	}
 
 }
@@ -1152,6 +1153,16 @@ func Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_par
 		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
 
 		return &s
+	}()
+}
+func Aws_cryptography_materialProviders_CreateAwsKmsHierarchicalKeyringInput_cacheWarmUpVersions_FromDafny(input interface{}) *int32 {
+	return func() *int32 {
+		var b int32
+		if input == nil {
+			return nil
+		}
+		b = input.(int32)
+		return &b
 	}()
 }
 func Aws_cryptography_materialProviders_CreateAwsKmsKeyringInput_kmsKeyId_FromDafny(input interface{}) string {
