@@ -23,7 +23,7 @@ jobs:
       pr_url: ${{ steps.create_pr.outputs.pr_url }}
     steps:
       - name: Checkout mutations/mutations
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: mutations/mutations
           fetch-depth: 0
