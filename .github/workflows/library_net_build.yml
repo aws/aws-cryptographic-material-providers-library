@@ -44,12 +44,12 @@ jobs:
           role-session-name: NetBuild
           special-characters-workaround: "true" # Some environments (example: windowsOS) cannot tolerate special characters in a secret key.
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - run: git submodule update --init libraries
       - run: git submodule update --init --recursive smithy-dafny
 
       - name: Setup .NET Core SDK 6.0.x
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "6.0.x"
 
