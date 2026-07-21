@@ -24,7 +24,7 @@ aws-cryptography-internal-primitives = {path = "../../../AwsCryptographyPrimitiv
 optional = true
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.4.0"
+pytest = ">=7.4,<10.0"
 
 # Package release
 
@@ -32,9 +32,9 @@ pytest = "^7.4.0"
 optional = true
 
 [tool.poetry.group.release.dependencies]
-poetry = "1.8.3"
-twine = "5.1.1"
-wheel = "0.38.4"
+poetry = "2.4.1"
+twine = "6.2.0"
+wheel = "0.47.0"
 
 # Package documentation
 
@@ -45,7 +45,7 @@ optional = true
 toml = "^0.10.2"
 myst-parser = "^4"
 sphinx = "^7"
-sphinx_rtd_theme = "^2"
+sphinx_rtd_theme = ">=2,<4"
 
 [build-system]
 requires = ["poetry-core<2.0.0"]
