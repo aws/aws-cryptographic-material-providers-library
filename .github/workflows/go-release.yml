@@ -73,8 +73,11 @@ jobs:
 
       - name: Get release directory name
         id: release-dir
+        env:
+          PROJECT_NAME: ${{ github.event.inputs.project-name }}
+          VERSION: ${{ github.event.inputs.version }}
         run: |
-          RELEASE_DIR_NAME=$(./scripts/go-release-automation.sh get_release_dir_name "${{ github.event.inputs.project-name }}" "${{ github.event.inputs.version }}")
+          RELEASE_DIR_NAME=$(./scripts/go-release-automation.sh get_release_dir_name "$PROJECT_NAME" "$VERSION")
           echo "releaseDirName=$RELEASE_DIR_NAME" >> $GITHUB_OUTPUT
 
       - name: Generate a changelog
@@ -84,9 +87,12 @@ jobs:
           args: --bump -u --prepend releases/go/${{ steps.release-dir.outputs.releaseDirName }}/CHANGELOG.md
 
       - name: Run Go release automation script
+        env:
+          PROJECT_NAME: ${{ github.event.inputs.project-name }}
+          VERSION: ${{ github.event.inputs.version }}
         run: |
           chmod +x ./scripts/go-release-automation.sh
-          ./scripts/go-release-automation.sh run_release_script ${{ github.event.inputs.project-name }} ${{ github.event.inputs.version }}
+          ./scripts/go-release-automation.sh run_release_script "$PROJECT_NAME" "$VERSION"
 
       - name: print diff between development and release directory
         run: |
