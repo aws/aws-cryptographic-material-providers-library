@@ -50,7 +50,6 @@ To use the AWS Material Providers Library in Java, you must have:
 - **Declare a Dependency on AWS Material Providers Library in Java and it's dependencies**
   This library requires the DynamoDB and KMS clients
   from the AWS SDK for Java V2
-
   - **Via Gradle Kotlin**
     In a Gradle Java Project, add the following to the _dependencies_ section:
 

@@ -45,7 +45,7 @@ structure PutCacheEntryInput {
   //# since this information can not be updated after the put operation.
   expiryTime: PositiveLong,
   messagesUsed: PositiveInteger,
-  bytesUsed: PositiveInteger,
+  bytesUsed: PositiveLong,
 }
 
 operation GetCacheEntry {
@@ -61,7 +61,7 @@ operation GetCacheEntry {
 structure GetCacheEntryInput {
   @required
   identifier: Blob,
-  bytesUsed: Long
+  bytesUsed: PositiveLong
 
 }
 
@@ -89,7 +89,7 @@ structure GetCacheEntryOutput {
   @required
   messagesUsed: PositiveInteger,
   @required
-  bytesUsed: PositiveInteger,
+  bytesUsed: PositiveLong,
 }
 
 union Materials {
@@ -116,7 +116,7 @@ structure UpdateUsageMetadataInput {
   @required
   identifier: Blob,
   @required
-  bytesUsed: PositiveInteger,
+  bytesUsed: PositiveLong,
 }
 
 @error("client")
