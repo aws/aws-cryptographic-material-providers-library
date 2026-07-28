@@ -1,8 +1,3 @@
-# Registers the __type-emitting rpcv2Cbor server protocol so the framework discovers it
-# alongside the stock provider. It advertises a distinct protocol id (avoiding a
-# duplicate-key clash in the ShapeId-keyed provider map) and a lower precision, so it is
-# the protocol selected for this service's requests.
-#
-# Without this line the class is dead code and both modeled errors collapse into an
-# untyped CallException at the client.
+# Without this line the protocol class is dead code and both modeled
+# errors collapse into an untyped CallException at the client.
 aws.cryptography.mpl.testserver.server.protocol.ErrorTypeRpcV2CborServerProtocolProvider

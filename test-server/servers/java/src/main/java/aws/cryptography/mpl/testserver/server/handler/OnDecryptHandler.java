@@ -12,54 +12,60 @@ import software.amazon.cryptography.materialproviders.MaterialProviders;
 import software.amazon.smithy.java.server.RequestContext;
 
 /**
- * Invokes a keyring's {@code OnDecrypt}.
- *
- * <p>The encrypted data keys arrive as a separate input rather than inside the materials,
- * exactly as in the MPL. That separation is what makes the eventual cross-language matrix
- * possible: a test can take the keys one server's {@code OnEncrypt} produced and present
- * them to a different server's {@code OnDecrypt}, with nothing server-side linking the two
- * halves.
+ * Invokes a keyring's {@code OnDecrypt}. Only a keyringId is on the
+ * wire; the owning MaterialProviders is recovered from the registry.
+ * EDKs are a separate input (as in the MPL), which is what lets the
+ * two halves of a round-trip go to different servers.
  */
 public final class OnDecryptHandler implements OnDecryptOperation {
 
-    private final ResourceHandles handles;
-    private final OperationWrapper wrapper;
+  private final ResourceHandles handles;
+  private final OperationWrapper wrapper;
 
-    public OnDecryptHandler(ResourceHandles handles, OperationWrapper wrapper) {
-        this.handles = handles;
-        this.wrapper = wrapper;
+  public OnDecryptHandler(ResourceHandles handles, OperationWrapper wrapper) {
+    this.handles = handles;
+    this.wrapper = wrapper;
+  }
+
+  @Override
+  public OnDecryptOutput onDecrypt(
+    OnDecryptInput input,
+    RequestContext context
+  ) {
+    return wrapper.invoke("OnDecrypt", () -> doOnDecrypt(input));
+  }
+
+  private OnDecryptOutput doOnDecrypt(OnDecryptInput input) {
+    IKeyring keyring = handles.keyring(input.getKeyringId());
+    MaterialProviders materialProviders = handles.owningMaterialProviders(
+      input.getKeyringId()
+    );
+
+    if (input.getMaterials() == null) {
+      throw GenericServerError
+        .builder()
+        .message("OnDecrypt requires materials, but none were supplied.")
+        .build();
     }
 
-    @Override
-    public OnDecryptOutput onDecrypt(OnDecryptInput input, RequestContext context) {
-        return wrapper.invoke("OnDecrypt", () -> doOnDecrypt(input));
-    }
+    List<
+      aws.cryptography.mpl.testserver.server.model.EncryptedDataKey
+    > wireEdks = input.getEncryptedDataKeys();
 
-    private OnDecryptOutput doOnDecrypt(OnDecryptInput input) {
-        IKeyring keyring = handles.keyring(input.getKeyringId());
-        MaterialProviders materialProviders = handles.owningMaterialProviders(input.getKeyringId());
+    var mplInput =
+      software.amazon.cryptography.materialproviders.model.OnDecryptInput
+        .builder()
+        .materials(Materials.toMpl(materialProviders, input.getMaterials()))
+        // Empty list passed through: "no EDK matched" is MPL behavior a
+        // negative test may want to observe.
+        .encryptedDataKeys(Materials.edksToMpl(wireEdks))
+        .build();
 
-        if (input.getMaterials() == null) {
-            throw GenericServerError.builder()
-                .message("OnDecrypt requires materials, but none were supplied.")
-                .build();
-        }
+    var output = keyring.OnDecrypt(mplInput);
 
-        List<aws.cryptography.mpl.testserver.server.model.EncryptedDataKey> wireEdks =
-            input.getEncryptedDataKeys();
-
-        var mplInput = software.amazon.cryptography.materialproviders.model.OnDecryptInput.builder()
-            .materials(Materials.toMpl(materialProviders, input.getMaterials()))
-            // An empty list is passed through rather than rejected: "no encrypted data key
-            // matched" is MPL behavior a negative test may want to observe, and rejecting it
-            // here would report it as a harness failure instead.
-            .encryptedDataKeys(Materials.edksToMpl(wireEdks))
-            .build();
-
-        var output = keyring.OnDecrypt(mplInput);
-
-        return OnDecryptOutput.builder()
-            .materials(Materials.toWire(output.materials()))
-            .build();
-    }
+    return OnDecryptOutput
+      .builder()
+      .materials(Materials.toWire(output.materials()))
+      .build();
+  }
 }

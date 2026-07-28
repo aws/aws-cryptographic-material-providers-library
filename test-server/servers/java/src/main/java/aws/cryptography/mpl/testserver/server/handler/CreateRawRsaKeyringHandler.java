@@ -11,56 +11,65 @@ import software.amazon.cryptography.materialproviders.model.PaddingScheme;
 import software.amazon.smithy.java.server.RequestContext;
 
 /**
- * Creates a Raw RSA keyring and returns a handle to it.
- *
- * <p>Both keys are optional on the wire, mirroring the MPL. Notably this handler does NOT
- * validate that at least one is present: the MPL rejects that case itself, and letting it do
- * so means the resulting error is the MPL's own -- a {@code MaterialProvidersClientError}
- * carrying the MPL's message -- rather than a harness error that would tell a test nothing
- * about MPL behavior.
+ * Creates a Raw RSA keyring and returns a handle to it. Both keys are
+ * optional on the wire, mirroring the MPL. This handler does NOT validate
+ * that at least one is present -- the MPL rejects that itself, so the
+ * error is the MPL's own rather than a harness error.
  */
-public final class CreateRawRsaKeyringHandler implements CreateRawRsaKeyringOperation {
+public final class CreateRawRsaKeyringHandler
+  implements CreateRawRsaKeyringOperation {
 
-    private final ResourceHandles handles;
-    private final OperationWrapper wrapper;
+  private final ResourceHandles handles;
+  private final OperationWrapper wrapper;
 
-    public CreateRawRsaKeyringHandler(ResourceHandles handles, OperationWrapper wrapper) {
-        this.handles = handles;
-        this.wrapper = wrapper;
+  public CreateRawRsaKeyringHandler(
+    ResourceHandles handles,
+    OperationWrapper wrapper
+  ) {
+    this.handles = handles;
+    this.wrapper = wrapper;
+  }
+
+  @Override
+  public CreateRawRsaKeyringOutput createRawRsaKeyring(
+    CreateRawRsaKeyringInput input,
+    RequestContext context
+  ) {
+    return wrapper.invoke("CreateRawRsaKeyring", () -> doCreate(input));
+  }
+
+  private CreateRawRsaKeyringOutput doCreate(CreateRawRsaKeyringInput input) {
+    MaterialProviders materialProviders = handles.materialProviders(
+      input.getMplId()
+    );
+
+    var mplInput =
+      software.amazon.cryptography.materialproviders.model.CreateRawRsaKeyringInput
+        .builder()
+        .keyNamespace(input.getKeyNamespace())
+        .keyName(input.getKeyName())
+        .paddingScheme(
+          PaddingScheme.valueOf(input.getPaddingScheme().getValue())
+        );
+
+    // Only set what was supplied. An empty buffer would turn "no public key"
+    // into "a zero-length public key" and change which error the MPL raises.
+    if (input.getPublicKey() != null) {
+      mplInput.publicKey(input.getPublicKey());
+    }
+    if (input.getPrivateKey() != null) {
+      mplInput.privateKey(input.getPrivateKey());
     }
 
-    @Override
-    public CreateRawRsaKeyringOutput createRawRsaKeyring(
-        CreateRawRsaKeyringInput input,
-        RequestContext context
-    ) {
-        return wrapper.invoke("CreateRawRsaKeyring", () -> doCreate(input));
-    }
+    IKeyring keyring = materialProviders.CreateRawRsaKeyring(mplInput.build());
 
-    private CreateRawRsaKeyringOutput doCreate(CreateRawRsaKeyringInput input) {
-        MaterialProviders materialProviders = handles.materialProviders(input.getMplId());
-
-        var mplInput = software.amazon.cryptography.materialproviders.model
-            .CreateRawRsaKeyringInput.builder()
-            .keyNamespace(input.getKeyNamespace())
-            .keyName(input.getKeyName())
-            .paddingScheme(PaddingScheme.valueOf(input.getPaddingScheme().getValue()));
-
-        // Only set what was supplied. Passing an empty buffer for an absent key would turn
-        // "no public key" into "a zero-length public key" and change which error the MPL
-        // raises.
-        if (input.getPublicKey() != null) {
-            mplInput.publicKey(input.getPublicKey());
-        }
-        if (input.getPrivateKey() != null) {
-            mplInput.privateKey(input.getPrivateKey());
-        }
-
-        IKeyring keyring = materialProviders.CreateRawRsaKeyring(mplInput.build());
-
-        return CreateRawRsaKeyringOutput.builder()
-            .keyringId(handles.registry()
-                .register(ResourceKind.KEYRING, keyring, materialProviders))
-            .build();
-    }
+    return CreateRawRsaKeyringOutput
+      .builder()
+      .keyringId(
+        handles
+          .registry()
+          .register(ResourceKind.KEYRING, keyring, materialProviders)
+      )
+      .build();
+  }
 }

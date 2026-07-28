@@ -98,13 +98,89 @@ jobs:
         working-directory: ./test-server
         run: make orchestrate
 
-      - name: Upload test reports
-        if: failure()
+      # `always()`, so the report is published whether the suite passed or failed. A report
+      # only on failure answers "what broke?" but never "what is actually covered?" -- and
+      # the second question is the one an engineer reviewing this harness needs, since the
+      # conformance suite's value is precisely which MPL behaviours it exercises.
+      #
+      # `continue-on-error` so a problem publishing the report cannot turn a green
+      # conformance run red, or mask a red one's real cause.
+      - name: Upload test report
+        if: always()
+        continue-on-error: true
         uses: actions/upload-artifact@v7
         with:
-          name: test-server-reports-${{ matrix.os }}-${{ github.sha }}
+          name: test-server-report-${{ matrix.os }}-${{ github.sha }}
           path: |
-            test-server/tests/build/reports/
-            test-server/tests/build/test-results/
-          retention-days: 7
-          if-no-files-found: ignore
+            test-server/tests/build/reports/tests/test/
+            test-server/tests/build/test-results/test/
+          retention-days: 30
+          if-no-files-found: warn
+
+      # A one-glance summary in the run's own page, so evaluating a run does not require
+      # downloading and unzipping an artifact first.
+      - name: Summarise the test report
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          results="test-server/tests/build/test-results/test"
+          {
+            echo "## MPL TestServer conformance report"
+            echo
+            if [ ! -d "$results" ]; then
+              echo "No test results were produced. The suite did not run to the point of"
+              echo "reporting -- check the \`Run the conformance suite\` step."
+              exit 0
+            fi
+            # Totals come from the JUnit XML rather than from parsing Gradle's console
+            # output, which is formatted for humans and changes between versions.
+            python3 - "$results" <<'PY'
+          import glob, os, sys, xml.etree.ElementTree as ET
+
+          results_dir = sys.argv[1]
+          tests = failures = errors = skipped = 0
+          time = 0.0
+          per_class = []
+          failed_cases = []
+
+          for path in sorted(glob.glob(os.path.join(results_dir, "TEST-*.xml"))):
+              suite = ET.parse(path).getroot()
+              t = int(suite.get("tests", 0))
+              f = int(suite.get("failures", 0))
+              e = int(suite.get("errors", 0))
+              s = int(suite.get("skipped", 0))
+              tests += t; failures += f; errors += e; skipped += s
+              time += float(suite.get("time", 0) or 0)
+              name = suite.get("name", os.path.basename(path))
+              per_class.append((name, t, f + e, s))
+              for case in suite.iter("testcase"):
+                  for bad in list(case.findall("failure")) + list(case.findall("error")):
+                      failed_cases.append((name, case.get("name", "?"),
+                                           (bad.get("message") or "").strip().splitlines()[:1]))
+
+          passed = tests - failures - errors - skipped
+          verdict = "PASSED" if failures == 0 and errors == 0 else "FAILED"
+          print(f"**{verdict}** — {passed}/{tests} passed"
+                f"{f', {failures + errors} failed' if failures + errors else ''}"
+                f"{f', {skipped} skipped' if skipped else ''}"
+                f" in {time:.1f}s")
+          print()
+          print("| Suite | Tests | Failed | Skipped |")
+          print("| --- | --: | --: | --: |")
+          for name, t, f, s in per_class:
+              # Conformance suites validate the MPL; `.meta` suites validate the harness's
+              # own wire contract. Marking which is which makes the table readable at a
+              # glance.
+              kind = "meta" if ".meta." in name else "conformance"
+              print(f"| `{name.rsplit('.', 1)[-1]}` ({kind}) | {t} | {f} | {s} |")
+          if failed_cases:
+              print()
+              print("### Failures")
+              for cls, case, message in failed_cases:
+                  first = message[0] if message else ""
+                  print(f"- `{cls.rsplit('.', 1)[-1]}` › {case}")
+                  if first:
+                      print(f"  - {first}")
+          PY
+          } >> "$GITHUB_STEP_SUMMARY"

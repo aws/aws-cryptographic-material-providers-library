@@ -39,9 +39,7 @@
       "language": "java",
       "majorVersion": 1,
       "port": 8101,
-      "supportedFeatures": [
-        "localKeyrings"
-      ],
+      "supportedFeatures": ["localKeyrings"],
       "unsupportedFeatures": [
         "awsKmsKeyrings",
         "hierarchicalKeyring",
