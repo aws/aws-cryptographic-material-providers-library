@@ -62,3 +62,8 @@ jobs:
     uses: ./.github/workflows/test_dbesdk_examples.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
+  push-ci-test-server:
+    needs: getVersions
+    uses: ./.github/workflows/test_server.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}

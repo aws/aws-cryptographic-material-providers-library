@@ -1,0 +1,12 @@
+# Generated code and build output. The Smithy-generated client and server sources
+# live under build/smithyprojections/ and are NEVER committed: regeneration must
+# always overwrite cleanly from the single source-of-truth model.
+build/
+.gradle/
+
+# Marker files recording that a prerequisite step completed.
+.make/
+
+# IDE
+.idea/
+*.iml

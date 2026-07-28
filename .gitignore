@@ -23,3 +23,7 @@ specification_compliance_report.html
 /compliance
 /.smithy.lsp.log
 */**/Folder.DotSettings.user
+# Scratch reference material for building the TestServer: copies of other projects'
+# TestServer implementations, kept locally while the MPL TestServer is developed.
+# Not part of this repository and must never be committed.
+temp-example-code/

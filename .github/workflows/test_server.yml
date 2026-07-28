@@ -1,0 +1,110 @@
+# This workflow runs the MPL TestServer: a cross-language conformance harness that drives
+# the MPL's own API (keyrings, materials) over a generated rpcv2Cbor wire contract.
+#
+# It reuses `library_java_build.yml`'s Maven-local artifact rather than transpiling the MPL
+# again, exactly as `library_java_tests.yml` does. The TestServer's `mpl-use-published`
+# target consumes that artifact, so this job needs neither Dafny nor the Java 8 toolchain
+# the MPL's own build requires.
+#
+# NO AWS CREDENTIALS ARE NEEDED. The phase-1 conformance suite covers only local keyrings
+# (Raw AES, Raw RSA, Multi) and makes no AWS call. When the KMS keyrings land, this workflow
+# will need `configure-aws-credentials` and the GitHub-CI-MPL-Dafny-Role, like the other
+# test workflows.
+name: MPL TestServer
+
+on:
+  workflow_call:
+    inputs:
+      dafny:
+        description: "The Dafny version to run"
+        required: true
+        type: string
+      regenerate-code:
+        description: "Regenerate code using smithy-dafny"
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  # Transpiles the MPL to Java and publishes it to Maven local, uploading it as an artifact.
+  buildJava:
+    uses: ./.github/workflows/library_java_build.yml
+    with:
+      dafny: ${{ inputs.dafny }}
+      regenerate-code: ${{ inputs.regenerate-code }}
+
+  testServer:
+    needs: buildJava
+    strategy:
+      fail-fast: false
+      matrix:
+        # ubuntu only for now. The harness is OS-agnostic -- it is generated Java over
+        # loopback HTTP -- so a second OS would mostly re-test smithy-java rather than the
+        # MPL. Add macos-latest here if that assumption ever needs proving.
+        os: [ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
+    permissions:
+      id-token: write
+      contents: read
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Support longpaths on Git checkout
+        run: |
+          git config --global core.longpaths true
+
+      - uses: actions/checkout@v6
+      - run: git submodule update --init libraries
+      - run: git submodule update --init --recursive smithy-dafny
+
+      - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      # The Artifact_Under_Test. `library_java_build.yml` publishes the MPL SNAPSHOT to
+      # Maven local and uploads the tree; restoring it here is what makes
+      # `mpl-use-published` succeed.
+      - name: Download Maven local repository
+        uses: actions/download-artifact@v8
+        with:
+          name: java-maven-local-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          path: ~/.m2/repository/software/amazon/
+
+      # smithy-java 1.x baselines on Java 21. Installed last so JAVA_HOME points at it; the
+      # TestServer Makefile also honours setup-java's JAVA_HOME_21_X64 directly.
+      - name: Setup Java 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: "corretto"
+          java-version: 21
+
+      - name: Confirm the Artifact_Under_Test is present
+        working-directory: ./test-server
+        run: make mpl-use-published
+
+      # Validated on its own so a model mistake is reported as a model mistake rather than
+      # surfacing later as a confusing codegen or compile failure.
+      - name: Validate the Smithy model
+        working-directory: ./test-server
+        run: make validate
+
+      - name: Generate and build every module
+        working-directory: ./test-server
+        run: make build
+
+      # Launches the server on its configured port, runs the conformance and meta suites
+      # against it, tears it down, and reports fail-open: an unreachable server is a
+      # failure, never a pass.
+      - name: Run the conformance suite
+        working-directory: ./test-server
+        run: make orchestrate
+
+      - name: Upload test reports
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-server-reports-${{ matrix.os }}-${{ github.sha }}
+          path: |
+            test-server/tests/build/reports/
+            test-server/tests/build/test-results/
+          retention-days: 7
+          if-no-files-found: ignore
