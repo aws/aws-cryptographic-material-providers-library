@@ -106,4 +106,16 @@ module Fixtures {
   // `git rev-parse --show-toplevel`/cfn/lyingBranchKeyCreation.md
   const lyingBranchKeyId := "kms-arn-attribute-is-lying"
   const lyingBranchKeyDecryptOnlyVersion := "129c5c87-308a-41c9-8b9d-a27f66e915f4"
+
+  // Native Rust Implentation of the KeyStore MUST produce
+  // branch keys that Dafny compiled libraries can read
+  const nativeRustBranchKey := "8f226c1c-b705-4bc0-a4b4-110a38b9acf0"
+  const nativeRustBranchKeyVersion := "43c35e5b-ca75-42fc-a7e9-745508c27d01"
+
+  const rotatedNativeRustBranchKey := "21884772-a7a8-4d9b-b072-9bbe82915143"
+  const rotatedNativeRustBranchKeyActiveVersion := "e1d9eebc-9ec2-4b37-b9e5-31c259356d15"
+  const rotatedNativeRustBranchKeyOldVersion := "d0e66ebd-a25a-4c08-ada4-8f37aed0690f"
+  
+  const customECNativeRustBranchKey := "native-rust-branch-key"
+  const customECNativeRustBranchKeyVersion := "1319b546-5b2d-4ec8-86f9-ee0c3b1a0187"
 }
