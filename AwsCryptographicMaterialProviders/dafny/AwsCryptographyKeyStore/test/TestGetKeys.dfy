@@ -421,7 +421,7 @@ module TestGetKeys {
     
     // check that the version from the current active and the old version are NOT the same
     expect versionActiveResult.branchKeyMaterials.branchKeyVersion !=
-      versionActiveVersionResult.branchKeyMaterials.branchKeyVersion;
+      oldVersionResult.branchKeyMaterials.branchKeyVersion;
   }
 
   method {:test} TestGetCustomEncryptionContextBranchKeyFromNativeRustWrite() {
