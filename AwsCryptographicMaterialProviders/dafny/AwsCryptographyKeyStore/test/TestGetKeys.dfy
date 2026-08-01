@@ -343,7 +343,7 @@ module TestGetKeys {
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := nativeRustBranchKey
       ));
-    
+
     var versionResult :- expect keyStore.GetBranchKeyVersion(
       Types.GetBranchKeyVersionInput(
         branchKeyIdentifier := nativeRustBranchKey,
@@ -351,18 +351,18 @@ module TestGetKeys {
       )
     );
 
-    // length checks  
+    // length checks
     expect |versionResult.branchKeyMaterials.branchKey| == 32;
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
-    
+
     // check version on active materials is the same as the version
     // in the version materials
-    expect activeResult.branchKeyMaterials.branchKeyVersion == 
-      versionResult.branchKeyMaterials.branchKeyVersion;
-    
+    expect activeResult.branchKeyMaterials.branchKeyVersion ==
+           versionResult.branchKeyMaterials.branchKeyVersion;
+
     // check that the branch key material is the same on both
     expect activeResult.branchKeyMaterials.branchKey ==
-      versionResult.branchKeyMaterials.branchKey;
+           versionResult.branchKeyMaterials.branchKey;
 
   }
 
@@ -381,12 +381,12 @@ module TestGetKeys {
     );
 
     var keyStore :- expect KeyStore.KeyStore(keyStoreConfig);
-    
+
     var versionActiveResult :- expect keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
         branchKeyIdentifier := rotatedNativeRustBranchKey
       ));
-    
+
     var versionActiveVersionResult :- expect keyStore.GetBranchKeyVersion(
       Types.GetBranchKeyVersionInput(
         branchKeyIdentifier := rotatedNativeRustBranchKey,
@@ -403,25 +403,25 @@ module TestGetKeys {
 
     // check all three branch key materials have the same branch key id
     expect rotatedNativeRustBranchKey
-      ==  versionActiveResult.branchKeyMaterials.branchKeyIdentifier 
-      == versionActiveVersionResult.branchKeyMaterials.branchKeyIdentifier 
-      == oldVersionResult.branchKeyMaterials.branchKeyIdentifier;
+        ==  versionActiveResult.branchKeyMaterials.branchKeyIdentifier
+        == versionActiveVersionResult.branchKeyMaterials.branchKeyIdentifier
+        == oldVersionResult.branchKeyMaterials.branchKeyIdentifier;
 
     // check that the branch key materials from the current active and its version are the same
     expect versionActiveResult.branchKeyMaterials.branchKey ==
-      versionActiveVersionResult.branchKeyMaterials.branchKey;
+           versionActiveVersionResult.branchKeyMaterials.branchKey;
 
     // check that branch key materials from the current active and the old version are NOT the same
     expect versionActiveResult.branchKeyMaterials.branchKey !=
-      oldVersionResult.branchKeyMaterials.branchKey;
+           oldVersionResult.branchKeyMaterials.branchKey;
 
     // check that the version from the current active and its version are the same
     expect versionActiveResult.branchKeyMaterials.branchKeyVersion ==
-      versionActiveVersionResult.branchKeyMaterials.branchKeyVersion;
-    
+           versionActiveVersionResult.branchKeyMaterials.branchKeyVersion;
+
     // check that the version from the current active and the old version are NOT the same
     expect versionActiveResult.branchKeyMaterials.branchKeyVersion !=
-      oldVersionResult.branchKeyMaterials.branchKeyVersion;
+           oldVersionResult.branchKeyMaterials.branchKeyVersion;
   }
 
   method {:test} TestGetCustomEncryptionContextBranchKeyFromNativeRustWrite() {
@@ -441,9 +441,9 @@ module TestGetKeys {
 
     var activeResult :- expect keyStore.GetActiveBranchKey(
       Types.GetActiveBranchKeyInput(
-        branchKeyIdentifier := customECNativeRustBranchKey 
+        branchKeyIdentifier := customECNativeRustBranchKey
       ));
-    
+
     var versionResult :- expect keyStore.GetBranchKeyVersion(
       Types.GetBranchKeyVersionInput(
         branchKeyIdentifier := customECNativeRustBranchKey,
@@ -451,25 +451,25 @@ module TestGetKeys {
       )
     );
 
-    // length checks  
+    // length checks
     expect |versionResult.branchKeyMaterials.branchKey| == 32;
     expect |activeResult.branchKeyMaterials.branchKey| == 32;
-    
+
     // check version on active materials is the same as the version
     // in the version materials
-    expect activeResult.branchKeyMaterials.branchKeyVersion == 
-      versionResult.branchKeyMaterials.branchKeyVersion;
-    
+    expect activeResult.branchKeyMaterials.branchKeyVersion ==
+           versionResult.branchKeyMaterials.branchKeyVersion;
+
     // check that the branch key material is the same on both
     expect activeResult.branchKeyMaterials.branchKey ==
-      versionResult.branchKeyMaterials.branchKey;
-    
+           versionResult.branchKeyMaterials.branchKey;
+
     // check that the ec on the materials matches the one we expect
     var encryptionContext :- expect EncodeEncryptionContext(map[
                                                               "koda" := "is a dog"
                                                             ]);
     expect encryptionContext
-      == activeResult.branchKeyMaterials.encryptionContext
-      == versionResult.branchKeyMaterials.encryptionContext;
+        == activeResult.branchKeyMaterials.encryptionContext
+        == versionResult.branchKeyMaterials.encryptionContext;
   }
 }

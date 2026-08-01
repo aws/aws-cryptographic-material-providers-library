@@ -115,7 +115,7 @@ module Fixtures {
   const rotatedNativeRustBranchKey := "21884772-a7a8-4d9b-b072-9bbe82915143"
   const rotatedNativeRustBranchKeyActiveVersion := "e1d9eebc-9ec2-4b37-b9e5-31c259356d15"
   const rotatedNativeRustBranchKeyOldVersion := "d0e66ebd-a25a-4c08-ada4-8f37aed0690f"
-  
+
   const customECNativeRustBranchKey := "native-rust-branch-key"
   const customECNativeRustBranchKeyVersion := "1319b546-5b2d-4ec8-86f9-ee0c3b1a0187"
 }
