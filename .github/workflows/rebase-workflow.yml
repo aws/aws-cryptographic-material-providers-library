@@ -32,16 +32,18 @@ jobs:
 
       - name: Rebase mutations branch
         id: rebase
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          MATRIX_BRANCH: ${{ matrix.branches }}
         run: |
           # Determine default branch name dynamically
-          DEFAULT_BRANCH=${{github.event.repository.default_branch}}
           echo "Default branch is $DEFAULT_BRANCH"
 
           # Checkout mutations branch
-          git checkout ${{matrix.branches}}
+          git checkout "$MATRIX_BRANCH"
 
           # Attempt rebase
-          if git rebase origin/$DEFAULT_BRANCH; then
+          if git rebase "origin/$DEFAULT_BRANCH"; then
             echo "Rebase successful"
             echo "rebase_status=success" >> $GITHUB_OUTPUT
           else
