@@ -1,107 +1,142 @@
 file_format_version = "1.0"
-dafny_version = "4.9.0.0"
+dafny_version = "4.9.2.0"
 [options_by_module.MplManifestOptions]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllAlgorithmSuites]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.WrappedAbstractAwsCryptographyMaterialProvidersService]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.WrappedMaterialProviders]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AwsCryptographyMaterialProvidersTestVectorKeysTypes]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AbstractAwsCryptographyMaterialProvidersTestVectorKeysOperations]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AbstractAwsCryptographyMaterialProvidersTestVectorKeysService]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.JSONHelpers]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.KeyDescription]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.KeyMaterial]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.CreateStaticKeyrings]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.CreateStaticKeyStores]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.KeyringFromKeyDescription]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.CmmFromKeyDescription]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.KeysVectorOperations]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.KeyVectors]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.TestVectors]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllHierarchy]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.EncryptionContextUtils]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllKms]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllKmsMrkAware]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllKmsMrkAwareDiscovery]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllKmsRsa]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllKmsEcdh]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllRawAES]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllRawRSA]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllRawECDH]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllDefaultCmm]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllRequiredEncryptionContextCmm]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.AllMulti]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.WriteJsonManifests]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.CompleteVectors]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.ParseJsonManifests]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.TestManifests]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
 [options_by_module.WrappedMaterialProvidersMain]
 legacy-module-names = false
 python-module-name = "aws_cryptography_materialproviders_test_vectors.internaldafny.generated"
+rust-sync = false
