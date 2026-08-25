@@ -53,7 +53,7 @@ jobs:
           special-characters-workaround: "true" # Some environments (example: windowsOS) cannot tolerate special characters in a secret key.
           role-duration-seconds: 7200
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: "true"
       - name: Init Submodules
@@ -64,7 +64,7 @@ jobs:
       # --- Runtime setup (only what's needed to RUN, not build) ---
       - name: Setup .NET Core SDK 6.0.x
         if: matrix.language == 'net'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "6.0.x"
 
@@ -91,7 +91,7 @@ jobs:
 
       - name: Setup Python
         if: ${{ inputs.fuzz-testing || matrix.language == 'python' }}
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.11"
           architecture: x64
@@ -114,7 +114,7 @@ jobs:
           cache: false
       - name: Setup Go
         if: matrix.language == 'go'
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version: "1.24"
 
@@ -181,7 +181,7 @@ jobs:
           special-characters-workaround: "true" # Some environments (example: windowsOS) cannot tolerate special characters in a secret key.
           role-duration-seconds: 7200
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           submodules: "true"
       - name: Init Submodules
@@ -192,7 +192,7 @@ jobs:
       # --- Runtime setup (only what's needed to RUN, not build) ---
       - name: Setup .NET Core SDK 6.0.x
         if: matrix.decrypting_language == 'net'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: "6.0.x"
 
@@ -219,7 +219,7 @@ jobs:
 
       - name: Setup Python
         if: matrix.decrypting_language == 'python'
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.11"
           architecture: x64
@@ -239,7 +239,7 @@ jobs:
 
       - name: Setup Go
         if: matrix.decrypting_language == 'go'
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version: "1.24"
 

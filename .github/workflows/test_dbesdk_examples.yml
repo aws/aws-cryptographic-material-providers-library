@@ -32,13 +32,13 @@ jobs:
           special-characters-workaround: "true" # Some environments (example: windowsOS) cannot tolerate special characters in a secret key.
 
       - name: Checkout MPL
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - run: git submodule update --init libraries
       - run: git submodule update --init --recursive smithy-dafny
 
       - name: Checkout DB-ESDK
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: aws/aws-database-encryption-sdk-dynamodb
           path: dbesdk
