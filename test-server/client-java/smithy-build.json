@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "plugins": {
+    "java-codegen": {
+      "service": "aws.cryptography.materialProviders.testServer#MPLTestServer",
+      "namespace": "aws.cryptography.mpl.testserver.client",
+      "protocol": "smithy.protocols#rpcv2Cbor",
+      "modes": ["client"]
+    }
+  }
+}

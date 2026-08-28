@@ -1,0 +1,55 @@
+{
+  "_comment": [
+    "The MPL TestServer Configuration_Set: exactly one `product`, exactly one",
+    "feature catalog (`features`), and one Configuration_Entry per",
+    "Language_Server (Requirements 7.1, 7.2).",
+    "",
+    "TWO DIVERGENCES from the ESDK TestServer's Configuration_Set, both direct",
+    "consequences of the MPL living in a single repository:",
+    "",
+    "  1. No per-entry `libraryRepository`. The ESDK schema carries library",
+    "     coordinates per entry because each language's ESDK lives in its own",
+    "     repository. The MPL's Artifact_Under_Test is ALWAYS this repository's",
+    "     Dafny source, transpiled from the working tree. Recording coordinates",
+    "     for it would record a constant, and imply -- falsely -- that the",
+    "     library could come from somewhere else (Requirement 7.4).",
+    "",
+    "  2. The Feature_Declaration (`supportedFeatures` / `unsupportedFeatures`)",
+    "     is inline in the entry. In the ESDK, a language that owns a repository",
+    "     declares its features there; no MPL language owns a repository, so",
+    "     every declaration lives here (Requirement 7.5).",
+    "",
+    "`majorVersion` is retained even with a single language because a server's",
+    "identity is the (language, majorVersion) tuple: when the MPL ships a 2.x,",
+    "`java-v1` and `java-v2` must be separately nameable (Requirement 7.7). It",
+    "tracks the major of `javaMPLVersion` in ../../project.properties.",
+    "",
+    "`serverLocation.path` is relative to the repository root."
+  ],
+  "product": "mpl",
+  "features": [
+    "localKeyrings",
+    "awsKmsKeyrings",
+    "hierarchicalKeyring",
+    "cmms",
+    "caches"
+  ],
+  "entries": [
+    {
+      "language": "java",
+      "majorVersion": 1,
+      "port": 8101,
+      "supportedFeatures": ["localKeyrings"],
+      "unsupportedFeatures": [
+        "awsKmsKeyrings",
+        "hierarchicalKeyring",
+        "cmms",
+        "caches"
+      ],
+      "serverLocation": {
+        "repository": "aws-cryptographic-material-providers-library",
+        "path": "test-server/servers/java"
+      }
+    }
+  ]
+}

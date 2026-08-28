@@ -1,0 +1,3 @@
+# Without this line the protocol class is dead code and both modeled
+# errors collapse into an untyped CallException at the client.
+aws.cryptography.mpl.testserver.server.protocol.ErrorTypeRpcV2CborServerProtocolProvider

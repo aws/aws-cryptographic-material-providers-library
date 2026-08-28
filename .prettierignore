@@ -16,6 +16,12 @@ smithy-dafny
 # Dafny generated java
 */runtimes/java/src/*/dafny-generated/*
 
+# TestServer generated code and build output. Prettier already skips these via
+# test-server/.gitignore, but the smithy-java code generator's formatting is not ours to
+# control -- an explicit entry keeps a generator upgrade from breaking the format check.
+test-server/*/build
+test-server/*/*/build
+
 # The manifest files
 test.json
 keys.json

@@ -73,6 +73,11 @@ jobs:
       dafny: ${{needs.getVersions.outputs.version}}
       fuzz-testing: true
     secrets: inherit
+  pr-ci-test-server:
+    needs: getVersions
+    uses: ./.github/workflows/test_server.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
   # TODO: uncomment once DB-ESDK CI passes
   #pr-ci-db-esdk-java-examples-test:
   #  needs: getVersions
@@ -94,6 +99,7 @@ jobs:
       - pr-ci-rust-duplicate-deps
       - pr-interop-test
       - pr-fuzz-interop-test
+      - pr-ci-test-server
       #- pr-ci-db-esdk-java-examples-test
     runs-on: ubuntu-22.04
     steps:
