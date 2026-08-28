@@ -75,5 +75,12 @@ namespace AWS.Cryptography.KeyStore
       if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
       return TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S18_GetBeaconKeyOutput(result.dtor_value);
     }
+    public AWS.Cryptography.KeyStore.GetBranchKeyVersionsOutput GetBranchKeyVersions(AWS.Cryptography.KeyStore.GetBranchKeyVersionsInput input)
+    {
+      software.amazon.cryptography.keystore.internaldafny.types._IGetBranchKeyVersionsInput internalInput = TypeConversion.ToDafny_N3_aws__N12_cryptography__N8_keyStore__S25_GetBranchKeyVersionsInput(input);
+      Wrappers_Compile._IResult<software.amazon.cryptography.keystore.internaldafny.types._IGetBranchKeyVersionsOutput, software.amazon.cryptography.keystore.internaldafny.types._IError> result = _impl.GetBranchKeyVersions(internalInput);
+      if (result.is_Failure) throw TypeConversion.FromDafny_CommonError(result.dtor_error);
+      return TypeConversion.FromDafny_N3_aws__N12_cryptography__N8_keyStore__S26_GetBranchKeyVersionsOutput(result.dtor_value);
+    }
   }
 }

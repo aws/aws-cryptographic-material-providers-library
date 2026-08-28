@@ -32,6 +32,8 @@ import software.amazon.cryptography.keystore.model.GetBeaconKeyInput;
 import software.amazon.cryptography.keystore.model.GetBeaconKeyOutput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.model.GetBranchKeyVersionOutput;
+import software.amazon.cryptography.keystore.model.GetBranchKeyVersionsInput;
+import software.amazon.cryptography.keystore.model.GetBranchKeyVersionsOutput;
 import software.amazon.cryptography.keystore.model.GetKeyStoreInfoOutput;
 import software.amazon.cryptography.keystore.model.KMSConfiguration;
 import software.amazon.cryptography.keystore.model.KeyStoreConfig;
@@ -301,6 +303,31 @@ public class ToNative {
     return nativeBuilder.build();
   }
 
+  public static GetBranchKeyVersionsInput GetBranchKeyVersionsInput(
+    software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionsInput dafnyValue
+  ) {
+    GetBranchKeyVersionsInput.Builder nativeBuilder =
+      GetBranchKeyVersionsInput.builder();
+    nativeBuilder.branchKeyIdentifier(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_branchKeyIdentifier()
+      )
+    );
+    nativeBuilder.count((dafnyValue.dtor_count()));
+    return nativeBuilder.build();
+  }
+
+  public static GetBranchKeyVersionsOutput GetBranchKeyVersionsOutput(
+    software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionsOutput dafnyValue
+  ) {
+    GetBranchKeyVersionsOutput.Builder nativeBuilder =
+      GetBranchKeyVersionsOutput.builder();
+    nativeBuilder.branchKeyMaterials(
+      ToNative.BranchKeyMaterialsList(dafnyValue.dtor_branchKeyMaterials())
+    );
+    return nativeBuilder.build();
+  }
+
   public static GetKeyStoreInfoOutput GetKeyStoreInfoOutput(
     software.amazon.cryptography.keystore.internaldafny.types.GetKeyStoreInfoOutput dafnyValue
   ) {
@@ -434,6 +461,17 @@ public class ToNative {
       );
     }
     return nativeBuilder.build();
+  }
+
+  public static List<BranchKeyMaterials> BranchKeyMaterialsList(
+    DafnySequence<
+      ? extends software.amazon.cryptography.keystore.internaldafny.types.BranchKeyMaterials
+    > dafnyValue
+  ) {
+    return software.amazon.smithy.dafny.conversion.ToNative.Aggregate.GenericToList(
+      dafnyValue,
+      software.amazon.cryptography.keystore.ToNative::BranchKeyMaterials
+    );
   }
 
   public static List<String> GrantTokenList(

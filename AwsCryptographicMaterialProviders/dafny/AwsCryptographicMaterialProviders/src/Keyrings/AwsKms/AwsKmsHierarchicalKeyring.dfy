@@ -544,6 +544,31 @@ module AwsKmsHierarchicalKeyring {
         return Success(getCacheOutput.value.materials.BranchKey);
       }
     }
+
+    method ComputeDecryptCacheId(branchKeyIdUtf8: seq<uint8>, branchKeyVersion: string)
+      returns (res: Result<seq<uint8>, Types.Error>)
+      requires ValidState()
+    {
+      var hashAlgorithm := Crypto.DigestAlgorithm.SHA_384;
+      var resourceId : seq<uint8> := RESOURCE_ID_HIERARCHICAL_KEYRING;
+      var scopeId : seq<uint8> := SCOPE_ID_DECRYPT;
+
+      :- Need(
+        UTF8.IsASCIIString(branchKeyVersion),
+        E("Unable to represent version as an ASCII string.")
+      );
+      var versionBytes :- UTF8.Encode(branchKeyVersion).MapFailure(e => Types.AwsCryptographicMaterialProvidersException(message := e));
+
+      var suffix : seq<uint8> := logicalKeyStoreNameBytes + NULL_BYTE + branchKeyIdUtf8 + NULL_BYTE + versionBytes;
+      var identifier := resourceId + NULL_BYTE + scopeId + NULL_BYTE + partitionIdBytes + NULL_BYTE + suffix;
+
+      var maybeCacheDigest := Digest.Digest(Crypto.DigestInput(
+                                              digestAlgorithm := hashAlgorithm, message := identifier
+                                            ));
+      var cacheDigest :- maybeCacheDigest.MapFailure(e => Types.AwsCryptographyPrimitives(e));
+
+      return Success(cacheDigest);
+    }
   }
 
   method DeriveEncryptionKeyFromBranchKey(

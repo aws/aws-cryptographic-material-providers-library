@@ -28,6 +28,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     nameonly encryptionContext: EncryptionContext ,
     nameonly branchKey: Secret
   )
+  type BranchKeyMaterialsList = seq<BranchKeyMaterials>
   datatype CreateKeyInput = | CreateKeyInput (
     nameonly branchKeyIdentifier: Option<string> := Option.None ,
     nameonly encryptionContext: Option<EncryptionContext> := Option.None
@@ -64,6 +65,13 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
   datatype GetBranchKeyVersionOutput = | GetBranchKeyVersionOutput (
     nameonly branchKeyMaterials: BranchKeyMaterials
   )
+  datatype GetBranchKeyVersionsInput = | GetBranchKeyVersionsInput (
+    nameonly branchKeyIdentifier: string ,
+    nameonly count: int32
+  )
+  datatype GetBranchKeyVersionsOutput = | GetBranchKeyVersionsOutput (
+    nameonly branchKeyMaterials: BranchKeyMaterialsList
+  )
   datatype GetKeyStoreInfoOutput = | GetKeyStoreInfoOutput (
     nameonly keyStoreId: string ,
     nameonly keyStoreName: ComAmazonawsDynamodbTypes.TableName ,
@@ -82,6 +90,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
       GetActiveBranchKey := [];
       GetBranchKeyVersion := [];
       GetBeaconKey := [];
+      GetBranchKeyVersions := [];
     }
     ghost var GetKeyStoreInfo: seq<DafnyCallEvent<(), Result<GetKeyStoreInfoOutput, Error>>>
     ghost var CreateKeyStore: seq<DafnyCallEvent<CreateKeyStoreInput, Result<CreateKeyStoreOutput, Error>>>
@@ -90,6 +99,7 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
     ghost var GetActiveBranchKey: seq<DafnyCallEvent<GetActiveBranchKeyInput, Result<GetActiveBranchKeyOutput, Error>>>
     ghost var GetBranchKeyVersion: seq<DafnyCallEvent<GetBranchKeyVersionInput, Result<GetBranchKeyVersionOutput, Error>>>
     ghost var GetBeaconKey: seq<DafnyCallEvent<GetBeaconKeyInput, Result<GetBeaconKeyOutput, Error>>>
+    ghost var GetBranchKeyVersions: seq<DafnyCallEvent<GetBranchKeyVersionsInput, Result<GetBranchKeyVersionsOutput, Error>>>
   }
   trait {:termination false} IKeyStoreClient
   {
@@ -222,6 +232,21 @@ module {:extern "software.amazon.cryptography.keystore.internaldafny.types" } Aw
         && ValidState()
       ensures GetBeaconKeyEnsuresPublicly(input, output)
       ensures History.GetBeaconKey == old(History.GetBeaconKey) + [DafnyCallEvent(input, output)]
+
+    predicate GetBranchKeyVersionsEnsuresPublicly(input: GetBranchKeyVersionsInput , output: Result<GetBranchKeyVersionsOutput, Error>)
+    // The public method to be called by library consumers
+    method GetBranchKeyVersions ( input: GetBranchKeyVersionsInput )
+      returns (output: Result<GetBranchKeyVersionsOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GetBranchKeyVersions
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetBranchKeyVersionsEnsuresPublicly(input, output)
+      ensures History.GetBranchKeyVersions == old(History.GetBranchKeyVersions) + [DafnyCallEvent(input, output)]
 
   }
   datatype KeyStoreConfig = | KeyStoreConfig (
@@ -492,6 +517,26 @@ abstract module AbstractAwsCryptographyKeyStoreService
       History.GetBeaconKey := History.GetBeaconKey + [DafnyCallEvent(input, output)];
     }
 
+    predicate GetBranchKeyVersionsEnsuresPublicly(input: GetBranchKeyVersionsInput , output: Result<GetBranchKeyVersionsOutput, Error>)
+    {Operations.GetBranchKeyVersionsEnsuresPublicly(input, output)}
+    // The public method to be called by library consumers
+    method GetBranchKeyVersions ( input: GetBranchKeyVersionsInput )
+      returns (output: Result<GetBranchKeyVersionsOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GetBranchKeyVersions
+      // Dafny will skip type parameters when generating a default decreases clause.
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetBranchKeyVersionsEnsuresPublicly(input, output)
+      ensures History.GetBranchKeyVersions == old(History.GetBranchKeyVersions) + [DafnyCallEvent(input, output)]
+    {
+      output := Operations.GetBranchKeyVersions(config, input);
+      History.GetBranchKeyVersions := History.GetBranchKeyVersions + [DafnyCallEvent(input, output)];
+    }
+
   }
 }
 abstract module AbstractAwsCryptographyKeyStoreOperations {
@@ -612,4 +657,20 @@ abstract module AbstractAwsCryptographyKeyStoreOperations {
     ensures
       && ValidInternalConfig?(config)
     ensures GetBeaconKeyEnsuresPublicly(input, output)
+
+
+  predicate GetBranchKeyVersionsEnsuresPublicly(input: GetBranchKeyVersionsInput , output: Result<GetBranchKeyVersionsOutput, Error>)
+  // The private method to be refined by the library developer
+
+
+  method GetBranchKeyVersions ( config: InternalConfig , input: GetBranchKeyVersionsInput )
+    returns (output: Result<GetBranchKeyVersionsOutput, Error>)
+    requires
+      && ValidInternalConfig?(config)
+    modifies ModifiesInternalConfig(config)
+    // Dafny will skip type parameters when generating a default decreases clause.
+    decreases ModifiesInternalConfig(config)
+    ensures
+      && ValidInternalConfig?(config)
+    ensures GetBranchKeyVersionsEnsuresPublicly(input, output)
 }

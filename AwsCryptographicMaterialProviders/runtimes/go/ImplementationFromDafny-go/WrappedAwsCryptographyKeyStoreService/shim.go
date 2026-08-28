@@ -15,7 +15,7 @@ type Shim struct {
 	client *awscryptographykeystoresmithygenerated.Client
 }
 
-func (_static *CompanionStruct_Default___) WrappedKeyStore(inputConfig AwsCryptographyKeyStoreTypes.KeyStoreConfig) Wrappers.Result {
+func  WrappedKeyStore(inputConfig AwsCryptographyKeyStoreTypes.KeyStoreConfig) Wrappers.Result {
 	var nativeConfig = awscryptographykeystoresmithygenerated.KeyStoreConfig_FromDafny(inputConfig)
 	var nativeClient, nativeError = awscryptographykeystoresmithygenerated.NewClient(nativeConfig)
 	if nativeError != nil {
@@ -85,4 +85,13 @@ func (shim *Shim) GetBeaconKey(input AwsCryptographyKeyStoreTypes.GetBeaconKeyIn
 		return Wrappers.Companion_Result_.Create_Failure_(awscryptographykeystoresmithygenerated.Error_ToDafny(native_error))
 	}
 	return Wrappers.Companion_Result_.Create_Success_(awscryptographykeystoresmithygenerated.GetBeaconKeyOutput_ToDafny(*native_response))
+}
+
+func (shim *Shim) GetBranchKeyVersions(input AwsCryptographyKeyStoreTypes.GetBranchKeyVersionsInput) Wrappers.Result {
+	var native_request = awscryptographykeystoresmithygenerated.GetBranchKeyVersionsInput_FromDafny(input)
+	var native_response, native_error = shim.client.GetBranchKeyVersions(context.Background(), native_request)
+	if native_error != nil {
+		return Wrappers.Companion_Result_.Create_Failure_(awscryptographykeystoresmithygenerated.Error_ToDafny(native_error))
+	}
+	return Wrappers.Companion_Result_.Create_Success_(awscryptographykeystoresmithygenerated.GetBranchKeyVersionsOutput_ToDafny(*native_response))
 }

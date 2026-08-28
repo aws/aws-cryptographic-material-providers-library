@@ -282,6 +282,21 @@ func AlgorithmSuiteInfo_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTy
 
 }
 
+func GetCacheIdentifierInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.GetCacheIdentifierInput) awscryptographymaterialproviderssmithygeneratedtypes.GetCacheIdentifierInput {
+
+	return awscryptographymaterialproviderssmithygeneratedtypes.GetCacheIdentifierInput{Keyring: Keyring_FromDafny(dafnyInput.Dtor_keyring()),
+		BranchKeyId:      Aws_cryptography_materialProviders_GetCacheIdentifierInput_branchKeyId_FromDafny(dafnyInput.Dtor_branchKeyId()),
+		BranchKeyVersion: Aws_cryptography_materialProviders_GetCacheIdentifierInput_branchKeyVersion_FromDafny(dafnyInput.Dtor_branchKeyVersion().UnwrapOr(nil)),
+	}
+
+}
+
+func GetCacheIdentifierOutput_FromDafny(dafnyOutput AwsCryptographyMaterialProvidersTypes.GetCacheIdentifierOutput) awscryptographymaterialproviderssmithygeneratedtypes.GetCacheIdentifierOutput {
+
+	return awscryptographymaterialproviderssmithygeneratedtypes.GetCacheIdentifierOutput{Identifier: Aws_cryptography_materialProviders_GetCacheIdentifierOutput_identifier_FromDafny(dafnyOutput.Dtor_identifier())}
+
+}
+
 func InitializeDecryptionMaterialsInput_FromDafny(dafnyInput AwsCryptographyMaterialProvidersTypes.InitializeDecryptionMaterialsInput) awscryptographymaterialproviderssmithygeneratedtypes.InitializeDecryptionMaterialsInput {
 
 	return awscryptographymaterialproviderssmithygeneratedtypes.InitializeDecryptionMaterialsInput{AlgorithmSuiteId: Aws_cryptography_materialProviders_InitializeDecryptionMaterialsInput_algorithmSuiteId_FromDafny(dafnyInput.Dtor_algorithmSuiteId()),
@@ -2258,6 +2273,35 @@ func Aws_cryptography_materialProviders_SymmetricSigningKeyList_member_FromDafny
 	}()
 }
 func Aws_cryptography_materialProviders_GetAlgorithmSuiteInfoInput_binaryId_FromDafny(input interface{}) []byte {
+	return func() []byte {
+		if input == nil {
+			return nil
+		}
+		return dafny.ToByteArray(input.(dafny.Sequence))
+	}()
+}
+func Aws_cryptography_materialProviders_GetCacheIdentifierInput_branchKeyId_FromDafny(input interface{}) string {
+	return func() string {
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
+	}()
+}
+func Aws_cryptography_materialProviders_GetCacheIdentifierInput_branchKeyVersion_FromDafny(input interface{}) *string {
+	return func() *string {
+		if input == nil {
+			return nil
+		}
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return &s
+	}()
+}
+func Aws_cryptography_materialProviders_GetCacheIdentifierOutput_identifier_FromDafny(input interface{}) []byte {
 	return func() []byte {
 		if input == nil {
 			return nil

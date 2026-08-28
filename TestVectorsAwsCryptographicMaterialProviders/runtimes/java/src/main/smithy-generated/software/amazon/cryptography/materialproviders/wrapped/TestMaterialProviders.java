@@ -38,6 +38,8 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Create
 import software.amazon.cryptography.materialproviders.internaldafny.types.DecryptionMaterials;
 import software.amazon.cryptography.materialproviders.internaldafny.types.EncryptionMaterials;
 import software.amazon.cryptography.materialproviders.internaldafny.types.Error;
+import software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheIdentifierInput;
+import software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheIdentifierOutput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.IAwsCryptographicMaterialProvidersClient;
 import software.amazon.cryptography.materialproviders.internaldafny.types.IClientSupplier;
 import software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache;
@@ -573,6 +575,31 @@ public class TestMaterialProviders
     } catch (RuntimeException ex) {
       return Result.create_Failure(
         AlgorithmSuiteInfo._typeDescriptor(),
+        Error._typeDescriptor(),
+        ToDafny.Error(ex)
+      );
+    }
+  }
+
+  public Result<GetCacheIdentifierOutput, Error> GetCacheIdentifier(
+    GetCacheIdentifierInput dafnyInput
+  ) {
+    try {
+      software.amazon.cryptography.materialproviders.model.GetCacheIdentifierInput nativeInput =
+        ToNative.GetCacheIdentifierInput(dafnyInput);
+      software.amazon.cryptography.materialproviders.model.GetCacheIdentifierOutput nativeOutput =
+        this._impl.GetCacheIdentifier(nativeInput);
+      GetCacheIdentifierOutput dafnyOutput = ToDafny.GetCacheIdentifierOutput(
+        nativeOutput
+      );
+      return Result.create_Success(
+        GetCacheIdentifierOutput._typeDescriptor(),
+        Error._typeDescriptor(),
+        dafnyOutput
+      );
+    } catch (RuntimeException ex) {
+      return Result.create_Failure(
+        GetCacheIdentifierOutput._typeDescriptor(),
         Error._typeDescriptor(),
         ToDafny.Error(ex)
       );
