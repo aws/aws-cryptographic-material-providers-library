@@ -8,8 +8,9 @@ import (
 
 type AwsCryptographicPrimitivesError struct {
 	AwsCryptographicPrimitivesBaseException
-	Message           string
+	Message string
 	ErrorCodeOverride *string
+	
 }
 
 func (e AwsCryptographicPrimitivesError) Error() string {

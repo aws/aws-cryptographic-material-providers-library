@@ -17,8 +17,6 @@ from smithy_python.interfaces.retries import RetryStrategy
 
 
 _ServiceInterceptor = Any
-
-
 @dataclass(init=False)
 class Config:
     """Configuration for AwsCryptographicMaterialProviders."""
@@ -36,35 +34,40 @@ class Config:
     ):
         """Constructor.
 
-        :param interceptors: The list of interceptors, which are hooks
-            that are called during the execution of a request.
-        :param retry_strategy: The retry strategy for issuing retry
-            tokens and computing retry delays.
+        :param interceptors: The list of interceptors, which are hooks that are called
+        during the execution of a request.
+
+        :param retry_strategy: The retry strategy for issuing retry tokens and computing
+        retry delays.
+
         :param dafnyImplInterface:
         """
         self.interceptors = interceptors or []
         self.retry_strategy = retry_strategy or SimpleRetryStrategy()
         self.dafnyImplInterface = dafnyImplInterface
 
-
 # A callable that allows customizing the config object on each request.
 Plugin: TypeAlias = Callable[[Config], None]
-
 
 class MaterialProvidersConfig(Config):
     def __init__(
         self,
     ):
-        """Constructor for MaterialProvidersConfig."""
+        """Constructor for MaterialProvidersConfig
+        """
         super().__init__()
 
     def as_dict(self) -> Dict[str, Any]:
-        """Converts the MaterialProvidersConfig to a dictionary."""
+        """Converts the MaterialProvidersConfig to a dictionary.
+
+        """
         return {}
 
     @staticmethod
     def from_dict(d: Dict[str, Any]) -> "MaterialProvidersConfig":
-        """Creates a MaterialProvidersConfig from a dictionary."""
+        """Creates a MaterialProvidersConfig from a dictionary.
+
+        """
         return MaterialProvidersConfig()
 
     def __repr__(self) -> str:
@@ -75,18 +78,16 @@ class MaterialProvidersConfig(Config):
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, MaterialProvidersConfig)
 
-
 def dafny_config_to_smithy_config(dafny_config) -> MaterialProvidersConfig:
-    """Converts the provided Dafny shape for this localService's config into
-    the corresponding Smithy-modelled shape."""
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_MaterialProvidersConfig(
-        dafny_config
-    )
-
+    """
+    Converts the provided Dafny shape for this localService's config
+    into the corresponding Smithy-modelled shape.
+    """
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.dafny_to_smithy.aws_cryptography_materialproviders_MaterialProvidersConfig(dafny_config)
 
 def smithy_config_to_dafny_config(smithy_config) -> DafnyMaterialProvidersConfig:
-    """Converts the provided Smithy-modelled shape for this localService's
-    config into the corresponding Dafny shape."""
-    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_MaterialProvidersConfig(
-        smithy_config
-    )
+    """
+    Converts the provided Smithy-modelled shape for this localService's config
+    into the corresponding Dafny shape.
+    """
+    return aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.smithy_to_dafny.aws_cryptography_materialproviders_MaterialProvidersConfig(smithy_config)

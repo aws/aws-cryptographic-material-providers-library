@@ -30,7 +30,14 @@ namespace AWS.Cryptography.MaterialProviders
     public void Validate()
     {
       if (!IsSetIdentifier()) throw new System.ArgumentException("Missing value for required property 'Identifier'");
-
+      if (IsSetBytesUsed())
+      {
+        if (BytesUsed < 0)
+        {
+          throw new System.ArgumentException(
+              String.Format("Member BytesUsed of structure GetCacheEntryInput has type PositiveLong which has a minimum of 0 but was given the value {0}.", BytesUsed));
+        }
+      }
     }
   }
 }

@@ -7,9 +7,9 @@ import (
 )
 
 type CollectionOfErrors struct {
-	AwsCryptographicPrimitivesBaseException
-	ListOfErrors []error
-	Message      string
+    AwsCryptographicPrimitivesBaseException
+    ListOfErrors []error
+    Message string
 }
 
 func (e CollectionOfErrors) Error() string {
@@ -17,10 +17,10 @@ func (e CollectionOfErrors) Error() string {
 }
 
 type OpaqueError struct {
-	AwsCryptographicPrimitivesBaseException
-	ErrObject interface{}
+   AwsCryptographicPrimitivesBaseException
+   ErrObject interface{}
 }
 
 func (e OpaqueError) Error() string {
-	return fmt.Sprintf("message: %v", e.ErrObject)
+   return fmt.Sprintf("message: %v", e.ErrObject )
 }
