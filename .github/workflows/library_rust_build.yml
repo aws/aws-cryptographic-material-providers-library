@@ -31,7 +31,7 @@ jobs:
       - name: Support longpaths on Git checkout
         run: |
           git config --global core.longpaths true
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Init Submodules
         shell: bash
         run: |
@@ -59,7 +59,7 @@ jobs:
 
       # Go is needed for aws-lc-FIPS
       - name: Install Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version: ">=1.18"
 
