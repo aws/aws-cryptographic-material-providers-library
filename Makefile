@@ -47,32 +47,30 @@ polymorph_code_gen:
 	) true
 
 setup_semantic_release:
-	npm i --no-save semantic-release @semantic-release/changelog semantic-release-replace-plugin conventional-changelog-conventionalcommits @semantic-release/git @semantic-release/exec
+	npm i --no-save semantic-release @semantic-release/changelog semantic-release-replace-plugin conventional-changelog-conventionalcommits@^9 @semantic-release/git @semantic-release/exec
 
 run_net_semantic_release:
-	mv .releaserc-net.cjs .releaserc.cjs
+	cp .releaserc-net.cjs .releaserc.cjs
 	npx semantic-release --no-ci
-	mv .releaserc.cjs .releaserc-net.cjs
+	rm -f .releaserc.cjs
 
 run_java_semantic_release:
-	mv .releaserc-java.cjs .releaserc.cjs
+	cp .releaserc-java.cjs .releaserc.cjs
 	npx semantic-release --no-ci
-	mv .releaserc.cjs .releaserc-java.cjs
+	rm -f .releaserc.cjs
 
 run_python_semantic_release:
-	mv .releaserc-python.cjs .releaserc.cjs
+	cp .releaserc-python.cjs .releaserc.cjs
 	npx semantic-release --no-ci
-	mv .releaserc.cjs .releaserc-python.cjs
+	rm -f .releaserc.cjs
 
 dry_run_semantic_release:
 	npx semantic-release --dry-run
 
 dry_run_net_semantic_release:
-	mv .releaserc.cjs .releaserc-main.cjs
-	mv .releaserc-net.cjs .releaserc.cjs
+	cp .releaserc-net.cjs .releaserc.cjs
 	npx semantic-release --dry-run
-	mv .releaserc.cjs .releaserc-net.cjs
-	mv .releaserc-main.cjs .releaserc.cjs
+	rm -f .releaserc.cjs
 
 duvet: | duvet_extract duvet_report
 
