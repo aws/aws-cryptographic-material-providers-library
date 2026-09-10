@@ -549,4 +549,68 @@ module GetKeys {
   }
 
 
+  method GetBranchKeyVersions(
+    branchKeyIdentifier: string,
+    count: DDB.PositiveIntegerObject,
+    tableName: DDB.TableName,
+    logicalKeyStoreName: string,
+    kmsConfiguration: Types.KMSConfiguration,
+    grantTokens: KMS.GrantTokenList,
+    kmsClient: KMS.IKMSClient,
+    ddbClient: DDB.IDynamoDBClient
+  )
+    returns (output: Result<seq<Types.BranchKeyMaterials>, Types.Error>)
+    requires DDB.IsValid_TableName(tableName)
+    requires ddbClient.Modifies !! kmsClient.Modifies
+    requires kmsClient.ValidState() && ddbClient.ValidState()
+    modifies ddbClient.Modifies, kmsClient.Modifies
+    ensures kmsClient.ValidState() && ddbClient.ValidState()
+  {
+    var items :- DDBKeystoreOperations.QueryBranchKeyVersionItems(
+      branchKeyIdentifier,
+      count,
+      tableName,
+      ddbClient
+    );
+
+    var results: seq<Types.BranchKeyMaterials> := [];
+    var i: int := 0;
+
+    while i < |items|
+      invariant kmsClient.ValidState() && ddbClient.ValidState()
+    {
+      var item := items[i];
+
+      if Structure.VersionBranchKeyItem?(item) {
+        var encryptionContext := Structure.ToBranchKeyContext(item, logicalKeyStoreName);
+
+        if KMSKeystoreOperations.AttemptKmsOperation?(kmsConfiguration, encryptionContext)
+           && KmsArn.ValidKmsArn?(encryptionContext[Structure.KMS_FIELD])
+        {
+          var maybeBranchKey := KMSKeystoreOperations.DecryptKey(
+            encryptionContext,
+            item,
+            kmsConfiguration,
+            grantTokens,
+            kmsClient
+          );
+
+          if maybeBranchKey.Success? {
+            var maybeMaterials := Structure.ToBranchKeyMaterials(
+              encryptionContext,
+              maybeBranchKey.value.Plaintext.value
+            );
+            if maybeMaterials.Success? {
+              results := results + [maybeMaterials.value];
+            }
+          }
+        }
+      }
+
+      i := i + 1;
+    }
+
+    return Success(results);
+  }
+
 }

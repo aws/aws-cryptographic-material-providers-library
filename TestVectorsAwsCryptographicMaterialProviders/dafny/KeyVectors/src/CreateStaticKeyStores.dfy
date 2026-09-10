@@ -225,5 +225,24 @@ module {:options "-functionSyntax:4"} CreateStaticKeyStores {
       History.VersionKey := History.VersionKey + [DafnyCallEvent(input, output)];
     }
 
+    ghost predicate GetBranchKeyVersionsEnsuresPublicly(input: GetBranchKeyVersionsInput, output: Result<GetBranchKeyVersionsOutput, Error>)
+    {true}
+
+    method GetBranchKeyVersions ( input: GetBranchKeyVersionsInput )
+      returns (output: Result<GetBranchKeyVersionsOutput, Error>)
+      requires
+        && ValidState()
+      modifies Modifies - {History} ,
+               History`GetBranchKeyVersions
+      decreases Modifies - {History}
+      ensures
+        && ValidState()
+      ensures GetBranchKeyVersionsEnsuresPublicly(input, output)
+      ensures History.GetBranchKeyVersions == old(History.GetBranchKeyVersions) + [DafnyCallEvent(input, output)]
+    {
+      output := Failure(KeyStoreException( message := "Not Supported"));
+      History.GetBranchKeyVersions := History.GetBranchKeyVersions + [DafnyCallEvent(input, output)];
+    }
+
   }
 }

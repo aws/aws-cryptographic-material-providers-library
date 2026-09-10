@@ -162,3 +162,24 @@ func (client *Client) GetBeaconKey(ctx context.Context, params awscryptographyke
 	return &native_response, nil
 
 }
+
+func (client *Client) GetBranchKeyVersions(ctx context.Context, params awscryptographykeystoresmithygeneratedtypes.GetBranchKeyVersionsInput) (*awscryptographykeystoresmithygeneratedtypes.GetBranchKeyVersionsOutput, error) {
+	err := params.Validate()
+	if err != nil {
+		opaqueErr := awscryptographykeystoresmithygeneratedtypes.OpaqueError{
+			ErrObject: err,
+		}
+		return nil, opaqueErr
+	}
+
+	var dafny_request AwsCryptographyKeyStoreTypes.GetBranchKeyVersionsInput = GetBranchKeyVersionsInput_ToDafny(params)
+	var dafny_response = client.DafnyClient.GetBranchKeyVersions(dafny_request)
+
+	if dafny_response.Is_Failure() {
+		err := dafny_response.Dtor_error().(AwsCryptographyKeyStoreTypes.Error)
+		return nil, Error_FromDafny(err)
+	}
+	var native_response = GetBranchKeyVersionsOutput_FromDafny(dafny_response.Dtor_value().(AwsCryptographyKeyStoreTypes.GetBranchKeyVersionsOutput))
+	return &native_response, nil
+
+}
