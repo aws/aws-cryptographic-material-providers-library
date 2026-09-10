@@ -30,6 +30,7 @@ java {
         srcDir("src/test/dafny-generated")
         srcDir("src/test/java")
     }
+    withSourcesJar()
 }
 
 var caUrl: URI? = null
@@ -86,6 +87,10 @@ publishing {
 
 tasks.withType<JavaCompile>() {
     options.encoding = "UTF-8"
+}
+
+tasks.withType<Jar>() {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 tasks.withType<Wrapper>() {

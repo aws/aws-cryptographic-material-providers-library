@@ -43,6 +43,7 @@ java {
     sourceSets["test"].java {
         srcDir("src/test/dafny-generated")
     }
+    withSourcesJar()
 }
 
 repositories {
@@ -83,6 +84,10 @@ publishing {
 
 tasks.withType<JavaCompile>() {
     options.encoding = "UTF-8"
+}
+
+tasks.withType<Jar>() {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 tasks.withType<Wrapper>() {
