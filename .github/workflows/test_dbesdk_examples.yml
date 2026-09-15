@@ -32,26 +32,26 @@ jobs:
           special-characters-workaround: "true" # Some environments (example: windowsOS) cannot tolerate special characters in a secret key.
 
       - name: Checkout MPL
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - run: git submodule update --init libraries
       - run: git submodule update --init --recursive smithy-dafny
 
       - name: Checkout DB-ESDK
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: aws/aws-database-encryption-sdk-dynamodb
           path: dbesdk
           submodules: recursive
 
       - name: Setup Java 8
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: "corretto"
           java-version: 8
 
       - name: Setup Java 11
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: "corretto"
           java-version: 11
