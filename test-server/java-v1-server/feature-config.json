@@ -1,0 +1,21 @@
+{
+  "_comment": [
+    "Primitives Language_Repository feature-config.json for the MPL Java server.",
+    "The union of supportedFeatures + unsupportedFeatures equals the commons",
+    "Feature_Catalog [aes-gcm, hkdf, kbkdf-ctr-hmac, digest, hmac, ecdsa, random].",
+    "kbkdf-ctr-hmac is unsupported: the Java AtomicPrimitives KdfCounterMode builds",
+    "its fixed input from a required purpose+nonce (SHA-256/384 only, ikm 32/48/66,",
+    "expectedLength 32/64) and cannot consume the model's verbatim info blob."
+  ],
+  "supportedFeatures": [
+    "aes-gcm",
+    "hkdf",
+    "digest",
+    "hmac",
+    "ecdsa",
+    "random"
+  ],
+  "unsupportedFeatures": [
+    "kbkdf-ctr-hmac"
+  ]
+}
