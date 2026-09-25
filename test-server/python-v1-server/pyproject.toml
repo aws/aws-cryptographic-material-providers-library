@@ -9,11 +9,11 @@ name = "primitives-test-server-python"
 version = "0.0.0"
 description = "Hand-implemented Python Language_Server for the Primitives TestServer (rpcv2Cbor)"
 requires-python = ">=3.11"
-# The AtomicPrimitives library (aws-cryptography-internal-primitives and its
-# aws-cryptography-internal-standard-library dependency) is installed from this
-# repo's Dafny-transpiled AwsCryptographyPrimitives/runtimes/python source, not
-# from PyPI. Only the wire-protocol codec is declared here.
+# The AtomicPrimitives library is the published PyPI package, at the version
+# the orchestrator's pinned aws-cryptographic-material-providers (<=1.11.2)
+# depends on.
 dependencies = [
+    "aws-cryptography-internal-primitives==1.11.2",
     "cbor2>=5.6",
 ]
 
