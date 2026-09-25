@@ -146,7 +146,8 @@ module DDBKeystoreOperations {
   method GetActiveBranchKeyItem(
     branchKeyIdentifier: string,
     tableName: DDB.TableName,
-    ddbClient: DDB.IDynamoDBClient
+    ddbClient: DDB.IDynamoDBClient,
+    requireConsistentReads: bool
   )
     returns (output: Result<Structure.ActiveBranchKeyItem, Types.Error>)
     requires DDB.IsValid_TableName(tableName)
@@ -161,6 +162,8 @@ module DDBKeystoreOperations {
               Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(branchKeyIdentifier),
               Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.BRANCH_KEY_ACTIVE_TYPE)
             ]
+      && Seq.Last(ddbClient.History.GetItem).input.ConsistentRead == Some(requireConsistentReads)
+
     ensures output.Success?
             ==>
               && output.value[Structure.BRANCH_KEY_IDENTIFIER_FIELD].S == branchKeyIdentifier
@@ -187,7 +190,7 @@ module DDBKeystoreOperations {
       Key := dynamoDbKey,
       TableName := tableName,
       AttributesToGet := None,
-      ConsistentRead :=  None,
+      ConsistentRead :=  Some(requireConsistentReads),
       ReturnConsumedCapacity := None,
       ProjectionExpression := None,
       ExpressionAttributeNames := None
@@ -216,7 +219,8 @@ module DDBKeystoreOperations {
     branchKeyIdentifier: string,
     branchKeyVersion: string,
     tableName: DDB.TableName,
-    ddbClient: DDB.IDynamoDBClient
+    ddbClient: DDB.IDynamoDBClient,
+    requireConsistentReads: bool
   )
     returns (output: Result<Structure.VersionBranchKeyItem, Types.Error>)
     requires DDB.IsValid_TableName(tableName)
@@ -231,6 +235,7 @@ module DDBKeystoreOperations {
               Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(branchKeyIdentifier),
               Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.BRANCH_KEY_TYPE_PREFIX + branchKeyVersion)
             ]
+      && Seq.Last(ddbClient.History.GetItem).input.ConsistentRead == Some(requireConsistentReads)
 
     ensures output.Success?
             ==>
@@ -255,7 +260,7 @@ module DDBKeystoreOperations {
       Key := dynamoDbKey,
       TableName := tableName,
       AttributesToGet := None,
-      ConsistentRead :=  None,
+      ConsistentRead :=  Some(requireConsistentReads),
       ReturnConsumedCapacity := None,
       ProjectionExpression := None,
       ExpressionAttributeNames := None
@@ -284,7 +289,8 @@ module DDBKeystoreOperations {
   method GetBeaconKeyItem(
     branchKeyIdentifier: string,
     tableName: DDB.TableName,
-    ddbClient: DDB.IDynamoDBClient
+    ddbClient: DDB.IDynamoDBClient,
+    requireConsistentReads: bool
   )
     returns (output: Result<Structure.BeaconKeyItem, Types.Error>)
     requires DDB.IsValid_TableName(tableName)
@@ -302,6 +308,7 @@ module DDBKeystoreOperations {
               Structure.BRANCH_KEY_IDENTIFIER_FIELD := DDB.AttributeValue.S(branchKeyIdentifier),
               Structure.TYPE_FIELD := DDB.AttributeValue.S(Structure.BEACON_KEY_TYPE_VALUE)
             ]
+      && Seq.Last(ddbClient.History.GetItem).input.ConsistentRead == Some(requireConsistentReads)
 
     ensures output.Success?
             ==>
@@ -326,7 +333,7 @@ module DDBKeystoreOperations {
       Key := dynamoDbKey,
       TableName := tableName,
       AttributesToGet := None,
-      ConsistentRead :=  None,
+      ConsistentRead :=  Some(requireConsistentReads),
       ReturnConsumedCapacity := None,
       ProjectionExpression := None,
       ExpressionAttributeNames := None
