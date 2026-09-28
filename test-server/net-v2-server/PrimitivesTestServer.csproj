@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>PrimitivesTestServer</RootNamespace>
+    <AssemblyName>PrimitivesTestServer</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Formats.Cbor" Version="8.0.0" />
+    <!-- The published AtomicPrimitives package (NuGet), not a ProjectReference
+         to the Dafny-transpiled AwsCryptographyPrimitives/runtimes/net. -->
+    <PackageReference Include="AWS.Cryptography.Internal.AwsCryptographyPrimitives" Version="2.0.0" />
+  </ItemGroup>
+
+</Project>

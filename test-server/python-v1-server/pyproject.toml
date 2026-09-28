@@ -1,0 +1,24 @@
+# Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "primitives-test-server-python"
+version = "0.0.0"
+description = "Hand-implemented Python Language_Server for the Primitives TestServer (rpcv2Cbor)"
+requires-python = ">=3.11"
+# The AtomicPrimitives library is the published PyPI package, at the version
+# the orchestrator's pinned aws-cryptographic-material-providers (<=1.11.2)
+# depends on.
+dependencies = [
+    "aws-cryptography-internal-primitives==1.11.2",
+    "cbor2>=5.6",
+]
+
+[project.scripts]
+primitives-test-server-python = "primitives_test_server.__main__:main"
+
+[tool.setuptools]
+packages = ["primitives_test_server"]
