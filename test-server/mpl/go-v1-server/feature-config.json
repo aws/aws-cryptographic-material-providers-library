@@ -1,0 +1,4 @@
+{
+  "supportedFeatures": ["raw-aes", "default-cmm"],
+  "unsupportedFeatures": []
+}

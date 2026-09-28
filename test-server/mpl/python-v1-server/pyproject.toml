@@ -1,0 +1,23 @@
+# Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mpl-test-server-python"
+version = "0.0.0"
+description = "Hand-implemented Python Language_Server for the MPL TestServer (rpcv2Cbor)"
+requires-python = ">=3.11"
+# The Material Providers Library is the published PyPI package, at the newest
+# version the commons orchestrator's pinned requirement (<=1.11.2) allows.
+dependencies = [
+    "aws-cryptographic-material-providers==1.11.2",
+    "cbor2>=5.6",
+]
+
+[project.scripts]
+mpl-test-server-python = "mpl_test_server.__main__:main"
+
+[tool.setuptools]
+packages = ["mpl_test_server"]
