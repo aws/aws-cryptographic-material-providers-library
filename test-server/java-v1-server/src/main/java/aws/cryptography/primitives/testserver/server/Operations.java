@@ -3,6 +3,7 @@ package aws.cryptography.primitives.testserver.server;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.nio.ByteBuffer;
+import java.util.function.Supplier;
 import software.amazon.cryptography.primitives.AtomicPrimitives;
 import software.amazon.cryptography.primitives.model.AESDecryptInput;
 import software.amazon.cryptography.primitives.model.AESEncryptInput;
@@ -60,15 +61,17 @@ final class Operations {
   }
 
   private ObjectNode aesEncrypt(JsonNode request) {
-    AESEncryptOutput output = primitives.AESEncrypt(
-      AESEncryptInput
-        .builder()
-        .encAlg(aesGcm(Cbor.string(request, "algorithm")))
-        .iv(ByteBuffer.wrap(Cbor.blob(request, "iv")))
-        .key(ByteBuffer.wrap(Cbor.blob(request, "key")))
-        .msg(ByteBuffer.wrap(Cbor.blob(request, "message")))
-        .aad(ByteBuffer.wrap(Cbor.blob(request, "aad")))
-        .build()
+    AESEncryptOutput output = call(() ->
+      primitives.AESEncrypt(
+        AESEncryptInput
+          .builder()
+          .encAlg(aesGcm(Cbor.string(request, "algorithm")))
+          .iv(ByteBuffer.wrap(Cbor.blob(request, "iv")))
+          .key(ByteBuffer.wrap(Cbor.blob(request, "key")))
+          .msg(ByteBuffer.wrap(Cbor.blob(request, "message")))
+          .aad(ByteBuffer.wrap(Cbor.blob(request, "aad")))
+          .build()
+      )
     );
     ObjectNode response = Cbor.object();
     response.put("ciphertext", Cbor.bytes(output.cipherText()));
@@ -77,16 +80,18 @@ final class Operations {
   }
 
   private ObjectNode aesDecrypt(JsonNode request) {
-    ByteBuffer plaintext = primitives.AESDecrypt(
-      AESDecryptInput
-        .builder()
-        .encAlg(aesGcm(Cbor.string(request, "algorithm")))
-        .key(ByteBuffer.wrap(Cbor.blob(request, "key")))
-        .cipherTxt(ByteBuffer.wrap(Cbor.blob(request, "ciphertext")))
-        .authTag(ByteBuffer.wrap(Cbor.blob(request, "authTag")))
-        .iv(ByteBuffer.wrap(Cbor.blob(request, "iv")))
-        .aad(ByteBuffer.wrap(Cbor.blob(request, "aad")))
-        .build()
+    ByteBuffer plaintext = call(() ->
+      primitives.AESDecrypt(
+        AESDecryptInput
+          .builder()
+          .encAlg(aesGcm(Cbor.string(request, "algorithm")))
+          .key(ByteBuffer.wrap(Cbor.blob(request, "key")))
+          .cipherTxt(ByteBuffer.wrap(Cbor.blob(request, "ciphertext")))
+          .authTag(ByteBuffer.wrap(Cbor.blob(request, "authTag")))
+          .iv(ByteBuffer.wrap(Cbor.blob(request, "iv")))
+          .aad(ByteBuffer.wrap(Cbor.blob(request, "aad")))
+          .build()
+      )
     );
     ObjectNode response = Cbor.object();
     response.put("plaintext", Cbor.bytes(plaintext));
@@ -94,11 +99,13 @@ final class Operations {
   }
 
   private ObjectNode generateRandomBytes(JsonNode request) {
-    ByteBuffer data = primitives.GenerateRandomBytes(
-      GenerateRandomBytesInput
-        .builder()
-        .length(Cbor.integer(request, "length"))
-        .build()
+    ByteBuffer data = call(() ->
+      primitives.GenerateRandomBytes(
+        GenerateRandomBytesInput
+          .builder()
+          .length(Cbor.integer(request, "length"))
+          .build()
+      )
     );
     ObjectNode response = Cbor.object();
     response.put("data", Cbor.bytes(data));
@@ -106,12 +113,14 @@ final class Operations {
   }
 
   private ObjectNode digest(JsonNode request) {
-    ByteBuffer digest = primitives.Digest(
-      DigestInput
-        .builder()
-        .digestAlgorithm(digestAlgorithm(Cbor.string(request, "algorithm")))
-        .message(ByteBuffer.wrap(Cbor.blob(request, "data")))
-        .build()
+    ByteBuffer digest = call(() ->
+      primitives.Digest(
+        DigestInput
+          .builder()
+          .digestAlgorithm(digestAlgorithm(Cbor.string(request, "algorithm")))
+          .message(ByteBuffer.wrap(Cbor.blob(request, "data")))
+          .build()
+      )
     );
     ObjectNode response = Cbor.object();
     response.put("digest", Cbor.bytes(digest));
@@ -119,13 +128,15 @@ final class Operations {
   }
 
   private ObjectNode hmac(JsonNode request) {
-    ByteBuffer digest = primitives.HMac(
-      HMacInput
-        .builder()
-        .digestAlgorithm(digestAlgorithm(Cbor.string(request, "algorithm")))
-        .key(ByteBuffer.wrap(Cbor.blob(request, "key")))
-        .message(ByteBuffer.wrap(Cbor.blob(request, "message")))
-        .build()
+    ByteBuffer digest = call(() ->
+      primitives.HMac(
+        HMacInput
+          .builder()
+          .digestAlgorithm(digestAlgorithm(Cbor.string(request, "algorithm")))
+          .key(ByteBuffer.wrap(Cbor.blob(request, "key")))
+          .message(ByteBuffer.wrap(Cbor.blob(request, "message")))
+          .build()
+      )
     );
     ObjectNode response = Cbor.object();
     response.put("digest", Cbor.bytes(digest));
@@ -133,15 +144,17 @@ final class Operations {
   }
 
   private ObjectNode hkdf(JsonNode request) {
-    ByteBuffer okm = primitives.Hkdf(
-      HkdfInput
-        .builder()
-        .digestAlgorithm(digestAlgorithm(Cbor.string(request, "algorithm")))
-        .salt(ByteBuffer.wrap(Cbor.blob(request, "salt")))
-        .ikm(ByteBuffer.wrap(Cbor.blob(request, "ikm")))
-        .info(ByteBuffer.wrap(Cbor.blob(request, "info")))
-        .expectedLength(Cbor.integer(request, "expectedLength"))
-        .build()
+    ByteBuffer okm = call(() ->
+      primitives.Hkdf(
+        HkdfInput
+          .builder()
+          .digestAlgorithm(digestAlgorithm(Cbor.string(request, "algorithm")))
+          .salt(ByteBuffer.wrap(Cbor.blob(request, "salt")))
+          .ikm(ByteBuffer.wrap(Cbor.blob(request, "ikm")))
+          .info(ByteBuffer.wrap(Cbor.blob(request, "info")))
+          .expectedLength(Cbor.integer(request, "expectedLength"))
+          .build()
+      )
     );
     ObjectNode response = Cbor.object();
     response.put("okm", Cbor.bytes(okm));
@@ -149,14 +162,16 @@ final class Operations {
   }
 
   private ObjectNode kbkdfCtrHmac(JsonNode request) {
-    ByteBuffer okm = primitives.KdfCounterMode(
-      KdfCtrInput
-        .builder()
-        .digestAlgorithm(digestAlgorithm(Cbor.string(request, "algorithm")))
-        .ikm(ByteBuffer.wrap(Cbor.blob(request, "ikm")))
-        .purpose(ByteBuffer.wrap(Cbor.blob(request, "info")))
-        .expectedLength(Cbor.integer(request, "expectedLength"))
-        .build()
+    ByteBuffer okm = call(() ->
+      primitives.KdfCounterMode(
+        KdfCtrInput
+          .builder()
+          .digestAlgorithm(digestAlgorithm(Cbor.string(request, "algorithm")))
+          .ikm(ByteBuffer.wrap(Cbor.blob(request, "ikm")))
+          .purpose(ByteBuffer.wrap(Cbor.blob(request, "info")))
+          .expectedLength(Cbor.integer(request, "expectedLength"))
+          .build()
+      )
     );
     ObjectNode response = Cbor.object();
     response.put("okm", Cbor.bytes(okm));
@@ -164,13 +179,14 @@ final class Operations {
   }
 
   private ObjectNode ecdsaGenerateKeyPair(JsonNode request) {
-    GenerateECDSASignatureKeyOutput output =
+    GenerateECDSASignatureKeyOutput output = call(() ->
       primitives.GenerateECDSASignatureKey(
         GenerateECDSASignatureKeyInput
           .builder()
           .signatureAlgorithm(ecdsaAlgorithm(Cbor.string(request, "algorithm")))
           .build()
-      );
+      )
+    );
     ObjectNode response = Cbor.object();
     response.put("verificationKey", Cbor.bytes(output.verificationKey()));
     response.put("signingKey", Cbor.bytes(output.signingKey()));
@@ -178,13 +194,15 @@ final class Operations {
   }
 
   private ObjectNode ecdsaSign(JsonNode request) {
-    ByteBuffer signature = primitives.ECDSASign(
-      ECDSASignInput
-        .builder()
-        .signatureAlgorithm(ecdsaAlgorithm(Cbor.string(request, "algorithm")))
-        .signingKey(ByteBuffer.wrap(Cbor.blob(request, "signingKey")))
-        .message(ByteBuffer.wrap(Cbor.blob(request, "message")))
-        .build()
+    ByteBuffer signature = call(() ->
+      primitives.ECDSASign(
+        ECDSASignInput
+          .builder()
+          .signatureAlgorithm(ecdsaAlgorithm(Cbor.string(request, "algorithm")))
+          .signingKey(ByteBuffer.wrap(Cbor.blob(request, "signingKey")))
+          .message(ByteBuffer.wrap(Cbor.blob(request, "message")))
+          .build()
+      )
     );
     ObjectNode response = Cbor.object();
     response.put("signature", Cbor.bytes(signature));
@@ -192,18 +210,39 @@ final class Operations {
   }
 
   private ObjectNode ecdsaVerify(JsonNode request) {
-    boolean valid = primitives.ECDSAVerify(
-      ECDSAVerifyInput
-        .builder()
-        .signatureAlgorithm(ecdsaAlgorithm(Cbor.string(request, "algorithm")))
-        .verificationKey(ByteBuffer.wrap(Cbor.blob(request, "verificationKey")))
-        .message(ByteBuffer.wrap(Cbor.blob(request, "message")))
-        .signature(ByteBuffer.wrap(Cbor.blob(request, "signature")))
-        .build()
+    boolean valid = call(() ->
+      primitives.ECDSAVerify(
+        ECDSAVerifyInput
+          .builder()
+          .signatureAlgorithm(ecdsaAlgorithm(Cbor.string(request, "algorithm")))
+          .verificationKey(
+            ByteBuffer.wrap(Cbor.blob(request, "verificationKey"))
+          )
+          .message(ByteBuffer.wrap(Cbor.blob(request, "message")))
+          .signature(ByteBuffer.wrap(Cbor.blob(request, "signature")))
+          .build()
+      )
     );
     ObjectNode response = Cbor.object();
     response.put("valid", valid);
     return response;
+  }
+
+  /**
+   * Runs one AtomicPrimitives call, forwarding a library failure as a
+   * PrimitivesError. A ModeledError raised while reading the request passes
+   * through unchanged.
+   */
+  private static <T> T call(Supplier<T> operation) {
+    try {
+      return operation.get();
+    } catch (ModeledError e) {
+      throw e;
+    } catch (RuntimeException e) {
+      throw ModeledError.primitives(
+        e.getMessage() == null ? e.toString() : e.getMessage()
+      );
+    }
   }
 
   private static AES_GCM aesGcm(String algorithm) {

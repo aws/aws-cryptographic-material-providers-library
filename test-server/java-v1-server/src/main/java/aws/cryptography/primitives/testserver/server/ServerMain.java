@@ -57,7 +57,10 @@ public final class ServerMain {
       } catch (ModeledError e) {
         writeError(exchange, e);
       } catch (RuntimeException e) {
-        writeError(exchange, ModeledError.primitives(messageOf(e)));
+        writeError(
+          exchange,
+          ModeledError.generic("unexpected server error: " + messageOf(e))
+        );
       }
     } finally {
       exchange.close();
