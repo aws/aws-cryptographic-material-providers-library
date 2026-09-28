@@ -69,7 +69,8 @@ class StormTrackingCMC:
     # NOT locked, because we sleep. Calls GetFromCache which IS synchronized.
     def GetCacheEntry_k(self, input):
         max_in_flight = round(datetime.datetime.now(tz = pytz.UTC).timestamp() * 1000) + self.wrapped.inFlightTTL;
-        sleep_time = self.wrapped.sleepMilli;
+        # sleepMilli is in milliseconds, but time.sleep expects seconds.
+        sleep_time = self.wrapped.sleepMilli / 1000;
         while True:
             result = self.GetFromCacheInner(input)
             if result.is_Failure:
@@ -85,7 +86,7 @@ class StormTrackingCMC:
             else:
                 if round(datetime.datetime.now(tz = pytz.UTC).timestamp() * 1000) <= max_in_flight:
                     try:
-                        time.sleep(self.wrapped.sleepMilli)
+                        time.sleep(sleep_time)
                     except Exception as e:
                         return Wrappers.Result_Failure(
                             Error_Opaque(
