@@ -1,17 +1,24 @@
 // Hand-rolled rpcv2Cbor HTTP Language_Server for the MPL TestServer. The wire
 // contract is the commons model (aws-crypto-tools-commons,
 // mpl/test-server/model/mpl-test-server.smithy); every operation delegates to
-// the Java MaterialProviders client from the published
-// aws-cryptographic-material-providers artifact on Maven Central.
+// the Java MaterialProviders client built from this repository's source
+// (AwsCryptographicMaterialProviders/runtimes/java, `make build_java
+// mvn_local_deploy`) and consumed from the local Maven repository, at the
+// javaMPLVersion in the repository's project.properties.
+import java.util.Properties
+
 plugins {
     java
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
-val materialProvidersVersion: String by project
+val materialProvidersVersion: String = Properties().apply {
+    rootDir.resolve("../../../project.properties").reader().use { load(it) }
+}.getProperty("javaMPLVersion")
 val jacksonVersion: String by project
 
 dependencies {

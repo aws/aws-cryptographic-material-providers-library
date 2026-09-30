@@ -1,7 +1,7 @@
 # Copyright Amazon.com Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 """Delegates each MPL TestServer operation to the Python MaterialProviders client
-from the published ``aws-cryptographic-material-providers`` package.
+(``aws-cryptographic-material-providers``) built from this repository's source.
 
 Each handler takes the decoded rpcv2Cbor request map, calls the client, and
 returns the response member map. A malformed request or bad handle raises

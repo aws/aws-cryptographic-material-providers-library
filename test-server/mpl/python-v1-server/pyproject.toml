@@ -9,10 +9,11 @@ name = "mpl-test-server-python"
 version = "0.0.0"
 description = "Hand-implemented Python Language_Server for the MPL TestServer (rpcv2Cbor)"
 requires-python = ">=3.11"
-# The Material Providers Library is the published PyPI package, at the newest
-# version the commons orchestrator's pinned requirement (<=1.11.2) allows.
+# The Material Providers Library (aws-cryptographic-material-providers and its
+# internal dependencies) is installed from this repo's Dafny-transpiled
+# AwsCryptographicMaterialProviders/runtimes/python source, not from PyPI. Only
+# the wire-protocol codec is declared here.
 dependencies = [
-    "aws-cryptographic-material-providers==1.11.2",
     "cbor2>=5.6",
 ]
 
