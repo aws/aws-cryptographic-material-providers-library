@@ -11,9 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Formats.Cbor" Version="8.0.0" />
-    <!-- The published AtomicPrimitives package (NuGet), not a ProjectReference
-         to the Dafny-transpiled AwsCryptographyPrimitives/runtimes/net. -->
-    <PackageReference Include="AWS.Cryptography.Internal.AwsCryptographyPrimitives" Version="2.0.0" />
+    <ProjectReference Include="../../AwsCryptographyPrimitives/runtimes/net/Crypto.csproj" />
   </ItemGroup>
 
 </Project>
