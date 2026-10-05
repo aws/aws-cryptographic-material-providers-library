@@ -1,0 +1,31 @@
+# Cross-language Primitives TestServer run, from the shared workflow in
+# aws-crypto-tools-commons. This checkout supplies the Dafny-runtime servers
+# (java, net, python, go, rust-dafny); the native rust server comes from its
+# configured branch in aws-crypto-tools-rust.
+name: Primitives TestServer
+
+on:
+  pull_request:
+    paths:
+      - "test-server/*-server/**"
+      - ".github/workflows/primitives-test-server.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "test-server/*-server/**"
+      - ".github/workflows/primitives-test-server.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  test-server:
+    name: TestServer
+    uses: aws/aws-crypto-tools-commons/.github/workflows/primitives-test-server-reusable.yml@main
+    with:
+      checkout-languages: java,net,python,go,rust-dafny
+    secrets:
+      repo-pat: ${{ secrets.COMMONS_REPO_PAT }}
