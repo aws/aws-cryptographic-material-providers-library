@@ -2,7 +2,7 @@
   "commonsRepository": {
     "name": "aws-crypto-tools-commons",
     "url": "git@github.com:aws/aws-crypto-tools-commons.git",
-    "branch": "jocorell/mpl-test-server-model"
+    "branch": "main"
   },
   "product": "mpl"
 }
