@@ -28,4 +28,4 @@ jobs:
     with:
       checkout-languages: java,net,python,go,rust-dafny
     secrets:
-      repo-pat: ${{ secrets.GITHUB_TOKEN }}
+      repo-pat: ${{ secrets.AWS_CRYPTO_TOOLS_REPO }}
