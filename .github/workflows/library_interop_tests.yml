@@ -34,8 +34,13 @@ jobs:
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
         os: [ubuntu-22.04, macos-14]
+        include:
+          - os: ubuntu-22.04
+            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
+          - os: macos-14
+            runner: macos-14
         language: [java, net, rust, python, go]
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runner }}
     permissions:
       id-token: write
       contents: read
@@ -162,8 +167,13 @@ jobs:
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
         os: [ubuntu-22.04, macos-14]
+        include:
+          - os: ubuntu-22.04
+            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
+          - os: macos-14
+            runner: macos-14
         decrypting_language: [java, net, rust, python, go]
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runner }}
     permissions:
       id-token: write
       contents: read

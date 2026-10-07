@@ -95,7 +95,7 @@ jobs:
       - pr-interop-test
       - pr-fuzz-interop-test
       #- pr-ci-db-esdk-java-examples-test
-    runs-on: ubuntu-22.04
+    runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - name: Verify all required jobs passed
         uses: re-actors/alls-green@release/v1

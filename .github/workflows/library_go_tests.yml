@@ -42,7 +42,12 @@ jobs:
         # Windows source code is tested downstream (ex. ESDK-Python CI).
         # windows-latest,
         os: [ubuntu-22.04, macos-14]
-    runs-on: ${{ matrix.os }}
+        include:
+          - os: ubuntu-22.04
+            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
+          - os: macos-14
+            runner: macos-14
+    runs-on: ${{ matrix.runner }}
     defaults:
       run:
         shell: bash

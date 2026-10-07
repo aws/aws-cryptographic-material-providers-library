@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   not-grep:
+    # Docker container action; CodeBuild runners have no Docker.
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v6
