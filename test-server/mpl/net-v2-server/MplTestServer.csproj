@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <!-- Run on a newer runtime when .NET 8 is absent (local machines with only 9). -->
+    <RollForward>Major</RollForward>
+    <RootNamespace>MplTestServer</RootNamespace>
+    <AssemblyName>MplTestServer</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Formats.Cbor" Version="8.0.0" />
+    <!-- This repository's Dafny-transpiled MaterialProviders runtime. -->
+    <ProjectReference Include="../../../AwsCryptographicMaterialProviders/runtimes/net/MPL.csproj" />
+  </ItemGroup>
+
+</Project>
