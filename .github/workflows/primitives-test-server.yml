@@ -8,12 +8,18 @@ on:
   pull_request:
     paths:
       - "test-server/*-server/**"
+      - "AwsCryptographyPrimitives/**"
+      - "releases/go/**"
+      - "releases/rust/**"
       - ".github/workflows/primitives-test-server.yml"
   push:
     branches:
       - main
     paths:
       - "test-server/*-server/**"
+      - "AwsCryptographyPrimitives/**"
+      - "releases/go/**"
+      - "releases/rust/**"
       - ".github/workflows/primitives-test-server.yml"
   workflow_dispatch:
 
