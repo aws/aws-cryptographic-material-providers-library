@@ -17,7 +17,7 @@ jobs:
   sync:
     # Don't run the cron builds on forks
     if: github.event_name != 'schedule' || github.repository_owner == 'aws'
-    runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
+    runs-on: ubuntu-latest
     outputs:
       pr_created: ${{ steps.create_pr.outputs.pr_created }}
       pr_url: ${{ steps.create_pr.outputs.pr_url }}
