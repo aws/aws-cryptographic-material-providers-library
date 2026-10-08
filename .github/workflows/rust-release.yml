@@ -40,7 +40,7 @@ permissions: {}
 jobs:
   publish:
     name: Publish aws-mpl-legacy to crates.io
-    runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
+    runs-on: ubuntu-22.04
     environment: crates-io-publish
     permissions:
       id-token: write

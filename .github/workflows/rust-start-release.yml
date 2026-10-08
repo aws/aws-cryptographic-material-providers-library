@@ -27,7 +27,7 @@ jobs:
   start-release:
     name: Run start_release.sh and open a release PR
     if: github.ref == 'refs/heads/main'
-    runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
+    runs-on: ubuntu-22.04
     permissions:
       id-token: write
       contents: write
@@ -78,12 +78,6 @@ jobs:
         uses: ./.github/actions/setup_dafny
         with:
           dafny-version: 4.10.0
-
-      # The CodeBuild image pins .NET 6 in a global.json above the workspace.
-      - name: Use the latest installed .NET SDK
-        if: runner.os == 'Linux'
-        shell: bash
-        run: echo '{"sdk":{"version":"6.0.100","rollForward":"latestMajor"}}' > "$RUNNER_WORKSPACE/global.json"
 
       - name: Install Go
         uses: actions/setup-go@v6

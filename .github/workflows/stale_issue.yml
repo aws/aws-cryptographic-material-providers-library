@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   cleanup:
-    runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
+    runs-on: ubuntu-22.04
     name: Stale issue job
     steps:
       - uses: aws-actions/stale-issue-cleanup@v7
