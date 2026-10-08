@@ -22,8 +22,7 @@ permissions:
 
 jobs:
   getDafnyVersion:
-    # Docker container action; CodeBuild runners have no Docker.
-    runs-on: ubuntu-22.04
+    runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
     outputs:
       version: ${{ steps.read_property.outputs.dafnyVersion }}
       verifyVersion: ${{ steps.read_property.outputs.dafnyVerifyVersion }}
