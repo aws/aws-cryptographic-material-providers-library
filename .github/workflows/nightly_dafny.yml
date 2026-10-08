@@ -51,7 +51,7 @@ jobs:
       dafny: "nightly-latest"
 
   cut-issue-on-failure:
-    runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
+    runs-on: ubuntu-22.04
     permissions:
       id-token: write
       contents: read
