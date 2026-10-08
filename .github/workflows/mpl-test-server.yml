@@ -8,12 +8,18 @@ on:
   pull_request:
     paths:
       - "test-server/mpl/**"
+      - "AwsCryptographicMaterialProviders/**"
+      - "releases/go/mpl/**"
+      - "releases/rust/mpl/**"
       - ".github/workflows/mpl-test-server.yml"
   push:
     branches:
       - main
     paths:
       - "test-server/mpl/**"
+      - "AwsCryptographicMaterialProviders/**"
+      - "releases/go/mpl/**"
+      - "releases/rust/mpl/**"
       - ".github/workflows/mpl-test-server.yml"
   workflow_dispatch:
 
