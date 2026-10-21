@@ -37,7 +37,12 @@ jobs:
           ]
         # removed windows-latest because somehow it can't build aws-lc in CI
         os: [ubuntu-22.04, macos-14]
-    runs-on: ${{ matrix.os }}
+        include:
+          - os: ubuntu-22.04
+            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
+          - os: macos-14
+            runner: macos-14
+    runs-on: ${{ matrix.runner }}
     permissions:
       id-token: write
       contents: read
@@ -73,6 +78,10 @@ jobs:
         uses: actions/setup-go@v6
         with:
           go-version: ">=1.18"
+
+      - name: Install CMake
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y cmake
 
       - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
 

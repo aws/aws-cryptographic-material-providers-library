@@ -37,7 +37,14 @@ jobs:
           ]
         dotnet-version: ["6.0.x"]
         os: [windows-latest, ubuntu-22.04, macos-14]
-    runs-on: ${{ matrix.os }}
+        include:
+          - os: windows-latest
+            runner: windows-latest
+          - os: ubuntu-22.04
+            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
+          - os: macos-14
+            runner: macos-14
+    runs-on: ${{ matrix.runner }}
     defaults:
       run:
         shell: bash
