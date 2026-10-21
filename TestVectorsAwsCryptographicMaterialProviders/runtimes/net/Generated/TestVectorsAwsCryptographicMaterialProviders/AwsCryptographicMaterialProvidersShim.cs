@@ -449,6 +449,21 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
       }
 
     }
+    public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheIdentifierOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError> GetCacheIdentifier(software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheIdentifierInput request)
+    {
+      try
+      {
+        AWS.Cryptography.MaterialProviders.GetCacheIdentifierInput unWrappedRequest = TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S23_GetCacheIdentifierInput(request);
+        AWS.Cryptography.MaterialProviders.GetCacheIdentifierOutput wrappedResponse =
+        this._impl.GetCacheIdentifier(unWrappedRequest);
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheIdentifierOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Success(TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S24_GetCacheIdentifierOutput(wrappedResponse));
+      }
+      catch (System.Exception ex)
+      {
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types._IGetCacheIdentifierOutput, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(this.ConvertError(ex));
+      }
+
+    }
     private software.amazon.cryptography.materialproviders.internaldafny.types._IError ConvertError(System.Exception error)
     {
 

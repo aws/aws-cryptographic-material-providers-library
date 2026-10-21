@@ -80,6 +80,8 @@ import software.amazon.cryptography.materialproviders.model.GetBranchKeyIdInput;
 import software.amazon.cryptography.materialproviders.model.GetBranchKeyIdOutput;
 import software.amazon.cryptography.materialproviders.model.GetCacheEntryInput;
 import software.amazon.cryptography.materialproviders.model.GetCacheEntryOutput;
+import software.amazon.cryptography.materialproviders.model.GetCacheIdentifierInput;
+import software.amazon.cryptography.materialproviders.model.GetCacheIdentifierOutput;
 import software.amazon.cryptography.materialproviders.model.GetClientInput;
 import software.amazon.cryptography.materialproviders.model.GetEncryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.GetEncryptionMaterialsOutput;
@@ -1120,6 +1122,40 @@ public class ToNative {
     nativeBuilder.expiryTime((dafnyValue.dtor_expiryTime()));
     nativeBuilder.messagesUsed((dafnyValue.dtor_messagesUsed()));
     nativeBuilder.bytesUsed((dafnyValue.dtor_bytesUsed()));
+    return nativeBuilder.build();
+  }
+
+  public static GetCacheIdentifierInput GetCacheIdentifierInput(
+    software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheIdentifierInput dafnyValue
+  ) {
+    GetCacheIdentifierInput.Builder nativeBuilder =
+      GetCacheIdentifierInput.builder();
+    nativeBuilder.keyring(ToNative.Keyring(dafnyValue.dtor_keyring()));
+    nativeBuilder.branchKeyId(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+        dafnyValue.dtor_branchKeyId()
+      )
+    );
+    if (dafnyValue.dtor_branchKeyVersion().is_Some()) {
+      nativeBuilder.branchKeyVersion(
+        software.amazon.smithy.dafny.conversion.ToNative.Simple.String(
+          dafnyValue.dtor_branchKeyVersion().dtor_value()
+        )
+      );
+    }
+    return nativeBuilder.build();
+  }
+
+  public static GetCacheIdentifierOutput GetCacheIdentifierOutput(
+    software.amazon.cryptography.materialproviders.internaldafny.types.GetCacheIdentifierOutput dafnyValue
+  ) {
+    GetCacheIdentifierOutput.Builder nativeBuilder =
+      GetCacheIdentifierOutput.builder();
+    nativeBuilder.identifier(
+      software.amazon.smithy.dafny.conversion.ToNative.Simple.ByteBuffer(
+        dafnyValue.dtor_identifier()
+      )
+    );
     return nativeBuilder.build();
   }
 

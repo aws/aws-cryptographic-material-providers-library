@@ -377,4 +377,57 @@ module DDBKeystoreOperations {
     )
   }
 
+  method QueryBranchKeyVersionItems(
+    branchKeyIdentifier: string,
+    limit: DDB.PositiveIntegerObject,
+    tableName: DDB.TableName,
+    ddbClient: DDB.IDynamoDBClient
+  )
+    returns (output: Result<seq<DDB.AttributeMap>, Types.Error>)
+    requires DDB.IsValid_TableName(tableName)
+    requires ddbClient.ValidState()
+    modifies ddbClient.Modifies
+    ensures ddbClient.ValidState()
+  {
+    var queryInput := DDB.QueryInput(
+      TableName := tableName,
+      KeyConditionExpression := Some("#pk = :pkval AND begins_with(#sk, :skprefix)"),
+      ExpressionAttributeNames := Some(
+        map[
+          "#pk" := Structure.BRANCH_KEY_IDENTIFIER_FIELD,
+          "#sk" := Structure.TYPE_FIELD
+        ]
+      ),
+      ExpressionAttributeValues := Some(
+        map[
+          ":pkval" := DDB.AttributeValue.S(branchKeyIdentifier),
+          ":skprefix" := DDB.AttributeValue.S(Structure.BRANCH_KEY_TYPE_PREFIX)
+        ]
+      ),
+      Limit := Some(limit),
+      ScanIndexForward := Some(false),
+      IndexName := None,
+      Select := None,
+      AttributesToGet := None,
+      ConsistentRead := None,
+      KeyConditions := None,
+      QueryFilter := None,
+      ConditionalOperator := None,
+      ExclusiveStartKey := None,
+      ReturnConsumedCapacity := None,
+      ProjectionExpression := None,
+      FilterExpression := None
+    );
+
+    var maybeQuery := ddbClient.Query(queryInput);
+    var queryResponse :- maybeQuery
+    .MapFailure(e => Types.ComAmazonawsDynamodb(ComAmazonawsDynamodb := e));
+
+    if queryResponse.Items.None? || |queryResponse.Items.value| == 0 {
+      return Success([]);
+    }
+
+    return Success(queryResponse.Items.value);
+  }
+
 }

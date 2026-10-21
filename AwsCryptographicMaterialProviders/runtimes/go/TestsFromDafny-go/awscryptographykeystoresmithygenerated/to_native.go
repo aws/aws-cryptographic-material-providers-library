@@ -80,6 +80,20 @@ func GetBranchKeyVersionOutput_FromDafny(dafnyOutput AwsCryptographyKeyStoreType
 
 }
 
+func GetBranchKeyVersionsInput_FromDafny(dafnyInput AwsCryptographyKeyStoreTypes.GetBranchKeyVersionsInput) awscryptographykeystoresmithygeneratedtypes.GetBranchKeyVersionsInput {
+
+	return awscryptographykeystoresmithygeneratedtypes.GetBranchKeyVersionsInput{BranchKeyIdentifier: Aws_cryptography_keyStore_GetBranchKeyVersionsInput_branchKeyIdentifier_FromDafny(dafnyInput.Dtor_branchKeyIdentifier()),
+		Count: Aws_cryptography_keyStore_GetBranchKeyVersionsInput_count_FromDafny(dafnyInput.Dtor_count()),
+	}
+
+}
+
+func GetBranchKeyVersionsOutput_FromDafny(dafnyOutput AwsCryptographyKeyStoreTypes.GetBranchKeyVersionsOutput) awscryptographykeystoresmithygeneratedtypes.GetBranchKeyVersionsOutput {
+
+	return awscryptographykeystoresmithygeneratedtypes.GetBranchKeyVersionsOutput{BranchKeyMaterials: Aws_cryptography_keyStore_GetBranchKeyVersionsOutput_branchKeyMaterials_FromDafny(dafnyOutput.Dtor_branchKeyMaterials())}
+
+}
+
 func GetKeyStoreInfoOutput_FromDafny(dafnyOutput AwsCryptographyKeyStoreTypes.GetKeyStoreInfoOutput) awscryptographykeystoresmithygeneratedtypes.GetKeyStoreInfoOutput {
 
 	return awscryptographykeystoresmithygeneratedtypes.GetKeyStoreInfoOutput{KeyStoreId: Aws_cryptography_keyStore_GetKeyStoreInfoOutput_keyStoreId_FromDafny(dafnyOutput.Dtor_keyStoreId()),
@@ -394,6 +408,39 @@ func Aws_cryptography_keyStore_GetBranchKeyVersionInput_branchKeyVersion_FromDaf
 	}()
 }
 func Aws_cryptography_keyStore_GetBranchKeyVersionOutput_branchKeyMaterials_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials {
+	return awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials{BranchKeyIdentifier: Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKeyIdentifier()),
+		BranchKeyVersion:  Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKeyVersion()),
+		EncryptionContext: Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_encryptionContext()),
+		BranchKey:         Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKey()),
+	}
+}
+func Aws_cryptography_keyStore_GetBranchKeyVersionsInput_branchKeyIdentifier_FromDafny(input interface{}) string {
+	return func() string {
+
+		a := UTF8.Encode(input.(dafny.Sequence)).Dtor_value()
+		s := string(dafny.ToByteArray(a.(dafny.Sequence)))
+
+		return s
+	}()
+}
+func Aws_cryptography_keyStore_GetBranchKeyVersionsInput_count_FromDafny(input interface{}) int32 {
+	return func() int32 {
+		var b = input.(int32)
+		return b
+	}()
+}
+func Aws_cryptography_keyStore_GetBranchKeyVersionsOutput_branchKeyMaterials_FromDafny(input interface{}) []awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials {
+	fieldValue := make([]awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials, 0)
+	for i := dafny.Iterate(input.(dafny.Sequence)); ; {
+		val, ok := i()
+		if !ok {
+			break
+		}
+		fieldValue = append(fieldValue, Aws_cryptography_keyStore_BranchKeyMaterialsList_member_FromDafny(val))
+	}
+	return fieldValue
+}
+func Aws_cryptography_keyStore_BranchKeyMaterialsList_member_FromDafny(input interface{}) awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials {
 	return awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials{BranchKeyIdentifier: Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKeyIdentifier()),
 		BranchKeyVersion:  Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_branchKeyVersion()),
 		EncryptionContext: Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_FromDafny(input.(AwsCryptographyKeyStoreTypes.BranchKeyMaterials).Dtor_encryptionContext()),

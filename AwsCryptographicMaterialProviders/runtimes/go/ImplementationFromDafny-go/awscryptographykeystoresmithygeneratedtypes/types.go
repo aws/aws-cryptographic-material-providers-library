@@ -213,6 +213,42 @@ func (input GetBranchKeyVersionOutput) Validate() error {
 	return nil
 }
 
+type GetBranchKeyVersionsInput struct {
+	BranchKeyIdentifier string
+
+	Count int32
+}
+
+func (input GetBranchKeyVersionsInput) Validate() error {
+
+	return nil
+}
+
+type GetBranchKeyVersionsOutput struct {
+	BranchKeyMaterials []BranchKeyMaterials
+}
+
+func (input GetBranchKeyVersionsOutput) Validate() error {
+	if input.BranchKeyMaterials == nil {
+		return fmt.Errorf("input.BranchKeyMaterials is required but has a nil value.")
+	}
+	if input.Aws_cryptography_keyStore_GetBranchKeyVersionsOutput_branchKeyMaterials_Validate() != nil {
+		return input.Aws_cryptography_keyStore_GetBranchKeyVersionsOutput_branchKeyMaterials_Validate()
+	}
+
+	return nil
+}
+
+func (input GetBranchKeyVersionsOutput) Aws_cryptography_keyStore_GetBranchKeyVersionsOutput_branchKeyMaterials_Validate() error {
+	for _, item := range input.BranchKeyMaterials {
+		if item.Validate() != nil {
+			return item.Validate()
+		}
+	}
+
+	return nil
+}
+
 type MRDiscovery struct {
 	Region string
 }
