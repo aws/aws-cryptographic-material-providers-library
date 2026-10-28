@@ -26,11 +26,16 @@ on:
 permissions:
   contents: read
   actions: read
+  # The reusable workflow's test job assumes this repository's CI role through
+  # GitHub OIDC, for the hierarchical keyring Tests.
+  id-token: write
 
 jobs:
   test-server:
     name: TestServer
-    uses: aws/aws-crypto-tools-commons/.github/workflows/mpl-test-server-reusable.yml@main
+    # TODO: back to @main once aws/aws-crypto-tools-commons#56 merges; until
+    # then only its branch has the AWS credentials step.
+    uses: aws/aws-crypto-tools-commons/.github/workflows/mpl-test-server-reusable.yml@jocorell/mpl-test-server-hkeyring
     with:
       checkout-languages: java,net,python,go,rust-dafny
     secrets:
