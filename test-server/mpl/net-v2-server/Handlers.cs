@@ -10,6 +10,10 @@
 using System.Collections.Concurrent;
 using System.Globalization;
 using System.Reflection;
+using Amazon;
+using Amazon.DynamoDBv2;
+using Amazon.KeyManagementService;
+using AWS.Cryptography.KeyStore;
 using AWS.Cryptography.MaterialProviders;
 
 namespace MplTestServer;
@@ -21,6 +25,8 @@ internal sealed class Handlers
     private readonly MaterialProviders _mpl = new(new MaterialProvidersConfig());
     private readonly ConcurrentDictionary<string, IKeyring> _keyrings = new();
     private readonly ConcurrentDictionary<string, ICryptographicMaterialsManager> _cmms = new();
+    private readonly ConcurrentDictionary<string, KeyStore> _keyStores = new();
+    private readonly ConcurrentDictionary<string, ICryptographicMaterialsCache> _caches = new();
     private readonly Dictionary<string, AlgorithmSuiteInfo> _suiteInfo = new();
 
     internal Handlers()
@@ -44,6 +50,9 @@ internal sealed class Handlers
     {
         "CreateRawAesKeyring" => CreateRawAesKeyring(request),
         "CreateDefaultCmm" => CreateDefaultCmm(request),
+        "CreateKeyStoreClient" => CreateKeyStoreClient(request),
+        "CreateCryptographicMaterialsCache" => CreateCryptographicMaterialsCache(request),
+        "CreateAwsKmsHierarchicalKeyring" => CreateAwsKmsHierarchicalKeyring(request),
         "InitializeEncryptionMaterials" => InitializeEncryptionMaterials(request),
         "InitializeDecryptionMaterials" => InitializeDecryptionMaterials(request),
         "OnEncrypt" => OnEncrypt(request),
@@ -76,6 +85,122 @@ internal sealed class Handlers
         var cmm = Call(() => _mpl.CreateDefaultCryptographicMaterialsManager(
             new CreateDefaultCryptographicMaterialsManagerInput { Keyring = keyring }));
         return Model.Write(new Dictionary<string, object> { ["cmmId"] = Register(_cmms, cmm) });
+    }
+
+    private byte[] CreateKeyStoreClient(Dictionary<string, object> request)
+    {
+        var config = new KeyStoreConfig
+        {
+            DdbTableName = Model.Str(request, "ddbTableName"),
+            LogicalKeyStoreName = Model.Str(request, "logicalKeyStoreName"),
+            KmsConfiguration = KmsConfigurationFromWire(Model.Map(request, "kmsConfiguration")),
+            KmsClient = new AmazonKeyManagementServiceClient(
+                RegionEndpoint.GetBySystemName(Model.Str(request, "kmsClientRegion"))),
+            DdbClient = new AmazonDynamoDBClient(
+                RegionEndpoint.GetBySystemName(Model.Str(request, "ddbClientRegion"))),
+        };
+        var keyStore = Call(() => new KeyStore(config));
+        return Model.Write(new Dictionary<string, object> { ["keyStoreId"] = Register(_keyStores, keyStore) });
+    }
+
+    /// The model's KmsConfiguration union: exactly one member is set.
+    private static KMSConfiguration KmsConfigurationFromWire(Dictionary<string, object> wire)
+    {
+        if (wire.Count != 1)
+        {
+            throw ServerErrorException.Generic("kmsConfiguration must set exactly one member");
+        }
+        if (Model.Present(wire, "kmsKeyArn"))
+        {
+            return new KMSConfiguration { KmsKeyArn = Model.Str(wire, "kmsKeyArn") };
+        }
+        if (Model.Present(wire, "kmsMRKeyArn"))
+        {
+            return new KMSConfiguration { KmsMRKeyArn = Model.Str(wire, "kmsMRKeyArn") };
+        }
+        if (Model.Present(wire, "discovery"))
+        {
+            return new KMSConfiguration { Discovery = new Discovery() };
+        }
+        if (Model.Present(wire, "mrDiscovery"))
+        {
+            var mrDiscovery = Model.Map(wire, "mrDiscovery");
+            return new KMSConfiguration { MrDiscovery = new MRDiscovery { Region = Model.Str(mrDiscovery, "region") } };
+        }
+        throw ServerErrorException.Generic("unknown kmsConfiguration member");
+    }
+
+    private byte[] CreateCryptographicMaterialsCache(Dictionary<string, object> request)
+    {
+        var input = new CreateCryptographicMaterialsCacheInput
+        {
+            Cache = new CacheType { Default = new DefaultCache { EntryCapacity = Int(request, "entryCapacity") } },
+        };
+        var cache = Call(() => _mpl.CreateCryptographicMaterialsCache(input));
+        return Model.Write(new Dictionary<string, object> { ["cacheId"] = Register(_caches, cache) });
+    }
+
+    private byte[] CreateAwsKmsHierarchicalKeyring(Dictionary<string, object> request)
+    {
+        var input = new CreateAwsKmsHierarchicalKeyringInput
+        {
+            KeyStore = Lookup(_keyStores, Model.Str(request, "keyStoreId"), "keyStoreId"),
+            TtlSeconds = Model.Long(request, "ttlSeconds"),
+        };
+        if (Model.Present(request, "branchKeyId"))
+        {
+            input.BranchKeyId = Model.Str(request, "branchKeyId");
+        }
+        if (Model.Present(request, "branchKeyIdSupplier"))
+        {
+            var supplier = Model.Map(request, "branchKeyIdSupplier");
+            input.BranchKeyIdSupplier = new StaticBranchKeyIdSupplier(
+                Model.Str(supplier, "encryptionContextKey"),
+                Model.StringMap(supplier, "branchKeyIds"));
+        }
+        if (Model.Present(request, "cacheId"))
+        {
+            input.Cache = new CacheType { Shared = Lookup(_caches, Model.Str(request, "cacheId"), "cacheId") };
+        }
+        if (Model.Present(request, "partitionId"))
+        {
+            input.PartitionId = Model.Str(request, "partitionId");
+        }
+        var keyring = Call(() => _mpl.CreateAwsKmsHierarchicalKeyring(input));
+        return Model.Write(new Dictionary<string, object> { ["keyringId"] = Register(_keyrings, keyring) });
+    }
+
+    /// The model's StaticBranchKeyIdSupplier: the branch key id mapped to the
+    /// encryption context value under encryptionContextKey, or a failure.
+    private sealed class StaticBranchKeyIdSupplier : BranchKeyIdSupplierBase
+    {
+        private readonly string _encryptionContextKey;
+        private readonly Dictionary<string, string> _branchKeyIds;
+
+        internal StaticBranchKeyIdSupplier(string encryptionContextKey, Dictionary<string, string> branchKeyIds)
+        {
+            _encryptionContextKey = encryptionContextKey;
+            _branchKeyIds = branchKeyIds;
+        }
+
+        protected override GetBranchKeyIdOutput _GetBranchKeyId(GetBranchKeyIdInput input)
+        {
+            if (input.EncryptionContext.TryGetValue(_encryptionContextKey, out var value)
+                && _branchKeyIds.TryGetValue(value, out var branchKeyId))
+            {
+                return new GetBranchKeyIdOutput { BranchKeyId = branchKeyId };
+            }
+            throw new AwsCryptographicMaterialProvidersException(
+                $"no branch key id for encryption context key {_encryptionContextKey}");
+        }
+    }
+
+    private static int Int(Dictionary<string, object> map, string member)
+    {
+        var value = Model.Long(map, member);
+        return value is >= int.MinValue and <= int.MaxValue
+            ? (int)value
+            : throw ServerErrorException.Generic($"member is not an Integer: {member}");
     }
 
     // ------------------------------------------------------------------

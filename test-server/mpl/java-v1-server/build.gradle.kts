@@ -23,6 +23,11 @@ val jacksonVersion: String by project
 
 dependencies {
     implementation("software.amazon.cryptography:aws-cryptographic-material-providers:$materialProvidersVersion")
+    // The key store takes KMS and DynamoDB clients, which the MPL depends on
+    // only at runtime. Same BOM as AwsCryptographicMaterialProviders/runtimes/java.
+    implementation(platform("software.amazon.awssdk:bom:2.31.48"))
+    implementation("software.amazon.awssdk:dynamodb")
+    implementation("software.amazon.awssdk:kms")
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:$jacksonVersion")
 }

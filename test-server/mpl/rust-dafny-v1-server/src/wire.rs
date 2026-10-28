@@ -65,6 +65,31 @@ async fn dispatch(
                 .and_then(|resp| encode(&resp)),
             Err(e) => Err(e),
         },
+        "CreateKeyStoreClient" => match decode::<CreateKeyStoreClientRequest>(&body) {
+            Ok(req) => state
+                .create_key_store_client(req)
+                .await
+                .and_then(|resp| encode(&resp)),
+            Err(e) => Err(e),
+        },
+        "CreateCryptographicMaterialsCache" => {
+            match decode::<CreateCryptographicMaterialsCacheRequest>(&body) {
+                Ok(req) => state
+                    .create_cryptographic_materials_cache(req)
+                    .await
+                    .and_then(|resp| encode(&resp)),
+                Err(e) => Err(e),
+            }
+        }
+        "CreateAwsKmsHierarchicalKeyring" => {
+            match decode::<CreateAwsKmsHierarchicalKeyringRequest>(&body) {
+                Ok(req) => state
+                    .create_aws_kms_hierarchical_keyring(req)
+                    .await
+                    .and_then(|resp| encode(&resp)),
+                Err(e) => Err(e),
+            }
+        }
         "InitializeEncryptionMaterials" => {
             match decode::<InitializeEncryptionMaterialsRequest>(&body) {
                 Ok(req) => state
