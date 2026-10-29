@@ -13,6 +13,11 @@ on:
         required: false
         default: false
         type: boolean
+      os:
+        description: "JSON array of the operating systems to run on"
+        required: false
+        default: '["ubuntu-22.04","macos-14"]'
+        type: string
 
 jobs:
   buildRust:
@@ -20,6 +25,7 @@ jobs:
     with:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
+      os: ${{ inputs.os }}
 
   testRust:
     needs: buildRust
@@ -36,13 +42,8 @@ jobs:
             TestVectorsAwsCryptographicMaterialProviders,
           ]
         # removed windows-latest because somehow it can't build aws-lc in CI
-        os: [ubuntu-22.04, macos-14]
-        include:
-          - os: ubuntu-22.04
-            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
-          - os: macos-14
-            runner: macos-14
-    runs-on: ${{ matrix.runner }}
+        os: ${{ fromJSON(inputs.os) }}
+    runs-on: ${{ matrix.os == 'ubuntu-22.04' && format('codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-{0}-{1}', github.run_id, github.run_attempt) || matrix.os }}
     permissions:
       id-token: write
       contents: read

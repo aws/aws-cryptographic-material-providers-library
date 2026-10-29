@@ -13,6 +13,11 @@ on:
         required: false
         default: false
         type: boolean
+      os:
+        description: "JSON array of the operating systems to run on"
+        required: false
+        default: '["ubuntu-22.04","macos-14"]'
+        type: string
 
 jobs:
   buildGo:
@@ -20,6 +25,7 @@ jobs:
     with:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
+      os: ${{ inputs.os }}
 
   testGo:
     needs: buildGo
@@ -41,13 +47,8 @@ jobs:
         # Note: only tests use the sys.path workaround, not source code.
         # Windows source code is tested downstream (ex. ESDK-Python CI).
         # windows-latest,
-        os: [ubuntu-22.04, macos-14]
-        include:
-          - os: ubuntu-22.04
-            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
-          - os: macos-14
-            runner: macos-14
-    runs-on: ${{ matrix.runner }}
+        os: ${{ fromJSON(inputs.os) }}
+    runs-on: ${{ matrix.os == 'ubuntu-22.04' && format('codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-{0}-{1}', github.run_id, github.run_attempt) || matrix.os }}
     defaults:
       run:
         shell: bash

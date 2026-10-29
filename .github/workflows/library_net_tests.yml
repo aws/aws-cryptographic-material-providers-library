@@ -13,6 +13,11 @@ on:
         required: false
         default: false
         type: boolean
+      os:
+        description: "JSON array of the operating systems to run on"
+        required: false
+        default: '["windows-latest","ubuntu-22.04","macos-14"]'
+        type: string
 
 jobs:
   buildNet:
@@ -20,6 +25,7 @@ jobs:
     with:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
+      os: ${{ inputs.os }}
 
   testDotNet:
     needs: buildNet
@@ -36,15 +42,8 @@ jobs:
             TestVectorsAwsCryptographicMaterialProviders,
           ]
         dotnet-version: ["6.0.x"]
-        os: [windows-latest, ubuntu-22.04, macos-14]
-        include:
-          - os: windows-latest
-            runner: windows-latest
-          - os: ubuntu-22.04
-            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
-          - os: macos-14
-            runner: macos-14
-    runs-on: ${{ matrix.runner }}
+        os: ${{ fromJSON(inputs.os) }}
+    runs-on: ${{ matrix.os == 'ubuntu-22.04' && format('codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-{0}-{1}', github.run_id, github.run_attempt) || matrix.os }}
     defaults:
       run:
         shell: bash

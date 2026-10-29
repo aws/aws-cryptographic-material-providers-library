@@ -13,6 +13,11 @@ on:
         required: false
         default: false
         type: boolean
+      os:
+        description: "JSON array of the operating systems to run on"
+        required: false
+        default: '["ubuntu-22.04","macos-latest"]'
+        type: string
 
 jobs:
   buildJava:
@@ -20,6 +25,7 @@ jobs:
     with:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
+      os: ${{ inputs.os }}
 
   testJava:
     needs: buildJava
@@ -34,14 +40,9 @@ jobs:
             AwsCryptographicMaterialProviders,
             StandardLibrary,
           ]
-        os: [ubuntu-22.04, macos-latest]
-        include:
-          - os: ubuntu-22.04
-            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
-          - os: macos-latest
-            runner: macos-latest
+        os: ${{ fromJSON(inputs.os) }}
         java-versions: [8, 11, 17, 19, 21]
-    runs-on: ${{ matrix.runner }}
+    runs-on: ${{ matrix.os == 'ubuntu-22.04' && format('codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-{0}-{1}', github.run_id, github.run_attempt) || matrix.os }}
     permissions:
       id-token: write
       contents: read

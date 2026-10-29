@@ -19,6 +19,11 @@ on:
         required: false
         default: false
         type: boolean
+      os:
+        description: "JSON array of the operating systems to run on"
+        required: false
+        default: '["ubuntu-22.04","macos-14"]'
+        type: string
 
 jobs:
   buildInterop:
@@ -27,20 +32,16 @@ jobs:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
       fuzz-testing: ${{inputs.fuzz-testing}}
+      os: ${{ inputs.os }}
 
   generateEncryptVectors:
     needs: buildInterop
     strategy:
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
-        os: [ubuntu-22.04, macos-14]
-        include:
-          - os: ubuntu-22.04
-            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
-          - os: macos-14
-            runner: macos-14
+        os: ${{ fromJSON(inputs.os) }}
         language: [java, net, rust, python, go]
-    runs-on: ${{ matrix.runner }}
+    runs-on: ${{ matrix.os == 'ubuntu-22.04' && format('codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-{0}-{1}', github.run_id, github.run_attempt) || matrix.os }}
     permissions:
       id-token: write
       contents: read
@@ -166,14 +167,9 @@ jobs:
       fail-fast: false
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
-        os: [ubuntu-22.04, macos-14]
-        include:
-          - os: ubuntu-22.04
-            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
-          - os: macos-14
-            runner: macos-14
+        os: ${{ fromJSON(inputs.os) }}
         decrypting_language: [java, net, rust, python, go]
-    runs-on: ${{ matrix.runner }}
+    runs-on: ${{ matrix.os == 'ubuntu-22.04' && format('codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-{0}-{1}', github.run_id, github.run_attempt) || matrix.os }}
     permissions:
       id-token: write
       contents: read

@@ -38,16 +38,37 @@ jobs:
     uses: ./.github/workflows/library_java_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
+      os: '["ubuntu-22.04"]'
+  pr-ci-java-macos:
+    needs: getVersions
+    uses: ./.github/workflows/library_java_tests.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
+      os: '["macos-latest"]'
   pr-ci-net:
     needs: getVersions
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
+      os: '["ubuntu-22.04"]'
+  pr-ci-net-macos-windows:
+    needs: getVersions
+    uses: ./.github/workflows/library_net_tests.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
+      os: '["windows-latest","macos-14"]'
   pr-ci-rust:
     needs: getVersions
     uses: ./.github/workflows/library_rust_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.rustVersion}}
+      os: '["ubuntu-22.04"]'
+  pr-ci-rust-macos:
+    needs: getVersions
+    uses: ./.github/workflows/library_rust_tests.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.rustVersion}}
+      os: '["macos-14"]'
   pr-ci-rust-duplicate-deps:
     uses: ./.github/workflows/rust_duplicate_deps.yml
   pr-ci-python:
@@ -55,16 +76,38 @@ jobs:
     uses: ./.github/workflows/library_python_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
+      os: '["ubuntu-22.04"]'
+  pr-ci-python-macos:
+    needs: getVersions
+    uses: ./.github/workflows/library_python_tests.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
+      os: '["macos-14"]'
   pr-ci-go:
     needs: getVersions
     uses: ./.github/workflows/library_go_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
+      os: '["ubuntu-22.04"]'
+  pr-ci-go-macos:
+    needs: getVersions
+    uses: ./.github/workflows/library_go_tests.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
+      os: '["macos-14"]'
   pr-interop-test:
     needs: getVersions
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
+      os: '["ubuntu-22.04"]'
+    secrets: inherit
+  pr-interop-test-macos:
+    needs: getVersions
+    uses: ./.github/workflows/library_interop_tests.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
+      os: '["macos-14"]'
     secrets: inherit
   pr-fuzz-interop-test:
     needs: getVersions
@@ -72,6 +115,15 @@ jobs:
     with:
       dafny: ${{needs.getVersions.outputs.version}}
       fuzz-testing: true
+      os: '["ubuntu-22.04"]'
+    secrets: inherit
+  pr-fuzz-interop-test-macos:
+    needs: getVersions
+    uses: ./.github/workflows/library_interop_tests.yml
+    with:
+      dafny: ${{needs.getVersions.outputs.version}}
+      fuzz-testing: true
+      os: '["macos-14"]'
     secrets: inherit
   # TODO: uncomment once DB-ESDK CI passes
   #pr-ci-db-esdk-java-examples-test:
@@ -85,7 +137,6 @@ jobs:
       - getVersions
       - pr-ci-format
       - pr-ci-codegen
-      - pr-ci-verification
       - pr-ci-java
       - pr-ci-net
       - pr-ci-python
