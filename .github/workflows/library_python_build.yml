@@ -14,14 +14,21 @@ on:
         required: false
         default: false
         type: boolean
+      platforms:
+        description: "JSON array of the platforms to run on"
+        required: false
+        default: >-
+          [{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"},
+          {"os": "macos-14", "runner": "macos-14"}]
+        type: string
 
 jobs:
   buildPython:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-14]
-    runs-on: ${{ matrix.os }}
+        platform: ${{ fromJSON(inputs.platforms) }}
+    runs-on: ${{ matrix.platform.runner }}
     permissions:
       id-token: write
       contents: read
@@ -49,6 +56,12 @@ jobs:
         uses: ./.github/actions/setup_dafny
         with:
           dafny-version: ${{ inputs.dafny }}
+
+      # The CodeBuild image pins .NET 6 in a global.json above the workspace.
+      - name: Use the latest installed .NET SDK
+        if: runner.os == 'Linux'
+        shell: bash
+        run: echo '{"sdk":{"version":"6.0.100","rollForward":"latestMajor"}}' > "$RUNNER_WORKSPACE/global.json"
 
       - name: Setup Python for transpile
         uses: actions/setup-python@v6
@@ -80,7 +93,7 @@ jobs:
       - name: Upload transpiled Python source
         uses: actions/upload-artifact@v7
         with:
-          name: python-transpiled-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: python-transpiled-${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: |
             **/runtimes/python/src/**/internaldafny/generated/
             **/runtimes/python/test/

@@ -19,14 +19,21 @@ on:
         required: false
         default: false
         type: boolean
+      platforms:
+        description: "JSON array of the platforms to run on"
+        required: false
+        default: >-
+          [{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"},
+          {"os": "macos-14", "runner": "macos-14"}]
+        type: string
 
 jobs:
   buildInterop:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-14]
-    runs-on: ${{ matrix.os }}
+        platform: ${{ fromJSON(inputs.platforms) }}
+    runs-on: ${{ matrix.platform.runner }}
     permissions:
       id-token: write
       contents: read
@@ -61,7 +68,7 @@ jobs:
           dotnet-version: "6.0.x"
 
       - name: Setup .NET OpenSSL on Mac
-        if: matrix.os == 'macos-14'
+        if: matrix.platform.os == 'macos-14'
         run: |
           brew install openssl@3
           echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
@@ -109,6 +116,12 @@ jobs:
         uses: ./.github/actions/setup_dafny
         with:
           dafny-version: ${{ inputs.dafny }}
+
+      # The CodeBuild image pins .NET 6 in a global.json above the workspace.
+      - name: Use the latest installed .NET SDK
+        if: runner.os == 'Linux'
+        shell: bash
+        run: echo '{"sdk":{"version":"6.0.100","rollForward":"latestMajor"}}' > "$RUNNER_WORKSPACE/global.json"
 
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
@@ -176,7 +189,7 @@ jobs:
       - name: Upload Java transpiled source
         uses: actions/upload-artifact@v7
         with:
-          name: interop-java-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: interop-java-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: |
             **/runtimes/java/src/main/dafny-generated/
             **/runtimes/java/src/test/dafny-generated/
@@ -187,14 +200,14 @@ jobs:
       - name: Upload Java Maven local
         uses: actions/upload-artifact@v7
         with:
-          name: interop-java-maven-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: interop-java-maven-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: ~/.m2/repository/software/amazon/
           retention-days: 1
 
       - name: Upload .NET artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: interop-net-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: interop-net-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: |
             **/runtimes/net/ImplementationFromDafny.cs
             **/runtimes/net/ImplementationFromDafny-cs.dtr
@@ -207,7 +220,7 @@ jobs:
       - name: Upload Python artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: interop-python-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: interop-python-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: |
             **/runtimes/python/src/**/internaldafny/generated/
             **/runtimes/python/test/
@@ -218,7 +231,7 @@ jobs:
       - name: Upload Rust artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: interop-rust-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: interop-rust-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: |
             **/runtimes/rust/src/
             **/runtimes/rust/Cargo.lock
@@ -230,7 +243,7 @@ jobs:
       - name: Upload Go artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: interop-go-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: interop-go-${{ inputs.fuzz-testing && 'fuzz-' || '' }}${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: |
             **/runtimes/go/ImplementationFromDafny-go/
             **/runtimes/go/TestsFromDafny-go/

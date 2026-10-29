@@ -13,6 +13,13 @@ on:
         required: false
         default: false
         type: boolean
+      platforms:
+        description: "JSON array of the platforms to run on"
+        required: false
+        default: >-
+          [{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"},
+          {"os": "macos-14", "runner": "macos-14"}]
+        type: string
 
 jobs:
   buildRust:
@@ -20,6 +27,7 @@ jobs:
     with:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
+      platforms: ${{ inputs.platforms }}
 
   testRust:
     needs: buildRust
@@ -36,8 +44,8 @@ jobs:
             TestVectorsAwsCryptographicMaterialProviders,
           ]
         # removed windows-latest because somehow it can't build aws-lc in CI
-        os: [ubuntu-22.04, macos-14]
-    runs-on: ${{ matrix.os }}
+        platform: ${{ fromJSON(inputs.platforms) }}
+    runs-on: ${{ matrix.platform.runner }}
     permissions:
       id-token: write
       contents: read
@@ -74,12 +82,16 @@ jobs:
         with:
           go-version: ">=1.18"
 
+      - name: Install CMake
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y cmake
+
       - run: echo "TIMESTAMP=$(date -u +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Download generated Rust source
         uses: actions/download-artifact@v8
         with:
-          name: rust-generated-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: rust-generated-${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: .
 
       - name: Test ${{ matrix.library }} Rust

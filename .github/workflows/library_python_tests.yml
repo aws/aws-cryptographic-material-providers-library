@@ -13,6 +13,13 @@ on:
         required: false
         default: false
         type: boolean
+      platforms:
+        description: "JSON array of the platforms to run on"
+        required: false
+        default: >-
+          [{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"},
+          {"os": "macos-14", "runner": "macos-14"}]
+        type: string
 
 jobs:
   buildPython:
@@ -20,6 +27,7 @@ jobs:
     with:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
+      platforms: ${{ inputs.platforms }}
 
   testPython:
     needs: buildPython
@@ -41,8 +49,8 @@ jobs:
         # Note: only tests use the sys.path workaround, not source code.
         # Windows source code is tested downstream (ex. ESDK-Python CI).
         # windows-latest,
-        os: [ubuntu-22.04, macos-14]
-    runs-on: ${{ matrix.os }}
+        platform: ${{ fromJSON(inputs.platforms) }}
+    runs-on: ${{ matrix.platform.runner }}
     defaults:
       run:
         shell: bash
@@ -71,7 +79,7 @@ jobs:
       - name: Download transpiled Python source
         uses: actions/download-artifact@v8
         with:
-          name: python-transpiled-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: python-transpiled-${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: .
 
       - name: Setup Python ${{ matrix.python-version }}

@@ -13,6 +13,14 @@ on:
         required: false
         default: false
         type: boolean
+      platforms:
+        description: "JSON array of the platforms to run on"
+        required: false
+        default: >-
+          [{"os": "windows-latest", "runner": "windows-latest"},
+          {"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"},
+          {"os": "macos-14", "runner": "macos-14"}]
+        type: string
 
 jobs:
   buildNet:
@@ -20,6 +28,7 @@ jobs:
     with:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
+      platforms: ${{ inputs.platforms }}
 
   testDotNet:
     needs: buildNet
@@ -36,8 +45,8 @@ jobs:
             TestVectorsAwsCryptographicMaterialProviders,
           ]
         dotnet-version: ["6.0.x"]
-        os: [windows-latest, ubuntu-22.04, macos-14]
-    runs-on: ${{ matrix.os }}
+        platform: ${{ fromJSON(inputs.platforms) }}
+    runs-on: ${{ matrix.platform.runner }}
     defaults:
       run:
         shell: bash
@@ -70,7 +79,7 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Setup .NET OpenSSL on Mac
-        if: matrix.os == 'macos-14'
+        if: matrix.platform.os == 'macos-14'
         run: |
           brew install openssl@3
           echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
@@ -82,7 +91,7 @@ jobs:
       - name: Download transpiled source
         uses: actions/download-artifact@v8
         with:
-          name: net-transpiled-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: net-transpiled-${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: .
 
       - name: Download Dependencies
@@ -106,7 +115,7 @@ jobs:
               --framework net6.0
 
       - name: Test Cache Thread Safety .NET Framework net48
-        if: matrix.os == 'windows-latest' && matrix.library == 'AwsCryptographicMaterialProviders'
+        if: matrix.platform.os == 'windows-latest' && matrix.library == 'AwsCryptographicMaterialProviders'
         working-directory: ./${{ matrix.library }}
         shell: bash
         run: |
