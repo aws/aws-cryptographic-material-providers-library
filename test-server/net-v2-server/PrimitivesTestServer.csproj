@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>PrimitivesTestServer</RootNamespace>
+    <AssemblyName>PrimitivesTestServer</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Formats.Cbor" Version="8.0.0" />
+    <ProjectReference Include="../../AwsCryptographyPrimitives/runtimes/net/Crypto.csproj" />
+  </ItemGroup>
+
+</Project>
