@@ -137,6 +137,7 @@ jobs:
       - getVersions
       - pr-ci-format
       - pr-ci-codegen
+      - pr-ci-verification
       - pr-ci-java
       - pr-ci-net
       - pr-ci-python
