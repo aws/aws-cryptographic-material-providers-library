@@ -38,37 +38,37 @@ jobs:
     uses: ./.github/workflows/library_java_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      os: '["ubuntu-22.04"]'
+      platforms: '[{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"}]'
   pr-ci-java-macos:
     needs: getVersions
     uses: ./.github/workflows/library_java_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      os: '["macos-latest"]'
+      platforms: '[{"os": "macos-latest", "runner": "macos-latest"}]'
   pr-ci-net:
     needs: getVersions
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      os: '["ubuntu-22.04"]'
+      platforms: '[{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"}]'
   pr-ci-net-macos-windows:
     needs: getVersions
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      os: '["windows-latest","macos-14"]'
+      platforms: '[{"os": "windows-latest", "runner": "windows-latest"}, {"os": "macos-14", "runner": "macos-14"}]'
   pr-ci-rust:
     needs: getVersions
     uses: ./.github/workflows/library_rust_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.rustVersion}}
-      os: '["ubuntu-22.04"]'
+      platforms: '[{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"}]'
   pr-ci-rust-macos:
     needs: getVersions
     uses: ./.github/workflows/library_rust_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.rustVersion}}
-      os: '["macos-14"]'
+      platforms: '[{"os": "macos-14", "runner": "macos-14"}]'
   pr-ci-rust-duplicate-deps:
     uses: ./.github/workflows/rust_duplicate_deps.yml
   pr-ci-python:
@@ -76,38 +76,38 @@ jobs:
     uses: ./.github/workflows/library_python_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      os: '["ubuntu-22.04"]'
+      platforms: '[{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"}]'
   pr-ci-python-macos:
     needs: getVersions
     uses: ./.github/workflows/library_python_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      os: '["macos-14"]'
+      platforms: '[{"os": "macos-14", "runner": "macos-14"}]'
   pr-ci-go:
     needs: getVersions
     uses: ./.github/workflows/library_go_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      os: '["ubuntu-22.04"]'
+      platforms: '[{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"}]'
   pr-ci-go-macos:
     needs: getVersions
     uses: ./.github/workflows/library_go_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      os: '["macos-14"]'
+      platforms: '[{"os": "macos-14", "runner": "macos-14"}]'
   pr-interop-test:
     needs: getVersions
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      os: '["ubuntu-22.04"]'
+      platforms: '[{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"}]'
     secrets: inherit
   pr-interop-test-macos:
     needs: getVersions
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      os: '["macos-14"]'
+      platforms: '[{"os": "macos-14", "runner": "macos-14"}]'
     secrets: inherit
   pr-fuzz-interop-test:
     needs: getVersions
@@ -115,7 +115,7 @@ jobs:
     with:
       dafny: ${{needs.getVersions.outputs.version}}
       fuzz-testing: true
-      os: '["ubuntu-22.04"]'
+      platforms: '[{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"}]'
     secrets: inherit
   pr-fuzz-interop-test-macos:
     needs: getVersions
@@ -123,7 +123,7 @@ jobs:
     with:
       dafny: ${{needs.getVersions.outputs.version}}
       fuzz-testing: true
-      os: '["macos-14"]'
+      platforms: '[{"os": "macos-14", "runner": "macos-14"}]'
     secrets: inherit
   # TODO: uncomment once DB-ESDK CI passes
   #pr-ci-db-esdk-java-examples-test:

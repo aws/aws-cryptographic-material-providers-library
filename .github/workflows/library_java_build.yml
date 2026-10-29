@@ -14,10 +14,12 @@ on:
         required: false
         default: false
         type: boolean
-      os:
-        description: "JSON array of the operating systems to run on"
+      platforms:
+        description: "JSON array of the platforms to run on"
         required: false
-        default: '["ubuntu-22.04","macos-latest"]'
+        default: >-
+          [{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"},
+          {"os": "macos-latest", "runner": "macos-latest"}]
         type: string
 
 jobs:
@@ -25,8 +27,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJSON(inputs.os) }}
-    runs-on: ${{ matrix.os == 'ubuntu-22.04' && format('codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-{0}-{1}', github.run_id, github.run_attempt) || matrix.os }}
+        platform: ${{ fromJSON(inputs.platforms) }}
+    runs-on: ${{ matrix.platform.runner }}
     permissions:
       id-token: write
       contents: read
@@ -99,14 +101,14 @@ jobs:
       - name: Upload Maven local repository
         uses: actions/upload-artifact@v7
         with:
-          name: java-maven-local-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: java-maven-local-${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: ~/.m2/repository/software/amazon/
           retention-days: 1
 
       - name: Upload transpiled source
         uses: actions/upload-artifact@v7
         with:
-          name: java-transpiled-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: java-transpiled-${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: |
             **/runtimes/java/src/main/dafny-generated/
             **/runtimes/java/src/test/dafny-generated/

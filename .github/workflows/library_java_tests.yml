@@ -13,10 +13,12 @@ on:
         required: false
         default: false
         type: boolean
-      os:
-        description: "JSON array of the operating systems to run on"
+      platforms:
+        description: "JSON array of the platforms to run on"
         required: false
-        default: '["ubuntu-22.04","macos-latest"]'
+        default: >-
+          [{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"},
+          {"os": "macos-latest", "runner": "macos-latest"}]
         type: string
 
 jobs:
@@ -25,7 +27,7 @@ jobs:
     with:
       dafny: ${{ inputs.dafny }}
       regenerate-code: ${{ inputs.regenerate-code }}
-      os: ${{ inputs.os }}
+      platforms: ${{ inputs.platforms }}
 
   testJava:
     needs: buildJava
@@ -40,9 +42,9 @@ jobs:
             AwsCryptographicMaterialProviders,
             StandardLibrary,
           ]
-        os: ${{ fromJSON(inputs.os) }}
+        platform: ${{ fromJSON(inputs.platforms) }}
         java-versions: [8, 11, 17, 19, 21]
-    runs-on: ${{ matrix.os == 'ubuntu-22.04' && format('codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-{0}-{1}', github.run_id, github.run_attempt) || matrix.os }}
+    runs-on: ${{ matrix.platform.runner }}
     permissions:
       id-token: write
       contents: read
@@ -72,13 +74,13 @@ jobs:
       - name: Download Maven local repository
         uses: actions/download-artifact@v8
         with:
-          name: java-maven-local-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: java-maven-local-${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: ~/.m2/repository/software/amazon/
 
       - name: Download transpiled source
         uses: actions/download-artifact@v8
         with:
-          name: java-transpiled-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: java-transpiled-${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: .
 
       - name: Setup Java 8, for complex reasons

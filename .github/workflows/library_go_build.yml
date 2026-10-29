@@ -14,10 +14,12 @@ on:
         required: false
         default: false
         type: boolean
-      os:
-        description: "JSON array of the operating systems to run on"
+      platforms:
+        description: "JSON array of the platforms to run on"
         required: false
-        default: '["ubuntu-22.04","macos-14"]'
+        default: >-
+          [{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"},
+          {"os": "macos-14", "runner": "macos-14"}]
         type: string
 
 jobs:
@@ -25,8 +27,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJSON(inputs.os) }}
-    runs-on: ${{ matrix.os == 'ubuntu-22.04' && format('codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-{0}-{1}', github.run_id, github.run_attempt) || matrix.os }}
+        platform: ${{ fromJSON(inputs.platforms) }}
+    runs-on: ${{ matrix.platform.runner }}
     permissions:
       id-token: write
       contents: read
@@ -96,7 +98,7 @@ jobs:
       - name: Upload generated Go source
         uses: actions/upload-artifact@v7
         with:
-          name: go-generated-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: go-generated-${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: |
             **/runtimes/go/ImplementationFromDafny-go/
             **/runtimes/go/TestsFromDafny-go/
