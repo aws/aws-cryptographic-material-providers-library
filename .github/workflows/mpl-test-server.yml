@@ -35,9 +35,7 @@ permissions:
 jobs:
   test-server:
     name: TestServer
-    # TODO: back to @main once aws/aws-crypto-tools-commons#56 merges; until
-    # then only its branch has the AWS credentials step.
-    uses: aws/aws-crypto-tools-commons/.github/workflows/mpl-test-server-reusable.yml@jocorell/mpl-test-server-hkeyring
+    uses: aws/aws-crypto-tools-commons/.github/workflows/mpl-test-server-reusable.yml@main
     with:
       checkout-languages: java,net,python,go,rust-dafny
     secrets:
