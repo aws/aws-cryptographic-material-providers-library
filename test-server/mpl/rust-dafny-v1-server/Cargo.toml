@@ -12,6 +12,11 @@ path = "src/main.rs"
 
 [dependencies]
 aws-mpl-legacy = { path = "../../../releases/rust/mpl" }
+# The key store takes KMS and DynamoDB clients. Same versions as releases/rust/mpl,
+# so these resolve to the crates aws-mpl-legacy wraps.
+aws-config = "1.8.12"
+aws-sdk-dynamodb = "1.103.0"
+aws-sdk-kms = "1.98.0"
 aws-smithy-types = "1.3.6"
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "signal"] }
 axum = "0.7"

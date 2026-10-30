@@ -26,6 +26,11 @@ on:
 permissions:
   contents: read
   actions: read
+  # The reusable workflow's test job assumes this repository's CI role through
+  # GitHub OIDC, for the hierarchical keyring Tests.
+  id-token: write
+  # Its resolve job reads this pull request's Test-Server-Override lines.
+  pull-requests: read
 
 jobs:
   test-server:
