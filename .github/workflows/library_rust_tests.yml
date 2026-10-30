@@ -36,7 +36,7 @@ jobs:
             TestVectorsAwsCryptographicMaterialProviders,
           ]
         # removed windows-latest because somehow it can't build aws-lc in CI
-        os: [ubuntu-22.04, macos-14]
+        os: [ubuntu-22.04, macos-15]
     runs-on: ${{ matrix.os }}
     permissions:
       id-token: write
