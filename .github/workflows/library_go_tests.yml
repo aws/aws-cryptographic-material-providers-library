@@ -41,7 +41,7 @@ jobs:
         # Note: only tests use the sys.path workaround, not source code.
         # Windows source code is tested downstream (ex. ESDK-Python CI).
         # windows-latest,
-        os: [ubuntu-22.04, macos-14]
+        os: [ubuntu-22.04, macos-15]
     runs-on: ${{ matrix.os }}
     defaults:
       run:

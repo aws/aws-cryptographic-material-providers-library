@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
-        os: [ubuntu-22.04, macos-14]
+        os: [ubuntu-22.04, macos-15]
         language: [java, net, rust, python, go]
     runs-on: ${{ matrix.os }}
     permissions:
@@ -69,7 +69,7 @@ jobs:
           dotnet-version: "6.0.x"
 
       - name: Setup .NET OpenSSL on Mac
-        if: matrix.os == 'macos-14' && matrix.language == 'net'
+        if: matrix.os == 'macos-15' && matrix.language == 'net'
         run: |
           brew install openssl@3
           echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
@@ -161,7 +161,7 @@ jobs:
       fail-fast: false
       matrix:
         library: [TestVectorsAwsCryptographicMaterialProviders]
-        os: [ubuntu-22.04, macos-14]
+        os: [ubuntu-22.04, macos-15]
         decrypting_language: [java, net, rust, python, go]
     runs-on: ${{ matrix.os }}
     permissions:
@@ -197,7 +197,7 @@ jobs:
           dotnet-version: "6.0.x"
 
       - name: Setup .NET OpenSSL on Mac
-        if: matrix.os == 'macos-14' && matrix.decrypting_language == 'net'
+        if: matrix.os == 'macos-15' && matrix.decrypting_language == 'net'
         run: |
           brew install openssl@3
           echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
