@@ -58,6 +58,12 @@ async fn dispatch(
                 .and_then(|resp| encode(&resp)),
             Err(e) => Err(e),
         },
+        "CreateStaticKeyring" => match decode::<CreateStaticKeyringRequest>(&body) {
+            Ok(req) => state
+                .create_static_keyring(req)
+                .and_then(|resp| encode(&resp)),
+            Err(e) => Err(e),
+        },
         "CreateDefaultCmm" => match decode::<CreateDefaultCmmRequest>(&body) {
             Ok(req) => state
                 .create_default_cmm(req)
