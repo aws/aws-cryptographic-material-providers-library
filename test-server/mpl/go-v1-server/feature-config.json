@@ -1,4 +1,9 @@
 {
-  "supportedFeatures": ["raw-aes", "hierarchical", "default-cmm", "static-keyring"],
+  "supportedFeatures": [
+    "raw-aes",
+    "hierarchical",
+    "default-cmm",
+    "static-keyring"
+  ],
   "unsupportedFeatures": []
 }
