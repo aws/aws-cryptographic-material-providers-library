@@ -126,7 +126,10 @@ dependencies = [
 name = "aws-mpl-dafny-test-server"
 version = "0.1.0"
 dependencies = [
+ "aws-config",
  "aws-mpl-legacy",
+ "aws-sdk-dynamodb",
+ "aws-sdk-kms",
  "aws-smithy-types",
  "axum",
  "ciborium",

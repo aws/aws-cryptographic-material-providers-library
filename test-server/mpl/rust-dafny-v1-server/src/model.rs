@@ -86,6 +86,143 @@ pub struct CreateDefaultCmmResponse {
     pub cmm_id: String,
 }
 
+// ─── CreateKeyStoreClient ───────────────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateKeyStoreClientRequest {
+    #[serde(rename = "ddbTableName")]
+    pub ddb_table_name: String,
+    #[serde(rename = "logicalKeyStoreName")]
+    pub logical_key_store_name: String,
+    #[serde(rename = "kmsConfiguration")]
+    pub kms_configuration: KmsConfiguration,
+    #[serde(rename = "kmsClientRegion")]
+    pub kms_client_region: String,
+    #[serde(rename = "ddbClientRegion")]
+    pub ddb_client_region: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateKeyStoreClientResponse {
+    #[serde(rename = "keyStoreId")]
+    pub key_store_id: String,
+}
+
+/// The `KmsConfiguration` union: a CBOR map with exactly one member.
+///
+/// Decoded through [`KmsConfigurationWire`] rather than serde's enum support,
+/// because the smithy-java client writes indefinite-length maps and ciborium
+/// decodes an enum only from a definite one-entry map.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(try_from = "KmsConfigurationWire")]
+pub enum KmsConfiguration {
+    #[serde(rename = "kmsKeyArn")]
+    KmsKeyArn(String),
+    #[serde(rename = "kmsMRKeyArn")]
+    KmsMrKeyArn(String),
+    #[serde(rename = "discovery")]
+    Discovery(Discovery),
+    #[serde(rename = "mrDiscovery")]
+    MrDiscovery(MrDiscovery),
+}
+
+#[derive(Deserialize)]
+struct KmsConfigurationWire {
+    #[serde(rename = "kmsKeyArn", default)]
+    kms_key_arn: Option<String>,
+    #[serde(rename = "kmsMRKeyArn", default)]
+    kms_mr_key_arn: Option<String>,
+    #[serde(default)]
+    discovery: Option<Discovery>,
+    #[serde(rename = "mrDiscovery", default)]
+    mr_discovery: Option<MrDiscovery>,
+}
+
+impl TryFrom<KmsConfigurationWire> for KmsConfiguration {
+    type Error = String;
+
+    fn try_from(wire: KmsConfigurationWire) -> Result<Self, Self::Error> {
+        match (
+            wire.kms_key_arn,
+            wire.kms_mr_key_arn,
+            wire.discovery,
+            wire.mr_discovery,
+        ) {
+            (Some(arn), None, None, None) => Ok(Self::KmsKeyArn(arn)),
+            (None, Some(arn), None, None) => Ok(Self::KmsMrKeyArn(arn)),
+            (None, None, Some(discovery), None) => Ok(Self::Discovery(discovery)),
+            (None, None, None, Some(mr_discovery)) => Ok(Self::MrDiscovery(mr_discovery)),
+            _ => Err("kmsConfiguration must set exactly one member".to_owned()),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Discovery {}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MrDiscovery {
+    pub region: String,
+}
+
+// ─── CreateCryptographicMaterialsCache ──────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateCryptographicMaterialsCacheRequest {
+    #[serde(rename = "entryCapacity")]
+    pub entry_capacity: i32,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateCryptographicMaterialsCacheResponse {
+    #[serde(rename = "cacheId")]
+    pub cache_id: String,
+}
+
+// ─── CreateAwsKmsHierarchicalKeyring ────────────────────────────────────────
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateAwsKmsHierarchicalKeyringRequest {
+    #[serde(rename = "keyStoreId")]
+    pub key_store_id: String,
+    #[serde(
+        rename = "branchKeyId",
+        default,
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub branch_key_id: Option<String>,
+    #[serde(
+        rename = "branchKeyIdSupplier",
+        default,
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub branch_key_id_supplier: Option<StaticBranchKeyIdSupplier>,
+    #[serde(rename = "ttlSeconds")]
+    pub ttl_seconds: i32,
+    #[serde(rename = "cacheId", default, skip_serializing_if = "Option::is_none")]
+    pub cache_id: Option<String>,
+    #[serde(
+        rename = "partitionId",
+        default,
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub partition_id: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateAwsKmsHierarchicalKeyringResponse {
+    #[serde(rename = "keyringId")]
+    pub keyring_id: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StaticBranchKeyIdSupplier {
+    #[serde(rename = "encryptionContextKey")]
+    pub encryption_context_key: String,
+    #[serde(rename = "branchKeyIds")]
+    pub branch_key_ids: BTreeMap<String, String>,
+}
+
 // ─── GetEncryptionMaterials ─────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
