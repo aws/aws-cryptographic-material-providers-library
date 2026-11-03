@@ -16,6 +16,17 @@ handle is simply unknown there.
 import threading
 import uuid
 
+import boto3
+
+from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.client import (
+    KeyStore,
+)
+from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.config import (
+    KeyStoreConfig,
+)
+from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore import (
+    models as keystore_models,
+)
 from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.client import (
     AwsCryptographicMaterialProviders,
 )
@@ -24,6 +35,12 @@ from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_mater
 )
 from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders import (
     models,
+)
+from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors import (
+    AwsCryptographicMaterialProvidersException,
+)
+from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
+    IBranchKeyIdSupplier,
 )
 
 
@@ -67,6 +84,8 @@ _SUITE_INFO = {
 _LOCK = threading.Lock()
 _KEYRINGS = {}
 _CMMS = {}
+_KEY_STORES = {}
+_CACHES = {}
 
 
 # ---------------------------------------------------------------------------
@@ -308,6 +327,107 @@ def create_default_cmm(request):
     return {"cmmId": _register(_CMMS, cmm)}
 
 
+def _integer(request, name):
+    # bool is an int subclass; the wire never sends one for an Integer member.
+    value = _require(request, name, int)
+    if isinstance(value, bool):
+        raise ServerError(f"missing or mistyped required member: {name}")
+    return value
+
+
+def _kms_configuration_from_wire(wire):
+    """The model's KmsConfiguration union: exactly one member is set."""
+    if not isinstance(wire, dict) or len(wire) != 1:
+        raise ServerError("kmsConfiguration must set exactly one member")
+    if _present(wire, "kmsKeyArn"):
+        return keystore_models.KMSConfigurationKmsKeyArn(_string(wire, "kmsKeyArn"))
+    if _present(wire, "kmsMRKeyArn"):
+        return keystore_models.KMSConfigurationKmsMRKeyArn(_string(wire, "kmsMRKeyArn"))
+    if _present(wire, "discovery"):
+        return keystore_models.KMSConfigurationDiscovery(keystore_models.Discovery())
+    if _present(wire, "mrDiscovery"):
+        mr_discovery = _require(wire, "mrDiscovery", dict)
+        return keystore_models.KMSConfigurationMrDiscovery(
+            keystore_models.MRDiscovery(region=_string(mr_discovery, "region"))
+        )
+    raise ServerError("unknown kmsConfiguration member")
+
+
+def create_key_store_client(request):
+    config = KeyStoreConfig(
+        ddb_table_name=_string(request, "ddbTableName"),
+        logical_key_store_name=_string(request, "logicalKeyStoreName"),
+        kms_configuration=_kms_configuration_from_wire(
+            _require(request, "kmsConfiguration", dict)
+        ),
+        kms_client=boto3.client(
+            "kms", region_name=_string(request, "kmsClientRegion")
+        ),
+        ddb_client=boto3.client(
+            "dynamodb", region_name=_string(request, "ddbClientRegion")
+        ),
+    )
+    key_store = _call(KeyStore, config)
+    return {"keyStoreId": _register(_KEY_STORES, key_store)}
+
+
+def create_cryptographic_materials_cache(request):
+    cache = _call(
+        _CLIENT.create_cryptographic_materials_cache,
+        models.CreateCryptographicMaterialsCacheInput(
+            cache=models.CacheTypeDefault(
+                models.DefaultCache(entry_capacity=_integer(request, "entryCapacity"))
+            ),
+        ),
+    )
+    return {"cacheId": _register(_CACHES, cache)}
+
+
+class _StaticBranchKeyIdSupplier(IBranchKeyIdSupplier):
+    """The model's StaticBranchKeyIdSupplier: the branch key id mapped to the
+    encryption context value under encryptionContextKey, or a failure."""
+
+    def __init__(self, encryption_context_key, branch_key_ids):
+        self._encryption_context_key = encryption_context_key
+        self._branch_key_ids = branch_key_ids
+
+    def get_branch_key_id(self, param):
+        value = param.encryption_context.get(self._encryption_context_key)
+        branch_key_id = self._branch_key_ids.get(value) if value is not None else None
+        if branch_key_id is None:
+            raise AwsCryptographicMaterialProvidersException(
+                message="no branch key id for encryption context key "
+                + self._encryption_context_key
+            )
+        return models.GetBranchKeyIdOutput(branch_key_id=branch_key_id)
+
+
+def create_aws_kms_hierarchical_keyring(request):
+    key_store = _lookup(_KEY_STORES, request, "keyStoreId")
+    supplier = None
+    if _present(request, "branchKeyIdSupplier"):
+        wire = _require(request, "branchKeyIdSupplier", dict)
+        supplier = _StaticBranchKeyIdSupplier(
+            _string(wire, "encryptionContextKey"),
+            _string_map(wire, "branchKeyIds"),
+        )
+    cache = None
+    if _present(request, "cacheId"):
+        cache = models.CacheTypeShared(_lookup(_CACHES, request, "cacheId"))
+    keyring = _call(
+        _CLIENT.create_aws_kms_hierarchical_keyring,
+        models.CreateAwsKmsHierarchicalKeyringInput(
+            key_store=key_store,
+            branch_key_id=request.get("branchKeyId"),
+            branch_key_id_supplier=supplier,
+            ttl_seconds=_integer(request, "ttlSeconds"),
+            cache=cache,
+            partition_id=request.get("partitionId"),
+        ),
+    )
+    return {"keyringId": _register(_KEYRINGS, keyring)}
+
+
 def initialize_encryption_materials(request):
     materials = _call(
         _CLIENT.initialize_encryption_materials,
@@ -413,6 +533,9 @@ def decrypt_materials(request):
 OPERATIONS = {
     "CreateRawAesKeyring": create_raw_aes_keyring,
     "CreateDefaultCmm": create_default_cmm,
+    "CreateKeyStoreClient": create_key_store_client,
+    "CreateCryptographicMaterialsCache": create_cryptographic_materials_cache,
+    "CreateAwsKmsHierarchicalKeyring": create_aws_kms_hierarchical_keyring,
     "InitializeEncryptionMaterials": initialize_encryption_materials,
     "InitializeDecryptionMaterials": initialize_decryption_materials,
     "OnEncrypt": on_encrypt,

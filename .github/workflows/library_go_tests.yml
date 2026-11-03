@@ -18,7 +18,7 @@ on:
         required: false
         default: >-
           [{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"},
-          {"os": "macos-14", "runner": "macos-14"}]
+          {"os": "macos-15", "runner": "macos-15"}]
         type: string
 
 jobs:

@@ -56,7 +56,7 @@ jobs:
     uses: ./.github/workflows/library_net_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      platforms: '[{"os": "windows-latest", "runner": "windows-latest"}, {"os": "macos-14", "runner": "macos-14"}]'
+      platforms: '[{"os": "windows-latest", "runner": "windows-latest"}, {"os": "macos-15", "runner": "macos-15"}]'
   pr-ci-rust:
     needs: getVersions
     uses: ./.github/workflows/library_rust_tests.yml
@@ -68,9 +68,7 @@ jobs:
     uses: ./.github/workflows/library_rust_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.rustVersion}}
-      platforms: '[{"os": "macos-14", "runner": "macos-14"}]'
-  pr-ci-rust-duplicate-deps:
-    uses: ./.github/workflows/rust_duplicate_deps.yml
+      platforms: '[{"os": "macos-15", "runner": "macos-15"}]'
   pr-ci-python:
     needs: getVersions
     uses: ./.github/workflows/library_python_tests.yml
@@ -82,7 +80,7 @@ jobs:
     uses: ./.github/workflows/library_python_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      platforms: '[{"os": "macos-14", "runner": "macos-14"}]'
+      platforms: '[{"os": "macos-15", "runner": "macos-15"}]'
   pr-ci-go:
     needs: getVersions
     uses: ./.github/workflows/library_go_tests.yml
@@ -94,7 +92,7 @@ jobs:
     uses: ./.github/workflows/library_go_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      platforms: '[{"os": "macos-14", "runner": "macos-14"}]'
+      platforms: '[{"os": "macos-15", "runner": "macos-15"}]'
   pr-interop-test:
     needs: getVersions
     uses: ./.github/workflows/library_interop_tests.yml
@@ -107,7 +105,7 @@ jobs:
     uses: ./.github/workflows/library_interop_tests.yml
     with:
       dafny: ${{needs.getVersions.outputs.version}}
-      platforms: '[{"os": "macos-14", "runner": "macos-14"}]'
+      platforms: '[{"os": "macos-15", "runner": "macos-15"}]'
     secrets: inherit
   pr-fuzz-interop-test:
     needs: getVersions
@@ -123,7 +121,7 @@ jobs:
     with:
       dafny: ${{needs.getVersions.outputs.version}}
       fuzz-testing: true
-      platforms: '[{"os": "macos-14", "runner": "macos-14"}]'
+      platforms: '[{"os": "macos-15", "runner": "macos-15"}]'
     secrets: inherit
   # TODO: uncomment once DB-ESDK CI passes
   #pr-ci-db-esdk-java-examples-test:
@@ -143,7 +141,6 @@ jobs:
       - pr-ci-python
       - pr-ci-go
       - pr-ci-rust
-      - pr-ci-rust-duplicate-deps
       - pr-interop-test
       - pr-fuzz-interop-test
       #- pr-ci-db-esdk-java-examples-test

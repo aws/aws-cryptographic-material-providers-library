@@ -9,15 +9,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.cryptography.keystore.KeyStore;
+import software.amazon.cryptography.keystore.model.Discovery;
+import software.amazon.cryptography.keystore.model.KMSConfiguration;
+import software.amazon.cryptography.keystore.model.KeyStoreConfig;
+import software.amazon.cryptography.keystore.model.MRDiscovery;
+import software.amazon.cryptography.materialproviders.IBranchKeyIdSupplier;
+import software.amazon.cryptography.materialproviders.ICryptographicMaterialsCache;
 import software.amazon.cryptography.materialproviders.ICryptographicMaterialsManager;
 import software.amazon.cryptography.materialproviders.IKeyring;
 import software.amazon.cryptography.materialproviders.MaterialProviders;
+import software.amazon.cryptography.materialproviders.model.AwsCryptographicMaterialProvidersException;
+import software.amazon.cryptography.materialproviders.model.CacheType;
+import software.amazon.cryptography.materialproviders.model.CreateAwsKmsHierarchicalKeyringInput;
+import software.amazon.cryptography.materialproviders.model.CreateCryptographicMaterialsCacheInput;
 import software.amazon.cryptography.materialproviders.model.CreateDefaultCryptographicMaterialsManagerInput;
 import software.amazon.cryptography.materialproviders.model.CreateRawAesKeyringInput;
 import software.amazon.cryptography.materialproviders.model.DecryptMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.DecryptionMaterials;
+import software.amazon.cryptography.materialproviders.model.DefaultCache;
 import software.amazon.cryptography.materialproviders.model.EncryptedDataKey;
 import software.amazon.cryptography.materialproviders.model.EncryptionMaterials;
+import software.amazon.cryptography.materialproviders.model.GetBranchKeyIdInput;
+import software.amazon.cryptography.materialproviders.model.GetBranchKeyIdOutput;
 import software.amazon.cryptography.materialproviders.model.GetEncryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.InitializeDecryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.InitializeEncryptionMaterialsInput;
@@ -37,6 +54,9 @@ final class Operations {
   private final Map<String, IKeyring> keyrings = new ConcurrentHashMap<>();
   private final Map<String, ICryptographicMaterialsManager> cmms =
     new ConcurrentHashMap<>();
+  private final Map<String, KeyStore> keyStores = new ConcurrentHashMap<>();
+  private final Map<String, ICryptographicMaterialsCache> caches =
+    new ConcurrentHashMap<>();
 
   Operations(MaterialProviders materialProviders) {
     this.materialProviders = materialProviders;
@@ -49,6 +69,12 @@ final class Operations {
         return createRawAesKeyring(request);
       case "CreateDefaultCmm":
         return createDefaultCmm(request);
+      case "CreateKeyStoreClient":
+        return createKeyStoreClient(request);
+      case "CreateCryptographicMaterialsCache":
+        return createCryptographicMaterialsCache(request);
+      case "CreateAwsKmsHierarchicalKeyring":
+        return createAwsKmsHierarchicalKeyring(request);
       case "InitializeEncryptionMaterials":
         return initializeEncryptionMaterials(request);
       case "InitializeDecryptionMaterials":
@@ -97,6 +123,179 @@ final class Operations {
     ObjectNode response = Cbor.object();
     response.put("cmmId", register(cmms, cmm));
     return response;
+  }
+
+  private ObjectNode createKeyStoreClient(JsonNode request) {
+    KeyStore keyStore = KeyStore
+      .builder()
+      .KeyStoreConfig(
+        KeyStoreConfig
+          .builder()
+          .ddbTableName(Cbor.string(request, "ddbTableName"))
+          .logicalKeyStoreName(Cbor.string(request, "logicalKeyStoreName"))
+          .kmsConfiguration(
+            kmsConfigurationFromWire(Cbor.member(request, "kmsConfiguration"))
+          )
+          .kmsClient(
+            KmsClient
+              .builder()
+              .region(Region.of(Cbor.string(request, "kmsClientRegion")))
+              .build()
+          )
+          .ddbClient(
+            DynamoDbClient
+              .builder()
+              .region(Region.of(Cbor.string(request, "ddbClientRegion")))
+              .build()
+          )
+          .build()
+      )
+      .build();
+    ObjectNode response = Cbor.object();
+    response.put("keyStoreId", register(keyStores, keyStore));
+    return response;
+  }
+
+  /** The model's KmsConfiguration union: exactly one member is set. */
+  private static KMSConfiguration kmsConfigurationFromWire(JsonNode wire) {
+    if (wire.size() != 1) {
+      throw ModeledError.generic(
+        "kmsConfiguration must set exactly one member"
+      );
+    }
+    if (Cbor.present(wire, "kmsKeyArn")) {
+      return KMSConfiguration
+        .builder()
+        .kmsKeyArn(Cbor.string(wire, "kmsKeyArn"))
+        .build();
+    }
+    if (Cbor.present(wire, "kmsMRKeyArn")) {
+      return KMSConfiguration
+        .builder()
+        .kmsMRKeyArn(Cbor.string(wire, "kmsMRKeyArn"))
+        .build();
+    }
+    if (Cbor.present(wire, "discovery")) {
+      return KMSConfiguration
+        .builder()
+        .discovery(Discovery.builder().build())
+        .build();
+    }
+    if (Cbor.present(wire, "mrDiscovery")) {
+      return KMSConfiguration
+        .builder()
+        .mrDiscovery(
+          MRDiscovery
+            .builder()
+            .region(Cbor.string(Cbor.member(wire, "mrDiscovery"), "region"))
+            .build()
+        )
+        .build();
+    }
+    throw ModeledError.generic("unknown kmsConfiguration member");
+  }
+
+  private ObjectNode createCryptographicMaterialsCache(JsonNode request) {
+    ICryptographicMaterialsCache cache =
+      materialProviders.CreateCryptographicMaterialsCache(
+        CreateCryptographicMaterialsCacheInput
+          .builder()
+          .cache(
+            CacheType
+              .builder()
+              .Default(
+                DefaultCache
+                  .builder()
+                  .entryCapacity(intValue(request, "entryCapacity"))
+                  .build()
+              )
+              .build()
+          )
+          .build()
+      );
+    ObjectNode response = Cbor.object();
+    response.put("cacheId", register(caches, cache));
+    return response;
+  }
+
+  private ObjectNode createAwsKmsHierarchicalKeyring(JsonNode request) {
+    CreateAwsKmsHierarchicalKeyringInput.Builder input =
+      CreateAwsKmsHierarchicalKeyringInput
+        .builder()
+        .keyStore(keyStore(Cbor.string(request, "keyStoreId")))
+        .ttlSeconds(Cbor.longValue(request, "ttlSeconds"));
+    if (Cbor.present(request, "branchKeyId")) {
+      input.branchKeyId(Cbor.string(request, "branchKeyId"));
+    }
+    if (Cbor.present(request, "branchKeyIdSupplier")) {
+      JsonNode supplier = Cbor.member(request, "branchKeyIdSupplier");
+      input.branchKeyIdSupplier(
+        new StaticBranchKeyIdSupplier(
+          Cbor.string(supplier, "encryptionContextKey"),
+          Cbor.stringMap(supplier, "branchKeyIds")
+        )
+      );
+    }
+    if (Cbor.present(request, "cacheId")) {
+      input.cache(
+        CacheType
+          .builder()
+          .Shared(cache(Cbor.string(request, "cacheId")))
+          .build()
+      );
+    }
+    if (Cbor.present(request, "partitionId")) {
+      input.partitionId(Cbor.string(request, "partitionId"));
+    }
+    IKeyring keyring = materialProviders.CreateAwsKmsHierarchicalKeyring(
+      input.build()
+    );
+    ObjectNode response = Cbor.object();
+    response.put("keyringId", register(keyrings, keyring));
+    return response;
+  }
+
+  /**
+   * The model's StaticBranchKeyIdSupplier: the branch key id mapped to the
+   * encryption context value under encryptionContextKey, or a failure.
+   */
+  private static final class StaticBranchKeyIdSupplier
+    implements IBranchKeyIdSupplier {
+
+    private final String encryptionContextKey;
+    private final Map<String, String> branchKeyIds;
+
+    StaticBranchKeyIdSupplier(
+      String encryptionContextKey,
+      Map<String, String> branchKeyIds
+    ) {
+      this.encryptionContextKey = encryptionContextKey;
+      this.branchKeyIds = branchKeyIds;
+    }
+
+    @Override
+    public GetBranchKeyIdOutput GetBranchKeyId(GetBranchKeyIdInput input) {
+      String value = input.encryptionContext().get(encryptionContextKey);
+      String branchKeyId = value == null ? null : branchKeyIds.get(value);
+      if (branchKeyId == null) {
+        throw AwsCryptographicMaterialProvidersException
+          .builder()
+          .message(
+            "no branch key id for encryption context key " +
+            encryptionContextKey
+          )
+          .build();
+      }
+      return GetBranchKeyIdOutput.builder().branchKeyId(branchKeyId).build();
+    }
+  }
+
+  private static int intValue(JsonNode node, String field) {
+    long value = Cbor.longValue(node, field);
+    if (value < Integer.MIN_VALUE || value > Integer.MAX_VALUE) {
+      throw ModeledError.generic("member is not an Integer: " + field);
+    }
+    return (int) value;
   }
 
   // ---------------------------------------------------------------------
@@ -274,6 +473,14 @@ final class Operations {
 
   private ICryptographicMaterialsManager cmm(String id) {
     return lookup(cmms, id, "cmmId");
+  }
+
+  private KeyStore keyStore(String id) {
+    return lookup(keyStores, id, "keyStoreId");
+  }
+
+  private ICryptographicMaterialsCache cache(String id) {
+    return lookup(caches, id, "cacheId");
   }
 
   private static <T> T lookup(

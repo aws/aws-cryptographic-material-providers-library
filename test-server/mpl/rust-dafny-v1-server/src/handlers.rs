@@ -10,13 +10,22 @@ use std::collections::{BTreeMap, HashMap};
 use std::sync::Mutex;
 
 use aws_mpl_legacy::client::Client;
+use aws_mpl_legacy::deps::aws_cryptography_keyStore::client::Client as KeyStoreClient;
+use aws_mpl_legacy::deps::aws_cryptography_keyStore::types::key_store_config::KeyStoreConfig;
+use aws_mpl_legacy::deps::aws_cryptography_keyStore::types::{
+    Discovery as DafnyDiscovery, KmsConfiguration as DafnyKmsConfiguration,
+    MrDiscovery as DafnyMrDiscovery,
+};
+use aws_mpl_legacy::operation::get_branch_key_id::{GetBranchKeyIdInput, GetBranchKeyIdOutput};
+use aws_mpl_legacy::types::branch_key_id_supplier::{BranchKeyIdSupplier, BranchKeyIdSupplierRef};
+use aws_mpl_legacy::types::cryptographic_materials_cache::CryptographicMaterialsCacheRef;
 use aws_mpl_legacy::types::cryptographic_materials_manager::CryptographicMaterialsManagerRef;
 use aws_mpl_legacy::types::keyring::KeyringRef;
 use aws_mpl_legacy::types::{
     AesWrappingAlg as DafnyAesWrappingAlg, AlgorithmSuiteId as DafnyAlgorithmSuiteId,
-    AlgorithmSuiteInfo, CommitmentPolicy as DafnyCommitmentPolicy, DecryptionMaterials,
-    EncryptedDataKey, EncryptionMaterials, EsdkAlgorithmSuiteId, EsdkCommitmentPolicy,
-    MaterialProvidersConfig,
+    AlgorithmSuiteInfo, CacheType, CommitmentPolicy as DafnyCommitmentPolicy, DecryptionMaterials,
+    DefaultCache, EncryptedDataKey, EncryptionMaterials, EsdkAlgorithmSuiteId,
+    EsdkCommitmentPolicy, MaterialProvidersConfig,
 };
 use aws_smithy_types::Blob;
 
@@ -85,6 +94,8 @@ pub struct AppState {
     suite_info: Vec<AlgorithmSuiteInfo>,
     keyrings: Mutex<HashMap<String, KeyringRef>>,
     cmms: Mutex<HashMap<String, CryptographicMaterialsManagerRef>>,
+    key_stores: Mutex<HashMap<String, KeyStoreClient>>,
+    caches: Mutex<HashMap<String, CryptographicMaterialsCacheRef>>,
 }
 
 /// Every ESDK suite with its two-byte message-format id, for
@@ -151,6 +162,49 @@ fn mpl_err(e: impl std::fmt::Display) -> ServerError {
     ServerError::mpl(e.to_string())
 }
 
+/// An AWS SDK configuration for `region`, with credentials from the ambient
+/// provider chain.
+async fn sdk_config(region: String) -> aws_config::SdkConfig {
+    aws_config::defaults(aws_config::BehaviorVersion::latest())
+        .region(aws_config::Region::new(region))
+        .load()
+        .await
+}
+
+/// The model's `StaticBranchKeyIdSupplier`: the branch key id mapped to the
+/// encryption context value under `encryption_context_key`, or a failure.
+struct StaticBranchKeyIdSupplier {
+    encryption_context_key: String,
+    branch_key_ids: BTreeMap<String, String>,
+}
+
+impl BranchKeyIdSupplier for StaticBranchKeyIdSupplier {
+    fn get_branch_key_id(
+        &self,
+        input: GetBranchKeyIdInput,
+    ) -> Result<GetBranchKeyIdOutput, aws_mpl_legacy::types::error::Error> {
+        let branch_key_id = input
+            .encryption_context
+            .as_ref()
+            .and_then(|ec| ec.get(&self.encryption_context_key))
+            .and_then(|value| self.branch_key_ids.get(value));
+        let Some(branch_key_id) = branch_key_id else {
+            return Err(
+                aws_mpl_legacy::types::error::Error::AwsCryptographicMaterialProvidersException {
+                    message: format!(
+                        "no branch key id for encryption context key {}",
+                        self.encryption_context_key
+                    ),
+                },
+            );
+        };
+        Ok(GetBranchKeyIdOutput::builder()
+            .branch_key_id(branch_key_id.clone())
+            .build()
+            .expect("GetBranchKeyIdOutput builder has no required members"))
+    }
+}
+
 impl AppState {
     /// Build the client and resolve every suite's AlgorithmSuiteInfo once.
     pub async fn new() -> Self {
@@ -195,6 +249,8 @@ impl AppState {
             suite_info,
             keyrings: Mutex::new(HashMap::new()),
             cmms: Mutex::new(HashMap::new()),
+            key_stores: Mutex::new(HashMap::new()),
+            caches: Mutex::new(HashMap::new()),
         }
     }
 
@@ -245,6 +301,104 @@ impl AppState {
             .expect("cmms mutex")
             .insert(id.clone(), cmm);
         Ok(CreateDefaultCmmResponse { cmm_id: id })
+    }
+
+    pub async fn create_key_store_client(
+        &self,
+        req: CreateKeyStoreClientRequest,
+    ) -> Result<CreateKeyStoreClientResponse, ServerError> {
+        let kms_configuration = match req.kms_configuration {
+            KmsConfiguration::KmsKeyArn(arn) => DafnyKmsConfiguration::KmsKeyArn(arn),
+            KmsConfiguration::KmsMrKeyArn(arn) => DafnyKmsConfiguration::KmsMrKeyArn(arn),
+            KmsConfiguration::Discovery(Discovery {}) => DafnyKmsConfiguration::Discovery(
+                DafnyDiscovery::builder().build().map_err(mpl_err)?,
+            ),
+            KmsConfiguration::MrDiscovery(MrDiscovery { region }) => {
+                DafnyKmsConfiguration::MrDiscovery(
+                    DafnyMrDiscovery::builder()
+                        .region(region)
+                        .build()
+                        .map_err(mpl_err)?,
+                )
+            }
+        };
+        let kms = aws_sdk_kms::Client::new(&sdk_config(req.kms_client_region).await);
+        let ddb = aws_sdk_dynamodb::Client::new(&sdk_config(req.ddb_client_region).await);
+        let config = KeyStoreConfig::builder()
+            .ddb_table_name(req.ddb_table_name)
+            .logical_key_store_name(req.logical_key_store_name)
+            .kms_configuration(kms_configuration)
+            .kms_client(aws_mpl_legacy::deps::com_amazonaws_kms::client::Client { inner: kms })
+            .ddb_client(aws_mpl_legacy::deps::com_amazonaws_dynamodb::client::Client { inner: ddb })
+            .build()
+            .map_err(mpl_err)?;
+        let key_store = KeyStoreClient::from_conf(config).map_err(mpl_err)?;
+        let id = uuid::Uuid::new_v4().to_string();
+        self.key_stores
+            .lock()
+            .expect("key stores mutex")
+            .insert(id.clone(), key_store);
+        Ok(CreateKeyStoreClientResponse { key_store_id: id })
+    }
+
+    pub async fn create_cryptographic_materials_cache(
+        &self,
+        req: CreateCryptographicMaterialsCacheRequest,
+    ) -> Result<CreateCryptographicMaterialsCacheResponse, ServerError> {
+        let cache = self
+            .client
+            .create_cryptographic_materials_cache()
+            .cache(CacheType::Default(
+                DefaultCache::builder()
+                    .entry_capacity(req.entry_capacity)
+                    .build()
+                    .map_err(mpl_err)?,
+            ))
+            .send()
+            .await
+            .map_err(mpl_err)?;
+        let id = uuid::Uuid::new_v4().to_string();
+        self.caches
+            .lock()
+            .expect("caches mutex")
+            .insert(id.clone(), cache);
+        Ok(CreateCryptographicMaterialsCacheResponse { cache_id: id })
+    }
+
+    pub async fn create_aws_kms_hierarchical_keyring(
+        &self,
+        req: CreateAwsKmsHierarchicalKeyringRequest,
+    ) -> Result<CreateAwsKmsHierarchicalKeyringResponse, ServerError> {
+        let key_store = self.get_key_store(&req.key_store_id)?;
+        let cache = req
+            .cache_id
+            .as_deref()
+            .map(|id| self.get_cache(id).map(CacheType::Shared))
+            .transpose()?;
+        let supplier = req.branch_key_id_supplier.map(|supplier| {
+            BranchKeyIdSupplierRef::from(StaticBranchKeyIdSupplier {
+                encryption_context_key: supplier.encryption_context_key,
+                branch_key_ids: supplier.branch_key_ids,
+            })
+        });
+        let keyring = self
+            .client
+            .create_aws_kms_hierarchical_keyring()
+            .key_store(key_store)
+            .ttl_seconds(i64::from(req.ttl_seconds))
+            .set_branch_key_id(req.branch_key_id)
+            .set_branch_key_id_supplier(supplier)
+            .set_cache(cache)
+            .set_partition_id(req.partition_id)
+            .send()
+            .await
+            .map_err(mpl_err)?;
+        let id = uuid::Uuid::new_v4().to_string();
+        self.keyrings
+            .lock()
+            .expect("keyrings mutex")
+            .insert(id.clone(), keyring);
+        Ok(CreateAwsKmsHierarchicalKeyringResponse { keyring_id: id })
     }
 
     // ─── Materials initialization + keyring interface ───────────────────────
@@ -407,6 +561,30 @@ impl AppState {
             .get(keyring_id)
             .cloned()
             .ok_or_else(|| ServerError::generic(format!("unknown keyringId: {keyring_id}")))
+    }
+
+    fn get_key_store(&self, key_store_id: &str) -> Result<KeyStoreClient, ServerError> {
+        if key_store_id.is_empty() {
+            return Err(ServerError::generic("keyStoreId must be non-empty"));
+        }
+        self.key_stores
+            .lock()
+            .expect("key stores mutex")
+            .get(key_store_id)
+            .cloned()
+            .ok_or_else(|| ServerError::generic(format!("unknown keyStoreId: {key_store_id}")))
+    }
+
+    fn get_cache(&self, cache_id: &str) -> Result<CryptographicMaterialsCacheRef, ServerError> {
+        if cache_id.is_empty() {
+            return Err(ServerError::generic("cacheId must be non-empty"));
+        }
+        self.caches
+            .lock()
+            .expect("caches mutex")
+            .get(cache_id)
+            .cloned()
+            .ok_or_else(|| ServerError::generic(format!("unknown cacheId: {cache_id}")))
     }
 
     fn get_cmm(&self, cmm_id: &str) -> Result<CryptographicMaterialsManagerRef, ServerError> {

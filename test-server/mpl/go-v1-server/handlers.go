@@ -16,6 +16,7 @@ import (
 	"fmt"
 	"sync"
 
+	keystore "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographykeystoresmithygenerated"
 	mpl "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographymaterialproviderssmithygenerated"
 	mpltypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographymaterialproviderssmithygeneratedtypes"
 	"github.com/aws/smithy-go/encoding/cbor"
@@ -25,9 +26,11 @@ type appState struct {
 	client    *mpl.Client
 	suiteInfo map[string]mpltypes.AlgorithmSuiteInfo
 
-	mu       sync.Mutex
-	keyrings map[string]mpltypes.IKeyring
-	cmms     map[string]mpltypes.ICryptographicMaterialsManager
+	mu        sync.Mutex
+	keyrings  map[string]mpltypes.IKeyring
+	cmms      map[string]mpltypes.ICryptographicMaterialsManager
+	keyStores map[string]*keystore.Client
+	caches    map[string]mpltypes.ICryptographicMaterialsCache
 }
 
 func newAppState() (*appState, error) {
@@ -53,6 +56,8 @@ func newAppState() (*appState, error) {
 		suiteInfo: suiteInfo,
 		keyrings:  map[string]mpltypes.IKeyring{},
 		cmms:      map[string]mpltypes.ICryptographicMaterialsManager{},
+		keyStores: map[string]*keystore.Client{},
+		caches:    map[string]mpltypes.ICryptographicMaterialsCache{},
 	}, nil
 }
 

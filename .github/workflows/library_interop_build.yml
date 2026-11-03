@@ -24,7 +24,7 @@ on:
         required: false
         default: >-
           [{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"},
-          {"os": "macos-14", "runner": "macos-14"}]
+          {"os": "macos-15", "runner": "macos-15"}]
         type: string
 
 jobs:
@@ -68,7 +68,7 @@ jobs:
           dotnet-version: "6.0.x"
 
       - name: Setup .NET OpenSSL on Mac
-        if: matrix.platform.os == 'macos-14'
+        if: matrix.platform.os == 'macos-15'
         run: |
           brew install openssl@3
           echo "DYLD_LIBRARY_PATH=$(brew --prefix openssl@3)/lib" >> $GITHUB_ENV
