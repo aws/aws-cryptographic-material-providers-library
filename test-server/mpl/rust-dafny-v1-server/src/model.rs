@@ -72,6 +72,32 @@ pub struct CreateRawAesKeyringResponse {
     pub keyring_id: String,
 }
 
+// ─── CreateStaticKeyring ────────────────────────────────────────────────────
+
+/// A keyring whose OnEncrypt and OnDecrypt return fixed materials.
+/// An absent member returns the input materials unchanged.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateStaticKeyringRequest {
+    #[serde(
+        rename = "encryptionMaterials",
+        default,
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub encryption_materials: Option<EncryptionMaterialsShape>,
+    #[serde(
+        rename = "decryptionMaterials",
+        default,
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub decryption_materials: Option<DecryptionMaterialsShape>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CreateStaticKeyringResponse {
+    #[serde(rename = "keyringId")]
+    pub keyring_id: String,
+}
+
 // ─── CreateDefaultCmm ───────────────────────────────────────────────────────
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

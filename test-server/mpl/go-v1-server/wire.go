@@ -102,6 +102,8 @@ func dispatch(state *appState, r *http.Request) (status int, body []byte) {
 	switch operation {
 	case "CreateRawAesKeyring":
 		out, serr = state.createRawAesKeyring(ctx, req)
+	case "CreateStaticKeyring":
+		out, serr = state.createStaticKeyring(ctx, req)
 	case "CreateDefaultCmm":
 		out, serr = state.createDefaultCmm(ctx, req)
 	case "CreateKeyStoreClient":

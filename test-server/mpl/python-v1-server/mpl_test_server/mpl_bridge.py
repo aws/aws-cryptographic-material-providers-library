@@ -41,6 +41,7 @@ from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_mater
 )
 from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
     IBranchKeyIdSupplier,
+    IKeyring,
 )
 
 
@@ -318,6 +319,42 @@ def create_raw_aes_keyring(request):
     return {"keyringId": _register(_KEYRINGS, keyring)}
 
 
+class _StaticKeyring(IKeyring):
+    """The model's static keyring: on_encrypt and on_decrypt return the fixed
+    materials, or the input materials when none were given."""
+
+    def __init__(self, encryption_materials, decryption_materials):
+        self._encryption_materials = encryption_materials
+        self._decryption_materials = decryption_materials
+
+    def on_encrypt(self, param):
+        materials = self._encryption_materials
+        if materials is None:
+            materials = param.materials
+        return models.OnEncryptOutput(materials=materials)
+
+    def on_decrypt(self, param):
+        materials = self._decryption_materials
+        if materials is None:
+            materials = param.materials
+        return models.OnDecryptOutput(materials=materials)
+
+
+def create_static_keyring(request):
+    encryption_materials = (
+        _encryption_materials_from_wire(_require(request, "encryptionMaterials", dict))
+        if _present(request, "encryptionMaterials")
+        else None
+    )
+    decryption_materials = (
+        _decryption_materials_from_wire(_require(request, "decryptionMaterials", dict))
+        if _present(request, "decryptionMaterials")
+        else None
+    )
+    keyring = _StaticKeyring(encryption_materials, decryption_materials)
+    return {"keyringId": _register(_KEYRINGS, keyring)}
+
+
 def create_default_cmm(request):
     keyring = _lookup(_KEYRINGS, request, "keyringId")
     cmm = _call(
@@ -532,6 +569,7 @@ def decrypt_materials(request):
 
 OPERATIONS = {
     "CreateRawAesKeyring": create_raw_aes_keyring,
+    "CreateStaticKeyring": create_static_keyring,
     "CreateDefaultCmm": create_default_cmm,
     "CreateKeyStoreClient": create_key_store_client,
     "CreateCryptographicMaterialsCache": create_cryptographic_materials_cache,
