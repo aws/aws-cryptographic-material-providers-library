@@ -31,8 +31,11 @@ jobs:
             AwsCryptographicMaterialProviders,
             StandardLibrary,
           ]
-        os: [macos-latest-large]
-    runs-on: ${{ matrix.os }}
+        os: [ubuntu-22.04]
+        include:
+          - os: ubuntu-22.04
+            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
+    runs-on: ${{ matrix.runner }}
     defaults:
       run:
         shell: bash
@@ -54,6 +57,16 @@ jobs:
         uses: ./.github/actions/setup_dafny
         with:
           dafny-version: ${{ inputs.dafny }}
+
+      - name: Use the latest installed .NET SDK
+        if: runner.os == 'Linux'
+        shell: bash
+        run: echo '{"sdk":{"version":"6.0.100","rollForward":"latestMajor"}}' > "$RUNNER_WORKSPACE/global.json"
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
 
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies

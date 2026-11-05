@@ -34,7 +34,10 @@ jobs:
         python-version: [3.11]
         go-version: [1.24]
         os: [ubuntu-22.04]
-    runs-on: ${{ matrix.os }}
+        include:
+          - os: ubuntu-22.04
+            runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
+    runs-on: ${{ matrix.runner }}
     defaults:
       run:
         shell: bash

@@ -14,14 +14,21 @@ on:
         required: false
         default: false
         type: boolean
+      platforms:
+        description: "JSON array of the platforms to run on"
+        required: false
+        default: >-
+          [{"os": "ubuntu-22.04", "runner": "codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}"},
+          {"os": "macos-latest", "runner": "macos-latest"}]
+        type: string
 
 jobs:
   buildJava:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, macos-latest]
-    runs-on: ${{ matrix.os }}
+        platform: ${{ fromJSON(inputs.platforms) }}
+    runs-on: ${{ matrix.platform.runner }}
     permissions:
       id-token: write
       contents: read
@@ -49,6 +56,12 @@ jobs:
         uses: ./.github/actions/setup_dafny
         with:
           dafny-version: ${{ inputs.dafny }}
+
+      # The CodeBuild image pins .NET 6 in a global.json above the workspace.
+      - name: Use the latest installed .NET SDK
+        if: runner.os == 'Linux'
+        shell: bash
+        run: echo '{"sdk":{"version":"6.0.100","rollForward":"latestMajor"}}' > "$RUNNER_WORKSPACE/global.json"
 
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
@@ -88,14 +101,14 @@ jobs:
       - name: Upload Maven local repository
         uses: actions/upload-artifact@v7
         with:
-          name: java-maven-local-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: java-maven-local-${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: ~/.m2/repository/software/amazon/
           retention-days: 1
 
       - name: Upload transpiled source
         uses: actions/upload-artifact@v7
         with:
-          name: java-transpiled-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
+          name: java-transpiled-${{ env.TIMESTAMP }}-${{ matrix.platform.os }}-${{ github.sha }}
           path: |
             **/runtimes/java/src/main/dafny-generated/
             **/runtimes/java/src/test/dafny-generated/
