@@ -8,12 +8,15 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"strconv"
 	"strings"
 
+	keystoretypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographykeystoresmithygeneratedtypes"
+	mpltypes "github.com/aws/aws-cryptographic-material-providers-library/releases/go/mpl/awscryptographymaterialproviderssmithygeneratedtypes"
 	"github.com/aws/smithy-go/encoding/cbor"
 )
 
@@ -26,10 +29,12 @@ const (
 	cborContentType  = "application/cbor"
 )
 
-// serverError is one of the two modeled TestServer errors.
+// serverError is one of the two modeled TestServer errors. collectedErrors is
+// MPLClientError's collectedErrors, or nil when the error collected none.
 type serverError struct {
-	typeID  string
-	message string
+	typeID          string
+	message         string
+	collectedErrors []string
 }
 
 // generic builds a GenericServerError: a failure originating in the TestServer
@@ -43,6 +48,26 @@ func generic(format string, args ...any) *serverError {
 // Providers Library, carrying the library error's message.
 func mplError(message string) *serverError {
 	return &serverError{typeID: mplErrorType, message: message}
+}
+
+// mplFailure builds the MPLClientError for an error the MPL returned. A Dafny
+// CollectionOfErrors, from the MPL or its key store, also carries the message
+// of each error it collected.
+func mplFailure(err error) *serverError {
+	var collected []error
+	var mplErrors mpltypes.CollectionOfErrors
+	var keyStoreErrors keystoretypes.CollectionOfErrors
+	switch {
+	case errors.As(err, &mplErrors):
+		collected = mplErrors.ListOfErrors
+	case errors.As(err, &keyStoreErrors):
+		collected = keyStoreErrors.ListOfErrors
+	}
+	out := mplError(err.Error())
+	for _, e := range collected {
+		out.collectedErrors = append(out.collectedErrors, e.Error())
+	}
+	return out
 }
 
 // newHandler builds the HTTP handler. Shared with tests so they drive the real
@@ -148,8 +173,16 @@ func parsePath(path string) (service, operation string, ok bool) {
 // (both errors carry @error("client")) with a CBOR map carrying the __type
 // discriminator so the generated Test_Client maps it back to the modeled type.
 func errorResponse(e *serverError) (int, []byte) {
-	return http.StatusBadRequest, cbor.Encode(cbor.Map{
+	body := cbor.Map{
 		"__type":  cbor.String(e.typeID),
 		"message": cbor.String(e.message),
-	})
+	}
+	if len(e.collectedErrors) > 0 {
+		collected := cbor.List{}
+		for _, message := range e.collectedErrors {
+			collected = append(collected, cbor.String(message))
+		}
+		body["collectedErrors"] = collected
+	}
+	return http.StatusBadRequest, cbor.Encode(body)
 }

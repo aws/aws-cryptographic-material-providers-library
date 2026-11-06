@@ -13,29 +13,55 @@ import (
 	"github.com/aws/smithy-go/encoding/cbor"
 )
 
+// createAwsKmsKeyring passes an absent kmsKeyId to the MPL as the empty
+// string, since the Go input's KmsKeyId is not a pointer, and an absent
+// kmsClient as a nil client.
 func (s *appState) createAwsKmsKeyring(ctx context.Context, m cbor.Map) (cbor.Value, *serverError) {
 	r := reqReader{m: m}
-	kmsKeyId := r.str("kmsKeyId")
-	kmsClientRegion := r.str("kmsClientRegion")
+	var kmsKeyId string
+	if r.present("kmsKeyId") {
+		kmsKeyId = r.str("kmsKeyId")
+	}
+	var kmsClient *reqReader
+	if r.present("kmsClient") {
+		kmsClient = r.structure("kmsClient")
+	}
 	var grantTokens []string
 	if r.present("grantTokens") {
 		grantTokens = r.stringList("grantTokens")
+	}
+	var region string
+	var endpoint *string
+	if kmsClient != nil {
+		region = kmsClient.str("region")
+		if kmsClient.present("endpoint") {
+			value := kmsClient.str("endpoint")
+			endpoint = &value
+		}
+		if kmsClient.err != nil {
+			r.fail("%v", kmsClient.err)
+		}
 	}
 	if r.err != nil {
 		return nil, generic("%v", r.err)
 	}
 
-	kmsConfig, err := config.LoadDefaultConfig(ctx, config.WithRegion(kmsClientRegion))
-	if err != nil {
-		return nil, generic("load AWS config for %s: %v", kmsClientRegion, err)
-	}
-	keyring, err := s.client.CreateAwsKmsKeyring(ctx, mpltypes.CreateAwsKmsKeyringInput{
+	input := mpltypes.CreateAwsKmsKeyringInput{
 		KmsKeyId:    kmsKeyId,
-		KmsClient:   kms.NewFromConfig(kmsConfig),
 		GrantTokens: grantTokens,
-	})
+	}
+	if kmsClient != nil {
+		kmsConfig, err := config.LoadDefaultConfig(ctx, config.WithRegion(region))
+		if err != nil {
+			return nil, generic("load AWS config for %s: %v", region, err)
+		}
+		input.KmsClient = kms.NewFromConfig(kmsConfig, func(o *kms.Options) {
+			o.BaseEndpoint = endpoint
+		})
+	}
+	keyring, err := s.client.CreateAwsKmsKeyring(ctx, input)
 	if err != nil {
-		return nil, mplError(err.Error())
+		return nil, mplFailure(err)
 	}
 	s.mu.Lock()
 	defer s.mu.Unlock()

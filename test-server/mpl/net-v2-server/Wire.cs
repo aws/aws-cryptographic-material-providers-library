@@ -21,14 +21,33 @@ internal sealed class ServerErrorException : Exception
 
     internal string TypeId { get; }
 
-    private ServerErrorException(string typeId, string message) : base(message)
+    // MPLClientError's collectedErrors, or null when the error collected none.
+    internal List<string> CollectedErrors { get; }
+
+    private ServerErrorException(string typeId, string message, List<string> collectedErrors = null)
+        : base(message)
     {
         TypeId = typeId;
+        CollectedErrors = collectedErrors;
     }
 
     internal static ServerErrorException Generic(string message) => new(GenericType, message);
 
     internal static ServerErrorException Mpl(string message) => new(MplType, message);
+
+    // The MPL's own failure. A Dafny CollectionOfErrors, from the MPL or its
+    // key store, also carries the message of each error it collected.
+    internal static ServerErrorException Mpl(Exception e)
+    {
+        var collected = e switch
+        {
+            AWS.Cryptography.MaterialProviders.CollectionOfErrors c => c.list,
+            AWS.Cryptography.KeyStore.CollectionOfErrors c => c.list,
+            _ => null,
+        };
+        var messages = collected is { Count: > 0 } ? collected.Select(error => error.Message).ToList() : null;
+        return new(MplType, e.Message, messages);
+    }
 }
 
 internal sealed class WireServer : IDisposable
@@ -113,7 +132,7 @@ internal sealed class WireServer : IDisposable
         }
         catch (ServerErrorException e)
         {
-            return (400, Model.WriteError(e.TypeId, e.Message));
+            return (400, Model.WriteError(e.TypeId, e.Message, e.CollectedErrors));
         }
         catch (Exception e)
         {

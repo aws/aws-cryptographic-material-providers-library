@@ -6,8 +6,11 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import software.amazon.cryptography.materialproviders.MaterialProviders;
+import software.amazon.cryptography.materialproviders.model.CollectionOfErrors;
 import software.amazon.cryptography.materialproviders.model.MaterialProvidersConfig;
 
 /**
@@ -62,7 +65,10 @@ public final class ServerMain {
       } catch (RuntimeException e) {
         // Anything else was raised by the MPL (its modeled exceptions, or a
         // builder rejecting the input it was handed).
-        writeError(exchange, ModeledError.mpl(messageOf(e)));
+        writeError(
+          exchange,
+          ModeledError.mpl(messageOf(e), collectedErrors(e))
+        );
       }
     } finally {
       exchange.close();
@@ -116,7 +122,36 @@ public final class ServerMain {
     ObjectNode body = Cbor.object();
     body.put("__type", error.typeId());
     body.put("message", error.getMessage() == null ? "" : error.getMessage());
+    if (error.collectedErrors != null) {
+      Cbor.putStringList(body, "collectedErrors", error.collectedErrors);
+    }
     write(exchange, 400, Cbor.encode(body));
+  }
+
+  /**
+   * The messages of the errors in a Dafny CollectionOfErrors, from the MPL or
+   * its key store, or null for any other error or an empty collection.
+   */
+  private static List<String> collectedErrors(RuntimeException e) {
+    List<RuntimeException> collected;
+    if (e instanceof CollectionOfErrors) {
+      collected = ((CollectionOfErrors) e).list();
+    } else if (
+      e instanceof software.amazon.cryptography.keystore.model.CollectionOfErrors
+    ) {
+      collected =
+        ((software.amazon.cryptography.keystore.model.CollectionOfErrors) e).list();
+    } else {
+      return null;
+    }
+    if (collected == null || collected.isEmpty()) {
+      return null;
+    }
+    List<String> messages = new ArrayList<>();
+    for (RuntimeException error : collected) {
+      messages.add(messageOf(error));
+    }
+    return messages;
   }
 
   private static String messageOf(RuntimeException e) {

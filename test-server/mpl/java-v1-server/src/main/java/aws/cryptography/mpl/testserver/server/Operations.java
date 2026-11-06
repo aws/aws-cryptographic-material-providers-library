@@ -3,6 +3,7 @@ package aws.cryptography.mpl.testserver.server;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.awssdk.services.kms.KmsClientBuilder;
 import software.amazon.cryptography.keystore.KeyStore;
 import software.amazon.cryptography.keystore.model.Discovery;
 import software.amazon.cryptography.keystore.model.KMSConfiguration;
@@ -319,15 +321,13 @@ final class Operations {
   }
 
   private ObjectNode createAwsKmsKeyring(JsonNode request) {
-    CreateAwsKmsKeyringInput.Builder input = CreateAwsKmsKeyringInput
-      .builder()
-      .kmsKeyId(Cbor.string(request, "kmsKeyId"))
-      .kmsClient(
-        KmsClient
-          .builder()
-          .region(Region.of(Cbor.string(request, "kmsClientRegion")))
-          .build()
-      );
+    CreateAwsKmsKeyringInput.Builder input = CreateAwsKmsKeyringInput.builder();
+    if (Cbor.present(request, "kmsKeyId")) {
+      input.kmsKeyId(Cbor.string(request, "kmsKeyId"));
+    }
+    if (Cbor.present(request, "kmsClient")) {
+      input.kmsClient(kmsClientFromWire(Cbor.member(request, "kmsClient")));
+    }
     if (Cbor.present(request, "grantTokens")) {
       input.grantTokens(Cbor.stringList(request, "grantTokens"));
     }
@@ -335,6 +335,17 @@ final class Operations {
     ObjectNode response = Cbor.object();
     response.put("keyringId", register(keyrings, keyring));
     return response;
+  }
+
+  /** The model's KmsClientConfig: a region and an optional endpoint. */
+  private static KmsClient kmsClientFromWire(JsonNode wire) {
+    KmsClientBuilder client = KmsClient
+      .builder()
+      .region(Region.of(Cbor.string(wire, "region")));
+    if (Cbor.present(wire, "endpoint")) {
+      client.endpointOverride(URI.create(Cbor.string(wire, "endpoint")));
+    }
+    return client.build();
   }
 
   /**

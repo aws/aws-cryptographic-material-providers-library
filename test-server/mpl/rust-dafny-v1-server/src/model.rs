@@ -253,16 +253,23 @@ pub struct StaticBranchKeyIdSupplier {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CreateAwsKmsKeyringRequest {
-    #[serde(rename = "kmsKeyId")]
-    pub kms_key_id: String,
-    #[serde(rename = "kmsClientRegion")]
-    pub kms_client_region: String,
+    #[serde(rename = "kmsKeyId", default, skip_serializing_if = "Option::is_none")]
+    pub kms_key_id: Option<String>,
+    #[serde(rename = "kmsClient", default, skip_serializing_if = "Option::is_none")]
+    pub kms_client: Option<KmsClientConfig>,
     #[serde(
         rename = "grantTokens",
         default,
         skip_serializing_if = "Option::is_none"
     )]
     pub grant_tokens: Option<Vec<String>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct KmsClientConfig {
+    pub region: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub endpoint: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

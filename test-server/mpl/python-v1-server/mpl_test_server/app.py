@@ -50,8 +50,11 @@ def _make_handler():
             self.end_headers()
             self.wfile.write(body)
 
-        def _send_error(self, type_id, message):
-            self._send_cbor(400, {"__type": type_id, "message": message})
+        def _send_error(self, type_id, message, collected_errors=None):
+            body = {"__type": type_id, "message": message}
+            if collected_errors is not None:
+                body["collectedErrors"] = collected_errors
+            self._send_cbor(400, body)
 
         def do_POST(self):  # noqa: N802
             service, operation = _route(self.path)
@@ -81,7 +84,7 @@ def _make_handler():
             except ServerError as exc:
                 self._send_error(_GENERIC_SERVER_ERROR, str(exc))
             except MplError as exc:
-                self._send_error(_MPL_CLIENT_ERROR, str(exc))
+                self._send_error(_MPL_CLIENT_ERROR, str(exc), exc.collected_errors)
             except Exception as exc:  # noqa: BLE001
                 self._send_error(
                     _GENERIC_SERVER_ERROR, f"unexpected server error: {exc}"

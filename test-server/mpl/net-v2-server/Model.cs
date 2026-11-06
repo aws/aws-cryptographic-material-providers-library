@@ -207,6 +207,11 @@ internal static class Model
         }
     }
 
-    internal static byte[] WriteError(string typeId, string message) =>
-        Write(new Dictionary<string, object> { ["__type"] = typeId, ["message"] = message ?? "" });
+    internal static byte[] WriteError(string typeId, string message, List<string> collectedErrors = null) =>
+        Write(new Dictionary<string, object>
+        {
+            ["__type"] = typeId,
+            ["message"] = message ?? "",
+            ["collectedErrors"] = collectedErrors,
+        });
 }

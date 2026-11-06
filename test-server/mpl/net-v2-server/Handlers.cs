@@ -206,18 +206,39 @@ internal sealed class Handlers
 
     private byte[] CreateAwsKmsKeyring(Dictionary<string, object> request)
     {
-        var input = new CreateAwsKmsKeyringInput
+        var input = new CreateAwsKmsKeyringInput();
+        if (Model.Present(request, "kmsKeyId"))
         {
-            KmsKeyId = Model.Str(request, "kmsKeyId"),
-            KmsClient = new AmazonKeyManagementServiceClient(
-                RegionEndpoint.GetBySystemName(Model.Str(request, "kmsClientRegion"))),
-        };
+            input.KmsKeyId = Model.Str(request, "kmsKeyId");
+        }
+        if (Model.Present(request, "kmsClient"))
+        {
+            input.KmsClient = new AmazonKeyManagementServiceClient(
+                KmsClientConfig(Model.Map(request, "kmsClient")));
+        }
         if (Model.Present(request, "grantTokens"))
         {
             input.GrantTokens = Model.StringList(request, "grantTokens");
         }
         var keyring = Call(() => _mpl.CreateAwsKmsKeyring(input));
         return Model.Write(new Dictionary<string, object> { ["keyringId"] = Register(_keyrings, keyring) });
+    }
+
+    // The model's KmsClientConfig: a region and an optional endpoint.
+    private static AmazonKeyManagementServiceConfig KmsClientConfig(Dictionary<string, object> wire)
+    {
+        var config = new AmazonKeyManagementServiceConfig
+        {
+            RegionEndpoint = RegionEndpoint.GetBySystemName(Model.Str(wire, "region")),
+        };
+        if (Model.Present(wire, "endpoint"))
+        {
+            // Setting ServiceURL clears RegionEndpoint, so AuthenticationRegion
+            // keeps the region requests are signed for.
+            config.ServiceURL = Model.Str(wire, "endpoint");
+            config.AuthenticationRegion = Model.Str(wire, "region");
+        }
+        return config;
     }
 
     /// The model's StaticBranchKeyIdSupplier: the branch key id mapped to the
@@ -554,7 +575,7 @@ internal sealed class Handlers
         }
         catch (Exception e)
         {
-            throw ServerErrorException.Mpl(e.Message);
+            throw ServerErrorException.Mpl(e);
         }
     }
 }

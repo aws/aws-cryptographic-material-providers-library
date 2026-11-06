@@ -11,6 +11,7 @@ use std::sync::Mutex;
 
 use aws_mpl_legacy::client::Client;
 use aws_mpl_legacy::deps::aws_cryptography_keyStore::client::Client as KeyStoreClient;
+use aws_mpl_legacy::deps::aws_cryptography_keyStore::types::error::Error as KeyStoreError;
 use aws_mpl_legacy::deps::aws_cryptography_keyStore::types::key_store_config::KeyStoreConfig;
 use aws_mpl_legacy::deps::aws_cryptography_keyStore::types::{
     Discovery as DafnyDiscovery, KmsConfiguration as DafnyKmsConfiguration,
@@ -22,6 +23,7 @@ use aws_mpl_legacy::operation::on_encrypt::{OnEncryptInput, OnEncryptOutput};
 use aws_mpl_legacy::types::branch_key_id_supplier::{BranchKeyIdSupplier, BranchKeyIdSupplierRef};
 use aws_mpl_legacy::types::cryptographic_materials_cache::CryptographicMaterialsCacheRef;
 use aws_mpl_legacy::types::cryptographic_materials_manager::CryptographicMaterialsManagerRef;
+use aws_mpl_legacy::types::error::Error as MplError;
 use aws_mpl_legacy::types::keyring::{Keyring, KeyringRef};
 use aws_mpl_legacy::types::{
     AesWrappingAlg as DafnyAesWrappingAlg, AlgorithmSuiteId as DafnyAlgorithmSuiteId,
@@ -160,8 +162,26 @@ const ESDK_SUITES: [(AlgorithmSuiteId, EsdkAlgorithmSuiteId, [u8; 2]); 11] = [
     ),
 ];
 
-fn mpl_err(e: impl std::fmt::Display) -> ServerError {
-    ServerError::mpl(e.to_string())
+/// The MPLClientError for an error the MPL returned. A Dafny
+/// `CollectionOfErrors`, from the MPL or its key store, also carries the
+/// message of each error it collected.
+fn mpl_err<E: std::fmt::Display + 'static>(e: E) -> ServerError {
+    let any: &dyn std::any::Any = &e;
+    let collected: Vec<String> = match any.downcast_ref::<MplError>() {
+        Some(MplError::CollectionOfErrors { list, .. }) => {
+            list.iter().map(ToString::to_string).collect()
+        }
+        Some(MplError::KeyStoreError {
+            error: KeyStoreError::CollectionOfErrors { list, .. },
+        }) => list.iter().map(ToString::to_string).collect(),
+        _ => match any.downcast_ref::<KeyStoreError>() {
+            Some(KeyStoreError::CollectionOfErrors { list, .. }) => {
+                list.iter().map(ToString::to_string).collect()
+            }
+            _ => Vec::new(),
+        },
+    };
+    ServerError::mpl_collected(e.to_string(), collected)
 }
 
 /// An AWS SDK configuration for `region`, with credentials from the ambient
@@ -458,12 +478,21 @@ impl AppState {
         &self,
         req: CreateAwsKmsKeyringRequest,
     ) -> Result<CreateAwsKmsKeyringResponse, ServerError> {
-        let kms = aws_sdk_kms::Client::new(&sdk_config(req.kms_client_region).await);
+        let kms_client = match req.kms_client {
+            Some(KmsClientConfig { region, endpoint }) => {
+                let mut kms_config = aws_sdk_kms::config::Builder::from(&sdk_config(region).await);
+                kms_config.set_endpoint_url(endpoint);
+                Some(aws_mpl_legacy::deps::com_amazonaws_kms::client::Client {
+                    inner: aws_sdk_kms::Client::from_conf(kms_config.build()),
+                })
+            }
+            None => None,
+        };
         let keyring = self
             .client
             .create_aws_kms_keyring()
-            .kms_key_id(req.kms_key_id)
-            .kms_client(aws_mpl_legacy::deps::com_amazonaws_kms::client::Client { inner: kms })
+            .set_kms_key_id(req.kms_key_id)
+            .set_kms_client(kms_client)
             .set_grant_tokens(req.grant_tokens)
             .send()
             .await

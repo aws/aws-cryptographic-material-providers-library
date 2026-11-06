@@ -51,7 +51,7 @@ func (s *appState) createKeyStoreClient(ctx context.Context, m cbor.Map) (cbor.V
 		DdbClient:           dynamodb.NewFromConfig(ddbConfig),
 	})
 	if err != nil {
-		return nil, mplError(err.Error())
+		return nil, mplFailure(err)
 	}
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -104,7 +104,7 @@ func (s *appState) createCryptographicMaterialsCache(ctx context.Context, m cbor
 		},
 	})
 	if err != nil {
-		return nil, mplError(err.Error())
+		return nil, mplFailure(err)
 	}
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -151,7 +151,7 @@ func (s *appState) createAwsKmsHierarchicalKeyring(ctx context.Context, m cbor.M
 	}
 	keyring, err := s.client.CreateAwsKmsHierarchicalKeyring(ctx, input)
 	if err != nil {
-		return nil, mplError(err.Error())
+		return nil, mplFailure(err)
 	}
 	s.mu.Lock()
 	defer s.mu.Unlock()
