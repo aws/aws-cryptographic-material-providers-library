@@ -79,10 +79,48 @@ jobs:
           name: go-generated-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: .
 
+      # The test server dashboard merges this run's line coverage, line by
+      # line, with the coverage the Go test server gives the same commit.
+      - name: Turn on line coverage
+        if: runner.os == 'Linux' && matrix.go-version == '1.25' && (matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'AwsCryptographyPrimitives') && (github.event_name == 'pull_request' || github.event_name == 'push')
+        run: |
+          mkdir -p "$RUNNER_TEMP/local-coverage/gocover"
+          case "${{ matrix.library }}" in
+            AwsCryptographicMaterialProviders) echo "LOCAL_COVERAGE=mpl" >> "$GITHUB_ENV" ;;
+            AwsCryptographyPrimitives) echo "LOCAL_COVERAGE=primitives" >> "$GITHUB_ENV" ;;
+          esac
+
       - name: Test ${{ matrix.library }}
         working-directory: ./${{ matrix.library }}
         run: |
+          if [ -n "${LOCAL_COVERAGE:-}" ]; then
+            # `go run TestsFromDafny.go` names its main package
+            # command-line-arguments; a -cover binary whose main package is
+            # not covered writes no counters.
+            module=$(awk '/^module /{print $2}' runtimes/go/ImplementationFromDafny-go/go.mod)
+            export GOFLAGS="-cover -coverpkg=$module/...,command-line-arguments"
+            export GOCOVERDIR="$RUNNER_TEMP/local-coverage/gocover"
+          fi
           make test_go
+
+      # The Go test servers run the committed copy under releases/go/, so a
+      # file is named by that copy when the two are identical.
+      - name: Write the line coverage report
+        if: env.LOCAL_COVERAGE != ''
+        run: |
+          python3 .github/scripts/coverage_lcov.py go \
+            "$RUNNER_TEMP/local-coverage/gocover" "$RUNNER_TEMP/local-coverage/$LOCAL_COVERAGE-go.lcov" \
+            --module-dir ${{ matrix.library }}/runtimes/go/ImplementationFromDafny-go \
+            --keep ${{ matrix.library }}/runtimes/go/ImplementationFromDafny-go/ \
+            --release-copy ${{ matrix.library }}/runtimes/go/ImplementationFromDafny-go/=releases/go/$LOCAL_COVERAGE/
+
+      - name: Upload the line coverage report
+        if: env.LOCAL_COVERAGE != ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: local-coverage-${{ env.LOCAL_COVERAGE }}-go
+          path: ${{ runner.temp }}/local-coverage/${{ env.LOCAL_COVERAGE }}-go.lcov
+          if-no-files-found: warn
 
       # This is only to test AwsCryptographicMaterialProviders which has local cmc test inside it.
       - name: Test local CMC
