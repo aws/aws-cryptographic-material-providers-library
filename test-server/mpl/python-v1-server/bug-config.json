@@ -1,1 +1,5 @@
-[]
+[
+  "aws-kms-keyring-accepts-missing-kms-client",
+  "aws-kms-keyring-accepts-reply-key-id-that-is-not-a-key-arn",
+  "aws-kms-keyring-skips-alias-arn-provider-info"
+]
