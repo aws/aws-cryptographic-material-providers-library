@@ -465,6 +465,23 @@ def create_aws_kms_hierarchical_keyring(request):
     return {"keyringId": _register(_KEYRINGS, keyring)}
 
 
+def create_aws_kms_keyring(request):
+    grant_tokens = None
+    if _present(request, "grantTokens"):
+        grant_tokens = _string_list(request, "grantTokens")
+    keyring = _call(
+        _CLIENT.create_aws_kms_keyring,
+        models.CreateAwsKmsKeyringInput(
+            kms_key_id=_string(request, "kmsKeyId"),
+            kms_client=boto3.client(
+                "kms", region_name=_string(request, "kmsClientRegion")
+            ),
+            grant_tokens=grant_tokens,
+        ),
+    )
+    return {"keyringId": _register(_KEYRINGS, keyring)}
+
+
 def initialize_encryption_materials(request):
     materials = _call(
         _CLIENT.initialize_encryption_materials,
@@ -574,6 +591,7 @@ OPERATIONS = {
     "CreateKeyStoreClient": create_key_store_client,
     "CreateCryptographicMaterialsCache": create_cryptographic_materials_cache,
     "CreateAwsKmsHierarchicalKeyring": create_aws_kms_hierarchical_keyring,
+    "CreateAwsKmsKeyring": create_aws_kms_keyring,
     "InitializeEncryptionMaterials": initialize_encryption_materials,
     "InitializeDecryptionMaterials": initialize_decryption_materials,
     "OnEncrypt": on_encrypt,

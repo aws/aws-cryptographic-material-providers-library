@@ -112,6 +112,8 @@ func dispatch(state *appState, r *http.Request) (status int, body []byte) {
 		out, serr = state.createCryptographicMaterialsCache(ctx, req)
 	case "CreateAwsKmsHierarchicalKeyring":
 		out, serr = state.createAwsKmsHierarchicalKeyring(ctx, req)
+	case "CreateAwsKmsKeyring":
+		out, serr = state.createAwsKmsKeyring(ctx, req)
 	case "InitializeEncryptionMaterials":
 		out, serr = state.initializeEncryptionMaterials(ctx, req)
 	case "InitializeDecryptionMaterials":

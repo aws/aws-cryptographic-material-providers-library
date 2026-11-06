@@ -25,6 +25,7 @@ import software.amazon.cryptography.materialproviders.MaterialProviders;
 import software.amazon.cryptography.materialproviders.model.AwsCryptographicMaterialProvidersException;
 import software.amazon.cryptography.materialproviders.model.CacheType;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsHierarchicalKeyringInput;
+import software.amazon.cryptography.materialproviders.model.CreateAwsKmsKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateCryptographicMaterialsCacheInput;
 import software.amazon.cryptography.materialproviders.model.CreateDefaultCryptographicMaterialsManagerInput;
 import software.amazon.cryptography.materialproviders.model.CreateRawAesKeyringInput;
@@ -79,6 +80,8 @@ final class Operations {
         return createCryptographicMaterialsCache(request);
       case "CreateAwsKmsHierarchicalKeyring":
         return createAwsKmsHierarchicalKeyring(request);
+      case "CreateAwsKmsKeyring":
+        return createAwsKmsKeyring(request);
       case "InitializeEncryptionMaterials":
         return initializeEncryptionMaterials(request);
       case "InitializeDecryptionMaterials":
@@ -310,6 +313,25 @@ final class Operations {
     IKeyring keyring = materialProviders.CreateAwsKmsHierarchicalKeyring(
       input.build()
     );
+    ObjectNode response = Cbor.object();
+    response.put("keyringId", register(keyrings, keyring));
+    return response;
+  }
+
+  private ObjectNode createAwsKmsKeyring(JsonNode request) {
+    CreateAwsKmsKeyringInput.Builder input = CreateAwsKmsKeyringInput
+      .builder()
+      .kmsKeyId(Cbor.string(request, "kmsKeyId"))
+      .kmsClient(
+        KmsClient
+          .builder()
+          .region(Region.of(Cbor.string(request, "kmsClientRegion")))
+          .build()
+      );
+    if (Cbor.present(request, "grantTokens")) {
+      input.grantTokens(Cbor.stringList(request, "grantTokens"));
+    }
+    IKeyring keyring = materialProviders.CreateAwsKmsKeyring(input.build());
     ObjectNode response = Cbor.object();
     response.put("keyringId", register(keyrings, keyring));
     return response;

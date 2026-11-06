@@ -454,6 +454,28 @@ impl AppState {
         Ok(CreateAwsKmsHierarchicalKeyringResponse { keyring_id: id })
     }
 
+    pub async fn create_aws_kms_keyring(
+        &self,
+        req: CreateAwsKmsKeyringRequest,
+    ) -> Result<CreateAwsKmsKeyringResponse, ServerError> {
+        let kms = aws_sdk_kms::Client::new(&sdk_config(req.kms_client_region).await);
+        let keyring = self
+            .client
+            .create_aws_kms_keyring()
+            .kms_key_id(req.kms_key_id)
+            .kms_client(aws_mpl_legacy::deps::com_amazonaws_kms::client::Client { inner: kms })
+            .set_grant_tokens(req.grant_tokens)
+            .send()
+            .await
+            .map_err(mpl_err)?;
+        let id = uuid::Uuid::new_v4().to_string();
+        self.keyrings
+            .lock()
+            .expect("keyrings mutex")
+            .insert(id.clone(), keyring);
+        Ok(CreateAwsKmsKeyringResponse { keyring_id: id })
+    }
+
     // ─── Materials initialization + keyring interface ───────────────────────
 
     pub async fn initialize_encryption_materials(

@@ -54,6 +54,7 @@ internal sealed class Handlers
         "CreateKeyStoreClient" => CreateKeyStoreClient(request),
         "CreateCryptographicMaterialsCache" => CreateCryptographicMaterialsCache(request),
         "CreateAwsKmsHierarchicalKeyring" => CreateAwsKmsHierarchicalKeyring(request),
+        "CreateAwsKmsKeyring" => CreateAwsKmsKeyring(request),
         "InitializeEncryptionMaterials" => InitializeEncryptionMaterials(request),
         "InitializeDecryptionMaterials" => InitializeDecryptionMaterials(request),
         "OnEncrypt" => OnEncrypt(request),
@@ -200,6 +201,22 @@ internal sealed class Handlers
             input.PartitionId = Model.Str(request, "partitionId");
         }
         var keyring = Call(() => _mpl.CreateAwsKmsHierarchicalKeyring(input));
+        return Model.Write(new Dictionary<string, object> { ["keyringId"] = Register(_keyrings, keyring) });
+    }
+
+    private byte[] CreateAwsKmsKeyring(Dictionary<string, object> request)
+    {
+        var input = new CreateAwsKmsKeyringInput
+        {
+            KmsKeyId = Model.Str(request, "kmsKeyId"),
+            KmsClient = new AmazonKeyManagementServiceClient(
+                RegionEndpoint.GetBySystemName(Model.Str(request, "kmsClientRegion"))),
+        };
+        if (Model.Present(request, "grantTokens"))
+        {
+            input.GrantTokens = Model.StringList(request, "grantTokens");
+        }
+        var keyring = Call(() => _mpl.CreateAwsKmsKeyring(input));
         return Model.Write(new Dictionary<string, object> { ["keyringId"] = Register(_keyrings, keyring) });
     }
 
