@@ -137,7 +137,8 @@ public final class ServerMain {
     if (e instanceof CollectionOfErrors) {
       collected = ((CollectionOfErrors) e).list();
     } else if (
-      e instanceof software.amazon.cryptography.keystore.model.CollectionOfErrors
+      e instanceof
+      software.amazon.cryptography.keystore.model.CollectionOfErrors
     ) {
       collected =
         ((software.amazon.cryptography.keystore.model.CollectionOfErrors) e).list();
