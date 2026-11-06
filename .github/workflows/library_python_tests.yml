@@ -84,7 +84,39 @@ jobs:
           pip install --upgrade tox
           pip install poetry
 
+      # The test server dashboard merges this run's line coverage, line by
+      # line, with the coverage the Python test server gives the same commit.
+      # tox passes only AWS_* to its environments, so the overrides let
+      # pytest-cov and its options in.
+      - name: Turn on line coverage
+        if: runner.os == 'Linux' && matrix.python-version == '3.13' && (matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'AwsCryptographyPrimitives') && (github.event_name == 'pull_request' || github.event_name == 'push')
+        run: |
+          mkdir -p "$RUNNER_TEMP/local-coverage"
+          echo "TOX_OVERRIDE=testenv.deps=pytest-cov==6.0.0;testenv.passenv+=PYTEST_ADDOPTS,COVERAGE_FILE" >> "$GITHUB_ENV"
+          echo "COVERAGE_FILE=$RUNNER_TEMP/local-coverage/.coverage" >> "$GITHUB_ENV"
+          echo "PYTEST_ADDOPTS=--cov=src --cov-append --cov-report=lcov:$RUNNER_TEMP/local-coverage/python.lcov" >> "$GITHUB_ENV"
+          case "${{ matrix.library }}" in
+            AwsCryptographicMaterialProviders) echo "LOCAL_COVERAGE=mpl" >> "$GITHUB_ENV" ;;
+            AwsCryptographyPrimitives) echo "LOCAL_COVERAGE=primitives" >> "$GITHUB_ENV" ;;
+          esac
+
       - name: Test ${{ matrix.library }}
         working-directory: ./${{ matrix.library }}
         run: |
           make test_python
+
+      # Paths are made relative to the repository so the two reports line up.
+      - name: Write the line coverage report
+        if: env.LOCAL_COVERAGE != ''
+        run: |
+          python3 .github/scripts/coverage_lcov.py lcov \
+            "$RUNNER_TEMP/local-coverage/python.lcov" "$RUNNER_TEMP/local-coverage/$LOCAL_COVERAGE-python.lcov" \
+            --base ${{ matrix.library }}/runtimes/python
+
+      - name: Upload the line coverage report
+        if: env.LOCAL_COVERAGE != ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: local-coverage-${{ env.LOCAL_COVERAGE }}-python
+          path: ${{ runner.temp }}/local-coverage/${{ env.LOCAL_COVERAGE }}-python.lcov
+          if-no-files-found: warn

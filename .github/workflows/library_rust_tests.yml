@@ -82,12 +82,61 @@ jobs:
           name: rust-generated-${{ env.TIMESTAMP }}-${{ matrix.os }}-${{ github.sha }}
           path: .
 
+      # The test server dashboard merges the debug test run's line coverage,
+      # line by line, with the coverage the rust-dafny test servers give the
+      # same commit.
+      - name: Install cargo-llvm-cov
+        if: runner.os == 'Linux' && matrix.library == 'AwsCryptographicMaterialProviders' && (github.event_name == 'pull_request' || github.event_name == 'push')
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      - name: Turn on line coverage
+        if: runner.os == 'Linux' && matrix.library == 'AwsCryptographicMaterialProviders' && (github.event_name == 'pull_request' || github.event_name == 'push')
+        shell: bash
+        run: |
+          rustup component add llvm-tools-preview
+          mkdir -p "$RUNNER_TEMP/local-coverage"
+          echo "LOCAL_COVERAGE=mpl" >> "$GITHUB_ENV"
+
       - name: Test ${{ matrix.library }} Rust
         shell: bash
         working-directory: ./${{ matrix.library }}/runtimes/rust
         run: |
           cargo test --release -- --nocapture
+          if [ -n "${LOCAL_COVERAGE:-}" ]; then
+            source <(cargo llvm-cov show-env --sh)
+          fi
           cargo test -- --nocapture
+
+      # The MPL and Primitives rust-dafny test servers both run the committed
+      # crate under releases/rust/mpl, so a file is named by that copy when the
+      # two are identical.
+      - name: Write the line coverage report
+        if: env.LOCAL_COVERAGE != ''
+        shell: bash
+        working-directory: ./${{ matrix.library }}/runtimes/rust
+        run: |
+          source <(cargo llvm-cov show-env --sh)
+          cargo llvm-cov report --lcov --output-path "$RUNNER_TEMP/local-coverage/rust.lcov"
+          python3 "$GITHUB_WORKSPACE/.github/scripts/coverage_lcov.py" lcov \
+            "$RUNNER_TEMP/local-coverage/rust.lcov" "$RUNNER_TEMP/local-coverage/mpl-rust-dafny.lcov" \
+            --keep ${{ matrix.library }}/runtimes/rust/ \
+            --release-copy ${{ matrix.library }}/runtimes/rust/=releases/rust/mpl/
+
+      - name: Upload the line coverage report
+        if: env.LOCAL_COVERAGE != ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: local-coverage-mpl-rust-dafny
+          path: ${{ runner.temp }}/local-coverage/mpl-rust-dafny.lcov
+          if-no-files-found: warn
+
+      - name: Upload the line coverage report for the Primitives
+        if: env.LOCAL_COVERAGE != ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: local-coverage-primitives-rust-dafny
+          path: ${{ runner.temp }}/local-coverage/mpl-rust-dafny.lcov
+          if-no-files-found: warn
 
       - name: Test ${{ matrix.library }} Rust Fips
         if: matrix.library == 'AwsCryptographyPrimitives' || matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'TestVectorsAwsCryptographicMaterialProviders'
