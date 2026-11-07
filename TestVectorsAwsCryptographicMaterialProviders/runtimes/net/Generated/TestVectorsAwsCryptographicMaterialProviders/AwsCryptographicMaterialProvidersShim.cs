@@ -269,6 +269,21 @@ namespace AWS.Cryptography.MaterialProviders.Wrapped
       }
 
     }
+    public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsManager, software.amazon.cryptography.materialproviders.internaldafny.types._IError> CreateCachingCMM(software.amazon.cryptography.materialproviders.internaldafny.types._ICreateCachingCMMInput request)
+    {
+      try
+      {
+        AWS.Cryptography.MaterialProviders.CreateCachingCMMInput unWrappedRequest = TypeConversion.FromDafny_N3_aws__N12_cryptography__N17_materialProviders__S21_CreateCachingCMMInput(request);
+        AWS.Cryptography.MaterialProviders.ICryptographicMaterialsManager wrappedResponse =
+        this._impl.CreateCachingCMM(unWrappedRequest);
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsManager, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Success(TypeConversion.ToDafny_N3_aws__N12_cryptography__N17_materialProviders__S22_CreateCachingCMMOutput(wrappedResponse));
+      }
+      catch (System.Exception ex)
+      {
+        return Wrappers_Compile.Result<software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsManager, software.amazon.cryptography.materialproviders.internaldafny.types._IError>.create_Failure(this.ConvertError(ex));
+      }
+
+    }
     public Wrappers_Compile._IResult<software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache, software.amazon.cryptography.materialproviders.internaldafny.types._IError> CreateCryptographicMaterialsCache(software.amazon.cryptography.materialproviders.internaldafny.types._ICreateCryptographicMaterialsCacheInput request)
     {
       try

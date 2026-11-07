@@ -110,17 +110,15 @@ from .serialize import (
 Input = TypeVar("Input")
 Output = TypeVar("Output")
 
-
 class AwsCryptographicPrimitives:
-    """Client for AwsCryptographicPrimitives.
+    """Client for AwsCryptographicPrimitives
 
     :param config: Configuration for the client.
     """
-
     def __init__(
         self,
         config: CryptoConfig | None = None,
-        dafny_client: IAwsCryptographicPrimitivesClient | None = None,
+        dafny_client: IAwsCryptographicPrimitivesClient | None = None
     ):
         if config is None:
             self._config = Config()
@@ -137,9 +135,7 @@ class AwsCryptographicPrimitives:
         if dafny_client is not None:
             self._config.dafnyImplInterface.impl = dafny_client
 
-    def generate_random_bytes(
-        self, input: GenerateRandomBytesInput
-    ) -> bytes | bytearray:
+    def generate_random_bytes(self, input: GenerateRandomBytesInput) -> bytes | bytearray:
         """Invokes the GenerateRandomBytes operation.
 
         :param input: The operation's input.
@@ -279,9 +275,7 @@ class AwsCryptographicPrimitives:
             operation_name="AESDecrypt",
         )
 
-    def generate_rsa_key_pair(
-        self, input: GenerateRSAKeyPairInput
-    ) -> GenerateRSAKeyPairOutput:
+    def generate_rsa_key_pair(self, input: GenerateRSAKeyPairInput) -> GenerateRSAKeyPairOutput:
         """Invokes the GenerateRSAKeyPair operation.
 
         :param input: The operation's input.
@@ -295,9 +289,7 @@ class AwsCryptographicPrimitives:
             operation_name="GenerateRSAKeyPair",
         )
 
-    def get_rsa_key_modulus_length(
-        self, input: GetRSAKeyModulusLengthInput
-    ) -> GetRSAKeyModulusLengthOutput:
+    def get_rsa_key_modulus_length(self, input: GetRSAKeyModulusLengthInput) -> GetRSAKeyModulusLengthOutput:
         """Invokes the GetRSAKeyModulusLength operation.
 
         :param input: The operation's input.
@@ -339,9 +331,7 @@ class AwsCryptographicPrimitives:
             operation_name="RSAEncrypt",
         )
 
-    def generate_ecdsa_signature_key(
-        self, input: GenerateECDSASignatureKeyInput
-    ) -> GenerateECDSASignatureKeyOutput:
+    def generate_ecdsa_signature_key(self, input: GenerateECDSASignatureKeyInput) -> GenerateECDSASignatureKeyOutput:
         """Invokes the GenerateECDSASignatureKey operation.
 
         :param input: The operation's input.
@@ -383,9 +373,7 @@ class AwsCryptographicPrimitives:
             operation_name="ECDSAVerify",
         )
 
-    def generate_ecc_key_pair(
-        self, input: GenerateECCKeyPairInput
-    ) -> GenerateECCKeyPairOutput:
+    def generate_ecc_key_pair(self, input: GenerateECCKeyPairInput) -> GenerateECCKeyPairOutput:
         """Invokes the GenerateECCKeyPair operation.
 
         :param input: The operation's input.
@@ -399,9 +387,7 @@ class AwsCryptographicPrimitives:
             operation_name="GenerateECCKeyPair",
         )
 
-    def get_public_key_from_private_key(
-        self, input: GetPublicKeyFromPrivateKeyInput
-    ) -> GetPublicKeyFromPrivateKeyOutput:
+    def get_public_key_from_private_key(self, input: GetPublicKeyFromPrivateKeyInput) -> GetPublicKeyFromPrivateKeyOutput:
         """Invokes the GetPublicKeyFromPrivateKey operation.
 
         :param input: The operation's input.
@@ -415,9 +401,7 @@ class AwsCryptographicPrimitives:
             operation_name="GetPublicKeyFromPrivateKey",
         )
 
-    def validate_public_key(
-        self, input: ValidatePublicKeyInput
-    ) -> ValidatePublicKeyOutput:
+    def validate_public_key(self, input: ValidatePublicKeyInput) -> ValidatePublicKeyOutput:
         """Invokes the ValidatePublicKey operation.
 
         :param input: The operation's input.
@@ -431,9 +415,7 @@ class AwsCryptographicPrimitives:
             operation_name="ValidatePublicKey",
         )
 
-    def derive_shared_secret(
-        self, input: DeriveSharedSecretInput
-    ) -> DeriveSharedSecretOutput:
+    def derive_shared_secret(self, input: DeriveSharedSecretInput) -> DeriveSharedSecretOutput:
         """Invokes the DeriveSharedSecret operation.
 
         :param input: The operation's input.
@@ -447,9 +429,7 @@ class AwsCryptographicPrimitives:
             operation_name="DeriveSharedSecret",
         )
 
-    def compress_public_key(
-        self, input: CompressPublicKeyInput
-    ) -> CompressPublicKeyOutput:
+    def compress_public_key(self, input: CompressPublicKeyInput) -> CompressPublicKeyOutput:
         """Invokes the CompressPublicKey operation.
 
         :param input: The operation's input.
@@ -463,9 +443,7 @@ class AwsCryptographicPrimitives:
             operation_name="CompressPublicKey",
         )
 
-    def decompress_public_key(
-        self, input: DecompressPublicKeyInput
-    ) -> DecompressPublicKeyOutput:
+    def decompress_public_key(self, input: DecompressPublicKeyInput) -> DecompressPublicKeyOutput:
         """Invokes the DecompressPublicKey operation.
 
         :param input: The operation's input.
@@ -529,13 +507,12 @@ class AwsCryptographicPrimitives:
             transport_response=None,
         )
         try:
-            _client_interceptors = config.interceptors
+          _client_interceptors = config.interceptors
         except AttributeError:
-            config.interceptors = []
-            _client_interceptors = config.interceptors
+          config.interceptors = []
+          _client_interceptors = config.interceptors
         client_interceptors = cast(
-            list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
-            _client_interceptors,
+            list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]], _client_interceptors
         )
         interceptors = client_interceptors
 
@@ -618,7 +595,7 @@ class AwsCryptographicPrimitives:
                             error_info=RetryErrorInfo(
                                 # TODO: Determine the error type.
                                 error_type=RetryErrorType.CLIENT_ERROR,
-                            ),
+                            )
                         )
                     except SmithyRetryException:
                         raise context_with_response.response
@@ -633,10 +610,7 @@ class AwsCryptographicPrimitives:
         # The response will be set either with the modeled output or an exception. The
         # transport_request and transport_response may be set or None.
         execution_context = cast(
-            InterceptorContext[
-                Input, Output, DafnyRequest | None, DafnyResponse | None
-            ],
-            context,
+            InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None], context
         )
         return self._finalize_execution(interceptors, execution_context)
 
@@ -661,10 +635,8 @@ class AwsCryptographicPrimitives:
                 InterceptorContext[Input, None, DafnyRequest, DafnyResponse], context
             )
 
-            context_with_response._transport_response = (
-                config.dafnyImplInterface.handle_request(
-                    input=context_with_response.transport_request
-                )
+            context_with_response._transport_response = config.dafnyImplInterface.handle_request(
+                input=context_with_response.transport_request
             )
 
             # Step 7n: Invoke read_after_transmit
@@ -701,8 +673,7 @@ class AwsCryptographicPrimitives:
         # None. This will also be true after _finalize_attempt because there is no opportunity
         # there to set the transport_response.
         attempt_context = cast(
-            InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
-            context,
+            InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None], context
         )
         return self._finalize_attempt(interceptors, attempt_context)
 
@@ -732,9 +703,7 @@ class AwsCryptographicPrimitives:
     def _finalize_execution(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
-        context: InterceptorContext[
-            Input, Output, DafnyRequest | None, DafnyResponse | None
-        ],
+        context: InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None],
     ) -> Output:
         try:
             # Step 9: Invoke modify_before_completion

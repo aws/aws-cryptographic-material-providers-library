@@ -8,7 +8,7 @@ const (
 	ECDHCurveSpecEccNistP256 ECDHCurveSpec = "ECC_NIST_P256"
 	ECDHCurveSpecEccNistP384 ECDHCurveSpec = "ECC_NIST_P384"
 	ECDHCurveSpecEccNistP521 ECDHCurveSpec = "ECC_NIST_P521"
-	ECDHCurveSpecSm2         ECDHCurveSpec = "SM2"
+	ECDHCurveSpecSm2 ECDHCurveSpec = "SM2"
 )
 
 func (ECDHCurveSpec) Values() []ECDHCurveSpec {
@@ -53,8 +53,8 @@ func (ECDSASignatureAlgorithm) Values() []ECDSASignatureAlgorithm {
 type RSAPaddingMode string
 
 const (
-	RSAPaddingModePkcs1      RSAPaddingMode = "PKCS1"
-	RSAPaddingModeOaepSha1   RSAPaddingMode = "OAEP_SHA1"
+	RSAPaddingModePkcs1 RSAPaddingMode = "PKCS1"
+	RSAPaddingModeOaepSha1 RSAPaddingMode = "OAEP_SHA1"
 	RSAPaddingModeOaepSha256 RSAPaddingMode = "OAEP_SHA256"
 	RSAPaddingModeOaepSha384 RSAPaddingMode = "OAEP_SHA384"
 	RSAPaddingModeOaepSha512 RSAPaddingMode = "OAEP_SHA512"
