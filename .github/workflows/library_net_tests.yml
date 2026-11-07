@@ -89,11 +89,55 @@ jobs:
         working-directory: ./${{ matrix.library }}
         run: make setup_net
 
+      # The test server dashboard merges this run's line coverage, line by
+      # line, with the coverage the .NET test server gives the same commit.
+      - name: Setup .NET 8 for dotnet-coverage
+        if: runner.os == 'Linux' && (matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'AwsCryptographyPrimitives') && (github.event_name == 'pull_request' || github.event_name == 'push')
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Turn on line coverage
+        if: runner.os == 'Linux' && (matrix.library == 'AwsCryptographicMaterialProviders' || matrix.library == 'AwsCryptographyPrimitives') && (github.event_name == 'pull_request' || github.event_name == 'push')
+        run: |
+          mkdir -p "$RUNNER_TEMP/local-coverage"
+          dir="$RUNNER_TEMP/dotnet-coverage"
+          dotnet tool install dotnet-coverage --version 18.12.0 --tool-path "$dir"
+          echo "DOTNET_COVERAGE=$dir/dotnet-coverage" >> "$GITHUB_ENV"
+          echo "DOTNET_COVERAGE_TELEMETRY_OPTOUT=1" >> "$GITHUB_ENV"
+          echo "DOTNET_COVERAGE_NOLOGO=1" >> "$GITHUB_ENV"
+          case "${{ matrix.library }}" in
+            AwsCryptographicMaterialProviders) echo "LOCAL_COVERAGE=mpl" >> "$GITHUB_ENV" ;;
+            AwsCryptographyPrimitives) echo "LOCAL_COVERAGE=primitives" >> "$GITHUB_ENV" ;;
+          esac
+
       - name: Test ${{ matrix.library }} .NET net6.0
         working-directory: ./${{ matrix.library }}
         shell: bash
         run: |
-          dotnet run --project runtimes/net/tests/ --framework net6.0
+          if [ -n "${DOTNET_COVERAGE:-}" ]; then
+            "$DOTNET_COVERAGE" collect --output-format cobertura \
+              --output "$RUNNER_TEMP/local-coverage/net.cobertura.xml" \
+              -- dotnet run --project runtimes/net/tests/ --framework net6.0
+          else
+            dotnet run --project runtimes/net/tests/ --framework net6.0
+          fi
+
+      # Paths are made relative to the repository so the two reports line up.
+      - name: Write the line coverage report
+        if: env.LOCAL_COVERAGE != ''
+        run: |
+          python3 .github/scripts/coverage_lcov.py cobertura \
+            "$RUNNER_TEMP/local-coverage/net.cobertura.xml" "$RUNNER_TEMP/local-coverage/$LOCAL_COVERAGE-net.lcov" \
+            --keep ${{ matrix.library }}/runtimes/net/ --drop ${{ matrix.library }}/runtimes/net/tests/
+
+      - name: Upload the line coverage report
+        if: env.LOCAL_COVERAGE != ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: local-coverage-${{ env.LOCAL_COVERAGE }}-net
+          path: ${{ runner.temp }}/local-coverage/${{ env.LOCAL_COVERAGE }}-net.lcov
+          if-no-files-found: warn
 
       - name: Test Cache Thread Safety net6.0
         if: matrix.library == 'AwsCryptographicMaterialProviders'
