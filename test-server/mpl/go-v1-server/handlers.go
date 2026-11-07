@@ -78,7 +78,7 @@ func (s *appState) createRawAesKeyring(ctx context.Context, m cbor.Map) (cbor.Va
 	}
 	keyring, err := s.client.CreateRawAesKeyring(ctx, input)
 	if err != nil {
-		return nil, mplError(err.Error())
+		return nil, mplFailure(err)
 	}
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -93,7 +93,7 @@ func (s *appState) createDefaultCmm(ctx context.Context, m cbor.Map) (cbor.Value
 	cmm, err := s.client.CreateDefaultCryptographicMaterialsManager(ctx,
 		mpltypes.CreateDefaultCryptographicMaterialsManagerInput{Keyring: keyring})
 	if err != nil {
-		return nil, mplError(err.Error())
+		return nil, mplFailure(err)
 	}
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -116,7 +116,7 @@ func (s *appState) initializeEncryptionMaterials(ctx context.Context, m cbor.Map
 	}
 	materials, err := s.client.InitializeEncryptionMaterials(ctx, input)
 	if err != nil {
-		return nil, mplError(err.Error())
+		return nil, mplFailure(err)
 	}
 	wire, serr := encryptionMaterialsToWire(*materials)
 	if serr != nil {
@@ -137,7 +137,7 @@ func (s *appState) initializeDecryptionMaterials(ctx context.Context, m cbor.Map
 	}
 	materials, err := s.client.InitializeDecryptionMaterials(ctx, input)
 	if err != nil {
-		return nil, mplError(err.Error())
+		return nil, mplFailure(err)
 	}
 	wire, serr := decryptionMaterialsToWire(*materials)
 	if serr != nil {
@@ -158,7 +158,7 @@ func (s *appState) onEncrypt(m cbor.Map) (cbor.Value, *serverError) {
 	}
 	output, err := keyring.OnEncrypt(mpltypes.OnEncryptInput{Materials: materials})
 	if err != nil {
-		return nil, mplError(err.Error())
+		return nil, mplFailure(err)
 	}
 	wire, serr := encryptionMaterialsToWire(output.Materials)
 	if serr != nil {
@@ -182,7 +182,7 @@ func (s *appState) onDecrypt(m cbor.Map) (cbor.Value, *serverError) {
 	}
 	output, err := keyring.OnDecrypt(input)
 	if err != nil {
-		return nil, mplError(err.Error())
+		return nil, mplFailure(err)
 	}
 	wire, serr := decryptionMaterialsToWire(output.Materials)
 	if serr != nil {
@@ -217,7 +217,7 @@ func (s *appState) getEncryptionMaterials(m cbor.Map) (cbor.Value, *serverError)
 	}
 	output, err := cmm.GetEncryptionMaterials(input)
 	if err != nil {
-		return nil, mplError(err.Error())
+		return nil, mplFailure(err)
 	}
 	materials := output.EncryptionMaterials
 	if materials.PlaintextDataKey == nil {
@@ -258,7 +258,7 @@ func (s *appState) decryptMaterials(m cbor.Map) (cbor.Value, *serverError) {
 	}
 	output, err := cmm.DecryptMaterials(input)
 	if err != nil {
-		return nil, mplError(err.Error())
+		return nil, mplFailure(err)
 	}
 	materials := output.DecryptionMaterials
 	if materials.PlaintextDataKey == nil {

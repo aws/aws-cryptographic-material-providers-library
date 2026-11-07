@@ -3,7 +3,8 @@
     "raw-aes",
     "hierarchical",
     "default-cmm",
-    "static-keyring"
+    "static-keyring",
+    "aws-kms"
   ],
   "unsupportedFeatures": []
 }
