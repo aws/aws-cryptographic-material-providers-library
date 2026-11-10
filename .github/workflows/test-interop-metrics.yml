@@ -65,11 +65,16 @@ jobs:
         if: matrix.language == 'net'
         uses: actions/setup-dotnet@v5
         with:
-          # The CodeBuild image's /codebuild/global.json pins SDK 10.0.0, and
-          # every dotnet command under the checkout resolves against it.
-          dotnet-version: |
-            ${{ matrix.dotnet-version }}
-            10.0.x
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      # The CodeBuild image's /codebuild/global.json pins SDK 10.0.0, and every
+      # dotnet command under the checkout resolves against it. setup_dafny runs
+      # setup-dotnet for every language, which points dotnet at
+      # /usr/share/dotnet, so SDK 10 must be installed there too.
+      - name: Setup .NET Core SDK 10.0.x for the CodeBuild global.json
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
 
       # We need both Java 8 and Java 17
       - name: Setup Java 8
@@ -308,11 +313,16 @@ jobs:
         if: matrix.decrypting_language == 'net'
         uses: actions/setup-dotnet@v5
         with:
-          # The CodeBuild image's /codebuild/global.json pins SDK 10.0.0, and
-          # every dotnet command under the checkout resolves against it.
-          dotnet-version: |
-            ${{ matrix.dotnet-version }}
-            10.0.x
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      # The CodeBuild image's /codebuild/global.json pins SDK 10.0.0, and every
+      # dotnet command under the checkout resolves against it. setup_dafny runs
+      # setup-dotnet for every language, which points dotnet at
+      # /usr/share/dotnet, so SDK 10 must be installed there too.
+      - name: Setup .NET Core SDK 10.0.x for the CodeBuild global.json
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
 
       - name: Setup Java 8
         if: matrix.decrypting_language == 'java'
