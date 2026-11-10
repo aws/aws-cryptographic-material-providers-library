@@ -65,7 +65,11 @@ jobs:
         if: matrix.language == 'net'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          # The CodeBuild image's /codebuild/global.json pins SDK 10.0.0, and
+          # every dotnet command under the checkout resolves against it.
+          dotnet-version: |
+            ${{ matrix.dotnet-version }}
+            10.0.x
 
       # We need both Java 8 and Java 17
       - name: Setup Java 8
@@ -304,7 +308,11 @@ jobs:
         if: matrix.decrypting_language == 'net'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          # The CodeBuild image's /codebuild/global.json pins SDK 10.0.0, and
+          # every dotnet command under the checkout resolves against it.
+          dotnet-version: |
+            ${{ matrix.dotnet-version }}
+            10.0.x
 
       - name: Setup Java 8
         if: matrix.decrypting_language == 'java'
