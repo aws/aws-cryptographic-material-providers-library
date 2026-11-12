@@ -58,11 +58,6 @@ jobs:
         with:
           dafny-version: ${{ inputs.dafny }}
 
-      - name: Use the latest installed .NET SDK
-        if: runner.os == 'Linux'
-        shell: bash
-        run: echo '{"sdk":{"version":"6.0.100","rollForward":"latestMajor"}}' > "$RUNNER_WORKSPACE/global.json"
-
       - name: Setup Node
         uses: actions/setup-node@v6
         with:

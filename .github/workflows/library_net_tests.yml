@@ -78,6 +78,9 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
+      - name: Use the latest installed .NET SDK
+        uses: ./.github/actions/use_installed_dotnet_sdk
+
       - name: Setup .NET OpenSSL on Mac
         if: matrix.platform.os == 'macos-15'
         run: |

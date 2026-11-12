@@ -79,11 +79,6 @@ jobs:
         with:
           dafny-version: 4.10.0
 
-      - name: Use the latest installed .NET SDK
-        if: runner.os == 'Linux'
-        shell: bash
-        run: echo '{"sdk":{"version":"6.0.100","rollForward":"latestMajor"}}' > "$RUNNER_WORKSPACE/global.json"
-
       - name: Install Go
         uses: actions/setup-go@v6
         with:

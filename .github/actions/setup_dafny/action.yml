@@ -24,6 +24,15 @@ runs:
       with:
         dotnet-version: "9.0.x"
 
+    # setup-dafny-action runs `dotnet tool install`, which fails on CodeBuild
+    # without this step; see .github/actions/use_installed_dotnet_sdk for why.
+    # The step is copied here, not called, because downstream projects run
+    # this action and a ./ path would resolve inside their checkout.
+    - name: Use the latest installed .NET SDK
+      if: runner.os == 'Linux'
+      shell: bash
+      run: echo '{"sdk":{"version":"6.0.100","rollForward":"latestMajor"}}' > "$RUNNER_WORKSPACE/global.json"
+
     - name: Setup Dafny with setup-dafny action
       uses: dafny-lang/setup-dafny-action@v1.9.1
       with:

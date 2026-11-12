@@ -70,6 +70,9 @@ jobs:
           git submodule update --init --recursive smithy-dafny
 
       # --- Runtime setup (only what's needed to RUN, not build) ---
+      - name: Use the latest installed .NET SDK
+        uses: ./.github/actions/use_installed_dotnet_sdk
+
       - name: Setup .NET Core SDK 6.0.x
         if: matrix.language == 'net'
         uses: actions/setup-dotnet@v5
@@ -198,6 +201,9 @@ jobs:
           git submodule update --init --recursive smithy-dafny
 
       # --- Runtime setup (only what's needed to RUN, not build) ---
+      - name: Use the latest installed .NET SDK
+        uses: ./.github/actions/use_installed_dotnet_sdk
+
       - name: Setup .NET Core SDK 6.0.x
         if: matrix.decrypting_language == 'net'
         uses: actions/setup-dotnet@v5
