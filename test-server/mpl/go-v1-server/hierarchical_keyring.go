@@ -31,6 +31,11 @@ func (s *appState) createKeyStoreClient(ctx context.Context, m cbor.Map) (cbor.V
 	}
 	kmsClientRegion := r.str("kmsClientRegion")
 	ddbClientRegion := r.str("ddbClientRegion")
+	var ddbEndpoint *string
+	if r.present("ddbEndpoint") {
+		endpoint := r.str("ddbEndpoint")
+		ddbEndpoint = &endpoint
+	}
 	if r.err != nil {
 		return nil, generic("%v", r.err)
 	}
@@ -48,7 +53,9 @@ func (s *appState) createKeyStoreClient(ctx context.Context, m cbor.Map) (cbor.V
 		LogicalKeyStoreName: logicalKeyStoreName,
 		KmsConfiguration:    kmsConfiguration,
 		KmsClient:           kms.NewFromConfig(kmsConfig),
-		DdbClient:           dynamodb.NewFromConfig(ddbConfig),
+		DdbClient: dynamodb.NewFromConfig(ddbConfig, func(o *dynamodb.Options) {
+			o.BaseEndpoint = ddbEndpoint
+		}),
 	})
 	if err != nil {
 		return nil, mplError(err.Error())

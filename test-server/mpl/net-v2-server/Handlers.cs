@@ -129,11 +129,26 @@ internal sealed class Handlers
             KmsConfiguration = KmsConfigurationFromWire(Model.Map(request, "kmsConfiguration")),
             KmsClient = new AmazonKeyManagementServiceClient(
                 RegionEndpoint.GetBySystemName(Model.Str(request, "kmsClientRegion"))),
-            DdbClient = new AmazonDynamoDBClient(
-                RegionEndpoint.GetBySystemName(Model.Str(request, "ddbClientRegion"))),
+            DdbClient = new AmazonDynamoDBClient(DdbClientConfig(request)),
         };
         var keyStore = Call(() => new KeyStore(config));
         return Model.Write(new Dictionary<string, object> { ["keyStoreId"] = Register(_keyStores, keyStore) });
+    }
+
+    private static AmazonDynamoDBConfig DdbClientConfig(Dictionary<string, object> request)
+    {
+        var config = new AmazonDynamoDBConfig
+        {
+            RegionEndpoint = RegionEndpoint.GetBySystemName(Model.Str(request, "ddbClientRegion")),
+        };
+        if (Model.Present(request, "ddbEndpoint"))
+        {
+            // Setting ServiceURL clears RegionEndpoint, so AuthenticationRegion
+            // keeps the region requests are signed for.
+            config.ServiceURL = Model.Str(request, "ddbEndpoint");
+            config.AuthenticationRegion = Model.Str(request, "ddbClientRegion");
+        }
+        return config;
     }
 
     /// The model's KmsConfiguration union: exactly one member is set.
