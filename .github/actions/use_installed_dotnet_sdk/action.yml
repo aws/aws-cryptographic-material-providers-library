@@ -1,10 +1,6 @@
-#
-# The CodeBuild Linux image has a /codebuild/global.json above the workspace
-# that requests a .NET SDK the image does not install, so every dotnet command
-# under the checkout fails. A global.json in the runner workspace takes
-# precedence over it, and rolling forward to the latest major picks the newest
-# installed SDK, the same one dotnet picks when there is no global.json.
-#
+# The CodeBuild image's /codebuild/global.json asks for a .NET SDK that the image does not include.
+# dotnet reads the global.json closest to the working directory, so it reads the one that this action writes.
+# With rollForward set to latestMajor, dotnet uses the newest installed SDK.
 name: "Use the latest installed .NET SDK"
 description: "Overrides the CodeBuild image's global.json so dotnet uses the newest installed SDK."
 runs:

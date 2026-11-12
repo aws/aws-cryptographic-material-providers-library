@@ -15,9 +15,8 @@ jobs:
     runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v6
-      # Installed from PyPI instead of run as its Docker action: CodeBuild
-      # runners share IPs, so the action's anonymous Docker Hub pull gets rate
-      # limited.
+      # CodeBuild runners share IPs, so not-grep's Docker action hits Docker Hub's rate limit.
+      # not-grep 1.0.1 imports pkg_resources, which only older setuptools releases include.
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"

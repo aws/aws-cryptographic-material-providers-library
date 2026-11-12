@@ -29,8 +29,7 @@ jobs:
       rustVersion: ${{ steps.read_property.outputs.dafnyRustVersion }}
     steps:
       - uses: actions/checkout@v6
-      # A shell step instead of a Docker action: CodeBuild runners share IPs,
-      # so the anonymous Docker Hub pull a Docker action needs gets rate limited.
+      # No Docker action here: CodeBuild runners share IPs, so pulls from Docker Hub hit its rate limit.
       - name: Read version from Properties-file
         id: read_property
         shell: bash
