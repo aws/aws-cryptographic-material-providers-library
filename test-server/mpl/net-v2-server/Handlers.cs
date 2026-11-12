@@ -49,6 +49,7 @@ internal sealed class Handlers
     internal byte[] Dispatch(string operation, Dictionary<string, object> request) => operation switch
     {
         "CreateRawAesKeyring" => CreateRawAesKeyring(request),
+        "CreateStaticKeyring" => CreateStaticKeyring(request),
         "CreateDefaultCmm" => CreateDefaultCmm(request),
         "CreateKeyStoreClient" => CreateKeyStoreClient(request),
         "CreateCryptographicMaterialsCache" => CreateCryptographicMaterialsCache(request),
@@ -77,6 +78,38 @@ internal sealed class Handlers
         };
         var keyring = Call(() => _mpl.CreateRawAesKeyring(input));
         return Model.Write(new Dictionary<string, object> { ["keyringId"] = Register(_keyrings, keyring) });
+    }
+
+    private byte[] CreateStaticKeyring(Dictionary<string, object> request)
+    {
+        var encryptionMaterials = Model.Present(request, "encryptionMaterials")
+            ? EncryptionMaterialsFromWire(Model.Map(request, "encryptionMaterials"))
+            : null;
+        var decryptionMaterials = Model.Present(request, "decryptionMaterials")
+            ? DecryptionMaterialsFromWire(Model.Map(request, "decryptionMaterials"))
+            : null;
+        var keyring = new StaticKeyring(encryptionMaterials, decryptionMaterials);
+        return Model.Write(new Dictionary<string, object> { ["keyringId"] = Register<IKeyring>(_keyrings, keyring) });
+    }
+
+    /// The model's static keyring: OnEncrypt and OnDecrypt return the fixed
+    /// materials, or the input materials when none were given.
+    private sealed class StaticKeyring : KeyringBase
+    {
+        private readonly EncryptionMaterials _encryptionMaterials;
+        private readonly DecryptionMaterials _decryptionMaterials;
+
+        internal StaticKeyring(EncryptionMaterials encryptionMaterials, DecryptionMaterials decryptionMaterials)
+        {
+            _encryptionMaterials = encryptionMaterials;
+            _decryptionMaterials = decryptionMaterials;
+        }
+
+        protected override OnEncryptOutput _OnEncrypt(OnEncryptInput input) =>
+            new() { Materials = _encryptionMaterials ?? input.Materials };
+
+        protected override OnDecryptOutput _OnDecrypt(OnDecryptInput input) =>
+            new() { Materials = _decryptionMaterials ?? input.Materials };
     }
 
     private byte[] CreateDefaultCmm(Dictionary<string, object> request)

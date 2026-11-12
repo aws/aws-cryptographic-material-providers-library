@@ -17,10 +17,12 @@ use aws_mpl_legacy::deps::aws_cryptography_keyStore::types::{
     MrDiscovery as DafnyMrDiscovery,
 };
 use aws_mpl_legacy::operation::get_branch_key_id::{GetBranchKeyIdInput, GetBranchKeyIdOutput};
+use aws_mpl_legacy::operation::on_decrypt::{OnDecryptInput, OnDecryptOutput};
+use aws_mpl_legacy::operation::on_encrypt::{OnEncryptInput, OnEncryptOutput};
 use aws_mpl_legacy::types::branch_key_id_supplier::{BranchKeyIdSupplier, BranchKeyIdSupplierRef};
 use aws_mpl_legacy::types::cryptographic_materials_cache::CryptographicMaterialsCacheRef;
 use aws_mpl_legacy::types::cryptographic_materials_manager::CryptographicMaterialsManagerRef;
-use aws_mpl_legacy::types::keyring::KeyringRef;
+use aws_mpl_legacy::types::keyring::{Keyring, KeyringRef};
 use aws_mpl_legacy::types::{
     AesWrappingAlg as DafnyAesWrappingAlg, AlgorithmSuiteId as DafnyAlgorithmSuiteId,
     AlgorithmSuiteInfo, CacheType, CommitmentPolicy as DafnyCommitmentPolicy, DecryptionMaterials,
@@ -205,6 +207,37 @@ impl BranchKeyIdSupplier for StaticBranchKeyIdSupplier {
     }
 }
 
+/// The model's static keyring: OnEncrypt and OnDecrypt return the fixed
+/// materials, or the input materials when none were given.
+struct StaticKeyring {
+    encryption_materials: Option<EncryptionMaterials>,
+    decryption_materials: Option<DecryptionMaterials>,
+}
+
+impl Keyring for StaticKeyring {
+    fn on_encrypt(
+        &self,
+        input: OnEncryptInput,
+    ) -> Result<OnEncryptOutput, aws_mpl_legacy::types::error::Error> {
+        let materials = self.encryption_materials.clone().or(input.materials);
+        Ok(OnEncryptOutput::builder()
+            .set_materials(materials)
+            .build()
+            .expect("OnEncryptOutput builder has no required members"))
+    }
+
+    fn on_decrypt(
+        &self,
+        input: OnDecryptInput,
+    ) -> Result<OnDecryptOutput, aws_mpl_legacy::types::error::Error> {
+        let materials = self.decryption_materials.clone().or(input.materials);
+        Ok(OnDecryptOutput::builder()
+            .set_materials(materials)
+            .build()
+            .expect("OnDecryptOutput builder has no required members"))
+    }
+}
+
 impl AppState {
     /// Build the client and resolve every suite's AlgorithmSuiteInfo once.
     pub async fn new() -> Self {
@@ -281,6 +314,26 @@ impl AppState {
             .expect("keyrings mutex")
             .insert(id.clone(), keyring);
         Ok(CreateRawAesKeyringResponse { keyring_id: id })
+    }
+
+    pub fn create_static_keyring(
+        &self,
+        req: CreateStaticKeyringRequest,
+    ) -> Result<CreateStaticKeyringResponse, ServerError> {
+        let keyring = KeyringRef::from(StaticKeyring {
+            encryption_materials: req
+                .encryption_materials
+                .map(|shape| self.shape_to_encryption_materials(shape)),
+            decryption_materials: req
+                .decryption_materials
+                .map(|shape| self.shape_to_decryption_materials(shape)),
+        });
+        let id = uuid::Uuid::new_v4().to_string();
+        self.keyrings
+            .lock()
+            .expect("keyrings mutex")
+            .insert(id.clone(), keyring);
+        Ok(CreateStaticKeyringResponse { keyring_id: id })
     }
 
     pub async fn create_default_cmm(

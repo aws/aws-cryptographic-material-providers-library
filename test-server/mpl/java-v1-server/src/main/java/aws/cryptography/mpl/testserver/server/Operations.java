@@ -39,7 +39,9 @@ import software.amazon.cryptography.materialproviders.model.GetEncryptionMateria
 import software.amazon.cryptography.materialproviders.model.InitializeDecryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.InitializeEncryptionMaterialsInput;
 import software.amazon.cryptography.materialproviders.model.OnDecryptInput;
+import software.amazon.cryptography.materialproviders.model.OnDecryptOutput;
 import software.amazon.cryptography.materialproviders.model.OnEncryptInput;
+import software.amazon.cryptography.materialproviders.model.OnEncryptOutput;
 
 /**
  * Maps each TestServer operation to the Java MaterialProviders client. Keyrings
@@ -67,6 +69,8 @@ final class Operations {
     switch (operation) {
       case "CreateRawAesKeyring":
         return createRawAesKeyring(request);
+      case "CreateStaticKeyring":
+        return createStaticKeyring(request);
       case "CreateDefaultCmm":
         return createDefaultCmm(request);
       case "CreateKeyStoreClient":
@@ -109,6 +113,62 @@ final class Operations {
     ObjectNode response = Cbor.object();
     response.put("keyringId", register(keyrings, keyring));
     return response;
+  }
+
+  private ObjectNode createStaticKeyring(JsonNode request) {
+    EncryptionMaterials encryptionMaterials = Cbor.present(
+        request,
+        "encryptionMaterials"
+      )
+      ? encryptionMaterialsFromWire(Cbor.member(request, "encryptionMaterials"))
+      : null;
+    DecryptionMaterials decryptionMaterials = Cbor.present(
+        request,
+        "decryptionMaterials"
+      )
+      ? decryptionMaterialsFromWire(Cbor.member(request, "decryptionMaterials"))
+      : null;
+    IKeyring keyring = new StaticKeyring(
+      encryptionMaterials,
+      decryptionMaterials
+    );
+    ObjectNode response = Cbor.object();
+    response.put("keyringId", register(keyrings, keyring));
+    return response;
+  }
+
+  /**
+   * The model's static keyring: OnEncrypt and OnDecrypt return the fixed
+   * materials, or the input materials when none were given.
+   */
+  private static final class StaticKeyring implements IKeyring {
+
+    private final EncryptionMaterials encryptionMaterials;
+    private final DecryptionMaterials decryptionMaterials;
+
+    StaticKeyring(
+      EncryptionMaterials encryptionMaterials,
+      DecryptionMaterials decryptionMaterials
+    ) {
+      this.encryptionMaterials = encryptionMaterials;
+      this.decryptionMaterials = decryptionMaterials;
+    }
+
+    @Override
+    public OnEncryptOutput OnEncrypt(OnEncryptInput input) {
+      EncryptionMaterials materials = encryptionMaterials == null
+        ? input.materials()
+        : encryptionMaterials;
+      return OnEncryptOutput.builder().materials(materials).build();
+    }
+
+    @Override
+    public OnDecryptOutput OnDecrypt(OnDecryptInput input) {
+      DecryptionMaterials materials = decryptionMaterials == null
+        ? input.materials()
+        : decryptionMaterials;
+      return OnDecryptOutput.builder().materials(materials).build();
+    }
   }
 
   private ObjectNode createDefaultCmm(JsonNode request) {
