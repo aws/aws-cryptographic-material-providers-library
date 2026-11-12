@@ -29,9 +29,13 @@ jobs:
       rustVersion: ${{ steps.read_property.outputs.dafnyRustVersion }}
     steps:
       - uses: actions/checkout@v6
+      # A shell step instead of a Docker action: CodeBuild runners share IPs,
+      # so the anonymous Docker Hub pull a Docker action needs gets rate limited.
       - name: Read version from Properties-file
         id: read_property
-        uses: christian-draeger/read-properties@1.1.1
-        with:
-          path: "./project.properties"
-          properties: "dafnyVersion dafnyVerifyVersion dafnyRustVersion"
+        shell: bash
+        run: |
+          for property in dafnyVersion dafnyVerifyVersion dafnyRustVersion; do
+            value=$(grep "^${property}=" project.properties | cut -d= -f2-)
+            echo "${property}=${value}" >> "$GITHUB_OUTPUT"
+          done
