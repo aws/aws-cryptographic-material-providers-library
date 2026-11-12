@@ -24,6 +24,14 @@ runs:
       with:
         dotnet-version: "9.0.x"
 
+    # setup-dafny-action runs `dotnet tool install`, so this step must run before it.
+    # Don't replace this step with `uses: ./.github/actions/use_installed_dotnet_sdk`.
+    # Other repos run this action from an MPL submodule, and `./` would point at their checkout.
+    - name: Use the latest installed .NET SDK
+      if: runner.os == 'Linux'
+      shell: bash
+      run: echo '{"sdk":{"version":"6.0.100","rollForward":"latestMajor"}}' > "$RUNNER_WORKSPACE/global.json"
+
     - name: Setup Dafny with setup-dafny action
       uses: dafny-lang/setup-dafny-action@v1.9.1
       with:

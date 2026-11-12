@@ -1,0 +1,12 @@
+# The CodeBuild image's /codebuild/global.json asks for a .NET SDK that the image does not include.
+# dotnet reads the global.json closest to the working directory, so it reads the one that this action writes.
+# With rollForward set to latestMajor, dotnet uses the newest installed SDK.
+name: "Use the latest installed .NET SDK"
+description: "Overrides the CodeBuild image's global.json so dotnet uses the newest installed SDK."
+runs:
+  using: "composite"
+  steps:
+    - name: Write a global.json in the runner workspace
+      if: runner.os == 'Linux'
+      shell: bash
+      run: echo '{"sdk":{"version":"6.0.100","rollForward":"latestMajor"}}' > "$RUNNER_WORKSPACE/global.json"

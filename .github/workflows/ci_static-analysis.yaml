@@ -12,8 +12,15 @@ permissions:
 
 jobs:
   not-grep:
-    runs-on: ubuntu-22.04
+    runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v6
+      # CodeBuild runners share IPs, so not-grep's Docker action hits Docker Hub's rate limit.
+      # not-grep 1.0.1 imports pkg_resources, which only older setuptools releases include.
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
       - name: not-grep
-        uses: mattsb42-meta/not-grep@1.0.1
+        run: |
+          pip install not-grep==1.0.1 "setuptools<81"
+          not-grep --config .github/not-grep.toml
