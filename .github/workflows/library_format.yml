@@ -59,11 +59,6 @@ jobs:
         with:
           dafny-version: ${{ inputs.dafny }}
 
-      - name: Setup .NET Core SDK 6.0.x
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: "6.0.x"
-
       - name: Install Smithy-Dafny codegen dependencies
         uses: ./.github/actions/install_smithy_dafny_codegen_dependencies
 
