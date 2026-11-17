@@ -11,7 +11,7 @@ on:
 
 jobs:
   test-dbesdk-examples:
-    runs-on: ubuntu-22.04
+    runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
     permissions:
       id-token: write
       contents: read
