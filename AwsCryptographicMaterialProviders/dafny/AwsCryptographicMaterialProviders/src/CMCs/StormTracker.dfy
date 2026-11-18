@@ -15,6 +15,7 @@
 // forcing all other threads to sleep
 
 include "LocalCMC.dfy"
+include "../../../../../libraries/src/Collections/Sets/Sets.dfy"
 
 module {:options "/functionSyntax:4" }  StormTracker {
   import opened Wrappers
@@ -25,6 +26,7 @@ module {:options "/functionSyntax:4" }  StormTracker {
   import Time
   import SortedSets
   import Seq
+  import Sets
   import StandardLibrary.String
 
   datatype CacheState =
@@ -166,6 +168,8 @@ module {:options "/functionSyntax:4" }  StormTracker {
       modifies this`lastPrune, inFlight
       requires ValidState()
       ensures ValidState()
+      // If at least fanOut keys are still in flight, the fan-out is reached.
+      ensures |LiveKeys(old(inFlight.content()), now)| >= fanOut as nat ==> res
       ensures
         && old(inFlight.Size()) < fanOut as nat
         ==>
@@ -175,7 +179,15 @@ module {:options "/functionSyntax:4" }  StormTracker {
       ensures res <==> inFlight.Size() == fanOut as nat
     {
       PruneInFlight(now);
+      Sets.LemmaSubsetSize(LiveKeys(old(inFlight.content()), now), inFlight.Keys());
       return fanOut <= inFlight.Size() as Types.PositiveLong;
+    }
+
+    // The keys of `m` still in flight at `now`, that were put in flight less than inFlightTTL time ago.
+    ghost function LiveKeys(m : map<seq<uint8>, Types.PositiveLong>, now : Types.PositiveLong) : set<seq<uint8>>
+      reads this
+    {
+      set k | k in m && now < AddLong(m[k], inFlightTTL)
     }
 
     function AddLong(x : Types.PositiveLong, y : Types.PositiveLong) : Types.PositiveLong
@@ -226,6 +238,10 @@ module {:options "/functionSyntax:4" }  StormTracker {
 
       // Only return what was passed in
       ensures output.Full? ==> output.data == result
+
+      // If at least fanOut keys are still in flight
+      // ==> Full
+      ensures |LiveKeys(old(inFlight.content()), now)| >= fanOut as nat ==> output.Full?
 
       // Never return an expired entry
       ensures output.Full? ==> now as nat < (result.expiryTime as nat + 1) * 1000
@@ -297,6 +313,8 @@ module {:options "/functionSyntax:4" }  StormTracker {
       modifies this`lastPrune, inFlight
       requires ValidState()
       ensures ValidState()
+      // Every key still in flight at `now` is kept after pruning.
+      ensures LiveKeys(old(inFlight.content()), now) <= inFlight.Keys()
       ensures
         old(inFlight.Size()) < fanOut as nat
         ==>
@@ -337,6 +355,9 @@ module {:options "/functionSyntax:4" }  StormTracker {
       for i : uint64 := 0 to |keys| as uint64
         invariant forall k | i as nat <= k < |keys| :: keys[k] in inFlight.Keys()
         invariant ValidState()
+        invariant forall k | k in inFlight.content() ::
+            k in old(inFlight.content()) && inFlight.content()[k] == old(inFlight.content())[k]
+        invariant LiveKeys(old(inFlight.content()), now) <= inFlight.Keys()
       {
         reveal Seq.HasNoDuplicates();
         var v := inFlight.Select(keys[i]);
@@ -355,6 +376,10 @@ module {:options "/functionSyntax:4" }  StormTracker {
 
       // Never return an entry
       ensures !output.Full?
+
+      // If at least fanOut keys are still in flight
+      // ==> EmptyWait
+      ensures |LiveKeys(old(inFlight.content()), now)| >= fanOut as nat ==> output.EmptyWait?
 
       // EmptyFetch puts the identifier inFlight
       ensures output.EmptyFetch? ==>
