@@ -35,6 +35,7 @@ import software.amazon.cryptography.materialproviders.internaldafny.types.Create
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsMrkMultiKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsMultiKeyringInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateAwsKmsRsaKeyringInput;
+import software.amazon.cryptography.materialproviders.internaldafny.types.CreateCachingCMMInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateCryptographicMaterialsCacheInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateDefaultClientSupplierInput;
 import software.amazon.cryptography.materialproviders.internaldafny.types.CreateDefaultCryptographicMaterialsManagerInput;
@@ -825,6 +826,79 @@ public class ToDafny {
     );
   }
 
+  public static CreateCachingCMMInput CreateCachingCMMInput(
+    software.amazon.cryptography.materialproviders.model.CreateCachingCMMInput nativeValue
+  ) {
+    software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsCache underlyingCMC;
+    underlyingCMC =
+      ToDafny.CryptographicMaterialsCache(nativeValue.underlyingCMC());
+    Integer cacheLimitTtlSeconds;
+    cacheLimitTtlSeconds = (nativeValue.cacheLimitTtlSeconds());
+    Option<
+      software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsManager
+    > underlyingCMM;
+    underlyingCMM =
+      Objects.nonNull(nativeValue.underlyingCMM())
+        ? Option.create_Some(
+          TypeDescriptor.reference(
+            software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsManager.class
+          ),
+          ToDafny.CryptographicMaterialsManager(nativeValue.underlyingCMM())
+        )
+        : Option.create_None(
+          TypeDescriptor.reference(
+            software.amazon.cryptography.materialproviders.internaldafny.types.ICryptographicMaterialsManager.class
+          )
+        );
+    Option<
+      software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring
+    > keyring;
+    keyring =
+      Objects.nonNull(nativeValue.keyring())
+        ? Option.create_Some(
+          TypeDescriptor.reference(
+            software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring.class
+          ),
+          ToDafny.Keyring(nativeValue.keyring())
+        )
+        : Option.create_None(
+          TypeDescriptor.reference(
+            software.amazon.cryptography.materialproviders.internaldafny.types.IKeyring.class
+          )
+        );
+    Option<DafnySequence<? extends Byte>> partitionKey;
+    partitionKey =
+      Objects.nonNull(nativeValue.partitionKey())
+        ? Option.create_Some(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE),
+          software.amazon.smithy.dafny.conversion.ToDafny.Simple.DafnyUtf8Bytes(
+            nativeValue.partitionKey()
+          )
+        )
+        : Option.create_None(
+          DafnySequence._typeDescriptor(TypeDescriptor.BYTE)
+        );
+    Option<Long> limitBytes;
+    limitBytes =
+      Objects.nonNull(nativeValue.limitBytes())
+        ? Option.create_Some(TypeDescriptor.LONG, (nativeValue.limitBytes()))
+        : Option.create_None(TypeDescriptor.LONG);
+    Option<Integer> limitMessages;
+    limitMessages =
+      Objects.nonNull(nativeValue.limitMessages())
+        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.limitMessages()))
+        : Option.create_None(TypeDescriptor.INT);
+    return new CreateCachingCMMInput(
+      underlyingCMC,
+      cacheLimitTtlSeconds,
+      underlyingCMM,
+      keyring,
+      partitionKey,
+      limitBytes,
+      limitMessages
+    );
+  }
+
   public static CreateCryptographicMaterialsCacheInput CreateCryptographicMaterialsCacheInput(
     software.amazon.cryptography.materialproviders.model.CreateCryptographicMaterialsCacheInput nativeValue
   ) {
@@ -1347,7 +1421,7 @@ public class ToDafny {
     expiryTime = (nativeValue.expiryTime());
     Integer messagesUsed;
     messagesUsed = (nativeValue.messagesUsed());
-    Integer bytesUsed;
+    Long bytesUsed;
     bytesUsed = (nativeValue.bytesUsed());
     return new GetCacheEntryOutput(
       materials,
@@ -1691,11 +1765,11 @@ public class ToDafny {
       Objects.nonNull(nativeValue.messagesUsed())
         ? Option.create_Some(TypeDescriptor.INT, (nativeValue.messagesUsed()))
         : Option.create_None(TypeDescriptor.INT);
-    Option<Integer> bytesUsed;
+    Option<Long> bytesUsed;
     bytesUsed =
       Objects.nonNull(nativeValue.bytesUsed())
-        ? Option.create_Some(TypeDescriptor.INT, (nativeValue.bytesUsed()))
-        : Option.create_None(TypeDescriptor.INT);
+        ? Option.create_Some(TypeDescriptor.LONG, (nativeValue.bytesUsed()))
+        : Option.create_None(TypeDescriptor.LONG);
     return new PutCacheEntryInput(
       identifier,
       materials,
@@ -1792,7 +1866,7 @@ public class ToDafny {
       software.amazon.smithy.dafny.conversion.ToDafny.Simple.ByteSequence(
         nativeValue.identifier()
       );
-    Integer bytesUsed;
+    Long bytesUsed;
     bytesUsed = (nativeValue.bytesUsed());
     return new UpdateUsageMetadataInput(identifier, bytesUsed);
   }
