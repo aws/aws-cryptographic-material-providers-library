@@ -25,6 +25,7 @@ from aws_cryptographic_material_providers.internaldafny.generated.AwsCryptograph
     CreateRequiredEncryptionContextCMMInput_CreateRequiredEncryptionContextCMMInput as DafnyCreateRequiredEncryptionContextCMMInput,
     DecryptionMaterials_DecryptionMaterials as DafnyDecryptionMaterials,
     EncryptionMaterials_EncryptionMaterials as DafnyEncryptionMaterials,
+    GetCacheIdentifierInput_GetCacheIdentifierInput as DafnyGetCacheIdentifierInput,
     InitializeDecryptionMaterialsInput_InitializeDecryptionMaterialsInput as DafnyInitializeDecryptionMaterialsInput,
     InitializeEncryptionMaterialsInput_InitializeEncryptionMaterialsInput as DafnyInitializeEncryptionMaterialsInput,
     ValidDecryptionMaterialsTransitionInput_ValidDecryptionMaterialsTransitionInput as DafnyValidDecryptionMaterialsTransitionInput,
@@ -37,7 +38,6 @@ import aws_cryptographic_material_providers.internaldafny.generated.module_
 
 import smithy_dafny_standard_library.internaldafny.generated.Wrappers as Wrappers
 from typing import Union
-
 
 class DafnyRequest:
     operation_name: str
@@ -58,6 +58,7 @@ class DafnyRequest:
         DafnyInitializeDecryptionMaterialsInput,
         DafnyValidateCommitmentPolicyOnDecryptInput,
         DafnyCreateAwsKmsDiscoveryMultiKeyringInput,
+        DafnyGetCacheIdentifierInput,
         DafnyCreateAwsKmsMrkDiscoveryMultiKeyringInput,
         DafnyCreateAwsKmsRsaKeyringInput,
         DafnyValidDecryptionMaterialsTransitionInput,
@@ -78,7 +79,6 @@ class DafnyRequest:
     def __init__(self, operation_name, dafny_operation_input):
         self.operation_name = operation_name
         self.dafny_operation_input = dafny_operation_input
-
 
 class DafnyResponse(Wrappers.Result):
     def __init__(self):

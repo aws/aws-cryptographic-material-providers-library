@@ -10,6 +10,7 @@ import dafny.TypeDescriptor;
 import java.lang.Byte;
 import java.lang.Character;
 import java.lang.IllegalArgumentException;
+import java.lang.Integer;
 import java.lang.RuntimeException;
 import java.lang.String;
 import java.nio.ByteBuffer;
@@ -31,6 +32,8 @@ import software.amazon.cryptography.keystore.internaldafny.types.GetBeaconKeyInp
 import software.amazon.cryptography.keystore.internaldafny.types.GetBeaconKeyOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionInput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionOutput;
+import software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionsInput;
+import software.amazon.cryptography.keystore.internaldafny.types.GetBranchKeyVersionsOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.GetKeyStoreInfoOutput;
 import software.amazon.cryptography.keystore.internaldafny.types.IKeyStoreClient;
 import software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguration;
@@ -315,6 +318,28 @@ public class ToDafny {
     return new GetBranchKeyVersionOutput(branchKeyMaterials);
   }
 
+  public static GetBranchKeyVersionsInput GetBranchKeyVersionsInput(
+    software.amazon.cryptography.keystore.model.GetBranchKeyVersionsInput nativeValue
+  ) {
+    DafnySequence<? extends Character> branchKeyIdentifier;
+    branchKeyIdentifier =
+      software.amazon.smithy.dafny.conversion.ToDafny.Simple.CharacterSequence(
+        nativeValue.branchKeyIdentifier()
+      );
+    Integer count;
+    count = (nativeValue.count());
+    return new GetBranchKeyVersionsInput(branchKeyIdentifier, count);
+  }
+
+  public static GetBranchKeyVersionsOutput GetBranchKeyVersionsOutput(
+    software.amazon.cryptography.keystore.model.GetBranchKeyVersionsOutput nativeValue
+  ) {
+    DafnySequence<? extends BranchKeyMaterials> branchKeyMaterials;
+    branchKeyMaterials =
+      ToDafny.BranchKeyMaterialsList(nativeValue.branchKeyMaterials());
+    return new GetBranchKeyVersionsOutput(branchKeyMaterials);
+  }
+
   public static GetKeyStoreInfoOutput GetKeyStoreInfoOutput(
     software.amazon.cryptography.keystore.model.GetKeyStoreInfoOutput nativeValue
   ) {
@@ -489,6 +514,20 @@ public class ToDafny {
       "Cannot convert " +
       nativeValue +
       " to software.amazon.cryptography.keystore.internaldafny.types.KMSConfiguration."
+    );
+  }
+
+  public static DafnySequence<
+    ? extends BranchKeyMaterials
+  > BranchKeyMaterialsList(
+    List<
+      software.amazon.cryptography.keystore.model.BranchKeyMaterials
+    > nativeValue
+  ) {
+    return software.amazon.smithy.dafny.conversion.ToDafny.Aggregate.GenericToSequence(
+      nativeValue,
+      software.amazon.cryptography.keystore.ToDafny::BranchKeyMaterials,
+      BranchKeyMaterials._typeDescriptor()
     );
   }
 

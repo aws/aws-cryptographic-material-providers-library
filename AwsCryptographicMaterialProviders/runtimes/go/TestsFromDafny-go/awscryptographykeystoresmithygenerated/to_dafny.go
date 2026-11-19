@@ -109,6 +109,24 @@ func GetBranchKeyVersionOutput_ToDafny(nativeOutput awscryptographykeystoresmith
 
 }
 
+func GetBranchKeyVersionsInput_ToDafny(nativeInput awscryptographykeystoresmithygeneratedtypes.GetBranchKeyVersionsInput) AwsCryptographyKeyStoreTypes.GetBranchKeyVersionsInput {
+
+	return func() AwsCryptographyKeyStoreTypes.GetBranchKeyVersionsInput {
+
+		return AwsCryptographyKeyStoreTypes.Companion_GetBranchKeyVersionsInput_.Create_GetBranchKeyVersionsInput_(Aws_cryptography_keyStore_GetBranchKeyVersionsInput_branchKeyIdentifier_ToDafny(nativeInput.BranchKeyIdentifier), Aws_cryptography_keyStore_GetBranchKeyVersionsInput_count_ToDafny(nativeInput.Count))
+	}()
+
+}
+
+func GetBranchKeyVersionsOutput_ToDafny(nativeOutput awscryptographykeystoresmithygeneratedtypes.GetBranchKeyVersionsOutput) AwsCryptographyKeyStoreTypes.GetBranchKeyVersionsOutput {
+
+	return func() AwsCryptographyKeyStoreTypes.GetBranchKeyVersionsOutput {
+
+		return AwsCryptographyKeyStoreTypes.Companion_GetBranchKeyVersionsOutput_.Create_GetBranchKeyVersionsOutput_(Aws_cryptography_keyStore_GetBranchKeyVersionsOutput_branchKeyMaterials_ToDafny(nativeOutput.BranchKeyMaterials))
+	}()
+
+}
+
 func GetKeyStoreInfoOutput_ToDafny(nativeOutput awscryptographykeystoresmithygeneratedtypes.GetKeyStoreInfoOutput) AwsCryptographyKeyStoreTypes.GetKeyStoreInfoOutput {
 
 	return func() AwsCryptographyKeyStoreTypes.GetKeyStoreInfoOutput {
@@ -476,6 +494,45 @@ func Aws_cryptography_keyStore_GetBranchKeyVersionInput_branchKeyVersion_ToDafny
 }
 
 func Aws_cryptography_keyStore_GetBranchKeyVersionOutput_branchKeyMaterials_ToDafny(input awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials) AwsCryptographyKeyStoreTypes.BranchKeyMaterials {
+	return func() AwsCryptographyKeyStoreTypes.BranchKeyMaterials {
+
+		return AwsCryptographyKeyStoreTypes.Companion_BranchKeyMaterials_.Create_BranchKeyMaterials_(Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_ToDafny(input.BranchKeyIdentifier), Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_ToDafny(input.BranchKeyVersion), Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_ToDafny(input.EncryptionContext), Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_ToDafny(input.BranchKey))
+	}()
+}
+
+func Aws_cryptography_keyStore_GetBranchKeyVersionsInput_branchKeyIdentifier_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(input))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}()
+	}()
+}
+
+func Aws_cryptography_keyStore_GetBranchKeyVersionsInput_count_ToDafny(input int32) int32 {
+	return func() int32 {
+
+		return input
+	}()
+}
+
+func Aws_cryptography_keyStore_GetBranchKeyVersionsOutput_branchKeyMaterials_ToDafny(input []awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		var fieldValue []interface{} = make([]interface{}, 0, len(input))
+		for _, val := range input {
+			element := Aws_cryptography_keyStore_BranchKeyMaterialsList_member_ToDafny(val)
+			fieldValue = append(fieldValue, element)
+		}
+		return dafny.SeqOf(fieldValue...)
+	}()
+}
+
+func Aws_cryptography_keyStore_BranchKeyMaterialsList_member_ToDafny(input awscryptographykeystoresmithygeneratedtypes.BranchKeyMaterials) AwsCryptographyKeyStoreTypes.BranchKeyMaterials {
 	return func() AwsCryptographyKeyStoreTypes.BranchKeyMaterials {
 
 		return AwsCryptographyKeyStoreTypes.Companion_BranchKeyMaterials_.Create_BranchKeyMaterials_(Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyIdentifier_ToDafny(input.BranchKeyIdentifier), Aws_cryptography_keyStore_BranchKeyMaterials_branchKeyVersion_ToDafny(input.BranchKeyVersion), Aws_cryptography_keyStore_BranchKeyMaterials_encryptionContext_ToDafny(input.EncryptionContext), Aws_cryptography_keyStore_BranchKeyMaterials_branchKey_ToDafny(input.BranchKey))

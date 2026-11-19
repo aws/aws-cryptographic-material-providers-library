@@ -269,6 +269,24 @@ func AlgorithmSuiteInfo_ToDafny(nativeOutput awscryptographymaterialproviderssmi
 
 }
 
+func GetCacheIdentifierInput_ToDafny(nativeInput awscryptographymaterialproviderssmithygeneratedtypes.GetCacheIdentifierInput) AwsCryptographyMaterialProvidersTypes.GetCacheIdentifierInput {
+
+	return func() AwsCryptographyMaterialProvidersTypes.GetCacheIdentifierInput {
+
+		return AwsCryptographyMaterialProvidersTypes.Companion_GetCacheIdentifierInput_.Create_GetCacheIdentifierInput_(Keyring_ToDafny(nativeInput.Keyring), Aws_cryptography_materialProviders_GetCacheIdentifierInput_branchKeyId_ToDafny(nativeInput.BranchKeyId), Aws_cryptography_materialProviders_GetCacheIdentifierInput_branchKeyVersion_ToDafny(nativeInput.BranchKeyVersion))
+	}()
+
+}
+
+func GetCacheIdentifierOutput_ToDafny(nativeOutput awscryptographymaterialproviderssmithygeneratedtypes.GetCacheIdentifierOutput) AwsCryptographyMaterialProvidersTypes.GetCacheIdentifierOutput {
+
+	return func() AwsCryptographyMaterialProvidersTypes.GetCacheIdentifierOutput {
+
+		return AwsCryptographyMaterialProvidersTypes.Companion_GetCacheIdentifierOutput_.Create_GetCacheIdentifierOutput_(Aws_cryptography_materialProviders_GetCacheIdentifierOutput_identifier_ToDafny(nativeOutput.Identifier))
+	}()
+
+}
+
 func InitializeDecryptionMaterialsInput_ToDafny(nativeInput awscryptographymaterialproviderssmithygeneratedtypes.InitializeDecryptionMaterialsInput) AwsCryptographyMaterialProvidersTypes.InitializeDecryptionMaterialsInput {
 
 	return func() AwsCryptographyMaterialProvidersTypes.InitializeDecryptionMaterialsInput {
@@ -2469,6 +2487,43 @@ func Aws_cryptography_materialProviders_SymmetricSigningKeyList_member_ToDafny(i
 }
 
 func Aws_cryptography_materialProviders_GetAlgorithmSuiteInfoInput_binaryId_ToDafny(input []byte) dafny.Sequence {
+	return func() dafny.Sequence {
+		if input == nil {
+			return nil
+		}
+		return dafny.SeqOfBytes(input)
+	}()
+}
+
+func Aws_cryptography_materialProviders_GetCacheIdentifierInput_branchKeyId_ToDafny(input string) dafny.Sequence {
+	return func() dafny.Sequence {
+
+		return func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(input))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}()
+	}()
+}
+
+func Aws_cryptography_materialProviders_GetCacheIdentifierInput_branchKeyVersion_ToDafny(input *string) Wrappers.Option {
+	return func() Wrappers.Option {
+		if input == nil {
+			return Wrappers.Companion_Option_.Create_None_()
+		}
+		return Wrappers.Companion_Option_.Create_Some_(func() dafny.Sequence {
+			res, err := UTF8.DecodeFromNativeGoByteArray([]byte(*input))
+			if err != nil {
+				panic("invalid utf8 input provided")
+			}
+			return res
+		}())
+	}()
+}
+
+func Aws_cryptography_materialProviders_GetCacheIdentifierOutput_identifier_ToDafny(input []byte) dafny.Sequence {
 	return func() dafny.Sequence {
 		if input == nil {
 			return nil

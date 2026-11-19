@@ -39,6 +39,7 @@ from .deserialize import (
     _deserialize_decryption_materials_with_plaintext_data_key,
     _deserialize_encryption_materials_has_plaintext_data_key,
     _deserialize_get_algorithm_suite_info,
+    _deserialize_get_cache_identifier,
     _deserialize_initialize_decryption_materials,
     _deserialize_initialize_encryption_materials,
     _deserialize_valid_algorithm_suite_info,
@@ -71,6 +72,8 @@ from .models import (
     CreateRequiredEncryptionContextCMMInput,
     DecryptionMaterials,
     EncryptionMaterials,
+    GetCacheIdentifierInput,
+    GetCacheIdentifierOutput,
     InitializeDecryptionMaterialsInput,
     InitializeEncryptionMaterialsInput,
     Unit,
@@ -102,6 +105,7 @@ from .serialize import (
     _serialize_decryption_materials_with_plaintext_data_key,
     _serialize_encryption_materials_has_plaintext_data_key,
     _serialize_get_algorithm_suite_info,
+    _serialize_get_cache_identifier,
     _serialize_initialize_decryption_materials,
     _serialize_initialize_encryption_materials,
     _serialize_valid_algorithm_suite_info,
@@ -115,17 +119,15 @@ from .serialize import (
 Input = TypeVar("Input")
 Output = TypeVar("Output")
 
-
 class AwsCryptographicMaterialProviders:
-    """Client for AwsCryptographicMaterialProviders.
+    """Client for AwsCryptographicMaterialProviders
 
     :param config: Configuration for the client.
     """
-
     def __init__(
         self,
         config: MaterialProvidersConfig | None = None,
-        dafny_client: IAwsCryptographicMaterialProvidersClient | None = None,
+        dafny_client: IAwsCryptographicMaterialProvidersClient | None = None
     ):
         if config is None:
             self._config = Config()
@@ -142,11 +144,8 @@ class AwsCryptographicMaterialProviders:
         if dafny_client is not None:
             self._config.dafnyImplInterface.impl = dafny_client
 
-    def create_aws_kms_keyring(
-        self, input: CreateAwsKmsKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates an AWS KMS Keyring, which wraps and unwraps data keys using
-        single symmetric AWS KMS Key.
+    def create_aws_kms_keyring(self, input: CreateAwsKmsKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates an AWS KMS Keyring, which wraps and unwraps data keys using single symmetric AWS KMS Key.
 
         :param input: Inputs for for creating a AWS KMS Keyring.
         """
@@ -159,14 +158,10 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsKeyring",
         )
 
-    def create_aws_kms_discovery_keyring(
-        self, input: CreateAwsKmsDiscoveryKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates an AWS KMS Discovery Keyring, which supports unwrapping data
-        keys wrapped by a symmetric AWS KMS Key for a single region.
+    def create_aws_kms_discovery_keyring(self, input: CreateAwsKmsDiscoveryKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates an AWS KMS Discovery Keyring, which supports unwrapping data keys wrapped by a symmetric AWS KMS Key for a single region.
 
-        :param input: Inputs for for creating a AWS KMS Discovery
-            Keyring.
+        :param input: Inputs for for creating a AWS KMS Discovery Keyring.
         """
         return self._execute_operation(
             input=input,
@@ -177,11 +172,8 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsDiscoveryKeyring",
         )
 
-    def create_aws_kms_multi_keyring(
-        self, input: CreateAwsKmsMultiKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates an AWS KMS Multi-Keyring, which wraps and unwraps data keys
-        using one or more symmetric AWS KMS Keys.
+    def create_aws_kms_multi_keyring(self, input: CreateAwsKmsMultiKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates an AWS KMS Multi-Keyring, which wraps and unwraps data keys using one or more symmetric AWS KMS Keys.
 
         :param input: Inputs for for creating a AWS KMS Multi-Keyring.
         """
@@ -194,15 +186,10 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMultiKeyring",
         )
 
-    def create_aws_kms_discovery_multi_keyring(
-        self, input: CreateAwsKmsDiscoveryMultiKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates an AWS KMS Discovery Multi-Keyring, which supports
-        unwrapping data keys wrapped by a symmetric AWS KMS Key, for multiple
-        regions.
+    def create_aws_kms_discovery_multi_keyring(self, input: CreateAwsKmsDiscoveryMultiKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates an AWS KMS Discovery Multi-Keyring, which supports unwrapping data keys wrapped by a symmetric AWS KMS Key, for multiple regions.
 
-        :param input: Inputs for for creating an AWS KMS Discovery
-            Multi-Keyring.
+        :param input: Inputs for for creating an AWS KMS Discovery Multi-Keyring.
         """
         return self._execute_operation(
             input=input,
@@ -213,11 +200,8 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsDiscoveryMultiKeyring",
         )
 
-    def create_aws_kms_mrk_keyring(
-        self, input: CreateAwsKmsMrkKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates an AWS KMS MRK Keyring, which wraps and unwraps data keys
-        using single symmetric AWS KMS Key or AWS KMS Multi-Region Key.
+    def create_aws_kms_mrk_keyring(self, input: CreateAwsKmsMrkKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates an AWS KMS MRK Keyring, which wraps and unwraps data keys using single symmetric AWS KMS Key or AWS KMS Multi-Region Key.
 
         :param input: Inputs for for creating an AWS KMS MRK Keyring.
         """
@@ -230,15 +214,10 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMrkKeyring",
         )
 
-    def create_aws_kms_mrk_multi_keyring(
-        self, input: CreateAwsKmsMrkMultiKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates an AWS KMS MRK Multi-Keyring, which wraps and unwraps data
-        keys using one or more symmetric AWS KMS Keys or AWS KMS Multi-Region
-        Keys.
+    def create_aws_kms_mrk_multi_keyring(self, input: CreateAwsKmsMrkMultiKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates an AWS KMS MRK Multi-Keyring, which wraps and unwraps data keys using one or more symmetric AWS KMS Keys or AWS KMS Multi-Region Keys.
 
-        :param input: Inputs for for creating a AWS KMS MRK Multi-
-            Keyring.
+        :param input: Inputs for for creating a AWS KMS MRK Multi-Keyring.
         """
         return self._execute_operation(
             input=input,
@@ -249,15 +228,10 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMrkMultiKeyring",
         )
 
-    def create_aws_kms_mrk_discovery_keyring(
-        self, input: CreateAwsKmsMrkDiscoveryKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates an AWS KMS MRK Discovery Keyring, which supports unwrapping
-        data keys wrapped by a symmetric AWS KMS Key or AWS KMS Multi-Region
-        Key in a particular region.
+    def create_aws_kms_mrk_discovery_keyring(self, input: CreateAwsKmsMrkDiscoveryKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates an AWS KMS MRK Discovery Keyring, which supports unwrapping data keys wrapped by a symmetric AWS KMS Key or AWS KMS Multi-Region Key in a particular region.
 
-        :param input: Inputs for for creating a AWS KMS MRK Discovery
-            Keyring.
+        :param input: Inputs for for creating a AWS KMS MRK Discovery Keyring.
         """
         return self._execute_operation(
             input=input,
@@ -268,15 +242,10 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMrkDiscoveryKeyring",
         )
 
-    def create_aws_kms_mrk_discovery_multi_keyring(
-        self, input: CreateAwsKmsMrkDiscoveryMultiKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates an AWS KMS MRK Discovery Multi-Keyring that supports
-        unwrapping data keys wrapped by a symmetric AWS KMS Key or AWS KMS
-        Multi-Region Key, for a single region.
+    def create_aws_kms_mrk_discovery_multi_keyring(self, input: CreateAwsKmsMrkDiscoveryMultiKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates an AWS KMS MRK Discovery Multi-Keyring that supports unwrapping data keys wrapped by a symmetric AWS KMS Key or AWS KMS Multi-Region Key, for a single region.
 
-        :param input: Inputs for for creating a AWS KMS MRK Discovery
-            Multi-Keyring.
+        :param input: Inputs for for creating a AWS KMS MRK Discovery Multi-Keyring.
         """
         return self._execute_operation(
             input=input,
@@ -287,12 +256,8 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsMrkDiscoveryMultiKeyring",
         )
 
-    def create_aws_kms_hierarchical_keyring(
-        self, input: CreateAwsKmsHierarchicalKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates a Hierarchical Keyring, which supports wrapping and
-        unwrapping data keys using Branch Keys persisted in DynamoDB and
-        protected by a symmetric AWS KMS Key or AWS KMS Multi-Region Key.
+    def create_aws_kms_hierarchical_keyring(self, input: CreateAwsKmsHierarchicalKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates a Hierarchical Keyring, which supports wrapping and unwrapping data keys using Branch Keys persisted in DynamoDB and protected by a symmetric AWS KMS Key or AWS KMS Multi-Region Key.
 
         :param input: Inputs for creating a Hierarchical Keyring.
         """
@@ -305,11 +270,8 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsHierarchicalKeyring",
         )
 
-    def create_aws_kms_rsa_keyring(
-        self, input: CreateAwsKmsRsaKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates an AWS KMS RSA Keyring, which wraps and unwraps data keys
-        using a single asymmetric AWS KMS Key for RSA.
+    def create_aws_kms_rsa_keyring(self, input: CreateAwsKmsRsaKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates an AWS KMS RSA Keyring, which wraps and unwraps data keys using a single asymmetric AWS KMS Key for RSA.
 
         :param input: Inputs for creating a AWS KMS RSA Keyring.
         """
@@ -322,12 +284,8 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsRsaKeyring",
         )
 
-    def create_aws_kms_ecdh_keyring(
-        self, input: CreateAwsKmsEcdhKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates an AWS KMS ECDH Keyring, which wraps and unwraps data keys
-        by deriving a shared data key from the established shared secret
-        between parties through the ECDH protocol.
+    def create_aws_kms_ecdh_keyring(self, input: CreateAwsKmsEcdhKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates an AWS KMS ECDH Keyring, which wraps and unwraps data keys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.
 
         :param input: Inputs for creating an AWS KMS ECDH Keyring.
         """
@@ -340,9 +298,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateAwsKmsEcdhKeyring",
         )
 
-    def create_multi_keyring(
-        self, input: CreateMultiKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
+    def create_multi_keyring(self, input: CreateMultiKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
         """Creates a Multi-Keyring comprised of one or more other Keyrings.
 
         :param input: Inputs for creating a Multi-Keyring.
@@ -356,11 +312,8 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateMultiKeyring",
         )
 
-    def create_raw_aes_keyring(
-        self, input: CreateRawAesKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates a Raw AES Keyring, which wraps and unwraps data keys locally
-        using AES_GCM.
+    def create_raw_aes_keyring(self, input: CreateRawAesKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates a Raw AES Keyring, which wraps and unwraps data keys locally using AES_GCM.
 
         :param input: Inputs for creating a Raw AES Keyring.
         """
@@ -373,11 +326,8 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateRawAesKeyring",
         )
 
-    def create_raw_rsa_keyring(
-        self, input: CreateRawRsaKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates a Raw RSA Keyring, which wraps and unwraps data keys locally
-        using RSA.
+    def create_raw_rsa_keyring(self, input: CreateRawRsaKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates a Raw RSA Keyring, which wraps and unwraps data keys locally using RSA.
 
         :param input: Inputs for creating a Raw RAW Keyring.
         """
@@ -390,12 +340,8 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateRawRsaKeyring",
         )
 
-    def create_raw_ecdh_keyring(
-        self, input: CreateRawEcdhKeyringInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring":
-        """Creates a Raw ECDH Keyring, which wraps and unwraps data keys by
-        deriving a shared data key from the established shared secret between
-        parties through the ECDH protocol.
+    def create_raw_ecdh_keyring(self, input: CreateRawEcdhKeyringInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.Keyring':
+        """Creates a Raw ECDH Keyring, which wraps and unwraps data keys by deriving a shared data key from the established shared secret between parties through the ECDH protocol.
 
         :param input: Inputs for creating a raw ECDH Keyring.
         """
@@ -408,13 +354,10 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateRawEcdhKeyring",
         )
 
-    def create_default_cryptographic_materials_manager(
-        self, input: CreateDefaultCryptographicMaterialsManagerInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager":
+    def create_default_cryptographic_materials_manager(self, input: CreateDefaultCryptographicMaterialsManagerInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager':
         """Creates a Default Cryptographic Materials Manager.
 
-        :param input: Inputs for creating a Default Cryptographic
-            Materials Manager.
+        :param input: Inputs for creating a Default Cryptographic Materials Manager.
         """
         return self._execute_operation(
             input=input,
@@ -425,14 +368,10 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateDefaultCryptographicMaterialsManager",
         )
 
-    def create_required_encryption_context_cmm(
-        self, input: CreateRequiredEncryptionContextCMMInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager":
-        """Creates an Required Encryption Context Cryptographic Materials
-        Manager.
+    def create_required_encryption_context_cmm(self, input: CreateRequiredEncryptionContextCMMInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsManager':
+        """Creates an Required Encryption Context Cryptographic Materials Manager.
 
-        :param input: Inputs for creating an Required Encryption Context
-            Cryptographic Materials Manager.
+        :param input: Inputs for creating an Required Encryption Context Cryptographic Materials Manager.
         """
         return self._execute_operation(
             input=input,
@@ -443,9 +382,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateRequiredEncryptionContextCMM",
         )
 
-    def create_cryptographic_materials_cache(
-        self, input: CreateCryptographicMaterialsCacheInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsCache":
+    def create_cryptographic_materials_cache(self, input: CreateCryptographicMaterialsCacheInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.CryptographicMaterialsCache':
         """Invokes the CreateCryptographicMaterialsCache operation.
 
         :param input: The operation's input.
@@ -459,9 +396,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateCryptographicMaterialsCache",
         )
 
-    def create_default_client_supplier(
-        self, input: CreateDefaultClientSupplierInput
-    ) -> "aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier":
+    def create_default_client_supplier(self, input: CreateDefaultClientSupplierInput) -> 'aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references.ClientSupplier':
         """Invokes the CreateDefaultClientSupplier operation.
 
         :param input: The operation's input.
@@ -475,9 +410,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="CreateDefaultClientSupplier",
         )
 
-    def initialize_encryption_materials(
-        self, input: InitializeEncryptionMaterialsInput
-    ) -> EncryptionMaterials:
+    def initialize_encryption_materials(self, input: InitializeEncryptionMaterialsInput) -> EncryptionMaterials:
         """Invokes the InitializeEncryptionMaterials operation.
 
         :param input: The operation's input.
@@ -491,9 +424,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="InitializeEncryptionMaterials",
         )
 
-    def initialize_decryption_materials(
-        self, input: InitializeDecryptionMaterialsInput
-    ) -> DecryptionMaterials:
+    def initialize_decryption_materials(self, input: InitializeDecryptionMaterialsInput) -> DecryptionMaterials:
         """Invokes the InitializeDecryptionMaterials operation.
 
         :param input: The operation's input.
@@ -507,9 +438,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="InitializeDecryptionMaterials",
         )
 
-    def valid_encryption_materials_transition(
-        self, input: ValidEncryptionMaterialsTransitionInput
-    ) -> Unit:
+    def valid_encryption_materials_transition(self, input: ValidEncryptionMaterialsTransitionInput) -> Unit:
         """Invokes the ValidEncryptionMaterialsTransition operation.
 
         :param input: The operation's input.
@@ -523,9 +452,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="ValidEncryptionMaterialsTransition",
         )
 
-    def valid_decryption_materials_transition(
-        self, input: ValidDecryptionMaterialsTransitionInput
-    ) -> Unit:
+    def valid_decryption_materials_transition(self, input: ValidDecryptionMaterialsTransitionInput) -> Unit:
         """Invokes the ValidDecryptionMaterialsTransition operation.
 
         :param input: The operation's input.
@@ -539,9 +466,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="ValidDecryptionMaterialsTransition",
         )
 
-    def encryption_materials_has_plaintext_data_key(
-        self, input: EncryptionMaterials
-    ) -> Unit:
+    def encryption_materials_has_plaintext_data_key(self, input: EncryptionMaterials) -> Unit:
         """Invokes the EncryptionMaterialsHasPlaintextDataKey operation.
 
         :param input: The operation's input.
@@ -555,9 +480,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="EncryptionMaterialsHasPlaintextDataKey",
         )
 
-    def decryption_materials_with_plaintext_data_key(
-        self, input: DecryptionMaterials
-    ) -> Unit:
+    def decryption_materials_with_plaintext_data_key(self, input: DecryptionMaterials) -> Unit:
         """Invokes the DecryptionMaterialsWithPlaintextDataKey operation.
 
         :param input: The operation's input.
@@ -599,9 +522,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="ValidAlgorithmSuiteInfo",
         )
 
-    def validate_commitment_policy_on_encrypt(
-        self, input: ValidateCommitmentPolicyOnEncryptInput
-    ) -> Unit:
+    def validate_commitment_policy_on_encrypt(self, input: ValidateCommitmentPolicyOnEncryptInput) -> Unit:
         """Invokes the ValidateCommitmentPolicyOnEncrypt operation.
 
         :param input: The operation's input.
@@ -615,9 +536,7 @@ class AwsCryptographicMaterialProviders:
             operation_name="ValidateCommitmentPolicyOnEncrypt",
         )
 
-    def validate_commitment_policy_on_decrypt(
-        self, input: ValidateCommitmentPolicyOnDecryptInput
-    ) -> Unit:
+    def validate_commitment_policy_on_decrypt(self, input: ValidateCommitmentPolicyOnDecryptInput) -> Unit:
         """Invokes the ValidateCommitmentPolicyOnDecrypt operation.
 
         :param input: The operation's input.
@@ -629,6 +548,20 @@ class AwsCryptographicMaterialProviders:
             deserialize=_deserialize_validate_commitment_policy_on_decrypt,
             config=self._config,
             operation_name="ValidateCommitmentPolicyOnDecrypt",
+        )
+
+    def get_cache_identifier(self, input: GetCacheIdentifierInput) -> GetCacheIdentifierOutput:
+        """Computes the cache entry identifier used internally by the Hierarchical Keyring. Requires the keyring to be a Hierarchical Keyring.
+
+        :param input: Inputs for computing a cache identifier.
+        """
+        return self._execute_operation(
+            input=input,
+            plugins=[],
+            serialize=_serialize_get_cache_identifier,
+            deserialize=_deserialize_get_cache_identifier,
+            config=self._config,
+            operation_name="GetCacheIdentifier",
         )
 
     def _execute_operation(
@@ -667,13 +600,12 @@ class AwsCryptographicMaterialProviders:
             transport_response=None,
         )
         try:
-            _client_interceptors = config.interceptors
+          _client_interceptors = config.interceptors
         except AttributeError:
-            config.interceptors = []
-            _client_interceptors = config.interceptors
+          config.interceptors = []
+          _client_interceptors = config.interceptors
         client_interceptors = cast(
-            list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
-            _client_interceptors,
+            list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]], _client_interceptors
         )
         interceptors = client_interceptors
 
@@ -756,7 +688,7 @@ class AwsCryptographicMaterialProviders:
                             error_info=RetryErrorInfo(
                                 # TODO: Determine the error type.
                                 error_type=RetryErrorType.CLIENT_ERROR,
-                            ),
+                            )
                         )
                     except SmithyRetryException:
                         raise context_with_response.response
@@ -771,10 +703,7 @@ class AwsCryptographicMaterialProviders:
         # The response will be set either with the modeled output or an exception. The
         # transport_request and transport_response may be set or None.
         execution_context = cast(
-            InterceptorContext[
-                Input, Output, DafnyRequest | None, DafnyResponse | None
-            ],
-            context,
+            InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None], context
         )
         return self._finalize_execution(interceptors, execution_context)
 
@@ -799,10 +728,8 @@ class AwsCryptographicMaterialProviders:
                 InterceptorContext[Input, None, DafnyRequest, DafnyResponse], context
             )
 
-            context_with_response._transport_response = (
-                config.dafnyImplInterface.handle_request(
-                    input=context_with_response.transport_request
-                )
+            context_with_response._transport_response = config.dafnyImplInterface.handle_request(
+                input=context_with_response.transport_request
             )
 
             # Step 7n: Invoke read_after_transmit
@@ -839,8 +766,7 @@ class AwsCryptographicMaterialProviders:
         # None. This will also be true after _finalize_attempt because there is no opportunity
         # there to set the transport_response.
         attempt_context = cast(
-            InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None],
-            context,
+            InterceptorContext[Input, Output, DafnyRequest, DafnyResponse | None], context
         )
         return self._finalize_attempt(interceptors, attempt_context)
 
@@ -870,9 +796,7 @@ class AwsCryptographicMaterialProviders:
     def _finalize_execution(
         self,
         interceptors: list[Interceptor[Input, Output, DafnyRequest, DafnyResponse]],
-        context: InterceptorContext[
-            Input, Output, DafnyRequest | None, DafnyResponse | None
-        ],
+        context: InterceptorContext[Input, Output, DafnyRequest | None, DafnyResponse | None],
     ) -> Output:
         try:
             # Step 9: Invoke modify_before_completion

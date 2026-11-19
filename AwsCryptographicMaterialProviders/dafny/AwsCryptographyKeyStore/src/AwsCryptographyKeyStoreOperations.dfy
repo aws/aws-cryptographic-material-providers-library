@@ -180,11 +180,11 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
                 && i.0.Success?
                 && i.1.Success?
                 && DDB.IsValid_AttributeName(Structure.ENCRYPTION_CONTEXT_PREFIX + i.0.value)
-                   // Dafny requires that I *prove* that k == Encode(Decode(k))
-                   // Since UTF8 can be lossy in some implementations
-                   // this is the simplest...
-                   // A prove that ValidUTF8Seq(i) ==> Decode(i).Success?
-                   // would improve the situation
+                // Dafny requires that I *prove* that k == Encode(Decode(k))
+                // Since UTF8 can be lossy in some implementations
+                // this is the simplest...
+                // A prove that ValidUTF8Seq(i) ==> Decode(i).Success?
+                // would improve the situation
                 && var encoded := UTF8.Encode(i.0.value);
                 && encoded.Success?
                 && i.2 == encoded.value
@@ -299,5 +299,30 @@ module AwsCryptographyKeyStoreOperations refines AbstractAwsCryptographyKeyStore
       config.kmsClient,
       config.ddbClient
     );
+  }
+
+  predicate GetBranchKeyVersionsEnsuresPublicly(input: GetBranchKeyVersionsInput, output: Result<GetBranchKeyVersionsOutput, Error>)
+  {true}
+
+  method GetBranchKeyVersions(config: InternalConfig, input: GetBranchKeyVersionsInput)
+    returns (output: Result<GetBranchKeyVersionsOutput, Error>)
+  {
+    :- Need(
+      input.count > 0 && DDB.IsValid_PositiveIntegerObject(input.count),
+      Types.KeyStoreException(message := "GetBranchKeyVersions count must be a positive integer.")
+    );
+    var materials :- GetKeys.GetBranchKeyVersions(
+      input.branchKeyIdentifier,
+      input.count as DDB.PositiveIntegerObject,
+      config.ddbTableName,
+      config.logicalKeyStoreName,
+      config.kmsConfiguration,
+      config.grantTokens,
+      config.kmsClient,
+      config.ddbClient
+    );
+    output := Success(GetBranchKeyVersionsOutput(
+                        branchKeyMaterials := materials
+                      ));
   }
 }
