@@ -28,6 +28,7 @@ java {
     sourceSets["test"].java {
         srcDir("src/test/dafny-generated")
     }
+    withSourcesJar()
 }
 
 var caUrl: URI? = null
@@ -81,6 +82,10 @@ publishing {
 
 tasks.withType<JavaCompile>() {
     options.encoding = "UTF-8"
+}
+
+tasks.withType<Jar>() {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 tasks {
