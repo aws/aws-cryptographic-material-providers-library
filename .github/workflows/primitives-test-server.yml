@@ -33,5 +33,3 @@ jobs:
     uses: aws/aws-crypto-tools-commons/.github/workflows/primitives-test-server-reusable.yml@main
     with:
       checkout-languages: java,net,python,go,rust-dafny
-    secrets:
-      repo-pat: ${{ secrets.AWS_CRYPTO_TOOLS_REPO }}

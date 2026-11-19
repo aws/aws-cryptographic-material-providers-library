@@ -39,5 +39,3 @@ jobs:
     with:
       checkout-languages: java,net,python,go,rust-dafny
       runner: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
-    secrets:
-      repo-pat: ${{ secrets.AWS_CRYPTO_TOOLS_REPO }}
