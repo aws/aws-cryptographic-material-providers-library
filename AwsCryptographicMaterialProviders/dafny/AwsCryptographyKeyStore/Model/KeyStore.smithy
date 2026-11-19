@@ -89,6 +89,7 @@ structure KeyStoreConfig {
   //# - [ID](#keystore-id)
   //# - [AWS KMS Grant Tokens](#aws-kms-grant-tokens)
   //# - [DynamoDb Client](#dynamodb-client)
+  //# - [Require Consistent Reads](#require-consistent-reads)
   //# - [KMS Client](#kms-client)
   
   @javadoc("An identifier for this Key Store.")
@@ -99,6 +100,9 @@ structure KeyStoreConfig {
   ddbClient: DdbClientReference,
   @javadoc("The KMS client this Key Store uses to call AWS KMS.  If None is provided and the KMS ARN is, the KMS ARN is used to determine the Region of the default client.")
   kmsClient: KmsClientReference,
+
+  @javadoc("Whether read operations are required to perform consistent reads. If set to true read operations return results which reflect the most recently executed write operations. Defaults to false.")
+  requireConsistentReads: Boolean,
 }
 
 //= aws-encryption-sdk-specification/framework/branch-key-store.md#aws-kms-configuration
@@ -156,7 +160,10 @@ structure GetKeyStoreInfoOutput {
   grantTokens: GrantTokenList,
   @required
   @javadoc("Configures Key Store's KMS Key ARN restrictions.")
-  kmsConfiguration: KMSConfiguration
+  kmsConfiguration: KMSConfiguration,
+  @required
+  @javadoc("The consistent reads configuration of this keystore instance.")
+  requireConsistentReads: Boolean,
 }
 
 @javadoc("Create the DynamoDB table that backs this Key Store based on the Key Store configuration. If a table already exists, validate it is configured as expected.")
