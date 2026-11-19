@@ -28,7 +28,7 @@ updates:
 
   - package-ecosystem: "gomod"
     directories:
-      - "*/runtimes/go/*"
+      - "*/runtimes/go/**"
     schedule:
       interval: "weekly"
     groups:
