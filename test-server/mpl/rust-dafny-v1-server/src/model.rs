@@ -126,6 +126,12 @@ pub struct CreateKeyStoreClientRequest {
     pub kms_client_region: String,
     #[serde(rename = "ddbClientRegion")]
     pub ddb_client_region: String,
+    #[serde(
+        rename = "ddbEndpoint",
+        default,
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub ddb_endpoint: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

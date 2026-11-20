@@ -401,7 +401,13 @@ def create_key_store_client(request):
             "kms", region_name=_string(request, "kmsClientRegion")
         ),
         ddb_client=boto3.client(
-            "dynamodb", region_name=_string(request, "ddbClientRegion")
+            "dynamodb",
+            region_name=_string(request, "ddbClientRegion"),
+            endpoint_url=(
+                _string(request, "ddbEndpoint")
+                if _present(request, "ddbEndpoint")
+                else None
+            ),
         ),
     )
     key_store = _call(KeyStore, config)

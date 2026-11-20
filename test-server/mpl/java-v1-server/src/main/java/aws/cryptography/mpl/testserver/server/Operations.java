@@ -3,6 +3,7 @@ package aws.cryptography.mpl.testserver.server;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClientBuilder;
 import software.amazon.awssdk.services.kms.KmsClient;
 import software.amazon.cryptography.keystore.KeyStore;
 import software.amazon.cryptography.keystore.model.Discovery;
@@ -186,6 +188,14 @@ final class Operations {
   }
 
   private ObjectNode createKeyStoreClient(JsonNode request) {
+    DynamoDbClientBuilder ddbClient = DynamoDbClient
+      .builder()
+      .region(Region.of(Cbor.string(request, "ddbClientRegion")));
+    if (Cbor.present(request, "ddbEndpoint")) {
+      ddbClient.endpointOverride(
+        URI.create(Cbor.string(request, "ddbEndpoint"))
+      );
+    }
     KeyStore keyStore = KeyStore
       .builder()
       .KeyStoreConfig(
@@ -202,12 +212,7 @@ final class Operations {
               .region(Region.of(Cbor.string(request, "kmsClientRegion")))
               .build()
           )
-          .ddbClient(
-            DynamoDbClient
-              .builder()
-              .region(Region.of(Cbor.string(request, "ddbClientRegion")))
-              .build()
-          )
+          .ddbClient(ddbClient.build())
           .build()
       )
       .build();

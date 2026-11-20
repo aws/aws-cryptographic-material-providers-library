@@ -376,7 +376,10 @@ impl AppState {
             }
         };
         let kms = aws_sdk_kms::Client::new(&sdk_config(req.kms_client_region).await);
-        let ddb = aws_sdk_dynamodb::Client::new(&sdk_config(req.ddb_client_region).await);
+        let mut ddb_config =
+            aws_sdk_dynamodb::config::Builder::from(&sdk_config(req.ddb_client_region).await);
+        ddb_config.set_endpoint_url(req.ddb_endpoint);
+        let ddb = aws_sdk_dynamodb::Client::from_conf(ddb_config.build());
         let config = KeyStoreConfig::builder()
             .ddb_table_name(req.ddb_table_name)
             .logical_key_store_name(req.logical_key_store_name)
