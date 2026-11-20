@@ -22,16 +22,19 @@ permissions:
 
 jobs:
   getDafnyVersion:
-    runs-on: ubuntu-22.04
+    runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
     outputs:
       version: ${{ steps.read_property.outputs.dafnyVersion }}
       verifyVersion: ${{ steps.read_property.outputs.dafnyVerifyVersion }}
       rustVersion: ${{ steps.read_property.outputs.dafnyRustVersion }}
     steps:
       - uses: actions/checkout@v6
+      # No Docker action here: CodeBuild runners share IPs, so pulls from Docker Hub hit its rate limit.
       - name: Read version from Properties-file
         id: read_property
-        uses: christian-draeger/read-properties@1.1.1
-        with:
-          path: "./project.properties"
-          properties: "dafnyVersion dafnyVerifyVersion dafnyRustVersion"
+        shell: bash
+        run: |
+          for property in dafnyVersion dafnyVerifyVersion dafnyRustVersion; do
+            value=$(grep "^${property}=" project.properties | cut -d= -f2-)
+            echo "${property}=${value}" >> "$GITHUB_OUTPUT"
+          done
