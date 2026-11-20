@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   duvet:
-    runs-on: ubuntu-22.04
+    runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
     # This environment stores a token
     # that can be used to checkout
     # the ESDK specification
@@ -26,6 +26,8 @@ jobs:
       - uses: actions/checkout@v6
         with:
           submodules: true
+
+      - uses: dtolnay/rust-toolchain@stable
 
       - name: Install duvet
         shell: bash

@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   notify:
-    runs-on: ubuntu-latest
+    runs-on: codebuild-CryptoToolsCI-linux-aws-cryptographic-material-providers-library-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - name: Send message to Slack
         uses: slackapi/slack-github-action@v3.0.3
