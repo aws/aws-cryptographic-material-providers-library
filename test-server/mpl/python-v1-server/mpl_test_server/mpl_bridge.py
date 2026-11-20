@@ -27,6 +27,9 @@ from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keyst
 from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore import (
     models as keystore_models,
 )
+from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_keystore.errors import (
+    CollectionOfErrors as KeyStoreCollectionOfErrors,
+)
 from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.client import (
     AwsCryptographicMaterialProviders,
 )
@@ -38,6 +41,7 @@ from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_mater
 )
 from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.errors import (
     AwsCryptographicMaterialProvidersException,
+    CollectionOfErrors,
 )
 from aws_cryptographic_material_providers.smithygenerated.aws_cryptography_materialproviders.references import (
     IBranchKeyIdSupplier,
@@ -50,7 +54,23 @@ class ServerError(Exception):
 
 
 class MplError(Exception):
-    """Failure raised by the Material Providers Library."""
+    """Failure raised by the Material Providers Library.
+
+    ``collected_errors`` is MPLClientError's collectedErrors, or None when the
+    error collected none.
+    """
+
+    def __init__(self, message, collected_errors=None):
+        super().__init__(message)
+        self.collected_errors = collected_errors
+
+
+def _collected_errors(exc):
+    """The messages of the errors in a Dafny CollectionOfErrors, from the MPL
+    or its key store, or None for any other error or an empty collection."""
+    if not isinstance(exc, (CollectionOfErrors, KeyStoreCollectionOfErrors)):
+        return None
+    return [str(error) for error in exc.list] or None
 
 
 _ESDK_POLICY_PREFIX = "ESDK_"
@@ -74,7 +94,7 @@ def _call(function, *args):
     except (ServerError, MplError):
         raise
     except Exception as exc:  # noqa: BLE001
-        raise MplError(str(exc)) from exc
+        raise MplError(str(exc), _collected_errors(exc)) from exc
 
 
 _SUITE_INFO = {
@@ -465,6 +485,33 @@ def create_aws_kms_hierarchical_keyring(request):
     return {"keyringId": _register(_KEYRINGS, keyring)}
 
 
+def create_aws_kms_keyring(request):
+    grant_tokens = None
+    if _present(request, "grantTokens"):
+        grant_tokens = _string_list(request, "grantTokens")
+    kms_client = None
+    if _present(request, "kmsClient"):
+        wire = _require(request, "kmsClient", dict)
+        kms_client = boto3.client(
+            "kms",
+            region_name=_string(wire, "region"),
+            endpoint_url=(
+                _string(wire, "endpoint") if _present(wire, "endpoint") else None
+            ),
+        )
+    keyring = _call(
+        _CLIENT.create_aws_kms_keyring,
+        models.CreateAwsKmsKeyringInput(
+            kms_key_id=(
+                _string(request, "kmsKeyId") if _present(request, "kmsKeyId") else None
+            ),
+            kms_client=kms_client,
+            grant_tokens=grant_tokens,
+        ),
+    )
+    return {"keyringId": _register(_KEYRINGS, keyring)}
+
+
 def initialize_encryption_materials(request):
     materials = _call(
         _CLIENT.initialize_encryption_materials,
@@ -574,6 +621,7 @@ OPERATIONS = {
     "CreateKeyStoreClient": create_key_store_client,
     "CreateCryptographicMaterialsCache": create_cryptographic_materials_cache,
     "CreateAwsKmsHierarchicalKeyring": create_aws_kms_hierarchical_keyring,
+    "CreateAwsKmsKeyring": create_aws_kms_keyring,
     "InitializeEncryptionMaterials": initialize_encryption_materials,
     "InitializeDecryptionMaterials": initialize_decryption_materials,
     "OnEncrypt": on_encrypt,

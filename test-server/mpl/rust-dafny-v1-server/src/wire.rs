@@ -96,6 +96,13 @@ async fn dispatch(
                 Err(e) => Err(e),
             }
         }
+        "CreateAwsKmsKeyring" => match decode::<CreateAwsKmsKeyringRequest>(&body) {
+            Ok(req) => state
+                .create_aws_kms_keyring(req)
+                .await
+                .and_then(|resp| encode(&resp)),
+            Err(e) => Err(e),
+        },
         "InitializeEncryptionMaterials" => {
             match decode::<InitializeEncryptionMaterialsRequest>(&body) {
                 Ok(req) => state

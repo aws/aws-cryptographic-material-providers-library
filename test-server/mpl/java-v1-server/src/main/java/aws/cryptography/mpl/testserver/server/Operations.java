@@ -3,6 +3,7 @@ package aws.cryptography.mpl.testserver.server;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.kms.KmsClient;
+import software.amazon.awssdk.services.kms.KmsClientBuilder;
 import software.amazon.cryptography.keystore.KeyStore;
 import software.amazon.cryptography.keystore.model.Discovery;
 import software.amazon.cryptography.keystore.model.KMSConfiguration;
@@ -25,6 +27,7 @@ import software.amazon.cryptography.materialproviders.MaterialProviders;
 import software.amazon.cryptography.materialproviders.model.AwsCryptographicMaterialProvidersException;
 import software.amazon.cryptography.materialproviders.model.CacheType;
 import software.amazon.cryptography.materialproviders.model.CreateAwsKmsHierarchicalKeyringInput;
+import software.amazon.cryptography.materialproviders.model.CreateAwsKmsKeyringInput;
 import software.amazon.cryptography.materialproviders.model.CreateCryptographicMaterialsCacheInput;
 import software.amazon.cryptography.materialproviders.model.CreateDefaultCryptographicMaterialsManagerInput;
 import software.amazon.cryptography.materialproviders.model.CreateRawAesKeyringInput;
@@ -79,6 +82,8 @@ final class Operations {
         return createCryptographicMaterialsCache(request);
       case "CreateAwsKmsHierarchicalKeyring":
         return createAwsKmsHierarchicalKeyring(request);
+      case "CreateAwsKmsKeyring":
+        return createAwsKmsKeyring(request);
       case "InitializeEncryptionMaterials":
         return initializeEncryptionMaterials(request);
       case "InitializeDecryptionMaterials":
@@ -313,6 +318,34 @@ final class Operations {
     ObjectNode response = Cbor.object();
     response.put("keyringId", register(keyrings, keyring));
     return response;
+  }
+
+  private ObjectNode createAwsKmsKeyring(JsonNode request) {
+    CreateAwsKmsKeyringInput.Builder input = CreateAwsKmsKeyringInput.builder();
+    if (Cbor.present(request, "kmsKeyId")) {
+      input.kmsKeyId(Cbor.string(request, "kmsKeyId"));
+    }
+    if (Cbor.present(request, "kmsClient")) {
+      input.kmsClient(kmsClientFromWire(Cbor.member(request, "kmsClient")));
+    }
+    if (Cbor.present(request, "grantTokens")) {
+      input.grantTokens(Cbor.stringList(request, "grantTokens"));
+    }
+    IKeyring keyring = materialProviders.CreateAwsKmsKeyring(input.build());
+    ObjectNode response = Cbor.object();
+    response.put("keyringId", register(keyrings, keyring));
+    return response;
+  }
+
+  /** The model's KmsClientConfig: a region and an optional endpoint. */
+  private static KmsClient kmsClientFromWire(JsonNode wire) {
+    KmsClientBuilder client = KmsClient
+      .builder()
+      .region(Region.of(Cbor.string(wire, "region")));
+    if (Cbor.present(wire, "endpoint")) {
+      client.endpointOverride(URI.create(Cbor.string(wire, "endpoint")));
+    }
+    return client.build();
   }
 
   /**
